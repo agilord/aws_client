@@ -75,6 +75,105 @@ class DevOpsAgent {
     _protocol.close();
   }
 
+  /// Creates a new asset in the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space where the asset will be created
+  ///
+  /// Parameter [assetType] :
+  /// The type of asset to create
+  ///
+  /// Parameter [content] :
+  /// The content for the asset. Provide a single file, a zip bundle, or a
+  /// sourceUrl to import from an external source.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier used for idempotent asset creation
+  ///
+  /// Parameter [metadata] :
+  /// The metadata describing this asset
+  Future<CreateAssetResponse> createAsset({
+    required String agentSpaceId,
+    required String assetType,
+    required AssetContent content,
+    String? clientToken,
+    Document? metadata,
+  }) async {
+    final $payload = <String, dynamic>{
+      'assetType': assetType,
+      'content': content,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (metadata != null) 'metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAssetResponse.fromJson(response);
+  }
+
+  /// Creates a file in an asset
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ContentSizeExceededException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset to create the file in
+  ///
+  /// Parameter [content] :
+  /// The content of the file to create
+  ///
+  /// Parameter [path] :
+  /// The path of the file within the asset
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier used for idempotent asset file
+  /// creation
+  ///
+  /// Parameter [metadata] :
+  /// Optional metadata describing this file
+  Future<CreateAssetFileResponse> createAssetFile({
+    required String agentSpaceId,
+    required String assetId,
+    required AssetFileBody content,
+    required String path,
+    String? clientToken,
+    Document? metadata,
+  }) async {
+    final $payload = <String, dynamic>{
+      'content': content,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (metadata != null) 'metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}/files/${path.split('/').map(Uri.encodeComponent).join('/')}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAssetFileResponse.fromJson(response);
+  }
+
   /// Creates a new backlog task in the specified agent space
   ///
   /// May throw [AccessDeniedException].
@@ -167,6 +266,146 @@ class DevOpsAgent {
     return CreateChatResponse.fromJson(response);
   }
 
+  /// Creates a new Trigger in the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [action] :
+  /// The action the new Trigger performs when it fires
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space where the Trigger will be
+  /// created
+  ///
+  /// Parameter [condition] :
+  /// The condition that fires the new Trigger
+  ///
+  /// Parameter [type] :
+  /// How the new Trigger fires
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier used for idempotent Trigger creation
+  ///
+  /// Parameter [status] :
+  /// The initial status of the Trigger
+  Future<CreateTriggerResponse> createTrigger({
+    required Object action,
+    required String agentSpaceId,
+    required TriggerCondition condition,
+    required String type,
+    String? clientToken,
+    String? status,
+  }) async {
+    final $payload = <String, dynamic>{
+      'action': action,
+      'condition': condition,
+      'type': type,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (status != null) 'status': status,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/trigger/agent-space/${Uri.encodeComponent(agentSpaceId)}/triggers',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTriggerResponse.fromJson(response);
+  }
+
+  /// Deletes an asset and all its files from the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset to delete
+  Future<void> deleteAsset({
+    required String agentSpaceId,
+    required String assetId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a file from an asset
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset containing the file
+  ///
+  /// Parameter [path] :
+  /// The path of the file within the asset to delete
+  Future<void> deleteAssetFile({
+    required String agentSpaceId,
+    required String assetId,
+    required String path,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}/files/${path.split('/').map(Uri.encodeComponent).join('/')}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a Trigger from the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the Trigger
+  ///
+  /// Parameter [triggerId] :
+  /// The unique identifier of the Trigger to delete
+  Future<void> deleteTrigger({
+    required String agentSpaceId,
+    required String triggerId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/trigger/agent-space/${Uri.encodeComponent(agentSpaceId)}/triggers/${Uri.encodeComponent(triggerId)}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Retrieves monthly account usage metrics and limits for the AWS account.
   ///
   /// May throw [AccessDeniedException].
@@ -183,6 +422,121 @@ class DevOpsAgent {
       exceptionFnMap: _exceptionFns,
     );
     return GetAccountUsageOutput.fromJson(response);
+  }
+
+  /// Gets an asset from the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset to retrieve
+  ///
+  /// Parameter [assetVersion] :
+  /// The specific version of the asset to retrieve. If omitted, the latest
+  /// version is returned.
+  Future<GetAssetResponse> getAsset({
+    required String agentSpaceId,
+    required String assetId,
+    int? assetVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (assetVersion != null) 'assetVersion': [assetVersion.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAssetResponse.fromJson(response);
+  }
+
+  /// Gets an asset's content as a zip bundle
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset
+  ///
+  /// Parameter [assetVersion] :
+  /// The specific asset version to export. If omitted, the latest version is
+  /// returned.
+  Future<GetAssetContentResponse> getAssetContent({
+    required String agentSpaceId,
+    required String assetId,
+    int? assetVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (assetVersion != null) 'assetVersion': [assetVersion.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}/content',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAssetContentResponse.fromJson(response);
+  }
+
+  /// Gets a file from an asset
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset containing the file
+  ///
+  /// Parameter [path] :
+  /// The path of the file within the asset to retrieve
+  ///
+  /// Parameter [assetVersion] :
+  /// The specific asset version to retrieve the file from. If omitted, the
+  /// latest version is returned.
+  Future<GetAssetFileResponse> getAssetFile({
+    required String agentSpaceId,
+    required String assetId,
+    required String path,
+    int? assetVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (assetVersion != null) 'assetVersion': [assetVersion.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}/files/${path.split('/').map(Uri.encodeComponent).join('/')}',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAssetFileResponse.fromJson(response);
   }
 
   /// Gets a backlog task for the specified agent space and task id
@@ -250,6 +604,210 @@ class DevOpsAgent {
       exceptionFnMap: _exceptionFns,
     );
     return GetRecommendationResponse.fromJson(response);
+  }
+
+  /// Gets a Trigger from the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the Trigger
+  ///
+  /// Parameter [triggerId] :
+  /// The unique identifier of the Trigger to retrieve
+  Future<GetTriggerResponse> getTrigger({
+    required String agentSpaceId,
+    required String triggerId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/trigger/agent-space/${Uri.encodeComponent(agentSpaceId)}/triggers/${Uri.encodeComponent(triggerId)}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTriggerResponse.fromJson(response);
+  }
+
+  /// Lists files in an asset
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset whose files to list
+  ///
+  /// Parameter [assetVersion] :
+  /// The specific asset version to list files from. If omitted, files from the
+  /// latest version are returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single response
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous response to retrieve the next page of
+  /// results
+  Future<ListAssetFilesResponse> listAssetFiles({
+    required String agentSpaceId,
+    required String assetId,
+    int? assetVersion,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (assetVersion != null) 'assetVersion': [assetVersion.toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}/files',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssetFilesResponse.fromJson(response);
+  }
+
+  /// Lists assets in the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space to list assets from
+  ///
+  /// Parameter [assetType] :
+  /// Filter results to only assets of this type
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single response
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous response to retrieve the next page of
+  /// results
+  ///
+  /// Parameter [updatedAfter] :
+  /// Filter results to only assets updated after this timestamp
+  ///
+  /// Parameter [updatedBefore] :
+  /// Filter results to only assets updated before this timestamp
+  Future<ListAssetsResponse> listAssets({
+    required String agentSpaceId,
+    String? assetType,
+    int? maxResults,
+    String? nextToken,
+    DateTime? updatedAfter,
+    DateTime? updatedBefore,
+  }) async {
+    final $query = <String, List<String>>{
+      if (assetType != null) 'assetType': [assetType],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (updatedAfter != null)
+        'updatedAfter': [_s.iso8601ToJson(updatedAfter).toString()],
+      if (updatedBefore != null)
+        'updatedBefore': [_s.iso8601ToJson(updatedBefore).toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssetsResponse.fromJson(response);
+  }
+
+  /// Lists the supported asset types
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single response
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous response to retrieve the next page of
+  /// results
+  Future<ListAssetTypesResponse> listAssetTypes({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/asset/types',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssetTypesResponse.fromJson(response);
+  }
+
+  /// Lists versions of an asset in the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset whose versions to list
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single response
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous response to retrieve the next page of
+  /// results
+  Future<ListAssetVersionsResponse> listAssetVersions({
+    required String agentSpaceId,
+    required String assetId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}/versions',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssetVersionsResponse.fromJson(response);
   }
 
   /// Lists backlog tasks in the specified agent space with optional filtering
@@ -594,6 +1152,49 @@ class DevOpsAgent {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Lists Triggers in the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space whose Triggers should be listed
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single response
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous response to retrieve the next page of
+  /// results
+  ///
+  /// Parameter [status] :
+  /// Filter results to Triggers in this status
+  Future<ListTriggersResponse> listTriggers({
+    required String agentSpaceId,
+    int? maxResults,
+    String? nextToken,
+    String? status,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (status != null) 'status': [status],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/trigger/agent-space/${Uri.encodeComponent(agentSpaceId)}/triggers',
+      queryParams: $query,
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTriggersResponse.fromJson(response);
+  }
+
   /// Sends a chat message and streams the response for the specified agent
   /// space execution
   ///
@@ -613,6 +1214,9 @@ class DevOpsAgent {
   /// Parameter [executionId] :
   /// The execution identifier for the chat session
   ///
+  /// Parameter [assetIds] :
+  /// Optional list of asset identifiers to attach to the message
+  ///
   /// Parameter [context] :
   /// Optional context for the message
   ///
@@ -623,12 +1227,14 @@ class DevOpsAgent {
     required String agentSpaceId,
     required String content,
     required String executionId,
+    List<String>? assetIds,
     SendMessageContext? context,
     String? userId,
   }) async {
     final $payload = <String, dynamic>{
       'content': content,
       'executionId': executionId,
+      if (assetIds != null) 'assetIds': assetIds,
       if (context != null) 'context': context,
       if (userId != null) 'userId': userId,
     };
@@ -701,6 +1307,106 @@ class DevOpsAgent {
       hostPrefix: 'cp.',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates an asset in the specified agent space
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset to update
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier used for idempotent asset update
+  ///
+  /// Parameter [content] :
+  /// Optional content update. A single file adds or replaces one file; a zip
+  /// replaces all files; a sourceUrl re-syncs from the original source.
+  ///
+  /// Parameter [metadata] :
+  /// Metadata fields to update. Only the fields present in this document are
+  /// updated. Omitted fields retain their current values.
+  Future<UpdateAssetResponse> updateAsset({
+    required String agentSpaceId,
+    required String assetId,
+    String? clientToken,
+    AssetContent? content,
+    Document? metadata,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (content != null) 'content': content,
+      if (metadata != null) 'metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAssetResponse.fromJson(response);
+  }
+
+  /// Updates a file in an asset
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ContentSizeExceededException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the asset
+  ///
+  /// Parameter [assetId] :
+  /// The unique identifier of the asset containing the file
+  ///
+  /// Parameter [path] :
+  /// The path of the file within the asset to update
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier used for idempotent asset file update
+  ///
+  /// Parameter [content] :
+  /// Updated file content. If omitted, the existing content is unchanged.
+  ///
+  /// Parameter [metadata] :
+  /// Metadata fields to update. Only the fields present in this document are
+  /// updated. Omitted fields retain their current values.
+  Future<UpdateAssetFileResponse> updateAssetFile({
+    required String agentSpaceId,
+    required String assetId,
+    required String path,
+    String? clientToken,
+    AssetFileBody? content,
+    Document? metadata,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (content != null) 'content': content,
+      if (metadata != null) 'metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/asset/agent-space/${Uri.encodeComponent(agentSpaceId)}/assets/${Uri.encodeComponent(assetId)}/files/${path.split('/').map(Uri.encodeComponent).join('/')}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAssetFileResponse.fromJson(response);
   }
 
   /// Update an existing backlog task.
@@ -829,6 +1535,46 @@ class DevOpsAgent {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRecommendationResponse.fromJson(response);
+  }
+
+  /// Updates the status of an existing Trigger
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agentSpaceId] :
+  /// The unique identifier for the agent space containing the Trigger
+  ///
+  /// Parameter [triggerId] :
+  /// The unique identifier of the Trigger to update
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier used for idempotent Trigger update
+  ///
+  /// Parameter [status] :
+  /// The new status for the Trigger
+  Future<UpdateTriggerResponse> updateTrigger({
+    required String agentSpaceId,
+    required String triggerId,
+    String? clientToken,
+    String? status,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (status != null) 'status': status,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/trigger/agent-space/${Uri.encodeComponent(agentSpaceId)}/triggers/${Uri.encodeComponent(triggerId)}',
+      hostPrefix: 'dp.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTriggerResponse.fromJson(response);
   }
 
   /// Creates a new AgentSpace with the specified name and description.
@@ -1166,14 +1912,20 @@ class DevOpsAgent {
   ///
   /// Parameter [serviceId] :
   /// The unique identifier of the service.
+  ///
+  /// Parameter [capabilities] :
+  /// Enabled capabilities for this association.
   Future<AssociateServiceOutput> associateService({
     required String agentSpaceId,
     required ServiceConfiguration configuration,
     required String serviceId,
+    Map<CapabilityType, CapabilityConfiguration>? capabilities,
   }) async {
     final $payload = <String, dynamic>{
       'configuration': configuration,
       'serviceId': serviceId,
+      if (capabilities != null)
+        'capabilities': capabilities.map((k, e) => MapEntry(k.value, e)),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1231,13 +1983,19 @@ class DevOpsAgent {
   /// Parameter [configuration] :
   /// The configuration that directs how AgentSpace interacts with the given
   /// service. The entire configuration is replaced on update.
+  ///
+  /// Parameter [capabilities] :
+  /// Enabled capabilities for this association.
   Future<UpdateAssociationOutput> updateAssociation({
     required String agentSpaceId,
     required String associationId,
     required ServiceConfiguration configuration,
+    Map<CapabilityType, CapabilityConfiguration>? capabilities,
   }) async {
     final $payload = <String, dynamic>{
       'configuration': configuration,
+      if (capabilities != null)
+        'capabilities': capabilities.map((k, e) => MapEntry(k.value, e)),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1510,6 +2268,10 @@ class DevOpsAgent {
   /// Parameter [serviceDetails] :
   /// Service-specific authorization configuration parameters
   ///
+  /// Parameter [exchangeUrlPrivateConnectionName] :
+  /// The name of the private connection to use for OAuth token exchange
+  /// requests only. Cannot be specified when privateConnectionName is provided.
+  ///
   /// Parameter [kmsKeyArn] :
   /// The ARN of the AWS Key Management Service (AWS KMS) customer managed key
   /// that's used to encrypt resources.
@@ -1522,21 +2284,31 @@ class DevOpsAgent {
   ///
   /// Parameter [tags] :
   /// Tags to add to the Service at registration time.
+  ///
+  /// Parameter [targetUrlPrivateConnectionName] :
+  /// The name of the private connection to use for API calls (target URL) only.
+  /// Cannot be specified when privateConnectionName is provided.
   Future<RegisterServiceOutput> registerService({
     required PostRegisterServiceSupportedService service,
     required ServiceDetails serviceDetails,
+    String? exchangeUrlPrivateConnectionName,
     String? kmsKeyArn,
     String? name,
     String? privateConnectionName,
     Map<String, String>? tags,
+    String? targetUrlPrivateConnectionName,
   }) async {
     final $payload = <String, dynamic>{
       'serviceDetails': serviceDetails,
+      if (exchangeUrlPrivateConnectionName != null)
+        'exchangeUrlPrivateConnectionName': exchangeUrlPrivateConnectionName,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (name != null) 'name': name,
       if (privateConnectionName != null)
         'privateConnectionName': privateConnectionName,
       if (tags != null) 'tags': tags,
+      if (targetUrlPrivateConnectionName != null)
+        'targetUrlPrivateConnectionName': targetUrlPrivateConnectionName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1630,6 +2402,58 @@ class DevOpsAgent {
   }
 }
 
+/// Response structure for creating a new asset
+///
+/// @nodoc
+class CreateAssetResponse {
+  /// The asset object
+  final Asset asset;
+
+  CreateAssetResponse({
+    required this.asset,
+  });
+
+  factory CreateAssetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAssetResponse(
+      asset: Asset.fromJson((json['asset'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asset = this.asset;
+    return {
+      'asset': asset,
+    };
+  }
+}
+
+/// Response structure for creating an asset file
+///
+/// @nodoc
+class CreateAssetFileResponse {
+  /// The asset file object
+  final AssetFile file;
+
+  CreateAssetFileResponse({
+    required this.file,
+  });
+
+  factory CreateAssetFileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAssetFileResponse(
+      file: AssetFile.fromJson(
+          (json['file'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    return {
+      'file': file,
+    };
+  }
+}
+
 /// Response structure containing the created backlog task
 ///
 /// @nodoc
@@ -1685,6 +2509,77 @@ class CreateChatResponse {
       'createdAt': unixTimestampToJson(createdAt),
       'executionId': executionId,
     };
+  }
+}
+
+/// Response structure for creating a new Trigger
+///
+/// @nodoc
+class CreateTriggerResponse {
+  /// The Trigger object
+  final Trigger trigger;
+
+  CreateTriggerResponse({
+    required this.trigger,
+  });
+
+  factory CreateTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTriggerResponse(
+      trigger: Trigger.fromJson((json['trigger'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trigger = this.trigger;
+    return {
+      'trigger': trigger,
+    };
+  }
+}
+
+/// Response structure for deleting an asset
+///
+/// @nodoc
+class DeleteAssetResponse {
+  DeleteAssetResponse();
+
+  factory DeleteAssetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAssetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Response structure for deleting an asset file
+///
+/// @nodoc
+class DeleteAssetFileResponse {
+  DeleteAssetFileResponse();
+
+  factory DeleteAssetFileResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAssetFileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Response structure for deleting a Trigger
+///
+/// @nodoc
+class DeleteTriggerResponse {
+  DeleteTriggerResponse();
+
+  factory DeleteTriggerResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTriggerResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -1769,6 +2664,92 @@ class GetAccountUsageOutput {
   }
 }
 
+/// Response structure for getting an asset
+///
+/// @nodoc
+class GetAssetResponse {
+  /// The asset object
+  final Asset asset;
+
+  GetAssetResponse({
+    required this.asset,
+  });
+
+  factory GetAssetResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssetResponse(
+      asset: Asset.fromJson((json['asset'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asset = this.asset;
+    return {
+      'asset': asset,
+    };
+  }
+}
+
+/// Response structure for getting an asset's content as a zip bundle
+///
+/// @nodoc
+class GetAssetContentResponse {
+  /// The asset content as a zip file
+  final AssetZipContent content;
+
+  /// The asset version this content belongs to
+  final int version;
+
+  GetAssetContentResponse({
+    required this.content,
+    required this.version,
+  });
+
+  factory GetAssetContentResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssetContentResponse(
+      content: AssetZipContent.fromJson(
+          (json['content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      version: (json['version'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final version = this.version;
+    return {
+      'content': content,
+      'version': version,
+    };
+  }
+}
+
+/// Response structure for getting an asset file
+///
+/// @nodoc
+class GetAssetFileResponse {
+  /// The asset file object
+  final AssetFile file;
+
+  GetAssetFileResponse({
+    required this.file,
+  });
+
+  factory GetAssetFileResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssetFileResponse(
+      file: AssetFile.fromJson(
+          (json['file'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    return {
+      'file': file,
+    };
+  }
+}
+
 /// Response structure containing the requested backlog task
 ///
 /// @nodoc
@@ -1818,6 +2799,176 @@ class GetRecommendationResponse {
     final recommendation = this.recommendation;
     return {
       'recommendation': recommendation,
+    };
+  }
+}
+
+/// Response structure for getting a Trigger
+///
+/// @nodoc
+class GetTriggerResponse {
+  /// The Trigger object
+  final Trigger trigger;
+
+  GetTriggerResponse({
+    required this.trigger,
+  });
+
+  factory GetTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return GetTriggerResponse(
+      trigger: Trigger.fromJson((json['trigger'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trigger = this.trigger;
+    return {
+      'trigger': trigger,
+    };
+  }
+}
+
+/// Response structure for listing asset files
+///
+/// @nodoc
+class ListAssetFilesResponse {
+  /// The list of asset file summaries
+  final List<AssetFileSummary> items;
+
+  /// Pagination token to retrieve the next page of results. Absent when there are
+  /// no more results.
+  final String? nextToken;
+
+  ListAssetFilesResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListAssetFilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssetFilesResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssetFileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response structure for listing assets
+///
+/// @nodoc
+class ListAssetsResponse {
+  /// The list of assets for the agent space
+  final List<Asset> items;
+
+  /// Pagination token to retrieve the next page of results. Absent when there are
+  /// no more results.
+  final String? nextToken;
+
+  ListAssetsResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListAssetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssetsResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response structure for listing asset types
+///
+/// @nodoc
+class ListAssetTypesResponse {
+  /// The list of supported asset types
+  final List<AssetTypeSummary> items;
+
+  /// Pagination token to retrieve the next page of results. Absent when there are
+  /// no more results.
+  final String? nextToken;
+
+  ListAssetTypesResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListAssetTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssetTypesResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssetTypeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response structure for listing asset versions
+///
+/// @nodoc
+class ListAssetVersionsResponse {
+  /// The list of version metadata for the asset
+  final List<AssetVersionMetadata> items;
+
+  /// Pagination token to retrieve the next page of results. Absent when there are
+  /// no more results.
+  final String? nextToken;
+
+  ListAssetVersionsResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListAssetVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssetVersionsResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssetVersionMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -2105,6 +3256,41 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// Response structure for listing Triggers
+///
+/// @nodoc
+class ListTriggersResponse {
+  /// The list of Triggers
+  final List<Trigger> items;
+
+  /// Pagination token to retrieve the next page of results
+  final String? nextToken;
+
+  ListTriggersResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListTriggersResponse.fromJson(Map<String, dynamic> json) {
+    return ListTriggersResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Trigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// Response structure for sending chat message events
 ///
 /// @nodoc
@@ -2147,6 +3333,58 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Response structure for updating an asset
+///
+/// @nodoc
+class UpdateAssetResponse {
+  /// The asset object
+  final Asset asset;
+
+  UpdateAssetResponse({
+    required this.asset,
+  });
+
+  factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAssetResponse(
+      asset: Asset.fromJson((json['asset'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asset = this.asset;
+    return {
+      'asset': asset,
+    };
+  }
+}
+
+/// Response structure for updating an asset file
+///
+/// @nodoc
+class UpdateAssetFileResponse {
+  /// The asset file object
+  final AssetFile file;
+
+  UpdateAssetFileResponse({
+    required this.file,
+  });
+
+  factory UpdateAssetFileResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAssetFileResponse(
+      file: AssetFile.fromJson(
+          (json['file'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    return {
+      'file': file,
+    };
   }
 }
 
@@ -2225,6 +3463,32 @@ class UpdateRecommendationResponse {
     final recommendation = this.recommendation;
     return {
       'recommendation': recommendation,
+    };
+  }
+}
+
+/// Response structure for updating a Trigger
+///
+/// @nodoc
+class UpdateTriggerResponse {
+  /// The Trigger object
+  final Trigger trigger;
+
+  UpdateTriggerResponse({
+    required this.trigger,
+  });
+
+  factory UpdateTriggerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTriggerResponse(
+      trigger: Trigger.fromJson((json['trigger'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trigger = this.trigger;
+    return {
+      'trigger': trigger,
     };
   }
 }
@@ -2348,11 +3612,15 @@ class EnableOperatorAppOutput {
   final IdcAuthConfiguration? idc;
   final IdpAuthConfiguration? idp;
 
+  /// The URL for operators to access the Operator App
+  final String? operatorAppUrl;
+
   EnableOperatorAppOutput({
     required this.agentSpaceId,
     this.iam,
     this.idc,
     this.idp,
+    this.operatorAppUrl,
   });
 
   factory EnableOperatorAppOutput.fromJson(Map<String, dynamic> json) {
@@ -2367,6 +3635,7 @@ class EnableOperatorAppOutput {
       idp: json['idp'] != null
           ? IdpAuthConfiguration.fromJson(json['idp'] as Map<String, dynamic>)
           : null,
+      operatorAppUrl: json['operatorAppUrl'] as String?,
     );
   }
 
@@ -2375,11 +3644,13 @@ class EnableOperatorAppOutput {
     final iam = this.iam;
     final idc = this.idc;
     final idp = this.idp;
+    final operatorAppUrl = this.operatorAppUrl;
     return {
       'agentSpaceId': agentSpaceId,
       if (iam != null) 'iam': iam,
       if (idc != null) 'idc': idc,
       if (idp != null) 'idp': idp,
+      if (operatorAppUrl != null) 'operatorAppUrl': operatorAppUrl,
     };
   }
 }
@@ -2393,10 +3664,14 @@ class GetOperatorAppOutput {
   final IdcAuthConfiguration? idc;
   final IdpAuthConfiguration? idp;
 
+  /// The URL for operators to access the Operator App
+  final String? operatorAppUrl;
+
   GetOperatorAppOutput({
     this.iam,
     this.idc,
     this.idp,
+    this.operatorAppUrl,
   });
 
   factory GetOperatorAppOutput.fromJson(Map<String, dynamic> json) {
@@ -2410,6 +3685,7 @@ class GetOperatorAppOutput {
       idp: json['idp'] != null
           ? IdpAuthConfiguration.fromJson(json['idp'] as Map<String, dynamic>)
           : null,
+      operatorAppUrl: json['operatorAppUrl'] as String?,
     );
   }
 
@@ -2417,10 +3693,12 @@ class GetOperatorAppOutput {
     final iam = this.iam;
     final idc = this.idc;
     final idp = this.idp;
+    final operatorAppUrl = this.operatorAppUrl;
     return {
       if (iam != null) 'iam': iam,
       if (idc != null) 'idc': idc,
       if (idp != null) 'idp': idp,
+      if (operatorAppUrl != null) 'operatorAppUrl': operatorAppUrl,
     };
   }
 }
@@ -2699,6 +3977,13 @@ class CreatePrivateConnectionOutput {
   /// Only present when a certificate is associated.
   final DateTime? certificateExpiryTime;
 
+  /// DNS resolution mode for the Private Connection's resource gateway.
+  final ResourceConfigDnsResolution? dnsResolution;
+
+  /// Message describing the reason for a failed Private Connection creation, if
+  /// applicable.
+  final String? failureMessage;
+
   /// IP address or DNS name of the target resource. Only present for
   /// service-managed Private Connections.
   final String? hostAddress;
@@ -2723,6 +4008,8 @@ class CreatePrivateConnectionOutput {
     required this.status,
     required this.type,
     this.certificateExpiryTime,
+    this.dnsResolution,
+    this.failureMessage,
     this.hostAddress,
     this.resourceConfigurationId,
     this.resourceGatewayId,
@@ -2737,6 +4024,9 @@ class CreatePrivateConnectionOutput {
           PrivateConnectionStatus.fromString((json['status'] as String?) ?? ''),
       type: PrivateConnectionType.fromString((json['type'] as String?) ?? ''),
       certificateExpiryTime: timeStampFromJson(json['certificateExpiryTime']),
+      dnsResolution: (json['dnsResolution'] as String?)
+          ?.let(ResourceConfigDnsResolution.fromString),
+      failureMessage: json['failureMessage'] as String?,
       hostAddress: json['hostAddress'] as String?,
       resourceConfigurationId: json['resourceConfigurationId'] as String?,
       resourceGatewayId: json['resourceGatewayId'] as String?,
@@ -2751,6 +4041,8 @@ class CreatePrivateConnectionOutput {
     final status = this.status;
     final type = this.type;
     final certificateExpiryTime = this.certificateExpiryTime;
+    final dnsResolution = this.dnsResolution;
+    final failureMessage = this.failureMessage;
     final hostAddress = this.hostAddress;
     final resourceConfigurationId = this.resourceConfigurationId;
     final resourceGatewayId = this.resourceGatewayId;
@@ -2762,6 +4054,8 @@ class CreatePrivateConnectionOutput {
       'type': type.value,
       if (certificateExpiryTime != null)
         'certificateExpiryTime': iso8601ToJson(certificateExpiryTime),
+      if (dnsResolution != null) 'dnsResolution': dnsResolution.value,
+      if (failureMessage != null) 'failureMessage': failureMessage,
       if (hostAddress != null) 'hostAddress': hostAddress,
       if (resourceConfigurationId != null)
         'resourceConfigurationId': resourceConfigurationId,
@@ -2789,6 +4083,13 @@ class DescribePrivateConnectionOutput {
   /// Only present when a certificate is associated.
   final DateTime? certificateExpiryTime;
 
+  /// DNS resolution mode for the Private Connection's resource gateway.
+  final ResourceConfigDnsResolution? dnsResolution;
+
+  /// Message describing the reason for a failed Private Connection, if
+  /// applicable.
+  final String? failureMessage;
+
   /// IP address or DNS name of the target resource. Only present for
   /// service-managed Private Connections.
   final String? hostAddress;
@@ -2813,6 +4114,8 @@ class DescribePrivateConnectionOutput {
     required this.status,
     required this.type,
     this.certificateExpiryTime,
+    this.dnsResolution,
+    this.failureMessage,
     this.hostAddress,
     this.resourceConfigurationId,
     this.resourceGatewayId,
@@ -2827,6 +4130,9 @@ class DescribePrivateConnectionOutput {
           PrivateConnectionStatus.fromString((json['status'] as String?) ?? ''),
       type: PrivateConnectionType.fromString((json['type'] as String?) ?? ''),
       certificateExpiryTime: timeStampFromJson(json['certificateExpiryTime']),
+      dnsResolution: (json['dnsResolution'] as String?)
+          ?.let(ResourceConfigDnsResolution.fromString),
+      failureMessage: json['failureMessage'] as String?,
       hostAddress: json['hostAddress'] as String?,
       resourceConfigurationId: json['resourceConfigurationId'] as String?,
       resourceGatewayId: json['resourceGatewayId'] as String?,
@@ -2841,6 +4147,8 @@ class DescribePrivateConnectionOutput {
     final status = this.status;
     final type = this.type;
     final certificateExpiryTime = this.certificateExpiryTime;
+    final dnsResolution = this.dnsResolution;
+    final failureMessage = this.failureMessage;
     final hostAddress = this.hostAddress;
     final resourceConfigurationId = this.resourceConfigurationId;
     final resourceGatewayId = this.resourceGatewayId;
@@ -2852,6 +4160,8 @@ class DescribePrivateConnectionOutput {
       'type': type.value,
       if (certificateExpiryTime != null)
         'certificateExpiryTime': iso8601ToJson(certificateExpiryTime),
+      if (dnsResolution != null) 'dnsResolution': dnsResolution.value,
+      if (failureMessage != null) 'failureMessage': failureMessage,
       if (hostAddress != null) 'hostAddress': hostAddress,
       if (resourceConfigurationId != null)
         'resourceConfigurationId': resourceConfigurationId,
@@ -2941,6 +4251,13 @@ class UpdatePrivateConnectionCertificateOutput {
   /// Only present when a certificate is associated.
   final DateTime? certificateExpiryTime;
 
+  /// DNS resolution mode for the Private Connection's resource gateway.
+  final ResourceConfigDnsResolution? dnsResolution;
+
+  /// Message describing the reason for a failed Private Connection update, if
+  /// applicable.
+  final String? failureMessage;
+
   /// IP address or DNS name of the target resource. Only present for
   /// service-managed Private Connections.
   final String? hostAddress;
@@ -2962,6 +4279,8 @@ class UpdatePrivateConnectionCertificateOutput {
     required this.status,
     required this.type,
     this.certificateExpiryTime,
+    this.dnsResolution,
+    this.failureMessage,
     this.hostAddress,
     this.resourceConfigurationId,
     this.resourceGatewayId,
@@ -2976,6 +4295,9 @@ class UpdatePrivateConnectionCertificateOutput {
           PrivateConnectionStatus.fromString((json['status'] as String?) ?? ''),
       type: PrivateConnectionType.fromString((json['type'] as String?) ?? ''),
       certificateExpiryTime: timeStampFromJson(json['certificateExpiryTime']),
+      dnsResolution: (json['dnsResolution'] as String?)
+          ?.let(ResourceConfigDnsResolution.fromString),
+      failureMessage: json['failureMessage'] as String?,
       hostAddress: json['hostAddress'] as String?,
       resourceConfigurationId: json['resourceConfigurationId'] as String?,
       resourceGatewayId: json['resourceGatewayId'] as String?,
@@ -2988,6 +4310,8 @@ class UpdatePrivateConnectionCertificateOutput {
     final status = this.status;
     final type = this.type;
     final certificateExpiryTime = this.certificateExpiryTime;
+    final dnsResolution = this.dnsResolution;
+    final failureMessage = this.failureMessage;
     final hostAddress = this.hostAddress;
     final resourceConfigurationId = this.resourceConfigurationId;
     final resourceGatewayId = this.resourceGatewayId;
@@ -2998,6 +4322,8 @@ class UpdatePrivateConnectionCertificateOutput {
       'type': type.value,
       if (certificateExpiryTime != null)
         'certificateExpiryTime': iso8601ToJson(certificateExpiryTime),
+      if (dnsResolution != null) 'dnsResolution': dnsResolution.value,
+      if (failureMessage != null) 'failureMessage': failureMessage,
       if (hostAddress != null) 'hostAddress': hostAddress,
       if (resourceConfigurationId != null)
         'resourceConfigurationId': resourceConfigurationId,
@@ -3243,6 +4569,8 @@ class Service {
   static const mcpserversplunk = Service._('mcpserversplunk');
   static const azureidentity = Service._('azureidentity');
   static const mcpserversigv4 = Service._('mcpserversigv4');
+  static const remoteagent = Service._('remoteagent');
+  static const remoteagentsigv4 = Service._('remoteagentsigv4');
 
   final String value;
 
@@ -3264,7 +4592,9 @@ class Service {
     mcpserver,
     mcpserversplunk,
     azureidentity,
-    mcpserversigv4
+    mcpserversigv4,
+    remoteagent,
+    remoteagentsigv4
   ];
 
   static Service fromString(String value) => values
@@ -3317,6 +4647,12 @@ class AdditionalServiceDetails {
   /// Pagerduty service details.
   final RegisteredPagerDutyDetails? pagerduty;
 
+  /// Remote A2A agent-specific service details (token-based auth).
+  final RegisteredRemoteAgentDetails? remoteagent;
+
+  /// Remote A2A agent-specific service details (SigV4 auth).
+  final RegisteredRemoteAgentSigV4Details? remoteagentsigv4;
+
   /// ServiceNow-specific service details.
   final RegisteredServiceNowDetails? servicenow;
 
@@ -3335,6 +4671,8 @@ class AdditionalServiceDetails {
     this.mcpserversigv4,
     this.mcpserversplunk,
     this.pagerduty,
+    this.remoteagent,
+    this.remoteagentsigv4,
     this.servicenow,
     this.slack,
   });
@@ -3385,6 +4723,14 @@ class AdditionalServiceDetails {
           ? RegisteredPagerDutyDetails.fromJson(
               json['pagerduty'] as Map<String, dynamic>)
           : null,
+      remoteagent: json['remoteagent'] != null
+          ? RegisteredRemoteAgentDetails.fromJson(
+              json['remoteagent'] as Map<String, dynamic>)
+          : null,
+      remoteagentsigv4: json['remoteagentsigv4'] != null
+          ? RegisteredRemoteAgentSigV4Details.fromJson(
+              json['remoteagentsigv4'] as Map<String, dynamic>)
+          : null,
       servicenow: json['servicenow'] != null
           ? RegisteredServiceNowDetails.fromJson(
               json['servicenow'] as Map<String, dynamic>)
@@ -3408,6 +4754,8 @@ class AdditionalServiceDetails {
     final mcpserversigv4 = this.mcpserversigv4;
     final mcpserversplunk = this.mcpserversplunk;
     final pagerduty = this.pagerduty;
+    final remoteagent = this.remoteagent;
+    final remoteagentsigv4 = this.remoteagentsigv4;
     final servicenow = this.servicenow;
     final slack = this.slack;
     return {
@@ -3422,6 +4770,8 @@ class AdditionalServiceDetails {
       if (mcpserversigv4 != null) 'mcpserversigv4': mcpserversigv4,
       if (mcpserversplunk != null) 'mcpserversplunk': mcpserversplunk,
       if (pagerduty != null) 'pagerduty': pagerduty,
+      if (remoteagent != null) 'remoteagent': remoteagent,
+      if (remoteagentsigv4 != null) 'remoteagentsigv4': remoteagentsigv4,
       if (servicenow != null) 'servicenow': servicenow,
       if (slack != null) 'slack': slack,
     };
@@ -3823,6 +5173,7 @@ class RegisteredMCPServerSigV4Details {
 
   /// Optional description for the MCP server.
   final String? description;
+  final String? mcpRoleArn;
 
   RegisteredMCPServerSigV4Details({
     required this.endpoint,
@@ -3832,6 +5183,7 @@ class RegisteredMCPServerSigV4Details {
     required this.service,
     this.customHeaders,
     this.description,
+    this.mcpRoleArn,
   });
 
   factory RegisteredMCPServerSigV4Details.fromJson(Map<String, dynamic> json) {
@@ -3844,6 +5196,7 @@ class RegisteredMCPServerSigV4Details {
       customHeaders: (json['customHeaders'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       description: json['description'] as String?,
+      mcpRoleArn: json['mcpRoleArn'] as String?,
     );
   }
 
@@ -3855,6 +5208,7 @@ class RegisteredMCPServerSigV4Details {
     final service = this.service;
     final customHeaders = this.customHeaders;
     final description = this.description;
+    final mcpRoleArn = this.mcpRoleArn;
     return {
       'endpoint': endpoint,
       'name': name,
@@ -3863,8 +5217,139 @@ class RegisteredMCPServerSigV4Details {
       'service': service,
       if (customHeaders != null) 'customHeaders': customHeaders,
       if (description != null) 'description': description,
+      if (mcpRoleArn != null) 'mcpRoleArn': mcpRoleArn,
     };
   }
+}
+
+/// Details specific to a registered token-based remote A2A agent.
+///
+/// @nodoc
+class RegisteredRemoteAgentDetails {
+  /// The authorization method used by the remote agent.
+  final RemoteAgentAuthorizationMethod authorizationMethod;
+  final String endpoint;
+  final String name;
+
+  /// If the remote agent uses API key authentication, the header name.
+  final String? apiKeyHeader;
+  final String? description;
+
+  RegisteredRemoteAgentDetails({
+    required this.authorizationMethod,
+    required this.endpoint,
+    required this.name,
+    this.apiKeyHeader,
+    this.description,
+  });
+
+  factory RegisteredRemoteAgentDetails.fromJson(Map<String, dynamic> json) {
+    return RegisteredRemoteAgentDetails(
+      authorizationMethod: RemoteAgentAuthorizationMethod.fromString(
+          (json['authorizationMethod'] as String?) ?? ''),
+      endpoint: (json['endpoint'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      apiKeyHeader: json['apiKeyHeader'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationMethod = this.authorizationMethod;
+    final endpoint = this.endpoint;
+    final name = this.name;
+    final apiKeyHeader = this.apiKeyHeader;
+    final description = this.description;
+    return {
+      'authorizationMethod': authorizationMethod.value,
+      'endpoint': endpoint,
+      'name': name,
+      if (apiKeyHeader != null) 'apiKeyHeader': apiKeyHeader,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Details specific to a registered SigV4-authenticated remote A2A agent.
+///
+/// @nodoc
+class RegisteredRemoteAgentSigV4Details {
+  final String endpoint;
+  final String name;
+  final String region;
+
+  /// The AWS service name for SigV4 signing.
+  final String service;
+  final String? description;
+  final String? roleArn;
+
+  RegisteredRemoteAgentSigV4Details({
+    required this.endpoint,
+    required this.name,
+    required this.region,
+    required this.service,
+    this.description,
+    this.roleArn,
+  });
+
+  factory RegisteredRemoteAgentSigV4Details.fromJson(
+      Map<String, dynamic> json) {
+    return RegisteredRemoteAgentSigV4Details(
+      endpoint: (json['endpoint'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+      service: (json['service'] as String?) ?? '',
+      description: json['description'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final name = this.name;
+    final region = this.region;
+    final service = this.service;
+    final description = this.description;
+    final roleArn = this.roleArn;
+    return {
+      'endpoint': endpoint,
+      'name': name,
+      'region': region,
+      'service': service,
+      if (description != null) 'description': description,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+/// Supported authorization methods for remote A2A agents.
+///
+/// @nodoc
+class RemoteAgentAuthorizationMethod {
+  static const oauthClientCredentials =
+      RemoteAgentAuthorizationMethod._('oauth-client-credentials');
+  static const apiKey = RemoteAgentAuthorizationMethod._('api-key');
+  static const bearerToken = RemoteAgentAuthorizationMethod._('bearer-token');
+
+  final String value;
+
+  const RemoteAgentAuthorizationMethod._(this.value);
+
+  static const values = [oauthClientCredentials, apiKey, bearerToken];
+
+  static RemoteAgentAuthorizationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemoteAgentAuthorizationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemoteAgentAuthorizationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Supported authorization methods for MCP servers.
@@ -4063,6 +5548,10 @@ class PostRegisterServiceSupportedService {
       PostRegisterServiceSupportedService._('azureidentity');
   static const mcpserversigv4 =
       PostRegisterServiceSupportedService._('mcpserversigv4');
+  static const remoteagent =
+      PostRegisterServiceSupportedService._('remoteagent');
+  static const remoteagentsigv4 =
+      PostRegisterServiceSupportedService._('remoteagentsigv4');
 
   final String value;
 
@@ -4080,7 +5569,9 @@ class PostRegisterServiceSupportedService {
     mcpserver,
     mcpserversplunk,
     azureidentity,
-    mcpserversigv4
+    mcpserversigv4,
+    remoteagent,
+    remoteagentsigv4
   ];
 
   static PostRegisterServiceSupportedService fromString(String value) =>
@@ -4136,6 +5627,12 @@ class ServiceDetails {
   /// PagerDuty specific service details.
   final PagerDutyDetails? pagerduty;
 
+  /// Remote A2A agent service details (token-based auth).
+  final RemoteAgentServiceDetails? remoteagent;
+
+  /// Remote A2A agent service details (SigV4 auth).
+  final RemoteAgentSigV4ServiceDetails? remoteagentsigv4;
+
   /// ServiceNow-specific service details.
   final ServiceNowServiceDetails? servicenow;
 
@@ -4151,6 +5648,8 @@ class ServiceDetails {
     this.mcpserversigv4,
     this.mcpserversplunk,
     this.pagerduty,
+    this.remoteagent,
+    this.remoteagentsigv4,
     this.servicenow,
   });
 
@@ -4166,6 +5665,8 @@ class ServiceDetails {
     final mcpserversigv4 = this.mcpserversigv4;
     final mcpserversplunk = this.mcpserversplunk;
     final pagerduty = this.pagerduty;
+    final remoteagent = this.remoteagent;
+    final remoteagentsigv4 = this.remoteagentsigv4;
     final servicenow = this.servicenow;
     return {
       if (azureidentity != null) 'azureidentity': azureidentity,
@@ -4179,6 +5680,8 @@ class ServiceDetails {
       if (mcpserversigv4 != null) 'mcpserversigv4': mcpserversigv4,
       if (mcpserversplunk != null) 'mcpserversplunk': mcpserversplunk,
       if (pagerduty != null) 'pagerduty': pagerduty,
+      if (remoteagent != null) 'remoteagent': remoteagent,
+      if (remoteagentsigv4 != null) 'remoteagentsigv4': remoteagentsigv4,
       if (servicenow != null) 'servicenow': servicenow,
     };
   }
@@ -4487,6 +5990,243 @@ class MCPServerSigV4ServiceDetails {
   }
 }
 
+/// Complete service details for token-based remote A2A agent integration.
+///
+/// @nodoc
+class RemoteAgentServiceDetails {
+  /// Remote agent authorization configuration.
+  final RemoteAgentAuthorizationConfig authorizationConfig;
+  final String endpoint;
+  final String name;
+  final String? description;
+
+  RemoteAgentServiceDetails({
+    required this.authorizationConfig,
+    required this.endpoint,
+    required this.name,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final authorizationConfig = this.authorizationConfig;
+    final endpoint = this.endpoint;
+    final name = this.name;
+    final description = this.description;
+    return {
+      'authorizationConfig': authorizationConfig,
+      'endpoint': endpoint,
+      'name': name,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Complete service details for SigV4-authenticated remote A2A agent
+/// integration.
+///
+/// @nodoc
+class RemoteAgentSigV4ServiceDetails {
+  /// Remote agent SigV4 authorization configuration.
+  final RemoteAgentSigV4AuthorizationConfig authorizationConfig;
+  final String endpoint;
+  final String name;
+  final String? description;
+
+  RemoteAgentSigV4ServiceDetails({
+    required this.authorizationConfig,
+    required this.endpoint,
+    required this.name,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final authorizationConfig = this.authorizationConfig;
+    final endpoint = this.endpoint;
+    final name = this.name;
+    final description = this.description;
+    return {
+      'authorizationConfig': authorizationConfig,
+      'endpoint': endpoint,
+      'name': name,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// SigV4 authorization configuration for remote A2A agent.
+///
+/// @nodoc
+class RemoteAgentSigV4AuthorizationConfig {
+  final String region;
+
+  /// The AWS service name for SigV4 signing.
+  final String service;
+  final String? roleArn;
+
+  RemoteAgentSigV4AuthorizationConfig({
+    required this.region,
+    required this.service,
+    this.roleArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final service = this.service;
+    final roleArn = this.roleArn;
+    return {
+      'region': region,
+      'service': service,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+/// Authorization configuration for remote A2A agents with token-based auth (API
+/// key, OAuth, bearer token).
+///
+/// @nodoc
+class RemoteAgentAuthorizationConfig {
+  /// Remote agent configuration with API key authentication.
+  final RemoteAgentAPIKeyConfig? apiKey;
+
+  /// Remote agent configuration with Bearer token (RFC 6750).
+  final RemoteAgentBearerTokenConfig? bearerToken;
+
+  /// Remote agent configuration with OAuth client credentials.
+  final RemoteAgentOAuthClientCredentialsConfig? oAuthClientCredentials;
+
+  RemoteAgentAuthorizationConfig({
+    this.apiKey,
+    this.bearerToken,
+    this.oAuthClientCredentials,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKey = this.apiKey;
+    final bearerToken = this.bearerToken;
+    final oAuthClientCredentials = this.oAuthClientCredentials;
+    return {
+      if (apiKey != null) 'apiKey': apiKey,
+      if (bearerToken != null) 'bearerToken': bearerToken,
+      if (oAuthClientCredentials != null)
+        'oAuthClientCredentials': oAuthClientCredentials,
+    };
+  }
+}
+
+/// API key configuration for remote A2A agent.
+///
+/// @nodoc
+class RemoteAgentAPIKeyConfig {
+  /// HTTP header name to send the API key in requests to the service.
+  final String apiKeyHeader;
+
+  /// User friendly API key name specified by end user.
+  final String apiKeyName;
+
+  /// API key value for authenticating with the service.
+  final String apiKeyValue;
+
+  RemoteAgentAPIKeyConfig({
+    required this.apiKeyHeader,
+    required this.apiKeyName,
+    required this.apiKeyValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apiKeyHeader = this.apiKeyHeader;
+    final apiKeyName = this.apiKeyName;
+    final apiKeyValue = this.apiKeyValue;
+    return {
+      'apiKeyHeader': apiKeyHeader,
+      'apiKeyName': apiKeyName,
+      'apiKeyValue': apiKeyValue,
+    };
+  }
+}
+
+/// OAuth client credentials configuration for remote A2A agent.
+///
+/// @nodoc
+class RemoteAgentOAuthClientCredentialsConfig {
+  /// OAuth client ID for authenticating with the service.
+  final String clientId;
+
+  /// OAuth client secret for authenticating with the service.
+  final String clientSecret;
+
+  /// OAuth token exchange URL.
+  final String exchangeUrl;
+
+  /// User friendly OAuth client name specified by end user.
+  final String? clientName;
+
+  /// OAuth token exchange parameters for authenticating with the service.
+  final Map<String, String>? exchangeParameters;
+
+  /// OAuth scopes for authentication.
+  final List<String>? scopes;
+
+  RemoteAgentOAuthClientCredentialsConfig({
+    required this.clientId,
+    required this.clientSecret,
+    required this.exchangeUrl,
+    this.clientName,
+    this.exchangeParameters,
+    this.scopes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final exchangeUrl = this.exchangeUrl;
+    final clientName = this.clientName;
+    final exchangeParameters = this.exchangeParameters;
+    final scopes = this.scopes;
+    return {
+      'clientId': clientId,
+      'clientSecret': clientSecret,
+      'exchangeUrl': exchangeUrl,
+      if (clientName != null) 'clientName': clientName,
+      if (exchangeParameters != null) 'exchangeParameters': exchangeParameters,
+      if (scopes != null) 'scopes': scopes,
+    };
+  }
+}
+
+/// Bearer token configuration for remote A2A agent (RFC 6750).
+///
+/// @nodoc
+class RemoteAgentBearerTokenConfig {
+  /// User friendly bearer token name specified by end user.
+  final String tokenName;
+
+  /// Bearer token value in alphanumeric for authenticating with the service.
+  final String tokenValue;
+
+  /// HTTP header name to send the bearer token in requests to the service.
+  /// Defaults to 'Authorization' per RFC 6750.
+  final String? authorizationHeader;
+
+  RemoteAgentBearerTokenConfig({
+    required this.tokenName,
+    required this.tokenValue,
+    this.authorizationHeader,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tokenName = this.tokenName;
+    final tokenValue = this.tokenValue;
+    final authorizationHeader = this.authorizationHeader;
+    return {
+      'tokenName': tokenName,
+      'tokenValue': tokenValue,
+      if (authorizationHeader != null)
+        'authorizationHeader': authorizationHeader,
+    };
+  }
+}
+
 /// Authorization configuration for SigV4-authenticated MCP server.
 ///
 /// @nodoc
@@ -4494,32 +6234,40 @@ class MCPServerSigV4AuthorizationConfig {
   /// AWS region for SigV4 signing. Use '*' for SigV4a multi-region signing.
   final String region;
 
-  /// IAM role ARN to assume for SigV4 signing.
-  final String roleArn;
-
   /// AWS service name for SigV4 signing.
   final String service;
 
   /// Custom headers for the SigV4 MCP server.
   final Map<String, String>? customHeaders;
 
+  /// IAM role ARN to assume for SigV4 signing. Optional — when omitted,
+  /// credentials are resolved at runtime via a monitor account association.
+  final String? mcpRoleArn;
+
+  /// Deprecated — use mcpRoleArn instead. IAM role ARN to assume for SigV4
+  /// signing.
+  final String? roleArn;
+
   MCPServerSigV4AuthorizationConfig({
     required this.region,
-    required this.roleArn,
     required this.service,
     this.customHeaders,
+    this.mcpRoleArn,
+    this.roleArn,
   });
 
   Map<String, dynamic> toJson() {
     final region = this.region;
-    final roleArn = this.roleArn;
     final service = this.service;
     final customHeaders = this.customHeaders;
+    final mcpRoleArn = this.mcpRoleArn;
+    final roleArn = this.roleArn;
     return {
       'region': region,
-      'roleArn': roleArn,
       'service': service,
       if (customHeaders != null) 'customHeaders': customHeaders,
+      if (mcpRoleArn != null) 'mcpRoleArn': mcpRoleArn,
+      if (roleArn != null) 'roleArn': roleArn,
     };
   }
 }
@@ -5130,6 +6878,34 @@ class PrivateConnectionStatus {
   String toString() => value;
 }
 
+/// DNS resolution mode for a Resource Gateway.
+///
+/// @nodoc
+class ResourceConfigDnsResolution {
+  static const public = ResourceConfigDnsResolution._('PUBLIC');
+  static const inVpc = ResourceConfigDnsResolution._('IN_VPC');
+
+  final String value;
+
+  const ResourceConfigDnsResolution._(this.value);
+
+  static const values = [public, inVpc];
+
+  static ResourceConfigDnsResolution fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceConfigDnsResolution._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceConfigDnsResolution && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Summary of a Private Connection.
 ///
 /// @nodoc
@@ -5146,6 +6922,13 @@ class PrivateConnectionSummary {
   /// The expiry time of the certificate associated with the Private Connection.
   /// Only present when a certificate is associated.
   final DateTime? certificateExpiryTime;
+
+  /// DNS resolution mode for the Private Connection's resource gateway.
+  final ResourceConfigDnsResolution? dnsResolution;
+
+  /// Message describing the reason for a failed Private Connection, if
+  /// applicable.
+  final String? failureMessage;
 
   /// IP address or DNS name of the target resource. Only present for
   /// service-managed Private Connections.
@@ -5168,6 +6951,8 @@ class PrivateConnectionSummary {
     required this.status,
     required this.type,
     this.certificateExpiryTime,
+    this.dnsResolution,
+    this.failureMessage,
     this.hostAddress,
     this.resourceConfigurationId,
     this.resourceGatewayId,
@@ -5181,6 +6966,9 @@ class PrivateConnectionSummary {
           PrivateConnectionStatus.fromString((json['status'] as String?) ?? ''),
       type: PrivateConnectionType.fromString((json['type'] as String?) ?? ''),
       certificateExpiryTime: timeStampFromJson(json['certificateExpiryTime']),
+      dnsResolution: (json['dnsResolution'] as String?)
+          ?.let(ResourceConfigDnsResolution.fromString),
+      failureMessage: json['failureMessage'] as String?,
       hostAddress: json['hostAddress'] as String?,
       resourceConfigurationId: json['resourceConfigurationId'] as String?,
       resourceGatewayId: json['resourceGatewayId'] as String?,
@@ -5193,6 +6981,8 @@ class PrivateConnectionSummary {
     final status = this.status;
     final type = this.type;
     final certificateExpiryTime = this.certificateExpiryTime;
+    final dnsResolution = this.dnsResolution;
+    final failureMessage = this.failureMessage;
     final hostAddress = this.hostAddress;
     final resourceConfigurationId = this.resourceConfigurationId;
     final resourceGatewayId = this.resourceGatewayId;
@@ -5203,6 +6993,8 @@ class PrivateConnectionSummary {
       'type': type.value,
       if (certificateExpiryTime != null)
         'certificateExpiryTime': iso8601ToJson(certificateExpiryTime),
+      if (dnsResolution != null) 'dnsResolution': dnsResolution.value,
+      if (failureMessage != null) 'failureMessage': failureMessage,
       if (hostAddress != null) 'hostAddress': hostAddress,
       if (resourceConfigurationId != null)
         'resourceConfigurationId': resourceConfigurationId,
@@ -5253,6 +7045,10 @@ class ServiceManagedInput {
   /// Certificate for the Private Connection.
   final String? certificate;
 
+  /// DNS resolution mode for the resource gateway. Defaults to PUBLIC when not
+  /// set.
+  final ResourceConfigDnsResolution? dnsResolution;
+
   /// IP address type of the service-managed Resource Gateway.
   final IpAddressType? ipAddressType;
 
@@ -5272,6 +7068,7 @@ class ServiceManagedInput {
     required this.subnetIds,
     required this.vpcId,
     this.certificate,
+    this.dnsResolution,
     this.ipAddressType,
     this.ipv4AddressesPerEni,
     this.portRanges,
@@ -5283,6 +7080,7 @@ class ServiceManagedInput {
     final subnetIds = this.subnetIds;
     final vpcId = this.vpcId;
     final certificate = this.certificate;
+    final dnsResolution = this.dnsResolution;
     final ipAddressType = this.ipAddressType;
     final ipv4AddressesPerEni = this.ipv4AddressesPerEni;
     final portRanges = this.portRanges;
@@ -5292,6 +7090,7 @@ class ServiceManagedInput {
       'subnetIds': subnetIds,
       'vpcId': vpcId,
       if (certificate != null) 'certificate': certificate,
+      if (dnsResolution != null) 'dnsResolution': dnsResolution.value,
       if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
       if (ipv4AddressesPerEni != null)
         'ipv4AddressesPerEni': ipv4AddressesPerEni,
@@ -5378,6 +7177,9 @@ class Association {
   /// The timestamp when the resource was last updated.
   final DateTime updatedAt;
 
+  /// Enabled capabilities for this association.
+  final Map<CapabilityType, CapabilityConfiguration>? capabilities;
+
   /// Validation status
   final ValidationStatus? status;
 
@@ -5388,6 +7190,7 @@ class Association {
     required this.createdAt,
     required this.serviceId,
     required this.updatedAt,
+    this.capabilities,
     this.status,
   });
 
@@ -5401,6 +7204,9 @@ class Association {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       serviceId: (json['serviceId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      capabilities: (json['capabilities'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(CapabilityType.fromString(k),
+              CapabilityConfiguration.fromJson(e as Map<String, dynamic>))),
       status: (json['status'] as String?)?.let(ValidationStatus.fromString),
     );
   }
@@ -5412,6 +7218,7 @@ class Association {
     final createdAt = this.createdAt;
     final serviceId = this.serviceId;
     final updatedAt = this.updatedAt;
+    final capabilities = this.capabilities;
     final status = this.status;
     return {
       'agentSpaceId': agentSpaceId,
@@ -5420,6 +7227,8 @@ class Association {
       'createdAt': iso8601ToJson(createdAt),
       'serviceId': serviceId,
       'updatedAt': iso8601ToJson(updatedAt),
+      if (capabilities != null)
+        'capabilities': capabilities.map((k, e) => MapEntry(k.value, e)),
       if (status != null) 'status': status.value,
     };
   }
@@ -5500,6 +7309,12 @@ class ServiceConfiguration {
   /// PagerDuty integration configuration
   final PagerDutyConfiguration? pagerduty;
 
+  /// Remote A2A agent integration configuration (token-based auth).
+  final RemoteAgentConfiguration? remoteagent;
+
+  /// Remote A2A agent integration configuration (SigV4 auth).
+  final RemoteAgentSigV4Configuration? remoteagentsigv4;
+
   /// ServiceNow instance integration configuration.
   final ServiceNowConfiguration? servicenow;
 
@@ -5524,6 +7339,8 @@ class ServiceConfiguration {
     this.mcpserversigv4,
     this.mcpserversplunk,
     this.pagerduty,
+    this.remoteagent,
+    this.remoteagentsigv4,
     this.servicenow,
     this.slack,
     this.sourceAws,
@@ -5583,6 +7400,14 @@ class ServiceConfiguration {
           ? PagerDutyConfiguration.fromJson(
               json['pagerduty'] as Map<String, dynamic>)
           : null,
+      remoteagent: json['remoteagent'] != null
+          ? RemoteAgentConfiguration.fromJson(
+              json['remoteagent'] as Map<String, dynamic>)
+          : null,
+      remoteagentsigv4: json['remoteagentsigv4'] != null
+          ? RemoteAgentSigV4Configuration.fromJson(
+              json['remoteagentsigv4'] as Map<String, dynamic>)
+          : null,
       servicenow: json['servicenow'] != null
           ? ServiceNowConfiguration.fromJson(
               json['servicenow'] as Map<String, dynamic>)
@@ -5612,6 +7437,8 @@ class ServiceConfiguration {
     final mcpserversigv4 = this.mcpserversigv4;
     final mcpserversplunk = this.mcpserversplunk;
     final pagerduty = this.pagerduty;
+    final remoteagent = this.remoteagent;
+    final remoteagentsigv4 = this.remoteagentsigv4;
     final servicenow = this.servicenow;
     final slack = this.slack;
     final sourceAws = this.sourceAws;
@@ -5630,9 +7457,69 @@ class ServiceConfiguration {
       if (mcpserversigv4 != null) 'mcpserversigv4': mcpserversigv4,
       if (mcpserversplunk != null) 'mcpserversplunk': mcpserversplunk,
       if (pagerduty != null) 'pagerduty': pagerduty,
+      if (remoteagent != null) 'remoteagent': remoteagent,
+      if (remoteagentsigv4 != null) 'remoteagentsigv4': remoteagentsigv4,
       if (servicenow != null) 'servicenow': servicenow,
       if (slack != null) 'slack': slack,
       if (sourceAws != null) 'sourceAws': sourceAws,
+    };
+  }
+}
+
+/// AWS DevOps Agent capability types representing the set of automated
+/// capabilities that can be enabled per association.
+///
+/// @nodoc
+class CapabilityType {
+  static const releaseReadinessReview =
+      CapabilityType._('RELEASE_READINESS_REVIEW');
+  static const releaseReadinessReviewAutomatedTesting =
+      CapabilityType._('RELEASE_READINESS_REVIEW_AUTOMATED_TESTING');
+
+  final String value;
+
+  const CapabilityType._(this.value);
+
+  static const values = [
+    releaseReadinessReview,
+    releaseReadinessReviewAutomatedTesting
+  ];
+
+  static CapabilityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapabilityType._(value));
+
+  @override
+  bool operator ==(other) => other is CapabilityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Capability configuration for the AWS DevOps Agent.
+///
+/// @nodoc
+class CapabilityConfiguration {
+  /// Whether the capability is enabled.
+  final bool? enabled;
+
+  CapabilityConfiguration({
+    this.enabled,
+  });
+
+  factory CapabilityConfiguration.fromJson(Map<String, dynamic> json) {
+    return CapabilityConfiguration(
+      enabled: json['enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'enabled': enabled,
     };
   }
 }
@@ -5744,12 +7631,17 @@ class GitHubConfiguration {
   /// GitHub instance identifier (e.g., github.com or github.enterprise.com)
   final String? instanceIdentifier;
 
+  /// Optional role ARN that AIDevOps assumes at runtime for automatic
+  /// verification testing and VPC connectivity on this association.
+  final String? runtimeRoleArn;
+
   GitHubConfiguration({
     required this.owner,
     required this.ownerType,
     required this.repoId,
     required this.repoName,
     this.instanceIdentifier,
+    this.runtimeRoleArn,
   });
 
   factory GitHubConfiguration.fromJson(Map<String, dynamic> json) {
@@ -5760,6 +7652,7 @@ class GitHubConfiguration {
       repoId: (json['repoId'] as String?) ?? '',
       repoName: (json['repoName'] as String?) ?? '',
       instanceIdentifier: json['instanceIdentifier'] as String?,
+      runtimeRoleArn: json['runtimeRoleArn'] as String?,
     );
   }
 
@@ -5769,12 +7662,14 @@ class GitHubConfiguration {
     final repoId = this.repoId;
     final repoName = this.repoName;
     final instanceIdentifier = this.instanceIdentifier;
+    final runtimeRoleArn = this.runtimeRoleArn;
     return {
       'owner': owner,
       'ownerType': ownerType.value,
       'repoId': repoId,
       'repoName': repoName,
       if (instanceIdentifier != null) 'instanceIdentifier': instanceIdentifier,
+      if (runtimeRoleArn != null) 'runtimeRoleArn': runtimeRoleArn,
     };
   }
 }
@@ -5979,10 +7874,15 @@ class GitLabConfiguration {
   /// e2e.gamma.dev.us-east-1.gitlab.falco.ai.aws.dev)
   final String? instanceIdentifier;
 
+  /// Optional role ARN that AIDevOps assumes at runtime for automatic
+  /// verification testing and VPC connectivity on this association.
+  final String? runtimeRoleArn;
+
   GitLabConfiguration({
     required this.projectId,
     required this.projectPath,
     this.instanceIdentifier,
+    this.runtimeRoleArn,
   });
 
   factory GitLabConfiguration.fromJson(Map<String, dynamic> json) {
@@ -5990,6 +7890,7 @@ class GitLabConfiguration {
       projectId: (json['projectId'] as String?) ?? '',
       projectPath: (json['projectPath'] as String?) ?? '',
       instanceIdentifier: json['instanceIdentifier'] as String?,
+      runtimeRoleArn: json['runtimeRoleArn'] as String?,
     );
   }
 
@@ -5997,10 +7898,12 @@ class GitLabConfiguration {
     final projectId = this.projectId;
     final projectPath = this.projectPath;
     final instanceIdentifier = this.instanceIdentifier;
+    final runtimeRoleArn = this.runtimeRoleArn;
     return {
       'projectId': projectId,
       'projectPath': projectPath,
       if (instanceIdentifier != null) 'instanceIdentifier': instanceIdentifier,
+      if (runtimeRoleArn != null) 'runtimeRoleArn': runtimeRoleArn,
     };
   }
 }
@@ -6200,6 +8103,36 @@ class MCPServerSigV4Configuration {
     return {
       'tools': tools,
     };
+  }
+}
+
+/// Configuration for token-based remote A2A agent integration.
+///
+/// @nodoc
+class RemoteAgentConfiguration {
+  RemoteAgentConfiguration();
+
+  factory RemoteAgentConfiguration.fromJson(Map<String, dynamic> _) {
+    return RemoteAgentConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Configuration for SigV4-authenticated remote A2A agent integration.
+///
+/// @nodoc
+class RemoteAgentSigV4Configuration {
+  RemoteAgentSigV4Configuration();
+
+  factory RemoteAgentSigV4Configuration.fromJson(Map<String, dynamic> _) {
+    return RemoteAgentSigV4Configuration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6697,6 +8630,134 @@ class AuthFlow {
 
   @override
   String toString() => value;
+}
+
+/// A Trigger fires on a schedule and invokes an agent
+///
+/// @nodoc
+class Trigger {
+  /// The action this Trigger performs when it fires
+  final Object action;
+
+  /// The agent space this Trigger belongs to
+  final String agentSpaceId;
+
+  /// The condition that fires this Trigger
+  final TriggerCondition condition;
+
+  /// Timestamp when this Trigger was created
+  final DateTime createdAt;
+
+  /// The status of this Trigger
+  final String status;
+
+  /// The unique identifier for this Trigger
+  final String triggerId;
+
+  /// How this Trigger fires
+  final String type;
+
+  /// Timestamp when this Trigger was last updated
+  final DateTime updatedAt;
+
+  Trigger({
+    required this.action,
+    required this.agentSpaceId,
+    required this.condition,
+    required this.createdAt,
+    required this.status,
+    required this.triggerId,
+    required this.type,
+    required this.updatedAt,
+  });
+
+  factory Trigger.fromJson(Map<String, dynamic> json) {
+    return Trigger(
+      action: json['action'] as Object,
+      agentSpaceId: (json['agentSpaceId'] as String?) ?? '',
+      condition: TriggerCondition.fromJson(
+          (json['condition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      status: (json['status'] as String?) ?? '',
+      triggerId: (json['triggerId'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final agentSpaceId = this.agentSpaceId;
+    final condition = this.condition;
+    final createdAt = this.createdAt;
+    final status = this.status;
+    final triggerId = this.triggerId;
+    final type = this.type;
+    final updatedAt = this.updatedAt;
+    return {
+      'action': action,
+      'agentSpaceId': agentSpaceId,
+      'condition': condition,
+      'createdAt': unixTimestampToJson(createdAt),
+      'status': status,
+      'triggerId': triggerId,
+      'type': type,
+      'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Defines the firing condition for a Trigger
+///
+/// @nodoc
+class TriggerCondition {
+  /// Time-based firing condition
+  final ScheduleCondition? schedule;
+
+  TriggerCondition({
+    this.schedule,
+  });
+
+  factory TriggerCondition.fromJson(Map<String, dynamic> json) {
+    return TriggerCondition(
+      schedule: json['schedule'] != null
+          ? ScheduleCondition.fromJson(json['schedule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schedule = this.schedule;
+    return {
+      if (schedule != null) 'schedule': schedule,
+    };
+  }
+}
+
+/// Schedule-based condition that fires the Trigger
+///
+/// @nodoc
+class ScheduleCondition {
+  /// The schedule expression
+  final String expression;
+
+  ScheduleCondition({
+    required this.expression,
+  });
+
+  factory ScheduleCondition.fromJson(Map<String, dynamic> json) {
+    return ScheduleCondition(
+      expression: (json['expression'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    return {
+      'expression': expression,
+    };
+  }
 }
 
 /// Represents a recommendation with all its properties and metadata
@@ -7409,12 +9470,19 @@ class ReferenceOutput {
 class TaskType {
   static const investigation = TaskType._('INVESTIGATION');
   static const evaluation = TaskType._('EVALUATION');
+  static const releaseReadinessReview = TaskType._('RELEASE_READINESS_REVIEW');
+  static const releaseTesting = TaskType._('RELEASE_TESTING');
 
   final String value;
 
   const TaskType._(this.value);
 
-  static const values = [investigation, evaluation];
+  static const values = [
+    investigation,
+    evaluation,
+    releaseReadinessReview,
+    releaseTesting
+  ];
 
   static TaskType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => TaskType._(value));
@@ -7472,6 +9540,7 @@ class TaskStatus {
   static const failed = TaskStatus._('FAILED');
   static const timedOut = TaskStatus._('TIMED_OUT');
   static const canceled = TaskStatus._('CANCELED');
+  static const skipped = TaskStatus._('SKIPPED');
 
   final String value;
 
@@ -7486,7 +9555,8 @@ class TaskStatus {
     completed,
     failed,
     timedOut,
-    canceled
+    canceled,
+    skipped
   ];
 
   static TaskStatus fromString(String value) => values
@@ -7500,6 +9570,269 @@ class TaskStatus {
 
   @override
   String toString() => value;
+}
+
+/// Represents a single file within an asset, including its path, content,
+/// version, and timestamps.
+///
+/// @nodoc
+class AssetFile {
+  /// The content of this file
+  final AssetFileBody content;
+
+  /// Timestamp when this file was created
+  final DateTime createdAt;
+
+  /// The path of this file within the asset
+  final String path;
+
+  /// Timestamp when this file was last updated
+  final DateTime updatedAt;
+
+  /// The asset version this file belongs to
+  final int version;
+
+  /// The metadata for this file
+  final Document? metadata;
+
+  AssetFile({
+    required this.content,
+    required this.createdAt,
+    required this.path,
+    required this.updatedAt,
+    required this.version,
+    this.metadata,
+  });
+
+  factory AssetFile.fromJson(Map<String, dynamic> json) {
+    return AssetFile(
+      content: AssetFileBody.fromJson(
+          (json['content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      path: (json['path'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as int?) ?? 0,
+      metadata: json['metadata'] != null
+          ? Document.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final createdAt = this.createdAt;
+    final path = this.path;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final metadata = this.metadata;
+    return {
+      'content': content,
+      'createdAt': unixTimestampToJson(createdAt),
+      'path': path,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+      if (metadata != null) 'metadata': metadata,
+    };
+  }
+}
+
+/// Content of an individual asset file
+///
+/// @nodoc
+class AssetFileBody {
+  final Uint8List? bytes;
+  final String? text;
+
+  AssetFileBody({
+    this.bytes,
+    this.text,
+  });
+
+  factory AssetFileBody.fromJson(Map<String, dynamic> json) {
+    return AssetFileBody(
+      bytes: _s.decodeNullableUint8List(json['bytes'] as String?),
+      text: json['text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    final text = this.text;
+    return {
+      if (bytes != null) 'bytes': base64Encode(bytes),
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// Represents an asset in an agent space, including its identifier, type,
+/// metadata, version, and timestamps.
+///
+/// @nodoc
+class Asset {
+  /// The unique identifier for this asset
+  final String assetId;
+
+  /// The type of this asset
+  final String assetType;
+
+  /// Timestamp when this asset was created
+  final DateTime createdAt;
+
+  /// The metadata for this asset
+  final Document metadata;
+
+  /// Timestamp when this asset was last updated
+  final DateTime updatedAt;
+
+  /// The version number of this asset
+  final int version;
+
+  Asset({
+    required this.assetId,
+    required this.assetType,
+    required this.createdAt,
+    required this.metadata,
+    required this.updatedAt,
+    required this.version,
+  });
+
+  factory Asset.fromJson(Map<String, dynamic> json) {
+    return Asset(
+      assetId: (json['assetId'] as String?) ?? '',
+      assetType: (json['assetType'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      metadata: Document.fromJson((json['metadata'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final assetType = this.assetType;
+    final createdAt = this.createdAt;
+    final metadata = this.metadata;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    return {
+      'assetId': assetId,
+      'assetType': assetType,
+      'createdAt': unixTimestampToJson(createdAt),
+      'metadata': metadata,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+    };
+  }
+}
+
+/// Content for an asset: a single file, a zip bundle, or a source URL to import
+/// from
+///
+/// @nodoc
+class AssetContent {
+  /// A single file with path and content
+  final AssetFileContent? file;
+
+  /// A source URL to import asset content from
+  final AssetSourceUrlContent? sourceUrl;
+
+  /// A zip file containing multiple files
+  final AssetZipContent? zip;
+
+  AssetContent({
+    this.file,
+    this.sourceUrl,
+    this.zip,
+  });
+
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    final sourceUrl = this.sourceUrl;
+    final zip = this.zip;
+    return {
+      if (file != null) 'file': file,
+      if (sourceUrl != null) 'sourceUrl': sourceUrl,
+      if (zip != null) 'zip': zip,
+    };
+  }
+}
+
+/// A single file with path and content
+///
+/// @nodoc
+class AssetFileContent {
+  /// The file content
+  final AssetFileBody body;
+
+  /// The path of the file within the asset
+  final String path;
+
+  /// Optional metadata for this file
+  final Document? metadata;
+
+  AssetFileContent({
+    required this.body,
+    required this.path,
+    this.metadata,
+  });
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final path = this.path;
+    final metadata = this.metadata;
+    return {
+      'body': body,
+      'path': path,
+      if (metadata != null) 'metadata': metadata,
+    };
+  }
+}
+
+/// A zip file containing asset files
+///
+/// @nodoc
+class AssetZipContent {
+  /// The zip file bytes
+  final Uint8List zipFile;
+
+  AssetZipContent({
+    required this.zipFile,
+  });
+
+  factory AssetZipContent.fromJson(Map<String, dynamic> json) {
+    return AssetZipContent(
+      zipFile: _s.decodeUint8List((json['zipFile'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final zipFile = this.zipFile;
+    return {
+      'zipFile': base64Encode(zipFile),
+    };
+  }
+}
+
+/// Content for an asset sourced from an external URL.
+///
+/// @nodoc
+class AssetSourceUrlContent {
+  /// The source URL to import asset content from
+  final String url;
+
+  AssetSourceUrlContent({
+    required this.url,
+  });
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      'url': url,
+    };
+  }
 }
 
 /// Event stream for chat message responses using the content block model.
@@ -8104,7 +10437,14 @@ class SendMessageContext {
   /// The ID of the last message in the conversation
   final String? lastMessage;
 
-  /// Response to a UI prompt (not a text conversation message)
+  /// Response to a UI prompt (not a text conversation message). Operator App SDK
+  /// clients set this to the control-string sentinel `"APPROVAL_ACTION"` when the
+  /// request is resuming a paused tool call after an operator approval decision;
+  /// in that case the structured decision context lives on the sibling
+  /// `approvalAction` member and the chat agent reads from there. Preserved as a
+  /// String for back-compat: pre-typed-approval clients still encode arbitrary
+  /// UI-prompt responses as JSON in this field, and the chat agent parses them
+  /// out during the transition.
   final String? userActionResponse;
 
   SendMessageContext({
@@ -8682,11 +11022,140 @@ class TaskSortOrder {
   String toString() => value;
 }
 
+/// Metadata for a single version of an asset, including the version number and
+/// timestamps.
+///
+/// @nodoc
+class AssetVersionMetadata {
+  /// Timestamp when this asset version was created
+  final DateTime createdAt;
+
+  /// Timestamp when this asset version was last updated
+  final DateTime updatedAt;
+
+  /// The version number of this asset
+  final int version;
+
+  AssetVersionMetadata({
+    required this.createdAt,
+    required this.updatedAt,
+    required this.version,
+  });
+
+  factory AssetVersionMetadata.fromJson(Map<String, dynamic> json) {
+    return AssetVersionMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+    };
+  }
+}
+
+/// Summary of an asset type, including its identifier and description.
+///
+/// @nodoc
+class AssetTypeSummary {
+  /// The asset type identifier
+  final String assetType;
+
+  /// A description of the asset type
+  final String description;
+
+  AssetTypeSummary({
+    required this.assetType,
+    required this.description,
+  });
+
+  factory AssetTypeSummary.fromJson(Map<String, dynamic> json) {
+    return AssetTypeSummary(
+      assetType: (json['assetType'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetType = this.assetType;
+    final description = this.description;
+    return {
+      'assetType': assetType,
+      'description': description,
+    };
+  }
+}
+
+/// Summary of a file within an asset, including its path, version, and
+/// timestamps.
+///
+/// @nodoc
+class AssetFileSummary {
+  /// Timestamp when this file was created
+  final DateTime createdAt;
+
+  /// The path of this file within the asset
+  final String path;
+
+  /// Timestamp when this file was last updated
+  final DateTime updatedAt;
+
+  /// The asset version this file belongs to
+  final int version;
+
+  /// The metadata for this file
+  final Document? metadata;
+
+  AssetFileSummary({
+    required this.createdAt,
+    required this.path,
+    required this.updatedAt,
+    required this.version,
+    this.metadata,
+  });
+
+  factory AssetFileSummary.fromJson(Map<String, dynamic> json) {
+    return AssetFileSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      path: (json['path'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as int?) ?? 0,
+      metadata: json['metadata'] != null
+          ? Document.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final path = this.path;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final metadata = this.metadata;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'path': path,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+      if (metadata != null) 'metadata': metadata,
+    };
+  }
+}
+
 /// Represents a usage metric with its configured limit and current usage value.
 ///
 /// @nodoc
 class UsageMetric {
-  /// Configured limit for this metric.
+  /// Configured limit for this metric. A value of -1 indicates no limit is
+  /// enforced.
   final int limit;
 
   /// Current usage for this metric
@@ -8784,6 +11253,13 @@ class ConflictException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ContentSizeExceededException extends _s.GenericAwsException {
+  ContentSizeExceededException({String? type, String? message})
+      : super(
+            type: type, code: 'ContentSizeExceededException', message: message);
+}
+
+/// @nodoc
 class IdentityCenterServiceException extends _s.GenericAwsException {
   IdentityCenterServiceException({String? type, String? message})
       : super(
@@ -8836,6 +11312,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'ContentSizeExceededException': (type, message) =>
+      ContentSizeExceededException(type: type, message: message),
   'IdentityCenterServiceException': (type, message) =>
       IdentityCenterServiceException(type: type, message: message),
   'InternalServerException': (type, message) =>

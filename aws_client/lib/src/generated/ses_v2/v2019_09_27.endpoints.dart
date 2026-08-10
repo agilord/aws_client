@@ -26,7 +26,35 @@ ResolvedEndpoint resolveEndpoint({
                   name: 'sigv4a', signingName: 'ses', signingRegionSet: ['*'])
             ]);
           }
-          if (useDualStack == true) {
+          if ((partitionResult.name == 'aws-us-gov') &&
+              (useDualStack == true)) {
+            if (true == partitionResult.supportsDualStack) {
+              return ResolvedEndpoint(
+                  url:
+                      'https://$endpointId.endpoints.email.us-gov.${partitionResult.dualStackDnsSuffix}',
+                  authSchemes: [
+                    EndpointAuthScheme(
+                        name: 'sigv4a',
+                        signingName: 'ses',
+                        signingRegionSet: ['*'])
+                  ]);
+            }
+            throw EndpointResolutionException(
+                'DualStack is enabled but this partition does not support DualStack');
+          }
+          if (partitionResult.name == 'aws-us-gov') {
+            return ResolvedEndpoint(
+                url:
+                    'https://$endpointId.endpoints.email.us-gov.${partitionResult.dnsSuffix}',
+                authSchemes: [
+                  EndpointAuthScheme(
+                      name: 'sigv4a',
+                      signingName: 'ses',
+                      signingRegionSet: ['*'])
+                ]);
+          }
+          if ((!(partitionResult.name == 'aws-us-gov')) &&
+              (useDualStack == true)) {
             if (true == partitionResult.supportsDualStack) {
               return ResolvedEndpoint(
                   url:
@@ -41,13 +69,17 @@ ResolvedEndpoint resolveEndpoint({
             throw EndpointResolutionException(
                 'DualStack is enabled but this partition does not support DualStack');
           }
-          return ResolvedEndpoint(
-              url:
-                  'https://$endpointId.endpoints.email.${partitionResult.dnsSuffix}',
-              authSchemes: [
-                EndpointAuthScheme(
-                    name: 'sigv4a', signingName: 'ses', signingRegionSet: ['*'])
-              ]);
+          if (!(partitionResult.name == 'aws-us-gov')) {
+            return ResolvedEndpoint(
+                url:
+                    'https://$endpointId.endpoints.email.${partitionResult.dnsSuffix}',
+                authSchemes: [
+                  EndpointAuthScheme(
+                      name: 'sigv4a',
+                      signingName: 'ses',
+                      signingRegionSet: ['*'])
+                ]);
+          }
         }
         throw EndpointResolutionException(
             'Invalid Configuration: FIPS is not supported with multi-region endpoints');

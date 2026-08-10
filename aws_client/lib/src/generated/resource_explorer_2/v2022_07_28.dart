@@ -2976,6 +2976,10 @@ class Resource {
   /// resource name (ARN)</a> of the resource.
   final String? arn;
 
+  /// The CloudFormation resource type identifier for the resource, such as
+  /// <code>AWS::EC2::Instance</code> or <code>AWS::S3::Bucket</code>.
+  final String? cfnResourceType;
+
   /// The date and time that Resource Explorer last queried this resource and
   /// updated the index with the latest information about the resource.
   final DateTime? lastReportedAt;
@@ -3000,6 +3004,7 @@ class Resource {
 
   Resource({
     this.arn,
+    this.cfnResourceType,
     this.lastReportedAt,
     this.owningAccountId,
     this.properties,
@@ -3011,6 +3016,7 @@ class Resource {
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
       arn: json['Arn'] as String?,
+      cfnResourceType: json['CfnResourceType'] as String?,
       lastReportedAt: timeStampFromJson(json['LastReportedAt']),
       owningAccountId: json['OwningAccountId'] as String?,
       properties: (json['Properties'] as List?)
@@ -3025,6 +3031,7 @@ class Resource {
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final cfnResourceType = this.cfnResourceType;
     final lastReportedAt = this.lastReportedAt;
     final owningAccountId = this.owningAccountId;
     final properties = this.properties;
@@ -3033,6 +3040,7 @@ class Resource {
     final service = this.service;
     return {
       if (arn != null) 'Arn': arn,
+      if (cfnResourceType != null) 'CfnResourceType': cfnResourceType,
       if (lastReportedAt != null)
         'LastReportedAt': iso8601ToJson(lastReportedAt),
       if (owningAccountId != null) 'OwningAccountId': owningAccountId,
@@ -3093,6 +3101,10 @@ class ResourceProperty {
 ///
 /// @nodoc
 class SupportedResourceType {
+  /// The CloudFormation resource type identifiers for this resource type, such as
+  /// <code>AWS::EC2::Instance</code>.
+  final List<String>? cFNResourceTypes;
+
   /// The unique identifier of the resource type.
   final String? resourceType;
 
@@ -3102,21 +3114,28 @@ class SupportedResourceType {
   final String? service;
 
   SupportedResourceType({
+    this.cFNResourceTypes,
     this.resourceType,
     this.service,
   });
 
   factory SupportedResourceType.fromJson(Map<String, dynamic> json) {
     return SupportedResourceType(
+      cFNResourceTypes: (json['CFNResourceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       resourceType: json['ResourceType'] as String?,
       service: json['Service'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final cFNResourceTypes = this.cFNResourceTypes;
     final resourceType = this.resourceType;
     final service = this.service;
     return {
+      if (cFNResourceTypes != null) 'CFNResourceTypes': cFNResourceTypes,
       if (resourceType != null) 'ResourceType': resourceType,
       if (service != null) 'Service': service,
     };
@@ -3240,6 +3259,12 @@ class ServiceView {
   /// included.
   final String? scopeType;
 
+  /// Information about the service-linked recorder associated with this service
+  /// view. When a service view is paired with a service-linked recorder, Resource
+  /// Explorer uses the recorder's resource type list to filter search results and
+  /// streaming data.
+  final ServiceLinkedRecorderInfo? serviceLinkedRecorder;
+
   /// The name of the service view.
   final String? serviceViewName;
 
@@ -3252,6 +3277,7 @@ class ServiceView {
     this.filters,
     this.includedProperties,
     this.scopeType,
+    this.serviceLinkedRecorder,
     this.serviceViewName,
     this.streamingAccessForService,
   });
@@ -3267,6 +3293,10 @@ class ServiceView {
           .map((e) => IncludedProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       scopeType: json['ScopeType'] as String?,
+      serviceLinkedRecorder: json['ServiceLinkedRecorder'] != null
+          ? ServiceLinkedRecorderInfo.fromJson(
+              json['ServiceLinkedRecorder'] as Map<String, dynamic>)
+          : null,
       serviceViewName: json['ServiceViewName'] as String?,
       streamingAccessForService: json['StreamingAccessForService'] as String?,
     );
@@ -3277,6 +3307,7 @@ class ServiceView {
     final filters = this.filters;
     final includedProperties = this.includedProperties;
     final scopeType = this.scopeType;
+    final serviceLinkedRecorder = this.serviceLinkedRecorder;
     final serviceViewName = this.serviceViewName;
     final streamingAccessForService = this.streamingAccessForService;
     return {
@@ -3284,11 +3315,93 @@ class ServiceView {
       if (filters != null) 'Filters': filters,
       if (includedProperties != null) 'IncludedProperties': includedProperties,
       if (scopeType != null) 'ScopeType': scopeType,
+      if (serviceLinkedRecorder != null)
+        'ServiceLinkedRecorder': serviceLinkedRecorder,
       if (serviceViewName != null) 'ServiceViewName': serviceViewName,
       if (streamingAccessForService != null)
         'StreamingAccessForService': streamingAccessForService,
     };
   }
+}
+
+/// Contains information about the service-linked recorder paired with a service
+/// view.
+///
+/// @nodoc
+class ServiceLinkedRecorderInfo {
+  /// The name of the service-linked recorder, such as
+  /// <code>AWSConfigurationRecorderForObservabilityAdmin</code>.
+  final String? recorderName;
+
+  /// The type of the recorder. Valid values are <code>AWS</code> and
+  /// <code>THIRD_PARTY</code>.
+  final RecorderType? recorderType;
+
+  /// The service principal of the Amazon Web Services service that owns the
+  /// service-linked recorder, such as
+  /// <code>observabilityadmin.amazonaws.com</code>.
+  final String? servicePrincipal;
+
+  ServiceLinkedRecorderInfo({
+    this.recorderName,
+    this.recorderType,
+    this.servicePrincipal,
+  });
+
+  factory ServiceLinkedRecorderInfo.fromJson(Map<String, dynamic> json) {
+    return ServiceLinkedRecorderInfo(
+      recorderName: json['RecorderName'] as String?,
+      recorderType:
+          (json['RecorderType'] as String?)?.let(RecorderType.fromString),
+      servicePrincipal: json['ServicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recorderName = this.recorderName;
+    final recorderType = this.recorderType;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (recorderName != null) 'RecorderName': recorderName,
+      if (recorderType != null) 'RecorderType': recorderType.value,
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
+  }
+}
+
+/// The type of a service-linked recorder.
+///
+/// <ul>
+/// <li>
+/// <code>AWS</code> – Managed by an Amazon Web Services service.
+/// </li>
+/// <li>
+/// <code>THIRD_PARTY</code> – Managed by a third-party service.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class RecorderType {
+  static const aws = RecorderType._('AWS');
+  static const thirdParty = RecorderType._('THIRD_PARTY');
+
+  final String value;
+
+  const RecorderType._(this.value);
+
+  static const values = [aws, thirdParty];
+
+  static RecorderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecorderType._(value));
+
+  @override
+  bool operator ==(other) => other is RecorderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the status of Resource Explorer configuration in

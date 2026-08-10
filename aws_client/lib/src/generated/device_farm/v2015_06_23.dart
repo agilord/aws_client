@@ -7306,6 +7306,14 @@ class Run {
   /// The IAM role associated with the run.
   final String? executionRoleArn;
 
+  /// The insights for the run, including the report status and job-level metrics.
+  /// This field contains data only if you specified <code>insightsTypes</code>
+  /// when you scheduled the run.
+  final RunInsights? insights;
+
+  /// The types of insights requested for the run.
+  final List<InsightsType>? insightsTypes;
+
   /// The number of minutes the job executes before it times out.
   final int? jobTimeoutMinutes;
 
@@ -7511,6 +7519,8 @@ class Run {
     this.environmentVariables,
     this.eventCount,
     this.executionRoleArn,
+    this.insights,
+    this.insightsTypes,
     this.jobTimeoutMinutes,
     this.locale,
     this.location,
@@ -7567,6 +7577,13 @@ class Run {
           .toList(),
       eventCount: json['eventCount'] as int?,
       executionRoleArn: json['executionRoleArn'] as String?,
+      insights: json['insights'] != null
+          ? RunInsights.fromJson(json['insights'] as Map<String, dynamic>)
+          : null,
+      insightsTypes: (json['insightsTypes'] as List?)
+          ?.nonNulls
+          .map((e) => InsightsType.fromString((e as String)))
+          .toList(),
       jobTimeoutMinutes: json['jobTimeoutMinutes'] as int?,
       locale: json['locale'] as String?,
       location: json['location'] != null
@@ -7616,6 +7633,8 @@ class Run {
     final environmentVariables = this.environmentVariables;
     final eventCount = this.eventCount;
     final executionRoleArn = this.executionRoleArn;
+    final insights = this.insights;
+    final insightsTypes = this.insightsTypes;
     final jobTimeoutMinutes = this.jobTimeoutMinutes;
     final locale = this.locale;
     final location = this.location;
@@ -7655,6 +7674,9 @@ class Run {
         'environmentVariables': environmentVariables,
       if (eventCount != null) 'eventCount': eventCount,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (insights != null) 'insights': insights,
+      if (insightsTypes != null)
+        'insightsTypes': insightsTypes.map((e) => e.value).toList(),
       if (jobTimeoutMinutes != null) 'jobTimeoutMinutes': jobTimeoutMinutes,
       if (locale != null) 'locale': locale,
       if (location != null) 'location': location,
@@ -8215,6 +8237,262 @@ class DeviceSelectionResult {
       if (maxDevices != null) 'maxDevices': maxDevices,
     };
   }
+}
+
+/// Contains insights for a run, including report status, and job-level
+/// aggregated metrics such as per job execution time and median job execution
+/// time.
+///
+/// @nodoc
+class RunInsights {
+  /// The job-level aggregated report for the run.
+  final JobReport? jobReport;
+
+  /// The status of the insights report for the run.
+  final ReportStatus? status;
+
+  RunInsights({
+    this.jobReport,
+    this.status,
+  });
+
+  factory RunInsights.fromJson(Map<String, dynamic> json) {
+    return RunInsights(
+      jobReport: json['jobReport'] != null
+          ? JobReport.fromJson(json['jobReport'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(ReportStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobReport = this.jobReport;
+    final status = this.status;
+    return {
+      if (jobReport != null) 'jobReport': jobReport,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The status of an insights report. Possible values are:
+///
+/// <ul>
+/// <li>
+/// PENDING: The service has queued the report and generation has not started.
+/// </li>
+/// <li>
+/// RUNNING: The service is generating the report.
+/// </li>
+/// <li>
+/// COMPLETED: The service successfully generated the report.
+/// </li>
+/// <li>
+/// SKIPPED: The service did not generate the report because the necessary
+/// conditions were not met. For more information about why the service could
+/// not generate the report, view the <code>message</code> field in
+/// <code>TestReport</code> or <code>JobReport</code>.
+/// </li>
+/// <li>
+/// ERRORED: An error occurred while generating the report. For more information
+/// about why the service could not generate the report, view the
+/// <code>message</code> field in <code>TestReport</code> or
+/// <code>JobReport</code>.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ReportStatus {
+  static const pending = ReportStatus._('PENDING');
+  static const running = ReportStatus._('RUNNING');
+  static const completed = ReportStatus._('COMPLETED');
+  static const skipped = ReportStatus._('SKIPPED');
+  static const errored = ReportStatus._('ERRORED');
+
+  final String value;
+
+  const ReportStatus._(this.value);
+
+  static const values = [pending, running, completed, skipped, errored];
+
+  static ReportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains aggregated job-level metrics for a run.
+///
+/// @nodoc
+class JobReport {
+  /// A URL to the detailed job results.
+  final String? jobDetailsUrl;
+
+  /// A message associated with the job report.
+  final String? message;
+
+  /// The aggregated job-level metrics for the run.
+  final JobReportMetrics? metrics;
+
+  JobReport({
+    this.jobDetailsUrl,
+    this.message,
+    this.metrics,
+  });
+
+  factory JobReport.fromJson(Map<String, dynamic> json) {
+    return JobReport(
+      jobDetailsUrl: json['jobDetailsUrl'] as String?,
+      message: json['message'] as String?,
+      metrics: json['metrics'] != null
+          ? JobReportMetrics.fromJson(json['metrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobDetailsUrl = this.jobDetailsUrl;
+    final message = this.message;
+    final metrics = this.metrics;
+    return {
+      if (jobDetailsUrl != null) 'jobDetailsUrl': jobDetailsUrl,
+      if (message != null) 'message': message,
+      if (metrics != null) 'metrics': metrics,
+    };
+  }
+}
+
+/// Contains aggregated metrics across all jobs in a run.
+///
+/// @nodoc
+class JobReportMetrics {
+  /// The average execution duration of jobs in the run, in seconds.
+  final double? averageJobExecutionDurationSeconds;
+
+  /// The number of jobs that errored.
+  final int? jobsErrored;
+
+  /// The number of jobs that failed.
+  final int? jobsFailed;
+
+  /// The number of jobs that passed.
+  final int? jobsPassed;
+
+  /// The percentage of jobs that passed.
+  final double? jobsPassedPercentage;
+
+  /// The number of jobs that were skipped.
+  final int? jobsSkipped;
+
+  /// The number of jobs that were stopped.
+  final int? jobsStopped;
+
+  /// The total number of jobs in the run.
+  final int? jobsTotal;
+
+  /// The median execution duration of jobs in the run, in seconds.
+  final double? medianJobExecutionDurationSeconds;
+
+  /// The total execution duration of all jobs in the run, in seconds.
+  final double? totalJobExecutionDurationSeconds;
+
+  JobReportMetrics({
+    this.averageJobExecutionDurationSeconds,
+    this.jobsErrored,
+    this.jobsFailed,
+    this.jobsPassed,
+    this.jobsPassedPercentage,
+    this.jobsSkipped,
+    this.jobsStopped,
+    this.jobsTotal,
+    this.medianJobExecutionDurationSeconds,
+    this.totalJobExecutionDurationSeconds,
+  });
+
+  factory JobReportMetrics.fromJson(Map<String, dynamic> json) {
+    return JobReportMetrics(
+      averageJobExecutionDurationSeconds:
+          _s.parseJsonDouble(json['averageJobExecutionDurationSeconds']),
+      jobsErrored: json['jobsErrored'] as int?,
+      jobsFailed: json['jobsFailed'] as int?,
+      jobsPassed: json['jobsPassed'] as int?,
+      jobsPassedPercentage: _s.parseJsonDouble(json['jobsPassedPercentage']),
+      jobsSkipped: json['jobsSkipped'] as int?,
+      jobsStopped: json['jobsStopped'] as int?,
+      jobsTotal: json['jobsTotal'] as int?,
+      medianJobExecutionDurationSeconds:
+          _s.parseJsonDouble(json['medianJobExecutionDurationSeconds']),
+      totalJobExecutionDurationSeconds:
+          _s.parseJsonDouble(json['totalJobExecutionDurationSeconds']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final averageJobExecutionDurationSeconds =
+        this.averageJobExecutionDurationSeconds;
+    final jobsErrored = this.jobsErrored;
+    final jobsFailed = this.jobsFailed;
+    final jobsPassed = this.jobsPassed;
+    final jobsPassedPercentage = this.jobsPassedPercentage;
+    final jobsSkipped = this.jobsSkipped;
+    final jobsStopped = this.jobsStopped;
+    final jobsTotal = this.jobsTotal;
+    final medianJobExecutionDurationSeconds =
+        this.medianJobExecutionDurationSeconds;
+    final totalJobExecutionDurationSeconds =
+        this.totalJobExecutionDurationSeconds;
+    return {
+      if (averageJobExecutionDurationSeconds != null)
+        'averageJobExecutionDurationSeconds':
+            _s.encodeJsonDouble(averageJobExecutionDurationSeconds),
+      if (jobsErrored != null) 'jobsErrored': jobsErrored,
+      if (jobsFailed != null) 'jobsFailed': jobsFailed,
+      if (jobsPassed != null) 'jobsPassed': jobsPassed,
+      if (jobsPassedPercentage != null)
+        'jobsPassedPercentage': _s.encodeJsonDouble(jobsPassedPercentage),
+      if (jobsSkipped != null) 'jobsSkipped': jobsSkipped,
+      if (jobsStopped != null) 'jobsStopped': jobsStopped,
+      if (jobsTotal != null) 'jobsTotal': jobsTotal,
+      if (medianJobExecutionDurationSeconds != null)
+        'medianJobExecutionDurationSeconds':
+            _s.encodeJsonDouble(medianJobExecutionDurationSeconds),
+      if (totalJobExecutionDurationSeconds != null)
+        'totalJobExecutionDurationSeconds':
+            _s.encodeJsonDouble(totalJobExecutionDurationSeconds),
+    };
+  }
+}
+
+/// The type of insights to generate.
+///
+/// @nodoc
+class InsightsType {
+  static const testReport = InsightsType._('TEST_REPORT');
+
+  final String value;
+
+  const InsightsType._(this.value);
+
+  static const values = [testReport];
+
+  static InsightsType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InsightsType._(value));
+
+  @override
+  bool operator ==(other) => other is InsightsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a device filter used to select a set of devices to be included in
@@ -9076,6 +9354,11 @@ class Job {
   /// Represents the total (metered or unmetered) minutes used by the job.
   final DeviceMinutes? deviceMinutes;
 
+  /// The insights for the job, including the report status and test-level
+  /// metrics. This field contains data only if you specified
+  /// <code>insightsTypes</code> when you scheduled the run.
+  final JobInsights? insights;
+
   /// The ARN of the instance.
   final String? instanceArn;
 
@@ -9218,6 +9501,7 @@ class Job {
     this.created,
     this.device,
     this.deviceMinutes,
+    this.insights,
     this.instanceArn,
     this.message,
     this.name,
@@ -9244,6 +9528,9 @@ class Job {
           ? DeviceMinutes.fromJson(
               json['deviceMinutes'] as Map<String, dynamic>)
           : null,
+      insights: json['insights'] != null
+          ? JobInsights.fromJson(json['insights'] as Map<String, dynamic>)
+          : null,
       instanceArn: json['instanceArn'] as String?,
       message: json['message'] as String?,
       name: json['name'] as String?,
@@ -9263,6 +9550,7 @@ class Job {
     final created = this.created;
     final device = this.device;
     final deviceMinutes = this.deviceMinutes;
+    final insights = this.insights;
     final instanceArn = this.instanceArn;
     final message = this.message;
     final name = this.name;
@@ -9279,6 +9567,7 @@ class Job {
       if (created != null) 'created': unixTimestampToJson(created),
       if (device != null) 'device': device,
       if (deviceMinutes != null) 'deviceMinutes': deviceMinutes,
+      if (insights != null) 'insights': insights,
       if (instanceArn != null) 'instanceArn': instanceArn,
       if (message != null) 'message': message,
       if (name != null) 'name': name,
@@ -9289,6 +9578,173 @@ class Job {
       if (type != null) 'type': type.value,
       if (videoCapture != null) 'videoCapture': videoCapture,
       if (videoEndpoint != null) 'videoEndpoint': videoEndpoint,
+    };
+  }
+}
+
+/// Contains insights for a job, including report status, and test-level
+/// aggregated metrics such as per test execution time and median test execution
+/// time.
+///
+/// @nodoc
+class JobInsights {
+  /// The status of the insights report for the job.
+  final ReportStatus? status;
+
+  /// The test-level aggregated report for the job.
+  final TestReport? testReport;
+
+  JobInsights({
+    this.status,
+    this.testReport,
+  });
+
+  factory JobInsights.fromJson(Map<String, dynamic> json) {
+    return JobInsights(
+      status: (json['status'] as String?)?.let(ReportStatus.fromString),
+      testReport: json['testReport'] != null
+          ? TestReport.fromJson(json['testReport'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final testReport = this.testReport;
+    return {
+      if (status != null) 'status': status.value,
+      if (testReport != null) 'testReport': testReport,
+    };
+  }
+}
+
+/// Contains aggregated test-level metrics for a job.
+///
+/// @nodoc
+class TestReport {
+  /// A message associated with the test report.
+  final String? message;
+
+  /// The aggregated test-level metrics for the job.
+  final TestReportMetrics? metrics;
+
+  /// A URL to the detailed test results.
+  final String? testDetailsUrl;
+
+  TestReport({
+    this.message,
+    this.metrics,
+    this.testDetailsUrl,
+  });
+
+  factory TestReport.fromJson(Map<String, dynamic> json) {
+    return TestReport(
+      message: json['message'] as String?,
+      metrics: json['metrics'] != null
+          ? TestReportMetrics.fromJson(json['metrics'] as Map<String, dynamic>)
+          : null,
+      testDetailsUrl: json['testDetailsUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final metrics = this.metrics;
+    final testDetailsUrl = this.testDetailsUrl;
+    return {
+      if (message != null) 'message': message,
+      if (metrics != null) 'metrics': metrics,
+      if (testDetailsUrl != null) 'testDetailsUrl': testDetailsUrl,
+    };
+  }
+}
+
+/// Contains aggregated metrics across all tests in a job.
+///
+/// @nodoc
+class TestReportMetrics {
+  /// The median execution duration of tests in the job, in seconds.
+  final double? medianTestExecutionDurationSeconds;
+
+  /// The number of tests that errored.
+  final int? testsErrored;
+
+  /// The number of tests that failed.
+  final int? testsFailed;
+
+  /// The number of tests with other result types.
+  final int? testsOther;
+
+  /// The number of tests that passed.
+  final int? testsPassed;
+
+  /// The percentage of tests that passed.
+  final double? testsPassedPercentage;
+
+  /// The number of tests that were skipped.
+  final int? testsSkipped;
+
+  /// The total number of tests in the job.
+  final int? testsTotal;
+
+  /// The total execution duration of all tests in the job, in seconds.
+  final double? totalTestExecutionDurationSeconds;
+
+  TestReportMetrics({
+    this.medianTestExecutionDurationSeconds,
+    this.testsErrored,
+    this.testsFailed,
+    this.testsOther,
+    this.testsPassed,
+    this.testsPassedPercentage,
+    this.testsSkipped,
+    this.testsTotal,
+    this.totalTestExecutionDurationSeconds,
+  });
+
+  factory TestReportMetrics.fromJson(Map<String, dynamic> json) {
+    return TestReportMetrics(
+      medianTestExecutionDurationSeconds:
+          _s.parseJsonDouble(json['medianTestExecutionDurationSeconds']),
+      testsErrored: json['testsErrored'] as int?,
+      testsFailed: json['testsFailed'] as int?,
+      testsOther: json['testsOther'] as int?,
+      testsPassed: json['testsPassed'] as int?,
+      testsPassedPercentage: _s.parseJsonDouble(json['testsPassedPercentage']),
+      testsSkipped: json['testsSkipped'] as int?,
+      testsTotal: json['testsTotal'] as int?,
+      totalTestExecutionDurationSeconds:
+          _s.parseJsonDouble(json['totalTestExecutionDurationSeconds']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final medianTestExecutionDurationSeconds =
+        this.medianTestExecutionDurationSeconds;
+    final testsErrored = this.testsErrored;
+    final testsFailed = this.testsFailed;
+    final testsOther = this.testsOther;
+    final testsPassed = this.testsPassed;
+    final testsPassedPercentage = this.testsPassedPercentage;
+    final testsSkipped = this.testsSkipped;
+    final testsTotal = this.testsTotal;
+    final totalTestExecutionDurationSeconds =
+        this.totalTestExecutionDurationSeconds;
+    return {
+      if (medianTestExecutionDurationSeconds != null)
+        'medianTestExecutionDurationSeconds':
+            _s.encodeJsonDouble(medianTestExecutionDurationSeconds),
+      if (testsErrored != null) 'testsErrored': testsErrored,
+      if (testsFailed != null) 'testsFailed': testsFailed,
+      if (testsOther != null) 'testsOther': testsOther,
+      if (testsPassed != null) 'testsPassed': testsPassed,
+      if (testsPassedPercentage != null)
+        'testsPassedPercentage': _s.encodeJsonDouble(testsPassedPercentage),
+      if (testsSkipped != null) 'testsSkipped': testsSkipped,
+      if (testsTotal != null) 'testsTotal': testsTotal,
+      if (totalTestExecutionDurationSeconds != null)
+        'totalTestExecutionDurationSeconds':
+            _s.encodeJsonDouble(totalTestExecutionDurationSeconds),
     };
   }
 }
@@ -9646,6 +10102,13 @@ class ScheduleRunConfiguration {
   /// for iOS.
   final String? extraDataPackageArn;
 
+  /// The types of insights to generate for a run. Specify one or more values to
+  /// opt in to insights generation when scheduling a run.
+  ///
+  /// Insights are currently supported for custom mode runs with Instrumentation,
+  /// Appium Java TestNG, and XCTest UI test types.
+  final List<InsightsType>? insightsTypes;
+
   /// Information about the locale that is used for the run.
   final String? locale;
 
@@ -9669,6 +10132,7 @@ class ScheduleRunConfiguration {
     this.environmentVariables,
     this.executionRoleArn,
     this.extraDataPackageArn,
+    this.insightsTypes,
     this.locale,
     this.location,
     this.networkProfileArn,
@@ -9684,6 +10148,7 @@ class ScheduleRunConfiguration {
     final environmentVariables = this.environmentVariables;
     final executionRoleArn = this.executionRoleArn;
     final extraDataPackageArn = this.extraDataPackageArn;
+    final insightsTypes = this.insightsTypes;
     final locale = this.locale;
     final location = this.location;
     final networkProfileArn = this.networkProfileArn;
@@ -9700,6 +10165,8 @@ class ScheduleRunConfiguration {
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
       if (extraDataPackageArn != null)
         'extraDataPackageArn': extraDataPackageArn,
+      if (insightsTypes != null)
+        'insightsTypes': insightsTypes.map((e) => e.value).toList(),
       if (locale != null) 'locale': locale,
       if (location != null) 'location': location,
       if (networkProfileArn != null) 'networkProfileArn': networkProfileArn,

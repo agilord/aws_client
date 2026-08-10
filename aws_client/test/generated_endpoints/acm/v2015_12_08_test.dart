@@ -13,7 +13,10 @@ void main() {
   test('For region af-south-1 with FIPS disabled and DualStack disabled [0]',
       () {
     final resolved = resolveEndpoint(
-        region: 'af-south-1', useFips: false, useDualStack: false);
+        region: 'af-south-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.af-south-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -21,7 +24,10 @@ void main() {
   test('For region ap-east-1 with FIPS disabled and DualStack disabled [1]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-east-1', useFips: false, useDualStack: false);
+        region: 'ap-east-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-east-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -30,7 +36,10 @@ void main() {
       'For region ap-northeast-1 with FIPS disabled and DualStack disabled [2]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-northeast-1', useFips: false, useDualStack: false);
+        region: 'ap-northeast-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-northeast-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -39,7 +48,10 @@ void main() {
       'For region ap-northeast-2 with FIPS disabled and DualStack disabled [3]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-northeast-2', useFips: false, useDualStack: false);
+        region: 'ap-northeast-2',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-northeast-2.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -48,7 +60,10 @@ void main() {
       'For region ap-northeast-3 with FIPS disabled and DualStack disabled [4]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-northeast-3', useFips: false, useDualStack: false);
+        region: 'ap-northeast-3',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-northeast-3.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -56,7 +71,10 @@ void main() {
   test('For region ap-south-1 with FIPS disabled and DualStack disabled [5]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-south-1', useFips: false, useDualStack: false);
+        region: 'ap-south-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-south-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -65,7 +83,10 @@ void main() {
       'For region ap-southeast-1 with FIPS disabled and DualStack disabled [6]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-southeast-1', useFips: false, useDualStack: false);
+        region: 'ap-southeast-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-southeast-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -74,7 +95,10 @@ void main() {
       'For region ap-southeast-2 with FIPS disabled and DualStack disabled [7]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-southeast-2', useFips: false, useDualStack: false);
+        region: 'ap-southeast-2',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-southeast-2.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -83,7 +107,10 @@ void main() {
       'For region ap-southeast-3 with FIPS disabled and DualStack disabled [8]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ap-southeast-3', useFips: false, useDualStack: false);
+        region: 'ap-southeast-3',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ap-southeast-3.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -91,150 +118,207 @@ void main() {
   test('For region ca-central-1 with FIPS disabled and DualStack disabled [9]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ca-central-1', useFips: false, useDualStack: false);
+        region: 'ca-central-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.ca-central-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region ca-central-1 with FIPS enabled and DualStack disabled [10]',
+  test('For region eu-central-1 with FIPS disabled and DualStack disabled [10]',
       () {
     final resolved = resolveEndpoint(
-        region: 'ca-central-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://acm-fips.ca-central-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region eu-central-1 with FIPS disabled and DualStack disabled [11]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-central-1', useFips: false, useDualStack: false);
+        region: 'eu-central-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.eu-central-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region eu-north-1 with FIPS disabled and DualStack disabled [12]',
+  test('For region eu-north-1 with FIPS disabled and DualStack disabled [11]',
       () {
     final resolved = resolveEndpoint(
-        region: 'eu-north-1', useFips: false, useDualStack: false);
+        region: 'eu-north-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.eu-north-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region eu-south-1 with FIPS disabled and DualStack disabled [13]',
+  test('For region eu-south-1 with FIPS disabled and DualStack disabled [12]',
       () {
     final resolved = resolveEndpoint(
-        region: 'eu-south-1', useFips: false, useDualStack: false);
+        region: 'eu-south-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.eu-south-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region eu-west-1 with FIPS disabled and DualStack disabled [14]',
+  test('For region eu-west-1 with FIPS disabled and DualStack disabled [13]',
       () {
     final resolved = resolveEndpoint(
-        region: 'eu-west-1', useFips: false, useDualStack: false);
+        region: 'eu-west-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.eu-west-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region eu-west-2 with FIPS disabled and DualStack disabled [15]',
+  test('For region eu-west-2 with FIPS disabled and DualStack disabled [14]',
       () {
     final resolved = resolveEndpoint(
-        region: 'eu-west-2', useFips: false, useDualStack: false);
+        region: 'eu-west-2',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.eu-west-2.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region eu-west-3 with FIPS disabled and DualStack disabled [16]',
+  test('For region eu-west-3 with FIPS disabled and DualStack disabled [15]',
       () {
     final resolved = resolveEndpoint(
-        region: 'eu-west-3', useFips: false, useDualStack: false);
+        region: 'eu-west-3',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.eu-west-3.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region me-south-1 with FIPS disabled and DualStack disabled [17]',
+  test('For region me-south-1 with FIPS disabled and DualStack disabled [16]',
       () {
     final resolved = resolveEndpoint(
-        region: 'me-south-1', useFips: false, useDualStack: false);
+        region: 'me-south-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.me-south-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region sa-east-1 with FIPS disabled and DualStack disabled [18]',
+  test('For region sa-east-1 with FIPS disabled and DualStack disabled [17]',
       () {
     final resolved = resolveEndpoint(
-        region: 'sa-east-1', useFips: false, useDualStack: false);
+        region: 'sa-east-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.sa-east-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-east-1 with FIPS disabled and DualStack disabled [19]',
+  test('For region us-east-1 with FIPS disabled and DualStack disabled [18]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-east-1', useFips: false, useDualStack: false);
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-east-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-east-1 with FIPS enabled and DualStack disabled [20]',
+  test('For region us-east-2 with FIPS disabled and DualStack disabled [19]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://acm-fips.us-east-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-2 with FIPS disabled and DualStack disabled [21]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-east-2', useFips: false, useDualStack: false);
+        region: 'us-east-2',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-east-2.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-east-2 with FIPS enabled and DualStack disabled [22]',
+  test('For region us-west-1 with FIPS disabled and DualStack disabled [20]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-east-2', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://acm-fips.us-east-2.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-west-1 with FIPS disabled and DualStack disabled [23]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-west-1', useFips: false, useDualStack: false);
+        region: 'us-west-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-west-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-west-1 with FIPS enabled and DualStack disabled [24]',
+  test('For region us-west-2 with FIPS disabled and DualStack disabled [21]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-west-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://acm-fips.us-west-1.amazonaws.com');
+        region: 'us-west-2',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
+    expect(resolved.url, 'https://acm.us-west-2.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-west-2 with FIPS disabled and DualStack disabled [25]',
+  test('For region ca-central-1 with FIPS enabled and DualStack disabled [22]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-west-2', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://acm.us-west-2.amazonaws.com');
+        region: 'ca-central-1',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM');
+    expect(resolved.url, 'https://acm-fips.ca-central-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region us-east-1 with FIPS enabled and DualStack disabled [23]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-1',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM');
+    expect(resolved.url, 'https://acm-fips.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region us-east-2 with FIPS enabled and DualStack disabled [24]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-2',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM');
+    expect(resolved.url, 'https://acm-fips.us-east-2.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region us-west-1 with FIPS enabled and DualStack disabled [25]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-west-1',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM');
+    expect(resolved.url, 'https://acm-fips.us-west-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test('For region us-west-2 with FIPS enabled and DualStack disabled [26]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-west-2', useFips: true, useDualStack: false);
+        region: 'us-west-2',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm-fips.us-west-2.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test('For region us-east-1 with FIPS enabled and DualStack enabled [27]', () {
-    final resolved =
-        resolveEndpoint(region: 'us-east-1', useFips: true, useDualStack: true);
+    final resolved = resolveEndpoint(
+        region: 'us-east-1',
+        useFips: true,
+        useDualStack: true,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm-fips.us-east-1.api.aws');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -242,7 +326,10 @@ void main() {
   test('For region us-east-1 with FIPS disabled and DualStack enabled [28]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-east-1', useFips: false, useDualStack: true);
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: true,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-east-1.api.aws');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -250,7 +337,10 @@ void main() {
   test('For region cn-north-1 with FIPS disabled and DualStack disabled [29]',
       () {
     final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: false, useDualStack: false);
+        region: 'cn-north-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.cn-north-1.amazonaws.com.cn');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -259,7 +349,10 @@ void main() {
       'For region cn-northwest-1 with FIPS disabled and DualStack disabled [30]',
       () {
     final resolved = resolveEndpoint(
-        region: 'cn-northwest-1', useFips: false, useDualStack: false);
+        region: 'cn-northwest-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.cn-northwest-1.amazonaws.com.cn');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -267,7 +360,10 @@ void main() {
   test('For region cn-north-1 with FIPS enabled and DualStack enabled [31]',
       () {
     final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: true, useDualStack: true);
+        region: 'cn-north-1',
+        useFips: true,
+        useDualStack: true,
+        serviceType: 'ACM');
     expect(resolved.url,
         'https://acm-fips.cn-north-1.api.amazonwebservices.com.cn');
     expect(resolved.authSchemes.length, 0);
@@ -276,7 +372,10 @@ void main() {
   test('For region cn-north-1 with FIPS enabled and DualStack disabled [32]',
       () {
     final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: true, useDualStack: false);
+        region: 'cn-north-1',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm-fips.cn-north-1.amazonaws.com.cn');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -284,7 +383,10 @@ void main() {
   test('For region cn-north-1 with FIPS disabled and DualStack enabled [33]',
       () {
     final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: false, useDualStack: true);
+        region: 'cn-north-1',
+        useFips: false,
+        useDualStack: true,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.cn-north-1.api.amazonwebservices.com.cn');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -293,7 +395,10 @@ void main() {
       'For region us-gov-east-1 with FIPS disabled and DualStack disabled [34]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: false, useDualStack: false);
+        region: 'us-gov-east-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-gov-east-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -302,7 +407,10 @@ void main() {
       'For region us-gov-west-1 with FIPS disabled and DualStack disabled [35]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-gov-west-1', useFips: false, useDualStack: false);
+        region: 'us-gov-west-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-gov-west-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -310,7 +418,10 @@ void main() {
   test('For region us-gov-east-1 with FIPS enabled and DualStack enabled [36]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: true, useDualStack: true);
+        region: 'us-gov-east-1',
+        useFips: true,
+        useDualStack: true,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm-fips.us-gov-east-1.api.aws');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -318,7 +429,10 @@ void main() {
   test('For region us-gov-east-1 with FIPS enabled and DualStack disabled [37]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: true, useDualStack: false);
+        region: 'us-gov-east-1',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-gov-east-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
@@ -326,98 +440,105 @@ void main() {
   test('For region us-gov-east-1 with FIPS disabled and DualStack enabled [38]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: false, useDualStack: true);
+        region: 'us-gov-east-1',
+        useFips: false,
+        useDualStack: true,
+        serviceType: 'ACM');
     expect(resolved.url, 'https://acm.us-gov-east-1.api.aws');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-iso-east-1 with FIPS enabled and DualStack disabled [39]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-iso-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://acm-fips.us-iso-east-1.c2s.ic.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
   test(
-      'For region us-iso-east-1 with FIPS disabled and DualStack disabled [40]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-iso-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://acm.us-iso-east-1.c2s.ic.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-isob-east-1 with FIPS enabled and DualStack disabled [41]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-isob-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://acm-fips.us-isob-east-1.sc2s.sgov.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-isob-east-1 with FIPS disabled and DualStack disabled [42]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-isob-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://acm.us-isob-east-1.sc2s.sgov.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For custom endpoint with region set and fips disabled and dualstack disabled [43]',
+      'For custom endpoint with region set and fips disabled and DualStack disabled [39]',
       () {
     final resolved = resolveEndpoint(
         region: 'us-east-1',
         useFips: false,
         useDualStack: false,
+        serviceType: 'ACM',
         endpoint: 'https://example.com');
     expect(resolved.url, 'https://example.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test(
-      'For custom endpoint with region not set and fips disabled and dualstack disabled [44]',
-      () {
+  test('For custom endpoint with FIPS enabled and DualStack disabled [40]', () {
     final resolved = resolveEndpoint(
-        useFips: false, useDualStack: false, endpoint: 'https://example.com');
+        region: 'us-east-1',
+        useFips: true,
+        useDualStack: false,
+        serviceType: 'ACM',
+        endpoint: 'https://example.com');
     expect(resolved.url, 'https://example.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For custom endpoint with fips enabled and dualstack disabled [45]', () {
+  test('For custom endpoint with FIPS disabled and dualstack enabled [41]', () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: true,
+        serviceType: 'ACM',
+        endpoint: 'https://example.com');
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('ACM-ACME standard endpoint for us-east-1 [42]', () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM-ACME');
+    expect(resolved.url, 'https://acm-acme.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('ACM-ACME FIPS returns error [43]', () {
     expect(
       () => resolveEndpoint(
-          region: 'us-east-1',
+          region: 'us-west-2',
           useFips: true,
           useDualStack: false,
-          endpoint: 'https://example.com'),
-      throwsA(isA<EndpointResolutionException>().having(
-          (e) => e.message,
-          'message',
-          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+          serviceType: 'ACM-ACME'),
+      throwsA(isA<EndpointResolutionException>().having((e) => e.message,
+          'message', 'FIPS endpoints are not available for ACME operations')),
     );
   });
-  test('For custom endpoint with fips disabled and dualstack enabled [46]', () {
+  test('ACM-ACME custom endpoint [44]', () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: false,
+        serviceType: 'ACM-ACME',
+        endpoint: 'https://custom.example.com');
+    expect(resolved.url, 'https://custom.example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('ACM-ACME in us-gov-west-1 returns partition error [45]', () {
     expect(
       () => resolveEndpoint(
-          region: 'us-east-1',
+          region: 'us-gov-west-1',
           useFips: false,
-          useDualStack: true,
-          endpoint: 'https://example.com'),
+          useDualStack: false,
+          serviceType: 'ACM-ACME'),
       throwsA(isA<EndpointResolutionException>().having(
           (e) => e.message,
           'message',
-          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+          'ACME operations are only available in commercial AWS partitions')),
     );
   });
-  test('Missing region [47]', () {
+  test('ACM-ACME in cn-north-1 returns partition error [46]', () {
     expect(
-      () => resolveEndpoint(),
-      throwsA(isA<EndpointResolutionException>().having((e) => e.message,
-          'message', 'Invalid Configuration: Missing Region')),
+      () => resolveEndpoint(
+          region: 'cn-north-1',
+          useFips: false,
+          useDualStack: false,
+          serviceType: 'ACM-ACME'),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'ACME operations are only available in commercial AWS partitions')),
     );
   });
 }

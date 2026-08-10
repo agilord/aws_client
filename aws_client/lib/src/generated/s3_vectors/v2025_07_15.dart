@@ -1007,8 +1007,8 @@ class S3Vectors {
   /// Performs an approximate nearest neighbor search query in a vector index
   /// using a query vector. By default, it returns the keys of approximate
   /// nearest neighbors. You can optionally include the computed distance
-  /// (between the query vector and each vector in the response), the vector
-  /// data, and metadata of each vector in the response.
+  /// (between the query vector and each vector in the response) and metadata of
+  /// each vector in the response.
   ///
   /// To specify the vector index, you can either use both the vector bucket
   /// name and the vector index name, or use the vector index Amazon Resource
@@ -1023,17 +1023,16 @@ class S3Vectors {
   /// With only <code>s3vectors:QueryVectors</code> permission, you can retrieve
   /// vector keys of approximate nearest neighbors and computed distances
   /// between these vectors. This permission is sufficient only when you don't
-  /// set any metadata filters and don't request vector data or metadata (by
-  /// keeping the <code>returnMetadata</code> parameter set to
-  /// <code>false</code> or not specified).
+  /// set any metadata filters and don't request metadata (by keeping the
+  /// <code>returnMetadata</code> parameter set to <code>false</code> or not
+  /// specified).
   /// </li>
   /// <li>
   /// If you specify a metadata filter or set <code>returnMetadata</code> to
   /// true, you must have both <code>s3vectors:QueryVectors</code> and
   /// <code>s3vectors:GetVectors</code> permissions. The request fails with a
-  /// <code>403 Forbidden error</code> if you request metadata filtering, vector
-  /// data, or metadata without the <code>s3vectors:GetVectors</code>
-  /// permission.
+  /// <code>403 Forbidden error</code> if you request metadata filtering or
+  /// metadata without the <code>s3vectors:GetVectors</code> permission.
   /// </li>
   /// </ul> </dd> </dl>
   ///
@@ -1065,6 +1064,10 @@ class S3Vectors {
   /// Parameter [indexName] :
   /// The name of the vector index that you want to query.
   ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous request. The value of this field is empty
+  /// for an initial request.
+  ///
   /// Parameter [returnDistance] :
   /// Indicates whether to include the computed distance in the response. The
   /// default value is <code>false</code>.
@@ -1081,6 +1084,7 @@ class S3Vectors {
     Document? filter,
     String? indexArn,
     String? indexName,
+    String? nextToken,
     bool? returnDistance,
     bool? returnMetadata,
     String? vectorBucketName,
@@ -1098,6 +1102,7 @@ class S3Vectors {
       if (filter != null) 'filter': filter,
       if (indexArn != null) 'indexArn': indexArn,
       if (indexName != null) 'indexName': indexName,
+      if (nextToken != null) 'nextToken': nextToken,
       if (returnDistance != null) 'returnDistance': returnDistance,
       if (returnMetadata != null) 'returnMetadata': returnMetadata,
       if (vectorBucketName != null) 'vectorBucketName': vectorBucketName,
@@ -1499,9 +1504,14 @@ class QueryVectorsOutput {
   /// The vectors in the approximate nearest neighbor search.
   final List<QueryOutputVector> vectors;
 
+  /// Pagination token to be used in the subsequent page request. The field is
+  /// empty if no further pagination is required.
+  final String? nextToken;
+
   QueryVectorsOutput({
     required this.distanceMetric,
     required this.vectors,
+    this.nextToken,
   });
 
   factory QueryVectorsOutput.fromJson(Map<String, dynamic> json) {
@@ -1512,15 +1522,18 @@ class QueryVectorsOutput {
           .nonNulls
           .map((e) => QueryOutputVector.fromJson(e as Map<String, dynamic>))
           .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final distanceMetric = this.distanceMetric;
     final vectors = this.vectors;
+    final nextToken = this.nextToken;
     return {
       'distanceMetric': distanceMetric.value,
       'vectors': vectors,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }

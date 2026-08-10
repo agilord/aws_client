@@ -167,6 +167,11 @@ class WafV2 {
   /// <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>
   /// </code>
   /// </li>
+  /// <li>
+  /// For an Amazon Bedrock AgentCore Gateway:
+  /// <code>arn:<i>partition</i>:bedrock-agentcore:<i>region</i>:<i>account-id</i>:gateway/<i>gateway-id</i>
+  /// </code>
+  /// </li>
   /// </ul>
   ///
   /// Parameter [webACLArn] :
@@ -608,6 +613,10 @@ class WafV2 {
   /// Parameter [description] :
   /// A description of the rule group that helps with identification.
   ///
+  /// Parameter [monetizationConfig] :
+  /// The monetization configuration for the rule group. Provide this when any
+  /// rule in the rule group uses the <code>Monetize</code> action.
+  ///
   /// Parameter [rules] :
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to manage. Each rule includes one top-level statement that WAF uses to
@@ -623,6 +632,7 @@ class WafV2 {
     required VisibilityConfig visibilityConfig,
     Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
+    MonetizationConfig? monetizationConfig,
     List<Rule>? rules,
     List<Tag>? tags,
   }) async {
@@ -651,6 +661,8 @@ class WafV2 {
         if (customResponseBodies != null)
           'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
+        if (monetizationConfig != null)
+          'MonetizationConfig': monetizationConfig,
         if (rules != null) 'Rules': rules,
         if (tags != null) 'Tags': tags,
       },
@@ -671,8 +683,8 @@ class WafV2 {
   /// Amazon Web Services resources to protect. The resource types include
   /// Amazon CloudFront distribution, Amazon API Gateway REST API, Application
   /// Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner
-  /// service, Amplify application, and Amazon Web Services Verified Access
-  /// instance.
+  /// service, Amplify application, Amazon Web Services Verified Access
+  /// instance, and Amazon Bedrock AgentCore Gateway.
   ///
   /// May throw [WAFConfigurationWarningException].
   /// May throw [WAFDuplicateItemException].
@@ -779,6 +791,10 @@ class WafV2 {
   /// Parameter [description] :
   /// A description of the web ACL that helps with identification.
   ///
+  /// Parameter [monetizationConfig] :
+  /// The monetization configuration for the web ACL. Provide this when any rule
+  /// in the web ACL uses the <code>Monetize</code> action.
+  ///
   /// Parameter [onSourceDDoSProtectionConfig] :
   /// Specifies the type of DDoS protection to apply to web request data for a
   /// web ACL. For most scenarios, it is recommended to use the default
@@ -822,6 +838,7 @@ class WafV2 {
     Map<String, CustomResponseBody>? customResponseBodies,
     DataProtectionConfig? dataProtectionConfig,
     String? description,
+    MonetizationConfig? monetizationConfig,
     OnSourceDDoSProtectionConfig? onSourceDDoSProtectionConfig,
     List<Rule>? rules,
     List<Tag>? tags,
@@ -851,6 +868,8 @@ class WafV2 {
         if (dataProtectionConfig != null)
           'DataProtectionConfig': dataProtectionConfig,
         if (description != null) 'Description': description,
+        if (monetizationConfig != null)
+          'MonetizationConfig': monetizationConfig,
         if (onSourceDDoSProtectionConfig != null)
           'OnSourceDDoSProtectionConfig': onSourceDDoSProtectionConfig,
         if (rules != null) 'Rules': rules,
@@ -1612,6 +1631,11 @@ class WafV2 {
   /// <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>
   /// </code>
   /// </li>
+  /// <li>
+  /// For an Amazon Bedrock AgentCore Gateway:
+  /// <code>arn:<i>partition</i>:bedrock-agentcore:<i>region</i>:<i>account-id</i>:gateway/<i>gateway-id</i>
+  /// </code>
+  /// </li>
   /// </ul>
   Future<void> disassociateWebACL({
     required String resourceArn,
@@ -2151,6 +2175,260 @@ class WafV2 {
     return GetRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves ranked monetization statistics. Use the
+  /// <code>StatisticType</code> parameter to specify the ranking:
+  /// <code>TOP_SOURCES_BY_REVENUE</code> for top sources by revenue, or
+  /// <code>TOP_PATHS_BY_REVENUE</code> for top content paths by revenue. This
+  /// operation is only available for <code>CLOUDFRONT</code> scope. The maximum
+  /// supported time window is 90 days. When no <code>CurrencyMode</code> filter
+  /// is provided, results default to <code>REAL</code>. To retrieve test data,
+  /// include a <code>CurrencyMode</code> filter with the value
+  /// <code>TEST</code>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  ///
+  /// Parameter [currency] :
+  /// The currency for the revenue amounts in the response.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for a Amazon CloudFront distribution
+  /// (<code>CLOUDFRONT</code>) or for a regional application
+  /// (<code>REGIONAL</code>).
+  ///
+  /// Parameter [statisticType] :
+  /// <code>TOP_SOURCES_BY_REVENUE</code> ranks revenue from AI bot traffic,
+  /// grouped by the dimension you specify in the <code>GroupBy</code> parameter
+  /// (<code>NAME</code>, <code>CATEGORY</code>, <code>INTENT</code>,
+  /// <code>ORGANIZATION</code>, or <code>WEBACL</code>); <code>GroupBy</code>
+  /// is required for this statistic type. <code>TOP_PATHS_BY_REVENUE</code>
+  /// ranks revenue by path.
+  ///
+  /// Parameter [timeWindow] :
+  /// The time range for the query. Specify start and end timestamps.
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to narrow the results.
+  ///
+  /// Parameter [groupBy] :
+  /// The dimension to group results by: <code>NAME</code>,
+  /// <code>CATEGORY</code>, <code>INTENT</code>, <code>ORGANIZATION</code>, or
+  /// <code>WEBACL</code>. Required when <code>StatisticType</code> is
+  /// <code>TOP_SOURCES_BY_REVENUE</code>. Not required for
+  /// <code>TOP_PATHS_BY_REVENUE</code>, where results are grouped by content
+  /// path. If <code>StatisticType</code> is <code>TOP_SOURCES_BY_REVENUE</code>
+  /// and <code>GroupBy</code> is omitted, the request is rejected with a
+  /// <code>WAFInvalidParameterException</code>.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you get a paginated response, this marker indicates that additional
+  /// results are available. Use it in a subsequent request to retrieve the next
+  /// page of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The field to sort results by: <code>REVENUE</code>,
+  /// <code>PERCENTAGE</code>, or <code>NAME</code>.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order: <code>ASC</code> for ascending or <code>DESC</code> for
+  /// descending.
+  Future<GetRevenueStatisticsResponse> getRevenueStatistics({
+    required Currency currency,
+    required Scope scope,
+    required RankingStatisticType statisticType,
+    required TimeWindow timeWindow,
+    List<MonetizationFilter>? filters,
+    GroupByType? groupBy,
+    int? limit,
+    String? nextMarker,
+    RankingSortBy? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetRevenueStatistics'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Currency': currency.value,
+        'Scope': scope.value,
+        'StatisticType': statisticType.value,
+        'TimeWindow': timeWindow,
+        if (filters != null) 'Filters': filters,
+        if (groupBy != null) 'GroupBy': groupBy.value,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+      },
+    );
+
+    return GetRevenueStatisticsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a summary of monetization revenue for the specified time window.
+  /// Returns total revenue, revenue by verification tier, total settlements,
+  /// and total HTTP 402 responses served. This operation is only available for
+  /// <code>CLOUDFRONT</code> scope. The maximum supported time window is 90
+  /// days. When no <code>CurrencyMode</code> filter is provided, results
+  /// default to <code>REAL</code>. To retrieve test data, include a
+  /// <code>CurrencyMode</code> filter with the value <code>TEST</code>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  ///
+  /// Parameter [currency] :
+  /// The currency for the revenue amounts in the response. Currently only
+  /// <code>USDC</code> is supported.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for a Amazon CloudFront distribution
+  /// (<code>CLOUDFRONT</code>) or for a regional application
+  /// (<code>REGIONAL</code>). AI bot monetization is only available for
+  /// <code>CLOUDFRONT</code> scope.
+  ///
+  /// Parameter [timeWindow] :
+  /// The time range for the revenue summary query. Specify start and end
+  /// timestamps.
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to narrow the results. You can filter by source name,
+  /// category, organization, intent, verified status, content path, web ACL
+  /// ARN, or currency mode.
+  Future<GetRevenueStatisticsSummaryResponse> getRevenueStatisticsSummary({
+    required Currency currency,
+    required Scope scope,
+    required TimeWindow timeWindow,
+    List<MonetizationFilter>? filters,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetRevenueStatisticsSummary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Currency': currency.value,
+        'Scope': scope.value,
+        'TimeWindow': timeWindow,
+        if (filters != null) 'Filters': filters,
+      },
+    );
+
+    return GetRevenueStatisticsSummaryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves time series data for monetization revenue. Returns data points
+  /// aggregated at the specified interval for the given time window. This
+  /// operation is only available for <code>CLOUDFRONT</code> scope. The maximum
+  /// supported time window is 90 days. When no <code>CurrencyMode</code> filter
+  /// is provided, results default to <code>REAL</code>. To retrieve test data,
+  /// include a <code>CurrencyMode</code> filter with the value
+  /// <code>TEST</code>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  ///
+  /// Parameter [currency] :
+  /// The currency for the amounts in the response.
+  ///
+  /// Parameter [interval] :
+  /// The time interval for aggregating data points: <code>MINUTELY</code>,
+  /// <code>FIVE_MINUTELY</code>, <code>HOURLY</code>, or <code>DAILY</code>.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for a Amazon CloudFront distribution
+  /// (<code>CLOUDFRONT</code>) or for a regional application
+  /// (<code>REGIONAL</code>).
+  ///
+  /// Parameter [statisticType] :
+  /// The type of time series data to retrieve: <code>DATE_HISTOGRAM</code> for
+  /// revenue over time, or <code>PAYMENT_TRAFFIC</code> for payment traffic
+  /// patterns.
+  ///
+  /// Parameter [timeWindow] :
+  /// The time range for the query. Specify start and end timestamps.
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to narrow the results.
+  ///
+  /// Parameter [groupBy] :
+  /// The dimension to group results by.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of data points to return. Minimum: 1. Maximum: 10000.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you get a paginated response, this marker indicates that additional
+  /// results are available.
+  Future<GetRevenueStatisticsTimeSeriesResponse>
+      getRevenueStatisticsTimeSeries({
+    required Currency currency,
+    required IntervalType interval,
+    required Scope scope,
+    required TimeSeriesStatisticType statisticType,
+    required TimeWindow timeWindow,
+    List<MonetizationFilter>? filters,
+    GroupByType? groupBy,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      10000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetRevenueStatisticsTimeSeries'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Currency': currency.value,
+        'Interval': interval.value,
+        'Scope': scope.value,
+        'StatisticType': statisticType.value,
+        'TimeWindow': timeWindow,
+        if (filters != null) 'Filters': filters,
+        if (groupBy != null) 'GroupBy': groupBy.value,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return GetRevenueStatisticsTimeSeriesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the specified <a>RuleGroup</a>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -2560,6 +2838,11 @@ class WafV2 {
   /// <li>
   /// For an Amplify application:
   /// <code>arn:<i>partition</i>:amplify:<i>region</i>:<i>account-id</i>:apps/<i>app-id</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an Amazon Bedrock AgentCore Gateway:
+  /// <code>arn:<i>partition</i>:bedrock-agentcore:<i>region</i>:<i>account-id</i>:gateway/<i>gateway-id</i>
   /// </code>
   /// </li>
   /// </ul>
@@ -3300,6 +3583,90 @@ class WafV2 {
     );
 
     return ListRuleGroupsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves individual settlement transaction records for monetization. Each
+  /// record represents a single payment transaction between a client and your
+  /// protected resource. This operation is only available for
+  /// <code>CLOUDFRONT</code> scope. The maximum supported time window is 90
+  /// days. When no <code>CurrencyMode</code> filter is provided, results
+  /// default to <code>REAL</code>. To retrieve test data, include a
+  /// <code>CurrencyMode</code> filter with the value <code>TEST</code>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
+  ///
+  /// Parameter [currency] :
+  /// The currency for the amounts in the response.
+  ///
+  /// Parameter [scope] :
+  /// Specifies whether this is for a Amazon CloudFront distribution
+  /// (<code>CLOUDFRONT</code>) or for a regional application
+  /// (<code>REGIONAL</code>).
+  ///
+  /// Parameter [timeWindow] :
+  /// The time range for the query. Specify start and end timestamps.
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to narrow the results. You can filter by payer address,
+  /// status, source name, network, or other settlement fields.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of settlement records to return. Minimum: 1. Maximum:
+  /// 100.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you get a paginated response, this marker indicates that additional
+  /// results are available.
+  ///
+  /// Parameter [sortBy] :
+  /// The field to sort settlement records by: <code>TIMESTAMP</code>,
+  /// <code>AMOUNT</code>, <code>NAME</code>, or <code>STATUS</code>.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order: <code>ASC</code> for ascending or <code>DESC</code> for
+  /// descending.
+  Future<ListSettlementRecordsResponse> listSettlementRecords({
+    required Currency currency,
+    required Scope scope,
+    required TimeWindow timeWindow,
+    List<MonetizationFilter>? filters,
+    int? limit,
+    String? nextMarker,
+    SettlementSortBy? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListSettlementRecords'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Currency': currency.value,
+        'Scope': scope.value,
+        'TimeWindow': timeWindow,
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+      },
+    );
+
+    return ListSettlementRecordsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the <a>TagInfoForResource</a> for the specified resource. Tags
@@ -4335,6 +4702,10 @@ class WafV2 {
   /// Parameter [description] :
   /// A description of the rule group that helps with identification.
   ///
+  /// Parameter [monetizationConfig] :
+  /// The monetization configuration for the rule group. Provide this when any
+  /// rule in the rule group uses the <code>Monetize</code> action.
+  ///
   /// Parameter [rules] :
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to manage. Each rule includes one top-level statement that WAF uses to
@@ -4348,6 +4719,7 @@ class WafV2 {
     required VisibilityConfig visibilityConfig,
     Map<String, CustomResponseBody>? customResponseBodies,
     String? description,
+    MonetizationConfig? monetizationConfig,
     List<Rule>? rules,
   }) async {
     final headers = <String, String>{
@@ -4369,6 +4741,8 @@ class WafV2 {
         if (customResponseBodies != null)
           'CustomResponseBodies': customResponseBodies,
         if (description != null) 'Description': description,
+        if (monetizationConfig != null)
+          'MonetizationConfig': monetizationConfig,
         if (rules != null) 'Rules': rules,
       },
     );
@@ -4404,8 +4778,8 @@ class WafV2 {
   /// Amazon Web Services resources to protect. The resource types include
   /// Amazon CloudFront distribution, Amazon API Gateway REST API, Application
   /// Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner
-  /// service, Amplify application, and Amazon Web Services Verified Access
-  /// instance.
+  /// service, Amplify application, Amazon Web Services Verified Access
+  /// instance, and Amazon Bedrock AgentCore Gateway.
   ///
   /// <b>Temporary inconsistencies during updates</b>
   ///
@@ -4572,6 +4946,10 @@ class WafV2 {
   /// Parameter [description] :
   /// A description of the web ACL that helps with identification.
   ///
+  /// Parameter [monetizationConfig] :
+  /// The monetization configuration for the web ACL. Provide this when any rule
+  /// in the web ACL uses the <code>Monetize</code> action.
+  ///
   /// Parameter [onSourceDDoSProtectionConfig] :
   /// Specifies the type of DDoS protection to apply to web request data for a
   /// web ACL. For most scenarios, it is recommended to use the default
@@ -4614,6 +4992,7 @@ class WafV2 {
     Map<String, CustomResponseBody>? customResponseBodies,
     DataProtectionConfig? dataProtectionConfig,
     String? description,
+    MonetizationConfig? monetizationConfig,
     OnSourceDDoSProtectionConfig? onSourceDDoSProtectionConfig,
     List<Rule>? rules,
     List<String>? tokenDomains,
@@ -4644,6 +5023,8 @@ class WafV2 {
         if (dataProtectionConfig != null)
           'DataProtectionConfig': dataProtectionConfig,
         if (description != null) 'Description': description,
+        if (monetizationConfig != null)
+          'MonetizationConfig': monetizationConfig,
         if (onSourceDDoSProtectionConfig != null)
           'OnSourceDDoSProtectionConfig': onSourceDDoSProtectionConfig,
         if (rules != null) 'Rules': rules,
@@ -5432,6 +5813,115 @@ class GetRegexPatternSetResponse {
 }
 
 /// @nodoc
+class GetRevenueStatisticsResponse {
+  /// When you get a paginated response, this marker indicates that additional
+  /// results are available.
+  final String? nextMarker;
+
+  /// Statistics for top revenue paths. Populated when <code>StatisticType</code>
+  /// is <code>TOP_PATHS_BY_REVENUE</code>.
+  final List<RevenuePathStatistics>? revenuePathStatistics;
+
+  /// Statistics for top revenue sources (AI bots). Populated when
+  /// <code>StatisticType</code> is <code>TOP_SOURCES_BY_REVENUE</code>.
+  final List<SourceStatistics>? sourceStatistics;
+
+  GetRevenueStatisticsResponse({
+    this.nextMarker,
+    this.revenuePathStatistics,
+    this.sourceStatistics,
+  });
+
+  factory GetRevenueStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return GetRevenueStatisticsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      revenuePathStatistics: (json['RevenuePathStatistics'] as List?)
+          ?.nonNulls
+          .map((e) => RevenuePathStatistics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceStatistics: (json['SourceStatistics'] as List?)
+          ?.nonNulls
+          .map((e) => SourceStatistics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final revenuePathStatistics = this.revenuePathStatistics;
+    final sourceStatistics = this.sourceStatistics;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (revenuePathStatistics != null)
+        'RevenuePathStatistics': revenuePathStatistics,
+      if (sourceStatistics != null) 'SourceStatistics': sourceStatistics,
+    };
+  }
+}
+
+/// @nodoc
+class GetRevenueStatisticsSummaryResponse {
+  /// The revenue breakdown summary for the specified time window and filters.
+  final RevenueBreakdown? revenueBreakdown;
+
+  GetRevenueStatisticsSummaryResponse({
+    this.revenueBreakdown,
+  });
+
+  factory GetRevenueStatisticsSummaryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRevenueStatisticsSummaryResponse(
+      revenueBreakdown: json['RevenueBreakdown'] != null
+          ? RevenueBreakdown.fromJson(
+              json['RevenueBreakdown'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revenueBreakdown = this.revenueBreakdown;
+    return {
+      if (revenueBreakdown != null) 'RevenueBreakdown': revenueBreakdown,
+    };
+  }
+}
+
+/// @nodoc
+class GetRevenueStatisticsTimeSeriesResponse {
+  /// The list of time series data points.
+  final List<DataPointEntry>? dataPoints;
+
+  /// When you get a paginated response, this marker indicates that additional
+  /// results are available.
+  final String? nextMarker;
+
+  GetRevenueStatisticsTimeSeriesResponse({
+    this.dataPoints,
+    this.nextMarker,
+  });
+
+  factory GetRevenueStatisticsTimeSeriesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRevenueStatisticsTimeSeriesResponse(
+      dataPoints: (json['DataPoints'] as List?)
+          ?.nonNulls
+          .map((e) => DataPointEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataPoints = this.dataPoints;
+    final nextMarker = this.nextMarker;
+    return {
+      if (dataPoints != null) 'DataPoints': dataPoints,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// @nodoc
 class GetRuleGroupResponse {
   /// A token used for optimistic locking. WAF returns a token to your
   /// <code>get</code> and <code>list</code> requests, to mark the state of the
@@ -6055,6 +6545,40 @@ class ListRuleGroupsResponse {
     return {
       if (nextMarker != null) 'NextMarker': nextMarker,
       if (ruleGroups != null) 'RuleGroups': ruleGroups,
+    };
+  }
+}
+
+/// @nodoc
+class ListSettlementRecordsResponse {
+  /// When you get a paginated response, this marker indicates that additional
+  /// results are available.
+  final String? nextMarker;
+
+  /// The list of settlement records.
+  final List<SettlementRecord>? settlements;
+
+  ListSettlementRecordsResponse({
+    this.nextMarker,
+    this.settlements,
+  });
+
+  factory ListSettlementRecordsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSettlementRecordsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      settlements: (json['Settlements'] as List?)
+          ?.nonNulls
+          .map((e) => SettlementRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final settlements = this.settlements;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (settlements != null) 'Settlements': settlements,
     };
   }
 }
@@ -6736,6 +7260,247 @@ class ApplicationConfig {
   }
 }
 
+/// The monetization configuration for a web ACL or rule group. Specifies the
+/// cryptocurrency payment networks and currency mode for AI bot monetization.
+/// You must provide this configuration when any rule in the web ACL or rule
+/// group uses the <code>Monetize</code> action.
+///
+/// @nodoc
+class MonetizationConfig {
+  /// The cryptocurrency payment configuration, including the blockchain networks
+  /// and wallet addresses where you receive payments.
+  final CryptoConfig? cryptoConfig;
+
+  /// Specifies whether the configuration uses real or test currency. Set to
+  /// <code>REAL</code> to settle payments in USDC on production blockchain
+  /// networks (Base, Solana). Set to <code>TEST</code> to settle on testnet
+  /// networks (Base Sepolia, Solana Devnet) with tokens that have no monetary
+  /// value. If not specified, defaults to <code>REAL</code>.
+  final CurrencyMode? currencyMode;
+
+  MonetizationConfig({
+    this.cryptoConfig,
+    this.currencyMode,
+  });
+
+  factory MonetizationConfig.fromJson(Map<String, dynamic> json) {
+    return MonetizationConfig(
+      cryptoConfig: json['CryptoConfig'] != null
+          ? CryptoConfig.fromJson(json['CryptoConfig'] as Map<String, dynamic>)
+          : null,
+      currencyMode:
+          (json['CurrencyMode'] as String?)?.let(CurrencyMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cryptoConfig = this.cryptoConfig;
+    final currencyMode = this.currencyMode;
+    return {
+      if (cryptoConfig != null) 'CryptoConfig': cryptoConfig,
+      if (currencyMode != null) 'CurrencyMode': currencyMode.value,
+    };
+  }
+}
+
+/// The cryptocurrency payment configuration for AI bot monetization. Contains
+/// the list of blockchain payment networks where you receive payments.
+///
+/// @nodoc
+class CryptoConfig {
+  /// The blockchain payment networks configured to receive payments. You can
+  /// specify 1 to 2 networks. All networks must be in the same environment-either
+  /// all production networks (Base, Solana) or all test networks (Base Sepolia,
+  /// Solana Devnet).
+  final List<PaymentNetwork> paymentNetworks;
+
+  CryptoConfig({
+    required this.paymentNetworks,
+  });
+
+  factory CryptoConfig.fromJson(Map<String, dynamic> json) {
+    return CryptoConfig(
+      paymentNetworks: ((json['PaymentNetworks'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PaymentNetwork.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final paymentNetworks = this.paymentNetworks;
+    return {
+      'PaymentNetworks': paymentNetworks,
+    };
+  }
+}
+
+/// @nodoc
+class CurrencyMode {
+  static const real = CurrencyMode._('REAL');
+  static const test = CurrencyMode._('TEST');
+
+  final String value;
+
+  const CurrencyMode._(this.value);
+
+  static const values = [real, test];
+
+  static CurrencyMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyMode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A blockchain payment network configuration for receiving AI bot monetization
+/// payments. Specifies the blockchain chain, your wallet address on that chain,
+/// and the price per request.
+///
+/// @nodoc
+class PaymentNetwork {
+  /// The blockchain network for receiving payments. Production networks:
+  /// <code>BASE</code> (Base mainnet), <code>SOLANA</code> (Solana mainnet). Test
+  /// networks: <code>BASE_SEPOLIA</code> (Base Sepolia testnet),
+  /// <code>SOLANA_DEVNET</code> (Solana Devnet).
+  final BlockchainChain chain;
+
+  /// The price configuration for this payment network. Currently supports a
+  /// single price entry in USDC.
+  final List<Price> prices;
+
+  /// Your wallet address on the specified blockchain where payments are sent. For
+  /// EVM chains (Base, Base Sepolia), provide a valid Ethereum address (42
+  /// characters including 0x prefix). For Solana chains, provide a valid
+  /// Base58-encoded public key (32-44 characters).
+  ///
+  /// For EVM addresses, WAF performs EIP-55 checksum validation for typo
+  /// detection when the address uses a mix of lower and upper case letters. You
+  /// can bypass this validation by providing the address in all lowercase or all
+  /// uppercase.
+  final String walletAddress;
+
+  PaymentNetwork({
+    required this.chain,
+    required this.prices,
+    required this.walletAddress,
+  });
+
+  factory PaymentNetwork.fromJson(Map<String, dynamic> json) {
+    return PaymentNetwork(
+      chain: BlockchainChain.fromString((json['Chain'] as String?) ?? ''),
+      prices: ((json['Prices'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Price.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      walletAddress: (json['WalletAddress'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final chain = this.chain;
+    final prices = this.prices;
+    final walletAddress = this.walletAddress;
+    return {
+      'Chain': chain.value,
+      'Prices': prices,
+      'WalletAddress': walletAddress,
+    };
+  }
+}
+
+/// @nodoc
+class BlockchainChain {
+  static const base = BlockchainChain._('BASE');
+  static const solana = BlockchainChain._('SOLANA');
+  static const baseSepolia = BlockchainChain._('BASE_SEPOLIA');
+  static const solanaDevnet = BlockchainChain._('SOLANA_DEVNET');
+
+  final String value;
+
+  const BlockchainChain._(this.value);
+
+  static const values = [base, solana, baseSepolia, solanaDevnet];
+
+  static BlockchainChain fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BlockchainChain._(value));
+
+  @override
+  bool operator ==(other) => other is BlockchainChain && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The price per request for a payment network, specifying the amount and
+/// cryptocurrency.
+///
+/// @nodoc
+class Price {
+  /// The price per request as a decimal string in the specified currency.
+  /// Minimum: 0.001. Maximum: 999999999.999. Supports up to 3 decimal places.
+  final String amount;
+
+  /// The cryptocurrency for payment. Currently only <code>USDC</code> is
+  /// supported.
+  final CryptoCurrency currency;
+
+  Price({
+    required this.amount,
+    required this.currency,
+  });
+
+  factory Price.fromJson(Map<String, dynamic> json) {
+    return Price(
+      amount: (json['Amount'] as String?) ?? '',
+      currency: CryptoCurrency.fromString((json['Currency'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final currency = this.currency;
+    return {
+      'Amount': amount,
+      'Currency': currency.value,
+    };
+  }
+}
+
+/// @nodoc
+class CryptoCurrency {
+  static const usdc = CryptoCurrency._('USDC');
+
+  final String value;
+
+  const CryptoCurrency._(this.value);
+
+  static const values = [usdc];
+
+  static CryptoCurrency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CryptoCurrency._(value));
+
+  @override
+  bool operator ==(other) => other is CryptoCurrency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Application details defined during the web ACL creation process. Application
 /// attributes help WAF give recommendations for protection packs.
 ///
@@ -6804,6 +7569,7 @@ class AssociatedResourceType {
       AssociatedResourceType._('APP_RUNNER_SERVICE');
   static const verifiedAccessInstance =
       AssociatedResourceType._('VERIFIED_ACCESS_INSTANCE');
+  static const agentcoreGateway = AssociatedResourceType._('AGENTCORE_GATEWAY');
 
   final String value;
 
@@ -6814,7 +7580,8 @@ class AssociatedResourceType {
     apiGateway,
     cognitoUserPool,
     appRunnerService,
-    verifiedAccessInstance
+    verifiedAccessInstance,
+    agentcoreGateway
   ];
 
   static AssociatedResourceType fromString(String value) =>
@@ -7830,12 +8597,21 @@ class RuleAction {
   /// request using the remaining rules in the web ACL.
   final CountAction? count;
 
+  /// Instructs WAF to return an HTTP 402 Payment Required response with a price
+  /// manifest. The requesting client can complete payment and resubmit the
+  /// request to gain access. This is a terminating action-requests that do not
+  /// complete payment are blocked. This action is available only for web ACLs
+  /// associated with Amazon CloudFront distributions and requires a
+  /// <code>MonetizationConfig</code> on the web ACL.
+  final MonetizeAction? monetize;
+
   RuleAction({
     this.allow,
     this.block,
     this.captcha,
     this.challenge,
     this.count,
+    this.monetize,
   });
 
   factory RuleAction.fromJson(Map<String, dynamic> json) {
@@ -7855,6 +8631,9 @@ class RuleAction {
       count: json['Count'] != null
           ? CountAction.fromJson(json['Count'] as Map<String, dynamic>)
           : null,
+      monetize: json['Monetize'] != null
+          ? MonetizeAction.fromJson(json['Monetize'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -7864,12 +8643,14 @@ class RuleAction {
     final captcha = this.captcha;
     final challenge = this.challenge;
     final count = this.count;
+    final monetize = this.monetize;
     return {
       if (allow != null) 'Allow': allow,
       if (block != null) 'Block': block,
       if (captcha != null) 'Captcha': captcha,
       if (challenge != null) 'Challenge': challenge,
       if (count != null) 'Count': count,
+      if (monetize != null) 'Monetize': monetize,
     };
   }
 }
@@ -8328,6 +9109,42 @@ class ChallengeAction {
   }
 }
 
+/// Specifies the monetize action settings for a rule. When WAF applies this
+/// action, it returns an HTTP 402 Payment Required response containing pricing
+/// information that the requesting client uses to complete payment and gain
+/// access to the resource. This is a terminating action-if the client does not
+/// complete the 402 payment flow, the request is blocked. This action is
+/// available only for web ACLs associated with Amazon CloudFront distributions.
+/// You must configure a <code>MonetizationConfig</code> on the web ACL or rule
+/// group before adding rules that use this action. You cannot use the Monetize
+/// action for rate-based rules.
+///
+/// @nodoc
+class MonetizeAction {
+  /// An integer multiplier applied to the base price defined in the web ACL's
+  /// <code>MonetizationConfig</code>. The effective price for the request is the
+  /// base price multiplied by this value. Specify as a string. Valid values: 1 to
+  /// 100.
+  final String? priceMultiplier;
+
+  MonetizeAction({
+    this.priceMultiplier,
+  });
+
+  factory MonetizeAction.fromJson(Map<String, dynamic> json) {
+    return MonetizeAction(
+      priceMultiplier: json['PriceMultiplier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priceMultiplier = this.priceMultiplier;
+    return {
+      if (priceMultiplier != null) 'PriceMultiplier': priceMultiplier,
+    };
+  }
+}
+
 /// A custom response to send to the client. You can define a custom response
 /// for rule actions and default web ACL actions that are set to
 /// <a>BlockAction</a>.
@@ -8521,11 +9338,20 @@ class ByteMatchStatement {
   /// transformed component contents.
   final List<TextTransformation> textTransformations;
 
+  /// Pre-parse text transformations normalize the raw query string before WAF
+  /// parses it into individual query arguments. They are applied before the
+  /// standard text transformations. Pre-parse text transformations are only
+  /// supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code>
+  /// or <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text
+  /// transformations per rule statement.
+  final List<PreParseTextTransformation>? preParseTextTransformations;
+
   ByteMatchStatement({
     required this.fieldToMatch,
     required this.positionalConstraint,
     required this.searchString,
     required this.textTransformations,
+    this.preParseTextTransformations,
   });
 
   factory ByteMatchStatement.fromJson(Map<String, dynamic> json) {
@@ -8540,6 +9366,12 @@ class ByteMatchStatement {
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      preParseTextTransformations: (json['PreParseTextTransformations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              PreParseTextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -8548,11 +9380,14 @@ class ByteMatchStatement {
     final positionalConstraint = this.positionalConstraint;
     final searchString = this.searchString;
     final textTransformations = this.textTransformations;
+    final preParseTextTransformations = this.preParseTextTransformations;
     return {
       'FieldToMatch': fieldToMatch,
       'PositionalConstraint': positionalConstraint.value,
       'SearchString': base64Encode(searchString),
       'TextTransformations': textTransformations,
+      if (preParseTextTransformations != null)
+        'PreParseTextTransformations': preParseTextTransformations,
     };
   }
 }
@@ -8577,6 +9412,14 @@ class SqliMatchStatement {
   /// transformed component contents.
   final List<TextTransformation> textTransformations;
 
+  /// Pre-parse text transformations normalize the raw query string before WAF
+  /// parses it into individual query arguments. They are applied before the
+  /// standard text transformations. Pre-parse text transformations are only
+  /// supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code>
+  /// or <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text
+  /// transformations per rule statement.
+  final List<PreParseTextTransformation>? preParseTextTransformations;
+
   /// The sensitivity that you want WAF to use to inspect for SQL injection
   /// attacks.
   ///
@@ -8597,6 +9440,7 @@ class SqliMatchStatement {
   SqliMatchStatement({
     required this.fieldToMatch,
     required this.textTransformations,
+    this.preParseTextTransformations,
     this.sensitivityLevel,
   });
 
@@ -8609,6 +9453,12 @@ class SqliMatchStatement {
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      preParseTextTransformations: (json['PreParseTextTransformations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              PreParseTextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sensitivityLevel: (json['SensitivityLevel'] as String?)
           ?.let(SensitivityLevel.fromString),
     );
@@ -8617,10 +9467,13 @@ class SqliMatchStatement {
   Map<String, dynamic> toJson() {
     final fieldToMatch = this.fieldToMatch;
     final textTransformations = this.textTransformations;
+    final preParseTextTransformations = this.preParseTextTransformations;
     final sensitivityLevel = this.sensitivityLevel;
     return {
       'FieldToMatch': fieldToMatch,
       'TextTransformations': textTransformations,
+      if (preParseTextTransformations != null)
+        'PreParseTextTransformations': preParseTextTransformations,
       if (sensitivityLevel != null) 'SensitivityLevel': sensitivityLevel.value,
     };
   }
@@ -8647,9 +9500,18 @@ class XssMatchStatement {
   /// transformed component contents.
   final List<TextTransformation> textTransformations;
 
+  /// Pre-parse text transformations normalize the raw query string before WAF
+  /// parses it into individual query arguments. They are applied before the
+  /// standard text transformations. Pre-parse text transformations are only
+  /// supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code>
+  /// or <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text
+  /// transformations per rule statement.
+  final List<PreParseTextTransformation>? preParseTextTransformations;
+
   XssMatchStatement({
     required this.fieldToMatch,
     required this.textTransformations,
+    this.preParseTextTransformations,
   });
 
   factory XssMatchStatement.fromJson(Map<String, dynamic> json) {
@@ -8661,15 +9523,24 @@ class XssMatchStatement {
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      preParseTextTransformations: (json['PreParseTextTransformations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              PreParseTextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final fieldToMatch = this.fieldToMatch;
     final textTransformations = this.textTransformations;
+    final preParseTextTransformations = this.preParseTextTransformations;
     return {
       'FieldToMatch': fieldToMatch,
       'TextTransformations': textTransformations,
+      if (preParseTextTransformations != null)
+        'PreParseTextTransformations': preParseTextTransformations,
     };
   }
 }
@@ -8714,11 +9585,20 @@ class SizeConstraintStatement {
   /// transformed component contents.
   final List<TextTransformation> textTransformations;
 
+  /// Pre-parse text transformations normalize the raw query string before WAF
+  /// parses it into individual query arguments. They are applied before the
+  /// standard text transformations. Pre-parse text transformations are only
+  /// supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code>
+  /// or <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text
+  /// transformations per rule statement.
+  final List<PreParseTextTransformation>? preParseTextTransformations;
+
   SizeConstraintStatement({
     required this.comparisonOperator,
     required this.fieldToMatch,
     required this.size,
     required this.textTransformations,
+    this.preParseTextTransformations,
   });
 
   factory SizeConstraintStatement.fromJson(Map<String, dynamic> json) {
@@ -8733,6 +9613,12 @@ class SizeConstraintStatement {
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      preParseTextTransformations: (json['PreParseTextTransformations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              PreParseTextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -8741,11 +9627,14 @@ class SizeConstraintStatement {
     final fieldToMatch = this.fieldToMatch;
     final size = this.size;
     final textTransformations = this.textTransformations;
+    final preParseTextTransformations = this.preParseTextTransformations;
     return {
       'ComparisonOperator': comparisonOperator.value,
       'FieldToMatch': fieldToMatch,
       'Size': size,
       'TextTransformations': textTransformations,
+      if (preParseTextTransformations != null)
+        'PreParseTextTransformations': preParseTextTransformations,
     };
   }
 }
@@ -8999,10 +9888,19 @@ class RegexPatternSetReferenceStatement {
   /// transformed component contents.
   final List<TextTransformation> textTransformations;
 
+  /// Pre-parse text transformations normalize the raw query string before WAF
+  /// parses it into individual query arguments. They are applied before the
+  /// standard text transformations. Pre-parse text transformations are only
+  /// supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code>
+  /// or <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text
+  /// transformations per rule statement.
+  final List<PreParseTextTransformation>? preParseTextTransformations;
+
   RegexPatternSetReferenceStatement({
     required this.arn,
     required this.fieldToMatch,
     required this.textTransformations,
+    this.preParseTextTransformations,
   });
 
   factory RegexPatternSetReferenceStatement.fromJson(
@@ -9016,6 +9914,12 @@ class RegexPatternSetReferenceStatement {
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      preParseTextTransformations: (json['PreParseTextTransformations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              PreParseTextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -9023,10 +9927,13 @@ class RegexPatternSetReferenceStatement {
     final arn = this.arn;
     final fieldToMatch = this.fieldToMatch;
     final textTransformations = this.textTransformations;
+    final preParseTextTransformations = this.preParseTextTransformations;
     return {
       'ARN': arn,
       'FieldToMatch': fieldToMatch,
       'TextTransformations': textTransformations,
+      if (preParseTextTransformations != null)
+        'PreParseTextTransformations': preParseTextTransformations,
     };
   }
 }
@@ -9629,7 +10536,11 @@ class RegexMatchStatement {
   /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
-  /// The string representing the regular expression.
+  /// The string representing the regular expression. WAF enforces a quota on the
+  /// maximum number of characters in a regex pattern. For the current limit, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
   final String regexString;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -9643,10 +10554,19 @@ class RegexMatchStatement {
   /// transformed component contents.
   final List<TextTransformation> textTransformations;
 
+  /// Pre-parse text transformations normalize the raw query string before WAF
+  /// parses it into individual query arguments. They are applied before the
+  /// standard text transformations. Pre-parse text transformations are only
+  /// supported when <code>FieldToMatch</code> is <code>SingleQueryArgument</code>
+  /// or <code>AllQueryArguments</code>. You can specify up to 10 pre-parse text
+  /// transformations per rule statement.
+  final List<PreParseTextTransformation>? preParseTextTransformations;
+
   RegexMatchStatement({
     required this.fieldToMatch,
     required this.regexString,
     required this.textTransformations,
+    this.preParseTextTransformations,
   });
 
   factory RegexMatchStatement.fromJson(Map<String, dynamic> json) {
@@ -9659,6 +10579,12 @@ class RegexMatchStatement {
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      preParseTextTransformations: (json['PreParseTextTransformations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              PreParseTextTransformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -9666,10 +10592,13 @@ class RegexMatchStatement {
     final fieldToMatch = this.fieldToMatch;
     final regexString = this.regexString;
     final textTransformations = this.textTransformations;
+    final preParseTextTransformations = this.preParseTextTransformations;
     return {
       'FieldToMatch': fieldToMatch,
       'RegexString': regexString,
       'TextTransformations': textTransformations,
+      if (preParseTextTransformations != null)
+        'PreParseTextTransformations': preParseTextTransformations,
     };
   }
 }
@@ -10146,6 +11075,82 @@ class FieldToMatch {
   }
 }
 
+/// A pre-parse text transformation that normalizes the raw query string before
+/// WAF parses it into individual query arguments. Pre-parse text
+/// transformations are only supported when <code>FieldToMatch</code> is
+/// <code>SingleQueryArgument</code> or <code>AllQueryArguments</code>.
+///
+/// @nodoc
+class PreParseTextTransformation {
+  /// Sets the relative processing order for the pre-parse text transformations
+  /// that you define. WAF processes all transformations, from lowest priority
+  /// value to highest, before inspecting the transformed content.
+  final int priority;
+
+  /// The type of pre-parse text transformation to apply to the raw query string.
+  final PreParseTextTransformationType type;
+
+  PreParseTextTransformation({
+    required this.priority,
+    required this.type,
+  });
+
+  factory PreParseTextTransformation.fromJson(Map<String, dynamic> json) {
+    return PreParseTextTransformation(
+      priority: (json['Priority'] as int?) ?? 0,
+      type: PreParseTextTransformationType.fromString(
+          (json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final type = this.type;
+    return {
+      'Priority': priority,
+      'Type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class PreParseTextTransformationType {
+  static const none = PreParseTextTransformationType._('NONE');
+  static const urlDecode = PreParseTextTransformationType._('URL_DECODE');
+  static const urlDecodeUni =
+      PreParseTextTransformationType._('URL_DECODE_UNI');
+  static const combineDuplicateQueryArgsByComma =
+      PreParseTextTransformationType._('COMBINE_DUPLICATE_QUERY_ARGS_BY_COMMA');
+  static const replaceSemicolonsWithAmpersands =
+      PreParseTextTransformationType._('REPLACE_SEMICOLONS_WITH_AMPERSANDS');
+
+  final String value;
+
+  const PreParseTextTransformationType._(this.value);
+
+  static const values = [
+    none,
+    urlDecode,
+    urlDecodeUni,
+    combineDuplicateQueryArgsByComma,
+    replaceSemicolonsWithAmpersands
+  ];
+
+  static PreParseTextTransformationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PreParseTextTransformationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PreParseTextTransformationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Text transformations eliminate some of the unusual formatting that attackers
 /// use in web requests in an effort to bypass detection.
 ///
@@ -10210,6 +11215,17 @@ class TextTransformationType {
   static const base64DecodeExt = TextTransformationType._('BASE64_DECODE_EXT');
   static const urlDecodeUni = TextTransformationType._('URL_DECODE_UNI');
   static const utf8ToUnicode = TextTransformationType._('UTF8_TO_UNICODE');
+  static const removeWhitespace = TextTransformationType._('REMOVE_WHITESPACE');
+  static const trim = TextTransformationType._('TRIM');
+  static const trimLeft = TextTransformationType._('TRIM_LEFT');
+  static const trimRight = TextTransformationType._('TRIM_RIGHT');
+  static const removeCommentsChar =
+      TextTransformationType._('REMOVE_COMMENTS_CHAR');
+  static const uppercase = TextTransformationType._('UPPERCASE');
+  static const cmdLineWin = TextTransformationType._('CMD_LINE_WIN');
+  static const cmdLineUnix = TextTransformationType._('CMD_LINE_UNIX');
+  static const jsDecodeExt = TextTransformationType._('JS_DECODE_EXT');
+  static const sha256 = TextTransformationType._('SHA256');
 
   final String value;
 
@@ -10236,7 +11252,17 @@ class TextTransformationType {
     replaceNulls,
     base64DecodeExt,
     urlDecodeUni,
-    utf8ToUnicode
+    utf8ToUnicode,
+    removeWhitespace,
+    trim,
+    trimLeft,
+    trimRight,
+    removeCommentsChar,
+    uppercase,
+    cmdLineWin,
+    cmdLineUnix,
+    jsDecodeExt,
+    sha256
   ];
 
   static TextTransformationType fromString(String value) =>
@@ -12292,7 +13318,11 @@ class UsageOfAction {
 ///
 /// @nodoc
 class Regex {
-  /// The string representing the regular expression.
+  /// The string representing the regular expression. WAF enforces a quota on the
+  /// maximum number of characters in a regex pattern. For the current limit, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">WAF
+  /// quotas</a> in the <i>WAF Developer Guide</i>.
   final String? regexString;
 
   Regex({
@@ -15123,6 +16153,7 @@ class ActionValue {
   static const count = ActionValue._('COUNT');
   static const captcha = ActionValue._('CAPTCHA');
   static const challenge = ActionValue._('CHALLENGE');
+  static const monetize = ActionValue._('MONETIZE');
   static const excludedAsCount = ActionValue._('EXCLUDED_AS_COUNT');
 
   final String value;
@@ -15135,6 +16166,7 @@ class ActionValue {
     count,
     captcha,
     challenge,
+    monetize,
     excludedAsCount
   ];
 
@@ -15264,6 +16296,475 @@ class TagInfoForResource {
   }
 }
 
+/// A single settlement transaction record for AI bot monetization. Contains
+/// details about the payment including timestamp, amount, status, and the
+/// parties involved.
+///
+/// @nodoc
+class SettlementRecord {
+  /// The payment amount in the specified currency.
+  final String amount;
+
+  /// The status of the settlement. Possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SETTLED</code> - The payment was successfully settled on the
+  /// blockchain and the transfer from the payer's wallet to the publisher's
+  /// wallet is confirmed. The <code>TransactionId</code> field contains the
+  /// on-chain transaction hash. Content is served to the client.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code> - The blockchain transaction has been submitted but not
+  /// yet confirmed on-chain. This is a transient state that automatically
+  /// resolves to either <code>SETTLED</code> or <code>FAILED</code>. No action is
+  /// required. While pending, content is not served and the API returns a 402
+  /// response. Clients can retry the request.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The payment settlement was attempted but failed.
+  /// Possible causes include insufficient funds, an expired payment
+  /// authorization, or a reverted blockchain transaction. The
+  /// <code>failureReason</code> field contains a machine-readable error code.
+  /// Content is not served.
+  /// </li>
+  /// <li>
+  /// <code>SERVICE_ERROR</code> - Settlement could not be completed due to an
+  /// internal service issue or an issue with the payment network. Content is not
+  /// served. The client's payment authorization remains valid and the request can
+  /// be retried.
+  /// </li>
+  /// <li>
+  /// <code>SKIPPED_ORIGIN_ERROR</code> - The origin returned a non-2xx response,
+  /// so settlement was intentionally skipped. The client is not charged.
+  /// </li>
+  /// <li>
+  /// <code>DUPLICATE</code> - A prior request with the same payment payload has
+  /// already been settled. This status typically appears when a previous attempt
+  /// timed out but the payment was ultimately processed. The client is not
+  /// charged again.
+  /// </li>
+  /// </ul>
+  final SettlementStatus status;
+
+  /// The timestamp when the settlement was recorded.
+  final DateTime timestamp;
+
+  /// The content path that was accessed.
+  final String? contentPath;
+
+  /// The currency of the payment amount.
+  final Currency? currency;
+
+  /// The declared intent of the AI bot request.
+  final String? intent;
+
+  /// The blockchain network on which the settlement occurred.
+  final String? network;
+
+  /// The organization associated with the AI bot.
+  final String? organization;
+
+  /// The blockchain wallet address of the paying AI agent.
+  final String? payerAddress;
+
+  /// The WAF request ID associated with this settlement.
+  final String? requestId;
+
+  /// The timestamp of the original web request.
+  final DateTime? requestTimestamp;
+
+  /// The category of the AI bot source.
+  final String? sourceCategory;
+
+  /// The name of the AI bot that made the payment.
+  final String? sourceName;
+
+  /// The blockchain transaction identifier. You can use this to verify the
+  /// transaction on a blockchain explorer.
+  final String? transactionId;
+
+  /// Whether the AI bot's identity was verified.
+  final bool? verified;
+
+  /// Your receiving wallet address.
+  final String? walletAddress;
+
+  /// The ARN of the web ACL that processed the request.
+  final String? webAclArn;
+
+  SettlementRecord({
+    required this.amount,
+    required this.status,
+    required this.timestamp,
+    this.contentPath,
+    this.currency,
+    this.intent,
+    this.network,
+    this.organization,
+    this.payerAddress,
+    this.requestId,
+    this.requestTimestamp,
+    this.sourceCategory,
+    this.sourceName,
+    this.transactionId,
+    this.verified,
+    this.walletAddress,
+    this.webAclArn,
+  });
+
+  factory SettlementRecord.fromJson(Map<String, dynamic> json) {
+    return SettlementRecord(
+      amount: (json['Amount'] as String?) ?? '',
+      status: SettlementStatus.fromString((json['Status'] as String?) ?? ''),
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
+      contentPath: json['ContentPath'] as String?,
+      currency: (json['Currency'] as String?)?.let(Currency.fromString),
+      intent: json['Intent'] as String?,
+      network: json['Network'] as String?,
+      organization: json['Organization'] as String?,
+      payerAddress: json['PayerAddress'] as String?,
+      requestId: json['RequestId'] as String?,
+      requestTimestamp: timeStampFromJson(json['RequestTimestamp']),
+      sourceCategory: json['SourceCategory'] as String?,
+      sourceName: json['SourceName'] as String?,
+      transactionId: json['TransactionId'] as String?,
+      verified: json['Verified'] as bool?,
+      walletAddress: json['WalletAddress'] as String?,
+      webAclArn: json['WebAclArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final status = this.status;
+    final timestamp = this.timestamp;
+    final contentPath = this.contentPath;
+    final currency = this.currency;
+    final intent = this.intent;
+    final network = this.network;
+    final organization = this.organization;
+    final payerAddress = this.payerAddress;
+    final requestId = this.requestId;
+    final requestTimestamp = this.requestTimestamp;
+    final sourceCategory = this.sourceCategory;
+    final sourceName = this.sourceName;
+    final transactionId = this.transactionId;
+    final verified = this.verified;
+    final walletAddress = this.walletAddress;
+    final webAclArn = this.webAclArn;
+    return {
+      'Amount': amount,
+      'Status': status.value,
+      'Timestamp': unixTimestampToJson(timestamp),
+      if (contentPath != null) 'ContentPath': contentPath,
+      if (currency != null) 'Currency': currency.value,
+      if (intent != null) 'Intent': intent,
+      if (network != null) 'Network': network,
+      if (organization != null) 'Organization': organization,
+      if (payerAddress != null) 'PayerAddress': payerAddress,
+      if (requestId != null) 'RequestId': requestId,
+      if (requestTimestamp != null)
+        'RequestTimestamp': unixTimestampToJson(requestTimestamp),
+      if (sourceCategory != null) 'SourceCategory': sourceCategory,
+      if (sourceName != null) 'SourceName': sourceName,
+      if (transactionId != null) 'TransactionId': transactionId,
+      if (verified != null) 'Verified': verified,
+      if (walletAddress != null) 'WalletAddress': walletAddress,
+      if (webAclArn != null) 'WebAclArn': webAclArn,
+    };
+  }
+}
+
+/// @nodoc
+class SettlementStatus {
+  static const settled = SettlementStatus._('SETTLED');
+  static const pending = SettlementStatus._('PENDING');
+  static const failed = SettlementStatus._('FAILED');
+  static const serviceError = SettlementStatus._('SERVICE_ERROR');
+  static const skippedOriginError = SettlementStatus._('SKIPPED_ORIGIN_ERROR');
+  static const duplicate = SettlementStatus._('DUPLICATE');
+
+  final String value;
+
+  const SettlementStatus._(this.value);
+
+  static const values = [
+    settled,
+    pending,
+    failed,
+    serviceError,
+    skippedOriginError,
+    duplicate
+  ];
+
+  static SettlementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SettlementStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SettlementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class Currency {
+  static const usdc = Currency._('USDC');
+
+  final String value;
+
+  const Currency._(this.value);
+
+  static const values = [usdc];
+
+  static Currency fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Currency._(value));
+
+  @override
+  bool operator ==(other) => other is Currency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and
+/// <code>EndTime</code> objects specify the time range for which you want WAF
+/// to return a sample of web requests.
+///
+/// You must specify the times in Coordinated Universal Time (UTC) format. UTC
+/// format includes the special designator, <code>Z</code>. For example,
+/// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
+/// previous three hours.
+///
+/// In a <a>GetSampledRequests</a> response, the <code>StartTime</code> and
+/// <code>EndTime</code> objects specify the time range for which WAF actually
+/// returned a sample of web requests. WAF gets the specified number of requests
+/// from among the first 5,000 requests that your Amazon Web Services resource
+/// receives during the specified time period. If your resource receives more
+/// than 5,000 requests during that period, WAF stops sampling after the 5,000th
+/// request. In that case, <code>EndTime</code> is the time that WAF received
+/// the 5,000th request.
+///
+/// @nodoc
+class TimeWindow {
+  /// The end of the time range from which you want
+  /// <code>GetSampledRequests</code> to return a sample of the requests that your
+  /// Amazon Web Services resource received. You must specify the times in
+  /// Coordinated Universal Time (UTC) format. UTC format includes the special
+  /// designator, <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>.
+  /// You can specify any time range in the previous three hours.
+  final DateTime endTime;
+
+  /// The beginning of the time range from which you want
+  /// <code>GetSampledRequests</code> to return a sample of the requests that your
+  /// Amazon Web Services resource received. You must specify the times in
+  /// Coordinated Universal Time (UTC) format. UTC format includes the special
+  /// designator, <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>.
+  /// You can specify any time range in the previous three hours.
+  final DateTime startTime;
+
+  TimeWindow({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory TimeWindow.fromJson(Map<String, dynamic> json) {
+    return TimeWindow(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// @nodoc
+class SettlementSortBy {
+  static const timestamp = SettlementSortBy._('TIMESTAMP');
+  static const amount = SettlementSortBy._('AMOUNT');
+  static const name = SettlementSortBy._('NAME');
+  static const status = SettlementSortBy._('STATUS');
+
+  final String value;
+
+  const SettlementSortBy._(this.value);
+
+  static const values = [timestamp, amount, name, status];
+
+  static SettlementSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SettlementSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is SettlementSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter for narrowing monetization statistics and settlement record
+/// results. Specify a filter name and one or more values to match.
+///
+/// Filter behavior:
+///
+/// <ul>
+/// <li>
+/// Multiple values within one filter: OR (match any)
+/// </li>
+/// <li>
+/// Multiple filters: AND (all must match)
+/// </li>
+/// <li>
+/// No duplicate filter names allowed (rejected with error)
+/// </li>
+/// <li>
+/// Duplicate values within a filter are silently deduplicated
+/// </li>
+/// <li>
+/// If no <code>CurrencyMode</code> filter is specified, defaults to
+/// <code>REAL</code>
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class MonetizationFilter {
+  /// The filter name. Format: Key is a string, Value is a list of strings.
+  ///
+  /// Enum-restricted (invalid values rejected):
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CurrencyMode</code>: <code>REAL</code>, <code>TEST</code>
+  /// </li>
+  /// <li>
+  /// <code>ChainName</code>: <code>BASE</code>, <code>SOLANA</code>,
+  /// <code>BASE_SEPOLIA</code>, <code>SOLANA_DEVNET</code>
+  /// </li>
+  /// <li>
+  /// <code>SettlementStatus</code>: <code>SETTLED</code>, <code>PENDING</code>,
+  /// <code>FAILED</code>, <code>SERVICE_ERROR</code>,
+  /// <code>SKIPPED_ORIGIN_ERROR</code>, <code>DUPLICATE</code>
+  /// </li>
+  /// <li>
+  /// <code>HttpSourceName</code>: <code>CF</code>, <code>ALB</code>,
+  /// <code>APIGW</code>, <code>APPRUNNER</code>, <code>COGNITO</code>,
+  /// <code>VERIFIED_ACCESS</code>
+  /// </li>
+  /// </ul>
+  /// ARN-validated:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>WebACLArn</code>: valid WAFv2 web ACL ARN
+  /// </li>
+  /// </ul>
+  /// Free-text (any string up to 256 chars):
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SourceName</code>: The name of the bot. Populated from Bot Control
+  /// verified bot labels.
+  /// </li>
+  /// <li>
+  /// <code>SourceCategory</code>: The category classification of the bot. From
+  /// Bot Control categorization.
+  /// </li>
+  /// <li>
+  /// <code>Intent</code>: The declared intent of the bot request.
+  /// </li>
+  /// <li>
+  /// <code>Organization</code>: The organization operating the bot.
+  /// </li>
+  /// <li>
+  /// <code>UriPathPrefix</code>: The URI path of the request that was monetized.
+  /// </li>
+  /// <li>
+  /// <code>RequestId</code>: The WAF request ID associated with the transaction.
+  /// Matches the requestId in WAF logs. Pattern:
+  /// <code>^\[a-zA-Z0-9:._\-=+/\]+$</code>
+  /// </li>
+  /// <li>
+  /// <code>TransactionId</code>: The blockchain transaction identifier. Pattern:
+  /// <code>^\[a-zA-Z0-9:._\-=+/\]+$</code>
+  /// </li>
+  /// <li>
+  /// <code>TerminatingRuleName</code>: The name of the WAF rule that triggered
+  /// the Monetize action.
+  /// </li>
+  /// <li>
+  /// <code>PayerAddress</code>: The blockchain wallet address of the paying
+  /// client. Pattern: <code>^\[a-zA-Z0-9:._\-=+/\]+$</code>
+  /// </li>
+  /// <li>
+  /// <code>HttpSourceId</code>: The identifier of the Amazon Web Services
+  /// resource associated with the web ACL (for example, CloudFront distribution
+  /// ID).
+  /// </li>
+  /// </ul>
+  final String name;
+
+  /// The values to filter on. Specify as a list of strings. Results match any of
+  /// the specified values (OR logic). Duplicate values are silently deduplicated.
+  /// Maximum: 20 values per filter.
+  final List<String> values;
+
+  MonetizationFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
+}
+
 /// High-level information about a <a>RuleGroup</a>, returned by operations like
 /// create and list. This provides information like the ID, that you can use to
 /// retrieve and manage a <code>RuleGroup</code>, and the ARN, that you provide
@@ -15343,6 +16844,7 @@ class ResourceType {
   static const verifiedAccessInstance =
       ResourceType._('VERIFIED_ACCESS_INSTANCE');
   static const amplify = ResourceType._('AMPLIFY');
+  static const agentcoreGateway = ResourceType._('AGENTCORE_GATEWAY');
 
   final String value;
 
@@ -15355,7 +16857,8 @@ class ResourceType {
     cognitoUserPool,
     appRunnerService,
     verifiedAccessInstance,
-    amplify
+    amplify,
+    agentcoreGateway
   ];
 
   static ResourceType fromString(String value) => values
@@ -15826,7 +17329,8 @@ class APIKeySummary {
 /// Services resources to protect. The resource types include Amazon CloudFront
 /// distribution, Amazon API Gateway REST API, Application Load Balancer,
 /// AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify
-/// application, and Amazon Web Services Verified Access instance.
+/// application, Amazon Web Services Verified Access instance, and Amazon
+/// Bedrock AgentCore Gateway.
 ///
 /// @nodoc
 class WebACL {
@@ -15949,6 +17453,11 @@ class WebACL {
   /// <code>PostProcessFirewallManagerRuleGroups</code>.
   final bool? managedByFirewallManager;
 
+  /// The monetization configuration for the web ACL. Required when any rule in
+  /// the web ACL uses the <code>Monetize</code> action. Specifies the
+  /// cryptocurrency payment networks and currency mode for AI bot monetization.
+  final MonetizationConfig? monetizationConfig;
+
   /// Configures the level of DDoS protection that applies to web ACLs associated
   /// with Application Load Balancers.
   final OnSourceDDoSProtectionConfig? onSourceDDoSProtectionConfig;
@@ -16015,6 +17524,7 @@ class WebACL {
     this.description,
     this.labelNamespace,
     this.managedByFirewallManager,
+    this.monetizationConfig,
     this.onSourceDDoSProtectionConfig,
     this.postProcessFirewallManagerRuleGroups,
     this.preProcessFirewallManagerRuleGroups,
@@ -16062,6 +17572,10 @@ class WebACL {
       description: json['Description'] as String?,
       labelNamespace: json['LabelNamespace'] as String?,
       managedByFirewallManager: json['ManagedByFirewallManager'] as bool?,
+      monetizationConfig: json['MonetizationConfig'] != null
+          ? MonetizationConfig.fromJson(
+              json['MonetizationConfig'] as Map<String, dynamic>)
+          : null,
       onSourceDDoSProtectionConfig: json['OnSourceDDoSProtectionConfig'] != null
           ? OnSourceDDoSProtectionConfig.fromJson(
               json['OnSourceDDoSProtectionConfig'] as Map<String, dynamic>)
@@ -16107,6 +17621,7 @@ class WebACL {
     final description = this.description;
     final labelNamespace = this.labelNamespace;
     final managedByFirewallManager = this.managedByFirewallManager;
+    final monetizationConfig = this.monetizationConfig;
     final onSourceDDoSProtectionConfig = this.onSourceDDoSProtectionConfig;
     final postProcessFirewallManagerRuleGroups =
         this.postProcessFirewallManagerRuleGroups;
@@ -16134,6 +17649,7 @@ class WebACL {
       if (labelNamespace != null) 'LabelNamespace': labelNamespace,
       if (managedByFirewallManager != null)
         'ManagedByFirewallManager': managedByFirewallManager,
+      if (monetizationConfig != null) 'MonetizationConfig': monetizationConfig,
       if (onSourceDDoSProtectionConfig != null)
         'OnSourceDDoSProtectionConfig': onSourceDDoSProtectionConfig,
       if (postProcessFirewallManagerRuleGroups != null)
@@ -16421,64 +17937,6 @@ class BotStatistics {
       'BotName': botName,
       'Percentage': _s.encodeJsonDouble(percentage),
       'RequestCount': requestCount,
-    };
-  }
-}
-
-/// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and
-/// <code>EndTime</code> objects specify the time range for which you want WAF
-/// to return a sample of web requests.
-///
-/// You must specify the times in Coordinated Universal Time (UTC) format. UTC
-/// format includes the special designator, <code>Z</code>. For example,
-/// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
-/// previous three hours.
-///
-/// In a <a>GetSampledRequests</a> response, the <code>StartTime</code> and
-/// <code>EndTime</code> objects specify the time range for which WAF actually
-/// returned a sample of web requests. WAF gets the specified number of requests
-/// from among the first 5,000 requests that your Amazon Web Services resource
-/// receives during the specified time period. If your resource receives more
-/// than 5,000 requests during that period, WAF stops sampling after the 5,000th
-/// request. In that case, <code>EndTime</code> is the time that WAF received
-/// the 5,000th request.
-///
-/// @nodoc
-class TimeWindow {
-  /// The end of the time range from which you want
-  /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// Amazon Web Services resource received. You must specify the times in
-  /// Coordinated Universal Time (UTC) format. UTC format includes the special
-  /// designator, <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>.
-  /// You can specify any time range in the previous three hours.
-  final DateTime endTime;
-
-  /// The beginning of the time range from which you want
-  /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// Amazon Web Services resource received. You must specify the times in
-  /// Coordinated Universal Time (UTC) format. UTC format includes the special
-  /// designator, <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>.
-  /// You can specify any time range in the previous three hours.
-  final DateTime startTime;
-
-  TimeWindow({
-    required this.endTime,
-    required this.startTime,
-  });
-
-  factory TimeWindow.fromJson(Map<String, dynamic> json) {
-    return TimeWindow(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      'EndTime': unixTimestampToJson(endTime),
-      'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
@@ -16947,6 +18405,13 @@ class RuleGroup {
   /// </ul>
   final String? labelNamespace;
 
+  /// The monetization configuration for the rule group. Required when any rule in
+  /// the rule group uses the <code>Monetize</code> action. When a rule group with
+  /// a <code>MonetizationConfig</code> is used in a web ACL, the rule group's
+  /// configuration applies to rules within that group unless overridden at the
+  /// web ACL level.
+  final MonetizationConfig? monetizationConfig;
+
   /// The <a>Rule</a> statements used to identify the web requests that you want
   /// to manage. Each rule includes one top-level statement that WAF uses to
   /// identify matching web requests, and parameters that govern how WAF handles
@@ -16964,6 +18429,7 @@ class RuleGroup {
     this.customResponseBodies,
     this.description,
     this.labelNamespace,
+    this.monetizationConfig,
     this.rules,
   });
 
@@ -16990,6 +18456,10 @@ class RuleGroup {
                   k, CustomResponseBody.fromJson(e as Map<String, dynamic>))),
       description: json['Description'] as String?,
       labelNamespace: json['LabelNamespace'] as String?,
+      monetizationConfig: json['MonetizationConfig'] != null
+          ? MonetizationConfig.fromJson(
+              json['MonetizationConfig'] as Map<String, dynamic>)
+          : null,
       rules: (json['Rules'] as List?)
           ?.nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
@@ -17008,6 +18478,7 @@ class RuleGroup {
     final customResponseBodies = this.customResponseBodies;
     final description = this.description;
     final labelNamespace = this.labelNamespace;
+    final monetizationConfig = this.monetizationConfig;
     final rules = this.rules;
     return {
       'ARN': arn,
@@ -17021,6 +18492,7 @@ class RuleGroup {
         'CustomResponseBodies': customResponseBodies,
       if (description != null) 'Description': description,
       if (labelNamespace != null) 'LabelNamespace': labelNamespace,
+      if (monetizationConfig != null) 'MonetizationConfig': monetizationConfig,
       if (rules != null) 'Rules': rules,
     };
   }
@@ -17062,6 +18534,407 @@ class LabelSummary {
       if (name != null) 'Name': name,
     };
   }
+}
+
+/// A single data point in a revenue time series, representing aggregated
+/// monetization metrics for a specific time interval.
+///
+/// @nodoc
+class DataPointEntry {
+  /// The bot category for this data point, when grouped by category.
+  final String? category;
+
+  /// The timestamp for this data point.
+  final DateTime? date;
+
+  /// The group-by dimension value for this data point.
+  final String? groupByValue;
+
+  /// The intent classification for this data point, when grouped by intent.
+  final String? intent;
+
+  /// The number of HTTP 402 Payment Required responses served during this
+  /// interval.
+  final int? monetizeServedCount;
+
+  /// The number of successfully settled payments during this interval.
+  final int? settledCount;
+
+  /// The total revenue amount during this interval in the specified currency.
+  final String? totalAmount;
+
+  DataPointEntry({
+    this.category,
+    this.date,
+    this.groupByValue,
+    this.intent,
+    this.monetizeServedCount,
+    this.settledCount,
+    this.totalAmount,
+  });
+
+  factory DataPointEntry.fromJson(Map<String, dynamic> json) {
+    return DataPointEntry(
+      category: json['Category'] as String?,
+      date: timeStampFromJson(json['Date']),
+      groupByValue: json['GroupByValue'] as String?,
+      intent: json['Intent'] as String?,
+      monetizeServedCount: json['MonetizeServedCount'] as int?,
+      settledCount: json['SettledCount'] as int?,
+      totalAmount: json['TotalAmount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final date = this.date;
+    final groupByValue = this.groupByValue;
+    final intent = this.intent;
+    final monetizeServedCount = this.monetizeServedCount;
+    final settledCount = this.settledCount;
+    final totalAmount = this.totalAmount;
+    return {
+      if (category != null) 'Category': category,
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (groupByValue != null) 'GroupByValue': groupByValue,
+      if (intent != null) 'Intent': intent,
+      if (monetizeServedCount != null)
+        'MonetizeServedCount': monetizeServedCount,
+      if (settledCount != null) 'SettledCount': settledCount,
+      if (totalAmount != null) 'TotalAmount': totalAmount,
+    };
+  }
+}
+
+/// @nodoc
+class TimeSeriesStatisticType {
+  static const dateHistogram = TimeSeriesStatisticType._('DATE_HISTOGRAM');
+  static const paymentTraffic = TimeSeriesStatisticType._('PAYMENT_TRAFFIC');
+
+  final String value;
+
+  const TimeSeriesStatisticType._(this.value);
+
+  static const values = [dateHistogram, paymentTraffic];
+
+  static TimeSeriesStatisticType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimeSeriesStatisticType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TimeSeriesStatisticType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class IntervalType {
+  static const minutely = IntervalType._('MINUTELY');
+  static const fiveMinutely = IntervalType._('FIVE_MINUTELY');
+  static const hourly = IntervalType._('HOURLY');
+  static const daily = IntervalType._('DAILY');
+
+  final String value;
+
+  const IntervalType._(this.value);
+
+  static const values = [minutely, fiveMinutely, hourly, daily];
+
+  static IntervalType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IntervalType._(value));
+
+  @override
+  bool operator ==(other) => other is IntervalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class GroupByType {
+  static const name = GroupByType._('NAME');
+  static const category = GroupByType._('CATEGORY');
+  static const intent = GroupByType._('INTENT');
+  static const organization = GroupByType._('ORGANIZATION');
+  static const webacl = GroupByType._('WEBACL');
+
+  final String value;
+
+  const GroupByType._(this.value);
+
+  static const values = [name, category, intent, organization, webacl];
+
+  static GroupByType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GroupByType._(value));
+
+  @override
+  bool operator ==(other) => other is GroupByType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of AI bot monetization revenue, including total revenue, revenue
+/// by verification tier, and request counts.
+///
+/// @nodoc
+class RevenueBreakdown {
+  /// The currency of the revenue amounts.
+  final Currency? currency;
+
+  /// The total revenue amount in the specified currency.
+  final String? totalAmount;
+
+  /// The total number of HTTP 402 Payment Required responses served to AI agents.
+  final int? totalMonetizeServed;
+
+  /// The total number of successfully settled payment transactions.
+  final int? totalSettled;
+
+  /// The revenue amount from unverified AI bots.
+  final String? unverifiedAmount;
+
+  /// The revenue amount from verified AI bots.
+  final String? verifiedAmount;
+
+  RevenueBreakdown({
+    this.currency,
+    this.totalAmount,
+    this.totalMonetizeServed,
+    this.totalSettled,
+    this.unverifiedAmount,
+    this.verifiedAmount,
+  });
+
+  factory RevenueBreakdown.fromJson(Map<String, dynamic> json) {
+    return RevenueBreakdown(
+      currency: (json['Currency'] as String?)?.let(Currency.fromString),
+      totalAmount: json['TotalAmount'] as String?,
+      totalMonetizeServed: json['TotalMonetizeServed'] as int?,
+      totalSettled: json['TotalSettled'] as int?,
+      unverifiedAmount: json['UnverifiedAmount'] as String?,
+      verifiedAmount: json['VerifiedAmount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final totalAmount = this.totalAmount;
+    final totalMonetizeServed = this.totalMonetizeServed;
+    final totalSettled = this.totalSettled;
+    final unverifiedAmount = this.unverifiedAmount;
+    final verifiedAmount = this.verifiedAmount;
+    return {
+      if (currency != null) 'Currency': currency.value,
+      if (totalAmount != null) 'TotalAmount': totalAmount,
+      if (totalMonetizeServed != null)
+        'TotalMonetizeServed': totalMonetizeServed,
+      if (totalSettled != null) 'TotalSettled': totalSettled,
+      if (unverifiedAmount != null) 'UnverifiedAmount': unverifiedAmount,
+      if (verifiedAmount != null) 'VerifiedAmount': verifiedAmount,
+    };
+  }
+}
+
+/// Revenue statistics for a single content path, including the path, revenue
+/// amount, and request count.
+///
+/// @nodoc
+class RevenuePathStatistics {
+  /// The total revenue amount from this path in the specified currency.
+  final String amount;
+
+  /// The URI path.
+  final String path;
+
+  /// The percentage of total revenue from this path.
+  final double percentage;
+
+  /// The number of monetized requests to this path.
+  final int requestCount;
+
+  RevenuePathStatistics({
+    required this.amount,
+    required this.path,
+    required this.percentage,
+    required this.requestCount,
+  });
+
+  factory RevenuePathStatistics.fromJson(Map<String, dynamic> json) {
+    return RevenuePathStatistics(
+      amount: (json['Amount'] as String?) ?? '',
+      path: (json['Path'] as String?) ?? '',
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
+      requestCount: (json['RequestCount'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final path = this.path;
+    final percentage = this.percentage;
+    final requestCount = this.requestCount;
+    return {
+      'Amount': amount,
+      'Path': path,
+      'Percentage': _s.encodeJsonDouble(percentage),
+      'RequestCount': requestCount,
+    };
+  }
+}
+
+/// Revenue statistics for a single AI bot source, including the bot name,
+/// revenue amount, request count, and verification status.
+///
+/// @nodoc
+class SourceStatistics {
+  /// The total revenue amount from this source in the specified currency.
+  final String amount;
+
+  /// The percentage of total revenue from this source.
+  final double percentage;
+
+  /// The number of monetized requests from this source.
+  final int requestCount;
+
+  /// The name of the AI bot.
+  final String sourceName;
+
+  /// The value for the group-by dimension, when grouping is applied.
+  final String? groupByValue;
+
+  /// The declared intent of the AI bot (for example, summarize, index, or train).
+  final String? intent;
+
+  /// The organization associated with the AI bot.
+  final String? organization;
+
+  /// The category of this AI bot source.
+  final String? sourceCategory;
+
+  /// Indicates whether the AI bot's identity was verified — for example, through
+  /// a cryptographically signed request (Web Bot Auth) or another published
+  /// verification method. This value is meaningful only when GroupBy is NAME,
+  /// where each result represents a single, identifiable bot. For all other
+  /// GroupBy values (CATEGORY, INTENT, ORGANIZATION, or WEBACL), a result
+  /// aggregates multiple bots that may have different verification states, so
+  /// Verified is always returned as false and should be ignored. Type and
+  /// required-ness are unchanged (Boolean, optional).
+  final bool? verified;
+
+  SourceStatistics({
+    required this.amount,
+    required this.percentage,
+    required this.requestCount,
+    required this.sourceName,
+    this.groupByValue,
+    this.intent,
+    this.organization,
+    this.sourceCategory,
+    this.verified,
+  });
+
+  factory SourceStatistics.fromJson(Map<String, dynamic> json) {
+    return SourceStatistics(
+      amount: (json['Amount'] as String?) ?? '',
+      percentage: _s.parseJsonDouble(json['Percentage']) ?? 0,
+      requestCount: (json['RequestCount'] as int?) ?? 0,
+      sourceName: (json['SourceName'] as String?) ?? '',
+      groupByValue: json['GroupByValue'] as String?,
+      intent: json['Intent'] as String?,
+      organization: json['Organization'] as String?,
+      sourceCategory: json['SourceCategory'] as String?,
+      verified: json['Verified'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final percentage = this.percentage;
+    final requestCount = this.requestCount;
+    final sourceName = this.sourceName;
+    final groupByValue = this.groupByValue;
+    final intent = this.intent;
+    final organization = this.organization;
+    final sourceCategory = this.sourceCategory;
+    final verified = this.verified;
+    return {
+      'Amount': amount,
+      'Percentage': _s.encodeJsonDouble(percentage),
+      'RequestCount': requestCount,
+      'SourceName': sourceName,
+      if (groupByValue != null) 'GroupByValue': groupByValue,
+      if (intent != null) 'Intent': intent,
+      if (organization != null) 'Organization': organization,
+      if (sourceCategory != null) 'SourceCategory': sourceCategory,
+      if (verified != null) 'Verified': verified,
+    };
+  }
+}
+
+/// @nodoc
+class RankingStatisticType {
+  static const topSourcesByRevenue =
+      RankingStatisticType._('TOP_SOURCES_BY_REVENUE');
+  static const topPathsByRevenue =
+      RankingStatisticType._('TOP_PATHS_BY_REVENUE');
+
+  final String value;
+
+  const RankingStatisticType._(this.value);
+
+  static const values = [topSourcesByRevenue, topPathsByRevenue];
+
+  static RankingStatisticType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RankingStatisticType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RankingStatisticType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class RankingSortBy {
+  static const revenue = RankingSortBy._('REVENUE');
+  static const percentage = RankingSortBy._('PERCENTAGE');
+  static const name = RankingSortBy._('NAME');
+
+  final String value;
+
+  const RankingSortBy._(this.value);
+
+  static const values = [revenue, percentage, name];
+
+  static RankingSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RankingSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is RankingSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains one or more regular expressions.

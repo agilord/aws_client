@@ -428,6 +428,28 @@ class MediaPackageV2 {
   /// Elemental MediaPackage includes in responses to the CDN. This setting is
   /// valid only when <code>InputType</code> is <code>CMAF</code>.
   ///
+  /// Parameter [outputLockingMode] :
+  /// The output locking mode for the channel. This setting is only valid when
+  /// <code>InputType</code> is <code>CMAF</code>. This value is immutable after
+  /// channel creation. If you don't specify a value, the default is
+  /// <code>EPOCH_LOCKED</code>.
+  ///
+  /// The allowed values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with
+  /// deterministic sequence numbering and fixed segment boundaries aligned to
+  /// epoch time. This mode supports cross-region synchronization and failover.
+  /// </li>
+  /// <li>
+  /// <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior
+  /// with duration-based segment combining and monotonically increasing
+  /// sequence numbers starting from 0. This mode does not support cross-region
+  /// synchronization or failover.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tags] :
   /// A comma-separated list of tag key:value pairs that you define. For
   /// example:
@@ -443,6 +465,7 @@ class MediaPackageV2 {
     InputSwitchConfiguration? inputSwitchConfiguration,
     InputType? inputType,
     OutputHeaderConfiguration? outputHeaderConfiguration,
+    OutputLockingMode? outputLockingMode,
     Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
@@ -456,6 +479,8 @@ class MediaPackageV2 {
       if (inputType != null) 'InputType': inputType.value,
       if (outputHeaderConfiguration != null)
         'OutputHeaderConfiguration': outputHeaderConfiguration,
+      if (outputLockingMode != null)
+        'OutputLockingMode': outputLockingMode.value,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -861,6 +886,16 @@ class MediaPackageV2 {
   /// on content that falls within the window. The maximum startover window is
   /// 1,209,600 seconds (14 days).
   ///
+  /// Parameter [streamNameOutputMode] :
+  /// The output mode for stream names in egress manifests. This setting is
+  /// valid only when the associated channel's <code>InputType</code> is
+  /// <code>HLS</code>. You can't change the stream name output mode after you
+  /// create the endpoint.
+  ///
+  /// <code>INDEX</code> uses numeric indices for stream names (for example, 1,
+  /// 2, 3). <code>PASSTHROUGH_NAME</code> uses the stream names from the input
+  /// manifest. If you don't specify a value, the default is <code>INDEX</code>.
+  ///
   /// Parameter [tags] :
   /// A comma-separated list of tag key:value pairs that you define. For
   /// example:
@@ -887,6 +922,7 @@ class MediaPackageV2 {
     List<CreateMssManifestConfiguration>? mssManifests,
     Segment? segment,
     int? startoverWindowSeconds,
+    StreamNameOutputMode? streamNameOutputMode,
     Map<String, String>? tags,
     UriSeparator? uriSeparator,
   }) async {
@@ -907,6 +943,8 @@ class MediaPackageV2 {
       if (segment != null) 'Segment': segment,
       if (startoverWindowSeconds != null)
         'StartoverWindowSeconds': startoverWindowSeconds,
+      if (streamNameOutputMode != null)
+        'StreamNameOutputMode': streamNameOutputMode.value,
       if (tags != null) 'Tags': tags,
       if (uriSeparator != null) 'UriSeparator': uriSeparator.value,
     };
@@ -1031,6 +1069,11 @@ class MediaPackageV2 {
   /// on content that falls within the window. The maximum startover window is
   /// 1,209,600 seconds (14 days).
   ///
+  /// Parameter [streamNameOutputMode] :
+  /// The output mode for stream names in egress manifests. If you provide a
+  /// value, it must match the current value. You can't change the stream name
+  /// output mode after you create the endpoint.
+  ///
   /// Parameter [uriSeparator] :
   /// The separator character to use in generated URIs for this origin endpoint.
   /// This setting applies to all manifest types on the endpoint. If you don't
@@ -1049,6 +1092,7 @@ class MediaPackageV2 {
     List<CreateMssManifestConfiguration>? mssManifests,
     Segment? segment,
     int? startoverWindowSeconds,
+    StreamNameOutputMode? streamNameOutputMode,
     UriSeparator? uriSeparator,
   }) async {
     final headers = <String, String>{
@@ -1067,6 +1111,8 @@ class MediaPackageV2 {
       if (segment != null) 'Segment': segment,
       if (startoverWindowSeconds != null)
         'StartoverWindowSeconds': startoverWindowSeconds,
+      if (streamNameOutputMode != null)
+        'StreamNameOutputMode': streamNameOutputMode.value,
       if (uriSeparator != null) 'UriSeparator': uriSeparator.value,
     };
     final response = await _protocol.send(
@@ -1931,6 +1977,24 @@ class CreateChannelResponse {
   /// when <code>InputType</code> is <code>CMAF</code>.
   final OutputHeaderConfiguration? outputHeaderConfiguration;
 
+  /// The output locking mode configured for the channel.
+  ///
+  /// The allowed values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with
+  /// deterministic sequence numbering and fixed segment boundaries aligned to
+  /// epoch time.
+  /// </li>
+  /// <li>
+  /// <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior
+  /// with duration-based segment combining and monotonically increasing sequence
+  /// numbers starting from 0.
+  /// </li>
+  /// </ul>
+  final OutputLockingMode? outputLockingMode;
+
   /// The comma-separated list of tag key:value pairs assigned to the channel.
   final Map<String, String>? tags;
 
@@ -1946,6 +2010,7 @@ class CreateChannelResponse {
     this.inputSwitchConfiguration,
     this.inputType,
     this.outputHeaderConfiguration,
+    this.outputLockingMode,
     this.tags,
   });
 
@@ -1971,6 +2036,8 @@ class CreateChannelResponse {
           ? OutputHeaderConfiguration.fromJson(
               json['OutputHeaderConfiguration'] as Map<String, dynamic>)
           : null,
+      outputLockingMode: (json['OutputLockingMode'] as String?)
+          ?.let(OutputLockingMode.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1988,6 +2055,7 @@ class CreateChannelResponse {
     final inputSwitchConfiguration = this.inputSwitchConfiguration;
     final inputType = this.inputType;
     final outputHeaderConfiguration = this.outputHeaderConfiguration;
+    final outputLockingMode = this.outputLockingMode;
     final tags = this.tags;
     return {
       'Arn': arn,
@@ -2003,6 +2071,8 @@ class CreateChannelResponse {
       if (inputType != null) 'InputType': inputType.value,
       if (outputHeaderConfiguration != null)
         'OutputHeaderConfiguration': outputHeaderConfiguration,
+      if (outputLockingMode != null)
+        'OutputLockingMode': outputLockingMode.value,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -2065,6 +2135,24 @@ class GetChannelResponse {
   /// when <code>InputType</code> is <code>CMAF</code>.
   final OutputHeaderConfiguration? outputHeaderConfiguration;
 
+  /// The output locking mode configured for the channel.
+  ///
+  /// The allowed values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with
+  /// deterministic sequence numbering and fixed segment boundaries aligned to
+  /// epoch time.
+  /// </li>
+  /// <li>
+  /// <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior
+  /// with duration-based segment combining and monotonically increasing sequence
+  /// numbers starting from 0.
+  /// </li>
+  /// </ul>
+  final OutputLockingMode? outputLockingMode;
+
   /// The time that the channel was last reset.
   final DateTime? resetAt;
 
@@ -2083,6 +2171,7 @@ class GetChannelResponse {
     this.inputSwitchConfiguration,
     this.inputType,
     this.outputHeaderConfiguration,
+    this.outputLockingMode,
     this.resetAt,
     this.tags,
   });
@@ -2109,6 +2198,8 @@ class GetChannelResponse {
           ? OutputHeaderConfiguration.fromJson(
               json['OutputHeaderConfiguration'] as Map<String, dynamic>)
           : null,
+      outputLockingMode: (json['OutputLockingMode'] as String?)
+          ?.let(OutputLockingMode.fromString),
       resetAt: timeStampFromJson(json['ResetAt']),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2127,6 +2218,7 @@ class GetChannelResponse {
     final inputSwitchConfiguration = this.inputSwitchConfiguration;
     final inputType = this.inputType;
     final outputHeaderConfiguration = this.outputHeaderConfiguration;
+    final outputLockingMode = this.outputLockingMode;
     final resetAt = this.resetAt;
     final tags = this.tags;
     return {
@@ -2143,6 +2235,8 @@ class GetChannelResponse {
       if (inputType != null) 'InputType': inputType.value,
       if (outputHeaderConfiguration != null)
         'OutputHeaderConfiguration': outputHeaderConfiguration,
+      if (outputLockingMode != null)
+        'OutputLockingMode': outputLockingMode.value,
       if (resetAt != null) 'ResetAt': unixTimestampToJson(resetAt),
       if (tags != null) 'Tags': tags,
     };
@@ -2206,6 +2300,25 @@ class UpdateChannelResponse {
   /// when <code>InputType</code> is <code>CMAF</code>.
   final OutputHeaderConfiguration? outputHeaderConfiguration;
 
+  /// The output locking mode configured for the channel. This value is immutable
+  /// after channel creation.
+  ///
+  /// The allowed values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with
+  /// deterministic sequence numbering and fixed segment boundaries aligned to
+  /// epoch time.
+  /// </li>
+  /// <li>
+  /// <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior
+  /// with duration-based segment combining and monotonically increasing sequence
+  /// numbers starting from 0.
+  /// </li>
+  /// </ul>
+  final OutputLockingMode? outputLockingMode;
+
   /// The comma-separated list of tag key:value pairs assigned to the channel.
   final Map<String, String>? tags;
 
@@ -2221,6 +2334,7 @@ class UpdateChannelResponse {
     this.inputSwitchConfiguration,
     this.inputType,
     this.outputHeaderConfiguration,
+    this.outputLockingMode,
     this.tags,
   });
 
@@ -2246,6 +2360,8 @@ class UpdateChannelResponse {
           ? OutputHeaderConfiguration.fromJson(
               json['OutputHeaderConfiguration'] as Map<String, dynamic>)
           : null,
+      outputLockingMode: (json['OutputLockingMode'] as String?)
+          ?.let(OutputLockingMode.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2263,6 +2379,7 @@ class UpdateChannelResponse {
     final inputSwitchConfiguration = this.inputSwitchConfiguration;
     final inputType = this.inputType;
     final outputHeaderConfiguration = this.outputHeaderConfiguration;
+    final outputLockingMode = this.outputLockingMode;
     final tags = this.tags;
     return {
       'Arn': arn,
@@ -2278,6 +2395,8 @@ class UpdateChannelResponse {
       if (inputType != null) 'InputType': inputType.value,
       if (outputHeaderConfiguration != null)
         'OutputHeaderConfiguration': outputHeaderConfiguration,
+      if (outputLockingMode != null)
+        'OutputLockingMode': outputLockingMode.value,
       if (tags != null) 'tags': tags,
     };
   }
@@ -2503,6 +2622,10 @@ class CreateOriginEndpointResponse {
   /// on content that falls within the window.
   final int? startoverWindowSeconds;
 
+  /// The output mode for stream names in egress manifests for this origin
+  /// endpoint.
+  final StreamNameOutputMode? streamNameOutputMode;
+
   /// The comma-separated list of tag key:value pairs assigned to the origin
   /// endpoint.
   final Map<String, String>? tags;
@@ -2527,6 +2650,7 @@ class CreateOriginEndpointResponse {
     this.lowLatencyHlsManifests,
     this.mssManifests,
     this.startoverWindowSeconds,
+    this.streamNameOutputMode,
     this.tags,
     this.uriSeparator,
   });
@@ -2572,6 +2696,8 @@ class CreateOriginEndpointResponse {
               GetMssManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       startoverWindowSeconds: json['StartoverWindowSeconds'] as int?,
+      streamNameOutputMode: (json['StreamNameOutputMode'] as String?)
+          ?.let(StreamNameOutputMode.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       uriSeparator:
@@ -2597,6 +2723,7 @@ class CreateOriginEndpointResponse {
     final lowLatencyHlsManifests = this.lowLatencyHlsManifests;
     final mssManifests = this.mssManifests;
     final startoverWindowSeconds = this.startoverWindowSeconds;
+    final streamNameOutputMode = this.streamNameOutputMode;
     final tags = this.tags;
     final uriSeparator = this.uriSeparator;
     return {
@@ -2619,6 +2746,8 @@ class CreateOriginEndpointResponse {
       if (mssManifests != null) 'MssManifests': mssManifests,
       if (startoverWindowSeconds != null)
         'StartoverWindowSeconds': startoverWindowSeconds,
+      if (streamNameOutputMode != null)
+        'StreamNameOutputMode': streamNameOutputMode.value,
       if (tags != null) 'Tags': tags,
       if (uriSeparator != null) 'UriSeparator': uriSeparator.value,
     };
@@ -2686,6 +2815,10 @@ class GetOriginEndpointResponse {
   /// on content that falls within the window.
   final int? startoverWindowSeconds;
 
+  /// The output mode for stream names in egress manifests for this origin
+  /// endpoint.
+  final StreamNameOutputMode? streamNameOutputMode;
+
   /// The comma-separated list of tag key:value pairs assigned to the origin
   /// endpoint.
   final Map<String, String>? tags;
@@ -2711,6 +2844,7 @@ class GetOriginEndpointResponse {
     this.mssManifests,
     this.resetAt,
     this.startoverWindowSeconds,
+    this.streamNameOutputMode,
     this.tags,
     this.uriSeparator,
   });
@@ -2757,6 +2891,8 @@ class GetOriginEndpointResponse {
           .toList(),
       resetAt: timeStampFromJson(json['ResetAt']),
       startoverWindowSeconds: json['StartoverWindowSeconds'] as int?,
+      streamNameOutputMode: (json['StreamNameOutputMode'] as String?)
+          ?.let(StreamNameOutputMode.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       uriSeparator:
@@ -2783,6 +2919,7 @@ class GetOriginEndpointResponse {
     final mssManifests = this.mssManifests;
     final resetAt = this.resetAt;
     final startoverWindowSeconds = this.startoverWindowSeconds;
+    final streamNameOutputMode = this.streamNameOutputMode;
     final tags = this.tags;
     final uriSeparator = this.uriSeparator;
     return {
@@ -2806,6 +2943,8 @@ class GetOriginEndpointResponse {
       if (resetAt != null) 'ResetAt': unixTimestampToJson(resetAt),
       if (startoverWindowSeconds != null)
         'StartoverWindowSeconds': startoverWindowSeconds,
+      if (streamNameOutputMode != null)
+        'StreamNameOutputMode': streamNameOutputMode.value,
       if (tags != null) 'Tags': tags,
       if (uriSeparator != null) 'UriSeparator': uriSeparator.value,
     };
@@ -2873,6 +3012,10 @@ class UpdateOriginEndpointResponse {
   /// on content that falls within the window.
   final int? startoverWindowSeconds;
 
+  /// The output mode for stream names in egress manifests for this origin
+  /// endpoint.
+  final StreamNameOutputMode? streamNameOutputMode;
+
   /// The comma-separated list of tag key:value pairs assigned to the origin
   /// endpoint.
   final Map<String, String>? tags;
@@ -2897,6 +3040,7 @@ class UpdateOriginEndpointResponse {
     this.lowLatencyHlsManifests,
     this.mssManifests,
     this.startoverWindowSeconds,
+    this.streamNameOutputMode,
     this.tags,
     this.uriSeparator,
   });
@@ -2942,6 +3086,8 @@ class UpdateOriginEndpointResponse {
               GetMssManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       startoverWindowSeconds: json['StartoverWindowSeconds'] as int?,
+      streamNameOutputMode: (json['StreamNameOutputMode'] as String?)
+          ?.let(StreamNameOutputMode.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       uriSeparator:
@@ -2967,6 +3113,7 @@ class UpdateOriginEndpointResponse {
     final lowLatencyHlsManifests = this.lowLatencyHlsManifests;
     final mssManifests = this.mssManifests;
     final startoverWindowSeconds = this.startoverWindowSeconds;
+    final streamNameOutputMode = this.streamNameOutputMode;
     final tags = this.tags;
     final uriSeparator = this.uriSeparator;
     return {
@@ -2989,6 +3136,8 @@ class UpdateOriginEndpointResponse {
       if (mssManifests != null) 'MssManifests': mssManifests,
       if (startoverWindowSeconds != null)
         'StartoverWindowSeconds': startoverWindowSeconds,
+      if (streamNameOutputMode != null)
+        'StreamNameOutputMode': streamNameOutputMode.value,
       if (tags != null) 'tags': tags,
       if (uriSeparator != null) 'UriSeparator': uriSeparator.value,
     };
@@ -3971,6 +4120,10 @@ class OriginEndpointListConfiguration {
   /// different MSS streaming option available from this endpoint.
   final List<ListMssManifestConfiguration>? mssManifests;
 
+  /// The output mode for stream names in egress manifests for this origin
+  /// endpoint.
+  final StreamNameOutputMode? streamNameOutputMode;
+
   /// The separator character used in generated URIs for this origin endpoint.
   final UriSeparator? uriSeparator;
 
@@ -3988,6 +4141,7 @@ class OriginEndpointListConfiguration {
     this.lowLatencyHlsManifests,
     this.modifiedAt,
     this.mssManifests,
+    this.streamNameOutputMode,
     this.uriSeparator,
   });
 
@@ -4028,6 +4182,8 @@ class OriginEndpointListConfiguration {
           .map((e) =>
               ListMssManifestConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
+      streamNameOutputMode: (json['StreamNameOutputMode'] as String?)
+          ?.let(StreamNameOutputMode.fromString),
       uriSeparator:
           (json['UriSeparator'] as String?)?.let(UriSeparator.fromString),
     );
@@ -4048,6 +4204,7 @@ class OriginEndpointListConfiguration {
     final lowLatencyHlsManifests = this.lowLatencyHlsManifests;
     final modifiedAt = this.modifiedAt;
     final mssManifests = this.mssManifests;
+    final streamNameOutputMode = this.streamNameOutputMode;
     final uriSeparator = this.uriSeparator;
     return {
       'Arn': arn,
@@ -4065,6 +4222,8 @@ class OriginEndpointListConfiguration {
         'LowLatencyHlsManifests': lowLatencyHlsManifests,
       if (modifiedAt != null) 'ModifiedAt': unixTimestampToJson(modifiedAt),
       if (mssManifests != null) 'MssManifests': mssManifests,
+      if (streamNameOutputMode != null)
+        'StreamNameOutputMode': streamNameOutputMode.value,
       if (uriSeparator != null) 'UriSeparator': uriSeparator.value,
     };
   }
@@ -4160,6 +4319,32 @@ class UriSeparator {
 
   @override
   bool operator ==(other) => other is UriSeparator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class StreamNameOutputMode {
+  static const $index = StreamNameOutputMode._('INDEX');
+  static const passthroughName = StreamNameOutputMode._('PASSTHROUGH_NAME');
+
+  final String value;
+
+  const StreamNameOutputMode._(this.value);
+
+  static const values = [$index, passthroughName];
+
+  static StreamNameOutputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamNameOutputMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamNameOutputMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4385,6 +4570,26 @@ class Segment {
   /// rewind.
   final bool? includeIframeOnlyStreams;
 
+  /// The output timestamp mode for the origin endpoint's segments. This setting
+  /// is only configurable on channels with <code>OutputLockingMode</code> set to
+  /// <code>NON_EPOCH_LOCKED</code>. This value is immutable after endpoint
+  /// creation. If you don't specify a value, the default is
+  /// <code>PASSTHROUGH</code>.
+  ///
+  /// The allowed values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PASSTHROUGH</code> - Output PTS (Presentation Timestamp) values pass
+  /// through unchanged from the input.
+  /// </li>
+  /// <li>
+  /// <code>REBASED_TO_CHANNEL_START</code> - Output PTS is rebased relative to
+  /// the channel start time.
+  /// </li>
+  /// </ul>
+  final OutputTimestampMode? outputTimestampMode;
+
   /// The SCTE configuration options in the segment settings.
   final Scte? scte;
 
@@ -4412,6 +4617,7 @@ class Segment {
   Segment({
     this.encryption,
     this.includeIframeOnlyStreams,
+    this.outputTimestampMode,
     this.scte,
     this.segmentDurationSeconds,
     this.segmentName,
@@ -4425,6 +4631,8 @@ class Segment {
           ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
           : null,
       includeIframeOnlyStreams: json['IncludeIframeOnlyStreams'] as bool?,
+      outputTimestampMode: (json['OutputTimestampMode'] as String?)
+          ?.let(OutputTimestampMode.fromString),
       scte: json['Scte'] != null
           ? Scte.fromJson(json['Scte'] as Map<String, dynamic>)
           : null,
@@ -4438,6 +4646,7 @@ class Segment {
   Map<String, dynamic> toJson() {
     final encryption = this.encryption;
     final includeIframeOnlyStreams = this.includeIframeOnlyStreams;
+    final outputTimestampMode = this.outputTimestampMode;
     final scte = this.scte;
     final segmentDurationSeconds = this.segmentDurationSeconds;
     final segmentName = this.segmentName;
@@ -4447,6 +4656,8 @@ class Segment {
       if (encryption != null) 'Encryption': encryption,
       if (includeIframeOnlyStreams != null)
         'IncludeIframeOnlyStreams': includeIframeOnlyStreams,
+      if (outputTimestampMode != null)
+        'OutputTimestampMode': outputTimestampMode.value,
       if (scte != null) 'Scte': scte,
       if (segmentDurationSeconds != null)
         'SegmentDurationSeconds': segmentDurationSeconds,
@@ -4470,6 +4681,14 @@ class GetDashManifestConfiguration {
 
   /// The egress domain URL for stream delivery from MediaPackage.
   final String url;
+
+  /// How MediaPackage represents the audio timeline in the DASH manifest, using
+  /// DASH Segment Duration Patternization for audio adaptation sets.
+  /// <code>PATTERNED</code> indicates that MediaPackage uses a pattern-based
+  /// segment template for audio, reducing manifest size. <code>NONE</code>
+  /// indicates that the manifest contains an explicit timeline for each audio
+  /// segment.
+  final DashAudioTimelinePattern? audioTimelinePattern;
 
   /// The configuration for the DASH <code>availabilityStartTime</code> attribute
   /// of the Media Presentation Description (MPD).
@@ -4558,6 +4777,7 @@ class GetDashManifestConfiguration {
   GetDashManifestConfiguration({
     required this.manifestName,
     required this.url,
+    this.audioTimelinePattern,
     this.availabilityStartTimeConfiguration,
     this.baseUrls,
     this.compactness,
@@ -4582,6 +4802,8 @@ class GetDashManifestConfiguration {
     return GetDashManifestConfiguration(
       manifestName: (json['ManifestName'] as String?) ?? '',
       url: (json['Url'] as String?) ?? '',
+      audioTimelinePattern: (json['AudioTimelinePattern'] as String?)
+          ?.let(DashAudioTimelinePattern.fromString),
       availabilityStartTimeConfiguration:
           json['AvailabilityStartTimeConfiguration'] != null
               ? DashAvailabilityStartTimeConfiguration.fromJson(
@@ -4641,6 +4863,7 @@ class GetDashManifestConfiguration {
   Map<String, dynamic> toJson() {
     final manifestName = this.manifestName;
     final url = this.url;
+    final audioTimelinePattern = this.audioTimelinePattern;
     final availabilityStartTimeConfiguration =
         this.availabilityStartTimeConfiguration;
     final baseUrls = this.baseUrls;
@@ -4664,6 +4887,8 @@ class GetDashManifestConfiguration {
     return {
       'ManifestName': manifestName,
       'Url': url,
+      if (audioTimelinePattern != null)
+        'AudioTimelinePattern': audioTimelinePattern.value,
       if (availabilityStartTimeConfiguration != null)
         'AvailabilityStartTimeConfiguration':
             availabilityStartTimeConfiguration,
@@ -5024,6 +5249,32 @@ class DashCompactness {
 
   @override
   bool operator ==(other) => other is DashCompactness && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DashAudioTimelinePattern {
+  static const none = DashAudioTimelinePattern._('NONE');
+  static const patterned = DashAudioTimelinePattern._('PATTERNED');
+
+  final String value;
+
+  const DashAudioTimelinePattern._(this.value);
+
+  static const values = [none, patterned];
+
+  static DashAudioTimelinePattern fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DashAudioTimelinePattern._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DashAudioTimelinePattern && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6065,6 +6316,33 @@ class Encryption {
   }
 }
 
+/// @nodoc
+class OutputTimestampMode {
+  static const passthrough = OutputTimestampMode._('PASSTHROUGH');
+  static const rebasedToChannelStart =
+      OutputTimestampMode._('REBASED_TO_CHANNEL_START');
+
+  final String value;
+
+  const OutputTimestampMode._(this.value);
+
+  static const values = [passthrough, rebasedToChannelStart];
+
+  static OutputTimestampMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutputTimestampMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OutputTimestampMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The encryption type.
 ///
 /// @nodoc
@@ -6595,6 +6873,8 @@ class ScteFilter {
   static const distributorPromo = ScteFilter._('DISTRIBUTOR_PROMO');
   static const providerAdBlock = ScteFilter._('PROVIDER_AD_BLOCK');
   static const distributorAdBlock = ScteFilter._('DISTRIBUTOR_AD_BLOCK');
+  static const contentIdentification = ScteFilter._('CONTENT_IDENTIFICATION');
+  static const callAdServer = ScteFilter._('CALL_AD_SERVER');
 
   final String value;
 
@@ -6617,7 +6897,9 @@ class ScteFilter {
     providerPromo,
     distributorPromo,
     providerAdBlock,
-    distributorAdBlock
+    distributorAdBlock,
+    contentIdentification,
+    callAdServer
   ];
 
   static ScteFilter fromString(String value) => values
@@ -6687,6 +6969,23 @@ class CreateDashManifestConfiguration {
   /// A short string that's appended to the endpoint URL. The child manifest name
   /// creates a unique path to this endpoint.
   final String manifestName;
+
+  /// How MediaPackage represents the audio timeline in the DASH manifest. This
+  /// setting applies DASH Segment Duration Patternization, as defined in the
+  /// MPEG-DASH specification, to audio adaptation sets. When set to
+  /// <code>PATTERNED</code>, MediaPackage uses a pattern-based segment template
+  /// for audio, which reduces manifest size by expressing repeating segment
+  /// durations as a pattern instead of listing each segment individually. When
+  /// set to <code>NONE</code>, the manifest contains an explicit timeline that
+  /// lists each audio segment.
+  ///
+  /// Valid values: <code>NONE</code> | <code>PATTERNED</code>
+  ///
+  /// For information about audio timeline patterns, see <a
+  /// href="https://docs.aws.amazon.com/mediapackage/latest/userguide/dash-audio-timeline-pattern.html">DASH
+  /// audio timeline pattern</a> in the <i>Elemental MediaPackage v2 User
+  /// Guide</i>.
+  final DashAudioTimelinePattern? audioTimelinePattern;
 
   /// The configuration for the DASH <code>availabilityStartTime</code> attribute
   /// of the Media Presentation Description (MPD). If you don't specify a value,
@@ -6785,6 +7084,7 @@ class CreateDashManifestConfiguration {
 
   CreateDashManifestConfiguration({
     required this.manifestName,
+    this.audioTimelinePattern,
     this.availabilityStartTimeConfiguration,
     this.baseUrls,
     this.compactness,
@@ -6807,6 +7107,7 @@ class CreateDashManifestConfiguration {
 
   Map<String, dynamic> toJson() {
     final manifestName = this.manifestName;
+    final audioTimelinePattern = this.audioTimelinePattern;
     final availabilityStartTimeConfiguration =
         this.availabilityStartTimeConfiguration;
     final baseUrls = this.baseUrls;
@@ -6829,6 +7130,8 @@ class CreateDashManifestConfiguration {
     final utcTiming = this.utcTiming;
     return {
       'ManifestName': manifestName,
+      if (audioTimelinePattern != null)
+        'AudioTimelinePattern': audioTimelinePattern.value,
       if (availabilityStartTimeConfiguration != null)
         'AvailabilityStartTimeConfiguration':
             availabilityStartTimeConfiguration,
@@ -7090,6 +7393,24 @@ class ChannelListConfiguration {
   /// </ul>
   final InputType? inputType;
 
+  /// The output locking mode configured for the channel.
+  ///
+  /// The allowed values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EPOCH_LOCKED</code> - The channel uses epoch-locked behavior with
+  /// deterministic sequence numbering and fixed segment boundaries aligned to
+  /// epoch time.
+  /// </li>
+  /// <li>
+  /// <code>NON_EPOCH_LOCKED</code> - The channel uses non-epoch-locked behavior
+  /// with duration-based segment combining and monotonically increasing sequence
+  /// numbers starting from 0.
+  /// </li>
+  /// </ul>
+  final OutputLockingMode? outputLockingMode;
+
   ChannelListConfiguration({
     required this.arn,
     required this.channelGroupName,
@@ -7098,6 +7419,7 @@ class ChannelListConfiguration {
     required this.modifiedAt,
     this.description,
     this.inputType,
+    this.outputLockingMode,
   });
 
   factory ChannelListConfiguration.fromJson(Map<String, dynamic> json) {
@@ -7109,6 +7431,8 @@ class ChannelListConfiguration {
       modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       inputType: (json['InputType'] as String?)?.let(InputType.fromString),
+      outputLockingMode: (json['OutputLockingMode'] as String?)
+          ?.let(OutputLockingMode.fromString),
     );
   }
 
@@ -7120,6 +7444,7 @@ class ChannelListConfiguration {
     final modifiedAt = this.modifiedAt;
     final description = this.description;
     final inputType = this.inputType;
+    final outputLockingMode = this.outputLockingMode;
     return {
       'Arn': arn,
       'ChannelGroupName': channelGroupName,
@@ -7128,6 +7453,8 @@ class ChannelListConfiguration {
       'ModifiedAt': unixTimestampToJson(modifiedAt),
       if (description != null) 'Description': description,
       if (inputType != null) 'InputType': inputType.value,
+      if (outputLockingMode != null)
+        'OutputLockingMode': outputLockingMode.value,
     };
   }
 }
@@ -7148,6 +7475,31 @@ class InputType {
 
   @override
   bool operator ==(other) => other is InputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class OutputLockingMode {
+  static const epochLocked = OutputLockingMode._('EPOCH_LOCKED');
+  static const nonEpochLocked = OutputLockingMode._('NON_EPOCH_LOCKED');
+
+  final String value;
+
+  const OutputLockingMode._(this.value);
+
+  static const values = [epochLocked, nonEpochLocked];
+
+  static OutputLockingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutputLockingMode._(value));
+
+  @override
+  bool operator ==(other) => other is OutputLockingMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

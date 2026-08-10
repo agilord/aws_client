@@ -19,21 +19,25 @@ ResolvedEndpoint resolveEndpoint({
   }
   {
     final partitionResult = fn.awsPartition(region);
-    if ((useFips == true) && (useDualStack == true)) {
+    if (region != null) {
+      if ((useFips == true) && (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url:
+                'https://data-signer-fips.$region.${partitionResult.dualStackDnsSuffix}');
+      }
+      if (useFips == true) {
+        return ResolvedEndpoint(
+            url:
+                'https://data-signer-fips.$region.${partitionResult.dnsSuffix}');
+      }
+      if (useDualStack == true) {
+        return ResolvedEndpoint(
+            url:
+                'https://data-signer.$region.${partitionResult.dualStackDnsSuffix}');
+      }
       return ResolvedEndpoint(
-          url:
-              'https://data-signer-fips.$region.${partitionResult.dualStackDnsSuffix}');
+          url: 'https://data-signer.$region.${partitionResult.dnsSuffix}');
     }
-    if (useFips == true) {
-      return ResolvedEndpoint(
-          url: 'https://data-signer-fips.$region.${partitionResult.dnsSuffix}');
-    }
-    if (useDualStack == true) {
-      return ResolvedEndpoint(
-          url:
-              'https://data-signer.$region.${partitionResult.dualStackDnsSuffix}');
-    }
-    return ResolvedEndpoint(
-        url: 'https://data-signer.$region.${partitionResult.dnsSuffix}');
   }
+  throw EndpointResolutionException('No endpoint rule matched the parameters');
 }

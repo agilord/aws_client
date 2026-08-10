@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.0
+
+- **Breaking:** refreshed the service catalogue (IoT Events, IoT Events Data, Panorama and SimSpaceWeaver were dropped upstream, six new services added).
+- Added DynamoDB vector search, including a `DocumentClient.searchVectors()` wrapper.
+
 ## 0.9.3
 
 - Exclude the `test/` and `integration_test/` directories from the published package.

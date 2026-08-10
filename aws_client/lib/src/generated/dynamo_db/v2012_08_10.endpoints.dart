@@ -17,10 +17,12 @@ ResolvedEndpoint resolveEndpoint({
   String? accountIdEndpointMode,
   String? resourceArn,
   List<String>? resourceArnList,
+  bool? isSearchOperation,
 }) {
   {
     final partitionResult = fn.awsPartition(region);
-    if ((endpoint != null) && (region != null)) {
+    final parsedEndpoint = fn.parseUrl(endpoint);
+    if ((endpoint != null) && (region != null) && (parsedEndpoint != null)) {
       if (useFips == true) {
         throw EndpointResolutionException(
             'Invalid Configuration: FIPS and custom endpoint are not supported');
@@ -29,8 +31,13 @@ ResolvedEndpoint resolveEndpoint({
         throw EndpointResolutionException(
             'Invalid Configuration: Dualstack and custom endpoint are not supported');
       }
-      if (endpoint ==
-          'https://dynamodb.$region.${partitionResult.dualStackDnsSuffix}') {
+      if (parsedEndpoint.authority ==
+          'dynamodb.$region.${partitionResult.dualStackDnsSuffix}') {
+        throw EndpointResolutionException(
+            'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html');
+      }
+      if (parsedEndpoint.authority ==
+          'search-dynamodb.$region.${partitionResult.dualStackDnsSuffix}') {
         throw EndpointResolutionException(
             'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html');
       }
@@ -75,6 +82,11 @@ ResolvedEndpoint resolveEndpoint({
             throw EndpointResolutionException(
                 'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported');
           }
+          if ((isSearchOperation != null) && (isSearchOperation == true)) {
+            return ResolvedEndpoint(
+                url:
+                    'https://search-dynamodb-fips.$region.${partitionResult2.dualStackDnsSuffix}');
+          }
           return ResolvedEndpoint(
               url:
                   'https://dynamodb-fips.$region.${partitionResult2.dualStackDnsSuffix}');
@@ -90,6 +102,11 @@ ResolvedEndpoint resolveEndpoint({
               throw EndpointResolutionException(
                   'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported');
             }
+            if ((isSearchOperation != null) && (isSearchOperation == true)) {
+              return ResolvedEndpoint(
+                  url:
+                      'https://search-dynamodb.$region.${partitionResult2.dnsSuffix}');
+            }
             return ResolvedEndpoint(
                 url: 'https://dynamodb.$region.${partitionResult2.dnsSuffix}');
           }
@@ -97,6 +114,11 @@ ResolvedEndpoint resolveEndpoint({
               (accountIdEndpointMode == 'required')) {
             throw EndpointResolutionException(
                 'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported');
+          }
+          if ((isSearchOperation != null) && (isSearchOperation == true)) {
+            return ResolvedEndpoint(
+                url:
+                    'https://search-dynamodb-fips.$region.${partitionResult2.dnsSuffix}');
           }
           return ResolvedEndpoint(
               url:
@@ -119,6 +141,11 @@ ResolvedEndpoint resolveEndpoint({
                 (fn.isValidHostLabel(parsedArn.region, false)) &&
                 (parsedArn.region == region) &&
                 (fn.isValidHostLabel(parsedArn.accountId, false))) {
+              if ((isSearchOperation != null) && (isSearchOperation == true)) {
+                return ResolvedEndpoint(
+                    url:
+                        'https://${parsedArn.accountId}.search-ddb.$region.${partitionResult2.dualStackDnsSuffix}');
+              }
               return ResolvedEndpoint(
                   url:
                       'https://${parsedArn.accountId}.ddb.$region.${partitionResult2.dualStackDnsSuffix}');
@@ -138,6 +165,11 @@ ResolvedEndpoint resolveEndpoint({
                 (fn.isValidHostLabel(parsedArn2.region, false)) &&
                 (parsedArn2.region == region) &&
                 (fn.isValidHostLabel(parsedArn2.accountId, false))) {
+              if ((isSearchOperation != null) && (isSearchOperation == true)) {
+                return ResolvedEndpoint(
+                    url:
+                        'https://${parsedArn2.accountId}.search-ddb.$region.${partitionResult2.dualStackDnsSuffix}');
+              }
               return ResolvedEndpoint(
                   url:
                       'https://${parsedArn2.accountId}.ddb.$region.${partitionResult2.dualStackDnsSuffix}');
@@ -149,6 +181,11 @@ ResolvedEndpoint resolveEndpoint({
               (!(useFips == true)) &&
               (accountId != null)) {
             if (fn.isValidHostLabel(accountId, false)) {
+              if ((isSearchOperation != null) && (isSearchOperation == true)) {
+                return ResolvedEndpoint(
+                    url:
+                        'https://$accountId.search-ddb.$region.${partitionResult2.dualStackDnsSuffix}');
+              }
               return ResolvedEndpoint(
                   url:
                       'https://$accountId.ddb.$region.${partitionResult2.dualStackDnsSuffix}');
@@ -169,6 +206,11 @@ ResolvedEndpoint resolveEndpoint({
             throw EndpointResolutionException(
                 'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported');
           }
+          if ((isSearchOperation != null) && (isSearchOperation == true)) {
+            return ResolvedEndpoint(
+                url:
+                    'https://search-dynamodb.$region.${partitionResult2.dualStackDnsSuffix}');
+          }
           return ResolvedEndpoint(
               url:
                   'https://dynamodb.$region.${partitionResult2.dualStackDnsSuffix}');
@@ -188,6 +230,11 @@ ResolvedEndpoint resolveEndpoint({
             (fn.isValidHostLabel(parsedArn3.region, false)) &&
             (parsedArn3.region == region) &&
             (fn.isValidHostLabel(parsedArn3.accountId, false))) {
+          if ((isSearchOperation != null) && (isSearchOperation == true)) {
+            return ResolvedEndpoint(
+                url:
+                    'https://${parsedArn3.accountId}.search-ddb.$region.${partitionResult2.dnsSuffix}');
+          }
           return ResolvedEndpoint(
               url:
                   'https://${parsedArn3.accountId}.ddb.$region.${partitionResult2.dnsSuffix}');
@@ -207,6 +254,11 @@ ResolvedEndpoint resolveEndpoint({
             (fn.isValidHostLabel(parsedArn4.region, false)) &&
             (parsedArn4.region == region) &&
             (fn.isValidHostLabel(parsedArn4.accountId, false))) {
+          if ((isSearchOperation != null) && (isSearchOperation == true)) {
+            return ResolvedEndpoint(
+                url:
+                    'https://${parsedArn4.accountId}.search-ddb.$region.${partitionResult2.dnsSuffix}');
+          }
           return ResolvedEndpoint(
               url:
                   'https://${parsedArn4.accountId}.ddb.$region.${partitionResult2.dnsSuffix}');
@@ -218,6 +270,11 @@ ResolvedEndpoint resolveEndpoint({
           (!(useFips == true)) &&
           (accountId != null)) {
         if (fn.isValidHostLabel(accountId, false)) {
+          if ((isSearchOperation != null) && (isSearchOperation == true)) {
+            return ResolvedEndpoint(
+                url:
+                    'https://$accountId.search-ddb.$region.${partitionResult2.dnsSuffix}');
+          }
           return ResolvedEndpoint(
               url:
                   'https://$accountId.ddb.$region.${partitionResult2.dnsSuffix}');
@@ -237,6 +294,11 @@ ResolvedEndpoint resolveEndpoint({
         }
         throw EndpointResolutionException(
             'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported');
+      }
+      if ((isSearchOperation != null) && (isSearchOperation == true)) {
+        return ResolvedEndpoint(
+            url:
+                'https://search-dynamodb.$region.${partitionResult2.dnsSuffix}');
       }
       return ResolvedEndpoint(
           url: 'https://dynamodb.$region.${partitionResult2.dnsSuffix}');

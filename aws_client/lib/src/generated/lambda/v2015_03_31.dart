@@ -74,62 +74,6 @@ class Lambda {
     _protocol.close();
   }
 
-  /// Saves the progress of a <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-  /// function</a> execution during runtime. This API is used by the Lambda
-  /// durable functions SDK to checkpoint completed steps and schedule
-  /// asynchronous operations. You typically don't need to call this API
-  /// directly as the SDK handles checkpointing automatically.
-  ///
-  /// Each checkpoint operation consumes the current checkpoint token and
-  /// returns a new one for the next checkpoint. This ensures that checkpoints
-  /// are applied in the correct order and prevents duplicate or out-of-order
-  /// state updates.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [checkpointToken] :
-  /// A unique token that identifies the current checkpoint state. This token is
-  /// provided by the Lambda runtime and must be used to ensure checkpoints are
-  /// applied in the correct order. Each checkpoint operation consumes this
-  /// token and returns a new one.
-  ///
-  /// Parameter [durableExecutionArn] :
-  /// The Amazon Resource Name (ARN) of the durable execution.
-  ///
-  /// Parameter [clientToken] :
-  /// An optional idempotency token to ensure that duplicate checkpoint requests
-  /// are handled correctly. If provided, Lambda uses this token to detect and
-  /// handle duplicate requests within a 15-minute window.
-  ///
-  /// Parameter [updates] :
-  /// An array of state updates to apply during this checkpoint. Each update
-  /// represents a change to the execution state, such as completing a step,
-  /// starting a callback, or scheduling a timer. Updates are applied atomically
-  /// as part of the checkpoint operation.
-  Future<CheckpointDurableExecutionResponse> checkpointDurableExecution({
-    required String checkpointToken,
-    required String durableExecutionArn,
-    String? clientToken,
-    List<OperationUpdate>? updates,
-  }) async {
-    final $payload = <String, dynamic>{
-      'CheckpointToken': checkpointToken,
-      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (updates != null) 'Updates': updates,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/checkpoint',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CheckpointDurableExecutionResponse.fromJson(response);
-  }
-
   /// Deletes a Lambda function. To delete a specific function version, use the
   /// <code>Qualifier</code> parameter. Otherwise, all versions and aliases are
   /// deleted. This doesn't require the user to have explicit permissions for
@@ -258,163 +202,6 @@ class Lambda {
     return GetAccountSettingsResponse.fromJson(response);
   }
 
-  /// Retrieves detailed information about a specific <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-  /// execution</a>, including its current status, input payload, result or
-  /// error information, and execution metadata such as start time and usage
-  /// statistics.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [durableExecutionArn] :
-  /// The Amazon Resource Name (ARN) of the durable execution.
-  Future<GetDurableExecutionResponse> getDurableExecution({
-    required String durableExecutionArn,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetDurableExecutionResponse.fromJson(response);
-  }
-
-  /// Retrieves the execution history for a <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-  /// execution</a>, showing all the steps, callbacks, and events that occurred
-  /// during the execution. This provides a detailed audit trail of the
-  /// execution's progress over time.
-  ///
-  /// The history is available while the execution is running and for a
-  /// retention period after it completes (1-90 days, default 30 days). You can
-  /// control whether to include execution data such as step results and
-  /// callback payloads.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [durableExecutionArn] :
-  /// The Amazon Resource Name (ARN) of the durable execution.
-  ///
-  /// Parameter [includeExecutionData] :
-  /// Specifies whether to include execution data such as step results and
-  /// callback payloads in the history events. Set to <code>true</code> to
-  /// include data, or <code>false</code> to exclude it for a more compact
-  /// response. The default is <code>true</code>.
-  ///
-  /// Parameter [marker] :
-  /// If <code>NextMarker</code> was returned from a previous request, use this
-  /// value to retrieve the next page of results. Each pagination token expires
-  /// after 24 hours.
-  ///
-  /// Parameter [maxItems] :
-  /// The maximum number of history events to return per call. You can use
-  /// <code>Marker</code> to retrieve additional pages of results. The default
-  /// is 100 and the maximum allowed is 1000. A value of 0 uses the default.
-  ///
-  /// Parameter [reverseOrder] :
-  /// When set to <code>true</code>, returns the history events in reverse
-  /// chronological order (newest first). By default, events are returned in
-  /// chronological order (oldest first).
-  Future<GetDurableExecutionHistoryResponse> getDurableExecutionHistory({
-    required String durableExecutionArn,
-    bool? includeExecutionData,
-    String? marker,
-    int? maxItems,
-    bool? reverseOrder,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      0,
-      1000,
-    );
-    final $query = <String, List<String>>{
-      if (includeExecutionData != null)
-        'IncludeExecutionData': [includeExecutionData.toString()],
-      if (marker != null) 'Marker': [marker],
-      if (maxItems != null) 'MaxItems': [maxItems.toString()],
-      if (reverseOrder != null) 'ReverseOrder': [reverseOrder.toString()],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/history',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetDurableExecutionHistoryResponse.fromJson(response);
-  }
-
-  /// Retrieves the current execution state required for the replay process
-  /// during <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-  /// function</a> execution. This API is used by the Lambda durable functions
-  /// SDK to get state information needed for replay. You typically don't need
-  /// to call this API directly as the SDK handles state management
-  /// automatically.
-  ///
-  /// The response contains operations ordered by start sequence number in
-  /// ascending order. Completed operations with children don't include child
-  /// operation details since they don't need to be replayed.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [checkpointToken] :
-  /// A checkpoint token that identifies the current state of the execution.
-  /// This token is provided by the Lambda runtime and ensures that state
-  /// retrieval is consistent with the current execution context.
-  ///
-  /// Parameter [durableExecutionArn] :
-  /// The Amazon Resource Name (ARN) of the durable execution.
-  ///
-  /// Parameter [marker] :
-  /// If <code>NextMarker</code> was returned from a previous request, use this
-  /// value to retrieve the next page of operations. Each pagination token
-  /// expires after 24 hours.
-  ///
-  /// Parameter [maxItems] :
-  /// The maximum number of operations to return per call. You can use
-  /// <code>Marker</code> to retrieve additional pages of results. The default
-  /// is 100 and the maximum allowed is 1000. A value of 0 uses the default.
-  Future<GetDurableExecutionStateResponse> getDurableExecutionState({
-    required String checkpointToken,
-    required String durableExecutionArn,
-    String? marker,
-    int? maxItems,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      0,
-      1000,
-    );
-    final $query = <String, List<String>>{
-      'CheckpointToken': [checkpointToken],
-      if (marker != null) 'Marker': [marker],
-      if (maxItems != null) 'MaxItems': [maxItems.toString()],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/state',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetDurableExecutionStateResponse.fromJson(response);
-  }
-
   /// Retrieves the configuration for asynchronous invocation for a function,
   /// version, or alias.
   ///
@@ -465,90 +252,6 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return FunctionEventInvokeConfig.fromJson(response);
-  }
-
-  /// Returns a list of <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-  /// executions</a> for a specified Lambda function. You can filter the results
-  /// by execution name, status, and start time range. This API supports
-  /// pagination for large result sets.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [functionName] :
-  /// The name or ARN of the Lambda function. You can specify a function name, a
-  /// partial ARN, or a full ARN.
-  ///
-  /// Parameter [durableExecutionName] :
-  /// Filter executions by name. Only executions with names that matches this
-  /// string are returned.
-  ///
-  /// Parameter [marker] :
-  /// Pagination token from a previous request to continue retrieving results.
-  ///
-  /// Parameter [maxItems] :
-  /// Maximum number of executions to return (1-1000). Default is 100.
-  ///
-  /// Parameter [qualifier] :
-  /// The function version or alias. If not specified, lists executions for the
-  /// $LATEST version.
-  ///
-  /// Parameter [reverseOrder] :
-  /// Set to true to return results in reverse chronological order (newest
-  /// first). Default is false.
-  ///
-  /// Parameter [startedAfter] :
-  /// Filter executions that started after this timestamp (ISO 8601 format).
-  ///
-  /// Parameter [startedBefore] :
-  /// Filter executions that started before this timestamp (ISO 8601 format).
-  ///
-  /// Parameter [statuses] :
-  /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED,
-  /// TIMED_OUT, STOPPED.
-  Future<ListDurableExecutionsByFunctionResponse>
-      listDurableExecutionsByFunction({
-    required String functionName,
-    String? durableExecutionName,
-    String? marker,
-    int? maxItems,
-    String? qualifier,
-    bool? reverseOrder,
-    DateTime? startedAfter,
-    DateTime? startedBefore,
-    List<ExecutionStatus>? statuses,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      0,
-      1000,
-    );
-    final $query = <String, List<String>>{
-      if (durableExecutionName != null)
-        'DurableExecutionName': [durableExecutionName],
-      if (marker != null) 'Marker': [marker],
-      if (maxItems != null) 'MaxItems': [maxItems.toString()],
-      if (qualifier != null) 'Qualifier': [qualifier],
-      if (reverseOrder != null) 'ReverseOrder': [reverseOrder.toString()],
-      if (startedAfter != null)
-        'StartedAfter': [_s.iso8601ToJson(startedAfter).toString()],
-      if (startedBefore != null)
-        'StartedBefore': [_s.iso8601ToJson(startedBefore).toString()],
-      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/2025-12-01/functions/${Uri.encodeComponent(functionName)}/durable-executions',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListDurableExecutionsByFunctionResponse.fromJson(response);
   }
 
   /// Retrieves a list of configurations for asynchronous invocation for a
@@ -774,6 +477,11 @@ class Lambda {
   ///
   /// May throw [CallbackTimeoutException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
@@ -801,6 +509,7 @@ class Lambda {
   ///
   /// May throw [CallbackTimeoutException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
@@ -824,6 +533,11 @@ class Lambda {
   ///
   /// May throw [CallbackTimeoutException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
@@ -844,35 +558,6 @@ class Lambda {
           '/2025-12-01/durable-execution-callbacks/${Uri.encodeComponent(callbackId)}/succeed',
       exceptionFnMap: _exceptionFns,
     );
-  }
-
-  /// Stops a running <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-  /// execution</a>. The execution transitions to STOPPED status and cannot be
-  /// resumed. Any in-progress operations are terminated.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [durableExecutionArn] :
-  /// The Amazon Resource Name (ARN) of the durable execution.
-  ///
-  /// Parameter [error] :
-  /// Optional error details explaining why the execution is being stopped.
-  Future<StopDurableExecutionResponse> stopDurableExecution({
-    required String durableExecutionArn,
-    ErrorObject? error,
-  }) async {
-    final response = await _protocol.send(
-      payload: error,
-      method: 'POST',
-      requestUri:
-          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/stop',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StopDurableExecutionResponse.fromJson(response);
   }
 
   /// Adds <a
@@ -1083,6 +768,10 @@ class Lambda {
   ///
   /// Parameter [tags] :
   /// A list of tags to associate with the capacity provider.
+  ///
+  /// Parameter [telemetryConfig] :
+  /// The telemetry configuration for the capacity provider. Specifies logging
+  /// settings for managed resources.
   Future<CreateCapacityProviderResponse> createCapacityProvider({
     required String capacityProviderName,
     required CapacityProviderPermissionsConfig permissionsConfig,
@@ -1092,6 +781,7 @@ class Lambda {
     String? kmsKeyArn,
     PropagateTags? propagateTags,
     Map<String, String>? tags,
+    CapacityProviderTelemetryConfig? telemetryConfig,
   }) async {
     final $payload = <String, dynamic>{
       'CapacityProviderName': capacityProviderName,
@@ -1104,6 +794,7 @@ class Lambda {
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (propagateTags != null) 'PropagateTags': propagateTags,
       if (tags != null) 'Tags': tags,
+      if (telemetryConfig != null) 'TelemetryConfig': telemetryConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1150,15 +841,20 @@ class Lambda {
   ///
   /// Parameter [capacityProviderScalingConfig] :
   /// The updated scaling configuration for the capacity provider.
+  ///
+  /// Parameter [telemetryConfig] :
+  /// The updated telemetry configuration for the capacity provider.
   Future<UpdateCapacityProviderResponse> updateCapacityProvider({
     required String capacityProviderName,
     CapacityProviderScalingConfig? capacityProviderScalingConfig,
     PropagateTags? propagateTags,
+    CapacityProviderTelemetryConfig? telemetryConfig,
   }) async {
     final $payload = <String, dynamic>{
       if (capacityProviderScalingConfig != null)
         'CapacityProviderScalingConfig': capacityProviderScalingConfig,
       if (propagateTags != null) 'PropagateTags': propagateTags,
+      if (telemetryConfig != null) 'TelemetryConfig': telemetryConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1487,6 +1183,280 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateCodeSigningConfigResponse.fromJson(response);
+  }
+
+  /// Retrieves detailed information about a specific <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+  /// execution</a>, including its current status, input payload, result or
+  /// error information, and execution metadata such as start time and usage
+  /// statistics.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [durableExecutionArn] :
+  /// The Amazon Resource Name (ARN) of the durable execution.
+  ///
+  /// Parameter [includeExecutionData] :
+  /// Specifies whether to include execution data such as input payload, result,
+  /// and error information in the response. Set to <code>false</code> for a
+  /// more compact response that includes only execution metadata. The default
+  /// value is set to <code>true</code>.
+  Future<GetDurableExecutionResponse> getDurableExecution({
+    required String durableExecutionArn,
+    bool? includeExecutionData,
+  }) async {
+    final $query = <String, List<String>>{
+      if (includeExecutionData != null)
+        'IncludeExecutionData': [includeExecutionData.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDurableExecutionResponse.fromJson(response);
+  }
+
+  /// Saves the progress of a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+  /// function</a> execution during runtime. This API is used by the Lambda
+  /// durable functions SDK to checkpoint completed steps and schedule
+  /// asynchronous operations. You typically don't need to call this API
+  /// directly as the SDK handles checkpointing automatically.
+  ///
+  /// Each checkpoint operation consumes the current checkpoint token and
+  /// returns a new one for the next checkpoint. This ensures that checkpoints
+  /// are applied in the correct order and prevents duplicate or out-of-order
+  /// state updates.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [checkpointToken] :
+  /// A unique token that identifies the current checkpoint state. This token is
+  /// provided by the Lambda runtime and must be used to ensure checkpoints are
+  /// applied in the correct order. Each checkpoint operation consumes this
+  /// token and returns a new one.
+  ///
+  /// Parameter [durableExecutionArn] :
+  /// The Amazon Resource Name (ARN) of the durable execution.
+  ///
+  /// Parameter [clientToken] :
+  /// An optional idempotency token to ensure that duplicate checkpoint requests
+  /// are handled correctly. If provided, Lambda uses this token to detect and
+  /// handle duplicate requests within a 15-minute window.
+  ///
+  /// Parameter [updates] :
+  /// An array of state updates to apply during this checkpoint. Each update
+  /// represents a change to the execution state, such as completing a step,
+  /// starting a callback, or scheduling a timer. Updates are applied atomically
+  /// as part of the checkpoint operation.
+  Future<CheckpointDurableExecutionResponse> checkpointDurableExecution({
+    required String checkpointToken,
+    required String durableExecutionArn,
+    String? clientToken,
+    List<OperationUpdate>? updates,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CheckpointToken': checkpointToken,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (updates != null) 'Updates': updates,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/checkpoint',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CheckpointDurableExecutionResponse.fromJson(response);
+  }
+
+  /// Retrieves the execution history for a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+  /// execution</a>, showing all the steps, callbacks, and events that occurred
+  /// during the execution. This provides a detailed audit trail of the
+  /// execution's progress over time.
+  ///
+  /// The history is available while the execution is running and for a
+  /// retention period after it completes (1-90 days, default 30 days). You can
+  /// control whether to include execution data such as step results and
+  /// callback payloads.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [durableExecutionArn] :
+  /// The Amazon Resource Name (ARN) of the durable execution.
+  ///
+  /// Parameter [includeExecutionData] :
+  /// Specifies whether to include execution data such as step results and
+  /// callback payloads in the history events. Set to <code>true</code> to
+  /// include data, or <code>false</code> to exclude it for a more compact
+  /// response. The default is <code>true</code>.
+  ///
+  /// Parameter [marker] :
+  /// If <code>NextMarker</code> was returned from a previous request, use this
+  /// value to retrieve the next page of results. Each pagination token expires
+  /// after 24 hours.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of history events to return per call. You can use
+  /// <code>Marker</code> to retrieve additional pages of results. The default
+  /// is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+  ///
+  /// Parameter [reverseOrder] :
+  /// When set to <code>true</code>, returns the history events in reverse
+  /// chronological order (newest first). By default, events are returned in
+  /// chronological order (oldest first).
+  Future<GetDurableExecutionHistoryResponse> getDurableExecutionHistory({
+    required String durableExecutionArn,
+    bool? includeExecutionData,
+    String? marker,
+    int? maxItems,
+    bool? reverseOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      0,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (includeExecutionData != null)
+        'IncludeExecutionData': [includeExecutionData.toString()],
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+      if (reverseOrder != null) 'ReverseOrder': [reverseOrder.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/history',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDurableExecutionHistoryResponse.fromJson(response);
+  }
+
+  /// Retrieves the current execution state required for the replay process
+  /// during <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+  /// function</a> execution. This API is used by the Lambda durable functions
+  /// SDK to get state information needed for replay. You typically don't need
+  /// to call this API directly as the SDK handles state management
+  /// automatically.
+  ///
+  /// The response contains operations ordered by start sequence number in
+  /// ascending order. Completed operations with children don't include child
+  /// operation details since they don't need to be replayed.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [checkpointToken] :
+  /// A checkpoint token that identifies the current state of the execution.
+  /// This token is provided by the Lambda runtime and ensures that state
+  /// retrieval is consistent with the current execution context.
+  ///
+  /// Parameter [durableExecutionArn] :
+  /// The Amazon Resource Name (ARN) of the durable execution.
+  ///
+  /// Parameter [marker] :
+  /// If <code>NextMarker</code> was returned from a previous request, use this
+  /// value to retrieve the next page of operations. Each pagination token
+  /// expires after 24 hours.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of operations to return per call. You can use
+  /// <code>Marker</code> to retrieve additional pages of results. The default
+  /// is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+  Future<GetDurableExecutionStateResponse> getDurableExecutionState({
+    required String checkpointToken,
+    required String durableExecutionArn,
+    String? marker,
+    int? maxItems,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      0,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'CheckpointToken': [checkpointToken],
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/state',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDurableExecutionStateResponse.fromJson(response);
+  }
+
+  /// Stops a running <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+  /// execution</a>. The execution transitions to STOPPED status and cannot be
+  /// resumed. Any in-progress operations are terminated.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [durableExecutionArn] :
+  /// The Amazon Resource Name (ARN) of the durable execution.
+  ///
+  /// Parameter [error] :
+  /// Optional error details explaining why the execution is being stopped.
+  Future<StopDurableExecutionResponse> stopDurableExecution({
+    required String durableExecutionArn,
+    ErrorObject? error,
+  }) async {
+    final response = await _protocol.send(
+      payload: error,
+      method: 'POST',
+      requestUri:
+          '/2025-12-01/durable-executions/${Uri.encodeComponent(durableExecutionArn)}/stop',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StopDurableExecutionResponse.fromJson(response);
   }
 
   /// Creates a mapping between an event source and an Lambda function. Lambda
@@ -2804,7 +2774,7 @@ class Lambda {
       'timeout',
       timeout,
       1,
-      1152921504606846976,
+      5400,
     );
     final $payload = <String, dynamic>{
       'Code': code,
@@ -2913,94 +2883,6 @@ class Lambda {
     return ListFunctionsResponse.fromJson(response);
   }
 
-  /// Creates a Lambda function URL with the specified configuration parameters.
-  /// A function URL is a dedicated HTTP(S) endpoint that you can use to invoke
-  /// your function.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ResourceConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [authType] :
-  /// The type of authentication that your function URL uses. Set to
-  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
-  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
-  /// create a public endpoint. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
-  /// access to Lambda function URLs</a>.
-  ///
-  /// Parameter [functionName] :
-  /// The name or ARN of the Lambda function.
-  /// <p class="title"> <b>Name formats</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Function name</b> – <code>my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Function ARN</b> –
-  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
-  /// </li>
-  /// </ul>
-  /// The length constraint applies only to the full ARN. If you specify only
-  /// the function name, it is limited to 64 characters in length.
-  ///
-  /// Parameter [cors] :
-  /// The <a
-  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
-  /// resource sharing (CORS)</a> settings for your function URL.
-  ///
-  /// Parameter [invokeMode] :
-  /// Use one of the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
-  /// function using the <code>Invoke</code> API operation. Invocation results
-  /// are available when the payload is complete. The maximum payload size is 6
-  /// MB.
-  /// </li>
-  /// <li>
-  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as
-  /// they become available. Lambda invokes your function using the
-  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
-  /// payload size is 200 MB.
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [qualifier] :
-  /// The alias name.
-  Future<CreateFunctionUrlConfigResponse> createFunctionUrlConfig({
-    required FunctionUrlAuthType authType,
-    required String functionName,
-    Cors? cors,
-    InvokeMode? invokeMode,
-    String? qualifier,
-  }) async {
-    final $query = <String, List<String>>{
-      if (qualifier != null) 'Qualifier': [qualifier],
-    };
-    final $payload = <String, dynamic>{
-      'AuthType': authType.value,
-      if (cors != null) 'Cors': cors,
-      if (invokeMode != null) 'InvokeMode': invokeMode.value,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateFunctionUrlConfigResponse.fromJson(response);
-  }
-
   /// Removes a concurrent execution limit from a function.
   ///
   /// May throw [InvalidParameterValueException].
@@ -3035,53 +2917,6 @@ class Lambda {
       method: 'DELETE',
       requestUri:
           '/2017-10-31/functions/${Uri.encodeComponent(functionName)}/concurrency',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes a Lambda function URL. When you delete a function URL, you can't
-  /// recover it. Creating a new function URL results in a different URL
-  /// address.
-  ///
-  /// May throw [ResourceConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [functionName] :
-  /// The name or ARN of the Lambda function.
-  /// <p class="title"> <b>Name formats</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Function name</b> – <code>my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Function ARN</b> –
-  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
-  /// </li>
-  /// </ul>
-  /// The length constraint applies only to the full ARN. If you specify only
-  /// the function name, it is limited to 64 characters in length.
-  ///
-  /// Parameter [qualifier] :
-  /// The alias name.
-  Future<void> deleteFunctionUrlConfig({
-    required String functionName,
-    String? qualifier,
-  }) async {
-    final $query = <String, List<String>>{
-      if (qualifier != null) 'Qualifier': [qualifier],
-    };
-    await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri:
-          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
-      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3124,112 +2959,6 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionConcurrencyResponse.fromJson(response);
-  }
-
-  /// Returns details about a Lambda function URL.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [functionName] :
-  /// The name or ARN of the Lambda function.
-  /// <p class="title"> <b>Name formats</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Function name</b> – <code>my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Function ARN</b> –
-  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
-  /// </li>
-  /// </ul>
-  /// The length constraint applies only to the full ARN. If you specify only
-  /// the function name, it is limited to 64 characters in length.
-  ///
-  /// Parameter [qualifier] :
-  /// The alias name.
-  Future<GetFunctionUrlConfigResponse> getFunctionUrlConfig({
-    required String functionName,
-    String? qualifier,
-  }) async {
-    final $query = <String, List<String>>{
-      if (qualifier != null) 'Qualifier': [qualifier],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetFunctionUrlConfigResponse.fromJson(response);
-  }
-
-  /// Returns a list of Lambda function URLs for the specified function.
-  ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ServiceException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [functionName] :
-  /// The name or ARN of the Lambda function.
-  /// <p class="title"> <b>Name formats</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Function name</b> – <code>my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Function ARN</b> –
-  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
-  /// </li>
-  /// <li>
-  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
-  /// </li>
-  /// </ul>
-  /// The length constraint applies only to the full ARN. If you specify only
-  /// the function name, it is limited to 64 characters in length.
-  ///
-  /// Parameter [marker] :
-  /// Specify the pagination token that's returned by a previous request to
-  /// retrieve the next page of results.
-  ///
-  /// Parameter [maxItems] :
-  /// The maximum number of function URLs to return in the response. Note that
-  /// <code>ListFunctionUrlConfigs</code> returns a maximum of 50 items in each
-  /// response, even if you set the number higher.
-  Future<ListFunctionUrlConfigsResponse> listFunctionUrlConfigs({
-    required String functionName,
-    String? marker,
-    int? maxItems,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (marker != null) 'Marker': [marker],
-      if (maxItems != null) 'MaxItems': [maxItems.toString()],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/urls',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListFunctionUrlConfigsResponse.fromJson(response);
   }
 
   /// Retrieves a list of provisioned concurrency configurations for a function.
@@ -3454,6 +3183,20 @@ class Lambda {
   /// The Amazon S3 key of the deployment package. Use only with a function
   /// defined with a .zip file archive deployment package.
   ///
+  /// Parameter [s3ObjectStorageMode] :
+  /// Specifies how the deployment package is stored. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COPY</code> (default) – Uploads a copy of your deployment package to
+  /// Lambda.
+  /// </li>
+  /// <li>
+  /// <code>REFERENCE</code> – Lambda references the deployment package from the
+  /// specified Amazon S3 bucket.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [s3ObjectVersion] :
   /// For versioned objects, the version of the deployment package object to
   /// use.
@@ -3478,6 +3221,7 @@ class Lambda {
     String? revisionId,
     String? s3Bucket,
     String? s3Key,
+    S3ObjectStorageMode? s3ObjectStorageMode,
     String? s3ObjectVersion,
     String? sourceKMSKeyArn,
     Uint8List? zipFile,
@@ -3492,6 +3236,8 @@ class Lambda {
       if (revisionId != null) 'RevisionId': revisionId,
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
       if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectStorageMode != null)
+        'S3ObjectStorageMode': s3ObjectStorageMode.value,
       if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
       if (sourceKMSKeyArn != null) 'SourceKMSKeyArn': sourceKMSKeyArn,
       if (zipFile != null) 'ZipFile': base64Encode(zipFile),
@@ -3572,8 +3318,12 @@ class Lambda {
   /// A description of the function.
   ///
   /// Parameter [durableConfig] :
-  /// Configuration settings for durable functions. Allows updating execution
-  /// timeout and retention period for functions with durability enabled.
+  /// Configuration settings for <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+  /// functions</a>, including execution timeout, retention period for execution
+  /// history, and an optional ARN of the Key Management Service (KMS) customer
+  /// managed key that is used to encrypt your durable execution's payload data,
+  /// including input, output, and error payloads.
   ///
   /// Parameter [environment] :
   /// Environment variables that are accessible from function code during
@@ -3740,7 +3490,7 @@ class Lambda {
       'timeout',
       timeout,
       1,
-      1152921504606846976,
+      5400,
     );
     final $payload = <String, dynamic>{
       if (capacityProviderConfig != null)
@@ -3775,13 +3525,23 @@ class Lambda {
     return FunctionConfiguration.fromJson(response);
   }
 
-  /// Updates the configuration for a Lambda function URL.
+  /// Creates a Lambda function URL with the specified configuration parameters.
+  /// A function URL is a dedicated HTTP(S) endpoint that you can use to invoke
+  /// your function.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [authType] :
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
+  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
+  /// create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
+  /// access to Lambda function URLs</a>.
   ///
   /// Parameter [functionName] :
   /// The name or ARN of the Lambda function.
@@ -3801,14 +3561,6 @@ class Lambda {
   /// </ul>
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
-  ///
-  /// Parameter [authType] :
-  /// The type of authentication that your function URL uses. Set to
-  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
-  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
-  /// create a public endpoint. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
-  /// access to Lambda function URLs</a>.
   ///
   /// Parameter [cors] :
   /// The <a
@@ -3835,9 +3587,9 @@ class Lambda {
   ///
   /// Parameter [qualifier] :
   /// The alias name.
-  Future<UpdateFunctionUrlConfigResponse> updateFunctionUrlConfig({
+  Future<CreateFunctionUrlConfigResponse> createFunctionUrlConfig({
+    required FunctionUrlAuthType authType,
     required String functionName,
-    FunctionUrlAuthType? authType,
     Cors? cors,
     InvokeMode? invokeMode,
     String? qualifier,
@@ -3846,19 +3598,19 @@ class Lambda {
       if (qualifier != null) 'Qualifier': [qualifier],
     };
     final $payload = <String, dynamic>{
-      if (authType != null) 'AuthType': authType.value,
+      'AuthType': authType.value,
       if (cors != null) 'Cors': cors,
       if (invokeMode != null) 'InvokeMode': invokeMode.value,
     };
     final response = await _protocol.send(
       payload: $payload,
-      method: 'PUT',
+      method: 'POST',
       requestUri:
           '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateFunctionUrlConfigResponse.fromJson(response);
+    return CreateFunctionUrlConfigResponse.fromJson(response);
   }
 
   /// Removes the code signing configuration from the function.
@@ -3896,6 +3648,54 @@ class Lambda {
       method: 'DELETE',
       requestUri:
           '/2020-06-30/functions/${Uri.encodeComponent(functionName)}/code-signing-config',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a Lambda function URL. When you delete a function URL, you can't
+  /// recover it. Creating a new function URL results in a different URL
+  /// address.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name or ARN of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> – <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> –
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [qualifier] :
+  /// The alias name.
+  Future<void> deleteFunctionUrlConfig({
+    required String functionName,
+    String? qualifier,
+  }) async {
+    final $query = <String, List<String>>{
+      if (qualifier != null) 'Qualifier': [qualifier],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3953,6 +3753,7 @@ class Lambda {
 
   /// Returns the code signing configuration for the specified function.
   ///
+  /// May throw [CodeSigningConfigNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
@@ -4097,6 +3898,52 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionScalingConfigResponse.fromJson(response);
+  }
+
+  /// Returns details about a Lambda function URL.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name or ARN of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> – <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> –
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [qualifier] :
+  /// The alias name.
+  Future<GetFunctionUrlConfigResponse> getFunctionUrlConfig({
+    required String functionName,
+    String? qualifier,
+  }) async {
+    final $query = <String, List<String>>{
+      if (qualifier != null) 'Qualifier': [qualifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFunctionUrlConfigResponse.fromJson(response);
   }
 
   /// Returns the <a
@@ -4264,6 +4111,9 @@ class Lambda {
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke">Granting
   /// function access to other accounts</a>.
   ///
+  /// May throw [CodeArtifactUserDeletedException].
+  /// May throw [CodeArtifactUserFailedException].
+  /// May throw [CodeArtifactUserPendingException].
   /// May throw [DurableExecutionAlreadyStartedException].
   /// May throw [EC2AccessDeniedException].
   /// May throw [EC2ThrottledException].
@@ -4273,6 +4123,7 @@ class Lambda {
   /// May throw [EFSMountFailureException].
   /// May throw [EFSMountTimeoutException].
   /// May throw [ENILimitReachedException].
+  /// May throw [ENINotReadyException].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidRequestContentException].
   /// May throw [InvalidRuntimeException].
@@ -4283,6 +4134,7 @@ class Lambda {
   /// May throw [KMSDisabledException].
   /// May throw [KMSInvalidStateException].
   /// May throw [KMSNotFoundException].
+  /// May throw [ModeNotSupportedException].
   /// May throw [NoPublishedVersionException].
   /// May throw [RecursiveInvocationException].
   /// May throw [RequestTooLargeException].
@@ -4294,8 +4146,10 @@ class Lambda {
   /// May throw [S3FilesMountTimeoutException].
   /// May throw [SerializedRequestEntityTooLargeException].
   /// May throw [ServiceException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [SnapStartException].
   /// May throw [SnapStartNotReadyException].
+  /// May throw [SnapStartRegenerationFailureException].
   /// May throw [SnapStartTimeoutException].
   /// May throw [SubnetIPAddressLimitReachedException].
   /// May throw [TooManyRequestsException].
@@ -4329,9 +4183,16 @@ class Lambda {
   /// invocations only.
   ///
   /// Parameter [durableExecutionName] :
-  /// Optional unique name for the durable execution. When you start your
-  /// special function, you can give it a unique name to identify this specific
-  /// execution. It's like giving a nickname to a task.
+  /// A unique name for the durable execution. If you invoke a durable function
+  /// using a name that already exists with the same payload, Lambda returns the
+  /// existing execution instead of creating a duplicate. If the payload
+  /// differs, Lambda returns a
+  /// <code>DurableExecutionAlreadyStartedException</code> error.
+  ///
+  /// If not specified, Lambda generates a unique identifier automatically. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-execution-idempotency.html#durable-idempotency-execution-names">Execution
+  /// names</a>.
   ///
   /// Parameter [invocationType] :
   /// Choose from the following options.
@@ -4430,11 +4291,35 @@ class Lambda {
   /// if X-Ray active tracing is turned on.
   /// </note>
   ///
+  /// May throw [EC2AccessDeniedException].
+  /// May throw [EC2ThrottledException].
+  /// May throw [EC2UnexpectedException].
+  /// May throw [EFSIOException].
+  /// May throw [EFSMountConnectivityException].
+  /// May throw [EFSMountFailureException].
+  /// May throw [EFSMountTimeoutException].
+  /// May throw [ENILimitReachedException].
   /// May throw [InvalidRequestContentException].
   /// May throw [InvalidRuntimeException].
+  /// May throw [InvalidSecurityGroupIDException].
+  /// May throw [InvalidSubnetIDException].
+  /// May throw [KMSAccessDeniedException].
+  /// May throw [KMSDisabledException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [KMSNotFoundException].
+  /// May throw [ModeNotSupportedException].
   /// May throw [ResourceConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [S3FilesMountConnectivityException].
+  /// May throw [S3FilesMountFailureException].
+  /// May throw [S3FilesMountTimeoutException].
   /// May throw [ServiceException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [SnapStartException].
+  /// May throw [SnapStartNotReadyException].
+  /// May throw [SnapStartRegenerationFailureException].
+  /// May throw [SnapStartTimeoutException].
+  /// May throw [SubnetIPAddressLimitReachedException].
   ///
   /// Parameter [functionName] :
   /// The name or ARN of the Lambda function.
@@ -4512,8 +4397,10 @@ class Lambda {
   /// May throw [S3FilesMountTimeoutException].
   /// May throw [SerializedRequestEntityTooLargeException].
   /// May throw [ServiceException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [SnapStartException].
   /// May throw [SnapStartNotReadyException].
+  /// May throw [SnapStartRegenerationFailureException].
   /// May throw [SnapStartTimeoutException].
   /// May throw [SubnetIPAddressLimitReachedException].
   /// May throw [TooManyRequestsException].
@@ -4611,6 +4498,150 @@ class Lambda {
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       statusCode: response.statusCode,
     );
+  }
+
+  /// Returns a list of <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+  /// executions</a> for a specified Lambda function. You can filter the results
+  /// by execution name, status, and start time range. This API supports
+  /// pagination for large result sets.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name or ARN of the Lambda function. You can specify a function name, a
+  /// partial ARN, or a full ARN.
+  ///
+  /// Parameter [durableExecutionName] :
+  /// Filter executions by name. Only executions with names that matches this
+  /// string are returned.
+  ///
+  /// Parameter [marker] :
+  /// Pagination token from a previous request to continue retrieving results.
+  ///
+  /// Parameter [maxItems] :
+  /// Maximum number of executions to return (1-1000). Default is 100.
+  ///
+  /// Parameter [qualifier] :
+  /// The function version or alias. If not specified, lists executions for the
+  /// $LATEST version.
+  ///
+  /// Parameter [reverseOrder] :
+  /// Set to true to return results in chronological order (oldest first).
+  /// Default is false.
+  ///
+  /// Parameter [startedAfter] :
+  /// Filter executions that started after this timestamp (ISO 8601 format).
+  ///
+  /// Parameter [startedBefore] :
+  /// Filter executions that started before this timestamp (ISO 8601 format).
+  ///
+  /// Parameter [statuses] :
+  /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED,
+  /// TIMED_OUT, STOPPED.
+  Future<ListDurableExecutionsByFunctionResponse>
+      listDurableExecutionsByFunction({
+    required String functionName,
+    String? durableExecutionName,
+    String? marker,
+    int? maxItems,
+    String? qualifier,
+    bool? reverseOrder,
+    DateTime? startedAfter,
+    DateTime? startedBefore,
+    List<ExecutionStatus>? statuses,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      0,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (durableExecutionName != null)
+        'DurableExecutionName': [durableExecutionName],
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+      if (qualifier != null) 'Qualifier': [qualifier],
+      if (reverseOrder != null) 'ReverseOrder': [reverseOrder.toString()],
+      if (startedAfter != null)
+        'StartedAfter': [_s.iso8601ToJson(startedAfter).toString()],
+      if (startedBefore != null)
+        'StartedBefore': [_s.iso8601ToJson(startedBefore).toString()],
+      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2025-12-01/functions/${Uri.encodeComponent(functionName)}/durable-executions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDurableExecutionsByFunctionResponse.fromJson(response);
+  }
+
+  /// Returns a list of Lambda function URLs for the specified function.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name or ARN of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> – <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> –
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [marker] :
+  /// Specify the pagination token that's returned by a previous request to
+  /// retrieve the next page of results.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of function URLs to return in the response. Note that
+  /// <code>ListFunctionUrlConfigs</code> returns a maximum of 50 items in each
+  /// response, even if you set the number higher.
+  Future<ListFunctionUrlConfigsResponse> listFunctionUrlConfigs({
+    required String functionName,
+    String? marker,
+    int? maxItems,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/urls',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFunctionUrlConfigsResponse.fromJson(response);
   }
 
   /// Update the code signing configuration for the function. Changes to the
@@ -4884,6 +4915,92 @@ class Lambda {
     return PutRuntimeManagementConfigResponse.fromJson(response);
   }
 
+  /// Updates the configuration for a Lambda function URL.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name or ARN of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> – <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> –
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [authType] :
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
+  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
+  /// create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
+  /// access to Lambda function URLs</a>.
+  ///
+  /// Parameter [cors] :
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  ///
+  /// Parameter [invokeMode] :
+  /// Use one of the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
+  /// function using the <code>Invoke</code> API operation. Invocation results
+  /// are available when the payload is complete. The maximum payload size is 6
+  /// MB.
+  /// </li>
+  /// <li>
+  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as
+  /// they become available. Lambda invokes your function using the
+  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
+  /// payload size is 200 MB.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [qualifier] :
+  /// The alias name.
+  Future<UpdateFunctionUrlConfigResponse> updateFunctionUrlConfig({
+    required String functionName,
+    FunctionUrlAuthType? authType,
+    Cors? cors,
+    InvokeMode? invokeMode,
+    String? qualifier,
+  }) async {
+    final $query = <String, List<String>>{
+      if (qualifier != null) 'Qualifier': [qualifier],
+    };
+    final $payload = <String, dynamic>{
+      if (authType != null) 'AuthType': authType.value,
+      if (cors != null) 'Cors': cors,
+      if (invokeMode != null) 'InvokeMode': invokeMode.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateFunctionUrlConfigResponse.fromJson(response);
+  }
+
   /// Creates an <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html">alias</a>
   /// for a Lambda function version. Use aliases to provide clients with a
@@ -4893,6 +5010,7 @@ class Lambda {
   /// versions. Use the <code>RoutingConfig</code> parameter to specify a second
   /// version and the percentage of invocation requests that it receives.
   ///
+  /// May throw [AliasLimitExceededException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceConflictException].
   /// May throw [ResourceNotFoundException].
@@ -5073,6 +5191,7 @@ class Lambda {
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
@@ -5538,6 +5657,8 @@ class Lambda {
   /// To avoid breaking functions, a copy of the version remains in Lambda until
   /// no functions refer to it.
   ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
   ///
@@ -5798,6 +5919,7 @@ class Lambda {
   /// May throw [InvalidParameterValueException].
   /// May throw [PolicyLengthExceededException].
   /// May throw [PreconditionFailedException].
+  /// May throw [PublicPolicyException].
   /// May throw [ResourceConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
@@ -5929,6 +6051,7 @@ class Lambda {
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [PreconditionFailedException].
+  /// May throw [PublicPolicyException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
@@ -6145,45 +6268,6 @@ class Lambda {
   }
 }
 
-/// The response from the CheckpointDurableExecution operation.
-///
-/// @nodoc
-class CheckpointDurableExecutionResponse {
-  /// Updated execution state information that includes any changes that occurred
-  /// since the last checkpoint, such as completed callbacks or expired timers.
-  /// This allows the SDK to update its internal state during replay.
-  final CheckpointUpdatedExecutionState newExecutionState;
-
-  /// A new checkpoint token to use for the next checkpoint operation. This token
-  /// replaces the one provided in the request and must be used for subsequent
-  /// checkpoints to maintain proper ordering.
-  final String? checkpointToken;
-
-  CheckpointDurableExecutionResponse({
-    required this.newExecutionState,
-    this.checkpointToken,
-  });
-
-  factory CheckpointDurableExecutionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CheckpointDurableExecutionResponse(
-      newExecutionState: CheckpointUpdatedExecutionState.fromJson(
-          (json['NewExecutionState'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      checkpointToken: json['CheckpointToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final newExecutionState = this.newExecutionState;
-    final checkpointToken = this.checkpointToken;
-    return {
-      'NewExecutionState': newExecutionState,
-      if (checkpointToken != null) 'CheckpointToken': checkpointToken,
-    };
-  }
-}
-
 /// @nodoc
 class DeleteFunctionResponse {
   /// The HTTP status code returned by the operation.
@@ -6235,207 +6319,6 @@ class GetAccountSettingsResponse {
     return {
       if (accountLimit != null) 'AccountLimit': accountLimit,
       if (accountUsage != null) 'AccountUsage': accountUsage,
-    };
-  }
-}
-
-/// The response from the GetDurableExecution operation, containing detailed
-/// information about the durable execution.
-///
-/// @nodoc
-class GetDurableExecutionResponse {
-  /// The Amazon Resource Name (ARN) of the durable execution.
-  final String durableExecutionArn;
-
-  /// The name of the durable execution. This is either the name you provided when
-  /// invoking the function, or a system-generated unique identifier if no name
-  /// was provided.
-  final String durableExecutionName;
-
-  /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to
-  /// start this durable execution.
-  final String functionArn;
-
-  /// The date and time when the durable execution started, in Unix timestamp
-  /// format.
-  final DateTime startTimestamp;
-
-  /// The current status of the durable execution. Valid values are
-  /// <code>RUNNING</code>, <code>SUCCEEDED</code>, <code>FAILED</code>,
-  /// <code>TIMED_OUT</code>, and <code>STOPPED</code>.
-  final ExecutionStatus status;
-
-  /// The date and time when the durable execution ended, in Unix timestamp
-  /// format. This field is only present if the execution has completed (status is
-  /// <code>SUCCEEDED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or
-  /// <code>STOPPED</code>).
-  final DateTime? endTimestamp;
-
-  /// Error information if the durable execution failed. This field is only
-  /// present when the execution status is <code>FAILED</code>,
-  /// <code>TIMED_OUT</code>, or <code>STOPPED</code>. The combined size of all
-  /// error fields is limited to 256 KB.
-  final ErrorObject? error;
-
-  /// The JSON input payload that was provided when the durable execution was
-  /// started. For asynchronous invocations, this is limited to 256 KB. For
-  /// synchronous invocations, this can be up to 6 MB.
-  final String? inputPayload;
-
-  /// The JSON result returned by the durable execution if it completed
-  /// successfully. This field is only present when the execution status is
-  /// <code>SUCCEEDED</code>. The result is limited to 256 KB.
-  final String? result;
-
-  /// The trace headers associated with the durable execution.
-  final TraceHeader? traceHeader;
-
-  /// The version of the Lambda function that was invoked for this durable
-  /// execution. This ensures that all replays during the execution use the same
-  /// function version.
-  final String? version;
-
-  GetDurableExecutionResponse({
-    required this.durableExecutionArn,
-    required this.durableExecutionName,
-    required this.functionArn,
-    required this.startTimestamp,
-    required this.status,
-    this.endTimestamp,
-    this.error,
-    this.inputPayload,
-    this.result,
-    this.traceHeader,
-    this.version,
-  });
-
-  factory GetDurableExecutionResponse.fromJson(Map<String, dynamic> json) {
-    return GetDurableExecutionResponse(
-      durableExecutionArn: (json['DurableExecutionArn'] as String?) ?? '',
-      durableExecutionName: (json['DurableExecutionName'] as String?) ?? '',
-      functionArn: (json['FunctionArn'] as String?) ?? '',
-      startTimestamp: nonNullableTimeStampFromJson(json['StartTimestamp'] ?? 0),
-      status: ExecutionStatus.fromString((json['Status'] as String?) ?? ''),
-      endTimestamp: timeStampFromJson(json['EndTimestamp']),
-      error: json['Error'] != null
-          ? ErrorObject.fromJson(json['Error'] as Map<String, dynamic>)
-          : null,
-      inputPayload: json['InputPayload'] as String?,
-      result: json['Result'] as String?,
-      traceHeader: json['TraceHeader'] != null
-          ? TraceHeader.fromJson(json['TraceHeader'] as Map<String, dynamic>)
-          : null,
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durableExecutionArn = this.durableExecutionArn;
-    final durableExecutionName = this.durableExecutionName;
-    final functionArn = this.functionArn;
-    final startTimestamp = this.startTimestamp;
-    final status = this.status;
-    final endTimestamp = this.endTimestamp;
-    final error = this.error;
-    final inputPayload = this.inputPayload;
-    final result = this.result;
-    final traceHeader = this.traceHeader;
-    final version = this.version;
-    return {
-      'DurableExecutionArn': durableExecutionArn,
-      'DurableExecutionName': durableExecutionName,
-      'FunctionArn': functionArn,
-      'StartTimestamp': unixTimestampToJson(startTimestamp),
-      'Status': status.value,
-      if (endTimestamp != null)
-        'EndTimestamp': unixTimestampToJson(endTimestamp),
-      if (error != null) 'Error': error,
-      if (inputPayload != null) 'InputPayload': inputPayload,
-      if (result != null) 'Result': result,
-      if (traceHeader != null) 'TraceHeader': traceHeader,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-/// The response from the GetDurableExecutionHistory operation, containing the
-/// execution history and events.
-///
-/// @nodoc
-class GetDurableExecutionHistoryResponse {
-  /// An array of execution history events, ordered chronologically unless
-  /// <code>ReverseOrder</code> is set to <code>true</code>. Each event represents
-  /// a significant occurrence during the execution, such as step completion or
-  /// callback resolution.
-  final List<Event> events;
-
-  /// If present, indicates that more history events are available. Use this value
-  /// as the <code>Marker</code> parameter in a subsequent request to retrieve the
-  /// next page of results.
-  final String? nextMarker;
-
-  GetDurableExecutionHistoryResponse({
-    required this.events,
-    this.nextMarker,
-  });
-
-  factory GetDurableExecutionHistoryResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetDurableExecutionHistoryResponse(
-      events: ((json['Events'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Event.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final nextMarker = this.nextMarker;
-    return {
-      'Events': events,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-/// The response from the GetDurableExecutionState operation, containing the
-/// current execution state for replay.
-///
-/// @nodoc
-class GetDurableExecutionStateResponse {
-  /// An array of operations that represent the current state of the durable
-  /// execution. Operations are ordered by their start sequence number in
-  /// ascending order and include information needed for replay processing.
-  final List<Operation> operations;
-
-  /// If present, indicates that more operations are available. Use this value as
-  /// the <code>Marker</code> parameter in a subsequent request to retrieve the
-  /// next page of results.
-  final String? nextMarker;
-
-  GetDurableExecutionStateResponse({
-    required this.operations,
-    this.nextMarker,
-  });
-
-  factory GetDurableExecutionStateResponse.fromJson(Map<String, dynamic> json) {
-    return GetDurableExecutionStateResponse(
-      operations: ((json['Operations'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Operation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operations = this.operations;
-    final nextMarker = this.nextMarker;
-    return {
-      'Operations': operations,
-      if (nextMarker != null) 'NextMarker': nextMarker,
     };
   }
 }
@@ -6516,44 +6399,6 @@ class FunctionEventInvokeConfig {
         'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
       if (maximumRetryAttempts != null)
         'MaximumRetryAttempts': maximumRetryAttempts,
-    };
-  }
-}
-
-/// The response from the ListDurableExecutionsByFunction operation, containing
-/// a list of durable executions and pagination information.
-///
-/// @nodoc
-class ListDurableExecutionsByFunctionResponse {
-  /// List of durable execution summaries matching the filter criteria.
-  final List<Execution>? durableExecutions;
-
-  /// Pagination token for retrieving additional results. Present only if there
-  /// are more results available.
-  final String? nextMarker;
-
-  ListDurableExecutionsByFunctionResponse({
-    this.durableExecutions,
-    this.nextMarker,
-  });
-
-  factory ListDurableExecutionsByFunctionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListDurableExecutionsByFunctionResponse(
-      durableExecutions: (json['DurableExecutions'] as List?)
-          ?.nonNulls
-          .map((e) => Execution.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durableExecutions = this.durableExecutions;
-    final nextMarker = this.nextMarker;
-    return {
-      if (durableExecutions != null) 'DurableExecutions': durableExecutions,
-      if (nextMarker != null) 'NextMarker': nextMarker,
     };
   }
 }
@@ -6657,29 +6502,6 @@ class SendDurableExecutionCallbackSuccessResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// @nodoc
-class StopDurableExecutionResponse {
-  /// The timestamp when the execution was stopped (ISO 8601 format).
-  final DateTime stopTimestamp;
-
-  StopDurableExecutionResponse({
-    required this.stopTimestamp,
-  });
-
-  factory StopDurableExecutionResponse.fromJson(Map<String, dynamic> json) {
-    return StopDurableExecutionResponse(
-      stopTimestamp: nonNullableTimeStampFromJson(json['StopTimestamp'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stopTimestamp = this.stopTimestamp;
-    return {
-      'StopTimestamp': unixTimestampToJson(stopTimestamp),
-    };
   }
 }
 
@@ -7010,6 +6832,293 @@ class UpdateCodeSigningConfigResponse {
     final codeSigningConfig = this.codeSigningConfig;
     return {
       'CodeSigningConfig': codeSigningConfig,
+    };
+  }
+}
+
+/// The response from the GetDurableExecution operation, containing detailed
+/// information about the durable execution.
+///
+/// @nodoc
+class GetDurableExecutionResponse {
+  /// The Amazon Resource Name (ARN) of the durable execution.
+  final String durableExecutionArn;
+
+  /// The name of the durable execution. This is either the name you provided when
+  /// invoking the function, or a system-generated unique identifier if no name
+  /// was provided.
+  final String durableExecutionName;
+
+  /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to
+  /// start this durable execution.
+  final String functionArn;
+
+  /// The date and time when the durable execution started, in Unix timestamp
+  /// format.
+  final DateTime startTimestamp;
+
+  /// The current status of the durable execution. Valid values are
+  /// <code>RUNNING</code>, <code>SUCCEEDED</code>, <code>FAILED</code>,
+  /// <code>TIMED_OUT</code>, and <code>STOPPED</code>.
+  final ExecutionStatus status;
+
+  /// Configuration settings for the durable execution, including execution
+  /// timeout, retention period for execution history, and an optional ARN of the
+  /// Key Management Service (KMS) customer managed key that is used to encrypt
+  /// your durable execution's payload data, including input, output, and error
+  /// payloads.
+  final DurableConfig? durableConfig;
+
+  /// The date and time when the durable execution ended, in Unix timestamp
+  /// format. This field is only present if the execution has completed (status is
+  /// <code>SUCCEEDED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or
+  /// <code>STOPPED</code>).
+  final DateTime? endTimestamp;
+
+  /// Error information if the durable execution failed. This field is only
+  /// present when the execution status is <code>FAILED</code>,
+  /// <code>TIMED_OUT</code>, or <code>STOPPED</code>. The combined size of all
+  /// error fields is limited to 256 KB.
+  final ErrorObject? error;
+
+  /// Indicates whether execution data is included in this response. Returns
+  /// <code>false</code> when <code>IncludeExecutionData</code> is set to
+  /// <code>false</code> in the request.
+  final bool? executionDataIncluded;
+
+  /// The JSON input payload that was provided when the durable execution was
+  /// started. For asynchronous invocations, this is limited to 256 KB. For
+  /// synchronous invocations, this can be up to 6 MB.
+  final String? inputPayload;
+
+  /// The JSON result returned by the durable execution if it completed
+  /// successfully. This field is only present when the execution status is
+  /// <code>SUCCEEDED</code>. The result is limited to 256 KB.
+  final String? result;
+
+  /// The trace headers associated with the durable execution.
+  final TraceHeader? traceHeader;
+
+  /// The version of the Lambda function that was invoked for this durable
+  /// execution. This ensures that all replays during the execution use the same
+  /// function version.
+  final String? version;
+
+  GetDurableExecutionResponse({
+    required this.durableExecutionArn,
+    required this.durableExecutionName,
+    required this.functionArn,
+    required this.startTimestamp,
+    required this.status,
+    this.durableConfig,
+    this.endTimestamp,
+    this.error,
+    this.executionDataIncluded,
+    this.inputPayload,
+    this.result,
+    this.traceHeader,
+    this.version,
+  });
+
+  factory GetDurableExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return GetDurableExecutionResponse(
+      durableExecutionArn: (json['DurableExecutionArn'] as String?) ?? '',
+      durableExecutionName: (json['DurableExecutionName'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      startTimestamp: nonNullableTimeStampFromJson(json['StartTimestamp'] ?? 0),
+      status: ExecutionStatus.fromString((json['Status'] as String?) ?? ''),
+      durableConfig: json['DurableConfig'] != null
+          ? DurableConfig.fromJson(
+              json['DurableConfig'] as Map<String, dynamic>)
+          : null,
+      endTimestamp: timeStampFromJson(json['EndTimestamp']),
+      error: json['Error'] != null
+          ? ErrorObject.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      executionDataIncluded: json['ExecutionDataIncluded'] as bool?,
+      inputPayload: json['InputPayload'] as String?,
+      result: json['Result'] as String?,
+      traceHeader: json['TraceHeader'] != null
+          ? TraceHeader.fromJson(json['TraceHeader'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durableExecutionArn = this.durableExecutionArn;
+    final durableExecutionName = this.durableExecutionName;
+    final functionArn = this.functionArn;
+    final startTimestamp = this.startTimestamp;
+    final status = this.status;
+    final durableConfig = this.durableConfig;
+    final endTimestamp = this.endTimestamp;
+    final error = this.error;
+    final executionDataIncluded = this.executionDataIncluded;
+    final inputPayload = this.inputPayload;
+    final result = this.result;
+    final traceHeader = this.traceHeader;
+    final version = this.version;
+    return {
+      'DurableExecutionArn': durableExecutionArn,
+      'DurableExecutionName': durableExecutionName,
+      'FunctionArn': functionArn,
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+      'Status': status.value,
+      if (durableConfig != null) 'DurableConfig': durableConfig,
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (error != null) 'Error': error,
+      if (executionDataIncluded != null)
+        'ExecutionDataIncluded': executionDataIncluded,
+      if (inputPayload != null) 'InputPayload': inputPayload,
+      if (result != null) 'Result': result,
+      if (traceHeader != null) 'TraceHeader': traceHeader,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// The response from the CheckpointDurableExecution operation.
+///
+/// @nodoc
+class CheckpointDurableExecutionResponse {
+  /// Updated execution state information that includes any changes that occurred
+  /// since the last checkpoint, such as completed callbacks or expired timers.
+  /// This allows the SDK to update its internal state during replay.
+  final CheckpointUpdatedExecutionState newExecutionState;
+
+  /// A new checkpoint token to use for the next checkpoint operation. This token
+  /// replaces the one provided in the request and must be used for subsequent
+  /// checkpoints to maintain proper ordering.
+  final String? checkpointToken;
+
+  CheckpointDurableExecutionResponse({
+    required this.newExecutionState,
+    this.checkpointToken,
+  });
+
+  factory CheckpointDurableExecutionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CheckpointDurableExecutionResponse(
+      newExecutionState: CheckpointUpdatedExecutionState.fromJson(
+          (json['NewExecutionState'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      checkpointToken: json['CheckpointToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final newExecutionState = this.newExecutionState;
+    final checkpointToken = this.checkpointToken;
+    return {
+      'NewExecutionState': newExecutionState,
+      if (checkpointToken != null) 'CheckpointToken': checkpointToken,
+    };
+  }
+}
+
+/// The response from the GetDurableExecutionHistory operation, containing the
+/// execution history and events.
+///
+/// @nodoc
+class GetDurableExecutionHistoryResponse {
+  /// An array of execution history events, ordered chronologically unless
+  /// <code>ReverseOrder</code> is set to <code>true</code>. Each event represents
+  /// a significant occurrence during the execution, such as step completion or
+  /// callback resolution.
+  final List<Event> events;
+
+  /// If present, indicates that more history events are available. Use this value
+  /// as the <code>Marker</code> parameter in a subsequent request to retrieve the
+  /// next page of results.
+  final String? nextMarker;
+
+  GetDurableExecutionHistoryResponse({
+    required this.events,
+    this.nextMarker,
+  });
+
+  factory GetDurableExecutionHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDurableExecutionHistoryResponse(
+      events: ((json['Events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextMarker = this.nextMarker;
+    return {
+      'Events': events,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// The response from the GetDurableExecutionState operation, containing the
+/// current execution state for replay.
+///
+/// @nodoc
+class GetDurableExecutionStateResponse {
+  /// An array of operations that represent the current state of the durable
+  /// execution. Operations are ordered by their start sequence number in
+  /// ascending order and include information needed for replay processing.
+  final List<Operation> operations;
+
+  /// If present, indicates that more operations are available. Use this value as
+  /// the <code>Marker</code> parameter in a subsequent request to retrieve the
+  /// next page of results.
+  final String? nextMarker;
+
+  GetDurableExecutionStateResponse({
+    required this.operations,
+    this.nextMarker,
+  });
+
+  factory GetDurableExecutionStateResponse.fromJson(Map<String, dynamic> json) {
+    return GetDurableExecutionStateResponse(
+      operations: ((json['Operations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Operation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operations = this.operations;
+    final nextMarker = this.nextMarker;
+    return {
+      'Operations': operations,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// @nodoc
+class StopDurableExecutionResponse {
+  /// The timestamp when the execution was stopped (ISO 8601 format).
+  final DateTime stopTimestamp;
+
+  StopDurableExecutionResponse({
+    required this.stopTimestamp,
+  });
+
+  factory StopDurableExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return StopDurableExecutionResponse(
+      stopTimestamp: nonNullableTimeStampFromJson(json['StopTimestamp'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stopTimestamp = this.stopTimestamp;
+    return {
+      'StopTimestamp': unixTimestampToJson(stopTimestamp),
     };
   }
 }
@@ -7924,6 +8033,97 @@ class ListFunctionsResponse {
 }
 
 /// @nodoc
+class GetFunctionConcurrencyResponse {
+  /// The number of simultaneous executions that are reserved for the function.
+  final int? reservedConcurrentExecutions;
+
+  GetFunctionConcurrencyResponse({
+    this.reservedConcurrentExecutions,
+  });
+
+  factory GetFunctionConcurrencyResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionConcurrencyResponse(
+      reservedConcurrentExecutions:
+          json['ReservedConcurrentExecutions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservedConcurrentExecutions = this.reservedConcurrentExecutions;
+    return {
+      if (reservedConcurrentExecutions != null)
+        'ReservedConcurrentExecutions': reservedConcurrentExecutions,
+    };
+  }
+}
+
+/// @nodoc
+class ListProvisionedConcurrencyConfigsResponse {
+  /// The pagination token that's included if more results are available.
+  final String? nextMarker;
+
+  /// A list of provisioned concurrency configurations.
+  final List<ProvisionedConcurrencyConfigListItem>?
+      provisionedConcurrencyConfigs;
+
+  ListProvisionedConcurrencyConfigsResponse({
+    this.nextMarker,
+    this.provisionedConcurrencyConfigs,
+  });
+
+  factory ListProvisionedConcurrencyConfigsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListProvisionedConcurrencyConfigsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      provisionedConcurrencyConfigs:
+          (json['ProvisionedConcurrencyConfigs'] as List?)
+              ?.nonNulls
+              .map((e) => ProvisionedConcurrencyConfigListItem.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final provisionedConcurrencyConfigs = this.provisionedConcurrencyConfigs;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (provisionedConcurrencyConfigs != null)
+        'ProvisionedConcurrencyConfigs': provisionedConcurrencyConfigs,
+    };
+  }
+}
+
+/// @nodoc
+class Concurrency {
+  /// The number of concurrent executions that are reserved for this function. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html">Managing
+  /// Lambda reserved concurrency</a>.
+  final int? reservedConcurrentExecutions;
+
+  Concurrency({
+    this.reservedConcurrentExecutions,
+  });
+
+  factory Concurrency.fromJson(Map<String, dynamic> json) {
+    return Concurrency(
+      reservedConcurrentExecutions:
+          json['ReservedConcurrentExecutions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservedConcurrentExecutions = this.reservedConcurrentExecutions;
+    return {
+      if (reservedConcurrentExecutions != null)
+        'ReservedConcurrentExecutions': reservedConcurrentExecutions,
+    };
+  }
+}
+
+/// @nodoc
 class CreateFunctionUrlConfigResponse {
   /// The type of authentication that your function URL uses. Set to
   /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
@@ -8001,316 +8201,6 @@ class CreateFunctionUrlConfigResponse {
       'CreationTime': creationTime,
       'FunctionArn': functionArn,
       'FunctionUrl': functionUrl,
-      if (cors != null) 'Cors': cors,
-      if (invokeMode != null) 'InvokeMode': invokeMode.value,
-    };
-  }
-}
-
-/// @nodoc
-class GetFunctionConcurrencyResponse {
-  /// The number of simultaneous executions that are reserved for the function.
-  final int? reservedConcurrentExecutions;
-
-  GetFunctionConcurrencyResponse({
-    this.reservedConcurrentExecutions,
-  });
-
-  factory GetFunctionConcurrencyResponse.fromJson(Map<String, dynamic> json) {
-    return GetFunctionConcurrencyResponse(
-      reservedConcurrentExecutions:
-          json['ReservedConcurrentExecutions'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reservedConcurrentExecutions = this.reservedConcurrentExecutions;
-    return {
-      if (reservedConcurrentExecutions != null)
-        'ReservedConcurrentExecutions': reservedConcurrentExecutions,
-    };
-  }
-}
-
-/// @nodoc
-class GetFunctionUrlConfigResponse {
-  /// The type of authentication that your function URL uses. Set to
-  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
-  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
-  /// create a public endpoint. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
-  /// access to Lambda function URLs</a>.
-  final FunctionUrlAuthType authType;
-
-  /// When the function URL was created, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final String creationTime;
-
-  /// The Amazon Resource Name (ARN) of your function.
-  final String functionArn;
-
-  /// The HTTP URL endpoint for your function.
-  final String functionUrl;
-
-  /// When the function URL configuration was last updated, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final String lastModifiedTime;
-
-  /// The <a
-  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
-  /// resource sharing (CORS)</a> settings for your function URL.
-  final Cors? cors;
-
-  /// Use one of the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
-  /// function using the <code>Invoke</code> API operation. Invocation results are
-  /// available when the payload is complete. The maximum payload size is 6 MB.
-  /// </li>
-  /// <li>
-  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as they
-  /// become available. Lambda invokes your function using the
-  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
-  /// payload size is 200 MB.
-  /// </li>
-  /// </ul>
-  final InvokeMode? invokeMode;
-
-  GetFunctionUrlConfigResponse({
-    required this.authType,
-    required this.creationTime,
-    required this.functionArn,
-    required this.functionUrl,
-    required this.lastModifiedTime,
-    this.cors,
-    this.invokeMode,
-  });
-
-  factory GetFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
-    return GetFunctionUrlConfigResponse(
-      authType:
-          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
-      creationTime: (json['CreationTime'] as String?) ?? '',
-      functionArn: (json['FunctionArn'] as String?) ?? '',
-      functionUrl: (json['FunctionUrl'] as String?) ?? '',
-      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
-      cors: json['Cors'] != null
-          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
-          : null,
-      invokeMode: (json['InvokeMode'] as String?)?.let(InvokeMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authType = this.authType;
-    final creationTime = this.creationTime;
-    final functionArn = this.functionArn;
-    final functionUrl = this.functionUrl;
-    final lastModifiedTime = this.lastModifiedTime;
-    final cors = this.cors;
-    final invokeMode = this.invokeMode;
-    return {
-      'AuthType': authType.value,
-      'CreationTime': creationTime,
-      'FunctionArn': functionArn,
-      'FunctionUrl': functionUrl,
-      'LastModifiedTime': lastModifiedTime,
-      if (cors != null) 'Cors': cors,
-      if (invokeMode != null) 'InvokeMode': invokeMode.value,
-    };
-  }
-}
-
-/// @nodoc
-class ListFunctionUrlConfigsResponse {
-  /// A list of function URL configurations.
-  final List<FunctionUrlConfig> functionUrlConfigs;
-
-  /// The pagination token that's included if more results are available.
-  final String? nextMarker;
-
-  ListFunctionUrlConfigsResponse({
-    required this.functionUrlConfigs,
-    this.nextMarker,
-  });
-
-  factory ListFunctionUrlConfigsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFunctionUrlConfigsResponse(
-      functionUrlConfigs: ((json['FunctionUrlConfigs'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => FunctionUrlConfig.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final functionUrlConfigs = this.functionUrlConfigs;
-    final nextMarker = this.nextMarker;
-    return {
-      'FunctionUrlConfigs': functionUrlConfigs,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-/// @nodoc
-class ListProvisionedConcurrencyConfigsResponse {
-  /// The pagination token that's included if more results are available.
-  final String? nextMarker;
-
-  /// A list of provisioned concurrency configurations.
-  final List<ProvisionedConcurrencyConfigListItem>?
-      provisionedConcurrencyConfigs;
-
-  ListProvisionedConcurrencyConfigsResponse({
-    this.nextMarker,
-    this.provisionedConcurrencyConfigs,
-  });
-
-  factory ListProvisionedConcurrencyConfigsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListProvisionedConcurrencyConfigsResponse(
-      nextMarker: json['NextMarker'] as String?,
-      provisionedConcurrencyConfigs:
-          (json['ProvisionedConcurrencyConfigs'] as List?)
-              ?.nonNulls
-              .map((e) => ProvisionedConcurrencyConfigListItem.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextMarker = this.nextMarker;
-    final provisionedConcurrencyConfigs = this.provisionedConcurrencyConfigs;
-    return {
-      if (nextMarker != null) 'NextMarker': nextMarker,
-      if (provisionedConcurrencyConfigs != null)
-        'ProvisionedConcurrencyConfigs': provisionedConcurrencyConfigs,
-    };
-  }
-}
-
-/// @nodoc
-class Concurrency {
-  /// The number of concurrent executions that are reserved for this function. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html">Managing
-  /// Lambda reserved concurrency</a>.
-  final int? reservedConcurrentExecutions;
-
-  Concurrency({
-    this.reservedConcurrentExecutions,
-  });
-
-  factory Concurrency.fromJson(Map<String, dynamic> json) {
-    return Concurrency(
-      reservedConcurrentExecutions:
-          json['ReservedConcurrentExecutions'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reservedConcurrentExecutions = this.reservedConcurrentExecutions;
-    return {
-      if (reservedConcurrentExecutions != null)
-        'ReservedConcurrentExecutions': reservedConcurrentExecutions,
-    };
-  }
-}
-
-/// @nodoc
-class UpdateFunctionUrlConfigResponse {
-  /// The type of authentication that your function URL uses. Set to
-  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
-  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
-  /// create a public endpoint. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
-  /// access to Lambda function URLs</a>.
-  final FunctionUrlAuthType authType;
-
-  /// When the function URL was created, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final String creationTime;
-
-  /// The Amazon Resource Name (ARN) of your function.
-  final String functionArn;
-
-  /// The HTTP URL endpoint for your function.
-  final String functionUrl;
-
-  /// When the function URL configuration was last updated, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final String lastModifiedTime;
-
-  /// The <a
-  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
-  /// resource sharing (CORS)</a> settings for your function URL.
-  final Cors? cors;
-
-  /// Use one of the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
-  /// function using the <code>Invoke</code> API operation. Invocation results are
-  /// available when the payload is complete. The maximum payload size is 6 MB.
-  /// </li>
-  /// <li>
-  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as they
-  /// become available. Lambda invokes your function using the
-  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
-  /// payload size is 200 MB.
-  /// </li>
-  /// </ul>
-  final InvokeMode? invokeMode;
-
-  UpdateFunctionUrlConfigResponse({
-    required this.authType,
-    required this.creationTime,
-    required this.functionArn,
-    required this.functionUrl,
-    required this.lastModifiedTime,
-    this.cors,
-    this.invokeMode,
-  });
-
-  factory UpdateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateFunctionUrlConfigResponse(
-      authType:
-          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
-      creationTime: (json['CreationTime'] as String?) ?? '',
-      functionArn: (json['FunctionArn'] as String?) ?? '',
-      functionUrl: (json['FunctionUrl'] as String?) ?? '',
-      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
-      cors: json['Cors'] != null
-          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
-          : null,
-      invokeMode: (json['InvokeMode'] as String?)?.let(InvokeMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authType = this.authType;
-    final creationTime = this.creationTime;
-    final functionArn = this.functionArn;
-    final functionUrl = this.functionUrl;
-    final lastModifiedTime = this.lastModifiedTime;
-    final cors = this.cors;
-    final invokeMode = this.invokeMode;
-    return {
-      'AuthType': authType.value,
-      'CreationTime': creationTime,
-      'FunctionArn': functionArn,
-      'FunctionUrl': functionUrl,
-      'LastModifiedTime': lastModifiedTime,
       if (cors != null) 'Cors': cors,
       if (invokeMode != null) 'InvokeMode': invokeMode.value,
     };
@@ -8514,6 +8404,99 @@ class GetFunctionScalingConfigResponse {
 }
 
 /// @nodoc
+class GetFunctionUrlConfigResponse {
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
+  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
+  /// create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
+  /// access to Lambda function URLs</a>.
+  final FunctionUrlAuthType authType;
+
+  /// When the function URL was created, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String creationTime;
+
+  /// The Amazon Resource Name (ARN) of your function.
+  final String functionArn;
+
+  /// The HTTP URL endpoint for your function.
+  final String functionUrl;
+
+  /// When the function URL configuration was last updated, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String lastModifiedTime;
+
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  final Cors? cors;
+
+  /// Use one of the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
+  /// function using the <code>Invoke</code> API operation. Invocation results are
+  /// available when the payload is complete. The maximum payload size is 6 MB.
+  /// </li>
+  /// <li>
+  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as they
+  /// become available. Lambda invokes your function using the
+  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
+  /// payload size is 200 MB.
+  /// </li>
+  /// </ul>
+  final InvokeMode? invokeMode;
+
+  GetFunctionUrlConfigResponse({
+    required this.authType,
+    required this.creationTime,
+    required this.functionArn,
+    required this.functionUrl,
+    required this.lastModifiedTime,
+    this.cors,
+    this.invokeMode,
+  });
+
+  factory GetFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionUrlConfigResponse(
+      authType:
+          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
+      creationTime: (json['CreationTime'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      functionUrl: (json['FunctionUrl'] as String?) ?? '',
+      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
+      cors: json['Cors'] != null
+          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
+          : null,
+      invokeMode: (json['InvokeMode'] as String?)?.let(InvokeMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final creationTime = this.creationTime;
+    final functionArn = this.functionArn;
+    final functionUrl = this.functionUrl;
+    final lastModifiedTime = this.lastModifiedTime;
+    final cors = this.cors;
+    final invokeMode = this.invokeMode;
+    return {
+      'AuthType': authType.value,
+      'CreationTime': creationTime,
+      'FunctionArn': functionArn,
+      'FunctionUrl': functionUrl,
+      'LastModifiedTime': lastModifiedTime,
+      if (cors != null) 'Cors': cors,
+      if (invokeMode != null) 'InvokeMode': invokeMode.value,
+    };
+  }
+}
+
+/// @nodoc
 class GetPolicyResponse {
   /// The resource-based policy.
   final String? policy;
@@ -8692,6 +8675,77 @@ class InvokeWithResponseStreamResponse {
   }
 }
 
+/// The response from the ListDurableExecutionsByFunction operation, containing
+/// a list of durable executions and pagination information.
+///
+/// @nodoc
+class ListDurableExecutionsByFunctionResponse {
+  /// List of durable execution summaries matching the filter criteria.
+  final List<Execution>? durableExecutions;
+
+  /// Pagination token for retrieving additional results. Present only if there
+  /// are more results available.
+  final String? nextMarker;
+
+  ListDurableExecutionsByFunctionResponse({
+    this.durableExecutions,
+    this.nextMarker,
+  });
+
+  factory ListDurableExecutionsByFunctionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDurableExecutionsByFunctionResponse(
+      durableExecutions: (json['DurableExecutions'] as List?)
+          ?.nonNulls
+          .map((e) => Execution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durableExecutions = this.durableExecutions;
+    final nextMarker = this.nextMarker;
+    return {
+      if (durableExecutions != null) 'DurableExecutions': durableExecutions,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// @nodoc
+class ListFunctionUrlConfigsResponse {
+  /// A list of function URL configurations.
+  final List<FunctionUrlConfig> functionUrlConfigs;
+
+  /// The pagination token that's included if more results are available.
+  final String? nextMarker;
+
+  ListFunctionUrlConfigsResponse({
+    required this.functionUrlConfigs,
+    this.nextMarker,
+  });
+
+  factory ListFunctionUrlConfigsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFunctionUrlConfigsResponse(
+      functionUrlConfigs: ((json['FunctionUrlConfigs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FunctionUrlConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionUrlConfigs = this.functionUrlConfigs;
+    final nextMarker = this.nextMarker;
+    return {
+      'FunctionUrlConfigs': functionUrlConfigs,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
 /// @nodoc
 class PutFunctionCodeSigningConfigResponse {
   /// The The Amazon Resource Name (ARN) of the code signing configuration.
@@ -8831,6 +8885,99 @@ class PutRuntimeManagementConfigResponse {
       'FunctionArn': functionArn,
       'UpdateRuntimeOn': updateRuntimeOn.value,
       if (runtimeVersionArn != null) 'RuntimeVersionArn': runtimeVersionArn,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateFunctionUrlConfigResponse {
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
+  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
+  /// create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Control
+  /// access to Lambda function URLs</a>.
+  final FunctionUrlAuthType authType;
+
+  /// When the function URL was created, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String creationTime;
+
+  /// The Amazon Resource Name (ARN) of your function.
+  final String functionArn;
+
+  /// The HTTP URL endpoint for your function.
+  final String functionUrl;
+
+  /// When the function URL configuration was last updated, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String lastModifiedTime;
+
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  final Cors? cors;
+
+  /// Use one of the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
+  /// function using the <code>Invoke</code> API operation. Invocation results are
+  /// available when the payload is complete. The maximum payload size is 6 MB.
+  /// </li>
+  /// <li>
+  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as they
+  /// become available. Lambda invokes your function using the
+  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
+  /// payload size is 200 MB.
+  /// </li>
+  /// </ul>
+  final InvokeMode? invokeMode;
+
+  UpdateFunctionUrlConfigResponse({
+    required this.authType,
+    required this.creationTime,
+    required this.functionArn,
+    required this.functionUrl,
+    required this.lastModifiedTime,
+    this.cors,
+    this.invokeMode,
+  });
+
+  factory UpdateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFunctionUrlConfigResponse(
+      authType:
+          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
+      creationTime: (json['CreationTime'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      functionUrl: (json['FunctionUrl'] as String?) ?? '',
+      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
+      cors: json['Cors'] != null
+          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
+          : null,
+      invokeMode: (json['InvokeMode'] as String?)?.let(InvokeMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final creationTime = this.creationTime;
+    final functionArn = this.functionArn;
+    final functionUrl = this.functionUrl;
+    final lastModifiedTime = this.lastModifiedTime;
+    final cors = this.cors;
+    final invokeMode = this.invokeMode;
+    return {
+      'AuthType': authType.value,
+      'CreationTime': creationTime,
+      'FunctionArn': functionArn,
+      'FunctionUrl': functionUrl,
+      'LastModifiedTime': lastModifiedTime,
+      if (cors != null) 'Cors': cors,
+      if (invokeMode != null) 'InvokeMode': invokeMode.value,
     };
   }
 }
@@ -9547,6 +9694,9 @@ class LayerVersionContentOutput {
   /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
   final String? location;
 
+  /// The resolved Amazon S3 object that contains the layer archive.
+  final ResolvedS3Object? resolvedS3Object;
+
   /// The Amazon Resource Name (ARN) of a signing job.
   final String? signingJobArn;
 
@@ -9557,6 +9707,7 @@ class LayerVersionContentOutput {
     this.codeSha256,
     this.codeSize,
     this.location,
+    this.resolvedS3Object,
     this.signingJobArn,
     this.signingProfileVersionArn,
   });
@@ -9566,6 +9717,10 @@ class LayerVersionContentOutput {
       codeSha256: json['CodeSha256'] as String?,
       codeSize: json['CodeSize'] as int?,
       location: json['Location'] as String?,
+      resolvedS3Object: json['ResolvedS3Object'] != null
+          ? ResolvedS3Object.fromJson(
+              json['ResolvedS3Object'] as Map<String, dynamic>)
+          : null,
       signingJobArn: json['SigningJobArn'] as String?,
       signingProfileVersionArn: json['SigningProfileVersionArn'] as String?,
     );
@@ -9575,17 +9730,144 @@ class LayerVersionContentOutput {
     final codeSha256 = this.codeSha256;
     final codeSize = this.codeSize;
     final location = this.location;
+    final resolvedS3Object = this.resolvedS3Object;
     final signingJobArn = this.signingJobArn;
     final signingProfileVersionArn = this.signingProfileVersionArn;
     return {
       if (codeSha256 != null) 'CodeSha256': codeSha256,
       if (codeSize != null) 'CodeSize': codeSize,
       if (location != null) 'Location': location,
+      if (resolvedS3Object != null) 'ResolvedS3Object': resolvedS3Object,
       if (signingJobArn != null) 'SigningJobArn': signingJobArn,
       if (signingProfileVersionArn != null)
         'SigningProfileVersionArn': signingProfileVersionArn,
     };
   }
+}
+
+/// @nodoc
+class Runtime {
+  static const nodejs = Runtime._('nodejs');
+  static const nodejs4_3 = Runtime._('nodejs4.3');
+  static const nodejs6_10 = Runtime._('nodejs6.10');
+  static const nodejs8_10 = Runtime._('nodejs8.10');
+  static const nodejs10X = Runtime._('nodejs10.x');
+  static const nodejs12X = Runtime._('nodejs12.x');
+  static const nodejs14X = Runtime._('nodejs14.x');
+  static const nodejs16X = Runtime._('nodejs16.x');
+  static const nodejs18X = Runtime._('nodejs18.x');
+  static const nodejs20X = Runtime._('nodejs20.x');
+  static const nodejs22X = Runtime._('nodejs22.x');
+  static const nodejs24X = Runtime._('nodejs24.x');
+  static const java8 = Runtime._('java8');
+  static const java8Al2 = Runtime._('java8.al2');
+  static const java11 = Runtime._('java11');
+  static const java17 = Runtime._('java17');
+  static const java21 = Runtime._('java21');
+  static const java25 = Runtime._('java25');
+  static const python2_7 = Runtime._('python2.7');
+  static const python3_6 = Runtime._('python3.6');
+  static const python3_7 = Runtime._('python3.7');
+  static const python3_8 = Runtime._('python3.8');
+  static const python3_9 = Runtime._('python3.9');
+  static const python3_10 = Runtime._('python3.10');
+  static const python3_11 = Runtime._('python3.11');
+  static const python3_12 = Runtime._('python3.12');
+  static const python3_13 = Runtime._('python3.13');
+  static const python3_14 = Runtime._('python3.14');
+  static const dotnetcore1_0 = Runtime._('dotnetcore1.0');
+  static const dotnetcore2_0 = Runtime._('dotnetcore2.0');
+  static const dotnetcore2_1 = Runtime._('dotnetcore2.1');
+  static const dotnetcore3_1 = Runtime._('dotnetcore3.1');
+  static const dotnet6 = Runtime._('dotnet6');
+  static const dotnet8 = Runtime._('dotnet8');
+  static const dotnet10 = Runtime._('dotnet10');
+  static const nodejs4_3Edge = Runtime._('nodejs4.3-edge');
+  static const go1X = Runtime._('go1.x');
+  static const ruby2_5 = Runtime._('ruby2.5');
+  static const ruby2_7 = Runtime._('ruby2.7');
+  static const ruby3_2 = Runtime._('ruby3.2');
+  static const ruby3_3 = Runtime._('ruby3.3');
+  static const ruby3_4 = Runtime._('ruby3.4');
+  static const ruby4_0 = Runtime._('ruby4.0');
+  static const provided = Runtime._('provided');
+  static const providedAl2 = Runtime._('provided.al2');
+  static const providedAl2023 = Runtime._('provided.al2023');
+  static const nodejs26X = Runtime._('nodejs26.x');
+  static const python3_15 = Runtime._('python3.15');
+  static const java8Al2023 = Runtime._('java8.al2023');
+  static const java11Al2023 = Runtime._('java11.al2023');
+  static const java17Al2023 = Runtime._('java17.al2023');
+
+  final String value;
+
+  const Runtime._(this.value);
+
+  static const values = [
+    nodejs,
+    nodejs4_3,
+    nodejs6_10,
+    nodejs8_10,
+    nodejs10X,
+    nodejs12X,
+    nodejs14X,
+    nodejs16X,
+    nodejs18X,
+    nodejs20X,
+    nodejs22X,
+    nodejs24X,
+    java8,
+    java8Al2,
+    java11,
+    java17,
+    java21,
+    java25,
+    python2_7,
+    python3_6,
+    python3_7,
+    python3_8,
+    python3_9,
+    python3_10,
+    python3_11,
+    python3_12,
+    python3_13,
+    python3_14,
+    dotnetcore1_0,
+    dotnetcore2_0,
+    dotnetcore2_1,
+    dotnetcore3_1,
+    dotnet6,
+    dotnet8,
+    dotnet10,
+    nodejs4_3Edge,
+    go1X,
+    ruby2_5,
+    ruby2_7,
+    ruby3_2,
+    ruby3_3,
+    ruby3_4,
+    ruby4_0,
+    provided,
+    providedAl2,
+    providedAl2023,
+    nodejs26X,
+    python3_15,
+    java8Al2023,
+    java11Al2023,
+    java17Al2023
+  ];
+
+  static Runtime fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Runtime._(value));
+
+  @override
+  bool operator ==(other) => other is Runtime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -9612,119 +9894,44 @@ class Architecture {
   String toString() => value;
 }
 
+/// Details about the resolved Amazon S3 object that contains a function's
+/// deployment package.
+///
 /// @nodoc
-class Runtime {
-  static const nodejs = Runtime._('nodejs');
-  static const nodejs4_3 = Runtime._('nodejs4.3');
-  static const nodejs6_10 = Runtime._('nodejs6.10');
-  static const nodejs8_10 = Runtime._('nodejs8.10');
-  static const nodejs10X = Runtime._('nodejs10.x');
-  static const nodejs12X = Runtime._('nodejs12.x');
-  static const nodejs14X = Runtime._('nodejs14.x');
-  static const nodejs16X = Runtime._('nodejs16.x');
-  static const java8 = Runtime._('java8');
-  static const java8Al2 = Runtime._('java8.al2');
-  static const java11 = Runtime._('java11');
-  static const python2_7 = Runtime._('python2.7');
-  static const python3_6 = Runtime._('python3.6');
-  static const python3_7 = Runtime._('python3.7');
-  static const python3_8 = Runtime._('python3.8');
-  static const python3_9 = Runtime._('python3.9');
-  static const dotnetcore1_0 = Runtime._('dotnetcore1.0');
-  static const dotnetcore2_0 = Runtime._('dotnetcore2.0');
-  static const dotnetcore2_1 = Runtime._('dotnetcore2.1');
-  static const dotnetcore3_1 = Runtime._('dotnetcore3.1');
-  static const dotnet6 = Runtime._('dotnet6');
-  static const dotnet8 = Runtime._('dotnet8');
-  static const nodejs4_3Edge = Runtime._('nodejs4.3-edge');
-  static const go1X = Runtime._('go1.x');
-  static const ruby2_5 = Runtime._('ruby2.5');
-  static const ruby2_7 = Runtime._('ruby2.7');
-  static const provided = Runtime._('provided');
-  static const providedAl2 = Runtime._('provided.al2');
-  static const nodejs18X = Runtime._('nodejs18.x');
-  static const python3_10 = Runtime._('python3.10');
-  static const java17 = Runtime._('java17');
-  static const ruby3_2 = Runtime._('ruby3.2');
-  static const ruby3_3 = Runtime._('ruby3.3');
-  static const ruby3_4 = Runtime._('ruby3.4');
-  static const python3_11 = Runtime._('python3.11');
-  static const nodejs20X = Runtime._('nodejs20.x');
-  static const providedAl2023 = Runtime._('provided.al2023');
-  static const python3_12 = Runtime._('python3.12');
-  static const java21 = Runtime._('java21');
-  static const python3_13 = Runtime._('python3.13');
-  static const nodejs22X = Runtime._('nodejs22.x');
-  static const nodejs24X = Runtime._('nodejs24.x');
-  static const python3_14 = Runtime._('python3.14');
-  static const java25 = Runtime._('java25');
-  static const dotnet10 = Runtime._('dotnet10');
-  static const ruby4_0 = Runtime._('ruby4.0');
+class ResolvedS3Object {
+  /// The Amazon S3 bucket that contains the deployment package.
+  final String? s3Bucket;
 
-  final String value;
+  /// The Amazon S3 key of the deployment package.
+  final String? s3Key;
 
-  const Runtime._(this.value);
+  /// The version of the deployment package object.
+  final String? s3ObjectVersion;
 
-  static const values = [
-    nodejs,
-    nodejs4_3,
-    nodejs6_10,
-    nodejs8_10,
-    nodejs10X,
-    nodejs12X,
-    nodejs14X,
-    nodejs16X,
-    java8,
-    java8Al2,
-    java11,
-    python2_7,
-    python3_6,
-    python3_7,
-    python3_8,
-    python3_9,
-    dotnetcore1_0,
-    dotnetcore2_0,
-    dotnetcore2_1,
-    dotnetcore3_1,
-    dotnet6,
-    dotnet8,
-    nodejs4_3Edge,
-    go1X,
-    ruby2_5,
-    ruby2_7,
-    provided,
-    providedAl2,
-    nodejs18X,
-    python3_10,
-    java17,
-    ruby3_2,
-    ruby3_3,
-    ruby3_4,
-    python3_11,
-    nodejs20X,
-    providedAl2023,
-    python3_12,
-    java21,
-    python3_13,
-    nodejs22X,
-    nodejs24X,
-    python3_14,
-    java25,
-    dotnet10,
-    ruby4_0
-  ];
+  ResolvedS3Object({
+    this.s3Bucket,
+    this.s3Key,
+    this.s3ObjectVersion,
+  });
 
-  static Runtime fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Runtime._(value));
+  factory ResolvedS3Object.fromJson(Map<String, dynamic> json) {
+    return ResolvedS3Object(
+      s3Bucket: json['S3Bucket'] as String?,
+      s3Key: json['S3Key'] as String?,
+      s3ObjectVersion: json['S3ObjectVersion'] as String?,
+    );
+  }
 
-  @override
-  bool operator ==(other) => other is Runtime && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    final s3ObjectVersion = this.s3ObjectVersion;
+    return {
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
+    };
+  }
 }
 
 /// A ZIP archive that contains the contents of an <a
@@ -9740,6 +9947,20 @@ class LayerVersionContentInput {
   /// The Amazon S3 key of the layer archive.
   final String? s3Key;
 
+  /// Specifies how the layer archive is stored. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COPY</code> (default) – Uploads a copy of your layer archive to
+  /// Lambda.
+  /// </li>
+  /// <li>
+  /// <code>REFERENCE</code> – Lambda references the layer archive from the
+  /// specified Amazon S3 bucket.
+  /// </li>
+  /// </ul>
+  final S3ObjectStorageMode? s3ObjectStorageMode;
+
   /// For versioned objects, the version of the layer archive object to use.
   final String? s3ObjectVersion;
 
@@ -9750,6 +9971,7 @@ class LayerVersionContentInput {
   LayerVersionContentInput({
     this.s3Bucket,
     this.s3Key,
+    this.s3ObjectStorageMode,
     this.s3ObjectVersion,
     this.zipFile,
   });
@@ -9757,15 +9979,49 @@ class LayerVersionContentInput {
   Map<String, dynamic> toJson() {
     final s3Bucket = this.s3Bucket;
     final s3Key = this.s3Key;
+    final s3ObjectStorageMode = this.s3ObjectStorageMode;
     final s3ObjectVersion = this.s3ObjectVersion;
     final zipFile = this.zipFile;
     return {
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
       if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectStorageMode != null)
+        'S3ObjectStorageMode': s3ObjectStorageMode.value,
       if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
       if (zipFile != null) 'ZipFile': base64Encode(zipFile),
     };
   }
+}
+
+/// The method Lambda uses to store a function's deployment package — either by
+/// copying the package into Lambda-managed storage (<code>COPY</code>) or by
+/// referencing it directly from the source Amazon S3 bucket
+/// (<code>REFERENCE</code>).
+///
+/// @nodoc
+class S3ObjectStorageMode {
+  static const copy = S3ObjectStorageMode._('COPY');
+  static const reference = S3ObjectStorageMode._('REFERENCE');
+
+  final String value;
+
+  const S3ObjectStorageMode._(this.value);
+
+  static const values = [copy, reference];
+
+  static S3ObjectStorageMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3ObjectStorageMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is S3ObjectStorageMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details about a version of an <a
@@ -9960,6 +10216,121 @@ class AliasRoutingConfiguration {
   }
 }
 
+/// The <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+/// resource sharing (CORS)</a> settings for your Lambda function URL. Use CORS
+/// to grant access to your function URL from any origin. You can also use CORS
+/// to control access for specific HTTP headers and methods in requests to your
+/// function URL.
+///
+/// @nodoc
+class Cors {
+  /// Whether to allow cookies or other credentials in requests to your function
+  /// URL. The default is <code>false</code>.
+  final bool? allowCredentials;
+
+  /// The HTTP headers that origins can include in requests to your function URL.
+  /// For example: <code>Date</code>, <code>Keep-Alive</code>,
+  /// <code>X-Custom-Header</code>.
+  final List<String>? allowHeaders;
+
+  /// The HTTP methods that are allowed when calling your function URL. For
+  /// example: <code>GET</code>, <code>POST</code>, <code>DELETE</code>, or the
+  /// wildcard character (<code>*</code>).
+  final List<String>? allowMethods;
+
+  /// The origins that can access your function URL. You can list any number of
+  /// specific origins, separated by a comma. For example:
+  /// <code>https://www.example.com</code>, <code>http://localhost:60905</code>.
+  ///
+  /// Alternatively, you can grant access to all origins using the wildcard
+  /// character (<code>*</code>).
+  final List<String>? allowOrigins;
+
+  /// The HTTP headers in your function response that you want to expose to
+  /// origins that call your function URL. For example: <code>Date</code>,
+  /// <code>Keep-Alive</code>, <code>X-Custom-Header</code>.
+  final List<String>? exposeHeaders;
+
+  /// The maximum amount of time, in seconds, that web browsers can cache results
+  /// of a preflight request. By default, this is set to <code>0</code>, which
+  /// means that the browser doesn't cache results.
+  final int? maxAge;
+
+  Cors({
+    this.allowCredentials,
+    this.allowHeaders,
+    this.allowMethods,
+    this.allowOrigins,
+    this.exposeHeaders,
+    this.maxAge,
+  });
+
+  factory Cors.fromJson(Map<String, dynamic> json) {
+    return Cors(
+      allowCredentials: json['AllowCredentials'] as bool?,
+      allowHeaders: (json['AllowHeaders'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowMethods: (json['AllowMethods'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowOrigins: (json['AllowOrigins'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      exposeHeaders: (json['ExposeHeaders'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      maxAge: json['MaxAge'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowCredentials = this.allowCredentials;
+    final allowHeaders = this.allowHeaders;
+    final allowMethods = this.allowMethods;
+    final allowOrigins = this.allowOrigins;
+    final exposeHeaders = this.exposeHeaders;
+    final maxAge = this.maxAge;
+    return {
+      if (allowCredentials != null) 'AllowCredentials': allowCredentials,
+      if (allowHeaders != null) 'AllowHeaders': allowHeaders,
+      if (allowMethods != null) 'AllowMethods': allowMethods,
+      if (allowOrigins != null) 'AllowOrigins': allowOrigins,
+      if (exposeHeaders != null) 'ExposeHeaders': exposeHeaders,
+      if (maxAge != null) 'MaxAge': maxAge,
+    };
+  }
+}
+
+/// @nodoc
+class InvokeMode {
+  static const buffered = InvokeMode._('BUFFERED');
+  static const responseStream = InvokeMode._('RESPONSE_STREAM');
+
+  final String value;
+
+  const InvokeMode._(this.value);
+
+  static const values = [buffered, responseStream];
+
+  static InvokeMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InvokeMode._(value));
+
+  @override
+  bool operator ==(other) => other is InvokeMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class UpdateRuntimeOn {
   static const auto = UpdateRuntimeOn._('Auto');
@@ -10087,6 +10458,207 @@ class RecursiveLoop {
   String toString() => value;
 }
 
+/// Details about a Lambda function URL.
+///
+/// @nodoc
+class FunctionUrlConfig {
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
+  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
+  /// create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Security
+  /// and auth model for Lambda function URLs</a>.
+  final FunctionUrlAuthType authType;
+
+  /// When the function URL was created, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String creationTime;
+
+  /// The Amazon Resource Name (ARN) of your function.
+  final String functionArn;
+
+  /// The HTTP URL endpoint for your function.
+  final String functionUrl;
+
+  /// When the function URL configuration was last updated, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String lastModifiedTime;
+
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  final Cors? cors;
+
+  /// Use one of the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
+  /// function using the <code>Invoke</code> API operation. Invocation results are
+  /// available when the payload is complete. The maximum payload size is 6 MB.
+  /// </li>
+  /// <li>
+  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as they
+  /// become available. Lambda invokes your function using the
+  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
+  /// payload size is 200 MB.
+  /// </li>
+  /// </ul>
+  final InvokeMode? invokeMode;
+
+  FunctionUrlConfig({
+    required this.authType,
+    required this.creationTime,
+    required this.functionArn,
+    required this.functionUrl,
+    required this.lastModifiedTime,
+    this.cors,
+    this.invokeMode,
+  });
+
+  factory FunctionUrlConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionUrlConfig(
+      authType:
+          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
+      creationTime: (json['CreationTime'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      functionUrl: (json['FunctionUrl'] as String?) ?? '',
+      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
+      cors: json['Cors'] != null
+          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
+          : null,
+      invokeMode: (json['InvokeMode'] as String?)?.let(InvokeMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final creationTime = this.creationTime;
+    final functionArn = this.functionArn;
+    final functionUrl = this.functionUrl;
+    final lastModifiedTime = this.lastModifiedTime;
+    final cors = this.cors;
+    final invokeMode = this.invokeMode;
+    return {
+      'AuthType': authType.value,
+      'CreationTime': creationTime,
+      'FunctionArn': functionArn,
+      'FunctionUrl': functionUrl,
+      'LastModifiedTime': lastModifiedTime,
+      if (cors != null) 'Cors': cors,
+      if (invokeMode != null) 'InvokeMode': invokeMode.value,
+    };
+  }
+}
+
+/// Information about a <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
+/// execution</a>.
+///
+/// @nodoc
+class Execution {
+  /// The Amazon Resource Name (ARN) of the durable execution, if this execution
+  /// is a durable execution.
+  final String durableExecutionArn;
+
+  /// The unique name of the durable execution, if one was provided when the
+  /// execution was started.
+  final String durableExecutionName;
+
+  /// The Amazon Resource Name (ARN) of the Lambda function.
+  final String functionArn;
+
+  /// The date and time when the durable execution started, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final DateTime startTimestamp;
+
+  /// The current status of the durable execution.
+  final ExecutionStatus status;
+
+  /// The date and time when the durable execution ended, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final DateTime? endTimestamp;
+
+  /// The ARN of the Key Management Service (KMS) customer managed key that is
+  /// used to encrypt your durable execution's payload data, including input,
+  /// output, and error payloads.
+  final String? kMSKeyArn;
+
+  Execution({
+    required this.durableExecutionArn,
+    required this.durableExecutionName,
+    required this.functionArn,
+    required this.startTimestamp,
+    required this.status,
+    this.endTimestamp,
+    this.kMSKeyArn,
+  });
+
+  factory Execution.fromJson(Map<String, dynamic> json) {
+    return Execution(
+      durableExecutionArn: (json['DurableExecutionArn'] as String?) ?? '',
+      durableExecutionName: (json['DurableExecutionName'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      startTimestamp: nonNullableTimeStampFromJson(json['StartTimestamp'] ?? 0),
+      status: ExecutionStatus.fromString((json['Status'] as String?) ?? ''),
+      endTimestamp: timeStampFromJson(json['EndTimestamp']),
+      kMSKeyArn: json['KMSKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durableExecutionArn = this.durableExecutionArn;
+    final durableExecutionName = this.durableExecutionName;
+    final functionArn = this.functionArn;
+    final startTimestamp = this.startTimestamp;
+    final status = this.status;
+    final endTimestamp = this.endTimestamp;
+    final kMSKeyArn = this.kMSKeyArn;
+    return {
+      'DurableExecutionArn': durableExecutionArn,
+      'DurableExecutionName': durableExecutionName,
+      'FunctionArn': functionArn,
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+      'Status': status.value,
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
+    };
+  }
+}
+
+/// @nodoc
+class ExecutionStatus {
+  static const running = ExecutionStatus._('RUNNING');
+  static const succeeded = ExecutionStatus._('SUCCEEDED');
+  static const failed = ExecutionStatus._('FAILED');
+  static const timedOut = ExecutionStatus._('TIMED_OUT');
+  static const stopped = ExecutionStatus._('STOPPED');
+
+  final String value;
+
+  const ExecutionStatus._(this.value);
+
+  static const values = [running, succeeded, failed, timedOut, stopped];
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// An object that includes a chunk of the response payload. When the stream has
 /// ended, Lambda includes a <code>InvokeComplete</code> object.
 ///
@@ -10194,6 +10766,30 @@ class InvokeWithResponseStreamCompleteEvent {
 }
 
 /// @nodoc
+class LogType {
+  static const none = LogType._('None');
+  static const tail = LogType._('Tail');
+
+  final String value;
+
+  const LogType._(this.value);
+
+  static const values = [none, tail];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class ResponseStreamingInvocationType {
   static const requestResponse =
       ResponseStreamingInvocationType._('RequestResponse');
@@ -10212,30 +10808,6 @@ class ResponseStreamingInvocationType {
   @override
   bool operator ==(other) =>
       other is ResponseStreamingInvocationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class LogType {
-  static const none = LogType._('None');
-  static const tail = LogType._('Tail');
-
-  final String value;
-
-  const LogType._(this.value);
-
-  static const values = [none, tail];
-
-  static LogType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
-
-  @override
-  bool operator ==(other) => other is LogType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -10274,6 +10846,10 @@ class InvocationType {
 ///
 /// @nodoc
 class FunctionCodeLocation {
+  /// An object that contains details about an error related to function
+  /// deployment package retrieval.
+  final FunctionCodeLocationError? error;
+
   /// URI of a container image in the Amazon ECR registry.
   final String? imageUri;
 
@@ -10286,6 +10862,9 @@ class FunctionCodeLocation {
   /// The resolved URI for the image.
   final String? resolvedImageUri;
 
+  /// The resolved Amazon S3 object that contains the deployment package.
+  final ResolvedS3Object? resolvedS3Object;
+
   /// The ARN of the Key Management Service (KMS) customer managed key that's used
   /// to encrypt your function's .zip deployment package. If you don't provide a
   /// customer managed key, Lambda uses an <a
@@ -10294,34 +10873,48 @@ class FunctionCodeLocation {
   final String? sourceKMSKeyArn;
 
   FunctionCodeLocation({
+    this.error,
     this.imageUri,
     this.location,
     this.repositoryType,
     this.resolvedImageUri,
+    this.resolvedS3Object,
     this.sourceKMSKeyArn,
   });
 
   factory FunctionCodeLocation.fromJson(Map<String, dynamic> json) {
     return FunctionCodeLocation(
+      error: json['Error'] != null
+          ? FunctionCodeLocationError.fromJson(
+              json['Error'] as Map<String, dynamic>)
+          : null,
       imageUri: json['ImageUri'] as String?,
       location: json['Location'] as String?,
       repositoryType: json['RepositoryType'] as String?,
       resolvedImageUri: json['ResolvedImageUri'] as String?,
+      resolvedS3Object: json['ResolvedS3Object'] != null
+          ? ResolvedS3Object.fromJson(
+              json['ResolvedS3Object'] as Map<String, dynamic>)
+          : null,
       sourceKMSKeyArn: json['SourceKMSKeyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final error = this.error;
     final imageUri = this.imageUri;
     final location = this.location;
     final repositoryType = this.repositoryType;
     final resolvedImageUri = this.resolvedImageUri;
+    final resolvedS3Object = this.resolvedS3Object;
     final sourceKMSKeyArn = this.sourceKMSKeyArn;
     return {
+      if (error != null) 'Error': error,
       if (imageUri != null) 'ImageUri': imageUri,
       if (location != null) 'Location': location,
       if (repositoryType != null) 'RepositoryType': repositoryType,
       if (resolvedImageUri != null) 'ResolvedImageUri': resolvedImageUri,
+      if (resolvedS3Object != null) 'ResolvedS3Object': resolvedS3Object,
       if (sourceKMSKeyArn != null) 'SourceKMSKeyArn': sourceKMSKeyArn,
     };
   }
@@ -10359,119 +10952,39 @@ class TagsError {
   }
 }
 
-/// The <a
-/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
-/// resource sharing (CORS)</a> settings for your Lambda function URL. Use CORS
-/// to grant access to your function URL from any origin. You can also use CORS
-/// to control access for specific HTTP headers and methods in requests to your
-/// function URL.
+/// Contains details about an error that occurred when Lambda attempted to
+/// retrieve a function's deployment package.
 ///
 /// @nodoc
-class Cors {
-  /// Whether to allow cookies or other credentials in requests to your function
-  /// URL. The default is <code>false</code>.
-  final bool? allowCredentials;
+class FunctionCodeLocationError {
+  /// The error code that identifies why Lambda failed to retrieve the deployment
+  /// package.
+  final String? errorCode;
 
-  /// The HTTP headers that origins can include in requests to your function URL.
-  /// For example: <code>Date</code>, <code>Keep-Alive</code>,
-  /// <code>X-Custom-Header</code>.
-  final List<String>? allowHeaders;
+  /// The human-readable message that describes why Lambda failed to retrieve the
+  /// deployment package.
+  final String? message;
 
-  /// The HTTP methods that are allowed when calling your function URL. For
-  /// example: <code>GET</code>, <code>POST</code>, <code>DELETE</code>, or the
-  /// wildcard character (<code>*</code>).
-  final List<String>? allowMethods;
-
-  /// The origins that can access your function URL. You can list any number of
-  /// specific origins, separated by a comma. For example:
-  /// <code>https://www.example.com</code>, <code>http://localhost:60905</code>.
-  ///
-  /// Alternatively, you can grant access to all origins using the wildcard
-  /// character (<code>*</code>).
-  final List<String>? allowOrigins;
-
-  /// The HTTP headers in your function response that you want to expose to
-  /// origins that call your function URL. For example: <code>Date</code>,
-  /// <code>Keep-Alive</code>, <code>X-Custom-Header</code>.
-  final List<String>? exposeHeaders;
-
-  /// The maximum amount of time, in seconds, that web browsers can cache results
-  /// of a preflight request. By default, this is set to <code>0</code>, which
-  /// means that the browser doesn't cache results.
-  final int? maxAge;
-
-  Cors({
-    this.allowCredentials,
-    this.allowHeaders,
-    this.allowMethods,
-    this.allowOrigins,
-    this.exposeHeaders,
-    this.maxAge,
+  FunctionCodeLocationError({
+    this.errorCode,
+    this.message,
   });
 
-  factory Cors.fromJson(Map<String, dynamic> json) {
-    return Cors(
-      allowCredentials: json['AllowCredentials'] as bool?,
-      allowHeaders: (json['AllowHeaders'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      allowMethods: (json['AllowMethods'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      allowOrigins: (json['AllowOrigins'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      exposeHeaders: (json['ExposeHeaders'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      maxAge: json['MaxAge'] as int?,
+  factory FunctionCodeLocationError.fromJson(Map<String, dynamic> json) {
+    return FunctionCodeLocationError(
+      errorCode: json['ErrorCode'] as String?,
+      message: json['Message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final allowCredentials = this.allowCredentials;
-    final allowHeaders = this.allowHeaders;
-    final allowMethods = this.allowMethods;
-    final allowOrigins = this.allowOrigins;
-    final exposeHeaders = this.exposeHeaders;
-    final maxAge = this.maxAge;
+    final errorCode = this.errorCode;
+    final message = this.message;
     return {
-      if (allowCredentials != null) 'AllowCredentials': allowCredentials,
-      if (allowHeaders != null) 'AllowHeaders': allowHeaders,
-      if (allowMethods != null) 'AllowMethods': allowMethods,
-      if (allowOrigins != null) 'AllowOrigins': allowOrigins,
-      if (exposeHeaders != null) 'ExposeHeaders': exposeHeaders,
-      if (maxAge != null) 'MaxAge': maxAge,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (message != null) 'Message': message,
     };
   }
-}
-
-/// @nodoc
-class InvokeMode {
-  static const buffered = InvokeMode._('BUFFERED');
-  static const responseStream = InvokeMode._('RESPONSE_STREAM');
-
-  final String value;
-
-  const InvokeMode._(this.value);
-
-  static const values = [buffered, responseStream];
-
-  static InvokeMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => InvokeMode._(value));
-
-  @override
-  bool operator ==(other) => other is InvokeMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.
@@ -10777,8 +11290,10 @@ class CapacityProviderConfig {
 
 /// Configuration settings for <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-/// functions</a>, including execution timeout and retention period for
-/// execution history.
+/// functions</a>, including execution timeout, retention period for execution
+/// history, and an optional ARN of the Key Management Service (KMS) customer
+/// managed key that is used to encrypt your durable execution's payload data,
+/// including input, output, and error payloads.
 ///
 /// @nodoc
 class DurableConfig {
@@ -10787,6 +11302,11 @@ class DurableConfig {
   /// function invocations.
   final int? executionTimeout;
 
+  /// The ARN of the Key Management Service (KMS) customer managed key that is
+  /// used to encrypt your durable execution's payload data, including input,
+  /// output, and error payloads.
+  final String? kMSKeyArn;
+
   /// The number of days to retain execution history after a durable execution
   /// completes. After this period, execution history is no longer available
   /// through the GetDurableExecutionHistory API.
@@ -10794,21 +11314,25 @@ class DurableConfig {
 
   DurableConfig({
     this.executionTimeout,
+    this.kMSKeyArn,
     this.retentionPeriodInDays,
   });
 
   factory DurableConfig.fromJson(Map<String, dynamic> json) {
     return DurableConfig(
       executionTimeout: json['ExecutionTimeout'] as int?,
+      kMSKeyArn: json['KMSKeyArn'] as String?,
       retentionPeriodInDays: json['RetentionPeriodInDays'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final executionTimeout = this.executionTimeout;
+    final kMSKeyArn = this.kMSKeyArn;
     final retentionPeriodInDays = this.retentionPeriodInDays;
     return {
       if (executionTimeout != null) 'ExecutionTimeout': executionTimeout,
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
       if (retentionPeriodInDays != null)
         'RetentionPeriodInDays': retentionPeriodInDays,
     };
@@ -11118,101 +11642,6 @@ class ProvisionedConcurrencyConfigListItem {
   }
 }
 
-/// Details about a Lambda function URL.
-///
-/// @nodoc
-class FunctionUrlConfig {
-  /// The type of authentication that your function URL uses. Set to
-  /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
-  /// only. Set to <code>NONE</code> if you want to bypass IAM authentication to
-  /// create a public endpoint. For more information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">Security
-  /// and auth model for Lambda function URLs</a>.
-  final FunctionUrlAuthType authType;
-
-  /// When the function URL was created, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final String creationTime;
-
-  /// The Amazon Resource Name (ARN) of your function.
-  final String functionArn;
-
-  /// The HTTP URL endpoint for your function.
-  final String functionUrl;
-
-  /// When the function URL configuration was last updated, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final String lastModifiedTime;
-
-  /// The <a
-  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
-  /// resource sharing (CORS)</a> settings for your function URL.
-  final Cors? cors;
-
-  /// Use one of the following options:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>BUFFERED</code> – This is the default option. Lambda invokes your
-  /// function using the <code>Invoke</code> API operation. Invocation results are
-  /// available when the payload is complete. The maximum payload size is 6 MB.
-  /// </li>
-  /// <li>
-  /// <code>RESPONSE_STREAM</code> – Your function streams payload results as they
-  /// become available. Lambda invokes your function using the
-  /// <code>InvokeWithResponseStream</code> API operation. The maximum response
-  /// payload size is 200 MB.
-  /// </li>
-  /// </ul>
-  final InvokeMode? invokeMode;
-
-  FunctionUrlConfig({
-    required this.authType,
-    required this.creationTime,
-    required this.functionArn,
-    required this.functionUrl,
-    required this.lastModifiedTime,
-    this.cors,
-    this.invokeMode,
-  });
-
-  factory FunctionUrlConfig.fromJson(Map<String, dynamic> json) {
-    return FunctionUrlConfig(
-      authType:
-          FunctionUrlAuthType.fromString((json['AuthType'] as String?) ?? ''),
-      creationTime: (json['CreationTime'] as String?) ?? '',
-      functionArn: (json['FunctionArn'] as String?) ?? '',
-      functionUrl: (json['FunctionUrl'] as String?) ?? '',
-      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
-      cors: json['Cors'] != null
-          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
-          : null,
-      invokeMode: (json['InvokeMode'] as String?)?.let(InvokeMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authType = this.authType;
-    final creationTime = this.creationTime;
-    final functionArn = this.functionArn;
-    final functionUrl = this.functionUrl;
-    final lastModifiedTime = this.lastModifiedTime;
-    final cors = this.cors;
-    final invokeMode = this.invokeMode;
-    return {
-      'AuthType': authType.value,
-      'CreationTime': creationTime,
-      'FunctionArn': functionArn,
-      'FunctionUrl': functionUrl,
-      'LastModifiedTime': lastModifiedTime,
-      if (cors != null) 'Cors': cors,
-      if (invokeMode != null) 'InvokeMode': invokeMode.value,
-    };
-  }
-}
-
 /// @nodoc
 class FunctionVersion {
   static const all = FunctionVersion._('ALL');
@@ -11383,8 +11812,8 @@ class StateReasonCode {
   static const invalidZipFileException =
       StateReasonCode._('InvalidZipFileException');
   static const functionError = StateReasonCode._('FunctionError');
-  static const drainingDurableExecutions =
-      StateReasonCode._('DrainingDurableExecutions');
+  static const serviceQuotaExceededException =
+      StateReasonCode._('ServiceQuotaExceededException');
   static const vcpuLimitExceeded = StateReasonCode._('VcpuLimitExceeded');
   static const capacityProviderScalingLimitExceeded =
       StateReasonCode._('CapacityProviderScalingLimitExceeded');
@@ -11409,6 +11838,9 @@ class StateReasonCode {
       StateReasonCode._('FunctionError.InitResourceExhausted');
   static const disallowedByVpcEncryptionControl =
       StateReasonCode._('DisallowedByVpcEncryptionControl');
+  static const drainingDurableExecutions =
+      StateReasonCode._('DrainingDurableExecutions');
+  static const dependencyError = StateReasonCode._('DependencyError');
 
   final String value;
 
@@ -11439,7 +11871,7 @@ class StateReasonCode {
     invalidRuntime,
     invalidZipFileException,
     functionError,
-    drainingDurableExecutions,
+    serviceQuotaExceededException,
     vcpuLimitExceeded,
     capacityProviderScalingLimitExceeded,
     insufficientCapacity,
@@ -11452,7 +11884,9 @@ class StateReasonCode {
     functionErrorPermissionDenied,
     functionErrorTooManyExtensions,
     functionErrorInitResourceExhausted,
-    disallowedByVpcEncryptionControl
+    disallowedByVpcEncryptionControl,
+    drainingDurableExecutions,
+    dependencyError
   ];
 
   static StateReasonCode fromString(String value) =>
@@ -11530,6 +11964,8 @@ class LastUpdateStatusReasonCode {
   static const invalidZipFileException =
       LastUpdateStatusReasonCode._('InvalidZipFileException');
   static const functionError = LastUpdateStatusReasonCode._('FunctionError');
+  static const serviceQuotaExceededException =
+      LastUpdateStatusReasonCode._('ServiceQuotaExceededException');
   static const vcpuLimitExceeded =
       LastUpdateStatusReasonCode._('VcpuLimitExceeded');
   static const capacityProviderScalingLimitExceeded =
@@ -11556,6 +11992,8 @@ class LastUpdateStatusReasonCode {
       LastUpdateStatusReasonCode._('FunctionError.InitResourceExhausted');
   static const disallowedByVpcEncryptionControl =
       LastUpdateStatusReasonCode._('DisallowedByVpcEncryptionControl');
+  static const dependencyError =
+      LastUpdateStatusReasonCode._('DependencyError');
   static const creating = LastUpdateStatusReasonCode._('Creating');
 
   final String value;
@@ -11584,6 +12022,7 @@ class LastUpdateStatusReasonCode {
     invalidRuntime,
     invalidZipFileException,
     functionError,
+    serviceQuotaExceededException,
     vcpuLimitExceeded,
     capacityProviderScalingLimitExceeded,
     insufficientCapacity,
@@ -11597,6 +12036,7 @@ class LastUpdateStatusReasonCode {
     functionErrorTooManyExtensions,
     functionErrorInitResourceExhausted,
     disallowedByVpcEncryptionControl,
+    dependencyError,
     creating
   ];
 
@@ -11995,6 +12435,20 @@ class FunctionCode {
   /// The Amazon S3 key of the deployment package.
   final String? s3Key;
 
+  /// Specifies how the deployment package is stored. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COPY</code> (default) – Uploads a copy of your deployment package to
+  /// Lambda.
+  /// </li>
+  /// <li>
+  /// <code>REFERENCE</code> – Lambda references the deployment package from the
+  /// specified Amazon S3 bucket.
+  /// </li>
+  /// </ul>
+  final S3ObjectStorageMode? s3ObjectStorageMode;
+
   /// For versioned objects, the version of the deployment package object to use.
   final String? s3ObjectVersion;
 
@@ -12013,6 +12467,7 @@ class FunctionCode {
     this.imageUri,
     this.s3Bucket,
     this.s3Key,
+    this.s3ObjectStorageMode,
     this.s3ObjectVersion,
     this.sourceKMSKeyArn,
     this.zipFile,
@@ -12022,6 +12477,7 @@ class FunctionCode {
     final imageUri = this.imageUri;
     final s3Bucket = this.s3Bucket;
     final s3Key = this.s3Key;
+    final s3ObjectStorageMode = this.s3ObjectStorageMode;
     final s3ObjectVersion = this.s3ObjectVersion;
     final sourceKMSKeyArn = this.sourceKMSKeyArn;
     final zipFile = this.zipFile;
@@ -12029,6 +12485,8 @@ class FunctionCode {
       if (imageUri != null) 'ImageUri': imageUri,
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
       if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectStorageMode != null)
+        'S3ObjectStorageMode': s3ObjectStorageMode.value,
       if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
       if (sourceKMSKeyArn != null) 'SourceKMSKeyArn': sourceKMSKeyArn,
       if (zipFile != null) 'ZipFile': base64Encode(zipFile),
@@ -12060,6 +12518,117 @@ class FilterCriteria {
     final filters = this.filters;
     return {
       if (filters != null) 'Filters': filters,
+    };
+  }
+}
+
+/// The metrics configuration for your event source. Use this configuration
+/// object to define which metrics you want your event source mapping to
+/// produce.
+///
+/// @nodoc
+class EventSourceMappingMetricsConfig {
+  /// The metrics you want your event source mapping to produce, including
+  /// <code>EventCount</code>, <code>ErrorCount</code>, <code>KafkaMetrics</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EventCount</code> to receive metrics related to the number of events
+  /// processed by your event source mapping.
+  /// </li>
+  /// <li>
+  /// <code>ErrorCount</code> (Amazon MSK and self-managed Apache Kafka) to
+  /// receive metrics related to the number of errors in your event source mapping
+  /// processing.
+  /// </li>
+  /// <li>
+  /// <code>KafkaMetrics</code> (Amazon MSK and self-managed Apache Kafka) to
+  /// receive metrics related to the Kafka consumers from your event source
+  /// mapping.
+  /// </li>
+  /// </ul>
+  /// For more information about these metrics, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics">
+  /// Event source mapping metrics</a>.
+  final List<EventSourceMappingMetric>? metrics;
+
+  EventSourceMappingMetricsConfig({
+    this.metrics,
+  });
+
+  factory EventSourceMappingMetricsConfig.fromJson(Map<String, dynamic> json) {
+    return EventSourceMappingMetricsConfig(
+      metrics: (json['Metrics'] as List?)
+          ?.nonNulls
+          .map((e) => EventSourceMappingMetric.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metrics = this.metrics;
+    return {
+      if (metrics != null) 'Metrics': metrics.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration
+/// for your event source. Use this configuration object to define the level of
+/// logs for your event source mapping.
+///
+/// @nodoc
+class EventSourceMappingLoggingConfig {
+  /// The log level you want your event source mapping to use. Lambda event poller
+  /// only sends system logs at the selected level of detail and lower, where
+  /// <code>DEBUG</code> is the highest level and <code>WARN</code> is the lowest.
+  /// For more information about these metrics, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html"> Event
+  /// source mapping logging</a>.
+  final EventSourceMappingSystemLogLevel? systemLogLevel;
+
+  EventSourceMappingLoggingConfig({
+    this.systemLogLevel,
+  });
+
+  factory EventSourceMappingLoggingConfig.fromJson(Map<String, dynamic> json) {
+    return EventSourceMappingLoggingConfig(
+      systemLogLevel: (json['SystemLogLevel'] as String?)
+          ?.let(EventSourceMappingSystemLogLevel.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final systemLogLevel = this.systemLogLevel;
+    return {
+      if (systemLogLevel != null) 'SystemLogLevel': systemLogLevel.value,
+    };
+  }
+}
+
+/// (Amazon SQS only) The scaling configuration for the event source. To remove
+/// the configuration, pass an empty value.
+///
+/// @nodoc
+class ScalingConfig {
+  /// Limits the number of concurrent instances that the Amazon SQS event source
+  /// can invoke.
+  final int? maximumConcurrency;
+
+  ScalingConfig({
+    this.maximumConcurrency,
+  });
+
+  factory ScalingConfig.fromJson(Map<String, dynamic> json) {
+    return ScalingConfig(
+      maximumConcurrency: json['MaximumConcurrency'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumConcurrency = this.maximumConcurrency;
+    return {
+      if (maximumConcurrency != null) 'MaximumConcurrency': maximumConcurrency,
     };
   }
 }
@@ -12101,33 +12670,6 @@ class DestinationConfig {
     return {
       if (onFailure != null) 'OnFailure': onFailure,
       if (onSuccess != null) 'OnSuccess': onSuccess,
-    };
-  }
-}
-
-/// (Amazon SQS only) The scaling configuration for the event source. To remove
-/// the configuration, pass an empty value.
-///
-/// @nodoc
-class ScalingConfig {
-  /// Limits the number of concurrent instances that the Amazon SQS event source
-  /// can invoke.
-  final int? maximumConcurrency;
-
-  ScalingConfig({
-    this.maximumConcurrency,
-  });
-
-  factory ScalingConfig.fromJson(Map<String, dynamic> json) {
-    return ScalingConfig(
-      maximumConcurrency: json['MaximumConcurrency'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maximumConcurrency = this.maximumConcurrency;
-    return {
-      if (maximumConcurrency != null) 'MaximumConcurrency': maximumConcurrency,
     };
   }
 }
@@ -12262,90 +12804,6 @@ class DocumentDBEventSourceConfig {
   }
 }
 
-/// The metrics configuration for your event source. Use this configuration
-/// object to define which metrics you want your event source mapping to
-/// produce.
-///
-/// @nodoc
-class EventSourceMappingMetricsConfig {
-  /// The metrics you want your event source mapping to produce, including
-  /// <code>EventCount</code>, <code>ErrorCount</code>, <code>KafkaMetrics</code>.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>EventCount</code> to receive metrics related to the number of events
-  /// processed by your event source mapping.
-  /// </li>
-  /// <li>
-  /// <code>ErrorCount</code> (Amazon MSK and self-managed Apache Kafka) to
-  /// receive metrics related to the number of errors in your event source mapping
-  /// processing.
-  /// </li>
-  /// <li>
-  /// <code>KafkaMetrics</code> (Amazon MSK and self-managed Apache Kafka) to
-  /// receive metrics related to the Kafka consumers from your event source
-  /// mapping.
-  /// </li>
-  /// </ul>
-  /// For more information about these metrics, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics">
-  /// Event source mapping metrics</a>.
-  final List<EventSourceMappingMetric>? metrics;
-
-  EventSourceMappingMetricsConfig({
-    this.metrics,
-  });
-
-  factory EventSourceMappingMetricsConfig.fromJson(Map<String, dynamic> json) {
-    return EventSourceMappingMetricsConfig(
-      metrics: (json['Metrics'] as List?)
-          ?.nonNulls
-          .map((e) => EventSourceMappingMetric.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metrics = this.metrics;
-    return {
-      if (metrics != null) 'Metrics': metrics.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration
-/// for your event source. Use this configuration object to define the level of
-/// logs for your event source mapping.
-///
-/// @nodoc
-class EventSourceMappingLoggingConfig {
-  /// The log level you want your event source mapping to use. Lambda event poller
-  /// only sends system logs at the selected level of detail and lower, where
-  /// <code>DEBUG</code> is the highest level and <code>WARN</code> is the lowest.
-  /// For more information about these metrics, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html"> Event
-  /// source mapping logging</a>.
-  final EventSourceMappingSystemLogLevel? systemLogLevel;
-
-  EventSourceMappingLoggingConfig({
-    this.systemLogLevel,
-  });
-
-  factory EventSourceMappingLoggingConfig.fromJson(Map<String, dynamic> json) {
-    return EventSourceMappingLoggingConfig(
-      systemLogLevel: (json['SystemLogLevel'] as String?)
-          ?.let(EventSourceMappingSystemLogLevel.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final systemLogLevel = this.systemLogLevel;
-    return {
-      if (systemLogLevel != null) 'SystemLogLevel': systemLogLevel.value,
-    };
-  }
-}
-
 /// The <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode">
 /// provisioned mode</a> configuration for the event source. Use Provisioned
@@ -12398,60 +12856,6 @@ class ProvisionedPollerConfig {
       if (pollerGroupName != null) 'PollerGroupName': pollerGroupName,
     };
   }
-}
-
-/// @nodoc
-class EventSourceMappingSystemLogLevel {
-  static const debug = EventSourceMappingSystemLogLevel._('DEBUG');
-  static const info = EventSourceMappingSystemLogLevel._('INFO');
-  static const warn = EventSourceMappingSystemLogLevel._('WARN');
-
-  final String value;
-
-  const EventSourceMappingSystemLogLevel._(this.value);
-
-  static const values = [debug, info, warn];
-
-  static EventSourceMappingSystemLogLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventSourceMappingSystemLogLevel._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EventSourceMappingSystemLogLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class EventSourceMappingMetric {
-  static const eventCount = EventSourceMappingMetric._('EventCount');
-  static const errorCount = EventSourceMappingMetric._('ErrorCount');
-  static const kafkaMetrics = EventSourceMappingMetric._('KafkaMetrics');
-
-  final String value;
-
-  const EventSourceMappingMetric._(this.value);
-
-  static const values = [eventCount, errorCount, kafkaMetrics];
-
-  static EventSourceMappingMetric fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventSourceMappingMetric._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EventSourceMappingMetric && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// @nodoc
@@ -12972,6 +13376,60 @@ class OnFailure {
   }
 }
 
+/// @nodoc
+class EventSourceMappingSystemLogLevel {
+  static const debug = EventSourceMappingSystemLogLevel._('DEBUG');
+  static const info = EventSourceMappingSystemLogLevel._('INFO');
+  static const warn = EventSourceMappingSystemLogLevel._('WARN');
+
+  final String value;
+
+  const EventSourceMappingSystemLogLevel._(this.value);
+
+  static const values = [debug, info, warn];
+
+  static EventSourceMappingSystemLogLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventSourceMappingSystemLogLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventSourceMappingSystemLogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class EventSourceMappingMetric {
+  static const eventCount = EventSourceMappingMetric._('EventCount');
+  static const errorCount = EventSourceMappingMetric._('ErrorCount');
+  static const kafkaMetrics = EventSourceMappingMetric._('KafkaMetrics');
+
+  final String value;
+
+  const EventSourceMappingMetric._(this.value);
+
+  static const values = [eventCount, errorCount, kafkaMetrics];
+
+  static EventSourceMappingMetric fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventSourceMappingMetric._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventSourceMappingMetric && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A structure within a <code>FilterCriteria</code> object that defines an
 /// event filtering pattern.
 ///
@@ -13028,36 +13486,6 @@ class EventSourcePosition {
   String toString() => value;
 }
 
-/// The self-managed Apache Kafka cluster for your event source.
-///
-/// @nodoc
-class SelfManagedEventSource {
-  /// The list of bootstrap servers for your Kafka brokers in the following
-  /// format: <code>"KAFKA_BOOTSTRAP_SERVERS":
-  /// \["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"\]</code>.
-  final Map<EndPointType, List<String>>? endpoints;
-
-  SelfManagedEventSource({
-    this.endpoints,
-  });
-
-  factory SelfManagedEventSource.fromJson(Map<String, dynamic> json) {
-    return SelfManagedEventSource(
-      endpoints: (json['Endpoints'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(EndPointType.fromString(k),
-              (e as List).nonNulls.map((e) => e as String).toList())),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpoints = this.endpoints;
-    return {
-      if (endpoints != null)
-        'Endpoints': endpoints.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
 /// An object that contains details about an error related to filter criteria
 /// encryption.
 ///
@@ -13092,6 +13520,36 @@ class FilterCriteriaError {
   }
 }
 
+/// The self-managed Apache Kafka cluster for your event source.
+///
+/// @nodoc
+class SelfManagedEventSource {
+  /// The list of bootstrap servers for your Kafka brokers in the following
+  /// format: <code>"KAFKA_BOOTSTRAP_SERVERS":
+  /// \["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"\]</code>.
+  final Map<EndPointType, List<String>>? endpoints;
+
+  SelfManagedEventSource({
+    this.endpoints,
+  });
+
+  factory SelfManagedEventSource.fromJson(Map<String, dynamic> json) {
+    return SelfManagedEventSource(
+      endpoints: (json['Endpoints'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(EndPointType.fromString(k),
+              (e as List).nonNulls.map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    return {
+      if (endpoints != null)
+        'Endpoints': endpoints.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
 /// @nodoc
 class EndPointType {
   static const kafkaBootstrapServers =
@@ -13108,647 +13566,6 @@ class EndPointType {
 
   @override
   bool operator ==(other) => other is EndPointType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about a <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html">Code
-/// signing configuration</a>.
-///
-/// @nodoc
-class CodeSigningConfig {
-  /// List of allowed publishers.
-  final AllowedPublishers allowedPublishers;
-
-  /// The Amazon Resource Name (ARN) of the Code signing configuration.
-  final String codeSigningConfigArn;
-
-  /// Unique identifer for the Code signing configuration.
-  final String codeSigningConfigId;
-
-  /// The code signing policy controls the validation failure action for signature
-  /// mismatch or expiry.
-  final CodeSigningPolicies codeSigningPolicies;
-
-  /// The date and time that the Code signing configuration was last modified, in
-  /// ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
-  final String lastModified;
-
-  /// Code signing configuration description.
-  final String? description;
-
-  CodeSigningConfig({
-    required this.allowedPublishers,
-    required this.codeSigningConfigArn,
-    required this.codeSigningConfigId,
-    required this.codeSigningPolicies,
-    required this.lastModified,
-    this.description,
-  });
-
-  factory CodeSigningConfig.fromJson(Map<String, dynamic> json) {
-    return CodeSigningConfig(
-      allowedPublishers: AllowedPublishers.fromJson(
-          (json['AllowedPublishers'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      codeSigningConfigArn: (json['CodeSigningConfigArn'] as String?) ?? '',
-      codeSigningConfigId: (json['CodeSigningConfigId'] as String?) ?? '',
-      codeSigningPolicies: CodeSigningPolicies.fromJson(
-          (json['CodeSigningPolicies'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      lastModified: (json['LastModified'] as String?) ?? '',
-      description: json['Description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedPublishers = this.allowedPublishers;
-    final codeSigningConfigArn = this.codeSigningConfigArn;
-    final codeSigningConfigId = this.codeSigningConfigId;
-    final codeSigningPolicies = this.codeSigningPolicies;
-    final lastModified = this.lastModified;
-    final description = this.description;
-    return {
-      'AllowedPublishers': allowedPublishers,
-      'CodeSigningConfigArn': codeSigningConfigArn,
-      'CodeSigningConfigId': codeSigningConfigId,
-      'CodeSigningPolicies': codeSigningPolicies,
-      'LastModified': lastModified,
-      if (description != null) 'Description': description,
-    };
-  }
-}
-
-/// List of signing profiles that can sign a code package.
-///
-/// @nodoc
-class AllowedPublishers {
-  /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing
-  /// profile defines a trusted user who can sign a code package.
-  final List<String> signingProfileVersionArns;
-
-  AllowedPublishers({
-    required this.signingProfileVersionArns,
-  });
-
-  factory AllowedPublishers.fromJson(Map<String, dynamic> json) {
-    return AllowedPublishers(
-      signingProfileVersionArns:
-          ((json['SigningProfileVersionArns'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final signingProfileVersionArns = this.signingProfileVersionArns;
-    return {
-      'SigningProfileVersionArns': signingProfileVersionArns,
-    };
-  }
-}
-
-/// Code signing configuration <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies">policies</a>
-/// specify the validation failure action for signature mismatch or expiry.
-///
-/// @nodoc
-class CodeSigningPolicies {
-  /// Code signing configuration policy for deployment validation failure. If you
-  /// set the policy to <code>Enforce</code>, Lambda blocks the deployment request
-  /// if signature validation checks fail. If you set the policy to
-  /// <code>Warn</code>, Lambda allows the deployment and issues a new Amazon
-  /// CloudWatch metric (<code>SignatureValidationErrors</code>) and also stores
-  /// the warning in the CloudTrail log.
-  ///
-  /// Default value: <code>Warn</code>
-  final CodeSigningPolicy? untrustedArtifactOnDeployment;
-
-  CodeSigningPolicies({
-    this.untrustedArtifactOnDeployment,
-  });
-
-  factory CodeSigningPolicies.fromJson(Map<String, dynamic> json) {
-    return CodeSigningPolicies(
-      untrustedArtifactOnDeployment:
-          (json['UntrustedArtifactOnDeployment'] as String?)
-              ?.let(CodeSigningPolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final untrustedArtifactOnDeployment = this.untrustedArtifactOnDeployment;
-    return {
-      if (untrustedArtifactOnDeployment != null)
-        'UntrustedArtifactOnDeployment': untrustedArtifactOnDeployment.value,
-    };
-  }
-}
-
-/// @nodoc
-class CodeSigningPolicy {
-  static const warn = CodeSigningPolicy._('Warn');
-  static const enforce = CodeSigningPolicy._('Enforce');
-
-  final String value;
-
-  const CodeSigningPolicy._(this.value);
-
-  static const values = [warn, enforce];
-
-  static CodeSigningPolicy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CodeSigningPolicy._(value));
-
-  @override
-  bool operator ==(other) => other is CodeSigningPolicy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a function version that uses a specific capacity provider,
-/// including its ARN and current state.
-///
-/// @nodoc
-class FunctionVersionsByCapacityProviderListItem {
-  /// The Amazon Resource Name (ARN) of the function version.
-  final String functionArn;
-
-  /// The current state of the function version.
-  final State state;
-
-  FunctionVersionsByCapacityProviderListItem({
-    required this.functionArn,
-    required this.state,
-  });
-
-  factory FunctionVersionsByCapacityProviderListItem.fromJson(
-      Map<String, dynamic> json) {
-    return FunctionVersionsByCapacityProviderListItem(
-      functionArn: (json['FunctionArn'] as String?) ?? '',
-      state: State.fromString((json['State'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final functionArn = this.functionArn;
-    final state = this.state;
-    return {
-      'FunctionArn': functionArn,
-      'State': state.value,
-    };
-  }
-}
-
-/// A capacity provider manages compute resources for Lambda functions.
-///
-/// @nodoc
-class CapacityProvider {
-  /// The Amazon Resource Name (ARN) of the capacity provider.
-  final String capacityProviderArn;
-
-  /// The permissions configuration for the capacity provider.
-  final CapacityProviderPermissionsConfig permissionsConfig;
-
-  /// The current state of the capacity provider.
-  final CapacityProviderState state;
-
-  /// The VPC configuration for the capacity provider.
-  final CapacityProviderVpcConfig vpcConfig;
-
-  /// The scaling configuration for the capacity provider.
-  final CapacityProviderScalingConfig? capacityProviderScalingConfig;
-
-  /// The instance requirements for compute resources managed by the capacity
-  /// provider.
-  final InstanceRequirements? instanceRequirements;
-
-  /// The ARN of the KMS key used to encrypt the capacity provider's resources.
-  final String? kmsKeyArn;
-
-  /// The date and time when the capacity provider was last modified.
-  final String? lastModified;
-  final PropagateTags? propagateTags;
-
-  CapacityProvider({
-    required this.capacityProviderArn,
-    required this.permissionsConfig,
-    required this.state,
-    required this.vpcConfig,
-    this.capacityProviderScalingConfig,
-    this.instanceRequirements,
-    this.kmsKeyArn,
-    this.lastModified,
-    this.propagateTags,
-  });
-
-  factory CapacityProvider.fromJson(Map<String, dynamic> json) {
-    return CapacityProvider(
-      capacityProviderArn: (json['CapacityProviderArn'] as String?) ?? '',
-      permissionsConfig: CapacityProviderPermissionsConfig.fromJson(
-          (json['PermissionsConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      state: CapacityProviderState.fromString((json['State'] as String?) ?? ''),
-      vpcConfig: CapacityProviderVpcConfig.fromJson(
-          (json['VpcConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      capacityProviderScalingConfig:
-          json['CapacityProviderScalingConfig'] != null
-              ? CapacityProviderScalingConfig.fromJson(
-                  json['CapacityProviderScalingConfig'] as Map<String, dynamic>)
-              : null,
-      instanceRequirements: json['InstanceRequirements'] != null
-          ? InstanceRequirements.fromJson(
-              json['InstanceRequirements'] as Map<String, dynamic>)
-          : null,
-      kmsKeyArn: json['KmsKeyArn'] as String?,
-      lastModified: json['LastModified'] as String?,
-      propagateTags: json['PropagateTags'] != null
-          ? PropagateTags.fromJson(
-              json['PropagateTags'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capacityProviderArn = this.capacityProviderArn;
-    final permissionsConfig = this.permissionsConfig;
-    final state = this.state;
-    final vpcConfig = this.vpcConfig;
-    final capacityProviderScalingConfig = this.capacityProviderScalingConfig;
-    final instanceRequirements = this.instanceRequirements;
-    final kmsKeyArn = this.kmsKeyArn;
-    final lastModified = this.lastModified;
-    final propagateTags = this.propagateTags;
-    return {
-      'CapacityProviderArn': capacityProviderArn,
-      'PermissionsConfig': permissionsConfig,
-      'State': state.value,
-      'VpcConfig': vpcConfig,
-      if (capacityProviderScalingConfig != null)
-        'CapacityProviderScalingConfig': capacityProviderScalingConfig,
-      if (instanceRequirements != null)
-        'InstanceRequirements': instanceRequirements,
-      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-      if (lastModified != null) 'LastModified': lastModified,
-      if (propagateTags != null) 'PropagateTags': propagateTags,
-    };
-  }
-}
-
-/// @nodoc
-class CapacityProviderState {
-  static const pending = CapacityProviderState._('Pending');
-  static const active = CapacityProviderState._('Active');
-  static const failed = CapacityProviderState._('Failed');
-  static const deleting = CapacityProviderState._('Deleting');
-
-  final String value;
-
-  const CapacityProviderState._(this.value);
-
-  static const values = [pending, active, failed, deleting];
-
-  static CapacityProviderState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapacityProviderState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CapacityProviderState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// VPC configuration that specifies the network settings for compute instances
-/// managed by the capacity provider.
-///
-/// @nodoc
-class CapacityProviderVpcConfig {
-  /// A list of security group IDs that control network access for compute
-  /// instances managed by the capacity provider.
-  final List<String> securityGroupIds;
-
-  /// A list of subnet IDs where the capacity provider launches compute instances.
-  final List<String> subnetIds;
-
-  CapacityProviderVpcConfig({
-    required this.securityGroupIds,
-    required this.subnetIds,
-  });
-
-  factory CapacityProviderVpcConfig.fromJson(Map<String, dynamic> json) {
-    return CapacityProviderVpcConfig(
-      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupIds = this.securityGroupIds;
-    final subnetIds = this.subnetIds;
-    return {
-      'SecurityGroupIds': securityGroupIds,
-      'SubnetIds': subnetIds,
-    };
-  }
-}
-
-/// Configuration that specifies the permissions required for the capacity
-/// provider to manage compute resources.
-///
-/// @nodoc
-class CapacityProviderPermissionsConfig {
-  /// The ARN of the IAM role that the capacity provider uses to manage compute
-  /// instances and other Amazon Web Services resources.
-  final String capacityProviderOperatorRoleArn;
-
-  CapacityProviderPermissionsConfig({
-    required this.capacityProviderOperatorRoleArn,
-  });
-
-  factory CapacityProviderPermissionsConfig.fromJson(
-      Map<String, dynamic> json) {
-    return CapacityProviderPermissionsConfig(
-      capacityProviderOperatorRoleArn:
-          (json['CapacityProviderOperatorRoleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capacityProviderOperatorRoleArn =
-        this.capacityProviderOperatorRoleArn;
-    return {
-      'CapacityProviderOperatorRoleArn': capacityProviderOperatorRoleArn,
-    };
-  }
-}
-
-/// Specifications that define the characteristics and constraints for compute
-/// instances used by the capacity provider.
-///
-/// @nodoc
-class InstanceRequirements {
-  /// A list of EC2 instance types that the capacity provider is allowed to use.
-  /// If not specified, all compatible instance types are allowed.
-  final List<String>? allowedInstanceTypes;
-
-  /// A list of supported CPU architectures for compute instances. Valid values
-  /// include <code>x86_64</code> and <code>arm64</code>.
-  final List<Architecture>? architectures;
-
-  /// A list of EC2 instance types that the capacity provider should not use, even
-  /// if they meet other requirements.
-  final List<String>? excludedInstanceTypes;
-
-  InstanceRequirements({
-    this.allowedInstanceTypes,
-    this.architectures,
-    this.excludedInstanceTypes,
-  });
-
-  factory InstanceRequirements.fromJson(Map<String, dynamic> json) {
-    return InstanceRequirements(
-      allowedInstanceTypes: (json['AllowedInstanceTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      architectures: (json['Architectures'] as List?)
-          ?.nonNulls
-          .map((e) => Architecture.fromString((e as String)))
-          .toList(),
-      excludedInstanceTypes: (json['ExcludedInstanceTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedInstanceTypes = this.allowedInstanceTypes;
-    final architectures = this.architectures;
-    final excludedInstanceTypes = this.excludedInstanceTypes;
-    return {
-      if (allowedInstanceTypes != null)
-        'AllowedInstanceTypes': allowedInstanceTypes,
-      if (architectures != null)
-        'Architectures': architectures.map((e) => e.value).toList(),
-      if (excludedInstanceTypes != null)
-        'ExcludedInstanceTypes': excludedInstanceTypes,
-    };
-  }
-}
-
-/// Configuration that defines how the capacity provider scales compute
-/// instances based on demand and policies.
-///
-/// @nodoc
-class CapacityProviderScalingConfig {
-  /// The maximum number of vCPUs that the capacity provider can provision across
-  /// all compute instances.
-  final int? maxVCpuCount;
-
-  /// The scaling mode that determines how the capacity provider responds to
-  /// changes in demand.
-  final CapacityProviderScalingMode? scalingMode;
-
-  /// A list of scaling policies that define how the capacity provider scales
-  /// compute instances based on metrics and thresholds.
-  final List<TargetTrackingScalingPolicy>? scalingPolicies;
-
-  CapacityProviderScalingConfig({
-    this.maxVCpuCount,
-    this.scalingMode,
-    this.scalingPolicies,
-  });
-
-  factory CapacityProviderScalingConfig.fromJson(Map<String, dynamic> json) {
-    return CapacityProviderScalingConfig(
-      maxVCpuCount: json['MaxVCpuCount'] as int?,
-      scalingMode: (json['ScalingMode'] as String?)
-          ?.let(CapacityProviderScalingMode.fromString),
-      scalingPolicies: (json['ScalingPolicies'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              TargetTrackingScalingPolicy.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxVCpuCount = this.maxVCpuCount;
-    final scalingMode = this.scalingMode;
-    final scalingPolicies = this.scalingPolicies;
-    return {
-      if (maxVCpuCount != null) 'MaxVCpuCount': maxVCpuCount,
-      if (scalingMode != null) 'ScalingMode': scalingMode.value,
-      if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
-    };
-  }
-}
-
-/// Configuration for tag propagation to managed resources launched by the
-/// capacity provider.
-///
-/// @nodoc
-class PropagateTags {
-  /// A list of tags to apply to managed resources when <code>Mode</code> is set
-  /// to <code>Explicit</code>. You can specify up to 40 tags.
-  final Map<String, String>? explicitTags;
-
-  /// The tag propagation mode. Set to <code>Explicit</code> to propagate the tags
-  /// specified in <code>ExplicitTags</code> to managed resources. Set to
-  /// <code>None</code> to disable tag propagation.
-  final PropagateTagsMode? mode;
-
-  PropagateTags({
-    this.explicitTags,
-    this.mode,
-  });
-
-  factory PropagateTags.fromJson(Map<String, dynamic> json) {
-    return PropagateTags(
-      explicitTags: (json['ExplicitTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      mode: (json['Mode'] as String?)?.let(PropagateTagsMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final explicitTags = this.explicitTags;
-    final mode = this.mode;
-    return {
-      if (explicitTags != null) 'ExplicitTags': explicitTags,
-      if (mode != null) 'Mode': mode.value,
-    };
-  }
-}
-
-/// @nodoc
-class PropagateTagsMode {
-  static const none = PropagateTagsMode._('None');
-  static const explicit = PropagateTagsMode._('Explicit');
-
-  final String value;
-
-  const PropagateTagsMode._(this.value);
-
-  static const values = [none, explicit];
-
-  static PropagateTagsMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PropagateTagsMode._(value));
-
-  @override
-  bool operator ==(other) => other is PropagateTagsMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class CapacityProviderScalingMode {
-  static const auto = CapacityProviderScalingMode._('Auto');
-  static const manual = CapacityProviderScalingMode._('Manual');
-
-  final String value;
-
-  const CapacityProviderScalingMode._(this.value);
-
-  static const values = [auto, manual];
-
-  static CapacityProviderScalingMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapacityProviderScalingMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CapacityProviderScalingMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A scaling policy for the capacity provider that automatically adjusts
-/// capacity to maintain a target value for a specific metric.
-///
-/// @nodoc
-class TargetTrackingScalingPolicy {
-  /// The predefined metric type to track for scaling decisions.
-  final CapacityProviderPredefinedMetricType predefinedMetricType;
-
-  /// The target value for the metric that the scaling policy attempts to maintain
-  /// through scaling actions.
-  final double targetValue;
-
-  TargetTrackingScalingPolicy({
-    required this.predefinedMetricType,
-    required this.targetValue,
-  });
-
-  factory TargetTrackingScalingPolicy.fromJson(Map<String, dynamic> json) {
-    return TargetTrackingScalingPolicy(
-      predefinedMetricType: CapacityProviderPredefinedMetricType.fromString(
-          (json['PredefinedMetricType'] as String?) ?? ''),
-      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predefinedMetricType = this.predefinedMetricType;
-    final targetValue = this.targetValue;
-    return {
-      'PredefinedMetricType': predefinedMetricType.value,
-      'TargetValue': _s.encodeJsonDouble(targetValue),
-    };
-  }
-}
-
-/// @nodoc
-class CapacityProviderPredefinedMetricType {
-  static const lambdaCapacityProviderAverageCPUUtilization =
-      CapacityProviderPredefinedMetricType._(
-          'LambdaCapacityProviderAverageCPUUtilization');
-
-  final String value;
-
-  const CapacityProviderPredefinedMetricType._(this.value);
-
-  static const values = [lambdaCapacityProviderAverageCPUUtilization];
-
-  static CapacityProviderPredefinedMetricType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapacityProviderPredefinedMetricType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CapacityProviderPredefinedMetricType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13804,103 +13621,6 @@ class ErrorObject {
       if (stackTrace != null) 'StackTrace': stackTrace,
     };
   }
-}
-
-/// Information about a <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
-/// execution</a>.
-///
-/// @nodoc
-class Execution {
-  /// The Amazon Resource Name (ARN) of the durable execution, if this execution
-  /// is a durable execution.
-  final String durableExecutionArn;
-
-  /// The unique name of the durable execution, if one was provided when the
-  /// execution was started.
-  final String durableExecutionName;
-
-  /// The Amazon Resource Name (ARN) of the Lambda function.
-  final String functionArn;
-
-  /// The date and time when the durable execution started, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final DateTime startTimestamp;
-
-  /// The current status of the durable execution.
-  final ExecutionStatus status;
-
-  /// The date and time when the durable execution ended, in <a
-  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  final DateTime? endTimestamp;
-
-  Execution({
-    required this.durableExecutionArn,
-    required this.durableExecutionName,
-    required this.functionArn,
-    required this.startTimestamp,
-    required this.status,
-    this.endTimestamp,
-  });
-
-  factory Execution.fromJson(Map<String, dynamic> json) {
-    return Execution(
-      durableExecutionArn: (json['DurableExecutionArn'] as String?) ?? '',
-      durableExecutionName: (json['DurableExecutionName'] as String?) ?? '',
-      functionArn: (json['FunctionArn'] as String?) ?? '',
-      startTimestamp: nonNullableTimeStampFromJson(json['StartTimestamp'] ?? 0),
-      status: ExecutionStatus.fromString((json['Status'] as String?) ?? ''),
-      endTimestamp: timeStampFromJson(json['EndTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durableExecutionArn = this.durableExecutionArn;
-    final durableExecutionName = this.durableExecutionName;
-    final functionArn = this.functionArn;
-    final startTimestamp = this.startTimestamp;
-    final status = this.status;
-    final endTimestamp = this.endTimestamp;
-    return {
-      'DurableExecutionArn': durableExecutionArn,
-      'DurableExecutionName': durableExecutionName,
-      'FunctionArn': functionArn,
-      'StartTimestamp': unixTimestampToJson(startTimestamp),
-      'Status': status.value,
-      if (endTimestamp != null)
-        'EndTimestamp': unixTimestampToJson(endTimestamp),
-    };
-  }
-}
-
-/// @nodoc
-class ExecutionStatus {
-  static const running = ExecutionStatus._('RUNNING');
-  static const succeeded = ExecutionStatus._('SUCCEEDED');
-  static const failed = ExecutionStatus._('FAILED');
-  static const timedOut = ExecutionStatus._('TIMED_OUT');
-  static const stopped = ExecutionStatus._('STOPPED');
-
-  final String value;
-
-  const ExecutionStatus._(this.value);
-
-  static const values = [running, succeeded, failed, timedOut, stopped];
-
-  static ExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Information about an operation within a durable execution.
@@ -15590,125 +15310,6 @@ class RetryDetails {
   }
 }
 
-/// Contains trace headers for the Lambda durable execution.
-///
-/// @nodoc
-class TraceHeader {
-  /// The X-Ray trace header associated with the durable execution.
-  final String? xAmznTraceId;
-
-  TraceHeader({
-    this.xAmznTraceId,
-  });
-
-  factory TraceHeader.fromJson(Map<String, dynamic> json) {
-    return TraceHeader(
-      xAmznTraceId: json['XAmznTraceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final xAmznTraceId = this.xAmznTraceId;
-    return {
-      if (xAmznTraceId != null) 'XAmznTraceId': xAmznTraceId,
-    };
-  }
-}
-
-/// Limits that are related to concurrency and storage. All file and storage
-/// sizes are in bytes.
-///
-/// @nodoc
-class AccountLimit {
-  /// The maximum size of a function's deployment package and layers when they're
-  /// extracted.
-  final int? codeSizeUnzipped;
-
-  /// The maximum size of a deployment package when it's uploaded directly to
-  /// Lambda. Use Amazon S3 for larger files.
-  final int? codeSizeZipped;
-
-  /// The maximum number of simultaneous function executions.
-  final int? concurrentExecutions;
-
-  /// The amount of storage space that you can use for all deployment packages and
-  /// layer archives.
-  final int? totalCodeSize;
-
-  /// The maximum number of simultaneous function executions, minus the capacity
-  /// that's reserved for individual functions with <a>PutFunctionConcurrency</a>.
-  final int? unreservedConcurrentExecutions;
-
-  AccountLimit({
-    this.codeSizeUnzipped,
-    this.codeSizeZipped,
-    this.concurrentExecutions,
-    this.totalCodeSize,
-    this.unreservedConcurrentExecutions,
-  });
-
-  factory AccountLimit.fromJson(Map<String, dynamic> json) {
-    return AccountLimit(
-      codeSizeUnzipped: json['CodeSizeUnzipped'] as int?,
-      codeSizeZipped: json['CodeSizeZipped'] as int?,
-      concurrentExecutions: json['ConcurrentExecutions'] as int?,
-      totalCodeSize: json['TotalCodeSize'] as int?,
-      unreservedConcurrentExecutions:
-          json['UnreservedConcurrentExecutions'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final codeSizeUnzipped = this.codeSizeUnzipped;
-    final codeSizeZipped = this.codeSizeZipped;
-    final concurrentExecutions = this.concurrentExecutions;
-    final totalCodeSize = this.totalCodeSize;
-    final unreservedConcurrentExecutions = this.unreservedConcurrentExecutions;
-    return {
-      if (codeSizeUnzipped != null) 'CodeSizeUnzipped': codeSizeUnzipped,
-      if (codeSizeZipped != null) 'CodeSizeZipped': codeSizeZipped,
-      if (concurrentExecutions != null)
-        'ConcurrentExecutions': concurrentExecutions,
-      if (totalCodeSize != null) 'TotalCodeSize': totalCodeSize,
-      if (unreservedConcurrentExecutions != null)
-        'UnreservedConcurrentExecutions': unreservedConcurrentExecutions,
-    };
-  }
-}
-
-/// The number of functions and amount of storage in use.
-///
-/// @nodoc
-class AccountUsage {
-  /// The number of Lambda functions.
-  final int? functionCount;
-
-  /// The amount of storage space, in bytes, that's being used by deployment
-  /// packages and layer archives.
-  final int? totalCodeSize;
-
-  AccountUsage({
-    this.functionCount,
-    this.totalCodeSize,
-  });
-
-  factory AccountUsage.fromJson(Map<String, dynamic> json) {
-    return AccountUsage(
-      functionCount: json['FunctionCount'] as int?,
-      totalCodeSize: json['TotalCodeSize'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final functionCount = this.functionCount;
-    final totalCodeSize = this.totalCodeSize;
-    return {
-      if (functionCount != null) 'FunctionCount': functionCount,
-      if (totalCodeSize != null) 'TotalCodeSize': totalCodeSize,
-    };
-  }
-}
-
 /// Contains operations that have been updated since the last checkpoint, such
 /// as completed asynchronous work like timers or callbacks.
 ///
@@ -15774,7 +15375,12 @@ class OperationUpdate {
   /// within a child context.
   final String? parentId;
 
-  /// The payload for successful operations.
+  /// The payload for successful operations. The maximum payload size is 6 MB for
+  /// synchronous <code>EXECUTION</code> operations (RequestResponse
+  /// invocationType), 1 MB for asynchronous <code>EXECUTION</code> (Event
+  /// invocationType) and <code>CHAINED_INVOKE</code> operations, and 256 KB for
+  /// <code>CONTEXT</code>, <code>STEP</code>, <code>WAIT</code>, and
+  /// <code>CALLBACK</code> operations.
   final String? payload;
 
   /// Options for step operations.
@@ -15978,6 +15584,853 @@ class ChainedInvokeOptions {
   }
 }
 
+/// Contains trace headers for the Lambda durable execution.
+///
+/// @nodoc
+class TraceHeader {
+  /// The X-Ray trace header associated with the durable execution.
+  final String? xAmznTraceId;
+
+  TraceHeader({
+    this.xAmznTraceId,
+  });
+
+  factory TraceHeader.fromJson(Map<String, dynamic> json) {
+    return TraceHeader(
+      xAmznTraceId: json['XAmznTraceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final xAmznTraceId = this.xAmznTraceId;
+    return {
+      if (xAmznTraceId != null) 'XAmznTraceId': xAmznTraceId,
+    };
+  }
+}
+
+/// Details about a <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html">Code
+/// signing configuration</a>.
+///
+/// @nodoc
+class CodeSigningConfig {
+  /// List of allowed publishers.
+  final AllowedPublishers allowedPublishers;
+
+  /// The Amazon Resource Name (ARN) of the Code signing configuration.
+  final String codeSigningConfigArn;
+
+  /// Unique identifer for the Code signing configuration.
+  final String codeSigningConfigId;
+
+  /// The code signing policy controls the validation failure action for signature
+  /// mismatch or expiry.
+  final CodeSigningPolicies codeSigningPolicies;
+
+  /// The date and time that the Code signing configuration was last modified, in
+  /// ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String lastModified;
+
+  /// Code signing configuration description.
+  final String? description;
+
+  CodeSigningConfig({
+    required this.allowedPublishers,
+    required this.codeSigningConfigArn,
+    required this.codeSigningConfigId,
+    required this.codeSigningPolicies,
+    required this.lastModified,
+    this.description,
+  });
+
+  factory CodeSigningConfig.fromJson(Map<String, dynamic> json) {
+    return CodeSigningConfig(
+      allowedPublishers: AllowedPublishers.fromJson(
+          (json['AllowedPublishers'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      codeSigningConfigArn: (json['CodeSigningConfigArn'] as String?) ?? '',
+      codeSigningConfigId: (json['CodeSigningConfigId'] as String?) ?? '',
+      codeSigningPolicies: CodeSigningPolicies.fromJson(
+          (json['CodeSigningPolicies'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModified: (json['LastModified'] as String?) ?? '',
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedPublishers = this.allowedPublishers;
+    final codeSigningConfigArn = this.codeSigningConfigArn;
+    final codeSigningConfigId = this.codeSigningConfigId;
+    final codeSigningPolicies = this.codeSigningPolicies;
+    final lastModified = this.lastModified;
+    final description = this.description;
+    return {
+      'AllowedPublishers': allowedPublishers,
+      'CodeSigningConfigArn': codeSigningConfigArn,
+      'CodeSigningConfigId': codeSigningConfigId,
+      'CodeSigningPolicies': codeSigningPolicies,
+      'LastModified': lastModified,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// List of signing profiles that can sign a code package.
+///
+/// @nodoc
+class AllowedPublishers {
+  /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing
+  /// profile defines a trusted user who can sign a code package.
+  final List<String> signingProfileVersionArns;
+
+  AllowedPublishers({
+    required this.signingProfileVersionArns,
+  });
+
+  factory AllowedPublishers.fromJson(Map<String, dynamic> json) {
+    return AllowedPublishers(
+      signingProfileVersionArns:
+          ((json['SigningProfileVersionArns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signingProfileVersionArns = this.signingProfileVersionArns;
+    return {
+      'SigningProfileVersionArns': signingProfileVersionArns,
+    };
+  }
+}
+
+/// Code signing configuration <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies">policies</a>
+/// specify the validation failure action for signature mismatch or expiry.
+///
+/// @nodoc
+class CodeSigningPolicies {
+  /// Code signing configuration policy for deployment validation failure. If you
+  /// set the policy to <code>Enforce</code>, Lambda blocks the deployment request
+  /// if signature validation checks fail. If you set the policy to
+  /// <code>Warn</code>, Lambda allows the deployment and issues a new Amazon
+  /// CloudWatch metric (<code>SignatureValidationErrors</code>) and also stores
+  /// the warning in the CloudTrail log.
+  ///
+  /// Default value: <code>Warn</code>
+  final CodeSigningPolicy? untrustedArtifactOnDeployment;
+
+  CodeSigningPolicies({
+    this.untrustedArtifactOnDeployment,
+  });
+
+  factory CodeSigningPolicies.fromJson(Map<String, dynamic> json) {
+    return CodeSigningPolicies(
+      untrustedArtifactOnDeployment:
+          (json['UntrustedArtifactOnDeployment'] as String?)
+              ?.let(CodeSigningPolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final untrustedArtifactOnDeployment = this.untrustedArtifactOnDeployment;
+    return {
+      if (untrustedArtifactOnDeployment != null)
+        'UntrustedArtifactOnDeployment': untrustedArtifactOnDeployment.value,
+    };
+  }
+}
+
+/// @nodoc
+class CodeSigningPolicy {
+  static const warn = CodeSigningPolicy._('Warn');
+  static const enforce = CodeSigningPolicy._('Enforce');
+
+  final String value;
+
+  const CodeSigningPolicy._(this.value);
+
+  static const values = [warn, enforce];
+
+  static CodeSigningPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CodeSigningPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is CodeSigningPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a function version that uses a specific capacity provider,
+/// including its ARN and current state.
+///
+/// @nodoc
+class FunctionVersionsByCapacityProviderListItem {
+  /// The Amazon Resource Name (ARN) of the function version.
+  final String functionArn;
+
+  /// The current state of the function version.
+  final State state;
+
+  FunctionVersionsByCapacityProviderListItem({
+    required this.functionArn,
+    required this.state,
+  });
+
+  factory FunctionVersionsByCapacityProviderListItem.fromJson(
+      Map<String, dynamic> json) {
+    return FunctionVersionsByCapacityProviderListItem(
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      state: State.fromString((json['State'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    final state = this.state;
+    return {
+      'FunctionArn': functionArn,
+      'State': state.value,
+    };
+  }
+}
+
+/// A capacity provider manages compute resources for Lambda functions.
+///
+/// @nodoc
+class CapacityProvider {
+  /// The Amazon Resource Name (ARN) of the capacity provider.
+  final String capacityProviderArn;
+
+  /// The permissions configuration for the capacity provider.
+  final CapacityProviderPermissionsConfig permissionsConfig;
+
+  /// The current state of the capacity provider.
+  final CapacityProviderState state;
+
+  /// The VPC configuration for the capacity provider.
+  final CapacityProviderVpcConfig vpcConfig;
+
+  /// The scaling configuration for the capacity provider.
+  final CapacityProviderScalingConfig? capacityProviderScalingConfig;
+
+  /// The instance requirements for compute resources managed by the capacity
+  /// provider.
+  final InstanceRequirements? instanceRequirements;
+
+  /// The ARN of the KMS key used to encrypt the capacity provider's resources.
+  final String? kmsKeyArn;
+
+  /// The date and time when the capacity provider was last modified.
+  final String? lastModified;
+  final PropagateTags? propagateTags;
+
+  /// The telemetry configuration for the capacity provider, including logging
+  /// settings.
+  final CapacityProviderTelemetryConfig? telemetryConfig;
+
+  CapacityProvider({
+    required this.capacityProviderArn,
+    required this.permissionsConfig,
+    required this.state,
+    required this.vpcConfig,
+    this.capacityProviderScalingConfig,
+    this.instanceRequirements,
+    this.kmsKeyArn,
+    this.lastModified,
+    this.propagateTags,
+    this.telemetryConfig,
+  });
+
+  factory CapacityProvider.fromJson(Map<String, dynamic> json) {
+    return CapacityProvider(
+      capacityProviderArn: (json['CapacityProviderArn'] as String?) ?? '',
+      permissionsConfig: CapacityProviderPermissionsConfig.fromJson(
+          (json['PermissionsConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      state: CapacityProviderState.fromString((json['State'] as String?) ?? ''),
+      vpcConfig: CapacityProviderVpcConfig.fromJson(
+          (json['VpcConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      capacityProviderScalingConfig:
+          json['CapacityProviderScalingConfig'] != null
+              ? CapacityProviderScalingConfig.fromJson(
+                  json['CapacityProviderScalingConfig'] as Map<String, dynamic>)
+              : null,
+      instanceRequirements: json['InstanceRequirements'] != null
+          ? InstanceRequirements.fromJson(
+              json['InstanceRequirements'] as Map<String, dynamic>)
+          : null,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      lastModified: json['LastModified'] as String?,
+      propagateTags: json['PropagateTags'] != null
+          ? PropagateTags.fromJson(
+              json['PropagateTags'] as Map<String, dynamic>)
+          : null,
+      telemetryConfig: json['TelemetryConfig'] != null
+          ? CapacityProviderTelemetryConfig.fromJson(
+              json['TelemetryConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderArn = this.capacityProviderArn;
+    final permissionsConfig = this.permissionsConfig;
+    final state = this.state;
+    final vpcConfig = this.vpcConfig;
+    final capacityProviderScalingConfig = this.capacityProviderScalingConfig;
+    final instanceRequirements = this.instanceRequirements;
+    final kmsKeyArn = this.kmsKeyArn;
+    final lastModified = this.lastModified;
+    final propagateTags = this.propagateTags;
+    final telemetryConfig = this.telemetryConfig;
+    return {
+      'CapacityProviderArn': capacityProviderArn,
+      'PermissionsConfig': permissionsConfig,
+      'State': state.value,
+      'VpcConfig': vpcConfig,
+      if (capacityProviderScalingConfig != null)
+        'CapacityProviderScalingConfig': capacityProviderScalingConfig,
+      if (instanceRequirements != null)
+        'InstanceRequirements': instanceRequirements,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (lastModified != null) 'LastModified': lastModified,
+      if (propagateTags != null) 'PropagateTags': propagateTags,
+      if (telemetryConfig != null) 'TelemetryConfig': telemetryConfig,
+    };
+  }
+}
+
+/// @nodoc
+class CapacityProviderState {
+  static const pending = CapacityProviderState._('Pending');
+  static const active = CapacityProviderState._('Active');
+  static const failed = CapacityProviderState._('Failed');
+  static const deleting = CapacityProviderState._('Deleting');
+
+  final String value;
+
+  const CapacityProviderState._(this.value);
+
+  static const values = [pending, active, failed, deleting];
+
+  static CapacityProviderState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityProviderState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// VPC configuration that specifies the network settings for compute instances
+/// managed by the capacity provider.
+///
+/// @nodoc
+class CapacityProviderVpcConfig {
+  /// A list of security group IDs that control network access for compute
+  /// instances managed by the capacity provider.
+  final List<String> securityGroupIds;
+
+  /// A list of subnet IDs where the capacity provider launches compute instances.
+  final List<String> subnetIds;
+
+  CapacityProviderVpcConfig({
+    required this.securityGroupIds,
+    required this.subnetIds,
+  });
+
+  factory CapacityProviderVpcConfig.fromJson(Map<String, dynamic> json) {
+    return CapacityProviderVpcConfig(
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+    };
+  }
+}
+
+/// Configuration that specifies the permissions required for the capacity
+/// provider to manage compute resources.
+///
+/// @nodoc
+class CapacityProviderPermissionsConfig {
+  /// The ARN of the IAM role that the capacity provider uses to manage compute
+  /// instances and other Amazon Web Services resources.
+  final String capacityProviderOperatorRoleArn;
+
+  CapacityProviderPermissionsConfig({
+    required this.capacityProviderOperatorRoleArn,
+  });
+
+  factory CapacityProviderPermissionsConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CapacityProviderPermissionsConfig(
+      capacityProviderOperatorRoleArn:
+          (json['CapacityProviderOperatorRoleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderOperatorRoleArn =
+        this.capacityProviderOperatorRoleArn;
+    return {
+      'CapacityProviderOperatorRoleArn': capacityProviderOperatorRoleArn,
+    };
+  }
+}
+
+/// Specifications that define the characteristics and constraints for compute
+/// instances used by the capacity provider.
+///
+/// @nodoc
+class InstanceRequirements {
+  /// A list of EC2 instance types that the capacity provider is allowed to use.
+  /// If not specified, all compatible instance types are allowed.
+  final List<String>? allowedInstanceTypes;
+
+  /// A list of supported CPU architectures for compute instances. Valid values
+  /// include <code>x86_64</code> and <code>arm64</code>.
+  final List<Architecture>? architectures;
+
+  /// A list of EC2 instance types that the capacity provider should not use, even
+  /// if they meet other requirements.
+  final List<String>? excludedInstanceTypes;
+
+  InstanceRequirements({
+    this.allowedInstanceTypes,
+    this.architectures,
+    this.excludedInstanceTypes,
+  });
+
+  factory InstanceRequirements.fromJson(Map<String, dynamic> json) {
+    return InstanceRequirements(
+      allowedInstanceTypes: (json['AllowedInstanceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      architectures: (json['Architectures'] as List?)
+          ?.nonNulls
+          .map((e) => Architecture.fromString((e as String)))
+          .toList(),
+      excludedInstanceTypes: (json['ExcludedInstanceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedInstanceTypes = this.allowedInstanceTypes;
+    final architectures = this.architectures;
+    final excludedInstanceTypes = this.excludedInstanceTypes;
+    return {
+      if (allowedInstanceTypes != null)
+        'AllowedInstanceTypes': allowedInstanceTypes,
+      if (architectures != null)
+        'Architectures': architectures.map((e) => e.value).toList(),
+      if (excludedInstanceTypes != null)
+        'ExcludedInstanceTypes': excludedInstanceTypes,
+    };
+  }
+}
+
+/// Configuration that defines how the capacity provider scales compute
+/// instances based on demand and policies.
+///
+/// @nodoc
+class CapacityProviderScalingConfig {
+  /// The maximum number of vCPUs that the capacity provider can provision across
+  /// all compute instances.
+  final int? maxVCpuCount;
+
+  /// The scaling mode that determines how the capacity provider responds to
+  /// changes in demand.
+  final CapacityProviderScalingMode? scalingMode;
+
+  /// A list of scaling policies that define how the capacity provider scales
+  /// compute instances based on metrics and thresholds.
+  final List<TargetTrackingScalingPolicy>? scalingPolicies;
+
+  CapacityProviderScalingConfig({
+    this.maxVCpuCount,
+    this.scalingMode,
+    this.scalingPolicies,
+  });
+
+  factory CapacityProviderScalingConfig.fromJson(Map<String, dynamic> json) {
+    return CapacityProviderScalingConfig(
+      maxVCpuCount: json['MaxVCpuCount'] as int?,
+      scalingMode: (json['ScalingMode'] as String?)
+          ?.let(CapacityProviderScalingMode.fromString),
+      scalingPolicies: (json['ScalingPolicies'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              TargetTrackingScalingPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxVCpuCount = this.maxVCpuCount;
+    final scalingMode = this.scalingMode;
+    final scalingPolicies = this.scalingPolicies;
+    return {
+      if (maxVCpuCount != null) 'MaxVCpuCount': maxVCpuCount,
+      if (scalingMode != null) 'ScalingMode': scalingMode.value,
+      if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
+    };
+  }
+}
+
+/// Configuration for tag propagation to managed resources launched by the
+/// capacity provider.
+///
+/// @nodoc
+class PropagateTags {
+  /// A list of tags to apply to managed resources when <code>Mode</code> is set
+  /// to <code>Explicit</code>. You can specify up to 40 tags.
+  final Map<String, String>? explicitTags;
+
+  /// The tag propagation mode. Set to <code>Explicit</code> to propagate the tags
+  /// specified in <code>ExplicitTags</code> to managed resources. Set to
+  /// <code>None</code> to disable tag propagation.
+  final PropagateTagsMode? mode;
+
+  PropagateTags({
+    this.explicitTags,
+    this.mode,
+  });
+
+  factory PropagateTags.fromJson(Map<String, dynamic> json) {
+    return PropagateTags(
+      explicitTags: (json['ExplicitTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      mode: (json['Mode'] as String?)?.let(PropagateTagsMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final explicitTags = this.explicitTags;
+    final mode = this.mode;
+    return {
+      if (explicitTags != null) 'ExplicitTags': explicitTags,
+      if (mode != null) 'Mode': mode.value,
+    };
+  }
+}
+
+/// Configuration that specifies the telemetry collection for the capacity
+/// provider.
+///
+/// @nodoc
+class CapacityProviderTelemetryConfig {
+  /// The capacity provider's Amazon CloudWatch Logs configuration settings.
+  final CapacityProviderLoggingConfig? loggingConfig;
+
+  CapacityProviderTelemetryConfig({
+    this.loggingConfig,
+  });
+
+  factory CapacityProviderTelemetryConfig.fromJson(Map<String, dynamic> json) {
+    return CapacityProviderTelemetryConfig(
+      loggingConfig: json['LoggingConfig'] != null
+          ? CapacityProviderLoggingConfig.fromJson(
+              json['LoggingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingConfig = this.loggingConfig;
+    return {
+      if (loggingConfig != null) 'LoggingConfig': loggingConfig,
+    };
+  }
+}
+
+/// The capacity provider's Amazon CloudWatch Logs configuration settings.
+///
+/// @nodoc
+class CapacityProviderLoggingConfig {
+  /// The name of the Amazon CloudWatch log group the capacity provider sends logs
+  /// to. By default, Lambda capacity providers send logs to a default log group
+  /// named <code>/aws/lambda/capacity-provider/&lt;capacity provider
+  /// name&gt;</code>. To use a different log group, enter an existing log group
+  /// or enter a new log group name.
+  final String? logGroup;
+
+  /// Set this property to filter the system logs for your capacity provider that
+  /// Lambda sends to CloudWatch. Lambda only sends system logs at the selected
+  /// level of detail and lower, where <code>DEBUG</code> is the highest level and
+  /// <code>WARN</code> is the lowest.
+  final SystemLogLevel? systemLogLevel;
+
+  CapacityProviderLoggingConfig({
+    this.logGroup,
+    this.systemLogLevel,
+  });
+
+  factory CapacityProviderLoggingConfig.fromJson(Map<String, dynamic> json) {
+    return CapacityProviderLoggingConfig(
+      logGroup: json['LogGroup'] as String?,
+      systemLogLevel:
+          (json['SystemLogLevel'] as String?)?.let(SystemLogLevel.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroup = this.logGroup;
+    final systemLogLevel = this.systemLogLevel;
+    return {
+      if (logGroup != null) 'LogGroup': logGroup,
+      if (systemLogLevel != null) 'SystemLogLevel': systemLogLevel.value,
+    };
+  }
+}
+
+/// @nodoc
+class PropagateTagsMode {
+  static const none = PropagateTagsMode._('None');
+  static const explicit = PropagateTagsMode._('Explicit');
+
+  final String value;
+
+  const PropagateTagsMode._(this.value);
+
+  static const values = [none, explicit];
+
+  static PropagateTagsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PropagateTagsMode._(value));
+
+  @override
+  bool operator ==(other) => other is PropagateTagsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class CapacityProviderScalingMode {
+  static const auto = CapacityProviderScalingMode._('Auto');
+  static const manual = CapacityProviderScalingMode._('Manual');
+
+  final String value;
+
+  const CapacityProviderScalingMode._(this.value);
+
+  static const values = [auto, manual];
+
+  static CapacityProviderScalingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityProviderScalingMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderScalingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A scaling policy for the capacity provider that automatically adjusts
+/// capacity to maintain a target value for a specific metric.
+///
+/// @nodoc
+class TargetTrackingScalingPolicy {
+  /// The predefined metric type to track for scaling decisions.
+  final CapacityProviderPredefinedMetricType predefinedMetricType;
+
+  /// The target value for the metric that the scaling policy attempts to maintain
+  /// through scaling actions.
+  final double targetValue;
+
+  TargetTrackingScalingPolicy({
+    required this.predefinedMetricType,
+    required this.targetValue,
+  });
+
+  factory TargetTrackingScalingPolicy.fromJson(Map<String, dynamic> json) {
+    return TargetTrackingScalingPolicy(
+      predefinedMetricType: CapacityProviderPredefinedMetricType.fromString(
+          (json['PredefinedMetricType'] as String?) ?? ''),
+      targetValue: _s.parseJsonDouble(json['TargetValue']) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predefinedMetricType = this.predefinedMetricType;
+    final targetValue = this.targetValue;
+    return {
+      'PredefinedMetricType': predefinedMetricType.value,
+      'TargetValue': _s.encodeJsonDouble(targetValue),
+    };
+  }
+}
+
+/// @nodoc
+class CapacityProviderPredefinedMetricType {
+  static const lambdaCapacityProviderAverageCPUUtilization =
+      CapacityProviderPredefinedMetricType._(
+          'LambdaCapacityProviderAverageCPUUtilization');
+
+  final String value;
+
+  const CapacityProviderPredefinedMetricType._(this.value);
+
+  static const values = [lambdaCapacityProviderAverageCPUUtilization];
+
+  static CapacityProviderPredefinedMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityProviderPredefinedMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderPredefinedMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Limits that are related to concurrency and storage. All file and storage
+/// sizes are in bytes.
+///
+/// @nodoc
+class AccountLimit {
+  /// The maximum size of a function's deployment package and layers when they're
+  /// extracted.
+  final int? codeSizeUnzipped;
+
+  /// The maximum size of a deployment package when it's uploaded directly to
+  /// Lambda. Use Amazon S3 for larger files.
+  final int? codeSizeZipped;
+
+  /// The maximum number of simultaneous function executions.
+  final int? concurrentExecutions;
+
+  /// The amount of storage space that you can use for all deployment packages and
+  /// layer archives.
+  final int? totalCodeSize;
+
+  /// The maximum number of simultaneous function executions, minus the capacity
+  /// that's reserved for individual functions with <a>PutFunctionConcurrency</a>.
+  final int? unreservedConcurrentExecutions;
+
+  AccountLimit({
+    this.codeSizeUnzipped,
+    this.codeSizeZipped,
+    this.concurrentExecutions,
+    this.totalCodeSize,
+    this.unreservedConcurrentExecutions,
+  });
+
+  factory AccountLimit.fromJson(Map<String, dynamic> json) {
+    return AccountLimit(
+      codeSizeUnzipped: json['CodeSizeUnzipped'] as int?,
+      codeSizeZipped: json['CodeSizeZipped'] as int?,
+      concurrentExecutions: json['ConcurrentExecutions'] as int?,
+      totalCodeSize: json['TotalCodeSize'] as int?,
+      unreservedConcurrentExecutions:
+          json['UnreservedConcurrentExecutions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSizeUnzipped = this.codeSizeUnzipped;
+    final codeSizeZipped = this.codeSizeZipped;
+    final concurrentExecutions = this.concurrentExecutions;
+    final totalCodeSize = this.totalCodeSize;
+    final unreservedConcurrentExecutions = this.unreservedConcurrentExecutions;
+    return {
+      if (codeSizeUnzipped != null) 'CodeSizeUnzipped': codeSizeUnzipped,
+      if (codeSizeZipped != null) 'CodeSizeZipped': codeSizeZipped,
+      if (concurrentExecutions != null)
+        'ConcurrentExecutions': concurrentExecutions,
+      if (totalCodeSize != null) 'TotalCodeSize': totalCodeSize,
+      if (unreservedConcurrentExecutions != null)
+        'UnreservedConcurrentExecutions': unreservedConcurrentExecutions,
+    };
+  }
+}
+
+/// The number of functions and amount of storage in use.
+///
+/// @nodoc
+class AccountUsage {
+  /// The number of Lambda functions.
+  final int? functionCount;
+
+  /// The amount of storage space, in bytes, that's being used by deployment
+  /// packages and layer archives.
+  final int? totalCodeSize;
+
+  AccountUsage({
+    this.functionCount,
+    this.totalCodeSize,
+  });
+
+  factory AccountUsage.fromJson(Map<String, dynamic> json) {
+    return AccountUsage(
+      functionCount: json['FunctionCount'] as int?,
+      totalCodeSize: json['TotalCodeSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionCount = this.functionCount;
+    final totalCodeSize = this.totalCodeSize;
+    return {
+      if (functionCount != null) 'FunctionCount': functionCount,
+      if (totalCodeSize != null) 'TotalCodeSize': totalCodeSize,
+    };
+  }
+}
+
+/// @nodoc
+class AliasLimitExceededException extends _s.GenericAwsException {
+  AliasLimitExceededException({String? type, String? message})
+      : super(
+            type: type, code: 'AliasLimitExceededException', message: message);
+}
+
 /// @nodoc
 class CallbackTimeoutException extends _s.GenericAwsException {
   CallbackTimeoutException({String? type, String? message})
@@ -15990,6 +16443,33 @@ class CapacityProviderLimitExceededException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'CapacityProviderLimitExceededException',
+            message: message);
+}
+
+/// @nodoc
+class CodeArtifactUserDeletedException extends _s.GenericAwsException {
+  CodeArtifactUserDeletedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CodeArtifactUserDeletedException',
+            message: message);
+}
+
+/// @nodoc
+class CodeArtifactUserFailedException extends _s.GenericAwsException {
+  CodeArtifactUserFailedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CodeArtifactUserFailedException',
+            message: message);
+}
+
+/// @nodoc
+class CodeArtifactUserPendingException extends _s.GenericAwsException {
+  CodeArtifactUserPendingException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CodeArtifactUserPendingException',
             message: message);
 }
 
@@ -16076,6 +16556,12 @@ class EFSMountTimeoutException extends _s.GenericAwsException {
 class ENILimitReachedException extends _s.GenericAwsException {
   ENILimitReachedException({String? type, String? message})
       : super(type: type, code: 'ENILimitReachedException', message: message);
+}
+
+/// @nodoc
+class ENINotReadyException extends _s.GenericAwsException {
+  ENINotReadyException({String? type, String? message})
+      : super(type: type, code: 'ENINotReadyException', message: message);
 }
 
 /// @nodoc
@@ -16168,6 +16654,12 @@ class KMSNotFoundException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ModeNotSupportedException extends _s.GenericAwsException {
+  ModeNotSupportedException({String? type, String? message})
+      : super(type: type, code: 'ModeNotSupportedException', message: message);
+}
+
+/// @nodoc
 class NoPublishedVersionException extends _s.GenericAwsException {
   NoPublishedVersionException({String? type, String? message})
       : super(
@@ -16198,6 +16690,12 @@ class ProvisionedConcurrencyConfigNotFoundException
             type: type,
             code: 'ProvisionedConcurrencyConfigNotFoundException',
             message: message);
+}
+
+/// @nodoc
+class PublicPolicyException extends _s.GenericAwsException {
+  PublicPolicyException({String? type, String? message})
+      : super(type: type, code: 'PublicPolicyException', message: message);
 }
 
 /// @nodoc
@@ -16276,6 +16774,15 @@ class ServiceException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
+/// @nodoc
 class SnapStartException extends _s.GenericAwsException {
   SnapStartException({String? type, String? message})
       : super(type: type, code: 'SnapStartException', message: message);
@@ -16285,6 +16792,15 @@ class SnapStartException extends _s.GenericAwsException {
 class SnapStartNotReadyException extends _s.GenericAwsException {
   SnapStartNotReadyException({String? type, String? message})
       : super(type: type, code: 'SnapStartNotReadyException', message: message);
+}
+
+/// @nodoc
+class SnapStartRegenerationFailureException extends _s.GenericAwsException {
+  SnapStartRegenerationFailureException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SnapStartRegenerationFailureException',
+            message: message);
 }
 
 /// @nodoc
@@ -16318,10 +16834,18 @@ class UnsupportedMediaTypeException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AliasLimitExceededException': (type, message) =>
+      AliasLimitExceededException(type: type, message: message),
   'CallbackTimeoutException': (type, message) =>
       CallbackTimeoutException(type: type, message: message),
   'CapacityProviderLimitExceededException': (type, message) =>
       CapacityProviderLimitExceededException(type: type, message: message),
+  'CodeArtifactUserDeletedException': (type, message) =>
+      CodeArtifactUserDeletedException(type: type, message: message),
+  'CodeArtifactUserFailedException': (type, message) =>
+      CodeArtifactUserFailedException(type: type, message: message),
+  'CodeArtifactUserPendingException': (type, message) =>
+      CodeArtifactUserPendingException(type: type, message: message),
   'CodeSigningConfigNotFoundException': (type, message) =>
       CodeSigningConfigNotFoundException(type: type, message: message),
   'CodeStorageExceededException': (type, message) =>
@@ -16346,6 +16870,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EFSMountTimeoutException(type: type, message: message),
   'ENILimitReachedException': (type, message) =>
       ENILimitReachedException(type: type, message: message),
+  'ENINotReadyException': (type, message) =>
+      ENINotReadyException(type: type, message: message),
   'FunctionVersionsPerCapacityProviderLimitExceededException':
       (type, message) =>
           FunctionVersionsPerCapacityProviderLimitExceededException(
@@ -16372,6 +16898,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       KMSInvalidStateException(type: type, message: message),
   'KMSNotFoundException': (type, message) =>
       KMSNotFoundException(type: type, message: message),
+  'ModeNotSupportedException': (type, message) =>
+      ModeNotSupportedException(type: type, message: message),
   'NoPublishedVersionException': (type, message) =>
       NoPublishedVersionException(type: type, message: message),
   'PolicyLengthExceededException': (type, message) =>
@@ -16381,6 +16909,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ProvisionedConcurrencyConfigNotFoundException': (type, message) =>
       ProvisionedConcurrencyConfigNotFoundException(
           type: type, message: message),
+  'PublicPolicyException': (type, message) =>
+      PublicPolicyException(type: type, message: message),
   'RecursiveInvocationException': (type, message) =>
       RecursiveInvocationException(type: type, message: message),
   'RequestTooLargeException': (type, message) =>
@@ -16403,10 +16933,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       SerializedRequestEntityTooLargeException(type: type, message: message),
   'ServiceException': (type, message) =>
       ServiceException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'SnapStartException': (type, message) =>
       SnapStartException(type: type, message: message),
   'SnapStartNotReadyException': (type, message) =>
       SnapStartNotReadyException(type: type, message: message),
+  'SnapStartRegenerationFailureException': (type, message) =>
+      SnapStartRegenerationFailureException(type: type, message: message),
   'SnapStartTimeoutException': (type, message) =>
       SnapStartTimeoutException(type: type, message: message),
   'SubnetIPAddressLimitReachedException': (type, message) =>

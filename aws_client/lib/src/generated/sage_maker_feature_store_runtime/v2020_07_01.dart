@@ -128,6 +128,51 @@ class SageMakerFeatureStoreRuntime {
     return BatchGetRecordResponse.fromJson(response);
   }
 
+  /// Writes a batch of <code>Records</code> to one or more
+  /// <code>FeatureGroup</code>s. Use this API for bulk ingestion of records
+  /// into the <code>OnlineStore</code> and <code>OfflineStore</code>.
+  ///
+  /// You can set the ingested records to expire at a given time to live (TTL)
+  /// duration after the record's event time by specifying the
+  /// <code>TtlDuration</code> parameter. A request level
+  /// <code>TtlDuration</code> applies to all entries that do not specify their
+  /// own <code>TtlDuration</code>.
+  ///
+  /// May throw [AccessForbidden].
+  /// May throw [InternalFailure].
+  /// May throw [ResourceNotFound].
+  /// May throw [ServiceUnavailable].
+  /// May throw [ValidationError].
+  ///
+  /// Parameter [entries] :
+  /// A list of records to write. Each entry specifies the
+  /// <code>FeatureGroup</code>, the record data, and optionally target stores
+  /// and a TTL duration.
+  ///
+  /// Parameter [ttlDuration] :
+  /// Time to live duration applied to all entries in the batch that do not
+  /// specify their own <code>TtlDuration</code>; <code>ExpiresAt</code> =
+  /// <code>EventTime</code> + <code>TtlDuration</code>. For information on
+  /// HardDelete, see the <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
+  /// API in the Amazon SageMaker API Reference guide.
+  Future<BatchWriteRecordResponse> batchWriteRecord({
+    required List<BatchWriteRecordEntry> entries,
+    TtlDuration? ttlDuration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Entries': entries,
+      if (ttlDuration != null) 'TtlDuration': ttlDuration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/BatchWriteRecord',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchWriteRecordResponse.fromJson(response);
+  }
+
   /// Deletes a <code>Record</code> from a <code>FeatureGroup</code> in the
   /// <code>OnlineStore</code>. Feature Store supports both
   /// <code>SoftDelete</code> and <code>HardDelete</code>. For
@@ -167,7 +212,7 @@ class SageMakerFeatureStoreRuntime {
   /// using Amazon Athena or Apache Spark. For information on how to hard delete
   /// a record from the <code>OfflineStore</code> with the Iceberg table format
   /// enabled, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-delete-records-offline-store.html#feature-store-delete-records-offline-store">Delete
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-delete-records.html#feature-store-delete-records-offline-store">Delete
   /// records from the offline store</a>.
   ///
   /// May throw [AccessForbidden].
@@ -267,6 +312,60 @@ class SageMakerFeatureStoreRuntime {
       exceptionFnMap: _exceptionFns,
     );
     return GetRecordResponse.fromJson(response);
+  }
+
+  /// Lists the <code>RecordIdentifier</code> values of all records stored in a
+  /// <code>FeatureGroup</code>'s <code>OnlineStore</code>. This enables you to
+  /// discover which records exist without retrieving the full record data.
+  ///
+  /// May throw [AccessForbidden].
+  /// May throw [InternalFailure].
+  /// May throw [ResourceNotFound].
+  /// May throw [ServiceUnavailable].
+  /// May throw [ValidationError].
+  ///
+  /// Parameter [featureGroupName] :
+  /// The name or Amazon Resource Name (ARN) of the feature group to list
+  /// records from.
+  ///
+  /// Parameter [includeSoftDeletedRecords] :
+  /// If set to <code>true</code>, the result includes records that have been
+  /// soft deleted.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of record identifiers to return in a single page of
+  /// results. For the <code>InMemory</code> tier, this value is a hint and not
+  /// a strict requirement. The response may contain more or fewer results than
+  /// the specified <code>MaxResults</code>.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to resume pagination of <code>ListRecords</code> results.
+  Future<ListRecordsResponse> listRecords({
+    required String featureGroupName,
+    bool? includeSoftDeletedRecords,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (includeSoftDeletedRecords != null)
+        'IncludeSoftDeletedRecords': includeSoftDeletedRecords,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/FeatureGroup/${Uri.encodeComponent(featureGroupName)}/ListRecords',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRecordsResponse.fromJson(response);
   }
 
   /// The <code>PutRecord</code> API is used to ingest a list of
@@ -401,6 +500,42 @@ class BatchGetRecordResponse {
 }
 
 /// @nodoc
+class BatchWriteRecordResponse {
+  /// A list of errors that occurred when writing records in the batch.
+  final List<BatchWriteRecordError> errors;
+
+  /// A list of entries that were not processed. These entries can be retried.
+  final List<BatchWriteRecordEntry> unprocessedEntries;
+
+  BatchWriteRecordResponse({
+    required this.errors,
+    required this.unprocessedEntries,
+  });
+
+  factory BatchWriteRecordResponse.fromJson(Map<String, dynamic> json) {
+    return BatchWriteRecordResponse(
+      errors: ((json['Errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchWriteRecordError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedEntries: ((json['UnprocessedEntries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchWriteRecordEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final unprocessedEntries = this.unprocessedEntries;
+    return {
+      'Errors': errors,
+      'UnprocessedEntries': unprocessedEntries,
+    };
+  }
+}
+
+/// @nodoc
 class GetRecordResponse {
   /// The <code>ExpiresAt</code> ISO string of the requested record.
   final String? expiresAt;
@@ -433,6 +568,41 @@ class GetRecordResponse {
   }
 }
 
+/// @nodoc
+class ListRecordsResponse {
+  /// A list of record identifier values for the records stored in the
+  /// <code>OnlineStore</code>.
+  final List<String> recordIdentifiers;
+
+  /// A token to resume pagination if the response includes more record
+  /// identifiers than <code>MaxResults</code>.
+  final String? nextToken;
+
+  ListRecordsResponse({
+    required this.recordIdentifiers,
+    this.nextToken,
+  });
+
+  factory ListRecordsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRecordsResponse(
+      recordIdentifiers: ((json['RecordIdentifiers'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordIdentifiers = this.recordIdentifiers;
+    final nextToken = this.nextToken;
+    return {
+      'RecordIdentifiers': recordIdentifiers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// Time to live duration, where the record is hard deleted after the expiration
 /// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
 /// <code>TtlDuration</code>. For information on HardDelete, see the <a
@@ -451,6 +621,13 @@ class TtlDuration {
     required this.unit,
     required this.value,
   });
+
+  factory TtlDuration.fromJson(Map<String, dynamic> json) {
+    return TtlDuration(
+      unit: TtlDurationUnit.fromString((json['Unit'] as String?) ?? ''),
+      value: (json['Value'] as int?) ?? 0,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final unit = this.unit;
@@ -611,6 +788,108 @@ class DeletionMode {
 
   @override
   String toString() => value;
+}
+
+/// An entry to write as part of a <code>BatchWriteRecord</code> request.
+///
+/// @nodoc
+class BatchWriteRecordEntry {
+  /// The name or Amazon Resource Name (ARN) of the <code>FeatureGroup</code> to
+  /// write the record to.
+  final String featureGroupName;
+
+  /// List of FeatureValues to be inserted. This will be a full over-write.
+  final List<FeatureValue> record;
+
+  /// A list of stores to which you're adding the record. By default, Feature
+  /// Store adds the record to all of the stores that you're using for the
+  /// <code>FeatureGroup</code>.
+  final List<TargetStore>? targetStores;
+
+  /// Time to live duration for this entry, where the record is hard deleted after
+  /// the expiration time is reached; <code>ExpiresAt</code> =
+  /// <code>EventTime</code> + <code>TtlDuration</code>. This overrides the
+  /// request level <code>TtlDuration</code>.
+  final TtlDuration? ttlDuration;
+
+  BatchWriteRecordEntry({
+    required this.featureGroupName,
+    required this.record,
+    this.targetStores,
+    this.ttlDuration,
+  });
+
+  factory BatchWriteRecordEntry.fromJson(Map<String, dynamic> json) {
+    return BatchWriteRecordEntry(
+      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
+      record: ((json['Record'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetStores: (json['TargetStores'] as List?)
+          ?.nonNulls
+          .map((e) => TargetStore.fromString((e as String)))
+          .toList(),
+      ttlDuration: json['TtlDuration'] != null
+          ? TtlDuration.fromJson(json['TtlDuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final featureGroupName = this.featureGroupName;
+    final record = this.record;
+    final targetStores = this.targetStores;
+    final ttlDuration = this.ttlDuration;
+    return {
+      'FeatureGroupName': featureGroupName,
+      'Record': record,
+      if (targetStores != null)
+        'TargetStores': targetStores.map((e) => e.value).toList(),
+      if (ttlDuration != null) 'TtlDuration': ttlDuration,
+    };
+  }
+}
+
+/// The error that has occurred when attempting to write a record in a batch.
+///
+/// @nodoc
+class BatchWriteRecordError {
+  /// The entry that failed to be written.
+  final BatchWriteRecordEntry entry;
+
+  /// The error code for the failed record write.
+  final String errorCode;
+
+  /// The error message for the failed record write.
+  final String errorMessage;
+
+  BatchWriteRecordError({
+    required this.entry,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchWriteRecordError.fromJson(Map<String, dynamic> json) {
+    return BatchWriteRecordError(
+      entry: BatchWriteRecordEntry.fromJson(
+          (json['Entry'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entry = this.entry;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'Entry': entry,
+      'ErrorCode': errorCode,
+      'ErrorMessage': errorMessage,
+    };
+  }
 }
 
 /// The identifier that identifies the batch of Records you are retrieving in a

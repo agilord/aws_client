@@ -107,13 +107,7 @@ class Cloud9 {
   ///
   /// <ul>
   /// <li>
-  /// Amazon Linux 2: <code>amazonlinux-2-x86_64</code>
-  /// </li>
-  /// <li>
   /// Amazon Linux 2023 (recommended): <code>amazonlinux-2023-x86_64</code>
-  /// </li>
-  /// <li>
-  /// Ubuntu 18.04: <code>ubuntu-18.04-x86_64</code>
   /// </li>
   /// <li>
   /// Ubuntu 22.04: <code>ubuntu-22.04-x86_64</code>
@@ -123,16 +117,8 @@ class Cloud9 {
   ///
   /// <ul>
   /// <li>
-  /// Amazon Linux 2:
-  /// <code>resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64</code>
-  /// </li>
-  /// <li>
   /// Amazon Linux 2023 (recommended):
   /// <code>resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64</code>
-  /// </li>
-  /// <li>
-  /// Ubuntu 18.04:
-  /// <code>resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64</code>
   /// </li>
   /// <li>
   /// Ubuntu 22.04:

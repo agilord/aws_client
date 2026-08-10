@@ -2270,6 +2270,11 @@ class CustomerProfiles {
   /// The contextual metadata used to provide dynamic runtime information to
   /// tailor recommendations.
   ///
+  /// Parameter [diversityConfig] :
+  /// Runtime diversity configuration for this request. Enables diversity-aware
+  /// recommendations and optionally supplies values for placeholder-based
+  /// diversity caps configured on the recommender.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of recommendations to return. The default value is 10.
   ///
@@ -2292,6 +2297,7 @@ class CustomerProfiles {
     required String recommenderName,
     List<String>? candidateIds,
     Map<String, String>? context,
+    RecommendationDiversityConfig? diversityConfig,
     int? maxResults,
     MetadataConfig? metadataConfig,
     List<RecommenderFilter>? recommenderFilters,
@@ -2307,6 +2313,7 @@ class CustomerProfiles {
       'RecommenderName': recommenderName,
       if (candidateIds != null) 'CandidateIds': candidateIds,
       if (context != null) 'Context': context,
+      if (diversityConfig != null) 'DiversityConfig': diversityConfig,
       if (maxResults != null) 'MaxResults': maxResults,
       if (metadataConfig != null) 'MetadataConfig': metadataConfig,
       if (recommenderFilters != null) 'RecommenderFilters': recommenderFilters,
@@ -5036,15 +5043,22 @@ class CustomerProfiles {
   /// Parameter [recommenderConfig] :
   /// The new configuration settings to apply to the recommender, including
   /// updated parameters and settings that define its behavior.
+  ///
+  /// Parameter [recommenderVersionName] :
+  /// The name of a specific recommender version to activate as part of this
+  /// update (for example, to roll back to a previously trained version).
   Future<UpdateRecommenderResponse> updateRecommender({
     required String domainName,
     required String recommenderName,
     String? description,
     RecommenderConfig? recommenderConfig,
+    String? recommenderVersionName,
   }) async {
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (recommenderConfig != null) 'RecommenderConfig': recommenderConfig,
+      if (recommenderVersionName != null)
+        'RecommenderVersionName': recommenderVersionName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -7692,6 +7706,10 @@ class GetRecommenderResponse {
   /// The name of the recipe used by the recommender to generate recommendations.
   final RecommenderRecipeName recommenderRecipeName;
 
+  /// The name of the recommender version currently serving recommendations.
+  /// Omitted when no active recommender version is set.
+  final String? activeRecommenderVersionName;
+
   /// The timestamp of when the recommender was created.
   final DateTime? createdAt;
 
@@ -7730,6 +7748,7 @@ class GetRecommenderResponse {
   GetRecommenderResponse({
     required this.recommenderName,
     required this.recommenderRecipeName,
+    this.activeRecommenderVersionName,
     this.createdAt,
     this.description,
     this.failureReason,
@@ -7747,6 +7766,8 @@ class GetRecommenderResponse {
       recommenderName: (json['RecommenderName'] as String?) ?? '',
       recommenderRecipeName: RecommenderRecipeName.fromString(
           (json['RecommenderRecipeName'] as String?) ?? ''),
+      activeRecommenderVersionName:
+          json['ActiveRecommenderVersionName'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       failureReason: json['FailureReason'] as String?,
@@ -7773,6 +7794,7 @@ class GetRecommenderResponse {
   Map<String, dynamic> toJson() {
     final recommenderName = this.recommenderName;
     final recommenderRecipeName = this.recommenderRecipeName;
+    final activeRecommenderVersionName = this.activeRecommenderVersionName;
     final createdAt = this.createdAt;
     final description = this.description;
     final failureReason = this.failureReason;
@@ -7786,6 +7808,8 @@ class GetRecommenderResponse {
     return {
       'RecommenderName': recommenderName,
       'RecommenderRecipeName': recommenderRecipeName.value,
+      if (activeRecommenderVersionName != null)
+        'ActiveRecommenderVersionName': activeRecommenderVersionName,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
       if (failureReason != null) 'FailureReason': failureReason,
@@ -10454,6 +10478,11 @@ class UpdateRecommenderResponse {
 ///
 /// @nodoc
 class RecommenderConfig {
+  /// Configuration for diversity-aware recommendations. When set, the recommender
+  /// applies diversity constraints defined per item column to reduce
+  /// over-concentration of similar items in the results.
+  final DiversityConfig? diversityConfig;
+
   /// Configuration settings for how the recommender processes and uses events.
   final EventsConfig? eventsConfig;
 
@@ -10487,6 +10516,7 @@ class RecommenderConfig {
   final int? trainingFrequency;
 
   RecommenderConfig({
+    this.diversityConfig,
     this.eventsConfig,
     this.excludedColumns,
     this.includedColumns,
@@ -10496,6 +10526,10 @@ class RecommenderConfig {
 
   factory RecommenderConfig.fromJson(Map<String, dynamic> json) {
     return RecommenderConfig(
+      diversityConfig: json['DiversityConfig'] != null
+          ? DiversityConfig.fromJson(
+              json['DiversityConfig'] as Map<String, dynamic>)
+          : null,
       eventsConfig: json['EventsConfig'] != null
           ? EventsConfig.fromJson(json['EventsConfig'] as Map<String, dynamic>)
           : null,
@@ -10514,12 +10548,14 @@ class RecommenderConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final diversityConfig = this.diversityConfig;
     final eventsConfig = this.eventsConfig;
     final excludedColumns = this.excludedColumns;
     final includedColumns = this.includedColumns;
     final inferenceConfig = this.inferenceConfig;
     final trainingFrequency = this.trainingFrequency;
     return {
+      if (diversityConfig != null) 'DiversityConfig': diversityConfig,
       if (eventsConfig != null) 'EventsConfig': eventsConfig,
       if (excludedColumns != null) 'ExcludedColumns': excludedColumns,
       if (includedColumns != null) 'IncludedColumns': includedColumns,
@@ -10583,6 +10619,109 @@ class InferenceConfig {
       if (minProvisionedTPS != null) 'MinProvisionedTPS': minProvisionedTPS,
     };
   }
+}
+
+/// Configuration that controls diversity of recommendation results by capping
+/// the representation of specified item columns.
+///
+/// @nodoc
+class DiversityConfig {
+  /// A list of up to two diversity columns. Each column defines a cap on the
+  /// number or percentage of recommended items that share the same value for that
+  /// column.
+  final List<DiversityColumn>? diversityColumns;
+
+  DiversityConfig({
+    this.diversityColumns,
+  });
+
+  factory DiversityConfig.fromJson(Map<String, dynamic> json) {
+    return DiversityConfig(
+      diversityColumns: (json['DiversityColumns'] as List?)
+          ?.nonNulls
+          .map((e) => DiversityColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diversityColumns = this.diversityColumns;
+    return {
+      if (diversityColumns != null) 'DiversityColumns': diversityColumns,
+    };
+  }
+}
+
+/// Defines a diversity constraint for a single item column, specifying a cap
+/// type and a target value or placeholder that controls how many recommended
+/// items may share the same column value.
+///
+/// @nodoc
+class DiversityColumn {
+  /// The type of diversity cap to apply. Valid values are <code>PERCENTAGE</code>
+  /// (interpret <code>Target</code> as a percentage of returned items) and
+  /// <code>VALUE</code> (interpret <code>Target</code> as an absolute count).
+  final DiversityCapType capType;
+
+  /// The name of the item catalog column on which to apply the diversity cap. The
+  /// column must be defined in the recommender schema.
+  final String name;
+
+  /// The diversity cap target. Either an integer literal (for example,
+  /// <code>"25"</code>) or a placeholder expression of the form
+  /// <code>$name</code> whose value is supplied at inference time through
+  /// <code>GetProfileRecommendations</code>.
+  final String target;
+
+  DiversityColumn({
+    required this.capType,
+    required this.name,
+    required this.target,
+  });
+
+  factory DiversityColumn.fromJson(Map<String, dynamic> json) {
+    return DiversityColumn(
+      capType: DiversityCapType.fromString((json['CapType'] as String?) ?? ''),
+      name: (json['Name'] as String?) ?? '',
+      target: (json['Target'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capType = this.capType;
+    final name = this.name;
+    final target = this.target;
+    return {
+      'CapType': capType.value,
+      'Name': name,
+      'Target': target,
+    };
+  }
+}
+
+/// @nodoc
+class DiversityCapType {
+  static const percentage = DiversityCapType._('PERCENTAGE');
+  static const $value = DiversityCapType._('VALUE');
+
+  final String value;
+
+  const DiversityCapType._(this.value);
+
+  static const values = [percentage, $value];
+
+  static DiversityCapType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DiversityCapType._(value));
+
+  @override
+  bool operator ==(other) => other is DiversityCapType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration parameters for events in the personalization system.
@@ -15098,6 +15237,9 @@ class RecommenderUpdate {
   /// update.
   final RecommenderConfig? recommenderConfig;
 
+  /// The name of the recommender version associated with this update operation.
+  final String? recommenderVersionName;
+
   /// The current status of the recommender update operation.
   final RecommenderStatus? status;
 
@@ -15106,6 +15248,7 @@ class RecommenderUpdate {
     this.failureReason,
     this.lastUpdatedAt,
     this.recommenderConfig,
+    this.recommenderVersionName,
     this.status,
   });
 
@@ -15118,6 +15261,7 @@ class RecommenderUpdate {
           ? RecommenderConfig.fromJson(
               json['RecommenderConfig'] as Map<String, dynamic>)
           : null,
+      recommenderVersionName: json['RecommenderVersionName'] as String?,
       status: (json['Status'] as String?)?.let(RecommenderStatus.fromString),
     );
   }
@@ -15127,6 +15271,7 @@ class RecommenderUpdate {
     final failureReason = this.failureReason;
     final lastUpdatedAt = this.lastUpdatedAt;
     final recommenderConfig = this.recommenderConfig;
+    final recommenderVersionName = this.recommenderVersionName;
     final status = this.status;
     return {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
@@ -15134,6 +15279,8 @@ class RecommenderUpdate {
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (recommenderConfig != null) 'RecommenderConfig': recommenderConfig,
+      if (recommenderVersionName != null)
+        'RecommenderVersionName': recommenderVersionName,
       if (status != null) 'Status': status.value,
     };
   }
@@ -18210,11 +18357,15 @@ class TrainingMetrics {
   /// process.
   final Map<TrainingMetricName, double>? metrics;
 
+  /// The name of the recommender version that produced these training metrics.
+  final String? recommenderVersionName;
+
   /// The timestamp when these training metrics were recorded.
   final DateTime? time;
 
   TrainingMetrics({
     this.metrics,
+    this.recommenderVersionName,
     this.time,
   });
 
@@ -18222,17 +18373,21 @@ class TrainingMetrics {
     return TrainingMetrics(
       metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(TrainingMetricName.fromString(k), _s.parseJsonDouble(e)!)),
+      recommenderVersionName: json['RecommenderVersionName'] as String?,
       time: timeStampFromJson(json['Time']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final metrics = this.metrics;
+    final recommenderVersionName = this.recommenderVersionName;
     final time = this.time;
     return {
       if (metrics != null)
         'Metrics':
             metrics.map((k, e) => MapEntry(k.value, _s.encodeJsonDouble(e))),
+      if (recommenderVersionName != null)
+        'RecommenderVersionName': recommenderVersionName,
       if (time != null) 'Time': unixTimestampToJson(time),
     };
   }
@@ -18458,6 +18613,35 @@ class MetadataConfig {
     final metadataColumns = this.metadataColumns;
     return {
       if (metadataColumns != null) 'MetadataColumns': metadataColumns,
+    };
+  }
+}
+
+/// Runtime diversity configuration for a <code>GetProfileRecommendations</code>
+/// request.
+///
+/// @nodoc
+class RecommendationDiversityConfig {
+  /// Whether diversity-aware recommendations are enabled for this request.
+  final bool enabled;
+
+  /// An optional map of placeholder name to integer cap value used to resolve
+  /// <code>$name</code> placeholders defined in the recommender's
+  /// <code>DiversityConfig</code> at inference time. Up to 2 entries are
+  /// supported.
+  final Map<String, int>? values;
+
+  RecommendationDiversityConfig({
+    required this.enabled,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final values = this.values;
+    return {
+      'Enabled': enabled,
+      if (values != null) 'Values': values,
     };
   }
 }

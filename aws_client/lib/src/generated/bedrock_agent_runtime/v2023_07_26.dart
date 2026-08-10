@@ -67,6 +67,80 @@ class BedrockAgentRuntime {
     _protocol.close();
   }
 
+  /// Retrieves information from one or more knowledge bases using an agentic
+  /// approach. Agentic retrieval uses a foundation model to intelligently
+  /// decompose complex queries into sub-queries and iteratively retrieve
+  /// relevant information from your knowledge bases. This approach improves
+  /// retrieval accuracy for complex, multi-step questions that a single
+  /// retrieval pass might not fully address.
+  ///
+  /// The operation returns results through a stream that includes retrieval
+  /// results, trace events for visibility into the process, and a generated
+  /// response synthesized from the results by default, which can be turned off.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadGatewayException].
+  /// May throw [ConflictException].
+  /// May throw [DependencyFailedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [agenticRetrieveConfiguration] :
+  /// Configuration settings for the agentic retrieval operation.
+  ///
+  /// Parameter [messages] :
+  /// The list of messages for the agentic retrieval conversation.
+  ///
+  /// Parameter [retrievers] :
+  /// The list of retrievers to use for agentic retrieval.
+  ///
+  /// Parameter [generateResponse] :
+  /// Whether to generate a response based on the retrieved results.
+  ///
+  /// Parameter [nextToken] :
+  /// Opaque continuation token for paginated results.
+  ///
+  /// Parameter [policyConfiguration] :
+  /// Policy configuration for guardrails and content filtering.
+  ///
+  /// Parameter [userContext] :
+  /// Contains information about the user making the request. This is used for
+  /// access control filtering to ensure that retrieval results only include
+  /// documents the user is authorized to access.
+  Future<AgenticRetrieveStreamResponse> agenticRetrieveStream({
+    required AgenticRetrieveConfiguration agenticRetrieveConfiguration,
+    required List<AgenticRetrieveMessage> messages,
+    required List<AgenticRetriever> retrievers,
+    bool? generateResponse,
+    String? nextToken,
+    AgenticRetrievePolicyConfiguration? policyConfiguration,
+    UserContext? userContext,
+  }) async {
+    final $payload = <String, dynamic>{
+      'agenticRetrieveConfiguration': agenticRetrieveConfiguration,
+      'messages': messages,
+      'retrievers': retrievers,
+      if (generateResponse != null) 'generateResponse': generateResponse,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (policyConfiguration != null)
+        'policyConfiguration': policyConfiguration,
+      if (userContext != null) 'userContext': userContext,
+    };
+    final response = await _protocol.sendRaw(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/agenticRetrieveStream',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return AgenticRetrieveStreamResponse(
+      stream: AgenticRetrieveStreamResponseOutput.fromJson($json),
+    );
+  }
+
   /// Retrieves the flow definition snapshot used for a flow execution. The
   /// snapshot represents the flow metadata and definition as it existed at the
   /// time the execution was started. Note that even if the flow is edited after
@@ -470,6 +544,49 @@ class BedrockAgentRuntime {
       exceptionFnMap: _exceptionFns,
     );
     return GenerateQueryResponse.fromJson(response);
+  }
+
+  /// Retrieves the content of an ingested document from a knowledge base.
+  /// Returns a pre-signed URL for secure document access.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dataSourceId] :
+  /// The unique identifier of the data source that contains the document.
+  ///
+  /// Parameter [documentId] :
+  /// The unique identifier of the document to retrieve content for.
+  ///
+  /// Parameter [knowledgeBaseId] :
+  /// The unique identifier of the knowledge base that contains the document.
+  ///
+  /// Parameter [outputFormat] :
+  /// The output format for the document content. <code>RAW</code> returns the
+  /// original file. <code>EXTRACTED</code> returns parsed text as JSON.
+  /// Defaults to <code>RAW</code>.
+  Future<GetDocumentContentResponse> getDocumentContent({
+    required String dataSourceId,
+    required String documentId,
+    required String knowledgeBaseId,
+    DocumentOutputFormat? outputFormat,
+    UserContext? userContext,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (outputFormat != null) 'outputFormat': outputFormat.value,
+      if (userContext != null) 'userContext': userContext,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/knowledgebases/${Uri.encodeComponent(knowledgeBaseId)}/datasources/${Uri.encodeComponent(dataSourceId)}/documents/${Uri.encodeComponent(documentId)}/content',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDocumentContentResponse.fromJson(response);
   }
 
   /// <note> </note>
@@ -1085,6 +1202,13 @@ class BedrockAgentRuntime {
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html">inference
   /// profile</a>. The response only cites sources that are relevant to the
   /// query.
+  /// <note>
+  /// This API cannot be used with managed knowledge bases. Use <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_AgenticRetrieveStream.html">AgenticRetrieveStream</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html">Retrieve</a>
+  /// with managed knowledge bases.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [BadGatewayException].
@@ -1120,6 +1244,7 @@ class BedrockAgentRuntime {
     RetrieveAndGenerateConfiguration? retrieveAndGenerateConfiguration,
     RetrieveAndGenerateSessionConfiguration? sessionConfiguration,
     String? sessionId,
+    UserContext? userContext,
   }) async {
     final $payload = <String, dynamic>{
       'input': input,
@@ -1128,6 +1253,7 @@ class BedrockAgentRuntime {
       if (sessionConfiguration != null)
         'sessionConfiguration': sessionConfiguration,
       if (sessionId != null) 'sessionId': sessionId,
+      if (userContext != null) 'userContext': userContext,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1141,6 +1267,12 @@ class BedrockAgentRuntime {
   /// Queries a knowledge base and generates responses based on the retrieved
   /// results, with output in streaming format.
   /// <note>
+  /// This API cannot be used with managed knowledge bases. Use <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_AgenticRetrieveStream.html">AgenticRetrieveStream</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html">Retrieve</a>
+  /// with managed knowledge bases.
+  /// </note> <note>
   /// The CLI doesn't support streaming operations in Amazon Bedrock, including
   /// <code>InvokeModelWithResponseStream</code>.
   /// </note>
@@ -1181,6 +1313,7 @@ class BedrockAgentRuntime {
     RetrieveAndGenerateConfiguration? retrieveAndGenerateConfiguration,
     RetrieveAndGenerateSessionConfiguration? sessionConfiguration,
     String? sessionId,
+    UserContext? userContext,
   }) async {
     final $payload = <String, dynamic>{
       'input': input,
@@ -1189,6 +1322,7 @@ class BedrockAgentRuntime {
       if (sessionConfiguration != null)
         'sessionConfiguration': sessionConfiguration,
       if (sessionId != null) 'sessionId': sessionId,
+      if (userContext != null) 'userContext': userContext,
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -1242,6 +1376,7 @@ class BedrockAgentRuntime {
     GuardrailConfiguration? guardrailConfiguration,
     String? nextToken,
     KnowledgeBaseRetrievalConfiguration? retrievalConfiguration,
+    UserContext? userContext,
   }) async {
     final $payload = <String, dynamic>{
       'retrievalQuery': retrievalQuery,
@@ -1250,6 +1385,7 @@ class BedrockAgentRuntime {
       if (nextToken != null) 'nextToken': nextToken,
       if (retrievalConfiguration != null)
         'retrievalConfiguration': retrievalConfiguration,
+      if (userContext != null) 'userContext': userContext,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1897,68 +2033,21 @@ class BedrockAgentRuntime {
   }
 }
 
+/// Response structure for the agentic retrieve stream operation.
+///
 /// @nodoc
-class GetExecutionFlowSnapshotResponse {
-  /// The flow definition used for the flow execution, including the nodes,
-  /// connections, and configuration at the time when the execution started.
-  ///
-  /// The definition returns as a string that follows the structure of a <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_FlowDefinition.html">FlowDefinition</a>
-  /// object.
-  final String definition;
+class AgenticRetrieveStreamResponse {
+  /// The output stream containing retrieval results and trace events.
+  final AgenticRetrieveStreamResponseOutput stream;
 
-  /// The Amazon Resource Name (ARN) of the IAM service role that's used by the
-  /// flow execution.
-  final String executionRoleArn;
-
-  /// The unique identifier of the flow alias used for the flow execution.
-  final String flowAliasIdentifier;
-
-  /// The unique identifier of the flow.
-  final String flowIdentifier;
-
-  /// The version of the flow used for the flow execution.
-  final String flowVersion;
-
-  /// The Amazon Resource Name (ARN) of the customer managed KMS key that's used
-  /// to encrypt the flow snapshot.
-  final String? customerEncryptionKeyArn;
-
-  GetExecutionFlowSnapshotResponse({
-    required this.definition,
-    required this.executionRoleArn,
-    required this.flowAliasIdentifier,
-    required this.flowIdentifier,
-    required this.flowVersion,
-    this.customerEncryptionKeyArn,
+  AgenticRetrieveStreamResponse({
+    required this.stream,
   });
 
-  factory GetExecutionFlowSnapshotResponse.fromJson(Map<String, dynamic> json) {
-    return GetExecutionFlowSnapshotResponse(
-      definition: (json['definition'] as String?) ?? '',
-      executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
-      flowAliasIdentifier: (json['flowAliasIdentifier'] as String?) ?? '',
-      flowIdentifier: (json['flowIdentifier'] as String?) ?? '',
-      flowVersion: (json['flowVersion'] as String?) ?? '',
-      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final executionRoleArn = this.executionRoleArn;
-    final flowAliasIdentifier = this.flowAliasIdentifier;
-    final flowIdentifier = this.flowIdentifier;
-    final flowVersion = this.flowVersion;
-    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final stream = this.stream;
     return {
-      'definition': definition,
-      'executionRoleArn': executionRoleArn,
-      'flowAliasIdentifier': flowAliasIdentifier,
-      'flowIdentifier': flowIdentifier,
-      'flowVersion': flowVersion,
-      if (customerEncryptionKeyArn != null)
-        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      'stream': stream,
     };
   }
 }
@@ -1984,6 +2073,97 @@ class AccessDeniedException implements _s.AwsException {
     final message = this.message;
     return {
       if (message != null) 'message': message,
+    };
+  }
+}
+
+/// There was an issue with a dependency due to a server issue. Retry your
+/// request.
+///
+/// @nodoc
+class BadGatewayException implements _s.AwsException {
+  final String? message;
+
+  /// The name of the dependency that caused the issue, such as Amazon Bedrock,
+  /// Lambda, or STS.
+  final String? resourceName;
+
+  BadGatewayException({
+    this.message,
+    this.resourceName,
+  });
+
+  factory BadGatewayException.fromJson(Map<String, dynamic> json) {
+    return BadGatewayException(
+      message: json['message'] as String?,
+      resourceName: json['resourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final resourceName = this.resourceName;
+    return {
+      if (message != null) 'message': message,
+      if (resourceName != null) 'resourceName': resourceName,
+    };
+  }
+}
+
+/// There was a conflict performing an operation. Resolve the conflict and retry
+/// your request.
+///
+/// @nodoc
+class ConflictException implements _s.AwsException {
+  final String? message;
+
+  ConflictException({
+    this.message,
+  });
+
+  factory ConflictException.fromJson(Map<String, dynamic> json) {
+    return ConflictException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// There was an issue with a dependency. Check the resource configurations and
+/// retry the request.
+///
+/// @nodoc
+class DependencyFailedException implements _s.AwsException {
+  final String? message;
+
+  /// The name of the dependency that caused the issue, such as Amazon Bedrock,
+  /// Lambda, or STS.
+  final String? resourceName;
+
+  DependencyFailedException({
+    this.message,
+    this.resourceName,
+  });
+
+  factory DependencyFailedException.fromJson(Map<String, dynamic> json) {
+    return DependencyFailedException(
+      message: json['message'] as String?,
+      resourceName: json['resourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final resourceName = this.resourceName;
+    return {
+      if (message != null) 'message': message,
+      if (resourceName != null) 'resourceName': resourceName,
     };
   }
 }
@@ -2046,6 +2226,31 @@ class ResourceNotFoundException implements _s.AwsException {
   }
 }
 
+/// The number of requests exceeds the service quota. Resubmit your request
+/// later.
+///
+/// @nodoc
+class ServiceQuotaExceededException implements _s.AwsException {
+  final String? message;
+
+  ServiceQuotaExceededException({
+    this.message,
+  });
+
+  factory ServiceQuotaExceededException.fromJson(Map<String, dynamic> json) {
+    return ServiceQuotaExceededException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
 /// The number of requests exceeds the limit. Resubmit your request later.
 ///
 /// @nodoc
@@ -2091,6 +2296,72 @@ class ValidationException implements _s.AwsException {
     final message = this.message;
     return {
       if (message != null) 'message': message,
+    };
+  }
+}
+
+/// @nodoc
+class GetExecutionFlowSnapshotResponse {
+  /// The flow definition used for the flow execution, including the nodes,
+  /// connections, and configuration at the time when the execution started.
+  ///
+  /// The definition returns as a string that follows the structure of a <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_FlowDefinition.html">FlowDefinition</a>
+  /// object.
+  final String definition;
+
+  /// The Amazon Resource Name (ARN) of the IAM service role that's used by the
+  /// flow execution.
+  final String executionRoleArn;
+
+  /// The unique identifier of the flow alias used for the flow execution.
+  final String flowAliasIdentifier;
+
+  /// The unique identifier of the flow.
+  final String flowIdentifier;
+
+  /// The version of the flow used for the flow execution.
+  final String flowVersion;
+
+  /// The Amazon Resource Name (ARN) of the customer managed KMS key that's used
+  /// to encrypt the flow snapshot.
+  final String? customerEncryptionKeyArn;
+
+  GetExecutionFlowSnapshotResponse({
+    required this.definition,
+    required this.executionRoleArn,
+    required this.flowAliasIdentifier,
+    required this.flowIdentifier,
+    required this.flowVersion,
+    this.customerEncryptionKeyArn,
+  });
+
+  factory GetExecutionFlowSnapshotResponse.fromJson(Map<String, dynamic> json) {
+    return GetExecutionFlowSnapshotResponse(
+      definition: (json['definition'] as String?) ?? '',
+      executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
+      flowAliasIdentifier: (json['flowAliasIdentifier'] as String?) ?? '',
+      flowIdentifier: (json['flowIdentifier'] as String?) ?? '',
+      flowVersion: (json['flowVersion'] as String?) ?? '',
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final executionRoleArn = this.executionRoleArn;
+    final flowAliasIdentifier = this.flowAliasIdentifier;
+    final flowIdentifier = this.flowIdentifier;
+    final flowVersion = this.flowVersion;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    return {
+      'definition': definition,
+      'executionRoleArn': executionRoleArn,
+      'flowAliasIdentifier': flowAliasIdentifier,
+      'flowIdentifier': flowIdentifier,
+      'flowVersion': flowVersion,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
     };
   }
 }
@@ -2271,122 +2542,6 @@ class StartFlowExecutionResponse {
   }
 }
 
-/// There was an issue with a dependency due to a server issue. Retry your
-/// request.
-///
-/// @nodoc
-class BadGatewayException implements _s.AwsException {
-  final String? message;
-
-  /// The name of the dependency that caused the issue, such as Amazon Bedrock,
-  /// Lambda, or STS.
-  final String? resourceName;
-
-  BadGatewayException({
-    this.message,
-    this.resourceName,
-  });
-
-  factory BadGatewayException.fromJson(Map<String, dynamic> json) {
-    return BadGatewayException(
-      message: json['message'] as String?,
-      resourceName: json['resourceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final resourceName = this.resourceName;
-    return {
-      if (message != null) 'message': message,
-      if (resourceName != null) 'resourceName': resourceName,
-    };
-  }
-}
-
-/// There was a conflict performing an operation. Resolve the conflict and retry
-/// your request.
-///
-/// @nodoc
-class ConflictException implements _s.AwsException {
-  final String? message;
-
-  ConflictException({
-    this.message,
-  });
-
-  factory ConflictException.fromJson(Map<String, dynamic> json) {
-    return ConflictException(
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'message': message,
-    };
-  }
-}
-
-/// There was an issue with a dependency. Check the resource configurations and
-/// retry the request.
-///
-/// @nodoc
-class DependencyFailedException implements _s.AwsException {
-  final String? message;
-
-  /// The name of the dependency that caused the issue, such as Amazon Bedrock,
-  /// Lambda, or STS.
-  final String? resourceName;
-
-  DependencyFailedException({
-    this.message,
-    this.resourceName,
-  });
-
-  factory DependencyFailedException.fromJson(Map<String, dynamic> json) {
-    return DependencyFailedException(
-      message: json['message'] as String?,
-      resourceName: json['resourceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final resourceName = this.resourceName;
-    return {
-      if (message != null) 'message': message,
-      if (resourceName != null) 'resourceName': resourceName,
-    };
-  }
-}
-
-/// The number of requests exceeds the service quota. Resubmit your request
-/// later.
-///
-/// @nodoc
-class ServiceQuotaExceededException implements _s.AwsException {
-  final String? message;
-
-  ServiceQuotaExceededException({
-    this.message,
-  });
-
-  factory ServiceQuotaExceededException.fromJson(Map<String, dynamic> json) {
-    return ServiceQuotaExceededException(
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'message': message,
-    };
-  }
-}
-
 /// @nodoc
 class StopFlowExecutionResponse {
   /// The updated status of the flow execution after the stop request. This will
@@ -2465,6 +2620,47 @@ class GenerateQueryResponse {
     final queries = this.queries;
     return {
       if (queries != null) 'queries': queries,
+    };
+  }
+}
+
+/// @nodoc
+class GetDocumentContentResponse {
+  /// The MIME type of the document content. For <code>RAW</code> format, this is
+  /// the original file type (for example, <code>application/pdf</code>). For
+  /// <code>EXTRACTED</code> format, this is always <code>application/json</code>.
+  final String mimeType;
+
+  /// A pre-signed URL for downloading the document content. The URL expires after
+  /// 5 minutes.
+  final String presignedUrl;
+
+  /// The size of the document content in bytes available at the pre-signed URL.
+  final int? documentContentLength;
+
+  GetDocumentContentResponse({
+    required this.mimeType,
+    required this.presignedUrl,
+    this.documentContentLength,
+  });
+
+  factory GetDocumentContentResponse.fromJson(Map<String, dynamic> json) {
+    return GetDocumentContentResponse(
+      mimeType: (json['mimeType'] as String?) ?? '',
+      presignedUrl: (json['presignedUrl'] as String?) ?? '',
+      documentContentLength: json['documentContentLength'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mimeType = this.mimeType;
+    final presignedUrl = this.presignedUrl;
+    final documentContentLength = this.documentContentLength;
+    return {
+      'mimeType': mimeType,
+      'presignedUrl': presignedUrl,
+      if (documentContentLength != null)
+        'documentContentLength': documentContentLength,
     };
   }
 }
@@ -3716,6 +3912,10 @@ class KnowledgeBaseRetrievalResult {
   /// Contains information about the content of the chunk.
   final RetrievalResultContent content;
 
+  /// The unique identifier of the document. Use with
+  /// <code>GetDocumentContent</code> to retrieve the full document.
+  final String? documentId;
+
   /// Contains information about the location of the data source.
   final RetrievalResultLocation? location;
 
@@ -3730,6 +3930,7 @@ class KnowledgeBaseRetrievalResult {
 
   KnowledgeBaseRetrievalResult({
     required this.content,
+    this.documentId,
     this.location,
     this.metadata,
     this.score,
@@ -3740,6 +3941,7 @@ class KnowledgeBaseRetrievalResult {
       content: RetrievalResultContent.fromJson(
           (json['content'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      documentId: json['documentId'] as String?,
       location: json['location'] != null
           ? RetrievalResultLocation.fromJson(
               json['location'] as Map<String, dynamic>)
@@ -3752,11 +3954,13 @@ class KnowledgeBaseRetrievalResult {
 
   Map<String, dynamic> toJson() {
     final content = this.content;
+    final documentId = this.documentId;
     final location = this.location;
     final metadata = this.metadata;
     final score = this.score;
     return {
       'content': content,
+      if (documentId != null) 'documentId': documentId,
       if (location != null) 'location': location,
       if (metadata != null) 'metadata': metadata,
       if (score != null) 'score': _s.encodeJsonDouble(score),
@@ -3890,8 +4094,14 @@ class RetrievalResultLocation {
   /// Specifies the location of a document in a custom data source.
   final RetrievalResultCustomDocumentLocation? customDocumentLocation;
 
+  /// The Google Drive data source location.
+  final RetrievalResultGoogleDriveLocation? googleDriveLocation;
+
   /// The location of a document in Amazon Kendra.
   final RetrievalResultKendraDocumentLocation? kendraDocumentLocation;
+
+  /// The Microsoft OneDrive data source location.
+  final RetrievalResultOneDriveLocation? oneDriveLocation;
 
   /// The S3 data source location.
   final RetrievalResultS3Location? s3Location;
@@ -3912,7 +4122,9 @@ class RetrievalResultLocation {
     required this.type,
     this.confluenceLocation,
     this.customDocumentLocation,
+    this.googleDriveLocation,
     this.kendraDocumentLocation,
+    this.oneDriveLocation,
     this.s3Location,
     this.salesforceLocation,
     this.sharePointLocation,
@@ -3932,9 +4144,17 @@ class RetrievalResultLocation {
           ? RetrievalResultCustomDocumentLocation.fromJson(
               json['customDocumentLocation'] as Map<String, dynamic>)
           : null,
+      googleDriveLocation: json['googleDriveLocation'] != null
+          ? RetrievalResultGoogleDriveLocation.fromJson(
+              json['googleDriveLocation'] as Map<String, dynamic>)
+          : null,
       kendraDocumentLocation: json['kendraDocumentLocation'] != null
           ? RetrievalResultKendraDocumentLocation.fromJson(
               json['kendraDocumentLocation'] as Map<String, dynamic>)
+          : null,
+      oneDriveLocation: json['oneDriveLocation'] != null
+          ? RetrievalResultOneDriveLocation.fromJson(
+              json['oneDriveLocation'] as Map<String, dynamic>)
           : null,
       s3Location: json['s3Location'] != null
           ? RetrievalResultS3Location.fromJson(
@@ -3963,7 +4183,9 @@ class RetrievalResultLocation {
     final type = this.type;
     final confluenceLocation = this.confluenceLocation;
     final customDocumentLocation = this.customDocumentLocation;
+    final googleDriveLocation = this.googleDriveLocation;
     final kendraDocumentLocation = this.kendraDocumentLocation;
+    final oneDriveLocation = this.oneDriveLocation;
     final s3Location = this.s3Location;
     final salesforceLocation = this.salesforceLocation;
     final sharePointLocation = this.sharePointLocation;
@@ -3974,8 +4196,11 @@ class RetrievalResultLocation {
       if (confluenceLocation != null) 'confluenceLocation': confluenceLocation,
       if (customDocumentLocation != null)
         'customDocumentLocation': customDocumentLocation,
+      if (googleDriveLocation != null)
+        'googleDriveLocation': googleDriveLocation,
       if (kendraDocumentLocation != null)
         'kendraDocumentLocation': kendraDocumentLocation,
+      if (oneDriveLocation != null) 'oneDriveLocation': oneDriveLocation,
       if (s3Location != null) 's3Location': s3Location,
       if (salesforceLocation != null) 'salesforceLocation': salesforceLocation,
       if (sharePointLocation != null) 'sharePointLocation': sharePointLocation,
@@ -3995,6 +4220,8 @@ class RetrievalResultLocationType {
   static const custom = RetrievalResultLocationType._('CUSTOM');
   static const kendra = RetrievalResultLocationType._('KENDRA');
   static const sql = RetrievalResultLocationType._('SQL');
+  static const onedrive = RetrievalResultLocationType._('ONEDRIVE');
+  static const googledrive = RetrievalResultLocationType._('GOOGLEDRIVE');
 
   final String value;
 
@@ -4008,7 +4235,9 @@ class RetrievalResultLocationType {
     sharepoint,
     custom,
     kendra,
-    sql
+    sql,
+    onedrive,
+    googledrive
   ];
 
   static RetrievalResultLocationType fromString(String value) =>
@@ -4248,6 +4477,57 @@ class RetrievalResultSqlLocation {
     final query = this.query;
     return {
       if (query != null) 'query': query,
+    };
+  }
+}
+
+/// The Microsoft OneDrive location of a retrieval result.
+///
+/// @nodoc
+class RetrievalResultOneDriveLocation {
+  /// The OneDrive URL for the data source location.
+  final String? url;
+
+  RetrievalResultOneDriveLocation({
+    this.url,
+  });
+
+  factory RetrievalResultOneDriveLocation.fromJson(Map<String, dynamic> json) {
+    return RetrievalResultOneDriveLocation(
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+/// The Google Drive location of a retrieval result.
+///
+/// @nodoc
+class RetrievalResultGoogleDriveLocation {
+  /// The Google Drive URL for the data source location.
+  final String? url;
+
+  RetrievalResultGoogleDriveLocation({
+    this.url,
+  });
+
+  factory RetrievalResultGoogleDriveLocation.fromJson(
+      Map<String, dynamic> json) {
+    return RetrievalResultGoogleDriveLocation(
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'url': url,
     };
   }
 }
@@ -4502,20 +4782,30 @@ class KnowledgeBaseQuery {
 ///
 /// @nodoc
 class KnowledgeBaseRetrievalConfiguration {
+  /// Contains configurations for managed search. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query
+  /// configurations</a>.
+  final ManagedSearchConfiguration? managedSearchConfiguration;
+
   /// Contains details about how the results from the vector search should be
   /// returned. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query
   /// configurations</a>.
-  final KnowledgeBaseVectorSearchConfiguration vectorSearchConfiguration;
+  final KnowledgeBaseVectorSearchConfiguration? vectorSearchConfiguration;
 
   KnowledgeBaseRetrievalConfiguration({
-    required this.vectorSearchConfiguration,
+    this.managedSearchConfiguration,
+    this.vectorSearchConfiguration,
   });
 
   Map<String, dynamic> toJson() {
+    final managedSearchConfiguration = this.managedSearchConfiguration;
     final vectorSearchConfiguration = this.vectorSearchConfiguration;
     return {
-      'vectorSearchConfiguration': vectorSearchConfiguration,
+      if (managedSearchConfiguration != null)
+        'managedSearchConfiguration': managedSearchConfiguration,
+      if (vectorSearchConfiguration != null)
+        'vectorSearchConfiguration': vectorSearchConfiguration,
     };
   }
 }
@@ -4541,6 +4831,27 @@ class GuardrailConfiguration {
     return {
       'guardrailId': guardrailId,
       'guardrailVersion': guardrailVersion,
+    };
+  }
+}
+
+/// Contains information about the user making the request. Use this to pass
+/// user identity information for access control filtering, so that retrieval
+/// results only include documents the user is authorized to access.
+///
+/// @nodoc
+class UserContext {
+  /// The identifier of the user making the retrieval request.
+  final String userId;
+
+  UserContext({
+    required this.userId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    return {
+      'userId': userId,
     };
   }
 }
@@ -4623,28 +4934,48 @@ class KnowledgeBaseVectorSearchConfiguration {
   }
 }
 
+/// Configuration for managed search in a knowledge base. Managed search
+/// automatically determines the best search strategy based on your data store
+/// configuration.
+///
 /// @nodoc
-class SearchType {
-  static const hybrid = SearchType._('HYBRID');
-  static const semantic = SearchType._('SEMANTIC');
+class ManagedSearchConfiguration {
+  final RetrievalFilter? filter;
 
-  final String value;
+  /// The number of results to retrieve.
+  final int? numberOfResults;
 
-  const SearchType._(this.value);
+  /// Contains configurations for reranking the results retrieved from the managed
+  /// search.
+  final ManagedSearchRerankingConfiguration? rerankingConfiguration;
 
-  static const values = [hybrid, semantic];
+  /// The type of reranking model to use when reranking results retrieved from the
+  /// managed search. Use <code>CUSTOM</code> to specify a model,
+  /// <code>MANAGED</code> to use the service default, or <code>NONE</code> to
+  /// disable reranking.
+  final RerankingModelType? rerankingModelType;
 
-  static SearchType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SearchType._(value));
+  ManagedSearchConfiguration({
+    this.filter,
+    this.numberOfResults,
+    this.rerankingConfiguration,
+    this.rerankingModelType,
+  });
 
-  @override
-  bool operator ==(other) => other is SearchType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final numberOfResults = this.numberOfResults;
+    final rerankingConfiguration = this.rerankingConfiguration;
+    final rerankingModelType = this.rerankingModelType;
+    return {
+      if (filter != null) 'filter': filter,
+      if (numberOfResults != null) 'numberOfResults': numberOfResults,
+      if (rerankingConfiguration != null)
+        'rerankingConfiguration': rerankingConfiguration,
+      if (rerankingModelType != null)
+        'rerankingModelType': rerankingModelType.value,
+    };
+  }
 }
 
 /// Specifies the filters to use on the metadata attributes in the knowledge
@@ -4859,6 +5190,318 @@ class RetrievalFilter {
   }
 }
 
+/// @nodoc
+class RerankingModelType {
+  static const custom = RerankingModelType._('CUSTOM');
+  static const managed = RerankingModelType._('MANAGED');
+  static const none = RerankingModelType._('NONE');
+
+  final String value;
+
+  const RerankingModelType._(this.value);
+
+  static const values = [custom, managed, none];
+
+  static RerankingModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RerankingModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RerankingModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for the reranking model used in managed search.
+///
+/// @nodoc
+class ManagedSearchRerankingConfiguration {
+  /// The type of reranking configuration.
+  final ManagedSearchRerankingConfigurationType type;
+
+  /// The Bedrock reranking model configuration for managed search.
+  final ManagedSearchBedrockRerankingConfiguration?
+      bedrockRerankingConfiguration;
+
+  ManagedSearchRerankingConfiguration({
+    required this.type,
+    this.bedrockRerankingConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final bedrockRerankingConfiguration = this.bedrockRerankingConfiguration;
+    return {
+      'type': type.value,
+      if (bedrockRerankingConfiguration != null)
+        'bedrockRerankingConfiguration': bedrockRerankingConfiguration,
+    };
+  }
+}
+
+/// The type of reranking configuration for managed search.
+///
+/// @nodoc
+class ManagedSearchRerankingConfigurationType {
+  static const bedrockRerankingModel =
+      ManagedSearchRerankingConfigurationType._('BEDROCK_RERANKING_MODEL');
+
+  final String value;
+
+  const ManagedSearchRerankingConfigurationType._(this.value);
+
+  static const values = [bedrockRerankingModel];
+
+  static ManagedSearchRerankingConfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ManagedSearchRerankingConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedSearchRerankingConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for a Bedrock reranking model used in managed search.
+///
+/// @nodoc
+class ManagedSearchBedrockRerankingConfiguration {
+  /// The model configuration containing the model ARN for reranking.
+  final ManagedSearchBedrockRerankingModelConfiguration modelConfiguration;
+
+  /// The metadata configuration for reranking.
+  final MetadataConfigurationForReranking? metadataConfiguration;
+
+  /// The number of results to return after reranking.
+  final int? numberOfRerankedResults;
+
+  ManagedSearchBedrockRerankingConfiguration({
+    required this.modelConfiguration,
+    this.metadataConfiguration,
+    this.numberOfRerankedResults,
+  });
+
+  Map<String, dynamic> toJson() {
+    final modelConfiguration = this.modelConfiguration;
+    final metadataConfiguration = this.metadataConfiguration;
+    final numberOfRerankedResults = this.numberOfRerankedResults;
+    return {
+      'modelConfiguration': modelConfiguration,
+      if (metadataConfiguration != null)
+        'metadataConfiguration': metadataConfiguration,
+      if (numberOfRerankedResults != null)
+        'numberOfRerankedResults': numberOfRerankedResults,
+    };
+  }
+}
+
+/// Model configuration for a Bedrock reranking model used in managed search.
+///
+/// @nodoc
+class ManagedSearchBedrockRerankingModelConfiguration {
+  /// The ARN of the Bedrock reranking model.
+  final String modelArn;
+
+  /// Additional request fields to pass to the reranking model.
+  final Map<String, Object>? additionalModelRequestFields;
+
+  ManagedSearchBedrockRerankingModelConfiguration({
+    required this.modelArn,
+    this.additionalModelRequestFields,
+  });
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    final additionalModelRequestFields = this.additionalModelRequestFields;
+    return {
+      'modelArn': modelArn,
+      if (additionalModelRequestFields != null)
+        'additionalModelRequestFields': additionalModelRequestFields,
+    };
+  }
+}
+
+/// Contains configurations for the metadata to use in reranking.
+///
+/// @nodoc
+class MetadataConfigurationForReranking {
+  /// Specifies whether to consider all metadata when reranking, or only the
+  /// metadata that you select. If you specify <code>SELECTIVE</code>, include the
+  /// <code>selectiveModeConfiguration</code> field.
+  final RerankingMetadataSelectionMode selectionMode;
+
+  /// Contains configurations for the metadata fields to include or exclude when
+  /// considering reranking.
+  final RerankingMetadataSelectiveModeConfiguration? selectiveModeConfiguration;
+
+  MetadataConfigurationForReranking({
+    required this.selectionMode,
+    this.selectiveModeConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final selectionMode = this.selectionMode;
+    final selectiveModeConfiguration = this.selectiveModeConfiguration;
+    return {
+      'selectionMode': selectionMode.value,
+      if (selectiveModeConfiguration != null)
+        'selectiveModeConfiguration': selectiveModeConfiguration,
+    };
+  }
+}
+
+/// @nodoc
+class RerankingMetadataSelectionMode {
+  static const selective = RerankingMetadataSelectionMode._('SELECTIVE');
+  static const all = RerankingMetadataSelectionMode._('ALL');
+
+  final String value;
+
+  const RerankingMetadataSelectionMode._(this.value);
+
+  static const values = [selective, all];
+
+  static RerankingMetadataSelectionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RerankingMetadataSelectionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RerankingMetadataSelectionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains configurations for the metadata fields to include or exclude when
+/// considering reranking. If you include the <code>fieldsToExclude</code>
+/// field, the reranker ignores all the metadata fields that you specify. If you
+/// include the <code>fieldsToInclude</code> field, the reranker uses only the
+/// metadata fields that you specify and ignores all others. You can include
+/// only one of these fields.
+///
+/// @nodoc
+class RerankingMetadataSelectiveModeConfiguration {
+  /// An array of objects, each of which specifies a metadata field to exclude
+  /// from consideration when reranking.
+  final List<FieldForReranking>? fieldsToExclude;
+
+  /// An array of objects, each of which specifies a metadata field to include in
+  /// consideration when reranking. The remaining metadata fields are ignored.
+  final List<FieldForReranking>? fieldsToInclude;
+
+  RerankingMetadataSelectiveModeConfiguration({
+    this.fieldsToExclude,
+    this.fieldsToInclude,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fieldsToExclude = this.fieldsToExclude;
+    final fieldsToInclude = this.fieldsToInclude;
+    return {
+      if (fieldsToExclude != null) 'fieldsToExclude': fieldsToExclude,
+      if (fieldsToInclude != null) 'fieldsToInclude': fieldsToInclude,
+    };
+  }
+}
+
+/// Contains information for a metadata field to include in or exclude from
+/// consideration when reranking.
+///
+/// @nodoc
+class FieldForReranking {
+  /// The name of a metadata field to include in or exclude from consideration
+  /// when reranking.
+  final String fieldName;
+
+  FieldForReranking({
+    required this.fieldName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    return {
+      'fieldName': fieldName,
+    };
+  }
+}
+
+/// Specifies the name that the metadata attribute must match and the value to
+/// which to compare the value of the metadata attribute. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query
+/// configurations</a>.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax">RetrieveAndGenerate
+/// request</a>
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class FilterAttribute {
+  /// The name that the metadata attribute must match.
+  final String key;
+
+  /// The value to which to compare the value of the metadata attribute.
+  final Object value;
+
+  FilterAttribute({
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// @nodoc
+class SearchType {
+  static const hybrid = SearchType._('HYBRID');
+  static const semantic = SearchType._('SEMANTIC');
+
+  final String value;
+
+  const SearchType._(this.value);
+
+  static const values = [hybrid, semantic];
+
+  static SearchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SearchType._(value));
+
+  @override
+  bool operator ==(other) => other is SearchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains configurations for reranking the retrieved results.
 ///
 /// @nodoc
@@ -5052,153 +5695,6 @@ class VectorSearchBedrockRerankingModelConfiguration {
       'modelArn': modelArn,
       if (additionalModelRequestFields != null)
         'additionalModelRequestFields': additionalModelRequestFields,
-    };
-  }
-}
-
-/// Contains configurations for the metadata to use in reranking.
-///
-/// @nodoc
-class MetadataConfigurationForReranking {
-  /// Specifies whether to consider all metadata when reranking, or only the
-  /// metadata that you select. If you specify <code>SELECTIVE</code>, include the
-  /// <code>selectiveModeConfiguration</code> field.
-  final RerankingMetadataSelectionMode selectionMode;
-
-  /// Contains configurations for the metadata fields to include or exclude when
-  /// considering reranking.
-  final RerankingMetadataSelectiveModeConfiguration? selectiveModeConfiguration;
-
-  MetadataConfigurationForReranking({
-    required this.selectionMode,
-    this.selectiveModeConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final selectionMode = this.selectionMode;
-    final selectiveModeConfiguration = this.selectiveModeConfiguration;
-    return {
-      'selectionMode': selectionMode.value,
-      if (selectiveModeConfiguration != null)
-        'selectiveModeConfiguration': selectiveModeConfiguration,
-    };
-  }
-}
-
-/// @nodoc
-class RerankingMetadataSelectionMode {
-  static const selective = RerankingMetadataSelectionMode._('SELECTIVE');
-  static const all = RerankingMetadataSelectionMode._('ALL');
-
-  final String value;
-
-  const RerankingMetadataSelectionMode._(this.value);
-
-  static const values = [selective, all];
-
-  static RerankingMetadataSelectionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RerankingMetadataSelectionMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RerankingMetadataSelectionMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains configurations for the metadata fields to include or exclude when
-/// considering reranking. If you include the <code>fieldsToExclude</code>
-/// field, the reranker ignores all the metadata fields that you specify. If you
-/// include the <code>fieldsToInclude</code> field, the reranker uses only the
-/// metadata fields that you specify and ignores all others. You can include
-/// only one of these fields.
-///
-/// @nodoc
-class RerankingMetadataSelectiveModeConfiguration {
-  /// An array of objects, each of which specifies a metadata field to exclude
-  /// from consideration when reranking.
-  final List<FieldForReranking>? fieldsToExclude;
-
-  /// An array of objects, each of which specifies a metadata field to include in
-  /// consideration when reranking. The remaining metadata fields are ignored.
-  final List<FieldForReranking>? fieldsToInclude;
-
-  RerankingMetadataSelectiveModeConfiguration({
-    this.fieldsToExclude,
-    this.fieldsToInclude,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fieldsToExclude = this.fieldsToExclude;
-    final fieldsToInclude = this.fieldsToInclude;
-    return {
-      if (fieldsToExclude != null) 'fieldsToExclude': fieldsToExclude,
-      if (fieldsToInclude != null) 'fieldsToInclude': fieldsToInclude,
-    };
-  }
-}
-
-/// Contains information for a metadata field to include in or exclude from
-/// consideration when reranking.
-///
-/// @nodoc
-class FieldForReranking {
-  /// The name of a metadata field to include in or exclude from consideration
-  /// when reranking.
-  final String fieldName;
-
-  FieldForReranking({
-    required this.fieldName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fieldName = this.fieldName;
-    return {
-      'fieldName': fieldName,
-    };
-  }
-}
-
-/// Specifies the name that the metadata attribute must match and the value to
-/// which to compare the value of the metadata attribute. For more information,
-/// see <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query
-/// configurations</a>.
-///
-/// This data type is used in the following API operations:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax">RetrieveAndGenerate
-/// request</a>
-/// </li>
-/// </ul>
-///
-/// @nodoc
-class FilterAttribute {
-  /// The name that the metadata attribute must match.
-  final String key;
-
-  /// The value to whcih to compare the value of the metadata attribute.
-  final Object value;
-
-  FilterAttribute({
-    required this.key,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
     };
   }
 }
@@ -13510,6 +14006,32 @@ class KnowledgeBaseConfiguration {
   }
 }
 
+/// @nodoc
+class DocumentOutputFormat {
+  static const raw = DocumentOutputFormat._('RAW');
+  static const extracted = DocumentOutputFormat._('EXTRACTED');
+
+  final String value;
+
+  const DocumentOutputFormat._(this.value);
+
+  static const values = [raw, extracted];
+
+  static DocumentOutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentOutputFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentOutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains information about a query generated for a natural language query.
 ///
 /// @nodoc
@@ -16266,6 +16788,1481 @@ class FlowExecutionErrorType {
 
   @override
   String toString() => value;
+}
+
+/// The streaming output for agentic retrieval, containing results, traces, and
+/// errors.
+///
+/// @nodoc
+class AgenticRetrieveStreamResponseOutput {
+  /// Access to the resource was denied.
+  final AccessDeniedException? accessDeniedException;
+
+  /// A bad gateway error occurred.
+  final BadGatewayException? badGatewayException;
+
+  /// A conflict occurred with the current state of the resource.
+  final ConflictException? conflictException;
+
+  /// A dependency failed during the operation.
+  final DependencyFailedException? dependencyFailedException;
+
+  /// An internal server error occurred.
+  final InternalServerException? internalServerException;
+
+  /// The specified resource was not found.
+  final ResourceNotFoundException? resourceNotFoundException;
+
+  /// A chunk of the generated answer. Emitted only when generateResponse is true.
+  final AgenticRetrieveResponseEvent? responseEvent;
+
+  /// A retrieval result event containing the retrieved items.
+  final AgenticRetrieveResultEvent? result;
+
+  /// The service quota has been exceeded.
+  final ServiceQuotaExceededException? serviceQuotaExceededException;
+
+  /// The request was throttled.
+  final ThrottlingException? throttlingException;
+
+  /// A trace event providing visibility into the retrieval process.
+  final AgenticRetrieveTraceEvent? traceEvent;
+
+  /// The request validation failed.
+  final ValidationException? validationException;
+
+  AgenticRetrieveStreamResponseOutput({
+    this.accessDeniedException,
+    this.badGatewayException,
+    this.conflictException,
+    this.dependencyFailedException,
+    this.internalServerException,
+    this.resourceNotFoundException,
+    this.responseEvent,
+    this.result,
+    this.serviceQuotaExceededException,
+    this.throttlingException,
+    this.traceEvent,
+    this.validationException,
+  });
+
+  factory AgenticRetrieveStreamResponseOutput.fromJson(
+      Map<String, dynamic> json) {
+    return AgenticRetrieveStreamResponseOutput(
+      accessDeniedException: json['accessDeniedException'] != null
+          ? AccessDeniedException.fromJson(
+              json['accessDeniedException'] as Map<String, dynamic>)
+          : null,
+      badGatewayException: json['badGatewayException'] != null
+          ? BadGatewayException.fromJson(
+              json['badGatewayException'] as Map<String, dynamic>)
+          : null,
+      conflictException: json['conflictException'] != null
+          ? ConflictException.fromJson(
+              json['conflictException'] as Map<String, dynamic>)
+          : null,
+      dependencyFailedException: json['dependencyFailedException'] != null
+          ? DependencyFailedException.fromJson(
+              json['dependencyFailedException'] as Map<String, dynamic>)
+          : null,
+      internalServerException: json['internalServerException'] != null
+          ? InternalServerException.fromJson(
+              json['internalServerException'] as Map<String, dynamic>)
+          : null,
+      resourceNotFoundException: json['resourceNotFoundException'] != null
+          ? ResourceNotFoundException.fromJson(
+              json['resourceNotFoundException'] as Map<String, dynamic>)
+          : null,
+      responseEvent: json['responseEvent'] != null
+          ? AgenticRetrieveResponseEvent.fromJson(
+              json['responseEvent'] as Map<String, dynamic>)
+          : null,
+      result: json['result'] != null
+          ? AgenticRetrieveResultEvent.fromJson(
+              json['result'] as Map<String, dynamic>)
+          : null,
+      serviceQuotaExceededException:
+          json['serviceQuotaExceededException'] != null
+              ? ServiceQuotaExceededException.fromJson(
+                  json['serviceQuotaExceededException'] as Map<String, dynamic>)
+              : null,
+      throttlingException: json['throttlingException'] != null
+          ? ThrottlingException.fromJson(
+              json['throttlingException'] as Map<String, dynamic>)
+          : null,
+      traceEvent: json['traceEvent'] != null
+          ? AgenticRetrieveTraceEvent.fromJson(
+              json['traceEvent'] as Map<String, dynamic>)
+          : null,
+      validationException: json['validationException'] != null
+          ? ValidationException.fromJson(
+              json['validationException'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessDeniedException = this.accessDeniedException;
+    final badGatewayException = this.badGatewayException;
+    final conflictException = this.conflictException;
+    final dependencyFailedException = this.dependencyFailedException;
+    final internalServerException = this.internalServerException;
+    final resourceNotFoundException = this.resourceNotFoundException;
+    final responseEvent = this.responseEvent;
+    final result = this.result;
+    final serviceQuotaExceededException = this.serviceQuotaExceededException;
+    final throttlingException = this.throttlingException;
+    final traceEvent = this.traceEvent;
+    final validationException = this.validationException;
+    return {
+      if (accessDeniedException != null)
+        'accessDeniedException': accessDeniedException,
+      if (badGatewayException != null)
+        'badGatewayException': badGatewayException,
+      if (conflictException != null) 'conflictException': conflictException,
+      if (dependencyFailedException != null)
+        'dependencyFailedException': dependencyFailedException,
+      if (internalServerException != null)
+        'internalServerException': internalServerException,
+      if (resourceNotFoundException != null)
+        'resourceNotFoundException': resourceNotFoundException,
+      if (responseEvent != null) 'responseEvent': responseEvent,
+      if (result != null) 'result': result,
+      if (serviceQuotaExceededException != null)
+        'serviceQuotaExceededException': serviceQuotaExceededException,
+      if (throttlingException != null)
+        'throttlingException': throttlingException,
+      if (traceEvent != null) 'traceEvent': traceEvent,
+      if (validationException != null)
+        'validationException': validationException,
+    };
+  }
+}
+
+/// An event containing agentic retrieval results.
+///
+/// @nodoc
+class AgenticRetrieveResultEvent {
+  /// The list of retrieved result items.
+  final List<AgenticRetrieveResultItem> results;
+
+  /// The generated response. Present only when generateResponse is true.
+  final AgenticRetrieveGeneratedResponse? generatedResponse;
+
+  /// Opaque continuation token for paginated results.
+  final String? nextToken;
+
+  AgenticRetrieveResultEvent({
+    required this.results,
+    this.generatedResponse,
+    this.nextToken,
+  });
+
+  factory AgenticRetrieveResultEvent.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveResultEvent(
+      results: ((json['results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              AgenticRetrieveResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      generatedResponse: json['generatedResponse'] != null
+          ? AgenticRetrieveGeneratedResponse.fromJson(
+              json['generatedResponse'] as Map<String, dynamic>)
+          : null,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final generatedResponse = this.generatedResponse;
+    final nextToken = this.nextToken;
+    return {
+      'results': results,
+      if (generatedResponse != null) 'generatedResponse': generatedResponse,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// A trace event providing visibility into the agentic retrieval process.
+///
+/// @nodoc
+class AgenticRetrieveTraceEvent {
+  /// The attributes describing the trace event details.
+  final AgenticRetrieveTraceEventAttributes attributes;
+
+  /// The unique identifier of the trace event.
+  final String id;
+
+  /// The timestamp when the trace event occurred.
+  final int timestamp;
+
+  AgenticRetrieveTraceEvent({
+    required this.attributes,
+    required this.id,
+    required this.timestamp,
+  });
+
+  factory AgenticRetrieveTraceEvent.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveTraceEvent(
+      attributes: AgenticRetrieveTraceEventAttributes.fromJson(
+          (json['attributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      timestamp: (json['timestamp'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final id = this.id;
+    final timestamp = this.timestamp;
+    return {
+      'attributes': attributes,
+      'id': id,
+      'timestamp': timestamp,
+    };
+  }
+}
+
+/// A chunk of the generated answer text.
+///
+/// @nodoc
+class AgenticRetrieveResponseEvent {
+  /// The generated text chunk.
+  final String text;
+
+  AgenticRetrieveResponseEvent({
+    required this.text,
+  });
+
+  factory AgenticRetrieveResponseEvent.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveResponseEvent(
+      text: (json['text'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      'text': text,
+    };
+  }
+}
+
+/// Attributes describing the details of an agentic retrieval trace event.
+///
+/// @nodoc
+class AgenticRetrieveTraceEventAttributes {
+  /// A human-readable message describing the trace event.
+  final String message;
+
+  /// The status of the current step.
+  final AgenticRetrieveStatus status;
+
+  /// The current step in the retrieval process.
+  final AgenticRetrieveStep step;
+
+  /// The list of actions taken during this step.
+  final List<AgenticRetrieveAction>? actions;
+
+  /// Failures that occurred during this step.
+  final List<AgenticRetrieveFailure>? failures;
+
+  /// Metadata about the retrieval sources used.
+  final List<AgenticRetrieveSourceMetadata>? retrievalMetadata;
+
+  /// The retrieval results from this step.
+  final List<AgenticRetrieveTraceResultItem>? retrievalResponse;
+
+  /// Warnings generated during this step.
+  final List<AgenticRetrieveWarning>? warnings;
+
+  AgenticRetrieveTraceEventAttributes({
+    required this.message,
+    required this.status,
+    required this.step,
+    this.actions,
+    this.failures,
+    this.retrievalMetadata,
+    this.retrievalResponse,
+    this.warnings,
+  });
+
+  factory AgenticRetrieveTraceEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return AgenticRetrieveTraceEventAttributes(
+      message: (json['message'] as String?) ?? '',
+      status:
+          AgenticRetrieveStatus.fromString((json['status'] as String?) ?? ''),
+      step: AgenticRetrieveStep.fromString((json['step'] as String?) ?? ''),
+      actions: (json['actions'] as List?)
+          ?.nonNulls
+          .map((e) => AgenticRetrieveAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failures: (json['failures'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => AgenticRetrieveFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      retrievalMetadata: (json['retrievalMetadata'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AgenticRetrieveSourceMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      retrievalResponse: (json['retrievalResponse'] as List?)
+          ?.nonNulls
+          .map((e) => AgenticRetrieveTraceResultItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      warnings: (json['warnings'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => AgenticRetrieveWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final status = this.status;
+    final step = this.step;
+    final actions = this.actions;
+    final failures = this.failures;
+    final retrievalMetadata = this.retrievalMetadata;
+    final retrievalResponse = this.retrievalResponse;
+    final warnings = this.warnings;
+    return {
+      'message': message,
+      'status': status.value,
+      'step': step.value,
+      if (actions != null) 'actions': actions,
+      if (failures != null) 'failures': failures,
+      if (retrievalMetadata != null) 'retrievalMetadata': retrievalMetadata,
+      if (retrievalResponse != null) 'retrievalResponse': retrievalResponse,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
+}
+
+/// The step in the agentic retrieval process.
+///
+/// @nodoc
+class AgenticRetrieveStep {
+  static const planning = AgenticRetrieveStep._('Planning');
+  static const retrieval = AgenticRetrieveStep._('Retrieval');
+  static const speculativeRetrieval =
+      AgenticRetrieveStep._('SpeculativeRetrieval');
+  static const fullDocumentExpansion =
+      AgenticRetrieveStep._('FullDocumentExpansion');
+
+  final String value;
+
+  const AgenticRetrieveStep._(this.value);
+
+  static const values = [
+    planning,
+    retrieval,
+    speculativeRetrieval,
+    fullDocumentExpansion
+  ];
+
+  static AgenticRetrieveStep fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgenticRetrieveStep._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgenticRetrieveStep && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of an agentic retrieval step.
+///
+/// @nodoc
+class AgenticRetrieveStatus {
+  static const inProgress = AgenticRetrieveStatus._('IN_PROGRESS');
+  static const succeeded = AgenticRetrieveStatus._('SUCCEEDED');
+  static const failed = AgenticRetrieveStatus._('FAILED');
+
+  final String value;
+
+  const AgenticRetrieveStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
+
+  static AgenticRetrieveStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgenticRetrieveStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgenticRetrieveStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A result item from an agentic retrieval trace.
+///
+/// @nodoc
+class AgenticRetrieveTraceResultItem {
+  /// The retrieved content.
+  final RetrievalContent? content;
+
+  /// Metadata associated with the retrieved item.
+  final Map<String, Document>? metadata;
+
+  /// The source retriever that produced this result.
+  final AgenticRetrieveSourceRetriever? sourceRetriever;
+
+  AgenticRetrieveTraceResultItem({
+    this.content,
+    this.metadata,
+    this.sourceRetriever,
+  });
+
+  factory AgenticRetrieveTraceResultItem.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveTraceResultItem(
+      content: json['content'] != null
+          ? RetrievalContent.fromJson(json['content'] as Map<String, dynamic>)
+          : null,
+      metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Document.fromJson(e as Map<String, dynamic>))),
+      sourceRetriever: json['sourceRetriever'] != null
+          ? AgenticRetrieveSourceRetriever.fromJson(
+              json['sourceRetriever'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final metadata = this.metadata;
+    final sourceRetriever = this.sourceRetriever;
+    return {
+      if (content != null) 'content': content,
+      if (metadata != null) 'metadata': metadata,
+      if (sourceRetriever != null) 'sourceRetriever': sourceRetriever,
+    };
+  }
+}
+
+/// The content retrieved from a knowledge source.
+///
+/// @nodoc
+class RetrievalContent {
+  /// The MIME type of the retrieved content.
+  final String mimeType;
+
+  /// The binary content of the retrieved item.
+  final Uint8List? byteContent;
+
+  /// The text content of the retrieved item.
+  final String? text;
+
+  RetrievalContent({
+    required this.mimeType,
+    this.byteContent,
+    this.text,
+  });
+
+  factory RetrievalContent.fromJson(Map<String, dynamic> json) {
+    return RetrievalContent(
+      mimeType: (json['mimeType'] as String?) ?? '',
+      byteContent: _s.decodeNullableUint8List(json['byteContent'] as String?),
+      text: json['text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mimeType = this.mimeType;
+    final byteContent = this.byteContent;
+    final text = this.text;
+    return {
+      'mimeType': mimeType,
+      if (byteContent != null) 'byteContent': base64Encode(byteContent),
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// A source retriever that produced retrieval results.
+///
+/// @nodoc
+class AgenticRetrieveSourceRetriever {
+  /// The unique identifier of the source retriever.
+  final String identifier;
+
+  AgenticRetrieveSourceRetriever({
+    required this.identifier,
+  });
+
+  factory AgenticRetrieveSourceRetriever.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveSourceRetriever(
+      identifier: (json['identifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    return {
+      'identifier': identifier,
+    };
+  }
+}
+
+/// Metadata about a retrieval source.
+///
+/// @nodoc
+class AgenticRetrieveSourceMetadata {
+  /// The identifier of the retrieval source.
+  final String? identifier;
+
+  /// The type of retrieval source.
+  final AgenticRetrieveType? retrievalType;
+
+  AgenticRetrieveSourceMetadata({
+    this.identifier,
+    this.retrievalType,
+  });
+
+  factory AgenticRetrieveSourceMetadata.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveSourceMetadata(
+      identifier: json['identifier'] as String?,
+      retrievalType: (json['retrievalType'] as String?)
+          ?.let(AgenticRetrieveType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final retrievalType = this.retrievalType;
+    return {
+      if (identifier != null) 'identifier': identifier,
+      if (retrievalType != null) 'retrievalType': retrievalType.value,
+    };
+  }
+}
+
+/// The type of retrieval source.
+///
+/// @nodoc
+class AgenticRetrieveType {
+  static const bedrockKnowledgeBase =
+      AgenticRetrieveType._('BedrockKnowledgeBase');
+
+  final String value;
+
+  const AgenticRetrieveType._(this.value);
+
+  static const values = [bedrockKnowledgeBase];
+
+  static AgenticRetrieveType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgenticRetrieveType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgenticRetrieveType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A failure that occurred during agentic retrieval.
+///
+/// @nodoc
+class AgenticRetrieveFailure {
+  /// A message describing the failure.
+  final String message;
+
+  AgenticRetrieveFailure({
+    required this.message,
+  });
+
+  factory AgenticRetrieveFailure.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveFailure(
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      'message': message,
+    };
+  }
+}
+
+/// A warning generated during agentic retrieval.
+///
+/// @nodoc
+class AgenticRetrieveWarning {
+  /// A warning from a guardrail evaluation.
+  final AgenticRetrieveGuardrailWarning? guardrail;
+
+  /// A general warning message.
+  final AgenticRetrieveWarningMessage? message;
+
+  AgenticRetrieveWarning({
+    this.guardrail,
+    this.message,
+  });
+
+  factory AgenticRetrieveWarning.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveWarning(
+      guardrail: json['guardrail'] != null
+          ? AgenticRetrieveGuardrailWarning.fromJson(
+              json['guardrail'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] != null
+          ? AgenticRetrieveWarningMessage.fromJson(
+              json['message'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final guardrail = this.guardrail;
+    final message = this.message;
+    return {
+      if (guardrail != null) 'guardrail': guardrail,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// A general warning message from agentic retrieval.
+///
+/// @nodoc
+class AgenticRetrieveWarningMessage {
+  /// The warning message text.
+  final String message;
+
+  AgenticRetrieveWarningMessage({
+    required this.message,
+  });
+
+  factory AgenticRetrieveWarningMessage.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveWarningMessage(
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      'message': message,
+    };
+  }
+}
+
+/// A warning generated by a guardrail during agentic retrieval.
+///
+/// @nodoc
+class AgenticRetrieveGuardrailWarning {
+  /// The action taken by the guardrail.
+  final GuardrailAction action;
+
+  /// The unique identifier of the guardrail.
+  final String id;
+
+  /// The version of the guardrail.
+  final String version;
+
+  /// A message describing the guardrail evaluation result.
+  final String? message;
+
+  AgenticRetrieveGuardrailWarning({
+    required this.action,
+    required this.id,
+    required this.version,
+    this.message,
+  });
+
+  factory AgenticRetrieveGuardrailWarning.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveGuardrailWarning(
+      action: GuardrailAction.fromString((json['action'] as String?) ?? ''),
+      id: (json['id'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final id = this.id;
+    final version = this.version;
+    final message = this.message;
+    return {
+      'action': action.value,
+      'id': id,
+      'version': version,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// An action taken during agentic retrieval.
+///
+/// @nodoc
+class AgenticRetrieveAction {
+  /// Details of a full document expansion action.
+  final AgenticRetrieveFullDocExpansionDetails? fullDocumentExpansion;
+
+  /// Details of the retrieve action.
+  final AgenticRetrieveActionDetails? retrieve;
+
+  AgenticRetrieveAction({
+    this.fullDocumentExpansion,
+    this.retrieve,
+  });
+
+  factory AgenticRetrieveAction.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveAction(
+      fullDocumentExpansion: json['fullDocumentExpansion'] != null
+          ? AgenticRetrieveFullDocExpansionDetails.fromJson(
+              json['fullDocumentExpansion'] as Map<String, dynamic>)
+          : null,
+      retrieve: json['retrieve'] != null
+          ? AgenticRetrieveActionDetails.fromJson(
+              json['retrieve'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fullDocumentExpansion = this.fullDocumentExpansion;
+    final retrieve = this.retrieve;
+    return {
+      if (fullDocumentExpansion != null)
+        'fullDocumentExpansion': fullDocumentExpansion,
+      if (retrieve != null) 'retrieve': retrieve,
+    };
+  }
+}
+
+/// Details of a retrieve action including the query and target retrievers.
+///
+/// @nodoc
+class AgenticRetrieveActionDetails {
+  /// The input query used for retrieval.
+  final AgenticRetrieveMessageContent inputQuery;
+
+  /// The list of source retrievers targeted by this action.
+  final List<AgenticRetrieveSourceRetriever> sourceRetrievers;
+
+  AgenticRetrieveActionDetails({
+    required this.inputQuery,
+    required this.sourceRetrievers,
+  });
+
+  factory AgenticRetrieveActionDetails.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveActionDetails(
+      inputQuery: AgenticRetrieveMessageContent.fromJson(
+          (json['inputQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sourceRetrievers: ((json['sourceRetrievers'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AgenticRetrieveSourceRetriever.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputQuery = this.inputQuery;
+    final sourceRetrievers = this.sourceRetrievers;
+    return {
+      'inputQuery': inputQuery,
+      'sourceRetrievers': sourceRetrievers,
+    };
+  }
+}
+
+/// Details of a full document expansion action.
+///
+/// @nodoc
+class AgenticRetrieveFullDocExpansionDetails {
+  /// The identifier of the document to expand.
+  final String? documentId;
+
+  /// The source retriever associated with the document.
+  final AgenticRetrieveSourceRetriever? sourceRetriever;
+
+  AgenticRetrieveFullDocExpansionDetails({
+    this.documentId,
+    this.sourceRetriever,
+  });
+
+  factory AgenticRetrieveFullDocExpansionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AgenticRetrieveFullDocExpansionDetails(
+      documentId: json['documentId'] as String?,
+      sourceRetriever: json['sourceRetriever'] != null
+          ? AgenticRetrieveSourceRetriever.fromJson(
+              json['sourceRetriever'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentId = this.documentId;
+    final sourceRetriever = this.sourceRetriever;
+    return {
+      if (documentId != null) 'documentId': documentId,
+      if (sourceRetriever != null) 'sourceRetriever': sourceRetriever,
+    };
+  }
+}
+
+/// The content of an agentic retrieval message.
+///
+/// @nodoc
+class AgenticRetrieveMessageContent {
+  /// The text content of the message.
+  final String? text;
+
+  AgenticRetrieveMessageContent({
+    this.text,
+  });
+
+  factory AgenticRetrieveMessageContent.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveMessageContent(
+      text: json['text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// The generated response synthesized from retrieved results.
+///
+/// @nodoc
+class AgenticRetrieveGeneratedResponse {
+  /// The generated answer text.
+  final String answer;
+
+  /// Citations mapping spans of the answer to supporting results.
+  final List<AgenticRetrieveCitation>? citations;
+
+  AgenticRetrieveGeneratedResponse({
+    required this.answer,
+    this.citations,
+  });
+
+  factory AgenticRetrieveGeneratedResponse.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveGeneratedResponse(
+      answer: (json['answer'] as String?) ?? '',
+      citations: (json['citations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AgenticRetrieveCitation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answer = this.answer;
+    final citations = this.citations;
+    return {
+      'answer': answer,
+      if (citations != null) 'citations': citations,
+    };
+  }
+}
+
+/// A citation mapping a span of the generated answer to supporting results.
+///
+/// @nodoc
+class AgenticRetrieveCitation {
+  /// Character offset end (exclusive) in the answer text.
+  final int endIndex;
+
+  /// References to results that support this span.
+  final List<AgenticRetrieveCitationReference> references;
+
+  /// Character offset start in the answer text.
+  final int startIndex;
+
+  AgenticRetrieveCitation({
+    required this.endIndex,
+    required this.references,
+    required this.startIndex,
+  });
+
+  factory AgenticRetrieveCitation.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveCitation(
+      endIndex: (json['endIndex'] as int?) ?? 0,
+      references: ((json['references'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AgenticRetrieveCitationReference.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      startIndex: (json['startIndex'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endIndex = this.endIndex;
+    final references = this.references;
+    final startIndex = this.startIndex;
+    return {
+      'endIndex': endIndex,
+      'references': references,
+      'startIndex': startIndex,
+    };
+  }
+}
+
+/// A reference to a specific result item.
+///
+/// @nodoc
+class AgenticRetrieveCitationReference {
+  /// Index into the results array on the same event.
+  final int resultIndex;
+
+  AgenticRetrieveCitationReference({
+    required this.resultIndex,
+  });
+
+  factory AgenticRetrieveCitationReference.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveCitationReference(
+      resultIndex: (json['resultIndex'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resultIndex = this.resultIndex;
+    return {
+      'resultIndex': resultIndex,
+    };
+  }
+}
+
+/// A single item from the agentic retrieval results.
+///
+/// @nodoc
+class AgenticRetrieveResultItem {
+  /// The retrieved content.
+  final RetrievalContent content;
+
+  /// The source retriever that produced this result.
+  final AgenticRetrieveSourceRetriever sourceRetriever;
+
+  /// Metadata associated with the retrieved item.
+  final Map<String, Document>? metadata;
+
+  AgenticRetrieveResultItem({
+    required this.content,
+    required this.sourceRetriever,
+    this.metadata,
+  });
+
+  factory AgenticRetrieveResultItem.fromJson(Map<String, dynamic> json) {
+    return AgenticRetrieveResultItem(
+      content: RetrievalContent.fromJson(
+          (json['content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sourceRetriever: AgenticRetrieveSourceRetriever.fromJson(
+          (json['sourceRetriever'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Document.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final sourceRetriever = this.sourceRetriever;
+    final metadata = this.metadata;
+    return {
+      'content': content,
+      'sourceRetriever': sourceRetriever,
+      if (metadata != null) 'metadata': metadata,
+    };
+  }
+}
+
+/// Configuration settings for the agentic retrieval operation.
+///
+/// @nodoc
+class AgenticRetrieveConfiguration {
+  /// The foundation model configuration. Required when foundationModelType is
+  /// CUSTOM.
+  final FoundationModelConfiguration? foundationModelConfiguration;
+
+  /// The type of foundation model to use. CUSTOM uses a specified model, MANAGED
+  /// uses the service default.
+  final FoundationModelType? foundationModelType;
+
+  /// The maximum number of agent iterations for retrieval.
+  final int? maxAgentIteration;
+
+  /// The reranking model configuration. Required when rerankingModelType is
+  /// CUSTOM.
+  final AgenticRetrieveRerankingConfiguration? rerankingConfiguration;
+
+  /// The type of reranking model to use. CUSTOM uses a specified model, MANAGED
+  /// uses the service default. If not specified, defaults to MANAGED for managed
+  /// embedding knowledge bases and NONE for custom embedding knowledge bases.
+  final AgenticRetrieveRerankingModelType? rerankingModelType;
+
+  AgenticRetrieveConfiguration({
+    this.foundationModelConfiguration,
+    this.foundationModelType,
+    this.maxAgentIteration,
+    this.rerankingConfiguration,
+    this.rerankingModelType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final foundationModelConfiguration = this.foundationModelConfiguration;
+    final foundationModelType = this.foundationModelType;
+    final maxAgentIteration = this.maxAgentIteration;
+    final rerankingConfiguration = this.rerankingConfiguration;
+    final rerankingModelType = this.rerankingModelType;
+    return {
+      if (foundationModelConfiguration != null)
+        'foundationModelConfiguration': foundationModelConfiguration,
+      if (foundationModelType != null)
+        'foundationModelType': foundationModelType.value,
+      if (maxAgentIteration != null) 'maxAgentIteration': maxAgentIteration,
+      if (rerankingConfiguration != null)
+        'rerankingConfiguration': rerankingConfiguration,
+      if (rerankingModelType != null)
+        'rerankingModelType': rerankingModelType.value,
+    };
+  }
+}
+
+/// Policy configuration for agentic retrieval.
+///
+/// @nodoc
+class AgenticRetrievePolicyConfiguration {
+  /// Configuration for Bedrock guardrails to apply during retrieval.
+  final AgenticRetrieveBedrockGuardrailConfiguration?
+      bedrockGuardrailConfiguration;
+
+  AgenticRetrievePolicyConfiguration({
+    this.bedrockGuardrailConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bedrockGuardrailConfiguration = this.bedrockGuardrailConfiguration;
+    return {
+      if (bedrockGuardrailConfiguration != null)
+        'bedrockGuardrailConfiguration': bedrockGuardrailConfiguration,
+    };
+  }
+}
+
+/// Configuration for a Bedrock guardrail applied during agentic retrieval.
+///
+/// @nodoc
+class AgenticRetrieveBedrockGuardrailConfiguration {
+  /// The unique identifier of the guardrail.
+  final String guardrailId;
+
+  /// The version of the guardrail to use.
+  final String guardrailVersion;
+
+  AgenticRetrieveBedrockGuardrailConfiguration({
+    required this.guardrailId,
+    required this.guardrailVersion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final guardrailId = this.guardrailId;
+    final guardrailVersion = this.guardrailVersion;
+    return {
+      'guardrailId': guardrailId,
+      'guardrailVersion': guardrailVersion,
+    };
+  }
+}
+
+/// The type of foundation model.
+///
+/// @nodoc
+class FoundationModelType {
+  static const custom = FoundationModelType._('CUSTOM');
+  static const managed = FoundationModelType._('MANAGED');
+
+  final String value;
+
+  const FoundationModelType._(this.value);
+
+  static const values = [custom, managed];
+
+  static FoundationModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FoundationModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FoundationModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for the foundation model.
+///
+/// @nodoc
+class FoundationModelConfiguration {
+  /// The type of foundation model configuration.
+  final FoundationModelConfigurationType type;
+
+  /// The Bedrock foundation model configuration.
+  final BedrockFoundationModelConfiguration?
+      bedrockFoundationModelConfiguration;
+
+  FoundationModelConfiguration({
+    required this.type,
+    this.bedrockFoundationModelConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final bedrockFoundationModelConfiguration =
+        this.bedrockFoundationModelConfiguration;
+    return {
+      'type': type.value,
+      if (bedrockFoundationModelConfiguration != null)
+        'bedrockFoundationModelConfiguration':
+            bedrockFoundationModelConfiguration,
+    };
+  }
+}
+
+/// The type of reranking model.
+///
+/// @nodoc
+class AgenticRetrieveRerankingModelType {
+  static const custom = AgenticRetrieveRerankingModelType._('CUSTOM');
+  static const managed = AgenticRetrieveRerankingModelType._('MANAGED');
+  static const none = AgenticRetrieveRerankingModelType._('NONE');
+
+  final String value;
+
+  const AgenticRetrieveRerankingModelType._(this.value);
+
+  static const values = [custom, managed, none];
+
+  static AgenticRetrieveRerankingModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgenticRetrieveRerankingModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgenticRetrieveRerankingModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for the reranking model.
+///
+/// @nodoc
+class AgenticRetrieveRerankingConfiguration {
+  /// The type of reranking configuration.
+  final AgenticRetrieveRerankingConfigurationType type;
+
+  /// The Bedrock reranking model configuration.
+  final AgenticRetrieveBedrockRerankingConfiguration?
+      bedrockRerankingConfiguration;
+
+  AgenticRetrieveRerankingConfiguration({
+    required this.type,
+    this.bedrockRerankingConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final bedrockRerankingConfiguration = this.bedrockRerankingConfiguration;
+    return {
+      'type': type.value,
+      if (bedrockRerankingConfiguration != null)
+        'bedrockRerankingConfiguration': bedrockRerankingConfiguration,
+    };
+  }
+}
+
+/// The type of reranking configuration.
+///
+/// @nodoc
+class AgenticRetrieveRerankingConfigurationType {
+  static const bedrockRerankingModel =
+      AgenticRetrieveRerankingConfigurationType._('BEDROCK_RERANKING_MODEL');
+
+  final String value;
+
+  const AgenticRetrieveRerankingConfigurationType._(this.value);
+
+  static const values = [bedrockRerankingModel];
+
+  static AgenticRetrieveRerankingConfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgenticRetrieveRerankingConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgenticRetrieveRerankingConfigurationType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for a Bedrock reranking model.
+///
+/// @nodoc
+class AgenticRetrieveBedrockRerankingConfiguration {
+  /// The model configuration containing the model ARN.
+  final AgenticRetrieveBedrockRerankingModelConfiguration modelConfiguration;
+
+  AgenticRetrieveBedrockRerankingConfiguration({
+    required this.modelConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final modelConfiguration = this.modelConfiguration;
+    return {
+      'modelConfiguration': modelConfiguration,
+    };
+  }
+}
+
+/// Model configuration for a Bedrock reranking model.
+///
+/// @nodoc
+class AgenticRetrieveBedrockRerankingModelConfiguration {
+  /// The ARN of the Bedrock reranking model.
+  final String modelArn;
+
+  AgenticRetrieveBedrockRerankingModelConfiguration({
+    required this.modelArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    return {
+      'modelArn': modelArn,
+    };
+  }
+}
+
+/// The type of foundation model configuration.
+///
+/// @nodoc
+class FoundationModelConfigurationType {
+  static const bedrockFoundationModel =
+      FoundationModelConfigurationType._('BEDROCK_FOUNDATION_MODEL');
+
+  final String value;
+
+  const FoundationModelConfigurationType._(this.value);
+
+  static const values = [bedrockFoundationModel];
+
+  static FoundationModelConfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FoundationModelConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FoundationModelConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for a Bedrock foundation model.
+///
+/// @nodoc
+class BedrockFoundationModelConfiguration {
+  /// The model configuration containing the model ARN.
+  final BedrockFoundationModelModelConfiguration modelConfiguration;
+
+  BedrockFoundationModelConfiguration({
+    required this.modelConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final modelConfiguration = this.modelConfiguration;
+    return {
+      'modelConfiguration': modelConfiguration,
+    };
+  }
+}
+
+/// Model configuration for a Bedrock foundation model.
+///
+/// @nodoc
+class BedrockFoundationModelModelConfiguration {
+  /// The ARN of the Bedrock foundation model.
+  final String modelArn;
+
+  BedrockFoundationModelModelConfiguration({
+    required this.modelArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    return {
+      'modelArn': modelArn,
+    };
+  }
+}
+
+/// A retriever used in agentic retrieval.
+///
+/// @nodoc
+class AgenticRetriever {
+  /// The configuration for this retriever.
+  final RetrieverConfiguration configuration;
+
+  /// A description of the retriever's purpose.
+  final String? description;
+
+  AgenticRetriever({
+    required this.configuration,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final description = this.description;
+    return {
+      'configuration': configuration,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Configuration for a retriever, specified as a union of retriever types.
+///
+/// @nodoc
+class RetrieverConfiguration {
+  /// Configuration for a knowledge base retriever.
+  final KnowledgeBaseRetrieverConfiguration? knowledgeBase;
+
+  RetrieverConfiguration({
+    this.knowledgeBase,
+  });
+
+  Map<String, dynamic> toJson() {
+    final knowledgeBase = this.knowledgeBase;
+    return {
+      if (knowledgeBase != null) 'knowledgeBase': knowledgeBase,
+    };
+  }
+}
+
+/// Configuration for retrieving from a Bedrock knowledge base.
+///
+/// @nodoc
+class KnowledgeBaseRetrieverConfiguration {
+  /// The unique identifier of the knowledge base.
+  final String knowledgeBaseId;
+
+  /// Overrides for retrieval behavior such as filters and result limits.
+  final RetrievalOverrides? retrievalOverrides;
+
+  KnowledgeBaseRetrieverConfiguration({
+    required this.knowledgeBaseId,
+    this.retrievalOverrides,
+  });
+
+  Map<String, dynamic> toJson() {
+    final knowledgeBaseId = this.knowledgeBaseId;
+    final retrievalOverrides = this.retrievalOverrides;
+    return {
+      'knowledgeBaseId': knowledgeBaseId,
+      if (retrievalOverrides != null) 'retrievalOverrides': retrievalOverrides,
+    };
+  }
+}
+
+/// Overrides for retrieval behavior.
+///
+/// @nodoc
+class RetrievalOverrides {
+  /// A filter to apply to the retrieval results.
+  final RetrievalFilter? filter;
+
+  /// The maximum number of results to return.
+  final int? maxNumberOfResults;
+
+  RetrievalOverrides({
+    this.filter,
+    this.maxNumberOfResults,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final maxNumberOfResults = this.maxNumberOfResults;
+    return {
+      if (filter != null) 'filter': filter,
+      if (maxNumberOfResults != null) 'maxNumberOfResults': maxNumberOfResults,
+    };
+  }
+}
+
+/// A message in the agentic retrieval conversation.
+///
+/// @nodoc
+class AgenticRetrieveMessage {
+  /// The content of the message.
+  final AgenticRetrieveMessageContent content;
+
+  /// The role of the message sender (e.g., user or assistant).
+  final ConversationRole role;
+
+  AgenticRetrieveMessage({
+    required this.content,
+    required this.role,
+  });
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final role = this.role;
+    return {
+      'content': content,
+      'role': role.value,
+    };
+  }
 }
 
 /// @nodoc

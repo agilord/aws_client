@@ -537,6 +537,64 @@ class TrustedAdvisor {
     return ListRecommendationsResponse.fromJson(response);
   }
 
+  /// List all Trusted Advisor recommendations for a given AWS resource ARN.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [awsResourceArn] :
+  /// The ARN of the AWS resource to query recommendations for
+  ///
+  /// Parameter [checkArn] :
+  /// The AWS Trusted Advisor Check ARN that relates to the Recommendation
+  ///
+  /// Parameter [language] :
+  /// The ISO 639-1 code for the language that you want your recommendations to
+  /// appear in.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [pillar] :
+  /// The pillar that the recommendation belongs to
+  ///
+  /// Parameter [status] :
+  /// The current status of the Recommendation Resource
+  Future<ListRecommendationsForResourceResponse>
+      listRecommendationsForResource({
+    required String awsResourceArn,
+    String? checkArn,
+    RecommendationLanguage? language,
+    int? maxResults,
+    String? nextToken,
+    RecommendationPillar? pillar,
+    ResourceStatus? status,
+  }) async {
+    final $query = <String, List<String>>{
+      if (checkArn != null) 'checkArn': [checkArn],
+      if (language != null) 'language': [language.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (pillar != null) 'pillar': [pillar.value],
+      if (status != null) 'status': [status.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/recommendations-for-resource/${Uri.encodeComponent(awsResourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRecommendationsForResourceResponse.fromJson(response);
+  }
+
   /// Update the lifecycle of a Recommendation within an Organization. This API
   /// only supports prioritized recommendations and updates global priority
   /// recommendations, eliminating the need to call the API in each AWS Region.
@@ -945,6 +1003,46 @@ class ListRecommendationsResponse {
 }
 
 /// @nodoc
+class ListRecommendationsForResourceResponse {
+  /// List of Trusted Advisor recommendations associated with the given AWS
+  /// resource
+  final List<RecommendationForResourceSummary>
+      recommendationForResourceSummaries;
+
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  final String? nextToken;
+
+  ListRecommendationsForResourceResponse({
+    required this.recommendationForResourceSummaries,
+    this.nextToken,
+  });
+
+  factory ListRecommendationsForResourceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListRecommendationsForResourceResponse(
+      recommendationForResourceSummaries:
+          ((json['recommendationForResourceSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => RecommendationForResourceSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recommendationForResourceSummaries =
+        this.recommendationForResourceSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'recommendationForResourceSummaries': recommendationForResourceSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class UpdateRecommendationLifecycleStage {
   static const pendingResponse =
       UpdateRecommendationLifecycleStage._('pending_response');
@@ -1012,6 +1110,210 @@ class UpdateRecommendationLifecycleStageReasonCode {
   bool operator ==(other) =>
       other is UpdateRecommendationLifecycleStageReasonCode &&
       other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of a Recommendation for a specific AWS Resource
+///
+/// @nodoc
+class RecommendationForResourceSummary {
+  /// The AWS Resource ARN
+  final String awsResourceArn;
+
+  /// The Check ARN
+  final String checkArn;
+
+  /// The exclusion status of the recommendation
+  final ExclusionStatus exclusionStatus;
+
+  /// When the recommendation was last updated
+  final DateTime lastUpdatedAt;
+
+  /// Metadata associated with the recommendation
+  final Map<String, String> metadata;
+
+  /// The Pillars that the Recommendation is optimizing
+  final List<RecommendationPillar> pillars;
+
+  /// The Recommendation ARN
+  final String recommendationArn;
+
+  /// The current status of the recommendation
+  final ResourceStatus status;
+
+  RecommendationForResourceSummary({
+    required this.awsResourceArn,
+    required this.checkArn,
+    required this.exclusionStatus,
+    required this.lastUpdatedAt,
+    required this.metadata,
+    required this.pillars,
+    required this.recommendationArn,
+    required this.status,
+  });
+
+  factory RecommendationForResourceSummary.fromJson(Map<String, dynamic> json) {
+    return RecommendationForResourceSummary(
+      awsResourceArn: (json['awsResourceArn'] as String?) ?? '',
+      checkArn: (json['checkArn'] as String?) ?? '',
+      exclusionStatus: ExclusionStatus.fromString(
+          (json['exclusionStatus'] as String?) ?? ''),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      metadata: ((json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+      pillars: ((json['pillars'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RecommendationPillar.fromString((e as String)))
+          .toList(),
+      recommendationArn: (json['recommendationArn'] as String?) ?? '',
+      status: ResourceStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsResourceArn = this.awsResourceArn;
+    final checkArn = this.checkArn;
+    final exclusionStatus = this.exclusionStatus;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final metadata = this.metadata;
+    final pillars = this.pillars;
+    final recommendationArn = this.recommendationArn;
+    final status = this.status;
+    return {
+      'awsResourceArn': awsResourceArn,
+      'checkArn': checkArn,
+      'exclusionStatus': exclusionStatus.value,
+      'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
+      'metadata': metadata,
+      'pillars': pillars.map((e) => e.value).toList(),
+      'recommendationArn': recommendationArn,
+      'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class ResourceStatus {
+  static const ok = ResourceStatus._('ok');
+  static const warning = ResourceStatus._('warning');
+  static const error = ResourceStatus._('error');
+
+  final String value;
+
+  const ResourceStatus._(this.value);
+
+  static const values = [ok, warning, error];
+
+  static ResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ExclusionStatus {
+  static const excluded = ExclusionStatus._('excluded');
+  static const included = ExclusionStatus._('included');
+
+  final String value;
+
+  const ExclusionStatus._(this.value);
+
+  static const values = [excluded, included];
+
+  static ExclusionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExclusionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExclusionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class RecommendationPillar {
+  static const costOptimizing = RecommendationPillar._('cost_optimizing');
+  static const performance = RecommendationPillar._('performance');
+  static const security = RecommendationPillar._('security');
+  static const serviceLimits = RecommendationPillar._('service_limits');
+  static const faultTolerance = RecommendationPillar._('fault_tolerance');
+  static const operationalExcellence =
+      RecommendationPillar._('operational_excellence');
+
+  final String value;
+
+  const RecommendationPillar._(this.value);
+
+  static const values = [
+    costOptimizing,
+    performance,
+    security,
+    serviceLimits,
+    faultTolerance,
+    operationalExcellence
+  ];
+
+  static RecommendationPillar fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationPillar._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationPillar && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class RecommendationLanguage {
+  static const en = RecommendationLanguage._('en');
+  static const ja = RecommendationLanguage._('ja');
+  static const zh = RecommendationLanguage._('zh');
+  static const fr = RecommendationLanguage._('fr');
+  static const de = RecommendationLanguage._('de');
+  static const ko = RecommendationLanguage._('ko');
+  static const zhTw = RecommendationLanguage._('zh_TW');
+  static const it = RecommendationLanguage._('it');
+  static const es = RecommendationLanguage._('es');
+  static const ptBr = RecommendationLanguage._('pt_BR');
+  static const id = RecommendationLanguage._('id');
+
+  final String value;
+
+  const RecommendationLanguage._(this.value);
+
+  static const values = [en, ja, zh, fr, de, ko, zhTw, it, es, ptBr, id];
+
+  static RecommendationLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendationLanguage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendationLanguage && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1437,79 +1739,6 @@ class RecommendationCostOptimizingAggregates {
   }
 }
 
-/// @nodoc
-class RecommendationPillar {
-  static const costOptimizing = RecommendationPillar._('cost_optimizing');
-  static const performance = RecommendationPillar._('performance');
-  static const security = RecommendationPillar._('security');
-  static const serviceLimits = RecommendationPillar._('service_limits');
-  static const faultTolerance = RecommendationPillar._('fault_tolerance');
-  static const operationalExcellence =
-      RecommendationPillar._('operational_excellence');
-
-  final String value;
-
-  const RecommendationPillar._(this.value);
-
-  static const values = [
-    costOptimizing,
-    performance,
-    security,
-    serviceLimits,
-    faultTolerance,
-    operationalExcellence
-  ];
-
-  static RecommendationPillar fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecommendationPillar._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecommendationPillar && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class RecommendationLanguage {
-  static const en = RecommendationLanguage._('en');
-  static const ja = RecommendationLanguage._('ja');
-  static const zh = RecommendationLanguage._('zh');
-  static const fr = RecommendationLanguage._('fr');
-  static const de = RecommendationLanguage._('de');
-  static const ko = RecommendationLanguage._('ko');
-  static const zhTw = RecommendationLanguage._('zh_TW');
-  static const it = RecommendationLanguage._('it');
-  static const es = RecommendationLanguage._('es');
-  static const ptBr = RecommendationLanguage._('pt_BR');
-  static const id = RecommendationLanguage._('id');
-
-  final String value;
-
-  const RecommendationLanguage._(this.value);
-
-  static const values = [en, ja, zh, fr, de, ko, zhTw, it, es, ptBr, id];
-
-  static RecommendationLanguage fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecommendationLanguage._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecommendationLanguage && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Summary of a Recommendation Resource
 ///
 /// @nodoc
@@ -1593,57 +1822,6 @@ class RecommendationResourceSummary {
       if (exclusionStatus != null) 'exclusionStatus': exclusionStatus.value,
     };
   }
-}
-
-/// @nodoc
-class ResourceStatus {
-  static const ok = ResourceStatus._('ok');
-  static const warning = ResourceStatus._('warning');
-  static const error = ResourceStatus._('error');
-
-  final String value;
-
-  const ResourceStatus._(this.value);
-
-  static const values = [ok, warning, error];
-
-  static ResourceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class ExclusionStatus {
-  static const excluded = ExclusionStatus._('excluded');
-  static const included = ExclusionStatus._('included');
-
-  final String value;
-
-  const ExclusionStatus._(this.value);
-
-  static const values = [excluded, included];
-
-  static ExclusionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExclusionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExclusionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Summary of recommendation for accounts within an Organization
@@ -1987,6 +2165,21 @@ class CheckSummary {
   /// The source of the Recommendation
   final RecommendationSource source;
 
+  /// The AWS resource types that this check evaluates (for example,
+  /// AWS::EC2::Instance).
+  final List<String>? awsResourceTypes;
+
+  /// The granularity level at which the check operates: resource, account, or
+  /// account_region.
+  final String? checkGranularity;
+
+  /// The recommendation identifier associated with the check.
+  final String? recommendationId;
+
+  /// Indicates whether this check is supported by the
+  /// ListRecommendationsForResource API.
+  final bool? resourceArnQueryable;
+
   CheckSummary({
     required this.arn,
     required this.awsServices,
@@ -1996,6 +2189,10 @@ class CheckSummary {
     required this.name,
     required this.pillars,
     required this.source,
+    this.awsResourceTypes,
+    this.checkGranularity,
+    this.recommendationId,
+    this.resourceArnQueryable,
   });
 
   factory CheckSummary.fromJson(Map<String, dynamic> json) {
@@ -2017,6 +2214,13 @@ class CheckSummary {
           .toList(),
       source:
           RecommendationSource.fromString((json['source'] as String?) ?? ''),
+      awsResourceTypes: (json['awsResourceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      checkGranularity: json['checkGranularity'] as String?,
+      recommendationId: json['recommendationId'] as String?,
+      resourceArnQueryable: json['resourceArnQueryable'] as bool?,
     );
   }
 
@@ -2029,6 +2233,10 @@ class CheckSummary {
     final name = this.name;
     final pillars = this.pillars;
     final source = this.source;
+    final awsResourceTypes = this.awsResourceTypes;
+    final checkGranularity = this.checkGranularity;
+    final recommendationId = this.recommendationId;
+    final resourceArnQueryable = this.resourceArnQueryable;
     return {
       'arn': arn,
       'awsServices': awsServices,
@@ -2038,6 +2246,11 @@ class CheckSummary {
       'name': name,
       'pillars': pillars.map((e) => e.value).toList(),
       'source': source.value,
+      if (awsResourceTypes != null) 'awsResourceTypes': awsResourceTypes,
+      if (checkGranularity != null) 'checkGranularity': checkGranularity,
+      if (recommendationId != null) 'recommendationId': recommendationId,
+      if (resourceArnQueryable != null)
+        'resourceArnQueryable': resourceArnQueryable,
     };
   }
 }

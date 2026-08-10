@@ -62,9 +62,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses
 /// rules that are compatible with Suricata, a free, open source network
 /// analysis and threat detection engine. Network Firewall supports Suricata
-/// version 7.0.3. For information about Suricata, see the <a
+/// version 7.0.8. For information about Suricata, see the <a
 /// href="https://suricata.io/">Suricata website</a> and the <a
-/// href="https://suricata.readthedocs.io/en/suricata-7.0.3/">Suricata User
+/// href="https://suricata.readthedocs.io/en/suricata-7.0.8/">Suricata User
 /// Guide</a>.
 ///
 /// You can use Network Firewall to monitor and protect your VPC traffic in a
@@ -514,6 +514,73 @@ class NetworkFirewall {
         jsonResponse.body);
   }
 
+  /// Creates a Network Firewall container association. The association monitors
+  /// container lifecycle events in your Amazon ECS or Amazon EKS clusters and
+  /// resolves running container addresses for use in firewall rules.
+  ///
+  /// May throw [InsufficientCapacityException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [containerAssociationName] :
+  /// The descriptive name of the container association. You can't change the
+  /// name of a container association after you create it.
+  ///
+  /// Parameter [containerMonitoringConfigurations] :
+  /// The monitoring configurations for the container association. Each
+  /// configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and
+  /// optional attribute filters to narrow which containers are tracked.
+  ///
+  /// Parameter [type] :
+  /// The type of containers to monitor. You can't change the container type
+  /// after creation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ECS</code> - Amazon Elastic Container Service
+  /// </li>
+  /// <li>
+  /// <code>EKS</code> - Amazon Elastic Kubernetes Service
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [description] :
+  /// A description of the container association.
+  ///
+  /// Parameter [tags] :
+  /// The key:value pairs to associate with the resource.
+  Future<CreateContainerAssociationResponse> createContainerAssociation({
+    required String containerAssociationName,
+    required List<ContainerMonitoringConfiguration>
+        containerMonitoringConfigurations,
+    required ContainerMonitoringType type,
+    String? description,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'NetworkFirewall_20201112.CreateContainerAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ContainerAssociationName': containerAssociationName,
+        'ContainerMonitoringConfigurations': containerMonitoringConfigurations,
+        'Type': type.value,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateContainerAssociationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates an Network Firewall <a>Firewall</a> and accompanying
   /// <a>FirewallStatus</a> for a VPC.
   ///
@@ -602,6 +669,32 @@ class NetworkFirewall {
   /// When you create a firewall, the operation initializes this setting to
   /// <code>TRUE</code>.
   ///
+  /// Parameter [natGatewayMappings] :
+  /// The NAT gateways that the firewall uses to proxy traffic when
+  /// <code>NoSourcePreservation</code> is <code>TRUE</code>. Network Firewall
+  /// attaches the firewall to each NAT gateway that you specify, so that egress
+  /// traffic is proxied through the NAT gateway.
+  ///
+  /// Parameter [noSourcePreservation] :
+  /// Optional. Indicates whether the firewall operates in proxy mode, in which
+  /// the source IP address of the traffic is not preserved. When set to
+  /// <code>TRUE</code>, the firewall proxies traffic through a NAT gateway and
+  /// the traffic reaching the destination uses the NAT gateway's IP address as
+  /// the source.
+  ///
+  /// When you set this to <code>TRUE</code>, you must specify
+  /// <code>NatGatewayMappings</code> and <code>VpcEndpoint</code> instead of a
+  /// top-level <code>VpcId</code> and <code>SubnetMappings</code>.
+  ///
+  /// You can't change this setting after you create the firewall.
+  ///
+  /// Default value: <code>FALSE</code>
+  ///
+  /// Parameter [proxySettings] :
+  /// The listener configuration for a proxy mode firewall, used when
+  /// <code>NoSourcePreservation</code> is <code>TRUE</code>. This specifies the
+  /// ports and protocols on which the firewall's proxy listens for traffic.
+  ///
   /// Parameter [subnetChangeProtection] :
   /// A setting indicating whether the firewall is protected against changes to
   /// the subnet associations. Use this setting to protect against accidentally
@@ -633,6 +726,15 @@ class NetworkFirewall {
   /// for transit gateway-attached firewalls</a> in the <i>Network Firewall
   /// Developer Guide</i>.
   ///
+  /// Parameter [vpcEndpoint] :
+  /// The VPC and subnets for the firewall endpoint, used when
+  /// <code>NoSourcePreservation</code> is <code>TRUE</code>. Network Firewall
+  /// creates the firewall endpoint in the subnets that you specify here.
+  ///
+  /// For proxy mode firewalls, provide the firewall's VPC and endpoint subnets
+  /// through this parameter instead of the top-level <code>VpcId</code> and
+  /// <code>SubnetMappings</code>.
+  ///
   /// Parameter [vpcId] :
   /// The unique identifier of the VPC where Network Firewall should create the
   /// firewall.
@@ -648,10 +750,14 @@ class NetworkFirewall {
     List<EnabledAnalysisType>? enabledAnalysisTypes,
     EncryptionConfiguration? encryptionConfiguration,
     bool? firewallPolicyChangeProtection,
+    List<NatGatewayMapping>? natGatewayMappings,
+    bool? noSourcePreservation,
+    ProxySettings? proxySettings,
     bool? subnetChangeProtection,
     List<SubnetMapping>? subnetMappings,
     List<Tag>? tags,
     String? transitGatewayId,
+    VpcEndpoint? vpcEndpoint,
     String? vpcId,
   }) async {
     final headers = <String, String>{
@@ -680,11 +786,17 @@ class NetworkFirewall {
           'EncryptionConfiguration': encryptionConfiguration,
         if (firewallPolicyChangeProtection != null)
           'FirewallPolicyChangeProtection': firewallPolicyChangeProtection,
+        if (natGatewayMappings != null)
+          'NatGatewayMappings': natGatewayMappings,
+        if (noSourcePreservation != null)
+          'NoSourcePreservation': noSourcePreservation,
+        if (proxySettings != null) 'ProxySettings': proxySettings,
         if (subnetChangeProtection != null)
           'SubnetChangeProtection': subnetChangeProtection,
         if (subnetMappings != null) 'SubnetMappings': subnetMappings,
         if (tags != null) 'Tags': tags,
         if (transitGatewayId != null) 'TransitGatewayId': transitGatewayId,
+        if (vpcEndpoint != null) 'VpcEndpoint': vpcEndpoint,
         if (vpcId != null) 'VpcId': vpcId,
       },
     );
@@ -1373,6 +1485,51 @@ class NetworkFirewall {
     return CreateVpcEndpointAssociationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes a container association. The resource transitions to a
+  /// <code>DELETING</code> state. Deletion is asynchronous - Network Firewall
+  /// returns immediately while cleanup proceeds in the background. You can't
+  /// delete a container association while a rule group references it.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [containerAssociationArn] :
+  /// The Amazon Resource Name (ARN) of the container association.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [containerAssociationName] :
+  /// The descriptive name of the container association.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  Future<DeleteContainerAssociationResponse> deleteContainerAssociation({
+    String? containerAssociationArn,
+    String? containerAssociationName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'NetworkFirewall_20201112.DeleteContainerAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (containerAssociationArn != null)
+          'ContainerAssociationArn': containerAssociationArn,
+        if (containerAssociationName != null)
+          'ContainerAssociationName': containerAssociationName,
+      },
+    );
+
+    return DeleteContainerAssociationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified <a>Firewall</a> and its <a>FirewallStatus</a>. This
   /// operation requires the firewall's <code>DeleteProtection</code> flag to be
   /// <code>FALSE</code>. You can't revert this operation.
@@ -1858,6 +2015,47 @@ class NetworkFirewall {
     );
 
     return DeleteVpcEndpointAssociationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the configuration and status of a container association.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [containerAssociationArn] :
+  /// The Amazon Resource Name (ARN) of the container association.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [containerAssociationName] :
+  /// The descriptive name of the container association.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  Future<DescribeContainerAssociationResponse> describeContainerAssociation({
+    String? containerAssociationArn,
+    String? containerAssociationName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'NetworkFirewall_20201112.DescribeContainerAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (containerAssociationArn != null)
+          'ContainerAssociationArn': containerAssociationArn,
+        if (containerAssociationName != null)
+          'ContainerAssociationName': containerAssociationName,
+      },
+    );
+
+    return DescribeContainerAssociationResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the data objects for the specified firewall.
@@ -2875,6 +3073,56 @@ class NetworkFirewall {
     );
 
     return ListAnalysisReportsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the container associations in your account and Region. Use the
+  /// <code>NextToken</code> parameter in subsequent requests to retrieve
+  /// additional results.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you want Network Firewall to return for
+  /// this request. If more objects are available, in the response, Network
+  /// Firewall provides a <code>NextToken</code> value that you can use in a
+  /// subsequent call to get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds
+  /// the maximum you requested, Network Firewall returns a
+  /// <code>NextToken</code> value in the response. To retrieve the next batch
+  /// of objects, use the token returned from the prior request in your next
+  /// request.
+  Future<ListContainerAssociationsResponse> listContainerAssociations({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'NetworkFirewall_20201112.ListContainerAssociations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListContainerAssociationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the metadata for the firewall policies that you have defined.
@@ -4104,6 +4352,100 @@ class NetworkFirewall {
         jsonResponse.body);
   }
 
+  /// Updates the monitoring configurations and description of a container
+  /// association. You can't change the container type after creation. Provide
+  /// an update token to enable optimistic concurrency control.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidTokenException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [containerMonitoringConfigurations] :
+  /// The updated monitoring configurations for the container association. Each
+  /// configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and
+  /// optional attribute filters.
+  ///
+  /// Parameter [type] :
+  /// The container type. This value must match the existing type and can't be
+  /// changed. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ECS</code> - Amazon Elastic Container Service
+  /// </li>
+  /// <li>
+  /// <code>EKS</code> - Amazon Elastic Kubernetes Service
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [updateToken] :
+  /// A token used for optimistic locking. Network Firewall returns a token to
+  /// your requests that access the container association. The token marks the
+  /// state of the container association resource at the time of the request.
+  ///
+  /// To make changes to the container association, you provide the token in
+  /// your request. Network Firewall uses the token to ensure that the container
+  /// association hasn't changed since you last retrieved it. If it has changed,
+  /// the operation fails with an <code>InvalidTokenException</code>. If this
+  /// happens, retrieve the container association again to get a current copy of
+  /// it with a current token. Reapply your changes as needed, then try the
+  /// operation again using the new token.
+  ///
+  /// Parameter [containerAssociationArn] :
+  /// The Amazon Resource Name (ARN) of the container association.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [containerAssociationName] :
+  /// The descriptive name of the container association.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [description] :
+  /// A description of the container association. When omitted, the existing
+  /// description remains unchanged. To clear the description, pass an empty
+  /// string.
+  ///
+  /// Parameter [tags] :
+  /// The key:value pairs to associate with the resource.
+  Future<UpdateContainerAssociationResponse> updateContainerAssociation({
+    required List<ContainerMonitoringConfiguration>
+        containerMonitoringConfigurations,
+    required ContainerMonitoringType type,
+    required String updateToken,
+    String? containerAssociationArn,
+    String? containerAssociationName,
+    String? description,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'NetworkFirewall_20201112.UpdateContainerAssociation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ContainerMonitoringConfigurations': containerMonitoringConfigurations,
+        'Type': type.value,
+        'UpdateToken': updateToken,
+        if (containerAssociationArn != null)
+          'ContainerAssociationArn': containerAssociationArn,
+        if (containerAssociationName != null)
+          'ContainerAssociationName': containerAssociationName,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return UpdateContainerAssociationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Enables specific types of firewall analysis on a specific firewall you
   /// define.
   ///
@@ -5011,6 +5353,78 @@ class NetworkFirewall {
     return UpdateProxyRulePrioritiesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Modifies the proxy listener configuration of a proxy mode firewall. Proxy
+  /// mode firewalls are created with <code>NoSourcePreservation</code> set to
+  /// <code>TRUE</code>. Use this operation to change the ports and protocols on
+  /// which the firewall's proxy listens for traffic.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidTokenException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceOwnerCheckException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [firewallArn] :
+  /// The Amazon Resource Name (ARN) of the firewall.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [firewallName] :
+  /// The descriptive name of the firewall. You can't change the name of a
+  /// firewall after you create it.
+  ///
+  /// You must specify the ARN or the name, and you can specify both.
+  ///
+  /// Parameter [proxySettings] :
+  /// The proxy listener configuration to set on the firewall. This specifies
+  /// the ports and protocols on which the firewall's proxy listens for traffic.
+  ///
+  /// Parameter [updateToken] :
+  /// An optional token that you can use for optimistic locking. Network
+  /// Firewall returns a token to your requests that access the firewall. The
+  /// token marks the state of the firewall resource at the time of the request.
+  ///
+  /// To make an unconditional change to the firewall, omit the token in your
+  /// update request. Without the token, Network Firewall performs your updates
+  /// regardless of whether the firewall has changed since you last retrieved
+  /// it.
+  ///
+  /// To make a conditional change to the firewall, provide the token in your
+  /// update request. Network Firewall uses the token to ensure that the
+  /// firewall hasn't changed since you last retrieved it. If it has changed,
+  /// the operation fails with an <code>InvalidTokenException</code>. If this
+  /// happens, retrieve the firewall again to get a current copy of it with a
+  /// new token. Reapply your changes as needed, then try the operation again
+  /// using the new token.
+  Future<UpdateProxySettingsResponse> updateProxySettings({
+    String? firewallArn,
+    String? firewallName,
+    ProxySettings? proxySettings,
+    String? updateToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'NetworkFirewall_20201112.UpdateProxySettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (firewallArn != null) 'FirewallArn': firewallArn,
+        if (firewallName != null) 'FirewallName': firewallName,
+        if (proxySettings != null) 'ProxySettings': proxySettings,
+        if (updateToken != null) 'UpdateToken': updateToken,
+      },
+    );
+
+    return UpdateProxySettingsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates the rule settings for the specified rule group. You use a rule
   /// group by reference in one or more firewall policies. When you modify a
   /// rule group, you modify all firewall policies that use the rule group.
@@ -5631,6 +6045,113 @@ class AttachRuleGroupsToProxyConfigurationResponse {
 }
 
 /// @nodoc
+class CreateContainerAssociationResponse {
+  /// The Amazon Resource Name (ARN) of the container association.
+  final String? containerAssociationArn;
+
+  /// The descriptive name of the container association.
+  final String? containerAssociationName;
+
+  /// The monitoring configurations for the container association.
+  final List<ContainerMonitoringConfiguration>?
+      containerMonitoringConfigurations;
+
+  /// A description of the container association.
+  final String? description;
+
+  /// The current status of the container association. For a new container
+  /// association, the status is <code>CREATING</code>.
+  final ContainerAssociationStatus? status;
+
+  /// The key:value pairs to associate with the resource.
+  final List<Tag>? tags;
+
+  /// The container type. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ECS</code> - Amazon Elastic Container Service
+  /// </li>
+  /// <li>
+  /// <code>EKS</code> - Amazon Elastic Kubernetes Service
+  /// </li>
+  /// </ul>
+  final ContainerMonitoringType? type;
+
+  /// A token used for optimistic locking. Network Firewall returns a token to
+  /// your requests that access the container association. The token marks the
+  /// state of the container association resource at the time of the request.
+  ///
+  /// To make changes to the container association, you provide the token in your
+  /// request. Network Firewall uses the token to ensure that the container
+  /// association hasn't changed since you last retrieved it. If it has changed,
+  /// the operation fails with an <code>InvalidTokenException</code>. If this
+  /// happens, retrieve the container association again to get a current copy of
+  /// it with a current token. Reapply your changes as needed, then try the
+  /// operation again using the new token.
+  final String? updateToken;
+
+  CreateContainerAssociationResponse({
+    this.containerAssociationArn,
+    this.containerAssociationName,
+    this.containerMonitoringConfigurations,
+    this.description,
+    this.status,
+    this.tags,
+    this.type,
+    this.updateToken,
+  });
+
+  factory CreateContainerAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateContainerAssociationResponse(
+      containerAssociationArn: json['ContainerAssociationArn'] as String?,
+      containerAssociationName: json['ContainerAssociationName'] as String?,
+      containerMonitoringConfigurations:
+          (json['ContainerMonitoringConfigurations'] as List?)
+              ?.nonNulls
+              .map((e) => ContainerMonitoringConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      description: json['Description'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(ContainerAssociationStatus.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(ContainerMonitoringType.fromString),
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerAssociationArn = this.containerAssociationArn;
+    final containerAssociationName = this.containerAssociationName;
+    final containerMonitoringConfigurations =
+        this.containerMonitoringConfigurations;
+    final description = this.description;
+    final status = this.status;
+    final tags = this.tags;
+    final type = this.type;
+    final updateToken = this.updateToken;
+    return {
+      if (containerAssociationArn != null)
+        'ContainerAssociationArn': containerAssociationArn,
+      if (containerAssociationName != null)
+        'ContainerAssociationName': containerAssociationName,
+      if (containerMonitoringConfigurations != null)
+        'ContainerMonitoringConfigurations': containerMonitoringConfigurations,
+      if (description != null) 'Description': description,
+      if (status != null) 'Status': status.value,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type.value,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
+}
+
+/// @nodoc
 class CreateFirewallResponse {
   /// The configuration settings for the firewall. These settings include the
   /// firewall policy and the subnets in your VPC to use for the firewall
@@ -6025,6 +6546,48 @@ class CreateVpcEndpointAssociationResponse {
 }
 
 /// @nodoc
+class DeleteContainerAssociationResponse {
+  /// The Amazon Resource Name (ARN) of the container association.
+  final String? containerAssociationArn;
+
+  /// The descriptive name of the container association.
+  final String? containerAssociationName;
+
+  /// The current status of the container association. After deletion is
+  /// initiated, the status is <code>DELETING</code>.
+  final ContainerAssociationStatus? status;
+
+  DeleteContainerAssociationResponse({
+    this.containerAssociationArn,
+    this.containerAssociationName,
+    this.status,
+  });
+
+  factory DeleteContainerAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteContainerAssociationResponse(
+      containerAssociationArn: json['ContainerAssociationArn'] as String?,
+      containerAssociationName: json['ContainerAssociationName'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(ContainerAssociationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerAssociationArn = this.containerAssociationArn;
+    final containerAssociationName = this.containerAssociationName;
+    final status = this.status;
+    return {
+      if (containerAssociationArn != null)
+        'ContainerAssociationArn': containerAssociationArn,
+      if (containerAssociationName != null)
+        'ContainerAssociationName': containerAssociationName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// @nodoc
 class DeleteFirewallResponse {
   final Firewall? firewall;
   final FirewallStatus? firewallStatus;
@@ -6390,6 +6953,128 @@ class DeleteVpcEndpointAssociationResponse {
         'VpcEndpointAssociation': vpcEndpointAssociation,
       if (vpcEndpointAssociationStatus != null)
         'VpcEndpointAssociationStatus': vpcEndpointAssociationStatus,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeContainerAssociationResponse {
+  /// The Amazon Resource Name (ARN) of the container association.
+  final String? containerAssociationArn;
+
+  /// The descriptive name of the container association.
+  final String? containerAssociationName;
+
+  /// The monitoring configurations for the container association.
+  final List<ContainerMonitoringConfiguration>?
+      containerMonitoringConfigurations;
+
+  /// A description of the container association.
+  final String? description;
+
+  /// The most recent time that Network Firewall updated the container
+  /// association.
+  final DateTime? lastUpdatedTime;
+
+  /// The number of CIDR blocks resolved from the monitored containers.
+  final int? resolvedCidrCount;
+
+  /// The current status of the container association.
+  final ContainerAssociationStatus? status;
+
+  /// The key:value pairs to associate with the resource.
+  final List<Tag>? tags;
+
+  /// The container type. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ECS</code> - Amazon Elastic Container Service
+  /// </li>
+  /// <li>
+  /// <code>EKS</code> - Amazon Elastic Kubernetes Service
+  /// </li>
+  /// </ul>
+  final ContainerMonitoringType? type;
+
+  /// A token used for optimistic locking. Network Firewall returns a token to
+  /// your requests that access the container association. The token marks the
+  /// state of the container association resource at the time of the request.
+  ///
+  /// To make changes to the container association, you provide the token in your
+  /// request. Network Firewall uses the token to ensure that the container
+  /// association hasn't changed since you last retrieved it. If it has changed,
+  /// the operation fails with an <code>InvalidTokenException</code>. If this
+  /// happens, retrieve the container association again to get a current copy of
+  /// it with a current token. Reapply your changes as needed, then try the
+  /// operation again using the new token.
+  final String? updateToken;
+
+  DescribeContainerAssociationResponse({
+    this.containerAssociationArn,
+    this.containerAssociationName,
+    this.containerMonitoringConfigurations,
+    this.description,
+    this.lastUpdatedTime,
+    this.resolvedCidrCount,
+    this.status,
+    this.tags,
+    this.type,
+    this.updateToken,
+  });
+
+  factory DescribeContainerAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeContainerAssociationResponse(
+      containerAssociationArn: json['ContainerAssociationArn'] as String?,
+      containerAssociationName: json['ContainerAssociationName'] as String?,
+      containerMonitoringConfigurations:
+          (json['ContainerMonitoringConfigurations'] as List?)
+              ?.nonNulls
+              .map((e) => ContainerMonitoringConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      description: json['Description'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      resolvedCidrCount: json['ResolvedCidrCount'] as int?,
+      status: (json['Status'] as String?)
+          ?.let(ContainerAssociationStatus.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(ContainerMonitoringType.fromString),
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerAssociationArn = this.containerAssociationArn;
+    final containerAssociationName = this.containerAssociationName;
+    final containerMonitoringConfigurations =
+        this.containerMonitoringConfigurations;
+    final description = this.description;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final resolvedCidrCount = this.resolvedCidrCount;
+    final status = this.status;
+    final tags = this.tags;
+    final type = this.type;
+    final updateToken = this.updateToken;
+    return {
+      if (containerAssociationArn != null)
+        'ContainerAssociationArn': containerAssociationArn,
+      if (containerAssociationName != null)
+        'ContainerAssociationName': containerAssociationName,
+      if (containerMonitoringConfigurations != null)
+        'ContainerMonitoringConfigurations': containerMonitoringConfigurations,
+      if (description != null) 'Description': description,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (resolvedCidrCount != null) 'ResolvedCidrCount': resolvedCidrCount,
+      if (status != null) 'Status': status.value,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type.value,
+      if (updateToken != null) 'UpdateToken': updateToken,
     };
   }
 }
@@ -7573,6 +8258,46 @@ class ListAnalysisReportsResponse {
 }
 
 /// @nodoc
+class ListContainerAssociationsResponse {
+  /// The container association metadata objects for the account and Region.
+  final List<ContainerAssociationSummary>? containerAssociations;
+
+  /// When you request a list of objects with a <code>MaxResults</code> setting,
+  /// if the number of objects that are still available for retrieval exceeds the
+  /// maximum you requested, Network Firewall returns a <code>NextToken</code>
+  /// value in the response. To retrieve the next batch of objects, use the token
+  /// returned from the prior request in your next request.
+  final String? nextToken;
+
+  ListContainerAssociationsResponse({
+    this.containerAssociations,
+    this.nextToken,
+  });
+
+  factory ListContainerAssociationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListContainerAssociationsResponse(
+      containerAssociations: (json['ContainerAssociations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ContainerAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerAssociations = this.containerAssociations;
+    final nextToken = this.nextToken;
+    return {
+      if (containerAssociations != null)
+        'ContainerAssociations': containerAssociations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListFirewallPoliciesResponse {
   /// The metadata for the firewall policies. Depending on your setting for max
   /// results and the number of firewall policies that you have, this might not be
@@ -8377,6 +9102,112 @@ class UpdateAvailabilityZoneChangeProtectionResponse {
 }
 
 /// @nodoc
+class UpdateContainerAssociationResponse {
+  /// The Amazon Resource Name (ARN) of the container association.
+  final String? containerAssociationArn;
+
+  /// The descriptive name of the container association.
+  final String? containerAssociationName;
+
+  /// The monitoring configurations for the container association.
+  final List<ContainerMonitoringConfiguration>?
+      containerMonitoringConfigurations;
+
+  /// A description of the container association.
+  final String? description;
+
+  /// The current status of the container association.
+  final ContainerAssociationStatus? status;
+
+  /// The key:value pairs to associate with the resource.
+  final List<Tag>? tags;
+
+  /// The container type. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ECS</code> - Amazon Elastic Container Service
+  /// </li>
+  /// <li>
+  /// <code>EKS</code> - Amazon Elastic Kubernetes Service
+  /// </li>
+  /// </ul>
+  final ContainerMonitoringType? type;
+
+  /// A token used for optimistic locking. Network Firewall returns a token to
+  /// your requests that access the container association. The token marks the
+  /// state of the container association resource at the time of the request.
+  ///
+  /// To make changes to the container association, you provide the token in your
+  /// request. Network Firewall uses the token to ensure that the container
+  /// association hasn't changed since you last retrieved it. If it has changed,
+  /// the operation fails with an <code>InvalidTokenException</code>. If this
+  /// happens, retrieve the container association again to get a current copy of
+  /// it with a current token. Reapply your changes as needed, then try the
+  /// operation again using the new token.
+  final String? updateToken;
+
+  UpdateContainerAssociationResponse({
+    this.containerAssociationArn,
+    this.containerAssociationName,
+    this.containerMonitoringConfigurations,
+    this.description,
+    this.status,
+    this.tags,
+    this.type,
+    this.updateToken,
+  });
+
+  factory UpdateContainerAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateContainerAssociationResponse(
+      containerAssociationArn: json['ContainerAssociationArn'] as String?,
+      containerAssociationName: json['ContainerAssociationName'] as String?,
+      containerMonitoringConfigurations:
+          (json['ContainerMonitoringConfigurations'] as List?)
+              ?.nonNulls
+              .map((e) => ContainerMonitoringConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      description: json['Description'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(ContainerAssociationStatus.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(ContainerMonitoringType.fromString),
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerAssociationArn = this.containerAssociationArn;
+    final containerAssociationName = this.containerAssociationName;
+    final containerMonitoringConfigurations =
+        this.containerMonitoringConfigurations;
+    final description = this.description;
+    final status = this.status;
+    final tags = this.tags;
+    final type = this.type;
+    final updateToken = this.updateToken;
+    return {
+      if (containerAssociationArn != null)
+        'ContainerAssociationArn': containerAssociationArn,
+      if (containerAssociationName != null)
+        'ContainerAssociationName': containerAssociationName,
+      if (containerMonitoringConfigurations != null)
+        'ContainerMonitoringConfigurations': containerMonitoringConfigurations,
+      if (description != null) 'Description': description,
+      if (status != null) 'Status': status.value,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type.value,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
+}
+
+/// @nodoc
 class UpdateFirewallAnalysisSettingsResponse {
   /// An optional setting indicating the specific traffic analysis types to enable
   /// on the firewall.
@@ -9037,6 +9868,67 @@ class UpdateProxyRulePrioritiesResponse {
       if (ruleGroupRequestPhase != null)
         'RuleGroupRequestPhase': ruleGroupRequestPhase.value,
       if (rules != null) 'Rules': rules,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateProxySettingsResponse {
+  /// The Amazon Resource Name (ARN) of the firewall.
+  final String? firewallArn;
+
+  /// The descriptive name of the firewall. You can't change the name of a
+  /// firewall after you create it.
+  final String? firewallName;
+
+  /// The updated proxy listener configuration on the firewall.
+  final ProxySettings? proxySettings;
+
+  /// An optional token that you can use for optimistic locking. Network Firewall
+  /// returns a token to your requests that access the firewall. The token marks
+  /// the state of the firewall resource at the time of the request.
+  ///
+  /// To make an unconditional change to the firewall, omit the token in your
+  /// update request. Without the token, Network Firewall performs your updates
+  /// regardless of whether the firewall has changed since you last retrieved it.
+  ///
+  /// To make a conditional change to the firewall, provide the token in your
+  /// update request. Network Firewall uses the token to ensure that the firewall
+  /// hasn't changed since you last retrieved it. If it has changed, the operation
+  /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
+  /// the firewall again to get a current copy of it with a new token. Reapply
+  /// your changes as needed, then try the operation again using the new token.
+  final String? updateToken;
+
+  UpdateProxySettingsResponse({
+    this.firewallArn,
+    this.firewallName,
+    this.proxySettings,
+    this.updateToken,
+  });
+
+  factory UpdateProxySettingsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateProxySettingsResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      proxySettings: json['ProxySettings'] != null
+          ? ProxySettings.fromJson(
+              json['ProxySettings'] as Map<String, dynamic>)
+          : null,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final proxySettings = this.proxySettings;
+    final updateToken = this.updateToken;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (proxySettings != null) 'ProxySettings': proxySettings,
       if (updateToken != null) 'UpdateToken': updateToken,
     };
   }
@@ -10602,7 +11494,7 @@ class RulesSource {
   /// Suricata rules with protocol, source and destination, ports, direction, and
   /// rule options. For information about the Suricata <code>Rules</code> format,
   /// see <a
-  /// href="https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html">Rules
+  /// href="https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html">Rules
   /// Format</a>.
   final List<StatefulRule>? statefulRules;
 
@@ -11306,7 +12198,7 @@ class TCPFlag {
 /// this option to specify a simple Suricata rule with protocol, source and
 /// destination, ports, direction, and rule options. For information about the
 /// Suricata <code>Rules</code> format, see <a
-/// href="https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html">Rules
+/// href="https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html">Rules
 /// Format</a>.
 ///
 /// @nodoc
@@ -11556,7 +12448,7 @@ class RuleOption {
   /// The keyword for the Suricata compatible rule option. You must include a
   /// <code>sid</code> (signature ID), and can optionally include other keywords.
   /// For information about Suricata compatible keywords, see <a
-  /// href="https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options">Rule
+  /// href="https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html#rule-options">Rule
   /// options</a> in the Suricata documentation.
   final String keyword;
 
@@ -11564,7 +12456,7 @@ class RuleOption {
   /// or more setting values, and the number of possible and required settings
   /// depends on the <code>Keyword</code>. For more information about the settings
   /// for specific options, see <a
-  /// href="https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options">Rule
+  /// href="https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html#rule-options">Rule
   /// options</a>.
   final List<String>? settings;
 
@@ -11835,6 +12727,93 @@ class IPSet {
       'Definition': definition,
     };
   }
+}
+
+/// The listener configuration for a proxy mode firewall. This specifies the
+/// ports and protocols on which the firewall's proxy listens for traffic.
+///
+/// @nodoc
+class ProxySettings {
+  /// Listener properties for HTTP and HTTPS traffic.
+  final List<ListenerProperty> listenerProperties;
+
+  ProxySettings({
+    required this.listenerProperties,
+  });
+
+  factory ProxySettings.fromJson(Map<String, dynamic> json) {
+    return ProxySettings(
+      listenerProperties: ((json['ListenerProperties'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ListenerProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final listenerProperties = this.listenerProperties;
+    return {
+      'ListenerProperties': listenerProperties,
+    };
+  }
+}
+
+/// Open port for taking HTTP or HTTPS traffic.
+///
+/// @nodoc
+class ListenerProperty {
+  /// Port for processing traffic.
+  final int? port;
+
+  /// Selection of HTTP or HTTPS traffic.
+  final ListenerPropertyType? type;
+
+  ListenerProperty({
+    this.port,
+    this.type,
+  });
+
+  factory ListenerProperty.fromJson(Map<String, dynamic> json) {
+    return ListenerProperty(
+      port: json['Port'] as int?,
+      type: (json['Type'] as String?)?.let(ListenerPropertyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final type = this.type;
+    return {
+      if (port != null) 'Port': port,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class ListenerPropertyType {
+  static const http = ListenerPropertyType._('HTTP');
+  static const https = ListenerPropertyType._('HTTPS');
+
+  final String value;
+
+  const ListenerPropertyType._(this.value);
+
+  static const values = [http, https];
+
+  static ListenerPropertyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListenerPropertyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListenerPropertyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -12527,64 +13506,6 @@ class TlsInterceptMode {
   String toString() => value;
 }
 
-/// Open port for taking HTTP or HTTPS traffic.
-///
-/// @nodoc
-class ListenerProperty {
-  /// Port for processing traffic.
-  final int? port;
-
-  /// Selection of HTTP or HTTPS traffic.
-  final ListenerPropertyType? type;
-
-  ListenerProperty({
-    this.port,
-    this.type,
-  });
-
-  factory ListenerProperty.fromJson(Map<String, dynamic> json) {
-    return ListenerProperty(
-      port: json['Port'] as int?,
-      type: (json['Type'] as String?)?.let(ListenerPropertyType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final port = this.port;
-    final type = this.type;
-    return {
-      if (port != null) 'Port': port,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// @nodoc
-class ListenerPropertyType {
-  static const http = ListenerPropertyType._('HTTP');
-  static const https = ListenerPropertyType._('HTTPS');
-
-  final String value;
-
-  const ListenerPropertyType._(this.value);
-
-  static const values = [http, https];
-
-  static ListenerPropertyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListenerPropertyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListenerPropertyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// This data type is used specifically for the <a>CreateProxy</a> and
 /// <a>UpdateProxy</a> APIs.
 ///
@@ -13032,6 +13953,18 @@ class FirewallPolicy {
   /// <li>
   /// aws:alert_established
   /// </li>
+  /// <li>
+  /// aws:drop_established_app_layer
+  /// </li>
+  /// <li>
+  /// aws:alert_established_app_layer
+  /// </li>
+  /// <li>
+  /// aws:drop_established_app_layer_to_server
+  /// </li>
+  /// <li>
+  /// aws:alert_established_app_layer_to_server
+  /// </li>
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html#suricata-strict-rule-evaluation-order.html">Strict
@@ -13155,6 +14088,12 @@ class FirewallPolicy {
 
 /// Configuration settings for the handling of the stateful rule groups in a
 /// firewall policy.
+/// <important>
+/// Updating any setting in <code>StatefulEngineOptions</code> may require a
+/// restart of the stateful engine in order to apply the changes. When this
+/// occurs, existing connections will be treated according to your stream
+/// exception policy configuration.
+/// </important>
 ///
 /// @nodoc
 class StatefulEngineOptions {
@@ -13298,9 +14237,9 @@ class StreamExceptionPolicy {
 
 /// Describes the amount of time that can pass without any traffic sent through
 /// the firewall before the firewall determines that the connection is idle and
-/// Network Firewall removes the flow entry from its flow table. Existing
-/// connections and flows are not impacted when you update this value. Only new
-/// connections after you update this value are impacted.
+/// Network Firewall removes the flow entry from its flow table. When you update
+/// this value, existing connections will be treated according to your stream
+/// exception policy configuration.
 ///
 /// @nodoc
 class FlowTimeouts {
@@ -13520,6 +14459,133 @@ class EnabledAnalysisType {
 
   @override
   String toString() => value;
+}
+
+/// @nodoc
+class ContainerMonitoringType {
+  static const ecs = ContainerMonitoringType._('ECS');
+  static const eks = ContainerMonitoringType._('EKS');
+
+  final String value;
+
+  const ContainerMonitoringType._(this.value);
+
+  static const values = [ecs, eks];
+
+  static ContainerMonitoringType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerMonitoringType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerMonitoringType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ContainerAssociationStatus {
+  static const active = ContainerAssociationStatus._('ACTIVE');
+  static const creating = ContainerAssociationStatus._('CREATING');
+  static const deleting = ContainerAssociationStatus._('DELETING');
+  static const updating = ContainerAssociationStatus._('UPDATING');
+
+  final String value;
+
+  const ContainerAssociationStatus._(this.value);
+
+  static const values = [active, creating, deleting, updating];
+
+  static ContainerAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the monitoring configuration for a single cluster in a container
+/// association. Specifies the cluster ARN and optional attribute filters to
+/// narrow which containers are tracked.
+///
+/// @nodoc
+class ContainerMonitoringConfiguration {
+  /// The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must
+  /// be in the same Region and account as the container association.
+  final String clusterArn;
+
+  /// Key-value pairs that filter which containers are tracked. For Amazon EKS,
+  /// you can filter by namespace and Kubernetes labels. For Amazon ECS, you can
+  /// filter by container instance attributes (EC2 launch type only).
+  final List<ContainerAttribute>? attributeFilters;
+
+  ContainerMonitoringConfiguration({
+    required this.clusterArn,
+    this.attributeFilters,
+  });
+
+  factory ContainerMonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return ContainerMonitoringConfiguration(
+      clusterArn: (json['ClusterArn'] as String?) ?? '',
+      attributeFilters: (json['AttributeFilters'] as List?)
+          ?.nonNulls
+          .map((e) => ContainerAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final attributeFilters = this.attributeFilters;
+    return {
+      'ClusterArn': clusterArn,
+      if (attributeFilters != null) 'AttributeFilters': attributeFilters,
+    };
+  }
+}
+
+/// A key-value filter pair used in container association monitoring
+/// configurations to narrow which containers are tracked.
+///
+/// @nodoc
+class ContainerAttribute {
+  /// The attribute key to filter on.
+  final String key;
+
+  /// The attribute value to match.
+  final String value;
+
+  ContainerAttribute({
+    required this.key,
+    required this.value,
+  });
+
+  factory ContainerAttribute.fromJson(Map<String, dynamic> json) {
+    return ContainerAttribute(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// @nodoc
@@ -14209,6 +15275,40 @@ class FirewallPolicyMetadata {
   }
 }
 
+/// The metadata for a container association returned by
+/// <code>ListContainerAssociations</code>. Contains the ARN and name that you
+/// use to identify the container association in other operations.
+///
+/// @nodoc
+class ContainerAssociationSummary {
+  /// The Amazon Resource Name (ARN) of the container association.
+  final String? arn;
+
+  /// The descriptive name of the container association.
+  final String? name;
+
+  ContainerAssociationSummary({
+    this.arn,
+    this.name,
+  });
+
+  factory ContainerAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return ContainerAssociationSummary(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 /// A report that captures key activity from the last 30 days of network traffic
 /// monitored by your firewall.
 ///
@@ -14717,6 +15817,11 @@ class AZSyncState {
 ///
 /// @nodoc
 class Attachment {
+  /// The DNS name that resolves to the firewall endpoint in the subnet. This is
+  /// populated for proxy mode firewalls, where clients direct traffic to the
+  /// firewall's proxy using this name.
+  final String? dnsName;
+
   /// The identifier of the firewall endpoint that Network Firewall has
   /// instantiated in the subnet. You use this to identify the firewall endpoint
   /// in the VPC route tables, when you redirect the VPC traffic through the
@@ -14747,6 +15852,7 @@ class Attachment {
   final String? subnetId;
 
   Attachment({
+    this.dnsName,
     this.endpointId,
     this.status,
     this.statusMessage,
@@ -14755,6 +15861,7 @@ class Attachment {
 
   factory Attachment.fromJson(Map<String, dynamic> json) {
     return Attachment(
+      dnsName: json['DnsName'] as String?,
       endpointId: json['EndpointId'] as String?,
       status: (json['Status'] as String?)?.let(AttachmentStatus.fromString),
       statusMessage: json['StatusMessage'] as String?,
@@ -14763,11 +15870,13 @@ class Attachment {
   }
 
   Map<String, dynamic> toJson() {
+    final dnsName = this.dnsName;
     final endpointId = this.endpointId;
     final status = this.status;
     final statusMessage = this.statusMessage;
     final subnetId = this.subnetId;
     return {
+      if (dnsName != null) 'DnsName': dnsName,
       if (endpointId != null) 'EndpointId': endpointId,
       if (status != null) 'Status': status.value,
       if (statusMessage != null) 'StatusMessage': statusMessage,
@@ -15336,9 +16445,26 @@ class Firewall {
   /// <code>TRUE</code>.
   final bool? firewallPolicyChangeProtection;
 
+  /// The NAT gateways that the firewall uses to proxy traffic. This is set for
+  /// proxy mode firewalls, where <code>NoSourcePreservation</code> is
+  /// <code>TRUE</code>.
+  final List<NatGatewayMapping>? natGatewayMappings;
+
+  /// Indicates whether the firewall operates in proxy mode, in which the source
+  /// IP address of the traffic is not preserved. When this value is
+  /// <code>TRUE</code>, the firewall proxies traffic through a NAT gateway and
+  /// uses the NAT gateway's IP address as the source for traffic reaching the
+  /// destination.
+  final bool? noSourcePreservation;
+
   /// The number of <code>VpcEndpointAssociation</code> resources that use this
   /// firewall.
   final int? numberOfAssociations;
+
+  /// The listener configuration for the firewall's proxy. This is set for proxy
+  /// mode firewalls, where <code>NoSourcePreservation</code> is
+  /// <code>TRUE</code>.
+  final ProxySettings? proxySettings;
 
   /// A setting indicating whether the firewall is protected against changes to
   /// the subnet associations. Use this setting to protect against accidentally
@@ -15359,6 +16485,10 @@ class Firewall {
   /// transit gateway.
   final String? transitGatewayOwnerAccountId;
 
+  /// The VPC and subnets for the firewall endpoint. This is set for proxy mode
+  /// firewalls, where <code>NoSourcePreservation</code> is <code>TRUE</code>.
+  final VpcEndpoint? vpcEndpoint;
+
   Firewall({
     required this.firewallId,
     required this.firewallPolicyArn,
@@ -15373,11 +16503,15 @@ class Firewall {
     this.firewallArn,
     this.firewallName,
     this.firewallPolicyChangeProtection,
+    this.natGatewayMappings,
+    this.noSourcePreservation,
     this.numberOfAssociations,
+    this.proxySettings,
     this.subnetChangeProtection,
     this.tags,
     this.transitGatewayId,
     this.transitGatewayOwnerAccountId,
+    this.vpcEndpoint,
   });
 
   factory Firewall.fromJson(Map<String, dynamic> json) {
@@ -15410,7 +16544,16 @@ class Firewall {
       firewallName: json['FirewallName'] as String?,
       firewallPolicyChangeProtection:
           json['FirewallPolicyChangeProtection'] as bool?,
+      natGatewayMappings: (json['NatGatewayMappings'] as List?)
+          ?.nonNulls
+          .map((e) => NatGatewayMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      noSourcePreservation: json['NoSourcePreservation'] as bool?,
       numberOfAssociations: json['NumberOfAssociations'] as int?,
+      proxySettings: json['ProxySettings'] != null
+          ? ProxySettings.fromJson(
+              json['ProxySettings'] as Map<String, dynamic>)
+          : null,
       subnetChangeProtection: json['SubnetChangeProtection'] as bool?,
       tags: (json['Tags'] as List?)
           ?.nonNulls
@@ -15419,6 +16562,9 @@ class Firewall {
       transitGatewayId: json['TransitGatewayId'] as String?,
       transitGatewayOwnerAccountId:
           json['TransitGatewayOwnerAccountId'] as String?,
+      vpcEndpoint: json['VpcEndpoint'] != null
+          ? VpcEndpoint.fromJson(json['VpcEndpoint'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -15437,11 +16583,15 @@ class Firewall {
     final firewallArn = this.firewallArn;
     final firewallName = this.firewallName;
     final firewallPolicyChangeProtection = this.firewallPolicyChangeProtection;
+    final natGatewayMappings = this.natGatewayMappings;
+    final noSourcePreservation = this.noSourcePreservation;
     final numberOfAssociations = this.numberOfAssociations;
+    final proxySettings = this.proxySettings;
     final subnetChangeProtection = this.subnetChangeProtection;
     final tags = this.tags;
     final transitGatewayId = this.transitGatewayId;
     final transitGatewayOwnerAccountId = this.transitGatewayOwnerAccountId;
+    final vpcEndpoint = this.vpcEndpoint;
     return {
       'FirewallId': firewallId,
       'FirewallPolicyArn': firewallPolicyArn,
@@ -15462,14 +16612,19 @@ class Firewall {
       if (firewallName != null) 'FirewallName': firewallName,
       if (firewallPolicyChangeProtection != null)
         'FirewallPolicyChangeProtection': firewallPolicyChangeProtection,
+      if (natGatewayMappings != null) 'NatGatewayMappings': natGatewayMappings,
+      if (noSourcePreservation != null)
+        'NoSourcePreservation': noSourcePreservation,
       if (numberOfAssociations != null)
         'NumberOfAssociations': numberOfAssociations,
+      if (proxySettings != null) 'ProxySettings': proxySettings,
       if (subnetChangeProtection != null)
         'SubnetChangeProtection': subnetChangeProtection,
       if (tags != null) 'Tags': tags,
       if (transitGatewayId != null) 'TransitGatewayId': transitGatewayId,
       if (transitGatewayOwnerAccountId != null)
         'TransitGatewayOwnerAccountId': transitGatewayOwnerAccountId,
+      if (vpcEndpoint != null) 'VpcEndpoint': vpcEndpoint,
     };
   }
 }
@@ -15857,9 +17012,15 @@ class SyncState {
   /// it can properly filter network traffic.
   final Map<String, PerObjectStatus>? config;
 
+  /// The status of the NAT gateway attachments for a proxy mode firewall in the
+  /// Availability Zone. This reflects the attachment of the firewall to each NAT
+  /// gateway that proxies its traffic.
+  final List<NatGatewayAttachment>? natGatewayAttachments;
+
   SyncState({
     this.attachment,
     this.config,
+    this.natGatewayAttachments,
   });
 
   factory SyncState.fromJson(Map<String, dynamic> json) {
@@ -15869,17 +17030,107 @@ class SyncState {
           : null,
       config: (json['Config'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, PerObjectStatus.fromJson(e as Map<String, dynamic>))),
+      natGatewayAttachments: (json['NatGatewayAttachments'] as List?)
+          ?.nonNulls
+          .map((e) => NatGatewayAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final attachment = this.attachment;
     final config = this.config;
+    final natGatewayAttachments = this.natGatewayAttachments;
     return {
       if (attachment != null) 'Attachment': attachment,
       if (config != null) 'Config': config,
+      if (natGatewayAttachments != null)
+        'NatGatewayAttachments': natGatewayAttachments,
     };
   }
+}
+
+/// The definition and status of the attachment between a proxy mode firewall
+/// and a NAT gateway that proxies its traffic.
+///
+/// @nodoc
+class NatGatewayAttachment {
+  /// A unique identifier for the NAT gateway to use with proxy resources.
+  final String natGatewayId;
+
+  /// The current status of the NAT gateway attachment.
+  ///
+  /// When this value is <code>READY</code>, the attachment is available to proxy
+  /// traffic. Otherwise, this value reflects its state, for example
+  /// <code>CREATING</code> or <code>DELETING</code>.
+  final NatGatewayAttachmentStatus status;
+
+  /// The DNS name that resolves to the firewall's proxy for traffic sent through
+  /// this NAT gateway attachment.
+  final String? dnsName;
+
+  /// If Network Firewall encounters an issue with the NAT gateway attachment, it
+  /// populates this with an explanation of the problem.
+  final String? statusMessage;
+
+  NatGatewayAttachment({
+    required this.natGatewayId,
+    required this.status,
+    this.dnsName,
+    this.statusMessage,
+  });
+
+  factory NatGatewayAttachment.fromJson(Map<String, dynamic> json) {
+    return NatGatewayAttachment(
+      natGatewayId: (json['NatGatewayId'] as String?) ?? '',
+      status: NatGatewayAttachmentStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      dnsName: json['DnsName'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final natGatewayId = this.natGatewayId;
+    final status = this.status;
+    final dnsName = this.dnsName;
+    final statusMessage = this.statusMessage;
+    return {
+      'NatGatewayId': natGatewayId,
+      'Status': status.value,
+      if (dnsName != null) 'DnsName': dnsName,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// @nodoc
+class NatGatewayAttachmentStatus {
+  static const creating = NatGatewayAttachmentStatus._('CREATING');
+  static const ready = NatGatewayAttachmentStatus._('READY');
+  static const updating = NatGatewayAttachmentStatus._('UPDATING');
+  static const failed = NatGatewayAttachmentStatus._('FAILED');
+  static const deleting = NatGatewayAttachmentStatus._('DELETING');
+
+  final String value;
+
+  const NatGatewayAttachmentStatus._(this.value);
+
+  static const values = [creating, ready, updating, failed, deleting];
+
+  static NatGatewayAttachmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NatGatewayAttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NatGatewayAttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides configuration status for a single policy or rule group that is used
@@ -15956,6 +17207,77 @@ class PerObjectSyncStatus {
 
   @override
   String toString() => value;
+}
+
+/// The VPC and subnets for a proxy mode firewall endpoint. This is used in
+/// <a>CreateFirewall</a> when <code>NoSourcePreservation</code> is
+/// <code>TRUE</code>, to specify where Network Firewall creates the firewall
+/// endpoint.
+///
+/// This differs from <a>VpcEndpointAssociation</a>, which defines additional
+/// secondary endpoints for a firewall in other VPCs.
+///
+/// @nodoc
+class VpcEndpoint {
+  /// The subnets in which Network Firewall creates the firewall endpoint for a
+  /// proxy mode firewall. Each subnet must belong to a different Availability
+  /// Zone in the VPC.
+  final List<SubnetMapping> subnetMappings;
+
+  /// The unique identifier of the VPC where Network Firewall creates the proxy
+  /// mode firewall endpoint.
+  final String vpcId;
+
+  VpcEndpoint({
+    required this.subnetMappings,
+    required this.vpcId,
+  });
+
+  factory VpcEndpoint.fromJson(Map<String, dynamic> json) {
+    return VpcEndpoint(
+      subnetMappings: ((json['SubnetMappings'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: (json['VpcId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetMappings = this.subnetMappings;
+    final vpcId = this.vpcId;
+    return {
+      'SubnetMappings': subnetMappings,
+      'VpcId': vpcId,
+    };
+  }
+}
+
+/// A NAT gateway that a proxy mode firewall uses to proxy traffic. This is used
+/// in <a>CreateFirewall</a> when <code>NoSourcePreservation</code> is
+/// <code>TRUE</code>.
+///
+/// @nodoc
+class NatGatewayMapping {
+  /// A unique identifier for the NAT gateway to use with proxy resources.
+  final String natGatewayId;
+
+  NatGatewayMapping({
+    required this.natGatewayId,
+  });
+
+  factory NatGatewayMapping.fromJson(Map<String, dynamic> json) {
+    return NatGatewayMapping(
+      natGatewayId: (json['NatGatewayId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final natGatewayId = this.natGatewayId;
+    return {
+      'NatGatewayId': natGatewayId,
+    };
+  }
 }
 
 /// Evaluation points in the traffic flow where rules are applied. There are

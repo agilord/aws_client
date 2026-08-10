@@ -1086,13 +1086,19 @@ class ObservabilityAdmin {
   /// Parameter [records] :
   /// The sample records to process through the pipeline configuration for
   /// testing purposes.
+  ///
+  /// Parameter [signalType] :
+  /// The type of telemetry signal to test. If not specified, defaults to log
+  /// processing.
   Future<TestTelemetryPipelineOutput> testTelemetryPipeline({
     required TelemetryPipelineConfiguration configuration,
     required List<Record> records,
+    SignalType? signalType,
   }) async {
     final $payload = <String, dynamic>{
       'Configuration': configuration,
       'Records': records,
+      if (signalType != null) 'SignalType': signalType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3099,8 +3105,10 @@ class TelemetryRule {
   /// <code>AllRegions</code>.
   final List<String>? regions;
 
-  /// The type of Amazon Web Services resource to configure telemetry for (e.g.,
-  /// "AWS::EC2::VPC", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL").
+  /// The type of Amazon Web Services resource to configure telemetry for (for
+  /// example, <code>AWS::EC2::VPC</code>, <code>AWS::EKS::Cluster</code>,
+  /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>, or
+  /// <code>AWS::Bedrock::KnowledgeBase</code>).
   final ResourceType? resourceType;
 
   /// The organizational scope to which the rule applies, specified using accounts
@@ -3209,6 +3217,9 @@ class ResourceType {
   static const awsCloudWatchOTelEnrichment =
       ResourceType._('AWS::CloudWatch::OTelEnrichment');
   static const awsMskCluster = ResourceType._('AWS::MSK::Cluster');
+  static const awsS3Bucket = ResourceType._('AWS::S3::Bucket');
+  static const awsBedrockKnowledgeBase =
+      ResourceType._('AWS::Bedrock::KnowledgeBase');
 
   final String value;
 
@@ -3233,7 +3244,9 @@ class ResourceType {
     awsCloudFrontDistribution,
     awsSecurityHubHubV2,
     awsCloudWatchOTelEnrichment,
-    awsMskCluster
+    awsMskCluster,
+    awsS3Bucket,
+    awsBedrockKnowledgeBase
   ];
 
   static ResourceType fromString(String value) => values
@@ -3296,8 +3309,14 @@ class TelemetryDestinationConfiguration {
   /// the resource type.
   final ELBLoadBalancerLoggingParameters? eLBLoadBalancerLoggingParameters;
 
-  /// Configuration parameters specific to Amazon Bedrock AgentCore logging when
-  /// Amazon Bedrock AgentCore is the resource type.
+  /// The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services
+  /// KMS key used to encrypt the log groups created during telemetry rule
+  /// remediation.
+  final String? kmsKeyArn;
+
+  /// The configuration parameters for log delivery when the resource type
+  /// supports configurable log types, such as Amazon Bedrock Knowledge Bases or
+  /// Elastic Load Balancing Application Load Balancers.
   final LogDeliveryParameters? logDeliveryParameters;
 
   /// Configuration parameters specific to MSK monitoring when MSK is the resource
@@ -3320,6 +3339,7 @@ class TelemetryDestinationConfiguration {
     this.destinationPattern,
     this.destinationType,
     this.eLBLoadBalancerLoggingParameters,
+    this.kmsKeyArn,
     this.logDeliveryParameters,
     this.mskMonitoringParameters,
     this.retentionInDays,
@@ -3343,6 +3363,7 @@ class TelemetryDestinationConfiguration {
                   json['ELBLoadBalancerLoggingParameters']
                       as Map<String, dynamic>)
               : null,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
       logDeliveryParameters: json['LogDeliveryParameters'] != null
           ? LogDeliveryParameters.fromJson(
               json['LogDeliveryParameters'] as Map<String, dynamic>)
@@ -3369,6 +3390,7 @@ class TelemetryDestinationConfiguration {
     final destinationType = this.destinationType;
     final eLBLoadBalancerLoggingParameters =
         this.eLBLoadBalancerLoggingParameters;
+    final kmsKeyArn = this.kmsKeyArn;
     final logDeliveryParameters = this.logDeliveryParameters;
     final mskMonitoringParameters = this.mskMonitoringParameters;
     final retentionInDays = this.retentionInDays;
@@ -3381,6 +3403,7 @@ class TelemetryDestinationConfiguration {
       if (destinationType != null) 'DestinationType': destinationType.value,
       if (eLBLoadBalancerLoggingParameters != null)
         'ELBLoadBalancerLoggingParameters': eLBLoadBalancerLoggingParameters,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (logDeliveryParameters != null)
         'LogDeliveryParameters': logDeliveryParameters,
       if (mskMonitoringParameters != null)
@@ -3571,12 +3594,14 @@ class WAFLoggingParameters {
   }
 }
 
-/// Configuration parameters for Amazon Bedrock AgentCore logging, including
-/// <code>logType</code> settings.
+/// The configuration parameters for log delivery, including
+/// <code>logType</code> settings. Applies to resource types that support
+/// configurable log delivery, such as Amazon Bedrock Knowledge Bases and
+/// Elastic Load Balancing Application Load Balancers.
 ///
 /// @nodoc
 class LogDeliveryParameters {
-  /// The type of log that the source is sending.
+  /// The types of logs to collect from the resource.
   final List<LogType>? logTypes;
 
   LogDeliveryParameters({
@@ -3666,6 +3691,29 @@ class MskEnhancedMonitoringLevel {
   String toString() => value;
 }
 
+/// The following log types are supported for log delivery configuration:
+///
+/// <ul>
+/// <li>
+/// APPLICATION_LOGS – Application-level logs.
+/// </li>
+/// <li>
+/// USAGE_LOGS – Resource usage logs.
+/// </li>
+/// <li>
+/// SECURITY_FINDING_LOGS – Security finding logs.
+/// </li>
+/// <li>
+/// ACCESS_LOGS – Access logs (such as Elastic Load Balancing access logs).
+/// </li>
+/// <li>
+/// CONNECTION_LOGS – Connection logs.
+/// </li>
+/// <li>
+/// S3_SERVER_ACCESS_LOGS – Amazon S3 server access logs.
+/// </li>
+/// </ul>
+///
 /// @nodoc
 class LogType {
   static const applicationLogs = LogType._('APPLICATION_LOGS');
@@ -3673,6 +3721,10 @@ class LogType {
   static const securityFindingLogs = LogType._('SECURITY_FINDING_LOGS');
   static const accessLogs = LogType._('ACCESS_LOGS');
   static const connectionLogs = LogType._('CONNECTION_LOGS');
+  static const s3ServerAccessLogs = LogType._('S3_SERVER_ACCESS_LOGS');
+  static const albAccessLogs = LogType._('ALB_ACCESS_LOGS');
+  static const albConnectionLogs = LogType._('ALB_CONNECTION_LOGS');
+  static const albHealthCheckLogs = LogType._('ALB_HEALTH_CHECK_LOGS');
 
   final String value;
 
@@ -3683,7 +3735,11 @@ class LogType {
     usageLogs,
     securityFindingLogs,
     accessLogs,
-    connectionLogs
+    connectionLogs,
+    s3ServerAccessLogs,
+    albAccessLogs,
+    albConnectionLogs,
+    albHealthCheckLogs
   ];
 
   static LogType fromString(String value) => values
@@ -4315,10 +4371,14 @@ class CentralizationRuleSource {
   /// Log specific configuration for centralization source log groups.
   final SourceLogsConfiguration? sourceLogsConfiguration;
 
+  /// Metric specific configuration for centralization source metrics.
+  final SourceMetricsConfiguration? sourceMetricsConfiguration;
+
   CentralizationRuleSource({
     required this.regions,
     this.scope,
     this.sourceLogsConfiguration,
+    this.sourceMetricsConfiguration,
   });
 
   factory CentralizationRuleSource.fromJson(Map<String, dynamic> json) {
@@ -4332,6 +4392,10 @@ class CentralizationRuleSource {
           ? SourceLogsConfiguration.fromJson(
               json['SourceLogsConfiguration'] as Map<String, dynamic>)
           : null,
+      sourceMetricsConfiguration: json['SourceMetricsConfiguration'] != null
+          ? SourceMetricsConfiguration.fromJson(
+              json['SourceMetricsConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4339,11 +4403,14 @@ class CentralizationRuleSource {
     final regions = this.regions;
     final scope = this.scope;
     final sourceLogsConfiguration = this.sourceLogsConfiguration;
+    final sourceMetricsConfiguration = this.sourceMetricsConfiguration;
     return {
       'Regions': regions,
       if (scope != null) 'Scope': scope,
       if (sourceLogsConfiguration != null)
         'SourceLogsConfiguration': sourceLogsConfiguration,
+      if (sourceMetricsConfiguration != null)
+        'SourceMetricsConfiguration': sourceMetricsConfiguration,
     };
   }
 }
@@ -4364,10 +4431,14 @@ class CentralizationRuleDestination {
   /// Log specific configuration for centralization destination log groups.
   final DestinationLogsConfiguration? destinationLogsConfiguration;
 
+  /// Metric specific configuration for centralization destination metrics.
+  final DestinationMetricsConfiguration? destinationMetricsConfiguration;
+
   CentralizationRuleDestination({
     required this.region,
     this.account,
     this.destinationLogsConfiguration,
+    this.destinationMetricsConfiguration,
   });
 
   factory CentralizationRuleDestination.fromJson(Map<String, dynamic> json) {
@@ -4378,6 +4449,12 @@ class CentralizationRuleDestination {
           ? DestinationLogsConfiguration.fromJson(
               json['DestinationLogsConfiguration'] as Map<String, dynamic>)
           : null,
+      destinationMetricsConfiguration:
+          json['DestinationMetricsConfiguration'] != null
+              ? DestinationMetricsConfiguration.fromJson(
+                  json['DestinationMetricsConfiguration']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -4385,11 +4462,15 @@ class CentralizationRuleDestination {
     final region = this.region;
     final account = this.account;
     final destinationLogsConfiguration = this.destinationLogsConfiguration;
+    final destinationMetricsConfiguration =
+        this.destinationMetricsConfiguration;
     return {
       'Region': region,
       if (account != null) 'Account': account,
       if (destinationLogsConfiguration != null)
         'DestinationLogsConfiguration': destinationLogsConfiguration,
+      if (destinationMetricsConfiguration != null)
+        'DestinationMetricsConfiguration': destinationMetricsConfiguration,
     };
   }
 }
@@ -4450,9 +4531,67 @@ class DestinationLogsConfiguration {
   }
 }
 
-/// Configuration for encrypting centralized log groups. This configuration is
-/// only applied to destination log groups for which the corresponding source
-/// log groups are encrypted using Customer Managed KMS Keys.
+/// Configuration for centralization destination metrics, including backup
+/// settings.
+///
+/// @nodoc
+class DestinationMetricsConfiguration {
+  /// Configuration defining the backup region for the metrics backup destination.
+  final MetricsBackupConfiguration? backupConfiguration;
+
+  DestinationMetricsConfiguration({
+    this.backupConfiguration,
+  });
+
+  factory DestinationMetricsConfiguration.fromJson(Map<String, dynamic> json) {
+    return DestinationMetricsConfiguration(
+      backupConfiguration: json['BackupConfiguration'] != null
+          ? MetricsBackupConfiguration.fromJson(
+              json['BackupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupConfiguration = this.backupConfiguration;
+    return {
+      if (backupConfiguration != null)
+        'BackupConfiguration': backupConfiguration,
+    };
+  }
+}
+
+/// Configuration for backing up centralized metrics data to a secondary region.
+///
+/// @nodoc
+class MetricsBackupConfiguration {
+  /// Metrics specific backup destination region within the primary destination
+  /// account to which metrics data should be centralized.
+  final String region;
+
+  MetricsBackupConfiguration({
+    required this.region,
+  });
+
+  factory MetricsBackupConfiguration.fromJson(Map<String, dynamic> json) {
+    return MetricsBackupConfiguration(
+      region: (json['Region'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    return {
+      'Region': region,
+    };
+  }
+}
+
+/// Configuration for encrypting centralized destination log groups. By default,
+/// this configuration applies only to destination log groups whose
+/// corresponding source log groups are encrypted using customer managed KMS
+/// keys. To encrypt all destination log groups created by the rule, set
+/// <code>EncryptionScope</code> to <code>NEW_DESTINATION_LOG_GROUPS</code>.
 ///
 /// @nodoc
 class LogsEncryptionConfiguration {
@@ -4468,6 +4607,25 @@ class LogsEncryptionConfiguration {
   final EncryptionConflictResolutionStrategy?
       encryptionConflictResolutionStrategy;
 
+  /// Determines which newly created destination log groups are encrypted with the
+  /// configured <code>KmsKeyArn</code> when <code>EncryptionStrategy</code> is
+  /// <code>CUSTOMER_MANAGED</code>.
+  ///
+  /// If you set this to <code>ENCRYPTED_SOURCE_ONLY</code> (the default), only
+  /// destination log groups whose source log group is encrypted with a customer
+  /// managed KMS key use the configured <code>KmsKeyArn</code>. Destination log
+  /// groups derived from Amazon Web Services owned encrypted source log groups
+  /// remain Amazon Web Services owned encrypted.
+  ///
+  /// If you set this to <code>NEW_DESTINATION_LOG_GROUPS</code>, every new
+  /// destination log group created by this rule uses the configured
+  /// <code>KmsKeyArn</code>, regardless of the source log group's encryption
+  /// posture.
+  ///
+  /// This field is not valid when <code>EncryptionStrategy</code> is
+  /// <code>AWS_OWNED</code>.
+  final EncryptionScope? encryptionScope;
+
   /// KMS Key ARN belonging to the primary destination account and region, to
   /// encrypt newly created central log groups in the primary destination.
   final String? kmsKeyArn;
@@ -4475,6 +4633,7 @@ class LogsEncryptionConfiguration {
   LogsEncryptionConfiguration({
     required this.encryptionStrategy,
     this.encryptionConflictResolutionStrategy,
+    this.encryptionScope,
     this.kmsKeyArn,
   });
 
@@ -4485,6 +4644,8 @@ class LogsEncryptionConfiguration {
       encryptionConflictResolutionStrategy:
           (json['EncryptionConflictResolutionStrategy'] as String?)
               ?.let(EncryptionConflictResolutionStrategy.fromString),
+      encryptionScope:
+          (json['EncryptionScope'] as String?)?.let(EncryptionScope.fromString),
       kmsKeyArn: json['KmsKeyArn'] as String?,
     );
   }
@@ -4493,12 +4654,14 @@ class LogsEncryptionConfiguration {
     final encryptionStrategy = this.encryptionStrategy;
     final encryptionConflictResolutionStrategy =
         this.encryptionConflictResolutionStrategy;
+    final encryptionScope = this.encryptionScope;
     final kmsKeyArn = this.kmsKeyArn;
     return {
       'EncryptionStrategy': encryptionStrategy.value,
       if (encryptionConflictResolutionStrategy != null)
         'EncryptionConflictResolutionStrategy':
             encryptionConflictResolutionStrategy.value,
+      if (encryptionScope != null) 'EncryptionScope': encryptionScope.value,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
     };
   }
@@ -4653,6 +4816,35 @@ class EncryptionConflictResolutionStrategy {
   String toString() => value;
 }
 
+/// Determines which newly created destination log groups are encrypted with the
+/// configured KMS key.
+///
+/// @nodoc
+class EncryptionScope {
+  static const encryptedSourceOnly = EncryptionScope._('ENCRYPTED_SOURCE_ONLY');
+  static const newDestinationLogGroups =
+      EncryptionScope._('NEW_DESTINATION_LOG_GROUPS');
+
+  final String value;
+
+  const EncryptionScope._(this.value);
+
+  static const values = [encryptedSourceOnly, newDestinationLogGroups];
+
+  static EncryptionScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionScope._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Configuration for selecting and handling source log groups for
 /// centralization.
 ///
@@ -4703,6 +4895,34 @@ class SourceLogsConfiguration {
         'DataSourceSelectionCriteria': dataSourceSelectionCriteria,
       if (logGroupSelectionCriteria != null)
         'LogGroupSelectionCriteria': logGroupSelectionCriteria,
+    };
+  }
+}
+
+/// Configuration for selecting source metrics for centralization.
+///
+/// @nodoc
+class SourceMetricsConfiguration {
+  /// The filter expression that selects which source metrics to centralize.
+  /// Currently, only <code>*</code> (all metrics) is supported. Other values
+  /// return a validation error.
+  final String? metricsSelectionCriteria;
+
+  SourceMetricsConfiguration({
+    this.metricsSelectionCriteria,
+  });
+
+  factory SourceMetricsConfiguration.fromJson(Map<String, dynamic> json) {
+    return SourceMetricsConfiguration(
+      metricsSelectionCriteria: json['MetricsSelectionCriteria'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricsSelectionCriteria = this.metricsSelectionCriteria;
+    return {
+      if (metricsSelectionCriteria != null)
+        'MetricsSelectionCriteria': metricsSelectionCriteria,
     };
   }
 }
@@ -4847,6 +5067,30 @@ class RecordFormat {
 
   @override
   bool operator ==(other) => other is RecordFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class SignalType {
+  static const log = SignalType._('LOG');
+  static const metric = SignalType._('METRIC');
+
+  final String value;
+
+  const SignalType._(this.value);
+
+  static const values = [log, metric];
+
+  static SignalType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SignalType._(value));
+
+  @override
+  bool operator ==(other) => other is SignalType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

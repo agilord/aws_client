@@ -855,6 +855,54 @@ class Invoicing {
     return PutProcurementPortalPreferenceResponse.fromJson(jsonResponse.body);
   }
 
+  /// <i> <b>This feature API is subject to changing at any time. For more
+  /// information, see the <a
+  /// href="https://aws.amazon.com/service-terms/">Amazon Web Services Service
+  /// Terms</a> (Betas and Previews).</b> </i>
+  ///
+  /// Sends a validation request for a procurement portal preference. This
+  /// operation initiates the validation process by issuing a validation code
+  /// that confirms ownership and connectivity of the configured procurement
+  /// portal endpoint. Use <code>VerifyProcurementPortalValidation</code> to
+  /// submit the received code and complete validation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [procurementPortalPreferenceArn] :
+  /// The Amazon Resource Name (ARN) of the procurement portal preference to
+  /// validate.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure idempotency
+  /// of the request.
+  Future<SendProcurementPortalValidationResponse>
+      sendProcurementPortalValidation({
+    required String procurementPortalPreferenceArn,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Invoicing.SendProcurementPortalValidation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProcurementPortalPreferenceArn': procurementPortalPreferenceArn,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return SendProcurementPortalValidationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Adds a tag to a resource.
   ///
   /// May throw [AccessDeniedException].
@@ -1057,6 +1105,60 @@ class Invoicing {
     );
 
     return UpdateProcurementPortalPreferenceStatusResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// <i> <b>This feature API is subject to changing at any time. For more
+  /// information, see the <a
+  /// href="https://aws.amazon.com/service-terms/">Amazon Web Services Service
+  /// Terms</a> (Betas and Previews).</b> </i>
+  ///
+  /// Submits a validation code to complete the validation of a procurement
+  /// portal preference. Use this operation after calling
+  /// <code>SendProcurementPortalValidation</code> to confirm ownership and
+  /// connectivity of the configured procurement portal endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [code] :
+  /// The validation code received from the procurement portal in response to a
+  /// previous <code>SendProcurementPortalValidation</code> request.
+  ///
+  /// Parameter [procurementPortalPreferenceArn] :
+  /// The Amazon Resource Name (ARN) of the procurement portal preference to
+  /// validate.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure idempotency
+  /// of the request.
+  Future<VerifyProcurementPortalValidationResponse>
+      verifyProcurementPortalValidation({
+    required String code,
+    required String procurementPortalPreferenceArn,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Invoicing.VerifyProcurementPortalValidation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Code': code,
+        'ProcurementPortalPreferenceArn': procurementPortalPreferenceArn,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return VerifyProcurementPortalValidationResponse.fromJson(
         jsonResponse.body);
   }
 }
@@ -1466,6 +1568,32 @@ class PutProcurementPortalPreferenceResponse {
 }
 
 /// @nodoc
+class SendProcurementPortalValidationResponse {
+  /// The Amazon Resource Name (ARN) of the procurement portal preference for
+  /// which the validation request was sent.
+  final String procurementPortalPreferenceArn;
+
+  SendProcurementPortalValidationResponse({
+    required this.procurementPortalPreferenceArn,
+  });
+
+  factory SendProcurementPortalValidationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SendProcurementPortalValidationResponse(
+      procurementPortalPreferenceArn:
+          (json['ProcurementPortalPreferenceArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final procurementPortalPreferenceArn = this.procurementPortalPreferenceArn;
+    return {
+      'ProcurementPortalPreferenceArn': procurementPortalPreferenceArn,
+    };
+  }
+}
+
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1542,9 +1670,36 @@ class UpdateProcurementPortalPreferenceStatusResponse {
 }
 
 /// @nodoc
+class VerifyProcurementPortalValidationResponse {
+  /// The Amazon Resource Name (ARN) of the procurement portal preference for
+  /// which validation was completed.
+  final String procurementPortalPreferenceArn;
+
+  VerifyProcurementPortalValidationResponse({
+    required this.procurementPortalPreferenceArn,
+  });
+
+  factory VerifyProcurementPortalValidationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return VerifyProcurementPortalValidationResponse(
+      procurementPortalPreferenceArn:
+          (json['ProcurementPortalPreferenceArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final procurementPortalPreferenceArn = this.procurementPortalPreferenceArn;
+    return {
+      'ProcurementPortalPreferenceArn': procurementPortalPreferenceArn,
+    };
+  }
+}
+
+/// @nodoc
 class ProcurementPortalPreferenceStatus {
   static const pendingVerification =
       ProcurementPortalPreferenceStatus._('PENDING_VERIFICATION');
+  static const validated = ProcurementPortalPreferenceStatus._('VALIDATED');
   static const testInitialized =
       ProcurementPortalPreferenceStatus._('TEST_INITIALIZED');
   static const testInitializationFailed =
@@ -1559,6 +1714,7 @@ class ProcurementPortalPreferenceStatus {
 
   static const values = [
     pendingVerification,
+    validated,
     testInitialized,
     testInitializationFailed,
     testFailed,

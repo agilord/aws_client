@@ -4994,8 +4994,30 @@ class PredictiveScalingMetricDimension {
 ///
 /// @nodoc
 class PredefinedMetricSpecification {
-  /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
-  /// applies only to Spot Fleets and ECS services.
+  /// The metric type. The following are notes about specific metric types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALBRequestCountPerTarget</code> - This metric type applies only to
+  /// Spot Fleets and ECS services.
+  /// </li>
+  /// <li>
+  /// <code>ECSServiceAverageCPUUtilizationHighResolution</code> - The
+  /// high-resolution version of <code>ECSServiceAverageCPUUtilization</code> that
+  /// uses 20-second CloudWatch metrics. Use this metric for target tracking
+  /// scaling policies that evaluate metrics every 20 seconds. You must enable
+  /// high-resolution metrics in Amazon ECS before creating a scaling policy with
+  /// this metric type.
+  /// </li>
+  /// <li>
+  /// <code>ECSServiceAverageMemoryUtilizationHighResolution</code> - The
+  /// high-resolution version of <code>ECSServiceAverageMemoryUtilization</code>
+  /// that uses 20-second CloudWatch metrics. Use this metric for target tracking
+  /// scaling policies that evaluate metrics every 20 seconds. You must enable
+  /// high-resolution metrics in Amazon ECS before creating a scaling policy with
+  /// this metric type.
+  /// </li>
+  /// </ul>
   final MetricType predefinedMetricType;
 
   /// Identifies the resource associated with the metric type. You can't specify a
@@ -5519,6 +5541,10 @@ class MetricType {
           'SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution');
   static const sageMakerVariantConcurrentRequestsPerModelHighResolution =
       MetricType._('SageMakerVariantConcurrentRequestsPerModelHighResolution');
+  static const eCSServiceAverageCPUUtilizationHighResolution =
+      MetricType._('ECSServiceAverageCPUUtilizationHighResolution');
+  static const eCSServiceAverageMemoryUtilizationHighResolution =
+      MetricType._('ECSServiceAverageMemoryUtilizationHighResolution');
 
   final String value;
 
@@ -5553,7 +5579,9 @@ class MetricType {
     sageMakerInferenceComponentInvocationsPerCopy,
     workSpacesAverageUserSessionsCapacityUtilization,
     sageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution,
-    sageMakerVariantConcurrentRequestsPerModelHighResolution
+    sageMakerVariantConcurrentRequestsPerModelHighResolution,
+    eCSServiceAverageCPUUtilizationHighResolution,
+    eCSServiceAverageMemoryUtilizationHighResolution
   ];
 
   static MetricType fromString(String value) => values

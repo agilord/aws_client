@@ -322,6 +322,10 @@ class Elasticsearch {
   /// Parameter [encryptionAtRestOptions] :
   /// Specifies the Encryption At Rest Options.
   ///
+  /// Parameter [engineMode] :
+  /// The engine mode for the domain. For valid values and requirements, see
+  /// <code>DomainEngineMode</code>.
+  ///
   /// Parameter [logPublishingOptions] :
   /// Map of <code>LogType</code> and <code>LogPublishingOption</code>, each
   /// containing options to publish a given type of Elasticsearch log.
@@ -335,6 +339,10 @@ class Elasticsearch {
   ///
   /// Parameter [tagList] :
   /// A list of <code>Tag</code> added during domain creation.
+  ///
+  /// Parameter [useCase] :
+  /// The primary use case for the domain. For valid values, see
+  /// <code>DomainUseCase</code>.
   ///
   /// Parameter [vPCOptions] :
   /// Options to specify the subnets and security groups for VPC endpoint. For
@@ -356,10 +364,12 @@ class Elasticsearch {
     ElasticsearchClusterConfig? elasticsearchClusterConfig,
     String? elasticsearchVersion,
     EncryptionAtRestOptions? encryptionAtRestOptions,
+    DomainEngineMode? engineMode,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
     NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
     SnapshotOptions? snapshotOptions,
     List<Tag>? tagList,
+    DomainUseCase? useCase,
     VPCOptions? vPCOptions,
   }) async {
     final $payload = <String, dynamic>{
@@ -383,6 +393,7 @@ class Elasticsearch {
         'ElasticsearchVersion': elasticsearchVersion,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineMode != null) 'EngineMode': engineMode.value,
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.value, e)),
@@ -390,6 +401,7 @@ class Elasticsearch {
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
       if (tagList != null) 'TagList': tagList,
+      if (useCase != null) 'UseCase': useCase.value,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
@@ -1799,6 +1811,10 @@ class Elasticsearch {
   /// Parameter [encryptionAtRestOptions] :
   /// Specifies the Encryption At Rest Options.
   ///
+  /// Parameter [engineMode] :
+  /// The engine mode for the domain. For valid values and requirements, see
+  /// <code>DomainEngineMode</code>.
+  ///
   /// Parameter [logPublishingOptions] :
   /// Map of <code>LogType</code> and <code>LogPublishingOption</code>, each
   /// containing options to publish a given type of Elasticsearch log.
@@ -1809,6 +1825,10 @@ class Elasticsearch {
   /// Parameter [snapshotOptions] :
   /// Option to set the time, in UTC format, for the daily automated snapshot.
   /// Default value is <code>0</code> hours.
+  ///
+  /// Parameter [useCase] :
+  /// The primary use case for the domain. For valid values, see
+  /// <code>DomainUseCase</code>.
   ///
   /// Parameter [vPCOptions] :
   /// Options to specify the subnets and security groups for VPC endpoint. For
@@ -1831,9 +1851,11 @@ class Elasticsearch {
     EBSOptions? eBSOptions,
     ElasticsearchClusterConfig? elasticsearchClusterConfig,
     EncryptionAtRestOptions? encryptionAtRestOptions,
+    DomainEngineMode? engineMode,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
     NodeToNodeEncryptionOptions? nodeToNodeEncryptionOptions,
     SnapshotOptions? snapshotOptions,
+    DomainUseCase? useCase,
     VPCOptions? vPCOptions,
   }) async {
     final $payload = <String, dynamic>{
@@ -1855,12 +1877,14 @@ class Elasticsearch {
         'ElasticsearchClusterConfig': elasticsearchClusterConfig,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineMode != null) 'EngineMode': engineMode.value,
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.value, e)),
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (useCase != null) 'UseCase': useCase.value,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
@@ -4286,6 +4310,9 @@ class ElasticsearchDomainConfig {
   /// domain.
   final EncryptionAtRestOptionsStatus? encryptionAtRestOptions;
 
+  /// The engine mode configured for the domain.
+  final EngineModeStatus? engineMode;
+
   /// Log publishing options for the given domain.
   final LogPublishingOptionsStatus? logPublishingOptions;
 
@@ -4298,6 +4325,9 @@ class ElasticsearchDomainConfig {
 
   /// Specifies the <code>SnapshotOptions</code> for the Elasticsearch domain.
   final SnapshotOptionsStatus? snapshotOptions;
+
+  /// The use case configured for the domain.
+  final UseCaseStatus? useCase;
 
   /// The <code>VPCOptions</code> for the specified domain. For more information,
   /// see <a
@@ -4319,10 +4349,12 @@ class ElasticsearchDomainConfig {
     this.elasticsearchClusterConfig,
     this.elasticsearchVersion,
     this.encryptionAtRestOptions,
+    this.engineMode,
     this.logPublishingOptions,
     this.modifyingProperties,
     this.nodeToNodeEncryptionOptions,
     this.snapshotOptions,
+    this.useCase,
     this.vPCOptions,
   });
 
@@ -4381,6 +4413,10 @@ class ElasticsearchDomainConfig {
           ? EncryptionAtRestOptionsStatus.fromJson(
               json['EncryptionAtRestOptions'] as Map<String, dynamic>)
           : null,
+      engineMode: json['EngineMode'] != null
+          ? EngineModeStatus.fromJson(
+              json['EngineMode'] as Map<String, dynamic>)
+          : null,
       logPublishingOptions: json['LogPublishingOptions'] != null
           ? LogPublishingOptionsStatus.fromJson(
               json['LogPublishingOptions'] as Map<String, dynamic>)
@@ -4396,6 +4432,9 @@ class ElasticsearchDomainConfig {
       snapshotOptions: json['SnapshotOptions'] != null
           ? SnapshotOptionsStatus.fromJson(
               json['SnapshotOptions'] as Map<String, dynamic>)
+          : null,
+      useCase: json['UseCase'] != null
+          ? UseCaseStatus.fromJson(json['UseCase'] as Map<String, dynamic>)
           : null,
       vPCOptions: json['VPCOptions'] != null
           ? VPCDerivedInfoStatus.fromJson(
@@ -4418,10 +4457,12 @@ class ElasticsearchDomainConfig {
     final elasticsearchClusterConfig = this.elasticsearchClusterConfig;
     final elasticsearchVersion = this.elasticsearchVersion;
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
+    final engineMode = this.engineMode;
     final logPublishingOptions = this.logPublishingOptions;
     final modifyingProperties = this.modifyingProperties;
     final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
     final snapshotOptions = this.snapshotOptions;
+    final useCase = this.useCase;
     final vPCOptions = this.vPCOptions;
     return {
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
@@ -4445,6 +4486,7 @@ class ElasticsearchDomainConfig {
         'ElasticsearchVersion': elasticsearchVersion,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineMode != null) 'EngineMode': engineMode,
       if (logPublishingOptions != null)
         'LogPublishingOptions': logPublishingOptions,
       if (modifyingProperties != null)
@@ -4452,6 +4494,7 @@ class ElasticsearchDomainConfig {
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (useCase != null) 'UseCase': useCase,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
   }
@@ -5100,54 +5143,105 @@ class AutomatedSnapshotPauseOptionsStatus {
   }
 }
 
-/// Specifies the automated snapshot pause options for the domain. These options
-/// allow you to temporarily pause automated snapshots for a specified time
-/// period.
+/// The status of the use case for the domain.
 ///
 /// @nodoc
-class AutomatedSnapshotPauseOptions {
-  /// Whether automated snapshot pause is enabled for the domain.
-  final bool enabled;
+class UseCaseStatus {
+  /// The use case configured for the domain.
+  final DomainUseCase options;
 
-  /// The timestamp at which the automated snapshot pause ends.
-  final DateTime? endTime;
+  /// The current status of the use case for the domain.
+  final OptionStatus status;
 
-  /// The timestamp at which the automated snapshot pause begins.
-  final DateTime? startTime;
-
-  /// The current state of the automated snapshot pause. Valid values are
-  /// <code>Active</code>, <code>Completed</code>, <code>Scheduled</code>, and
-  /// <code>Disabled</code>.
-  final PauseState? state;
-
-  AutomatedSnapshotPauseOptions({
-    required this.enabled,
-    this.endTime,
-    this.startTime,
-    this.state,
+  UseCaseStatus({
+    required this.options,
+    required this.status,
   });
 
-  factory AutomatedSnapshotPauseOptions.fromJson(Map<String, dynamic> json) {
-    return AutomatedSnapshotPauseOptions(
-      enabled: (json['Enabled'] as bool?) ?? false,
-      endTime: timeStampFromJson(json['EndTime']),
-      startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.let(PauseState.fromString),
+  factory UseCaseStatus.fromJson(Map<String, dynamic> json) {
+    return UseCaseStatus(
+      options: DomainUseCase.fromString((json['Options'] as String?) ?? ''),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    final state = this.state;
+    final options = this.options;
+    final status = this.status;
     return {
-      'Enabled': enabled,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state.value,
+      'Options': options.value,
+      'Status': status,
     };
   }
+}
+
+/// The status of the engine mode for the domain.
+///
+/// @nodoc
+class EngineModeStatus {
+  /// The engine mode configured for the domain.
+  final DomainEngineMode options;
+
+  /// The current status of the engine mode for the domain.
+  final OptionStatus status;
+
+  EngineModeStatus({
+    required this.options,
+    required this.status,
+  });
+
+  factory EngineModeStatus.fromJson(Map<String, dynamic> json) {
+    return EngineModeStatus(
+      options: DomainEngineMode.fromString((json['Options'] as String?) ?? ''),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options.value,
+      'Status': status,
+    };
+  }
+}
+
+/// The engine mode for the domain. Valid values are <code>GENERAL</code> (the
+/// standard Elasticsearch/OpenSearch engine) and <code>OPTIMIZED</code> (the
+/// cost- and performance-optimized engine for observability and log-analytics
+/// workloads). If you don't specify an engine mode, <code>GENERAL</code> is
+/// used. <code>OPTIMIZED</code> requires OpenSearch 3.5 or later, OpenSearch
+/// Optimized instance types (OR1, OR2, OM2, or OI2) for the data tier, and
+/// encryption at rest, and is available only for the <code>OBSERVABILITY</code>
+/// and <code>MIXED</code> use cases. The engine mode can't be changed after the
+/// domain is created.
+///
+/// @nodoc
+class DomainEngineMode {
+  static const general = DomainEngineMode._('GENERAL');
+  static const optimized = DomainEngineMode._('OPTIMIZED');
+
+  final String value;
+
+  const DomainEngineMode._(this.value);
+
+  static const values = [general, optimized];
+
+  static DomainEngineMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainEngineMode._(value));
+
+  @override
+  bool operator ==(other) => other is DomainEngineMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the current status of the entity.
@@ -5234,6 +5328,92 @@ class OptionState {
 
   @override
   String toString() => value;
+}
+
+/// The primary use case for the domain, which determines the default
+/// configuration and the engine modes that are available. Valid values are
+/// <code>SEARCH</code> (full-text search, e-commerce, content discovery, and
+/// hybrid and semantic search), <code>VECTOR</code> (k-NN and semantic search,
+/// and retrieval-augmented generation), <code>OBSERVABILITY</code> (logs,
+/// metrics, traces, and dashboards), and <code>MIXED</code> (a combination of
+/// search and analytics). If you don't specify a use case, <code>MIXED</code>
+/// is used.
+///
+/// @nodoc
+class DomainUseCase {
+  static const search = DomainUseCase._('SEARCH');
+  static const vector = DomainUseCase._('VECTOR');
+  static const observability = DomainUseCase._('OBSERVABILITY');
+  static const mixed = DomainUseCase._('MIXED');
+
+  final String value;
+
+  const DomainUseCase._(this.value);
+
+  static const values = [search, vector, observability, mixed];
+
+  static DomainUseCase fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainUseCase._(value));
+
+  @override
+  bool operator ==(other) => other is DomainUseCase && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the automated snapshot pause options for the domain. These options
+/// allow you to temporarily pause automated snapshots for a specified time
+/// period.
+///
+/// @nodoc
+class AutomatedSnapshotPauseOptions {
+  /// Whether automated snapshot pause is enabled for the domain.
+  final bool enabled;
+
+  /// The timestamp at which the automated snapshot pause ends.
+  final DateTime? endTime;
+
+  /// The timestamp at which the automated snapshot pause begins.
+  final DateTime? startTime;
+
+  /// The current state of the automated snapshot pause. Valid values are
+  /// <code>Active</code>, <code>Completed</code>, <code>Scheduled</code>, and
+  /// <code>Disabled</code>.
+  final PauseState? state;
+
+  AutomatedSnapshotPauseOptions({
+    required this.enabled,
+    this.endTime,
+    this.startTime,
+    this.state,
+  });
+
+  factory AutomatedSnapshotPauseOptions.fromJson(Map<String, dynamic> json) {
+    return AutomatedSnapshotPauseOptions(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      endTime: timeStampFromJson(json['EndTime']),
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.let(PauseState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final state = this.state;
+    return {
+      'Enabled': enabled,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (state != null) 'State': state.value,
+    };
+  }
 }
 
 /// @nodoc
@@ -8710,6 +8890,9 @@ class ElasticsearchDomainStatus {
   /// <code>'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'</code>.
   final Map<String, String>? endpoints;
 
+  /// The engine mode for the domain.
+  final DomainEngineMode? engineMode;
+
   /// Log publishing options for the given domain.
   final Map<LogType, LogPublishingOption>? logPublishingOptions;
 
@@ -8734,6 +8917,9 @@ class ElasticsearchDomainStatus {
   /// Amazon Elasticsearch Service is undergoing a version upgrade.
   /// <code>False</code> if the configuration is active.
   final bool? upgradeProcessing;
+
+  /// The primary use case for the domain.
+  final DomainUseCase? useCase;
 
   /// The <code>VPCOptions</code> for the specified domain. For more information,
   /// see <a
@@ -8763,6 +8949,7 @@ class ElasticsearchDomainStatus {
     this.encryptionAtRestOptions,
     this.endpoint,
     this.endpoints,
+    this.engineMode,
     this.logPublishingOptions,
     this.modifyingProperties,
     this.nodeToNodeEncryptionOptions,
@@ -8770,6 +8957,7 @@ class ElasticsearchDomainStatus {
     this.serviceSoftwareOptions,
     this.snapshotOptions,
     this.upgradeProcessing,
+    this.useCase,
     this.vPCOptions,
   });
 
@@ -8828,6 +9016,8 @@ class ElasticsearchDomainStatus {
       endpoint: json['Endpoint'] as String?,
       endpoints: (json['Endpoints'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      engineMode:
+          (json['EngineMode'] as String?)?.let(DomainEngineMode.fromString),
       logPublishingOptions:
           (json['LogPublishingOptions'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(LogType.fromString(k),
@@ -8850,6 +9040,7 @@ class ElasticsearchDomainStatus {
               json['SnapshotOptions'] as Map<String, dynamic>)
           : null,
       upgradeProcessing: json['UpgradeProcessing'] as bool?,
+      useCase: (json['UseCase'] as String?)?.let(DomainUseCase.fromString),
       vPCOptions: json['VPCOptions'] != null
           ? VPCDerivedInfo.fromJson(json['VPCOptions'] as Map<String, dynamic>)
           : null,
@@ -8878,6 +9069,7 @@ class ElasticsearchDomainStatus {
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
     final endpoint = this.endpoint;
     final endpoints = this.endpoints;
+    final engineMode = this.engineMode;
     final logPublishingOptions = this.logPublishingOptions;
     final modifyingProperties = this.modifyingProperties;
     final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
@@ -8885,6 +9077,7 @@ class ElasticsearchDomainStatus {
     final serviceSoftwareOptions = this.serviceSoftwareOptions;
     final snapshotOptions = this.snapshotOptions;
     final upgradeProcessing = this.upgradeProcessing;
+    final useCase = this.useCase;
     final vPCOptions = this.vPCOptions;
     return {
       'ARN': arn,
@@ -8916,6 +9109,7 @@ class ElasticsearchDomainStatus {
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (endpoint != null) 'Endpoint': endpoint,
       if (endpoints != null) 'Endpoints': endpoints,
+      if (engineMode != null) 'EngineMode': engineMode.value,
       if (logPublishingOptions != null)
         'LogPublishingOptions':
             logPublishingOptions.map((k, e) => MapEntry(k.value, e)),
@@ -8928,6 +9122,7 @@ class ElasticsearchDomainStatus {
         'ServiceSoftwareOptions': serviceSoftwareOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
       if (upgradeProcessing != null) 'UpgradeProcessing': upgradeProcessing,
+      if (useCase != null) 'UseCase': useCase.value,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
   }

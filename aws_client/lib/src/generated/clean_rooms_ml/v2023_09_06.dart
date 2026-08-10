@@ -450,6 +450,7 @@ class CleanRoomsML {
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [audienceGenerationJobArn] :
@@ -484,6 +485,7 @@ class CleanRoomsML {
   /// Returns a list of the audience export jobs.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [audienceGenerationJobArn] :
@@ -624,6 +626,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [audienceGenerationJobArn] :
@@ -648,6 +651,7 @@ class CleanRoomsML {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [audienceGenerationJobArn] :
@@ -668,6 +672,7 @@ class CleanRoomsML {
   /// Returns a list of audience generation jobs.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [collaborationId] :
@@ -723,6 +728,7 @@ class CleanRoomsML {
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [name] :
@@ -819,6 +825,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [audienceModelArn] :
@@ -843,6 +850,7 @@ class CleanRoomsML {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [audienceModelArn] :
@@ -862,6 +870,7 @@ class CleanRoomsML {
   /// Returns a list of audience models.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -900,6 +909,7 @@ class CleanRoomsML {
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [audienceModelArn] :
@@ -1035,6 +1045,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredAudienceModelArn] :
@@ -1060,6 +1071,7 @@ class CleanRoomsML {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredAudienceModelArn] :
@@ -1129,6 +1141,7 @@ class CleanRoomsML {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredAudienceModelArn] :
@@ -1149,6 +1162,7 @@ class CleanRoomsML {
   /// Returns a list of the configured audience models.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -1185,6 +1199,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredAudienceModelArn] :
@@ -1227,6 +1242,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredAudienceModelArn] :
@@ -1250,6 +1266,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredAudienceModelArn] :
@@ -1273,6 +1290,7 @@ class CleanRoomsML {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [name] :
@@ -1372,6 +1390,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredModelAlgorithmArn] :
@@ -1395,6 +1414,7 @@ class CleanRoomsML {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [configuredModelAlgorithmArn] :
@@ -1415,6 +1435,7 @@ class CleanRoomsML {
   /// Returns a list of configured model algorithms.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -2724,6 +2745,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [name] :
@@ -2813,6 +2835,7 @@ class CleanRoomsML {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [trainingDatasetArn] :
@@ -2840,6 +2863,7 @@ class CleanRoomsML {
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [trainingDatasetArn] :
@@ -2860,6 +2884,7 @@ class CleanRoomsML {
   /// Returns a list of training datasets.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -8591,12 +8616,13 @@ class WorkerComputeConfiguration {
 class WorkerComputeType {
   static const cr_1x = WorkerComputeType._('CR.1X');
   static const cr_4x = WorkerComputeType._('CR.4X');
+  static const cr_8x = WorkerComputeType._('CR.8X');
 
   final String value;
 
   const WorkerComputeType._(this.value);
 
-  static const values = [cr_1x, cr_4x];
+  static const values = [cr_1x, cr_4x, cr_8x];
 
   static WorkerComputeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,

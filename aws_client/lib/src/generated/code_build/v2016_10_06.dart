@@ -2710,6 +2710,10 @@ class CodeBuild {
   /// Information about the Git submodules configuration for this build of an
   /// CodeBuild build project.
   ///
+  /// Parameter [hostKernelOverride] :
+  /// The host operating system kernel for this build that overrides the one
+  /// specified in the build project.
+  ///
   /// Parameter [idempotencyToken] :
   /// A unique, case sensitive identifier you provide to ensure the idempotency
   /// of the StartBuild request. The token is included in the StartBuild request
@@ -2849,6 +2853,7 @@ class CodeBuild {
     ProjectFleet? fleetOverride,
     int? gitCloneDepthOverride,
     GitSubmodulesConfig? gitSubmodulesConfigOverride,
+    HostKernel? hostKernelOverride,
     String? idempotencyToken,
     String? imageOverride,
     ImagePullCredentialsType? imagePullCredentialsTypeOverride,
@@ -2922,6 +2927,8 @@ class CodeBuild {
           'gitCloneDepthOverride': gitCloneDepthOverride,
         if (gitSubmodulesConfigOverride != null)
           'gitSubmodulesConfigOverride': gitSubmodulesConfigOverride,
+        if (hostKernelOverride != null)
+          'hostKernelOverride': hostKernelOverride.value,
         if (idempotencyToken != null) 'idempotencyToken': idempotencyToken,
         if (imageOverride != null) 'imageOverride': imageOverride,
         if (imagePullCredentialsTypeOverride != null)
@@ -8059,6 +8066,27 @@ class ProjectEnvironment {
   /// A ProjectFleet object to use for this build project.
   final ProjectFleet? fleet;
 
+  /// The host operating system kernel used for on-demand builds in the build
+  /// project. The host kernel does not affect the build environment operating
+  /// system, which is determined by the image you specify. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LINUX_KERNEL_4</code>: Runs on an Amazon Linux 2 host (kernel 4.x).
+  /// </li>
+  /// <li>
+  /// <code>LINUX_KERNEL_6</code>: Runs on an Amazon Linux 2023 host (kernel 6.x).
+  /// </li>
+  /// <li>
+  /// <code>LINUX_KERNEL_LATEST</code>: Runs on the latest supported host kernel.
+  /// </li>
+  /// </ul>
+  /// This setting applies to the <code>LINUX_CONTAINER</code>,
+  /// <code>ARM_CONTAINER</code>, <code>LINUX_EC2</code>, and <code>ARM_EC2</code>
+  /// environment types. It is not applicable to Windows, Lambda, or Mac
+  /// environment types.
+  final HostKernel? hostKernel;
+
   /// The type of credentials CodeBuild uses to pull images in your build. There
   /// are two valid values:
   ///
@@ -8118,6 +8146,7 @@ class ProjectEnvironment {
     this.dockerServer,
     this.environmentVariables,
     this.fleet,
+    this.hostKernel,
     this.imagePullCredentialsType,
     this.privilegedMode,
     this.registryCredential,
@@ -8144,6 +8173,7 @@ class ProjectEnvironment {
       fleet: json['fleet'] != null
           ? ProjectFleet.fromJson(json['fleet'] as Map<String, dynamic>)
           : null,
+      hostKernel: (json['hostKernel'] as String?)?.let(HostKernel.fromString),
       imagePullCredentialsType: (json['imagePullCredentialsType'] as String?)
           ?.let(ImagePullCredentialsType.fromString),
       privilegedMode: json['privilegedMode'] as bool?,
@@ -8163,6 +8193,7 @@ class ProjectEnvironment {
     final dockerServer = this.dockerServer;
     final environmentVariables = this.environmentVariables;
     final fleet = this.fleet;
+    final hostKernel = this.hostKernel;
     final imagePullCredentialsType = this.imagePullCredentialsType;
     final privilegedMode = this.privilegedMode;
     final registryCredential = this.registryCredential;
@@ -8177,6 +8208,7 @@ class ProjectEnvironment {
       if (environmentVariables != null)
         'environmentVariables': environmentVariables,
       if (fleet != null) 'fleet': fleet,
+      if (hostKernel != null) 'hostKernel': hostKernel.value,
       if (imagePullCredentialsType != null)
         'imagePullCredentialsType': imagePullCredentialsType.value,
       if (privilegedMode != null) 'privilegedMode': privilegedMode,
@@ -9061,6 +9093,10 @@ class DockerServer {
   final List<String>? securityGroupIds;
 
   /// A DockerServerStatus object to use for this docker server.
+  /// <note>
+  /// Note that <code>status</code> is only an output and cannot be passed in as
+  /// an input.
+  /// </note>
   final DockerServerStatus? status;
 
   DockerServer({
@@ -9093,6 +9129,31 @@ class DockerServer {
       if (status != null) 'status': status,
     };
   }
+}
+
+/// @nodoc
+class HostKernel {
+  static const linuxKernel_4 = HostKernel._('LINUX_KERNEL_4');
+  static const linuxKernel_6 = HostKernel._('LINUX_KERNEL_6');
+  static const linuxKernelLatest = HostKernel._('LINUX_KERNEL_LATEST');
+
+  final String value;
+
+  const HostKernel._(this.value);
+
+  static const values = [linuxKernel_4, linuxKernel_6, linuxKernelLatest];
+
+  static HostKernel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HostKernel._(value));
+
+  @override
+  bool operator ==(other) => other is HostKernel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the status of the docker server.

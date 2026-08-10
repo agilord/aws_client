@@ -140,17 +140,28 @@ class Outposts {
   ///
   /// Parameter [paymentTerm] :
   /// The payment terms.
+  ///
+  /// Parameter [quoteIdentifier] :
+  /// The ID of the quote to use for the order.
+  ///
+  /// Parameter [quoteOptionIdentifier] :
+  /// The ID of the quote option to use for the order.
   Future<CreateOrderOutput> createOrder({
     required String outpostIdentifier,
     required PaymentOption paymentOption,
     List<LineItemRequest>? lineItems,
     PaymentTerm? paymentTerm,
+    String? quoteIdentifier,
+    String? quoteOptionIdentifier,
   }) async {
     final $payload = <String, dynamic>{
       'OutpostIdentifier': outpostIdentifier,
       'PaymentOption': paymentOption.value,
       if (lineItems != null) 'LineItems': lineItems,
       if (paymentTerm != null) 'PaymentTerm': paymentTerm.value,
+      if (quoteIdentifier != null) 'QuoteIdentifier': quoteIdentifier,
+      if (quoteOptionIdentifier != null)
+        'QuoteOptionIdentifier': quoteOptionIdentifier,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -206,6 +217,76 @@ class Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return CreateOutpostOutput.fromJson(response);
+  }
+
+  /// Creates a quote for an Outpost. A quote provides pricing and configuration
+  /// options based on the requested capacity. You can optionally associate the
+  /// quote with an existing Outpost or create a standalone quote by specifying
+  /// only the country code and requested capacities.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [NotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [countryCode] :
+  /// The country code for the Outpost site location.
+  ///
+  /// Parameter [requestedCapacities] :
+  /// The capacity requirements for the quote. Each entry specifies a capacity
+  /// type (such as Amazon EC2), the unit, and the quantity. For Amazon EC2, the
+  /// quantity is the number of additional instances to add to the Outpost. For
+  /// Amazon EBS and Amazon S3, the quantity is the total desired end-state
+  /// capacity of the Outpost.
+  ///
+  /// Parameter [description] :
+  /// A description for the quote.
+  ///
+  /// Parameter [outpostIdentifier] :
+  /// The ID or ARN of the Outpost to associate with the quote. If not
+  /// specified, the quote is created without an Outpost association.
+  ///
+  /// Parameter [requestedConstraints] :
+  /// The physical constraints for the quote, such as maximum number of racks,
+  /// maximum power draw per rack, or maximum weight per rack.
+  ///
+  /// Parameter [requestedPaymentOptions] :
+  /// The payment options to include in the quote pricing. If not specified, all
+  /// available payment options are returned.
+  ///
+  /// Parameter [requestedPaymentTerms] :
+  /// The payment terms to include in the quote pricing. If not specified, all
+  /// available payment terms are returned.
+  Future<CreateQuoteOutput> createQuote({
+    required String countryCode,
+    required List<QuoteCapacity> requestedCapacities,
+    String? description,
+    String? outpostIdentifier,
+    List<QuoteConstraint>? requestedConstraints,
+    List<PaymentOption>? requestedPaymentOptions,
+    List<PaymentTerm>? requestedPaymentTerms,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CountryCode': countryCode,
+      'RequestedCapacities': requestedCapacities,
+      if (description != null) 'Description': description,
+      if (outpostIdentifier != null) 'OutpostIdentifier': outpostIdentifier,
+      if (requestedConstraints != null)
+        'RequestedConstraints': requestedConstraints,
+      if (requestedPaymentOptions != null)
+        'RequestedPaymentOptions':
+            requestedPaymentOptions.map((e) => e.value).toList(),
+      if (requestedPaymentTerms != null)
+        'RequestedPaymentTerms':
+            requestedPaymentTerms.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/quotes',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateQuoteOutput.fromJson(response);
   }
 
   /// Creates a renewal contract for the specified Outpost.
@@ -322,6 +403,26 @@ class Outposts {
       payload: null,
       method: 'DELETE',
       requestUri: '/outposts/${Uri.encodeComponent(outpostId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified quote.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [NotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [quoteIdentifier] :
+  /// The ID of the quote.
+  Future<void> deleteQuote({
+    required String quoteIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/quotes/${Uri.encodeComponent(quoteIdentifier)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -586,6 +687,27 @@ class Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return GetOutpostSupportedInstanceTypesOutput.fromJson(response);
+  }
+
+  /// Gets information about the specified quote.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [NotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [quoteIdentifier] :
+  /// The ID of the quote.
+  Future<GetQuoteOutput> getQuote({
+    required String quoteIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/quotes/${Uri.encodeComponent(quoteIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetQuoteOutput.fromJson(response);
   }
 
   /// Gets all available renewal pricing options for the specified Outpost.
@@ -938,6 +1060,51 @@ class Outposts {
     return ListCatalogItemsOutput.fromJson(response);
   }
 
+  /// Lists the instance types that can be ordered for an Outpost. You can
+  /// filter the results by Outpost generation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [NotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum page size.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  ///
+  /// Parameter [outpostGenerationFilter] :
+  /// Filters the results by Outpost generation. Specify
+  /// <code>GENERATION_1</code> for first-generation rack deployments or
+  /// <code>GENERATION_2</code> for second-generation rack deployments.
+  Future<ListOrderableInstanceTypesOutput> listOrderableInstanceTypes({
+    int? maxResults,
+    String? nextToken,
+    OutpostGeneration? outpostGenerationFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (outpostGenerationFilter != null)
+        'OutpostGenerationFilter': [outpostGenerationFilter.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/instanceTypes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListOrderableInstanceTypesOutput.fromJson(response);
+  }
+
   /// Lists the Outpost orders for your Amazon Web Services account.
   ///
   /// May throw [AccessDeniedException].
@@ -1026,6 +1193,40 @@ class Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return ListOutpostsOutput.fromJson(response);
+  }
+
+  /// Lists the quotes for your Amazon Web Services account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum page size.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token.
+  Future<ListQuotesOutput> listQuotes({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/quotes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListQuotesOutput.fromJson(response);
   }
 
   /// Lists the Outpost sites for your Amazon Web Services account. Use filters
@@ -1351,6 +1552,72 @@ class Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateOutpostOutput.fromJson(response);
+  }
+
+  /// Updates the specified quote. You can modify the requested capacities,
+  /// constraints, payment options, payment terms, or Outpost association.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [NotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [quoteIdentifier] :
+  /// The ID of the quote.
+  ///
+  /// Parameter [countryCode] :
+  /// The country code for the Outpost site location.
+  ///
+  /// Parameter [description] :
+  /// A description for the quote.
+  ///
+  /// Parameter [outpostIdentifier] :
+  /// The ID or ARN of the Outpost to associate with the quote. Specify an empty
+  /// string to remove the Outpost association.
+  ///
+  /// Parameter [requestedCapacities] :
+  /// The updated capacity requirements for the quote.
+  ///
+  /// Parameter [requestedConstraints] :
+  /// The updated physical constraints for the quote.
+  ///
+  /// Parameter [requestedPaymentOptions] :
+  /// The updated payment options to include in the quote pricing.
+  ///
+  /// Parameter [requestedPaymentTerms] :
+  /// The updated payment terms to include in the quote pricing.
+  Future<UpdateQuoteOutput> updateQuote({
+    required String quoteIdentifier,
+    String? countryCode,
+    String? description,
+    String? outpostIdentifier,
+    List<QuoteCapacity>? requestedCapacities,
+    List<QuoteConstraint>? requestedConstraints,
+    List<PaymentOption>? requestedPaymentOptions,
+    List<PaymentTerm>? requestedPaymentTerms,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (description != null) 'Description': description,
+      if (outpostIdentifier != null) 'OutpostIdentifier': outpostIdentifier,
+      if (requestedCapacities != null)
+        'RequestedCapacities': requestedCapacities,
+      if (requestedConstraints != null)
+        'RequestedConstraints': requestedConstraints,
+      if (requestedPaymentOptions != null)
+        'RequestedPaymentOptions':
+            requestedPaymentOptions.map((e) => e.value).toList(),
+      if (requestedPaymentTerms != null)
+        'RequestedPaymentTerms':
+            requestedPaymentTerms.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/quotes/${Uri.encodeComponent(quoteIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateQuoteOutput.fromJson(response);
   }
 
   /// Updates the specified site.
@@ -1687,7 +1954,35 @@ class CreateOutpostOutput {
 }
 
 /// @nodoc
+class CreateQuoteOutput {
+  /// Information about the quote.
+  final Quote? quote;
+
+  CreateQuoteOutput({
+    this.quote,
+  });
+
+  factory CreateQuoteOutput.fromJson(Map<String, dynamic> json) {
+    return CreateQuoteOutput(
+      quote: json['Quote'] != null
+          ? Quote.fromJson(json['Quote'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quote = this.quote;
+    return {
+      if (quote != null) 'Quote': quote,
+    };
+  }
+}
+
+/// @nodoc
 class CreateRenewalOutput {
+  /// The currency of the renewal price.
+  final CurrencyCode? currency;
+
   /// The monthly recurring price of the renewal.
   final double? monthlyRecurringPrice;
 
@@ -1704,6 +1999,7 @@ class CreateRenewalOutput {
   final double? upfrontPrice;
 
   CreateRenewalOutput({
+    this.currency,
     this.monthlyRecurringPrice,
     this.outpostId,
     this.paymentOption,
@@ -1713,6 +2009,7 @@ class CreateRenewalOutput {
 
   factory CreateRenewalOutput.fromJson(Map<String, dynamic> json) {
     return CreateRenewalOutput(
+      currency: (json['Currency'] as String?)?.let(CurrencyCode.fromString),
       monthlyRecurringPrice: _s.parseJsonDouble(json['MonthlyRecurringPrice']),
       outpostId: json['OutpostId'] as String?,
       paymentOption:
@@ -1724,12 +2021,14 @@ class CreateRenewalOutput {
   }
 
   Map<String, dynamic> toJson() {
+    final currency = this.currency;
     final monthlyRecurringPrice = this.monthlyRecurringPrice;
     final outpostId = this.outpostId;
     final paymentOption = this.paymentOption;
     final paymentTerm = this.paymentTerm;
     final upfrontPrice = this.upfrontPrice;
     return {
+      if (currency != null) 'Currency': currency.value,
       if (monthlyRecurringPrice != null)
         'MonthlyRecurringPrice': _s.encodeJsonDouble(monthlyRecurringPrice),
       if (outpostId != null) 'OutpostId': outpostId,
@@ -1771,6 +2070,19 @@ class DeleteOutpostOutput {
 
   factory DeleteOutpostOutput.fromJson(Map<String, dynamic> _) {
     return DeleteOutpostOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteQuoteOutput {
+  DeleteQuoteOutput();
+
+  factory DeleteQuoteOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteQuoteOutput();
   }
 
   Map<String, dynamic> toJson() {
@@ -2200,6 +2512,31 @@ class GetOutpostSupportedInstanceTypesOutput {
 }
 
 /// @nodoc
+class GetQuoteOutput {
+  /// Information about the quote.
+  final Quote? quote;
+
+  GetQuoteOutput({
+    this.quote,
+  });
+
+  factory GetQuoteOutput.fromJson(Map<String, dynamic> json) {
+    return GetQuoteOutput(
+      quote: json['Quote'] != null
+          ? Quote.fromJson(json['Quote'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quote = this.quote;
+    return {
+      if (quote != null) 'Quote': quote,
+    };
+  }
+}
+
+/// @nodoc
 class GetRenewalPricingOutput {
   /// The pricing options for the specified Outpost.
   final List<PricingOption>? pricingOptions;
@@ -2455,6 +2792,40 @@ class ListCatalogItemsOutput {
 }
 
 /// @nodoc
+class ListOrderableInstanceTypesOutput {
+  /// Information about the instance types that can be ordered for the Outpost.
+  final List<DetailedInstanceTypeItem>? instanceTypes;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  ListOrderableInstanceTypesOutput({
+    this.instanceTypes,
+    this.nextToken,
+  });
+
+  factory ListOrderableInstanceTypesOutput.fromJson(Map<String, dynamic> json) {
+    return ListOrderableInstanceTypesOutput(
+      instanceTypes: (json['InstanceTypes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DetailedInstanceTypeItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceTypes = this.instanceTypes;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceTypes != null) 'InstanceTypes': instanceTypes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListOrdersOutput {
   final String? nextToken;
 
@@ -2512,6 +2883,39 @@ class ListOutpostsOutput {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (outposts != null) 'Outposts': outposts,
+    };
+  }
+}
+
+/// @nodoc
+class ListQuotesOutput {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// Information about the quotes.
+  final List<QuoteSummary>? quotes;
+
+  ListQuotesOutput({
+    this.nextToken,
+    this.quotes,
+  });
+
+  factory ListQuotesOutput.fromJson(Map<String, dynamic> json) {
+    return ListQuotesOutput(
+      nextToken: json['NextToken'] as String?,
+      quotes: (json['Quotes'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final quotes = this.quotes;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (quotes != null) 'Quotes': quotes,
     };
   }
 }
@@ -2823,6 +3227,31 @@ class UpdateOutpostOutput {
     final outpost = this.outpost;
     return {
       if (outpost != null) 'Outpost': outpost,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateQuoteOutput {
+  /// Information about the updated quote.
+  final Quote? quote;
+
+  UpdateQuoteOutput({
+    this.quote,
+  });
+
+  factory UpdateQuoteOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateQuoteOutput(
+      quote: json['Quote'] != null
+          ? Quote.fromJson(json['Quote'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quote = this.quote;
+    return {
+      if (quote != null) 'Quote': quote,
     };
   }
 }
@@ -3426,7 +3855,8 @@ class Address {
   /// The name of the contact.
   final String contactName;
 
-  /// The phone number of the contact.
+  /// The phone number of the contact, including the country code (for example,
+  /// <code>+12065550100</code>).
   final String contactPhoneNumber;
 
   /// The ISO-3166 two-letter country code for the address.
@@ -3506,6 +3936,1240 @@ class Address {
       if (municipality != null) 'Municipality': municipality,
     };
   }
+}
+
+/// Information about a quote for an Outpost. A quote provides pricing and
+/// configuration options based on the requested capacity.
+///
+/// @nodoc
+class Quote {
+  /// The ID of the account that owns the quote.
+  final String? accountId;
+
+  /// The country code for the Outpost site location.
+  final String? countryCode;
+
+  /// The date the quote was created.
+  final DateTime? createdDate;
+
+  /// The description of the quote.
+  final String? description;
+
+  /// The date the quote expires.
+  final DateTime? expirationDate;
+
+  /// The requirements that must be met before an order can be submitted for the
+  /// quote.
+  final List<OrderingRequirement>? orderingRequirements;
+
+  /// The ARN of the Outpost associated with the quote.
+  final String? outpostArn;
+
+  /// The ID of the quote.
+  final String? quoteId;
+
+  /// The configuration and pricing options for the quote. Each option includes
+  /// capacity details, physical specifications, and pricing information.
+  final List<QuoteOption>? quoteOptions;
+
+  /// The status of the quote.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED</code> - The quote has been created and is available for
+  /// review.
+  /// </li>
+  /// <li>
+  /// <code>ORDER_SUBMITTED</code> - An order has been submitted for the quote.
+  /// </li>
+  /// <li>
+  /// <code>EXPIRED</code> - The quote has expired and can no longer be used to
+  /// submit an order.
+  /// </li>
+  /// </ul>
+  final QuoteStatus? quoteStatus;
+
+  /// The capacity requirements specified in the quote request.
+  final List<QuoteCapacity>? requestedCapacities;
+
+  /// The physical constraints specified in the quote request.
+  final List<QuoteConstraint>? requestedConstraints;
+
+  /// The payment options specified in the quote request.
+  final List<PaymentOption>? requestedPaymentOptions;
+
+  /// The payment terms specified in the quote request.
+  final List<PaymentTerm>? requestedPaymentTerms;
+
+  /// A message about the status of the quote.
+  final String? statusMessage;
+
+  /// The ID of the order submitted for the quote.
+  final String? submittedOrderId;
+
+  Quote({
+    this.accountId,
+    this.countryCode,
+    this.createdDate,
+    this.description,
+    this.expirationDate,
+    this.orderingRequirements,
+    this.outpostArn,
+    this.quoteId,
+    this.quoteOptions,
+    this.quoteStatus,
+    this.requestedCapacities,
+    this.requestedConstraints,
+    this.requestedPaymentOptions,
+    this.requestedPaymentTerms,
+    this.statusMessage,
+    this.submittedOrderId,
+  });
+
+  factory Quote.fromJson(Map<String, dynamic> json) {
+    return Quote(
+      accountId: json['AccountId'] as String?,
+      countryCode: json['CountryCode'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      description: json['Description'] as String?,
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      orderingRequirements: (json['OrderingRequirements'] as List?)
+          ?.nonNulls
+          .map((e) => OrderingRequirement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outpostArn: json['OutpostArn'] as String?,
+      quoteId: json['QuoteId'] as String?,
+      quoteOptions: (json['QuoteOptions'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quoteStatus:
+          (json['QuoteStatus'] as String?)?.let(QuoteStatus.fromString),
+      requestedCapacities: (json['RequestedCapacities'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedConstraints: (json['RequestedConstraints'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedPaymentOptions: (json['RequestedPaymentOptions'] as List?)
+          ?.nonNulls
+          .map((e) => PaymentOption.fromString((e as String)))
+          .toList(),
+      requestedPaymentTerms: (json['RequestedPaymentTerms'] as List?)
+          ?.nonNulls
+          .map((e) => PaymentTerm.fromString((e as String)))
+          .toList(),
+      statusMessage: json['StatusMessage'] as String?,
+      submittedOrderId: json['SubmittedOrderId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final countryCode = this.countryCode;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final expirationDate = this.expirationDate;
+    final orderingRequirements = this.orderingRequirements;
+    final outpostArn = this.outpostArn;
+    final quoteId = this.quoteId;
+    final quoteOptions = this.quoteOptions;
+    final quoteStatus = this.quoteStatus;
+    final requestedCapacities = this.requestedCapacities;
+    final requestedConstraints = this.requestedConstraints;
+    final requestedPaymentOptions = this.requestedPaymentOptions;
+    final requestedPaymentTerms = this.requestedPaymentTerms;
+    final statusMessage = this.statusMessage;
+    final submittedOrderId = this.submittedOrderId;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (description != null) 'Description': description,
+      if (expirationDate != null)
+        'ExpirationDate': unixTimestampToJson(expirationDate),
+      if (orderingRequirements != null)
+        'OrderingRequirements': orderingRequirements,
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (quoteId != null) 'QuoteId': quoteId,
+      if (quoteOptions != null) 'QuoteOptions': quoteOptions,
+      if (quoteStatus != null) 'QuoteStatus': quoteStatus.value,
+      if (requestedCapacities != null)
+        'RequestedCapacities': requestedCapacities,
+      if (requestedConstraints != null)
+        'RequestedConstraints': requestedConstraints,
+      if (requestedPaymentOptions != null)
+        'RequestedPaymentOptions':
+            requestedPaymentOptions.map((e) => e.value).toList(),
+      if (requestedPaymentTerms != null)
+        'RequestedPaymentTerms':
+            requestedPaymentTerms.map((e) => e.value).toList(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (submittedOrderId != null) 'SubmittedOrderId': submittedOrderId,
+    };
+  }
+}
+
+/// @nodoc
+class QuoteStatus {
+  static const created = QuoteStatus._('CREATED');
+  static const orderSubmitted = QuoteStatus._('ORDER_SUBMITTED');
+  static const expired = QuoteStatus._('EXPIRED');
+
+  final String value;
+
+  const QuoteStatus._(this.value);
+
+  static const values = [created, orderSubmitted, expired];
+
+  static QuoteStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QuoteStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QuoteStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A requirement that must be met before an order can be submitted for a quote.
+///
+/// @nodoc
+class OrderingRequirement {
+  /// The type of ordering requirement. Indicates which check failed or passed.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>OUTPOST_ACTIVE_CHECK_ERROR</code> - The Outpost must be in an active
+  /// state.
+  /// </li>
+  /// <li>
+  /// <code>MAXIMUM_ALLOWED_ORDERS_CHECK_ERROR</code> - The maximum number of
+  /// allowed orders has been reached.
+  /// </li>
+  /// <li>
+  /// <code>VALID_ZIP_CODE_CHECK_ERROR</code> - The site address must have a valid
+  /// zip code.
+  /// </li>
+  /// <li>
+  /// <code>RACK_PHYSICAL_PROPERTIES_CHECK_ERROR</code> - The rack physical
+  /// properties do not meet requirements.
+  /// </li>
+  /// <li>
+  /// <code>OPERATING_ADDRESS_EXISTENCE_CHECK_ERROR</code> - The site must have an
+  /// operating address.
+  /// </li>
+  /// <li>
+  /// <code>SHIPPING_ADDRESS_EXISTENCE_CHECK_ERROR</code> - The site must have a
+  /// shipping address.
+  /// </li>
+  /// <li>
+  /// <code>COUNTRY_CODE_MISMATCH_CHECK_ERROR</code> - The country code on the
+  /// quote does not match the Outpost site country.
+  /// </li>
+  /// <li>
+  /// <code>OUTPOST_GENERATION_MISMATCH_ERROR</code> - The Outpost generation does
+  /// not match the requested configuration.
+  /// </li>
+  /// <li>
+  /// <code>OUTPOST_ID_MISSING_ON_QUOTE_ERROR</code> - The quote must be
+  /// associated with an Outpost before submitting an order.
+  /// </li>
+  /// <li>
+  /// <code>ENTERPRISE_SUPPORT_ERROR</code> - Enterprise Support is required.
+  /// </li>
+  /// <li>
+  /// <code>SHIPPING_ADDRESS_MISSING_CONTACT_NAME_ERROR</code> - The shipping
+  /// address must have a contact name.
+  /// </li>
+  /// <li>
+  /// <code>SHIPPING_ADDRESS_MISSING_CONTACT_NUMBER_ERROR</code> - The shipping
+  /// address must have a contact phone number.
+  /// </li>
+  /// <li>
+  /// <code>SHIPPING_ADDRESS_MISSING_CONTACT_INFO_ERROR</code> - The shipping
+  /// address must have contact information.
+  /// </li>
+  /// <li>
+  /// <code>OUTPOST_STATE_CHANGED_ERROR</code> - The Outpost state has changed
+  /// since the quote was created.
+  /// </li>
+  /// <li>
+  /// <code>OUTPOST_NOT_FOUND_ERROR</code> - The Outpost associated with the quote
+  /// was not found.
+  /// </li>
+  /// <li>
+  /// <code>OUTPOST_RENEWAL_REQUIRED_ERROR</code> - The Outpost requires a renewal
+  /// before a new order can be submitted.
+  /// </li>
+  /// <li>
+  /// <code>UNSUPPORTED</code> - The requirement type is not recognized.
+  /// </li>
+  /// </ul>
+  final OrderingRequirementType? orderingRequirementType;
+
+  /// The status of the ordering requirement. Valid values are <code>PASS</code>,
+  /// <code>FAIL</code>, and <code>EXEMPT</code>.
+  final OrderingRequirementStatus? status;
+
+  /// A message about the ordering requirement.
+  final String? statusMessage;
+
+  OrderingRequirement({
+    this.orderingRequirementType,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory OrderingRequirement.fromJson(Map<String, dynamic> json) {
+    return OrderingRequirement(
+      orderingRequirementType: (json['OrderingRequirementType'] as String?)
+          ?.let(OrderingRequirementType.fromString),
+      status: (json['Status'] as String?)
+          ?.let(OrderingRequirementStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final orderingRequirementType = this.orderingRequirementType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (orderingRequirementType != null)
+        'OrderingRequirementType': orderingRequirementType.value,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// @nodoc
+class OrderingRequirementType {
+  static const outpostActiveCheckError =
+      OrderingRequirementType._('OUTPOST_ACTIVE_CHECK_ERROR');
+  static const maximumAllowedOrdersCheckError =
+      OrderingRequirementType._('MAXIMUM_ALLOWED_ORDERS_CHECK_ERROR');
+  static const validZipCodeCheckError =
+      OrderingRequirementType._('VALID_ZIP_CODE_CHECK_ERROR');
+  static const rackPhysicalPropertiesCheckError =
+      OrderingRequirementType._('RACK_PHYSICAL_PROPERTIES_CHECK_ERROR');
+  static const operatingAddressExistenceCheckError =
+      OrderingRequirementType._('OPERATING_ADDRESS_EXISTENCE_CHECK_ERROR');
+  static const shippingAddressExistenceCheckError =
+      OrderingRequirementType._('SHIPPING_ADDRESS_EXISTENCE_CHECK_ERROR');
+  static const countryCodeMismatchCheckError =
+      OrderingRequirementType._('COUNTRY_CODE_MISMATCH_CHECK_ERROR');
+  static const outpostGenerationMismatchError =
+      OrderingRequirementType._('OUTPOST_GENERATION_MISMATCH_ERROR');
+  static const unsupported = OrderingRequirementType._('UNSUPPORTED');
+  static const outpostIdMissingOnQuoteError =
+      OrderingRequirementType._('OUTPOST_ID_MISSING_ON_QUOTE_ERROR');
+  static const enterpriseSupportError =
+      OrderingRequirementType._('ENTERPRISE_SUPPORT_ERROR');
+  static const shippingAddressMissingContactNameError =
+      OrderingRequirementType._('SHIPPING_ADDRESS_MISSING_CONTACT_NAME_ERROR');
+  static const shippingAddressMissingContactNumberError =
+      OrderingRequirementType._(
+          'SHIPPING_ADDRESS_MISSING_CONTACT_NUMBER_ERROR');
+  static const shippingAddressMissingContactInfoError =
+      OrderingRequirementType._('SHIPPING_ADDRESS_MISSING_CONTACT_INFO_ERROR');
+  static const outpostStateChangedError =
+      OrderingRequirementType._('OUTPOST_STATE_CHANGED_ERROR');
+  static const outpostNotFoundError =
+      OrderingRequirementType._('OUTPOST_NOT_FOUND_ERROR');
+  static const outpostRenewalRequiredError =
+      OrderingRequirementType._('OUTPOST_RENEWAL_REQUIRED_ERROR');
+
+  final String value;
+
+  const OrderingRequirementType._(this.value);
+
+  static const values = [
+    outpostActiveCheckError,
+    maximumAllowedOrdersCheckError,
+    validZipCodeCheckError,
+    rackPhysicalPropertiesCheckError,
+    operatingAddressExistenceCheckError,
+    shippingAddressExistenceCheckError,
+    countryCodeMismatchCheckError,
+    outpostGenerationMismatchError,
+    unsupported,
+    outpostIdMissingOnQuoteError,
+    enterpriseSupportError,
+    shippingAddressMissingContactNameError,
+    shippingAddressMissingContactNumberError,
+    shippingAddressMissingContactInfoError,
+    outpostStateChangedError,
+    outpostNotFoundError,
+    outpostRenewalRequiredError
+  ];
+
+  static OrderingRequirementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrderingRequirementType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrderingRequirementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class OrderingRequirementStatus {
+  static const pass = OrderingRequirementStatus._('PASS');
+  static const fail = OrderingRequirementStatus._('FAIL');
+  static const exempt = OrderingRequirementStatus._('EXEMPT');
+
+  final String value;
+
+  const OrderingRequirementStatus._(this.value);
+
+  static const values = [pass, fail, exempt];
+
+  static OrderingRequirementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrderingRequirementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrderingRequirementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration and pricing option for a quote. Each option includes the
+/// capacity breakdown, physical specifications for the racks or servers, and
+/// pricing details.
+///
+/// @nodoc
+class QuoteOption {
+  /// The capacities included in this quote option.
+  final List<QuoteCapacity>? capacities;
+
+  /// A summary of the existing, final, and changed capacity for this quote
+  /// option.
+  final CapacitySummary? capacitySummary;
+
+  /// The pricing options for this quote option.
+  final List<PricingOption>? pricingOptions;
+
+  /// The ID of the quote option.
+  final String? quoteOptionIdentifier;
+
+  /// The physical specifications for the racks or servers in this quote option.
+  final List<QuoteSpecification>? specifications;
+
+  QuoteOption({
+    this.capacities,
+    this.capacitySummary,
+    this.pricingOptions,
+    this.quoteOptionIdentifier,
+    this.specifications,
+  });
+
+  factory QuoteOption.fromJson(Map<String, dynamic> json) {
+    return QuoteOption(
+      capacities: (json['Capacities'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      capacitySummary: json['CapacitySummary'] != null
+          ? CapacitySummary.fromJson(
+              json['CapacitySummary'] as Map<String, dynamic>)
+          : null,
+      pricingOptions: (json['PricingOptions'] as List?)
+          ?.nonNulls
+          .map((e) => PricingOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quoteOptionIdentifier: json['QuoteOptionIdentifier'] as String?,
+      specifications: (json['Specifications'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteSpecification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacities = this.capacities;
+    final capacitySummary = this.capacitySummary;
+    final pricingOptions = this.pricingOptions;
+    final quoteOptionIdentifier = this.quoteOptionIdentifier;
+    final specifications = this.specifications;
+    return {
+      if (capacities != null) 'Capacities': capacities,
+      if (capacitySummary != null) 'CapacitySummary': capacitySummary,
+      if (pricingOptions != null) 'PricingOptions': pricingOptions,
+      if (quoteOptionIdentifier != null)
+        'QuoteOptionIdentifier': quoteOptionIdentifier,
+      if (specifications != null) 'Specifications': specifications,
+    };
+  }
+}
+
+/// A summary of the capacity changes for a quote option.
+///
+/// @nodoc
+class CapacitySummary {
+  /// The change in capacity between the existing and final state.
+  final List<QuoteCapacity>? capacityChange;
+
+  /// The existing capacities on the Outpost before the quote is fulfilled.
+  final List<QuoteCapacity>? existingCapacities;
+
+  /// The final capacities on the Outpost after the quote is fulfilled.
+  final List<QuoteCapacity>? finalCapacities;
+
+  CapacitySummary({
+    this.capacityChange,
+    this.existingCapacities,
+    this.finalCapacities,
+  });
+
+  factory CapacitySummary.fromJson(Map<String, dynamic> json) {
+    return CapacitySummary(
+      capacityChange: (json['CapacityChange'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      existingCapacities: (json['ExistingCapacities'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      finalCapacities: (json['FinalCapacities'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityChange = this.capacityChange;
+    final existingCapacities = this.existingCapacities;
+    final finalCapacities = this.finalCapacities;
+    return {
+      if (capacityChange != null) 'CapacityChange': capacityChange,
+      if (existingCapacities != null) 'ExistingCapacities': existingCapacities,
+      if (finalCapacities != null) 'FinalCapacities': finalCapacities,
+    };
+  }
+}
+
+/// A pricing option for the specified Outpost.
+///
+/// @nodoc
+class PricingOption {
+  /// The type of pricing model.
+  final QuotePricingType? pricingType;
+
+  /// The subscription pricing details for this pricing option.
+  final SubscriptionPricingDetails? subscriptionPricingDetails;
+
+  PricingOption({
+    this.pricingType,
+    this.subscriptionPricingDetails,
+  });
+
+  factory PricingOption.fromJson(Map<String, dynamic> json) {
+    return PricingOption(
+      pricingType:
+          (json['PricingType'] as String?)?.let(QuotePricingType.fromString),
+      subscriptionPricingDetails: json['SubscriptionPricingDetails'] != null
+          ? SubscriptionPricingDetails.fromJson(
+              json['SubscriptionPricingDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pricingType = this.pricingType;
+    final subscriptionPricingDetails = this.subscriptionPricingDetails;
+    return {
+      if (pricingType != null) 'PricingType': pricingType.value,
+      if (subscriptionPricingDetails != null)
+        'SubscriptionPricingDetails': subscriptionPricingDetails,
+    };
+  }
+}
+
+/// @nodoc
+class QuotePricingType {
+  static const subscription = QuotePricingType._('SUBSCRIPTION');
+
+  final String value;
+
+  const QuotePricingType._(this.value);
+
+  static const values = [subscription];
+
+  static QuotePricingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuotePricingType._(value));
+
+  @override
+  bool operator ==(other) => other is QuotePricingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The pricing details for a subscription.
+///
+/// @nodoc
+class SubscriptionPricingDetails {
+  /// The currency of the price. Currently only <code>USD</code> is supported.
+  final CurrencyCode? currency;
+
+  /// The monthly recurring price.
+  final double? monthlyRecurringPrice;
+
+  /// The payment option.
+  final PaymentOption? paymentOption;
+
+  /// The payment term.
+  final PaymentTerm? paymentTerm;
+
+  /// The upfront price.
+  final double? upfrontPrice;
+
+  SubscriptionPricingDetails({
+    this.currency,
+    this.monthlyRecurringPrice,
+    this.paymentOption,
+    this.paymentTerm,
+    this.upfrontPrice,
+  });
+
+  factory SubscriptionPricingDetails.fromJson(Map<String, dynamic> json) {
+    return SubscriptionPricingDetails(
+      currency: (json['Currency'] as String?)?.let(CurrencyCode.fromString),
+      monthlyRecurringPrice: _s.parseJsonDouble(json['MonthlyRecurringPrice']),
+      paymentOption:
+          (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
+      paymentTerm:
+          (json['PaymentTerm'] as String?)?.let(PaymentTerm.fromString),
+      upfrontPrice: _s.parseJsonDouble(json['UpfrontPrice']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final monthlyRecurringPrice = this.monthlyRecurringPrice;
+    final paymentOption = this.paymentOption;
+    final paymentTerm = this.paymentTerm;
+    final upfrontPrice = this.upfrontPrice;
+    return {
+      if (currency != null) 'Currency': currency.value,
+      if (monthlyRecurringPrice != null)
+        'MonthlyRecurringPrice': _s.encodeJsonDouble(monthlyRecurringPrice),
+      if (paymentOption != null) 'PaymentOption': paymentOption.value,
+      if (paymentTerm != null) 'PaymentTerm': paymentTerm.value,
+      if (upfrontPrice != null)
+        'UpfrontPrice': _s.encodeJsonDouble(upfrontPrice),
+    };
+  }
+}
+
+/// @nodoc
+class PaymentOption {
+  static const allUpfront = PaymentOption._('ALL_UPFRONT');
+  static const noUpfront = PaymentOption._('NO_UPFRONT');
+  static const partialUpfront = PaymentOption._('PARTIAL_UPFRONT');
+
+  final String value;
+
+  const PaymentOption._(this.value);
+
+  static const values = [allUpfront, noUpfront, partialUpfront];
+
+  static PaymentOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PaymentOption._(value));
+
+  @override
+  bool operator ==(other) => other is PaymentOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class PaymentTerm {
+  static const threeYears = PaymentTerm._('THREE_YEARS');
+  static const oneYear = PaymentTerm._('ONE_YEAR');
+  static const fiveYears = PaymentTerm._('FIVE_YEARS');
+
+  final String value;
+
+  const PaymentTerm._(this.value);
+
+  static const values = [threeYears, oneYear, fiveYears];
+
+  static PaymentTerm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PaymentTerm._(value));
+
+  @override
+  bool operator ==(other) => other is PaymentTerm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class CurrencyCode {
+  static const usd = CurrencyCode._('USD');
+
+  final String value;
+
+  const CurrencyCode._(this.value);
+
+  static const values = [usd];
+
+  static CurrencyCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A physical specification for a quote option. Describes the rack or server
+/// configuration that would be deployed.
+///
+/// @nodoc
+class QuoteSpecification {
+  /// The existing rack specification details, if the specification type is
+  /// <code>UPDATED_RACK</code> or <code>EXISTING_RACK</code>.
+  final RackSpecificationDetails? existingRackSpecificationDetails;
+
+  /// The final rack specification details after the quote is fulfilled.
+  final RackSpecificationDetails? finalRackSpecificationDetails;
+
+  /// The type of specification. Valid values are <code>NEW_RACK</code>,
+  /// <code>UPDATED_RACK</code>, <code>EXISTING_RACK</code>, and
+  /// <code>SERVER</code>.
+  final QuoteSpecificationType? quoteSpecificationType;
+
+  /// The server specification details, if the specification type is
+  /// <code>SERVER</code>.
+  final ServerSpecificationDetails? serverSpecificationDetails;
+
+  QuoteSpecification({
+    this.existingRackSpecificationDetails,
+    this.finalRackSpecificationDetails,
+    this.quoteSpecificationType,
+    this.serverSpecificationDetails,
+  });
+
+  factory QuoteSpecification.fromJson(Map<String, dynamic> json) {
+    return QuoteSpecification(
+      existingRackSpecificationDetails:
+          json['ExistingRackSpecificationDetails'] != null
+              ? RackSpecificationDetails.fromJson(
+                  json['ExistingRackSpecificationDetails']
+                      as Map<String, dynamic>)
+              : null,
+      finalRackSpecificationDetails:
+          json['FinalRackSpecificationDetails'] != null
+              ? RackSpecificationDetails.fromJson(
+                  json['FinalRackSpecificationDetails'] as Map<String, dynamic>)
+              : null,
+      quoteSpecificationType: (json['QuoteSpecificationType'] as String?)
+          ?.let(QuoteSpecificationType.fromString),
+      serverSpecificationDetails: json['ServerSpecificationDetails'] != null
+          ? ServerSpecificationDetails.fromJson(
+              json['ServerSpecificationDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final existingRackSpecificationDetails =
+        this.existingRackSpecificationDetails;
+    final finalRackSpecificationDetails = this.finalRackSpecificationDetails;
+    final quoteSpecificationType = this.quoteSpecificationType;
+    final serverSpecificationDetails = this.serverSpecificationDetails;
+    return {
+      if (existingRackSpecificationDetails != null)
+        'ExistingRackSpecificationDetails': existingRackSpecificationDetails,
+      if (finalRackSpecificationDetails != null)
+        'FinalRackSpecificationDetails': finalRackSpecificationDetails,
+      if (quoteSpecificationType != null)
+        'QuoteSpecificationType': quoteSpecificationType.value,
+      if (serverSpecificationDetails != null)
+        'ServerSpecificationDetails': serverSpecificationDetails,
+    };
+  }
+}
+
+/// @nodoc
+class QuoteSpecificationType {
+  static const updatedRack = QuoteSpecificationType._('UPDATED_RACK');
+  static const newRack = QuoteSpecificationType._('NEW_RACK');
+  static const existingRack = QuoteSpecificationType._('EXISTING_RACK');
+  static const server = QuoteSpecificationType._('SERVER');
+
+  final String value;
+
+  const QuoteSpecificationType._(this.value);
+
+  static const values = [updatedRack, newRack, existingRack, server];
+
+  static QuoteSpecificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuoteSpecificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QuoteSpecificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The physical specification details for a rack in a quote option.
+///
+/// @nodoc
+class RackSpecificationDetails {
+  /// The Amazon EC2 capacities for the rack.
+  final List<EC2Capacity>? eC2Capacities;
+
+  /// The depth of the rack in inches.
+  final double? rackDepthInches;
+
+  /// The height of the rack in inches.
+  final double? rackHeightInches;
+
+  /// The ID of the rack.
+  final String? rackId;
+
+  /// The maximum power draw of the rack in kVA.
+  final double? rackPowerDrawKva;
+
+  /// The rack unit height.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HEIGHT_42U</code> - 42 rack units.
+  /// </li>
+  /// <li>
+  /// <code>HEIGHT_2U</code> - 2 rack units.
+  /// </li>
+  /// <li>
+  /// <code>HEIGHT_1U</code> - 1 rack unit.
+  /// </li>
+  /// </ul>
+  final RackUnitHeight? rackUnitHeight;
+
+  /// The use of the rack. Valid values are <code>COMPUTE</code> and
+  /// <code>NETWORKING</code>.
+  final QuoteRackUseType? rackUse;
+
+  /// The weight of the rack in pounds.
+  final double? rackWeightLbs;
+
+  /// The width of the rack in inches.
+  final double? rackWidthInches;
+
+  RackSpecificationDetails({
+    this.eC2Capacities,
+    this.rackDepthInches,
+    this.rackHeightInches,
+    this.rackId,
+    this.rackPowerDrawKva,
+    this.rackUnitHeight,
+    this.rackUse,
+    this.rackWeightLbs,
+    this.rackWidthInches,
+  });
+
+  factory RackSpecificationDetails.fromJson(Map<String, dynamic> json) {
+    return RackSpecificationDetails(
+      eC2Capacities: (json['EC2Capacities'] as List?)
+          ?.nonNulls
+          .map((e) => EC2Capacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rackDepthInches: _s.parseJsonDouble(json['RackDepthInches']),
+      rackHeightInches: _s.parseJsonDouble(json['RackHeightInches']),
+      rackId: json['RackId'] as String?,
+      rackPowerDrawKva: _s.parseJsonDouble(json['RackPowerDrawKva']),
+      rackUnitHeight:
+          (json['RackUnitHeight'] as String?)?.let(RackUnitHeight.fromString),
+      rackUse: (json['RackUse'] as String?)?.let(QuoteRackUseType.fromString),
+      rackWeightLbs: _s.parseJsonDouble(json['RackWeightLbs']),
+      rackWidthInches: _s.parseJsonDouble(json['RackWidthInches']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2Capacities = this.eC2Capacities;
+    final rackDepthInches = this.rackDepthInches;
+    final rackHeightInches = this.rackHeightInches;
+    final rackId = this.rackId;
+    final rackPowerDrawKva = this.rackPowerDrawKva;
+    final rackUnitHeight = this.rackUnitHeight;
+    final rackUse = this.rackUse;
+    final rackWeightLbs = this.rackWeightLbs;
+    final rackWidthInches = this.rackWidthInches;
+    return {
+      if (eC2Capacities != null) 'EC2Capacities': eC2Capacities,
+      if (rackDepthInches != null)
+        'RackDepthInches': _s.encodeJsonDouble(rackDepthInches),
+      if (rackHeightInches != null)
+        'RackHeightInches': _s.encodeJsonDouble(rackHeightInches),
+      if (rackId != null) 'RackId': rackId,
+      if (rackPowerDrawKva != null)
+        'RackPowerDrawKva': _s.encodeJsonDouble(rackPowerDrawKva),
+      if (rackUnitHeight != null) 'RackUnitHeight': rackUnitHeight.value,
+      if (rackUse != null) 'RackUse': rackUse.value,
+      if (rackWeightLbs != null)
+        'RackWeightLbs': _s.encodeJsonDouble(rackWeightLbs),
+      if (rackWidthInches != null)
+        'RackWidthInches': _s.encodeJsonDouble(rackWidthInches),
+    };
+  }
+}
+
+/// The physical specification details for a server in a quote option.
+///
+/// @nodoc
+class ServerSpecificationDetails {
+  /// The Amazon EC2 capacities for the server.
+  final List<EC2Capacity>? eC2Capacities;
+
+  /// The rack unit height of the server.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HEIGHT_2U</code> - 2 rack units.
+  /// </li>
+  /// <li>
+  /// <code>HEIGHT_1U</code> - 1 rack unit.
+  /// </li>
+  /// </ul>
+  final RackUnitHeight? rackUnitHeight;
+
+  /// The depth of the server in inches.
+  final double? serverDepthInches;
+
+  /// The height of the server in inches.
+  final double? serverHeightInches;
+
+  /// The maximum power draw of the server in kVA.
+  final double? serverPowerDrawKva;
+
+  /// The weight of the server in pounds.
+  final double? serverWeightLbs;
+
+  /// The width of the server in inches.
+  final double? serverWidthInches;
+
+  ServerSpecificationDetails({
+    this.eC2Capacities,
+    this.rackUnitHeight,
+    this.serverDepthInches,
+    this.serverHeightInches,
+    this.serverPowerDrawKva,
+    this.serverWeightLbs,
+    this.serverWidthInches,
+  });
+
+  factory ServerSpecificationDetails.fromJson(Map<String, dynamic> json) {
+    return ServerSpecificationDetails(
+      eC2Capacities: (json['EC2Capacities'] as List?)
+          ?.nonNulls
+          .map((e) => EC2Capacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rackUnitHeight:
+          (json['RackUnitHeight'] as String?)?.let(RackUnitHeight.fromString),
+      serverDepthInches: _s.parseJsonDouble(json['ServerDepthInches']),
+      serverHeightInches: _s.parseJsonDouble(json['ServerHeightInches']),
+      serverPowerDrawKva: _s.parseJsonDouble(json['ServerPowerDrawKva']),
+      serverWeightLbs: _s.parseJsonDouble(json['ServerWeightLbs']),
+      serverWidthInches: _s.parseJsonDouble(json['ServerWidthInches']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2Capacities = this.eC2Capacities;
+    final rackUnitHeight = this.rackUnitHeight;
+    final serverDepthInches = this.serverDepthInches;
+    final serverHeightInches = this.serverHeightInches;
+    final serverPowerDrawKva = this.serverPowerDrawKva;
+    final serverWeightLbs = this.serverWeightLbs;
+    final serverWidthInches = this.serverWidthInches;
+    return {
+      if (eC2Capacities != null) 'EC2Capacities': eC2Capacities,
+      if (rackUnitHeight != null) 'RackUnitHeight': rackUnitHeight.value,
+      if (serverDepthInches != null)
+        'ServerDepthInches': _s.encodeJsonDouble(serverDepthInches),
+      if (serverHeightInches != null)
+        'ServerHeightInches': _s.encodeJsonDouble(serverHeightInches),
+      if (serverPowerDrawKva != null)
+        'ServerPowerDrawKva': _s.encodeJsonDouble(serverPowerDrawKva),
+      if (serverWeightLbs != null)
+        'ServerWeightLbs': _s.encodeJsonDouble(serverWeightLbs),
+      if (serverWidthInches != null)
+        'ServerWidthInches': _s.encodeJsonDouble(serverWidthInches),
+    };
+  }
+}
+
+/// @nodoc
+class RackUnitHeight {
+  static const height_42u = RackUnitHeight._('HEIGHT_42U');
+  static const height_2u = RackUnitHeight._('HEIGHT_2U');
+  static const height_1u = RackUnitHeight._('HEIGHT_1U');
+
+  final String value;
+
+  const RackUnitHeight._(this.value);
+
+  static const values = [height_42u, height_2u, height_1u];
+
+  static RackUnitHeight fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RackUnitHeight._(value));
+
+  @override
+  bool operator ==(other) => other is RackUnitHeight && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about EC2 capacity.
+///
+/// @nodoc
+class EC2Capacity {
+  /// The family of the EC2 capacity.
+  final String? family;
+
+  /// The maximum size of the EC2 capacity.
+  final String? maxSize;
+
+  /// The quantity of the EC2 capacity.
+  final String? quantity;
+
+  EC2Capacity({
+    this.family,
+    this.maxSize,
+    this.quantity,
+  });
+
+  factory EC2Capacity.fromJson(Map<String, dynamic> json) {
+    return EC2Capacity(
+      family: json['Family'] as String?,
+      maxSize: json['MaxSize'] as String?,
+      quantity: json['Quantity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final family = this.family;
+    final maxSize = this.maxSize;
+    final quantity = this.quantity;
+    return {
+      if (family != null) 'Family': family,
+      if (maxSize != null) 'MaxSize': maxSize,
+      if (quantity != null) 'Quantity': quantity,
+    };
+  }
+}
+
+/// @nodoc
+class QuoteRackUseType {
+  static const networking = QuoteRackUseType._('NETWORKING');
+  static const compute = QuoteRackUseType._('COMPUTE');
+
+  final String value;
+
+  const QuoteRackUseType._(this.value);
+
+  static const values = [networking, compute];
+
+  static QuoteRackUseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuoteRackUseType._(value));
+
+  @override
+  bool operator ==(other) => other is QuoteRackUseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A physical constraint for a quote.
+///
+/// @nodoc
+class QuoteConstraint {
+  /// The type of constraint. Valid values are <code>RACK_MAXIMUM</code>,
+  /// <code>RACK_MAX_POWER_KVA</code>, and <code>RACK_MAX_WEIGHT_LBS</code>.
+  final QuoteConstraintType? quoteConstraintType;
+
+  /// The value of the constraint.
+  final String? value;
+
+  QuoteConstraint({
+    this.quoteConstraintType,
+    this.value,
+  });
+
+  factory QuoteConstraint.fromJson(Map<String, dynamic> json) {
+    return QuoteConstraint(
+      quoteConstraintType: (json['QuoteConstraintType'] as String?)
+          ?.let(QuoteConstraintType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quoteConstraintType = this.quoteConstraintType;
+    final value = this.value;
+    return {
+      if (quoteConstraintType != null)
+        'QuoteConstraintType': quoteConstraintType.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// @nodoc
+class QuoteConstraintType {
+  static const rackMaximum = QuoteConstraintType._('RACK_MAXIMUM');
+  static const rackMaxPowerKva = QuoteConstraintType._('RACK_MAX_POWER_KVA');
+  static const rackMaxWeightLbs = QuoteConstraintType._('RACK_MAX_WEIGHT_LBS');
+
+  final String value;
+
+  const QuoteConstraintType._(this.value);
+
+  static const values = [rackMaximum, rackMaxPowerKva, rackMaxWeightLbs];
+
+  static QuoteConstraintType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuoteConstraintType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QuoteConstraintType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A capacity requirement for a quote. Specifies the type of capacity, the
+/// unit, and the quantity.
+///
+/// @nodoc
+class QuoteCapacity {
+  /// The quantity of the specified capacity unit. For Amazon EC2, this is the
+  /// number of additional instances to add to the Outpost. For Amazon EBS and
+  /// Amazon S3, this is the total desired end-state capacity of the Outpost.
+  final double? quantity;
+
+  /// The type of capacity. Valid values are <code>EC2</code>, <code>EBS</code>,
+  /// and <code>S3</code>.
+  final QuoteCapacityType? quoteCapacityType;
+
+  /// The unit of measurement for the capacity. For Amazon EC2, this is the
+  /// instance type (for example, <code>c5.24xlarge</code>). For Amazon EBS and
+  /// Amazon S3, this is the storage unit (for example, <code>TiB</code> for
+  /// tebibytes).
+  final String? unit;
+
+  QuoteCapacity({
+    this.quantity,
+    this.quoteCapacityType,
+    this.unit,
+  });
+
+  factory QuoteCapacity.fromJson(Map<String, dynamic> json) {
+    return QuoteCapacity(
+      quantity: _s.parseJsonDouble(json['Quantity']),
+      quoteCapacityType: (json['QuoteCapacityType'] as String?)
+          ?.let(QuoteCapacityType.fromString),
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final quoteCapacityType = this.quoteCapacityType;
+    final unit = this.unit;
+    return {
+      if (quantity != null) 'Quantity': _s.encodeJsonDouble(quantity),
+      if (quoteCapacityType != null)
+        'QuoteCapacityType': quoteCapacityType.value,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+/// @nodoc
+class QuoteCapacityType {
+  static const ec2 = QuoteCapacityType._('EC2');
+  static const ebs = QuoteCapacityType._('EBS');
+  static const s3 = QuoteCapacityType._('S3');
+
+  final String value;
+
+  const QuoteCapacityType._(this.value);
+
+  static const values = [ec2, ebs, s3];
+
+  static QuoteCapacityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuoteCapacityType._(value));
+
+  @override
+  bool operator ==(other) => other is QuoteCapacityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an Outpost.
@@ -3886,6 +5550,7 @@ class CapacityTaskFailureType {
 class AWSServiceName {
   static const aws = AWSServiceName._('AWS');
   static const ec2 = AWSServiceName._('EC2');
+  static const eks = AWSServiceName._('EKS');
   static const elasticache = AWSServiceName._('ELASTICACHE');
   static const elb = AWSServiceName._('ELB');
   static const rds = AWSServiceName._('RDS');
@@ -3895,7 +5560,7 @@ class AWSServiceName {
 
   const AWSServiceName._(this.value);
 
-  static const values = [aws, ec2, elasticache, elb, rds, route53];
+  static const values = [aws, ec2, eks, elasticache, elb, rds, route53];
 
   static AWSServiceName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -3940,6 +5605,152 @@ class InstanceTypeCapacity {
     return {
       'Count': count,
       'InstanceType': instanceType,
+    };
+  }
+}
+
+/// Summary information about a quote.
+///
+/// @nodoc
+class QuoteSummary {
+  /// The ID of the account that owns the quote.
+  final String? accountId;
+
+  /// The country code for the Outpost site location.
+  final String? countryCode;
+
+  /// The date the quote was created.
+  final DateTime? createdDate;
+
+  /// The description of the quote.
+  final String? description;
+
+  /// The date the quote expires.
+  final DateTime? expirationDate;
+
+  /// The ARN of the Outpost associated with the quote.
+  final String? outpostArn;
+
+  /// The ID of the quote.
+  final String? quoteId;
+
+  /// The configuration and pricing options for the quote.
+  final List<QuoteOption>? quoteOptions;
+
+  /// The status of the quote.
+  final QuoteStatus? quoteStatus;
+
+  /// The capacity requirements specified in the quote request.
+  final List<QuoteCapacity>? requestedCapacities;
+
+  /// The physical constraints specified in the quote request.
+  final List<QuoteConstraint>? requestedConstraints;
+
+  /// The payment options specified in the quote request.
+  final List<PaymentOption>? requestedPaymentOptions;
+
+  /// The payment terms specified in the quote request.
+  final List<PaymentTerm>? requestedPaymentTerms;
+
+  /// A message about the status of the quote.
+  final String? statusMessage;
+
+  /// The ID of the order submitted for the quote.
+  final String? submittedOrderId;
+
+  QuoteSummary({
+    this.accountId,
+    this.countryCode,
+    this.createdDate,
+    this.description,
+    this.expirationDate,
+    this.outpostArn,
+    this.quoteId,
+    this.quoteOptions,
+    this.quoteStatus,
+    this.requestedCapacities,
+    this.requestedConstraints,
+    this.requestedPaymentOptions,
+    this.requestedPaymentTerms,
+    this.statusMessage,
+    this.submittedOrderId,
+  });
+
+  factory QuoteSummary.fromJson(Map<String, dynamic> json) {
+    return QuoteSummary(
+      accountId: json['AccountId'] as String?,
+      countryCode: json['CountryCode'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      description: json['Description'] as String?,
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      outpostArn: json['OutpostArn'] as String?,
+      quoteId: json['QuoteId'] as String?,
+      quoteOptions: (json['QuoteOptions'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quoteStatus:
+          (json['QuoteStatus'] as String?)?.let(QuoteStatus.fromString),
+      requestedCapacities: (json['RequestedCapacities'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedConstraints: (json['RequestedConstraints'] as List?)
+          ?.nonNulls
+          .map((e) => QuoteConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedPaymentOptions: (json['RequestedPaymentOptions'] as List?)
+          ?.nonNulls
+          .map((e) => PaymentOption.fromString((e as String)))
+          .toList(),
+      requestedPaymentTerms: (json['RequestedPaymentTerms'] as List?)
+          ?.nonNulls
+          .map((e) => PaymentTerm.fromString((e as String)))
+          .toList(),
+      statusMessage: json['StatusMessage'] as String?,
+      submittedOrderId: json['SubmittedOrderId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final countryCode = this.countryCode;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final expirationDate = this.expirationDate;
+    final outpostArn = this.outpostArn;
+    final quoteId = this.quoteId;
+    final quoteOptions = this.quoteOptions;
+    final quoteStatus = this.quoteStatus;
+    final requestedCapacities = this.requestedCapacities;
+    final requestedConstraints = this.requestedConstraints;
+    final requestedPaymentOptions = this.requestedPaymentOptions;
+    final requestedPaymentTerms = this.requestedPaymentTerms;
+    final statusMessage = this.statusMessage;
+    final submittedOrderId = this.submittedOrderId;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (description != null) 'Description': description,
+      if (expirationDate != null)
+        'ExpirationDate': unixTimestampToJson(expirationDate),
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (quoteId != null) 'QuoteId': quoteId,
+      if (quoteOptions != null) 'QuoteOptions': quoteOptions,
+      if (quoteStatus != null) 'QuoteStatus': quoteStatus.value,
+      if (requestedCapacities != null)
+        'RequestedCapacities': requestedCapacities,
+      if (requestedConstraints != null)
+        'RequestedConstraints': requestedConstraints,
+      if (requestedPaymentOptions != null)
+        'RequestedPaymentOptions':
+            requestedPaymentOptions.map((e) => e.value).toList(),
+      if (requestedPaymentTerms != null)
+        'RequestedPaymentTerms':
+            requestedPaymentTerms.map((e) => e.value).toList(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (submittedOrderId != null) 'SubmittedOrderId': submittedOrderId,
     };
   }
 }
@@ -4151,6 +5962,152 @@ class LineItemStatus {
   String toString() => value;
 }
 
+/// Information about an instance type that can be ordered for an Outpost,
+/// including hardware specifications and supported form factors.
+///
+/// @nodoc
+class DetailedInstanceTypeItem {
+  /// The supported form factor and Outpost generation configurations for the
+  /// instance type.
+  final List<FormFactorConfig>? formFactorConfigs;
+
+  /// The instance type.
+  final String? instanceType;
+
+  /// The memory size of the instance type, in MiB.
+  final int? memoryInMib;
+
+  /// The network performance of the instance type.
+  final String? networkPerformance;
+
+  /// The number of default VCPUs in the instance type.
+  final int? vCPUs;
+
+  DetailedInstanceTypeItem({
+    this.formFactorConfigs,
+    this.instanceType,
+    this.memoryInMib,
+    this.networkPerformance,
+    this.vCPUs,
+  });
+
+  factory DetailedInstanceTypeItem.fromJson(Map<String, dynamic> json) {
+    return DetailedInstanceTypeItem(
+      formFactorConfigs: (json['FormFactorConfigs'] as List?)
+          ?.nonNulls
+          .map((e) => FormFactorConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceType: json['InstanceType'] as String?,
+      memoryInMib: json['MemoryInMib'] as int?,
+      networkPerformance: json['NetworkPerformance'] as String?,
+      vCPUs: json['VCPUs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formFactorConfigs = this.formFactorConfigs;
+    final instanceType = this.instanceType;
+    final memoryInMib = this.memoryInMib;
+    final networkPerformance = this.networkPerformance;
+    final vCPUs = this.vCPUs;
+    return {
+      if (formFactorConfigs != null) 'FormFactorConfigs': formFactorConfigs,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (memoryInMib != null) 'MemoryInMib': memoryInMib,
+      if (networkPerformance != null) 'NetworkPerformance': networkPerformance,
+      if (vCPUs != null) 'VCPUs': vCPUs,
+    };
+  }
+}
+
+/// A supported form factor and Outpost generation configuration for an instance
+/// type.
+///
+/// @nodoc
+class FormFactorConfig {
+  /// The form factor. Valid values are <code>RACK</code> for rack-based Outposts
+  /// and <code>SERVER</code> for server-based Outposts.
+  final FormFactor? formFactor;
+
+  /// The Outpost generation. Valid values are <code>GENERATION_1</code> for
+  /// first-generation rack deployments and <code>GENERATION_2</code> for
+  /// second-generation rack deployments. This value is not set for server form
+  /// factors.
+  final OutpostGeneration? outpostGeneration;
+
+  FormFactorConfig({
+    this.formFactor,
+    this.outpostGeneration,
+  });
+
+  factory FormFactorConfig.fromJson(Map<String, dynamic> json) {
+    return FormFactorConfig(
+      formFactor: (json['FormFactor'] as String?)?.let(FormFactor.fromString),
+      outpostGeneration: (json['OutpostGeneration'] as String?)
+          ?.let(OutpostGeneration.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formFactor = this.formFactor;
+    final outpostGeneration = this.outpostGeneration;
+    return {
+      if (formFactor != null) 'FormFactor': formFactor.value,
+      if (outpostGeneration != null)
+        'OutpostGeneration': outpostGeneration.value,
+    };
+  }
+}
+
+/// @nodoc
+class FormFactor {
+  static const rack = FormFactor._('RACK');
+  static const server = FormFactor._('SERVER');
+
+  final String value;
+
+  const FormFactor._(this.value);
+
+  static const values = [rack, server];
+
+  static FormFactor fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FormFactor._(value));
+
+  @override
+  bool operator ==(other) => other is FormFactor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class OutpostGeneration {
+  static const generation_2 = OutpostGeneration._('GENERATION_2');
+  static const generation_1 = OutpostGeneration._('GENERATION_1');
+
+  final String value;
+
+  const OutpostGeneration._(this.value);
+
+  static const values = [generation_2, generation_1];
+
+  static OutpostGeneration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutpostGeneration._(value));
+
+  @override
+  bool operator ==(other) => other is OutpostGeneration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about a catalog item.
 ///
 /// @nodoc
@@ -4280,45 +6237,6 @@ class SupportedStorageEnum {
 
   @override
   String toString() => value;
-}
-
-/// Information about EC2 capacity.
-///
-/// @nodoc
-class EC2Capacity {
-  /// The family of the EC2 capacity.
-  final String? family;
-
-  /// The maximum size of the EC2 capacity.
-  final String? maxSize;
-
-  /// The quantity of the EC2 capacity.
-  final String? quantity;
-
-  EC2Capacity({
-    this.family,
-    this.maxSize,
-    this.quantity,
-  });
-
-  factory EC2Capacity.fromJson(Map<String, dynamic> json) {
-    return EC2Capacity(
-      family: json['Family'] as String?,
-      maxSize: json['MaxSize'] as String?,
-      quantity: json['Quantity'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final family = this.family;
-    final maxSize = this.maxSize;
-    final quantity = this.quantity;
-    return {
-      if (family != null) 'Family': family,
-      if (maxSize != null) 'MaxSize': maxSize,
-      if (quantity != null) 'Quantity': quantity,
-    };
-  }
 }
 
 /// @nodoc
@@ -4829,168 +6747,6 @@ class PricingResult {
   String toString() => value;
 }
 
-/// A pricing option for the specified Outpost.
-///
-/// @nodoc
-class PricingOption {
-  /// The type of pricing model.
-  final QuotePricingType? pricingType;
-
-  /// The subscription pricing details for this pricing option.
-  final SubscriptionPricingDetails? subscriptionPricingDetails;
-
-  PricingOption({
-    this.pricingType,
-    this.subscriptionPricingDetails,
-  });
-
-  factory PricingOption.fromJson(Map<String, dynamic> json) {
-    return PricingOption(
-      pricingType:
-          (json['PricingType'] as String?)?.let(QuotePricingType.fromString),
-      subscriptionPricingDetails: json['SubscriptionPricingDetails'] != null
-          ? SubscriptionPricingDetails.fromJson(
-              json['SubscriptionPricingDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pricingType = this.pricingType;
-    final subscriptionPricingDetails = this.subscriptionPricingDetails;
-    return {
-      if (pricingType != null) 'PricingType': pricingType.value,
-      if (subscriptionPricingDetails != null)
-        'SubscriptionPricingDetails': subscriptionPricingDetails,
-    };
-  }
-}
-
-/// @nodoc
-class QuotePricingType {
-  static const subscription = QuotePricingType._('SUBSCRIPTION');
-
-  final String value;
-
-  const QuotePricingType._(this.value);
-
-  static const values = [subscription];
-
-  static QuotePricingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QuotePricingType._(value));
-
-  @override
-  bool operator ==(other) => other is QuotePricingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The pricing details for a subscription.
-///
-/// @nodoc
-class SubscriptionPricingDetails {
-  /// The monthly recurring price.
-  final double? monthlyRecurringPrice;
-
-  /// The payment option.
-  final PaymentOption? paymentOption;
-
-  /// The payment term.
-  final PaymentTerm? paymentTerm;
-
-  /// The upfront price.
-  final double? upfrontPrice;
-
-  SubscriptionPricingDetails({
-    this.monthlyRecurringPrice,
-    this.paymentOption,
-    this.paymentTerm,
-    this.upfrontPrice,
-  });
-
-  factory SubscriptionPricingDetails.fromJson(Map<String, dynamic> json) {
-    return SubscriptionPricingDetails(
-      monthlyRecurringPrice: _s.parseJsonDouble(json['MonthlyRecurringPrice']),
-      paymentOption:
-          (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
-      paymentTerm:
-          (json['PaymentTerm'] as String?)?.let(PaymentTerm.fromString),
-      upfrontPrice: _s.parseJsonDouble(json['UpfrontPrice']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final monthlyRecurringPrice = this.monthlyRecurringPrice;
-    final paymentOption = this.paymentOption;
-    final paymentTerm = this.paymentTerm;
-    final upfrontPrice = this.upfrontPrice;
-    return {
-      if (monthlyRecurringPrice != null)
-        'MonthlyRecurringPrice': _s.encodeJsonDouble(monthlyRecurringPrice),
-      if (paymentOption != null) 'PaymentOption': paymentOption.value,
-      if (paymentTerm != null) 'PaymentTerm': paymentTerm.value,
-      if (upfrontPrice != null)
-        'UpfrontPrice': _s.encodeJsonDouble(upfrontPrice),
-    };
-  }
-}
-
-/// @nodoc
-class PaymentOption {
-  static const allUpfront = PaymentOption._('ALL_UPFRONT');
-  static const noUpfront = PaymentOption._('NO_UPFRONT');
-  static const partialUpfront = PaymentOption._('PARTIAL_UPFRONT');
-
-  final String value;
-
-  const PaymentOption._(this.value);
-
-  static const values = [allUpfront, noUpfront, partialUpfront];
-
-  static PaymentOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PaymentOption._(value));
-
-  @override
-  bool operator ==(other) => other is PaymentOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class PaymentTerm {
-  static const threeYears = PaymentTerm._('THREE_YEARS');
-  static const oneYear = PaymentTerm._('ONE_YEAR');
-  static const fiveYears = PaymentTerm._('FIVE_YEARS');
-
-  final String value;
-
-  const PaymentTerm._(this.value);
-
-  static const values = [threeYears, oneYear, fiveYears];
-
-  static PaymentTerm fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PaymentTerm._(value));
-
-  @override
-  bool operator ==(other) => other is PaymentTerm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Information about an instance type.
 ///
 /// @nodoc
@@ -5028,6 +6784,10 @@ class InstanceTypeItem {
 class Subscription {
   /// The date your subscription starts.
   final DateTime? beginDate;
+
+  /// The currency of the subscription price. Currently only <code>USD</code> is
+  /// supported.
+  final CurrencyCode? currency;
 
   /// The date your subscription ends.
   final DateTime? endDate;
@@ -5083,6 +6843,7 @@ class Subscription {
 
   Subscription({
     this.beginDate,
+    this.currency,
     this.endDate,
     this.monthlyRecurringPrice,
     this.orderIds,
@@ -5095,6 +6856,7 @@ class Subscription {
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
       beginDate: timeStampFromJson(json['BeginDate']),
+      currency: (json['Currency'] as String?)?.let(CurrencyCode.fromString),
       endDate: timeStampFromJson(json['EndDate']),
       monthlyRecurringPrice: _s.parseJsonDouble(json['MonthlyRecurringPrice']),
       orderIds: (json['OrderIds'] as List?)
@@ -5112,6 +6874,7 @@ class Subscription {
 
   Map<String, dynamic> toJson() {
     final beginDate = this.beginDate;
+    final currency = this.currency;
     final endDate = this.endDate;
     final monthlyRecurringPrice = this.monthlyRecurringPrice;
     final orderIds = this.orderIds;
@@ -5121,6 +6884,7 @@ class Subscription {
     final upfrontPrice = this.upfrontPrice;
     return {
       if (beginDate != null) 'BeginDate': unixTimestampToJson(beginDate),
+      if (currency != null) 'Currency': currency.value,
       if (endDate != null) 'EndDate': unixTimestampToJson(endDate),
       if (monthlyRecurringPrice != null)
         'MonthlyRecurringPrice': _s.encodeJsonDouble(monthlyRecurringPrice),
@@ -5217,6 +6981,12 @@ class Order {
   /// The payment term.
   final PaymentTerm? paymentTerm;
 
+  /// The ID of the quote associated with the order.
+  final String? quoteIdentifier;
+
+  /// The ID of the quote option associated with the order.
+  final String? quoteOptionIdentifier;
+
   /// The status of the order.
   ///
   /// <ul>
@@ -5255,6 +7025,8 @@ class Order {
     this.outpostId,
     this.paymentOption,
     this.paymentTerm,
+    this.quoteIdentifier,
+    this.quoteOptionIdentifier,
     this.status,
   });
 
@@ -5273,6 +7045,8 @@ class Order {
           (json['PaymentOption'] as String?)?.let(PaymentOption.fromString),
       paymentTerm:
           (json['PaymentTerm'] as String?)?.let(PaymentTerm.fromString),
+      quoteIdentifier: json['QuoteIdentifier'] as String?,
+      quoteOptionIdentifier: json['QuoteOptionIdentifier'] as String?,
       status: (json['Status'] as String?)?.let(OrderStatus.fromString),
     );
   }
@@ -5286,6 +7060,8 @@ class Order {
     final outpostId = this.outpostId;
     final paymentOption = this.paymentOption;
     final paymentTerm = this.paymentTerm;
+    final quoteIdentifier = this.quoteIdentifier;
+    final quoteOptionIdentifier = this.quoteOptionIdentifier;
     final status = this.status;
     return {
       if (lineItems != null) 'LineItems': lineItems,
@@ -5298,6 +7074,9 @@ class Order {
       if (outpostId != null) 'OutpostId': outpostId,
       if (paymentOption != null) 'PaymentOption': paymentOption.value,
       if (paymentTerm != null) 'PaymentTerm': paymentTerm.value,
+      if (quoteIdentifier != null) 'QuoteIdentifier': quoteIdentifier,
+      if (quoteOptionIdentifier != null)
+        'QuoteOptionIdentifier': quoteOptionIdentifier,
       if (status != null) 'Status': status.value,
     };
   }

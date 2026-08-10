@@ -22,7 +22,11 @@ import '../../shared/shared.dart'
 import 'v2022_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// <b>AWS Partner Central API for Selling Reference Guide</b>
+/// This Amazon Web Services (AWS) Partner Central API reference is designed to
+/// help <a href="http://aws.amazon.com/partners/programs/">AWS Partners</a>
+/// integrate Customer Relationship Management (CRM) systems with AWS Partner
+/// Central. Partners can automate interactions with AWS Partner Central, which
+/// helps to ensure effective engagements in joint business activities.
 class PartnerCentralSelling {
   final _s.JsonProtocol _protocol;
   factory PartnerCentralSelling({
@@ -404,12 +408,6 @@ class PartnerCentralSelling {
   /// and <code>Sandbox</code>, which determine the environment in which the
   /// engagement is managed.
   ///
-  /// Parameter [description] :
-  /// Provides a description of the <code>Engagement</code>.
-  ///
-  /// Parameter [title] :
-  /// Specifies the title of the <code>Engagement</code>.
-  ///
   /// Parameter [clientToken] :
   /// The <code>CreateEngagementRequest$ClientToken</code> parameter specifies a
   /// unique, case-sensitive identifier to ensure that the request is handled
@@ -434,12 +432,18 @@ class PartnerCentralSelling {
   /// This structure allows comprehensive context to be included within the
   /// Engagement, facilitating effective collaboration between parties by
   /// providing relevant customer and project information.
+  ///
+  /// Parameter [description] :
+  /// Provides a description of the <code>Engagement</code>.
+  ///
+  /// Parameter [title] :
+  /// Specifies the title of the <code>Engagement</code>.
   Future<CreateEngagementResponse> createEngagement({
     required String catalog,
-    required String description,
-    required String title,
     String? clientToken,
     List<EngagementContextDetails>? contexts,
+    String? description,
+    String? title,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -453,10 +457,10 @@ class PartnerCentralSelling {
       headers: headers,
       payload: {
         'Catalog': catalog,
-        'Description': description,
-        'Title': title,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (contexts != null) 'Contexts': contexts,
+        if (description != null) 'Description': description,
+        if (title != null) 'Title': title,
       },
     );
 
@@ -2417,6 +2421,206 @@ class PartnerCentralSelling {
         jsonResponse.body);
   }
 
+  /// Starts a task to convert one or more engagement contexts into new
+  /// prospecting leads. The task runs asynchronously. To poll for status, use
+  /// <code>GetProspectingFromEngagementTask</code>, or use
+  /// <code>ListProspectingFromEngagementTasks</code> to monitor multiple tasks.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [catalog] :
+  /// Specifies the catalog in which the task is initiated. Specify
+  /// <code>AWS</code> for production environments and <code>Sandbox</code> for
+  /// testing and development purposes.
+  ///
+  /// Parameter [identifiers] :
+  /// The list of engagement identifiers to include in this prospecting task.
+  /// Each identifier must correspond to an existing engagement in the specified
+  /// catalog. Maximum of 100 identifiers per task.
+  ///
+  /// Parameter [taskName] :
+  /// A descriptive name for the task. This name helps identify the task in list
+  /// and get operations. The name must contain 1 to 128 characters.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier provided by the client to ensure
+  /// idempotency. Making the same request with the same
+  /// <code>ClientToken</code> returns the same response without creating a
+  /// duplicate task.
+  Future<StartProspectingFromEngagementTaskResponse>
+      startProspectingFromEngagementTask({
+    required String catalog,
+    required List<String> identifiers,
+    required String taskName,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'AWSPartnerCentralSelling.StartProspectingFromEngagementTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Catalog': catalog,
+        'Identifiers': identifiers,
+        'TaskName': taskName,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return StartProspectingFromEngagementTaskResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves the details and current status of a prospecting task previously
+  /// started with <code>StartProspectingFromEngagementTask</code> to enable
+  /// polling for completion and access to per-engagement processing results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [catalog] :
+  /// Specifies the catalog associated with the task. Specify <code>AWS</code>
+  /// for production environments and <code>Sandbox</code> for testing and
+  /// development purposes. The value must match the catalog used when the task
+  /// was created.
+  ///
+  /// Parameter [taskIdentifier] :
+  /// The unique identifier of the prospecting task to retrieve. This value is
+  /// returned in the <code>TaskId</code> field of the
+  /// <code>StartProspectingFromEngagementTask</code> response.
+  Future<GetProspectingFromEngagementTaskResponse>
+      getProspectingFromEngagementTask({
+    required String catalog,
+    required String taskIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'AWSPartnerCentralSelling.GetProspectingFromEngagementTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Catalog': catalog,
+        'TaskIdentifier': taskIdentifier,
+      },
+    );
+
+    return GetProspectingFromEngagementTaskResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all prospecting tasks initiated by the caller's account. Supports
+  /// optional filters by task identifier, task name, or start time range.
+  /// Results can be sorted using configurable options. The response is
+  /// paginated. Use the <code>NextToken</code> value from each response to
+  /// retrieve subsequent pages.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [catalog] :
+  /// Specifies the catalog to list tasks from. Specify <code>AWS</code> for
+  /// production environments and <code>Sandbox</code> for testing and
+  /// development purposes.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single page. If additional
+  /// results exist, the response includes a <code>NextToken</code> value for
+  /// retrieving the next page. If omitted, the API uses a service-defined
+  /// default page size.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous call to this API. Include this value
+  /// to retrieve the next page of results. If omitted, the first page is
+  /// returned.
+  ///
+  /// Parameter [sort] :
+  /// Specifies the field and order used to sort the returned tasks. If omitted,
+  /// tasks are returned in the default sort order.
+  ///
+  /// Parameter [startAfter] :
+  /// Filters tasks to include only those that started after the specified
+  /// timestamp. Use this with <code>StartBefore</code> to define a start-time
+  /// range for your query. The format follows ISO 8601 date-time notation.
+  ///
+  /// Parameter [startBefore] :
+  /// Filters tasks to include only those that started before the specified
+  /// timestamp. Use this with <code>StartAfter</code> to define a start-time
+  /// range for your query. The format follows ISO 8601 date-time notation.
+  ///
+  /// Parameter [taskIdentifier] :
+  /// Filters the results to include only the tasks with the specified
+  /// identifiers. Provide up to 10 task IDs to narrow the list to specific
+  /// tasks. If omitted, tasks are not filtered by identifier.
+  ///
+  /// Parameter [taskName] :
+  /// Filters the results to include only tasks with the specified names.
+  /// Provide up to 10 task names to narrow the list. If omitted, tasks are not
+  /// filtered by name.
+  Future<ListProspectingFromEngagementTasksResponse>
+      listProspectingFromEngagementTasks({
+    required String catalog,
+    int? maxResults,
+    String? nextToken,
+    ProspectingFromEngagementTaskSort? sort,
+    DateTime? startAfter,
+    DateTime? startBefore,
+    List<String>? taskIdentifier,
+    List<String>? taskName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'AWSPartnerCentralSelling.ListProspectingFromEngagementTasks'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Catalog': catalog,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sort != null) 'Sort': sort,
+        if (startAfter != null) 'StartAfter': iso8601ToJson(startAfter),
+        if (startBefore != null) 'StartBefore': iso8601ToJson(startBefore),
+        if (taskIdentifier != null) 'TaskIdentifier': taskIdentifier,
+        if (taskName != null) 'TaskName': taskName,
+      },
+    );
+
+    return ListProspectingFromEngagementTasksResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// This action allows you to create an immutable snapshot of a specific
   /// resource, such as an opportunity, within the context of an engagement. The
   /// snapshot captures a subset of the resource's data based on the schema
@@ -3097,6 +3301,10 @@ class PartnerCentralSelling {
   /// Amazon Web Services catalog, and <code>Sandbox</code> to list solutions in
   /// a secure and isolated testing environment.
   ///
+  /// Parameter [awsMarketplaceSolutionArn] :
+  /// Filters results by AWS Marketplace solution ARN. You can provide up to 10
+  /// ARNs.
+  ///
   /// Parameter [category] :
   /// Filters the solutions based on the category to which they belong. This
   /// allows partners to search for solutions within specific categories, such
@@ -3128,6 +3336,7 @@ class PartnerCentralSelling {
   /// their solution portfolios effectively.
   Future<ListSolutionsResponse> listSolutions({
     required String catalog,
+    List<String>? awsMarketplaceSolutionArn,
     List<String>? category,
     List<String>? identifier,
     int? maxResults,
@@ -3153,6 +3362,8 @@ class PartnerCentralSelling {
       headers: headers,
       payload: {
         'Catalog': catalog,
+        if (awsMarketplaceSolutionArn != null)
+          'AwsMarketplaceSolutionArn': awsMarketplaceSolutionArn,
         if (category != null) 'Category': category,
         if (identifier != null) 'Identifier': identifier,
         if (maxResults != null) 'MaxResults': maxResults,
@@ -3918,6 +4129,11 @@ class GetEngagementInvitationResponse {
   /// objectives of the opportunity shared by AWS.
   final String? engagementTitle;
 
+  /// The enrichment data for the engagement associated with this invitation. You
+  /// can view propensity scores, program eligibility, and lead readiness
+  /// assessments before taking action on the invitation.
+  final EnrichmentContext? enrichmentContext;
+
   /// A list of active members currently part of the Engagement. This array
   /// contains a maximum of 10 members, each represented by an object with the
   /// following properties.
@@ -3977,6 +4193,7 @@ class GetEngagementInvitationResponse {
     this.engagementDescription,
     this.engagementId,
     this.engagementTitle,
+    this.enrichmentContext,
     this.existingMembers,
     this.expirationDate,
     this.invitationDate,
@@ -3998,6 +4215,10 @@ class GetEngagementInvitationResponse {
       engagementDescription: json['EngagementDescription'] as String?,
       engagementId: json['EngagementId'] as String?,
       engagementTitle: json['EngagementTitle'] as String?,
+      enrichmentContext: json['EnrichmentContext'] != null
+          ? EnrichmentContext.fromJson(
+              json['EnrichmentContext'] as Map<String, dynamic>)
+          : null,
       existingMembers: (json['ExistingMembers'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -4028,6 +4249,7 @@ class GetEngagementInvitationResponse {
     final engagementDescription = this.engagementDescription;
     final engagementId = this.engagementId;
     final engagementTitle = this.engagementTitle;
+    final enrichmentContext = this.enrichmentContext;
     final existingMembers = this.existingMembers;
     final expirationDate = this.expirationDate;
     final invitationDate = this.invitationDate;
@@ -4047,6 +4269,7 @@ class GetEngagementInvitationResponse {
         'EngagementDescription': engagementDescription,
       if (engagementId != null) 'EngagementId': engagementId,
       if (engagementTitle != null) 'EngagementTitle': engagementTitle,
+      if (enrichmentContext != null) 'EnrichmentContext': enrichmentContext,
       if (existingMembers != null) 'ExistingMembers': existingMembers,
       if (expirationDate != null)
         'ExpirationDate': iso8601ToJson(expirationDate),
@@ -4460,6 +4683,11 @@ class GetAwsOpportunitySummaryResponse {
   /// opportunity is being managed.
   final String catalog;
 
+  /// Engagement classification for this opportunity. Read-only. Null before
+  /// scoring. Known values: <code>AWS Field-engaged</code>,
+  /// <code>Agent-engaged</code>, <code>Partner-led</code>.
+  final String? cosellMotion;
+
   /// Provides details about the customer associated with the AWS Opportunity,
   /// including account information, industry, and other customer data. These
   /// details help partners understand the business context of the opportunity.
@@ -4518,6 +4746,7 @@ class GetAwsOpportunitySummaryResponse {
 
   GetAwsOpportunitySummaryResponse({
     required this.catalog,
+    this.cosellMotion,
     this.customer,
     this.insights,
     this.involvementType,
@@ -4534,6 +4763,7 @@ class GetAwsOpportunitySummaryResponse {
   factory GetAwsOpportunitySummaryResponse.fromJson(Map<String, dynamic> json) {
     return GetAwsOpportunitySummaryResponse(
       catalog: (json['Catalog'] as String?) ?? '',
+      cosellMotion: json['CosellMotion'] as String?,
       customer: json['Customer'] != null
           ? AwsOpportunityCustomer.fromJson(
               json['Customer'] as Map<String, dynamic>)
@@ -4571,6 +4801,7 @@ class GetAwsOpportunitySummaryResponse {
 
   Map<String, dynamic> toJson() {
     final catalog = this.catalog;
+    final cosellMotion = this.cosellMotion;
     final customer = this.customer;
     final insights = this.insights;
     final involvementType = this.involvementType;
@@ -4584,6 +4815,7 @@ class GetAwsOpportunitySummaryResponse {
     final visibility = this.visibility;
     return {
       'Catalog': catalog,
+      if (cosellMotion != null) 'CosellMotion': cosellMotion,
       if (customer != null) 'Customer': customer,
       if (insights != null) 'Insights': insights,
       if (involvementType != null) 'InvolvementType': involvementType.value,
@@ -4732,6 +4964,218 @@ class ListOpportunityFromEngagementTasksResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (taskSummaries != null) 'TaskSummaries': taskSummaries,
+    };
+  }
+}
+
+/// Represents the response structure returned when a prospecting task is
+/// successfully submitted. Contains the task identifier, ARN, and initial
+/// status. Uses <code>TaskId</code> with
+/// <code>GetProspectingFromEngagementTask</code> to poll for completion.
+///
+/// @nodoc
+class StartProspectingFromEngagementTaskResponse {
+  /// The list of engagement identifiers that were accepted into the task queue
+  /// for processing. This list matches the identifiers provided in the request.
+  final List<String> identifiers;
+
+  /// The timestamp indicating when the task was initiated. The format follows ISO
+  /// 8601 date-time notation.
+  final DateTime startTime;
+
+  /// The task name from the request.
+  final String taskName;
+
+  /// The current status of the task. Possible values: <code>PENDING</code>
+  /// (waiting to run), <code>IN_PROGRESS</code> (actively processing),
+  /// <code>COMPLETED</code> (successfully processed), and <code>FAILED</code>
+  /// (unrecoverable error).
+  final ProspectingTaskStatus taskStatus;
+
+  /// A message providing additional context about the task's current state. When
+  /// the task fails, this field contains a detailed description of the failure
+  /// and suggested recovery steps. This field is only populated for tasks in a
+  /// failed state.
+  final String? message;
+
+  /// An enumerated code identifying the reason for task failure. This field is
+  /// only populated when the task has failed. Use the corresponding
+  /// <code>Message</code> field for a human-readable description of the failure.
+  final String? reasonCode;
+
+  /// The Amazon Resource Name (ARN) of the task. The ARN uniquely identifies the
+  /// task across AWS and can be used for resource-level IAM policies.
+  final String? taskArn;
+
+  /// The unique identifier assigned to this task. Use this identifier with
+  /// <code>GetProspectingFromEngagementTask</code> to retrieve task details and
+  /// check status.
+  final String? taskId;
+
+  StartProspectingFromEngagementTaskResponse({
+    required this.identifiers,
+    required this.startTime,
+    required this.taskName,
+    required this.taskStatus,
+    this.message,
+    this.reasonCode,
+    this.taskArn,
+    this.taskId,
+  });
+
+  factory StartProspectingFromEngagementTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartProspectingFromEngagementTaskResponse(
+      identifiers: ((json['Identifiers'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      taskName: (json['TaskName'] as String?) ?? '',
+      taskStatus: ProspectingTaskStatus.fromString(
+          (json['TaskStatus'] as String?) ?? ''),
+      message: json['Message'] as String?,
+      reasonCode: json['ReasonCode'] as String?,
+      taskArn: json['TaskArn'] as String?,
+      taskId: json['TaskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifiers = this.identifiers;
+    final startTime = this.startTime;
+    final taskName = this.taskName;
+    final taskStatus = this.taskStatus;
+    final message = this.message;
+    final reasonCode = this.reasonCode;
+    final taskArn = this.taskArn;
+    final taskId = this.taskId;
+    return {
+      'Identifiers': identifiers,
+      'StartTime': iso8601ToJson(startTime),
+      'TaskName': taskName,
+      'TaskStatus': taskStatus.value,
+      if (message != null) 'Message': message,
+      if (reasonCode != null) 'ReasonCode': reasonCode,
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskId != null) 'TaskId': taskId,
+    };
+  }
+}
+
+/// Represents the response structure containing the full details of a
+/// prospecting task, including per-engagement processing results. Includes the
+/// <code>Status</code> field of each <code>EngagementProspectingResult</code>
+/// entry to determine individual outcomes.
+///
+/// @nodoc
+class GetProspectingFromEngagementTaskResponse {
+  /// An array of <code>EngagementProspectingResult</code> entries for each
+  /// engagement in the task. Each entry contains the processing status. For
+  /// successfully completed engagements, includes the prospecting context
+  /// identifier. For failed engagements, includes an error code and message.
+  final List<EngagementProspectingResult> engagements;
+
+  /// The timestamp indicating when the task was initiated. The format follows ISO
+  /// 8601 date-time notation.
+  final DateTime startTime;
+
+  /// The Amazon Resource Name (ARN) of the task.
+  final String taskArn;
+
+  /// The unique identifier of the task.
+  final String taskId;
+
+  /// The descriptive name of the task that you provided when you created it.
+  final String taskName;
+
+  /// The timestamp indicating when the task finished processing. This field is
+  /// absent if the task is still in progress. The format follows ISO 8601
+  /// date-time notation.
+  final DateTime? endTime;
+
+  GetProspectingFromEngagementTaskResponse({
+    required this.engagements,
+    required this.startTime,
+    required this.taskArn,
+    required this.taskId,
+    required this.taskName,
+    this.endTime,
+  });
+
+  factory GetProspectingFromEngagementTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetProspectingFromEngagementTaskResponse(
+      engagements: ((json['Engagements'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              EngagementProspectingResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      taskArn: (json['TaskArn'] as String?) ?? '',
+      taskId: (json['TaskId'] as String?) ?? '',
+      taskName: (json['TaskName'] as String?) ?? '',
+      endTime: timeStampFromJson(json['EndTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engagements = this.engagements;
+    final startTime = this.startTime;
+    final taskArn = this.taskArn;
+    final taskId = this.taskId;
+    final taskName = this.taskName;
+    final endTime = this.endTime;
+    return {
+      'Engagements': engagements,
+      'StartTime': iso8601ToJson(startTime),
+      'TaskArn': taskArn,
+      'TaskId': taskId,
+      'TaskName': taskName,
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
+    };
+  }
+}
+
+/// Represents the response structure containing a paginated list of prospecting
+/// task summaries matching the request filters. Indicates through
+/// <code>NextToken</code> when additional results are available.
+///
+/// @nodoc
+class ListProspectingFromEngagementTasksResponse {
+  /// Prospecting task summaries matching the specified filters. Each summary
+  /// includes the task identifier, name, status counters, and timing information.
+  /// If no tasks match the filter criteria, the list is empty.
+  final List<ProspectingTaskSummary> taskSummaries;
+
+  /// A pagination token used to retrieve the next page of results. If this field
+  /// is present, pass its value as <code>NextToken</code> in the next call. If
+  /// absent or empty, there are no further pages.
+  final String? nextToken;
+
+  ListProspectingFromEngagementTasksResponse({
+    required this.taskSummaries,
+    this.nextToken,
+  });
+
+  factory ListProspectingFromEngagementTasksResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListProspectingFromEngagementTasksResponse(
+      taskSummaries: ((json['TaskSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => ProspectingTaskSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskSummaries = this.taskSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'TaskSummaries': taskSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -5226,6 +5670,10 @@ class SolutionBase {
   /// The SolutionBase structure provides essential information about a solution.
   final String? arn;
 
+  /// The Amazon Resource Name (ARN) of the AWS Marketplace solution associated
+  /// with this partner solution.
+  final String? awsMarketplaceSolutionArn;
+
   SolutionBase({
     required this.catalog,
     required this.category,
@@ -5234,6 +5682,7 @@ class SolutionBase {
     required this.name,
     required this.status,
     this.arn,
+    this.awsMarketplaceSolutionArn,
   });
 
   factory SolutionBase.fromJson(Map<String, dynamic> json) {
@@ -5245,6 +5694,7 @@ class SolutionBase {
       name: (json['Name'] as String?) ?? '',
       status: SolutionStatus.fromString((json['Status'] as String?) ?? ''),
       arn: json['Arn'] as String?,
+      awsMarketplaceSolutionArn: json['AwsMarketplaceSolutionArn'] as String?,
     );
   }
 
@@ -5256,6 +5706,7 @@ class SolutionBase {
     final name = this.name;
     final status = this.status;
     final arn = this.arn;
+    final awsMarketplaceSolutionArn = this.awsMarketplaceSolutionArn;
     return {
       'Catalog': catalog,
       'Category': category,
@@ -5264,6 +5715,8 @@ class SolutionBase {
       'Name': name,
       'Status': status.value,
       if (arn != null) 'Arn': arn,
+      if (awsMarketplaceSolutionArn != null)
+        'AwsMarketplaceSolutionArn': awsMarketplaceSolutionArn,
     };
   }
 }
@@ -5835,6 +6288,10 @@ class OpportunitySummaryView {
 ///
 /// @nodoc
 class AwsOpportunitySummaryFullView {
+  /// Engagement classification for this opportunity. Read-only. Null before
+  /// scoring. Known values: <code>AWS Field-engaged</code>,
+  /// <code>Agent-engaged</code>, <code>Partner-led</code>.
+  final String? cosellMotion;
   final AwsOpportunityCustomer? customer;
   final AwsOpportunityInsights? insights;
 
@@ -5860,6 +6317,7 @@ class AwsOpportunitySummaryFullView {
   final Visibility? visibility;
 
   AwsOpportunitySummaryFullView({
+    this.cosellMotion,
     this.customer,
     this.insights,
     this.involvementType,
@@ -5875,6 +6333,7 @@ class AwsOpportunitySummaryFullView {
 
   factory AwsOpportunitySummaryFullView.fromJson(Map<String, dynamic> json) {
     return AwsOpportunitySummaryFullView(
+      cosellMotion: json['CosellMotion'] as String?,
       customer: json['Customer'] != null
           ? AwsOpportunityCustomer.fromJson(
               json['Customer'] as Map<String, dynamic>)
@@ -5911,6 +6370,7 @@ class AwsOpportunitySummaryFullView {
   }
 
   Map<String, dynamic> toJson() {
+    final cosellMotion = this.cosellMotion;
     final customer = this.customer;
     final insights = this.insights;
     final involvementType = this.involvementType;
@@ -5923,6 +6383,7 @@ class AwsOpportunitySummaryFullView {
     final relatedOpportunityId = this.relatedOpportunityId;
     final visibility = this.visibility;
     return {
+      if (cosellMotion != null) 'CosellMotion': cosellMotion,
       if (customer != null) 'Customer': customer,
       if (insights != null) 'Insights': insights,
       if (involvementType != null) 'InvolvementType': involvementType.value,
@@ -6105,10 +6566,18 @@ class AwsOpportunityInsights {
   /// to move the opportunity forward and increase the likelihood of success.
   final String? nextBestActions;
 
+  /// Opportunity quality assessment. Null if not yet scored.
+  final OpportunityQuality? opportunityQuality;
+
+  /// List of recommendations from various agent-driven sources.
+  final List<Recommendation>? recommendations;
+
   AwsOpportunityInsights({
     this.awsProductsSpendInsightsBySource,
     this.engagementScore,
     this.nextBestActions,
+    this.opportunityQuality,
+    this.recommendations,
   });
 
   factory AwsOpportunityInsights.fromJson(Map<String, dynamic> json) {
@@ -6122,6 +6591,14 @@ class AwsOpportunityInsights {
       engagementScore:
           (json['EngagementScore'] as String?)?.let(EngagementScore.fromString),
       nextBestActions: json['NextBestActions'] as String?,
+      opportunityQuality: json['OpportunityQuality'] != null
+          ? OpportunityQuality.fromJson(
+              json['OpportunityQuality'] as Map<String, dynamic>)
+          : null,
+      recommendations: (json['Recommendations'] as List?)
+          ?.nonNulls
+          .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -6130,11 +6607,15 @@ class AwsOpportunityInsights {
         this.awsProductsSpendInsightsBySource;
     final engagementScore = this.engagementScore;
     final nextBestActions = this.nextBestActions;
+    final opportunityQuality = this.opportunityQuality;
+    final recommendations = this.recommendations;
     return {
       if (awsProductsSpendInsightsBySource != null)
         'AwsProductsSpendInsightsBySource': awsProductsSpendInsightsBySource,
       if (engagementScore != null) 'EngagementScore': engagementScore.value,
       if (nextBestActions != null) 'NextBestActions': nextBestActions,
+      if (opportunityQuality != null) 'OpportunityQuality': opportunityQuality,
+      if (recommendations != null) 'Recommendations': recommendations,
     };
   }
 }
@@ -6185,6 +6666,12 @@ class InvolvementTypeChangeReason {
 ///
 /// @nodoc
 class AwsOpportunityRelatedEntities {
+  /// The AWS Marketplace product ARNs associated with this opportunity.
+  final List<String>? awsMarketplaceProducts;
+
+  /// The AWS Marketplace solution ARNs associated with this opportunity.
+  final List<String>? awsMarketplaceSolutions;
+
   /// Specifies the AWS products associated with the opportunity. This field helps
   /// track the specific products that are part of the proposed solution.
   final List<String>? awsProducts;
@@ -6195,12 +6682,22 @@ class AwsOpportunityRelatedEntities {
   final List<String>? solutions;
 
   AwsOpportunityRelatedEntities({
+    this.awsMarketplaceProducts,
+    this.awsMarketplaceSolutions,
     this.awsProducts,
     this.solutions,
   });
 
   factory AwsOpportunityRelatedEntities.fromJson(Map<String, dynamic> json) {
     return AwsOpportunityRelatedEntities(
+      awsMarketplaceProducts: (json['AwsMarketplaceProducts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      awsMarketplaceSolutions: (json['AwsMarketplaceSolutions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       awsProducts: (json['AwsProducts'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6213,9 +6710,15 @@ class AwsOpportunityRelatedEntities {
   }
 
   Map<String, dynamic> toJson() {
+    final awsMarketplaceProducts = this.awsMarketplaceProducts;
+    final awsMarketplaceSolutions = this.awsMarketplaceSolutions;
     final awsProducts = this.awsProducts;
     final solutions = this.solutions;
     return {
+      if (awsMarketplaceProducts != null)
+        'AwsMarketplaceProducts': awsMarketplaceProducts,
+      if (awsMarketplaceSolutions != null)
+        'AwsMarketplaceSolutions': awsMarketplaceSolutions,
       if (awsProducts != null) 'AwsProducts': awsProducts,
       if (solutions != null) 'Solutions': solutions,
     };
@@ -6336,15 +6839,21 @@ class ExpectedCustomerSpend {
   final CurrencyCode currencyCode;
 
   /// Indicates how frequently the customer is expected to spend the projected
-  /// amount. Only the value <code>Monthly</code> is allowed for the
-  /// <code>Frequency</code> field, representing recurring monthly spend.
+  /// amount. Use <code>Monthly</code> for recurring monthly spend (required for
+  /// <code>TargetCompany: "AWS"</code> entries). Use <code>None</code> for
+  /// one-time deal value entries (required for <code>TargetCompany: "Self"</code>
+  /// entries when providing Total Contract Value).
   final PaymentFrequency frequency;
 
-  /// Specifies the name of the partner company that is expected to generate
-  /// revenue from the opportunity. This field helps track the partner’s
-  /// involvement in the opportunity. This field only accepts the value
-  /// <code>AWS</code>. If any other value is provided, the system will
-  /// automatically set it to <code>AWS</code>.
+  /// Specifies the entity associated with this spend entry. Use <code>AWS</code>
+  /// for the system’s AWS Monthly Recurring Revenue (MRR) estimate. Use
+  /// <code>Self</code> for the partner’s own deal value entry when providing
+  /// Total Contract Value (TCV) for automatic MRR conversion. When
+  /// <code>ExpectedContractDuration</code> is present on the Project, only
+  /// <code>AWS</code> and <code>Self</code> are accepted. When
+  /// <code>ExpectedContractDuration</code> is not present, only <code>AWS</code>
+  /// is accepted and any other value will be automatically set to
+  /// <code>AWS</code>.
   final String targetCompany;
 
   /// Represents the estimated monthly revenue that the partner expects to earn
@@ -6888,6 +7397,82 @@ class AwsProductsSpendInsightsBySource {
     return {
       if (aws != null) 'AWS': aws,
       if (partner != null) 'Partner': partner,
+    };
+  }
+}
+
+/// Opportunity quality score and trend.
+///
+/// @nodoc
+class OpportunityQuality {
+  /// Deal quality score based on opportunity content completeness and sales
+  /// methodology criteria. Values range from 0 to 100.
+  final int? score;
+
+  /// Direction of score change since last scoring iteration. Known values:
+  /// <code>Improving</code>, <code>Declining</code>, <code>No Change</code>.
+  final String? trend;
+
+  OpportunityQuality({
+    this.score,
+    this.trend,
+  });
+
+  factory OpportunityQuality.fromJson(Map<String, dynamic> json) {
+    return OpportunityQuality(
+      score: json['Score'] as int?,
+      trend: json['Trend'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final score = this.score;
+    final trend = this.trend;
+    return {
+      if (score != null) 'Score': score,
+      if (trend != null) 'Trend': trend,
+    };
+  }
+}
+
+/// A recommendation from an agent-driven source.
+///
+/// @nodoc
+class Recommendation {
+  /// Human-readable recommendation text from this source.
+  final String details;
+
+  /// The recommendation source type. Known values:
+  /// <code>OpportunityQuality</code>, <code>SolutionRecommendation</code>,
+  /// <code>SpecialistRecommendation</code>.
+  final String type;
+
+  /// Source-specific metadata as key-value pairs.
+  final Map<String, String>? attributes;
+
+  Recommendation({
+    required this.details,
+    required this.type,
+    this.attributes,
+  });
+
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      details: (json['Details'] as String?) ?? '',
+      type: (json['Type'] as String?) ?? '',
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final type = this.type;
+    final attributes = this.attributes;
+    return {
+      'Details': details,
+      'Type': type,
+      if (attributes != null) 'Attributes': attributes,
     };
   }
 }
@@ -7662,6 +8247,16 @@ class RelatedEntityIdentifiers {
   /// associated Marketplace seller account.
   final List<String>? awsMarketplaceOffers;
 
+  /// Specifies the AWS Marketplace products to associate with the
+  /// <code>Opportunity</code>. Each value is an Amazon Resource Name (ARN) that
+  /// identifies a product listing in AWS Marketplace.
+  final List<String>? awsMarketplaceProducts;
+
+  /// Specifies the AWS Marketplace solutions to associate with the
+  /// <code>Opportunity</code>. Each value is an Amazon Resource Name (ARN) that
+  /// identifies a solution listing in AWS Marketplace.
+  final List<String>? awsMarketplaceSolutions;
+
   /// Enables the association of specific Amazon Web Services products with the
   /// <code>Opportunity</code>. Partners can indicate the relevant Amazon Web
   /// Services products for the <code>Opportunity</code>'s solution and align with
@@ -7693,6 +8288,8 @@ class RelatedEntityIdentifiers {
   RelatedEntityIdentifiers({
     this.awsMarketplaceOfferSets,
     this.awsMarketplaceOffers,
+    this.awsMarketplaceProducts,
+    this.awsMarketplaceSolutions,
     this.awsProducts,
     this.solutions,
   });
@@ -7704,6 +8301,14 @@ class RelatedEntityIdentifiers {
           .map((e) => e as String)
           .toList(),
       awsMarketplaceOffers: (json['AwsMarketplaceOffers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      awsMarketplaceProducts: (json['AwsMarketplaceProducts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      awsMarketplaceSolutions: (json['AwsMarketplaceSolutions'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
@@ -7721,6 +8326,8 @@ class RelatedEntityIdentifiers {
   Map<String, dynamic> toJson() {
     final awsMarketplaceOfferSets = this.awsMarketplaceOfferSets;
     final awsMarketplaceOffers = this.awsMarketplaceOffers;
+    final awsMarketplaceProducts = this.awsMarketplaceProducts;
+    final awsMarketplaceSolutions = this.awsMarketplaceSolutions;
     final awsProducts = this.awsProducts;
     final solutions = this.solutions;
     return {
@@ -7728,6 +8335,10 @@ class RelatedEntityIdentifiers {
         'AwsMarketplaceOfferSets': awsMarketplaceOfferSets,
       if (awsMarketplaceOffers != null)
         'AwsMarketplaceOffers': awsMarketplaceOffers,
+      if (awsMarketplaceProducts != null)
+        'AwsMarketplaceProducts': awsMarketplaceProducts,
+      if (awsMarketplaceSolutions != null)
+        'AwsMarketplaceSolutions': awsMarketplaceSolutions,
       if (awsProducts != null) 'AwsProducts': awsProducts,
       if (solutions != null) 'Solutions': solutions,
     };
@@ -8760,6 +9371,254 @@ class Stage {
   String toString() => value;
 }
 
+/// A summary of a single prospecting task, returned by
+/// <code>ListProspectingFromEngagementTasks</code>. Contains key metrics and
+/// status information without the full per-engagement detail available from
+/// <code>GetProspectingFromEngagementTask</code>.
+///
+/// @nodoc
+class ProspectingTaskSummary {
+  /// The number of engagements that have been successfully converted into
+  /// prospecting leads.
+  final int completedEngagementCount;
+
+  /// The number of engagements that failed to be converted. Retrieve the full
+  /// task details using <code>GetProspectingFromEngagementTask</code> for
+  /// per-engagement error information.
+  final int failedEngagementCount;
+
+  /// The timestamp indicating when the task was initiated. The format follows ISO
+  /// 8601 date-time notation.
+  final DateTime startTime;
+
+  /// The Amazon Resource Name (ARN) of the task.
+  final String taskArn;
+
+  /// The unique identifier of the task. Use this value with
+  /// <code>GetProspectingFromEngagementTask</code> to retrieve full task details.
+  final String taskId;
+
+  /// The descriptive name of the task provided when it was created.
+  final String taskName;
+
+  /// The total number of engagements included in the task.
+  final int totalEngagementCount;
+
+  /// The timestamp indicating when the task finished processing. This field is
+  /// absent if the task is still in progress. The format follows ISO 8601
+  /// date-time notation.
+  final DateTime? endTime;
+
+  ProspectingTaskSummary({
+    required this.completedEngagementCount,
+    required this.failedEngagementCount,
+    required this.startTime,
+    required this.taskArn,
+    required this.taskId,
+    required this.taskName,
+    required this.totalEngagementCount,
+    this.endTime,
+  });
+
+  factory ProspectingTaskSummary.fromJson(Map<String, dynamic> json) {
+    return ProspectingTaskSummary(
+      completedEngagementCount: (json['CompletedEngagementCount'] as int?) ?? 0,
+      failedEngagementCount: (json['FailedEngagementCount'] as int?) ?? 0,
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      taskArn: (json['TaskArn'] as String?) ?? '',
+      taskId: (json['TaskId'] as String?) ?? '',
+      taskName: (json['TaskName'] as String?) ?? '',
+      totalEngagementCount: (json['TotalEngagementCount'] as int?) ?? 0,
+      endTime: timeStampFromJson(json['EndTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completedEngagementCount = this.completedEngagementCount;
+    final failedEngagementCount = this.failedEngagementCount;
+    final startTime = this.startTime;
+    final taskArn = this.taskArn;
+    final taskId = this.taskId;
+    final taskName = this.taskName;
+    final totalEngagementCount = this.totalEngagementCount;
+    final endTime = this.endTime;
+    return {
+      'CompletedEngagementCount': completedEngagementCount,
+      'FailedEngagementCount': failedEngagementCount,
+      'StartTime': iso8601ToJson(startTime),
+      'TaskArn': taskArn,
+      'TaskId': taskId,
+      'TaskName': taskName,
+      'TotalEngagementCount': totalEngagementCount,
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
+    };
+  }
+}
+
+/// Specifies the sort configuration for
+/// <code>ListProspectingFromEngagementTasks</code>. Contains the field to sort
+/// by and the sort direction.
+///
+/// @nodoc
+class ProspectingFromEngagementTaskSort {
+  /// The field by which to sort the returned tasks. Valid values:
+  /// <code>StartTime</code> (task creation timestamp), <code>TaskName</code>
+  /// (alphabetically by task name), and <code>FailedEngagementCount</code>
+  /// (number of failed engagements).
+  final ProspectingFromEngagementTaskSortName sortBy;
+
+  /// The direction in which to sort the results. Use <code>ASCENDING</code> to
+  /// return the smallest or earliest values first, or <code>DESCENDING</code> to
+  /// return the largest or most recent values first.
+  final SortOrder sortOrder;
+
+  ProspectingFromEngagementTaskSort({
+    required this.sortBy,
+    required this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      'SortBy': sortBy.value,
+      'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// The fields available for sorting results from
+/// <code>ListProspectingFromEngagementTasks</code>. Valid values are
+/// <code>StartTime</code>, <code>TaskName</code>, and
+/// <code>FailedEngagementCount</code>.
+///
+/// @nodoc
+class ProspectingFromEngagementTaskSortName {
+  static const startTime = ProspectingFromEngagementTaskSortName._('StartTime');
+  static const taskName = ProspectingFromEngagementTaskSortName._('TaskName');
+  static const failedEngagementCount =
+      ProspectingFromEngagementTaskSortName._('FailedEngagementCount');
+
+  final String value;
+
+  const ProspectingFromEngagementTaskSortName._(this.value);
+
+  static const values = [startTime, taskName, failedEngagementCount];
+
+  static ProspectingFromEngagementTaskSortName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProspectingFromEngagementTaskSortName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProspectingFromEngagementTaskSortName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the result of processing a single engagement within a prospecting
+/// task. Each engagement is processed independently, so individual engagements
+/// can succeed or fail regardless of other engagements in the same task.
+///
+/// @nodoc
+class EngagementProspectingResult {
+  /// The unique identifier of the engagement that was processed.
+  final String engagementIdentifier;
+
+  /// The processing status of this specific engagement. Possible values are
+  /// <code>PENDING</code>, <code>IN_PROGRESS</code>, <code>COMPLETED</code>, and
+  /// <code>FAILED</code>.
+  final ProspectingTaskStatus status;
+
+  /// The identifier of the prospecting context created for this engagement. This
+  /// field is only populated when the engagement was processed successfully
+  /// (status is <code>COMPLETED</code>). Use this identifier to reference the
+  /// prospecting context in subsequent operations.
+  final String? engagementContextId;
+
+  /// A human-readable description of the failure for this engagement, including
+  /// suggested recovery steps. This field is only populated when
+  /// <code>Status</code> is <code>FAILED</code>.
+  final String? message;
+
+  /// An enumerated code indicating the reason this engagement failed to process.
+  /// This field is only populated when <code>Status</code> is
+  /// <code>FAILED</code>.
+  final String? reasonCode;
+
+  EngagementProspectingResult({
+    required this.engagementIdentifier,
+    required this.status,
+    this.engagementContextId,
+    this.message,
+    this.reasonCode,
+  });
+
+  factory EngagementProspectingResult.fromJson(Map<String, dynamic> json) {
+    return EngagementProspectingResult(
+      engagementIdentifier: (json['EngagementIdentifier'] as String?) ?? '',
+      status:
+          ProspectingTaskStatus.fromString((json['Status'] as String?) ?? ''),
+      engagementContextId: json['EngagementContextId'] as String?,
+      message: json['Message'] as String?,
+      reasonCode: json['ReasonCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engagementIdentifier = this.engagementIdentifier;
+    final status = this.status;
+    final engagementContextId = this.engagementContextId;
+    final message = this.message;
+    final reasonCode = this.reasonCode;
+    return {
+      'EngagementIdentifier': engagementIdentifier,
+      'Status': status.value,
+      if (engagementContextId != null)
+        'EngagementContextId': engagementContextId,
+      if (message != null) 'Message': message,
+      if (reasonCode != null) 'ReasonCode': reasonCode,
+    };
+  }
+}
+
+/// The current execution state of a prospecting task. A task transitions from
+/// <code>PENDING</code> to <code>IN_PROGRESS</code> when processing begins, and
+/// then to either <code>COMPLETED</code> or <code>FAILED</code> when processing
+/// ends.
+///
+/// @nodoc
+class ProspectingTaskStatus {
+  static const pending = ProspectingTaskStatus._('PENDING');
+  static const inProgress = ProspectingTaskStatus._('IN_PROGRESS');
+  static const completed = ProspectingTaskStatus._('COMPLETED');
+  static const failed = ProspectingTaskStatus._('FAILED');
+
+  final String value;
+
+  const ProspectingTaskStatus._(this.value);
+
+  static const values = [pending, inProgress, completed, failed];
+
+  static ProspectingTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProspectingTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProspectingTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Provides a summary of a task related to creating an opportunity from an
 /// engagement. This structure contains key information about the task's status,
 /// associated identifiers, and any failure details for opportunity creation
@@ -9029,6 +9888,10 @@ class RelatedEntityType {
       RelatedEntityType._('AwsMarketplaceOffers');
   static const awsMarketplaceOfferSets =
       RelatedEntityType._('AwsMarketplaceOfferSets');
+  static const awsMarketplaceSolutions =
+      RelatedEntityType._('AwsMarketplaceSolutions');
+  static const awsMarketplaceProducts =
+      RelatedEntityType._('AwsMarketplaceProducts');
 
   final String value;
 
@@ -9038,7 +9901,9 @@ class RelatedEntityType {
     solutions,
     awsProducts,
     awsMarketplaceOffers,
-    awsMarketplaceOfferSets
+    awsMarketplaceOfferSets,
+    awsMarketplaceSolutions,
+    awsMarketplaceProducts
   ];
 
   static RelatedEntityType fromString(String value) =>
@@ -11225,6 +12090,281 @@ class Payload {
   }
 }
 
+/// Contains enrichment data for engagement invitations. You can view propensity
+/// scores, program eligibility, and lead readiness insights directly in the
+/// invitation, before you take action on the invitation.
+///
+/// @nodoc
+class EnrichmentContext {
+  /// The AI-generated lead readiness score for this lead. Use this score to
+  /// assess lead quality and prioritize engagement efforts.
+  final LeadInsights? leadInsights;
+
+  /// The customer account data and propensity insights for the prospected
+  /// account. It includes geographic, industry, and segment classifications,
+  /// along with engagement and solution scoring.
+  final InvitationProspectingResultAws? prospectingResultAws;
+
+  EnrichmentContext({
+    this.leadInsights,
+    this.prospectingResultAws,
+  });
+
+  factory EnrichmentContext.fromJson(Map<String, dynamic> json) {
+    return EnrichmentContext(
+      leadInsights: json['LeadInsights'] != null
+          ? LeadInsights.fromJson(json['LeadInsights'] as Map<String, dynamic>)
+          : null,
+      prospectingResultAws: json['ProspectingResultAws'] != null
+          ? InvitationProspectingResultAws.fromJson(
+              json['ProspectingResultAws'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final leadInsights = this.leadInsights;
+    final prospectingResultAws = this.prospectingResultAws;
+    return {
+      if (leadInsights != null) 'LeadInsights': leadInsights,
+      if (prospectingResultAws != null)
+        'ProspectingResultAws': prospectingResultAws,
+    };
+  }
+}
+
+/// A subset of prospecting result data visible to invitation receivers. It
+/// includes customer account details and AI-generated insights.
+///
+/// @nodoc
+class InvitationProspectingResultAws {
+  /// The prospected customer account details, including geographic
+  /// classification, industry segmentation, company size, and program
+  /// eligibility.
+  final ProspectingResultCustomer? customer;
+
+  /// The AI-generated insights from the prospecting analysis, including
+  /// marketplace engagement scoring, solution fit assessments, and solution
+  /// categorization.
+  final ProspectingInsights? insights;
+
+  InvitationProspectingResultAws({
+    this.customer,
+    this.insights,
+  });
+
+  factory InvitationProspectingResultAws.fromJson(Map<String, dynamic> json) {
+    return InvitationProspectingResultAws(
+      customer: json['Customer'] != null
+          ? ProspectingResultCustomer.fromJson(
+              json['Customer'] as Map<String, dynamic>)
+          : null,
+      insights: json['Insights'] != null
+          ? ProspectingInsights.fromJson(
+              json['Insights'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customer = this.customer;
+    final insights = this.insights;
+    return {
+      if (customer != null) 'Customer': customer,
+      if (insights != null) 'Insights': insights,
+    };
+  }
+}
+
+/// Contains insights that AI generates for a lead. These insights provide
+/// automated analysis to help partners evaluate the lead quality and prioritize
+/// engagement efforts.
+///
+/// @nodoc
+class LeadInsights {
+  /// A score that indicates the lead's readiness for engagement. Valid values are
+  /// <code>Low</code>, <code>Medium</code>, and <code>High</code>. Use this score
+  /// to prioritize leads based on their likelihood of conversion.
+  final String? leadReadinessScore;
+
+  LeadInsights({
+    this.leadReadinessScore,
+  });
+
+  factory LeadInsights.fromJson(Map<String, dynamic> json) {
+    return LeadInsights(
+      leadReadinessScore: json['LeadReadinessScore'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final leadReadinessScore = this.leadReadinessScore;
+    return {
+      if (leadReadinessScore != null) 'LeadReadinessScore': leadReadinessScore,
+    };
+  }
+}
+
+/// Contains detailed information about the prospected customer account,
+/// including company identifiers, geographic classification, industry
+/// segmentation, and program eligibility.
+///
+/// @nodoc
+class ProspectingResultCustomer {
+  /// The name of the prospected customer account.
+  final String? accountName;
+
+  /// The company size classification of the prospected customer account.
+  final String? companySize;
+
+  /// The country code of the prospected customer account.
+  final CountryCode? country;
+
+  /// A list of AWS Greenfield programs that the prospected customer is eligible
+  /// for. Use this list to identify relevant go-to-market opportunities.
+  final List<String>? eligiblePrograms;
+
+  /// The geographic region classification of the prospected customer account.
+  final String? geo;
+
+  /// The industry classification of the prospected customer account.
+  final Industry? industry;
+
+  /// A summary of publicly available information about the prospected customer.
+  /// The system uses this summary to generate customer insights and inform
+  /// engagement strategies.
+  final String? publicProfileSummary;
+
+  /// The specific region of the prospected customer account.
+  final String? region;
+
+  /// The market segment classification of the prospected customer account.
+  final String? segment;
+
+  /// The sub-industry classification of the prospected customer account. This
+  /// provides more granular categorization within the primary industry.
+  final String? subIndustry;
+
+  /// The subregion classification of the prospected customer account.
+  final String? subRegion;
+
+  ProspectingResultCustomer({
+    this.accountName,
+    this.companySize,
+    this.country,
+    this.eligiblePrograms,
+    this.geo,
+    this.industry,
+    this.publicProfileSummary,
+    this.region,
+    this.segment,
+    this.subIndustry,
+    this.subRegion,
+  });
+
+  factory ProspectingResultCustomer.fromJson(Map<String, dynamic> json) {
+    return ProspectingResultCustomer(
+      accountName: json['AccountName'] as String?,
+      companySize: json['CompanySize'] as String?,
+      country: (json['Country'] as String?)?.let(CountryCode.fromString),
+      eligiblePrograms: (json['EligiblePrograms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      geo: json['Geo'] as String?,
+      industry: (json['Industry'] as String?)?.let(Industry.fromString),
+      publicProfileSummary: json['PublicProfileSummary'] as String?,
+      region: json['Region'] as String?,
+      segment: json['Segment'] as String?,
+      subIndustry: json['SubIndustry'] as String?,
+      subRegion: json['SubRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountName = this.accountName;
+    final companySize = this.companySize;
+    final country = this.country;
+    final eligiblePrograms = this.eligiblePrograms;
+    final geo = this.geo;
+    final industry = this.industry;
+    final publicProfileSummary = this.publicProfileSummary;
+    final region = this.region;
+    final segment = this.segment;
+    final subIndustry = this.subIndustry;
+    final subRegion = this.subRegion;
+    return {
+      if (accountName != null) 'AccountName': accountName,
+      if (companySize != null) 'CompanySize': companySize,
+      if (country != null) 'Country': country.value,
+      if (eligiblePrograms != null) 'EligiblePrograms': eligiblePrograms,
+      if (geo != null) 'Geo': geo,
+      if (industry != null) 'Industry': industry.value,
+      if (publicProfileSummary != null)
+        'PublicProfileSummary': publicProfileSummary,
+      if (region != null) 'Region': region,
+      if (segment != null) 'Segment': segment,
+      if (subIndustry != null) 'SubIndustry': subIndustry,
+      if (subRegion != null) 'SubRegion': subRegion,
+    };
+  }
+}
+
+/// Contains insights that AI generates from the prospecting analysis. These
+/// insights include marketplace engagement scoring, solution fit assessments,
+/// and solution categorization for the prospected customer.
+///
+/// @nodoc
+class ProspectingInsights {
+  /// A score that indicates the prospected customer's level of engagement with
+  /// AWS Marketplace. Valid values are <code>High</code>, <code>Medium</code>,
+  /// and <code>Low</code>.
+  final String? marketplaceEngagementScore;
+
+  /// The primary solution category classification for the prospected customer.
+  /// This indicates the type of solution that best addresses their needs.
+  final String? solutionCategory;
+
+  /// A score that indicates how well the partner's solution fits the prospected
+  /// customer's needs.
+  final String? solutionScore;
+
+  /// The solution sub-category classification for the prospected customer. This
+  /// provides more granular categorization of the recommended solution type.
+  final String? solutionSubCategory;
+
+  ProspectingInsights({
+    this.marketplaceEngagementScore,
+    this.solutionCategory,
+    this.solutionScore,
+    this.solutionSubCategory,
+  });
+
+  factory ProspectingInsights.fromJson(Map<String, dynamic> json) {
+    return ProspectingInsights(
+      marketplaceEngagementScore: json['MarketplaceEngagementScore'] as String?,
+      solutionCategory: json['SolutionCategory'] as String?,
+      solutionScore: json['SolutionScore'] as String?,
+      solutionSubCategory: json['SolutionSubCategory'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marketplaceEngagementScore = this.marketplaceEngagementScore;
+    final solutionCategory = this.solutionCategory;
+    final solutionScore = this.solutionScore;
+    final solutionSubCategory = this.solutionSubCategory;
+    return {
+      if (marketplaceEngagementScore != null)
+        'MarketplaceEngagementScore': marketplaceEngagementScore,
+      if (solutionCategory != null) 'SolutionCategory': solutionCategory,
+      if (solutionScore != null) 'SolutionScore': solutionScore,
+      if (solutionSubCategory != null)
+        'SolutionSubCategory': solutionSubCategory,
+    };
+  }
+}
+
 /// The EngagementMemberSummary provides a snapshot of essential information
 /// about participants in an AWS Partner Central Engagement. This compact data
 /// structure encapsulates key details of each member, facilitating efficient
@@ -11382,25 +12522,25 @@ class LeadInvitationCustomer {
   /// opportunity.
   final String companyName;
 
-  /// The country code indicating the geographic location of the customer company.
-  /// This information helps partners understand regional requirements and assess
-  /// their ability to serve the customer effectively.
-  final CountryCode countryCode;
-
   /// Indicates the customer's level of experience and adoption with AWS services.
   /// This assessment helps partners understand the customer's cloud maturity and
   /// tailor their engagement approach accordingly.
   final String? awsMaturity;
 
+  /// The country code indicating the geographic location of the customer company.
+  /// This information helps partners understand regional requirements and assess
+  /// their ability to serve the customer effectively.
+  final String? countryCode;
+
   /// Specifies the industry sector of the customer company associated with the
   /// lead invitation. This categorization helps partners understand the
   /// customer's business context and assess solution fit.
-  final Industry? industry;
+  final String? industry;
 
   /// Specifies the market segment classification of the customer, such as
   /// enterprise, mid-market, or small business. This segmentation helps partners
   /// determine the appropriate solution complexity and engagement strategy.
-  final MarketSegment? marketSegment;
+  final String? marketSegment;
 
   /// The website URL of the customer company. This provides additional context
   /// about the customer organization and helps partners verify company details
@@ -11409,8 +12549,8 @@ class LeadInvitationCustomer {
 
   LeadInvitationCustomer({
     required this.companyName,
-    required this.countryCode,
     this.awsMaturity,
+    this.countryCode,
     this.industry,
     this.marketSegment,
     this.websiteUrl,
@@ -11419,29 +12559,27 @@ class LeadInvitationCustomer {
   factory LeadInvitationCustomer.fromJson(Map<String, dynamic> json) {
     return LeadInvitationCustomer(
       companyName: (json['CompanyName'] as String?) ?? '',
-      countryCode:
-          CountryCode.fromString((json['CountryCode'] as String?) ?? ''),
       awsMaturity: json['AwsMaturity'] as String?,
-      industry: (json['Industry'] as String?)?.let(Industry.fromString),
-      marketSegment:
-          (json['MarketSegment'] as String?)?.let(MarketSegment.fromString),
+      countryCode: json['CountryCode'] as String?,
+      industry: json['Industry'] as String?,
+      marketSegment: json['MarketSegment'] as String?,
       websiteUrl: json['WebsiteUrl'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final companyName = this.companyName;
-    final countryCode = this.countryCode;
     final awsMaturity = this.awsMaturity;
+    final countryCode = this.countryCode;
     final industry = this.industry;
     final marketSegment = this.marketSegment;
     final websiteUrl = this.websiteUrl;
     return {
       'CompanyName': companyName,
-      'CountryCode': countryCode.value,
       if (awsMaturity != null) 'AwsMaturity': awsMaturity,
-      if (industry != null) 'Industry': industry.value,
-      if (marketSegment != null) 'MarketSegment': marketSegment.value,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (industry != null) 'Industry': industry,
+      if (marketSegment != null) 'MarketSegment': marketSegment,
       if (websiteUrl != null) 'WebsiteUrl': websiteUrl,
     };
   }
@@ -11462,17 +12600,17 @@ class LeadInvitationInteraction {
   /// The unique identifier of the specific source that generated the lead
   /// interaction. This provides traceability to the original lead generation
   /// activity for reference and follow-up purposes.
-  final String sourceId;
+  final String? sourceId;
 
   /// The descriptive name of the source that generated the lead interaction. This
   /// human-readable identifier helps partners understand the specific lead
   /// generation channel or campaign that created the opportunity.
-  final String sourceName;
+  final String? sourceName;
 
   /// Specifies the type of source that generated the lead interaction, such as
   /// "Event", "Website", or "Campaign". This helps partners understand the lead
   /// generation channel and assess lead quality based on the source type.
-  final String sourceType;
+  final String? sourceType;
 
   /// Describes the specific use case or business scenario associated with the
   /// lead interaction. This information helps partners understand the customer's
@@ -11481,18 +12619,18 @@ class LeadInvitationInteraction {
 
   LeadInvitationInteraction({
     required this.contactBusinessTitle,
-    required this.sourceId,
-    required this.sourceName,
-    required this.sourceType,
+    this.sourceId,
+    this.sourceName,
+    this.sourceType,
     this.usecase,
   });
 
   factory LeadInvitationInteraction.fromJson(Map<String, dynamic> json) {
     return LeadInvitationInteraction(
       contactBusinessTitle: (json['ContactBusinessTitle'] as String?) ?? '',
-      sourceId: (json['SourceId'] as String?) ?? '',
-      sourceName: (json['SourceName'] as String?) ?? '',
-      sourceType: (json['SourceType'] as String?) ?? '',
+      sourceId: json['SourceId'] as String?,
+      sourceName: json['SourceName'] as String?,
+      sourceType: json['SourceType'] as String?,
       usecase: json['Usecase'] as String?,
     );
   }
@@ -11505,40 +12643,12 @@ class LeadInvitationInteraction {
     final usecase = this.usecase;
     return {
       'ContactBusinessTitle': contactBusinessTitle,
-      'SourceId': sourceId,
-      'SourceName': sourceName,
-      'SourceType': sourceType,
+      if (sourceId != null) 'SourceId': sourceId,
+      if (sourceName != null) 'SourceName': sourceName,
+      if (sourceType != null) 'SourceType': sourceType,
       if (usecase != null) 'Usecase': usecase,
     };
   }
-}
-
-/// @nodoc
-class MarketSegment {
-  static const enterprise = MarketSegment._('Enterprise');
-  static const large = MarketSegment._('Large');
-  static const medium = MarketSegment._('Medium');
-  static const small = MarketSegment._('Small');
-  static const micro = MarketSegment._('Micro');
-
-  final String value;
-
-  const MarketSegment._(this.value);
-
-  static const values = [enterprise, large, medium, small, micro];
-
-  static MarketSegment fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MarketSegment._(value));
-
-  @override
-  bool operator ==(other) => other is MarketSegment && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Contains details about the customer associated with the Engagement
@@ -12147,12 +13257,13 @@ class EngagementSummary {
 class EngagementContextType {
   static const customerProject = EngagementContextType._('CustomerProject');
   static const lead = EngagementContextType._('Lead');
+  static const prospectingResult = EngagementContextType._('ProspectingResult');
 
   final String value;
 
   const EngagementContextType._(this.value);
 
-  static const values = [customerProject, lead];
+  static const values = [customerProject, lead, prospectingResult];
 
   static EngagementContextType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -12282,9 +13393,16 @@ class EngagementContextPayload {
   /// to "Lead".
   final LeadContext? lead;
 
+  /// Contains prospecting result data with enriched insights. The system
+  /// generates these insights when a partner runs an autonomous prospecting job
+  /// on leads. This field appears only when the context type is
+  /// "ProspectingResult".
+  final ProspectingResult? prospectingResult;
+
   EngagementContextPayload({
     this.customerProject,
     this.lead,
+    this.prospectingResult,
   });
 
   factory EngagementContextPayload.fromJson(Map<String, dynamic> json) {
@@ -12296,15 +13414,21 @@ class EngagementContextPayload {
       lead: json['Lead'] != null
           ? LeadContext.fromJson(json['Lead'] as Map<String, dynamic>)
           : null,
+      prospectingResult: json['ProspectingResult'] != null
+          ? ProspectingResult.fromJson(
+              json['ProspectingResult'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final customerProject = this.customerProject;
     final lead = this.lead;
+    final prospectingResult = this.prospectingResult;
     return {
       if (customerProject != null) 'CustomerProject': customerProject,
       if (lead != null) 'Lead': lead,
+      if (prospectingResult != null) 'ProspectingResult': prospectingResult,
     };
   }
 }
@@ -12372,6 +13496,11 @@ class LeadContext {
   /// to the lead.
   final List<LeadInteraction> interactions;
 
+  /// Insights that AI generates and associates with the lead. These insights
+  /// provide automated analysis such as lead readiness scoring to help partners
+  /// assess the lead quality.
+  final LeadInsights? insights;
+
   /// Indicates the current qualification status of the lead, such as whether it
   /// has been qualified, disqualified, or is still under evaluation. This helps
   /// track the lead's progression through the qualification process.
@@ -12380,6 +13509,7 @@ class LeadContext {
   LeadContext({
     required this.customer,
     required this.interactions,
+    this.insights,
     this.qualificationStatus,
   });
 
@@ -12392,6 +13522,9 @@ class LeadContext {
           .nonNulls
           .map((e) => LeadInteraction.fromJson(e as Map<String, dynamic>))
           .toList(),
+      insights: json['Insights'] != null
+          ? LeadInsights.fromJson(json['Insights'] as Map<String, dynamic>)
+          : null,
       qualificationStatus: json['QualificationStatus'] as String?,
     );
   }
@@ -12399,12 +13532,126 @@ class LeadContext {
   Map<String, dynamic> toJson() {
     final customer = this.customer;
     final interactions = this.interactions;
+    final insights = this.insights;
     final qualificationStatus = this.qualificationStatus;
     return {
       'Customer': customer,
       'Interactions': interactions,
+      if (insights != null) 'Insights': insights,
       if (qualificationStatus != null)
         'QualificationStatus': qualificationStatus,
+    };
+  }
+}
+
+/// Contains the results of an autonomous prospecting job. This includes data
+/// and insights that AWS provides about a prospected customer account.
+///
+/// @nodoc
+class ProspectingResult {
+  /// Prospecting data and insights that AWS provides during the prospecting job.
+  /// This includes customer details, task information, and scoring that AI
+  /// generates.
+  final ProspectingResultAws? aws;
+
+  ProspectingResult({
+    this.aws,
+  });
+
+  factory ProspectingResult.fromJson(Map<String, dynamic> json) {
+    return ProspectingResult(
+      aws: json['Aws'] != null
+          ? ProspectingResultAws.fromJson(json['Aws'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aws = this.aws;
+    return {
+      if (aws != null) 'Aws': aws,
+    };
+  }
+}
+
+/// Contains the prospecting data that AWS sources. This includes task execution
+/// details, customer account information, and insights that AI generates from
+/// the prospecting analysis.
+///
+/// @nodoc
+class ProspectingResultAws {
+  /// Contains details about the prospected customer account, including
+  /// geographic, industry, and segment classifications.
+  final ProspectingResultCustomer? customer;
+
+  /// The timestamp when the prospecting task completed processing. The format is
+  /// ISO 8601 (UTC).
+  final DateTime? endTime;
+
+  /// Insights that AI generates from the prospecting analysis. These insights
+  /// include engagement scores and solution fit assessments for the prospected
+  /// customer.
+  final ProspectingInsights? insights;
+
+  /// The timestamp when the prospecting result context was created. The format is
+  /// ISO 8601 (UTC).
+  final DateTime? startTime;
+
+  /// The Amazon Resource Name (ARN) of the prospecting task. Use this ARN to
+  /// track and manage the task within AWS.
+  final String? taskArn;
+
+  /// The unique identifier of the prospecting task that generates this result.
+  final String? taskId;
+
+  /// The name that the user provides for the prospecting task that generates this
+  /// result.
+  final String? taskName;
+
+  ProspectingResultAws({
+    this.customer,
+    this.endTime,
+    this.insights,
+    this.startTime,
+    this.taskArn,
+    this.taskId,
+    this.taskName,
+  });
+
+  factory ProspectingResultAws.fromJson(Map<String, dynamic> json) {
+    return ProspectingResultAws(
+      customer: json['Customer'] != null
+          ? ProspectingResultCustomer.fromJson(
+              json['Customer'] as Map<String, dynamic>)
+          : null,
+      endTime: timeStampFromJson(json['EndTime']),
+      insights: json['Insights'] != null
+          ? ProspectingInsights.fromJson(
+              json['Insights'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      taskArn: json['TaskArn'] as String?,
+      taskId: json['TaskId'] as String?,
+      taskName: json['TaskName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customer = this.customer;
+    final endTime = this.endTime;
+    final insights = this.insights;
+    final startTime = this.startTime;
+    final taskArn = this.taskArn;
+    final taskId = this.taskId;
+    final taskName = this.taskName;
+    return {
+      if (customer != null) 'Customer': customer,
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
+      if (insights != null) 'Insights': insights,
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskId != null) 'TaskId': taskId,
+      if (taskName != null) 'TaskName': taskName,
     };
   }
 }
@@ -12416,11 +13663,12 @@ class LeadContext {
 ///
 /// @nodoc
 class LeadCustomer {
-  final AddressSummary address;
-
   /// The name of the lead customer's company. This field is essential for
   /// identifying and tracking the customer organization associated with the lead.
   final String companyName;
+
+  /// The address information for the lead customer.
+  final LeadAddress? address;
 
   /// Indicates the customer's level of experience and adoption with AWS services.
   /// This assessment helps determine the appropriate engagement approach and
@@ -12430,12 +13678,12 @@ class LeadCustomer {
   /// Specifies the industry sector to which the lead customer's company belongs.
   /// This categorization helps in understanding the customer's business context
   /// and tailoring appropriate solutions.
-  final Industry? industry;
+  final String? industry;
 
   /// Specifies the market segment classification of the lead customer, such as
   /// enterprise, mid-market, or small business. This segmentation helps in
   /// targeting appropriate solutions and engagement strategies.
-  final MarketSegment? marketSegment;
+  final String? marketSegment;
 
   /// The website URL of the lead customer's company. This provides additional
   /// context about the customer organization and helps verify company legitimacy
@@ -12443,8 +13691,8 @@ class LeadCustomer {
   final String? websiteUrl;
 
   LeadCustomer({
-    required this.address,
     required this.companyName,
+    this.address,
     this.awsMaturity,
     this.industry,
     this.marketSegment,
@@ -12453,31 +13701,30 @@ class LeadCustomer {
 
   factory LeadCustomer.fromJson(Map<String, dynamic> json) {
     return LeadCustomer(
-      address: AddressSummary.fromJson(
-          (json['Address'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
       companyName: (json['CompanyName'] as String?) ?? '',
+      address: json['Address'] != null
+          ? LeadAddress.fromJson(json['Address'] as Map<String, dynamic>)
+          : null,
       awsMaturity: json['AwsMaturity'] as String?,
-      industry: (json['Industry'] as String?)?.let(Industry.fromString),
-      marketSegment:
-          (json['MarketSegment'] as String?)?.let(MarketSegment.fromString),
+      industry: json['Industry'] as String?,
+      marketSegment: json['MarketSegment'] as String?,
       websiteUrl: json['WebsiteUrl'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final address = this.address;
     final companyName = this.companyName;
+    final address = this.address;
     final awsMaturity = this.awsMaturity;
     final industry = this.industry;
     final marketSegment = this.marketSegment;
     final websiteUrl = this.websiteUrl;
     return {
-      'Address': address,
       'CompanyName': companyName,
+      if (address != null) 'Address': address,
       if (awsMaturity != null) 'AwsMaturity': awsMaturity,
-      if (industry != null) 'Industry': industry.value,
-      if (marketSegment != null) 'MarketSegment': marketSegment.value,
+      if (industry != null) 'Industry': industry,
+      if (marketSegment != null) 'MarketSegment': marketSegment,
       if (websiteUrl != null) 'WebsiteUrl': websiteUrl,
     };
   }
@@ -12494,35 +13741,35 @@ class LeadInteraction {
   /// lead interaction, including their name, title, and contact details.
   final LeadContact contact;
 
-  /// Describes the action taken by the customer during or as a result of the
-  /// interaction, such as requesting information, scheduling a meeting, or
-  /// expressing interest in a solution.
-  final String customerAction;
-
-  /// The unique identifier of the specific source that generated the lead
-  /// interaction. This ID provides traceability back to the original lead
-  /// generation activity.
-  final String sourceId;
-
-  /// The descriptive name of the source that generated the lead interaction,
-  /// providing a human-readable identifier for the lead generation channel or
-  /// activity.
-  final String sourceName;
-
-  /// Specifies the type of source that generated the lead interaction, such as
-  /// "Event", "Website", "Referral", or "Campaign". This categorization helps
-  /// track lead generation effectiveness across different channels.
-  final String sourceType;
-
   /// Describes the business problem or challenge that the customer discussed
   /// during the interaction. This information helps qualify the lead and identify
   /// appropriate solutions.
   final String? businessProblem;
 
+  /// Describes the action taken by the customer during or as a result of the
+  /// interaction, such as requesting information, scheduling a meeting, or
+  /// expressing interest in a solution.
+  final String? customerAction;
+
   /// The date and time when the lead interaction occurred, in ISO 8601 format
   /// (UTC). This timestamp helps track the chronology of lead engagement
   /// activities.
   final DateTime? interactionDate;
+
+  /// The unique identifier of the specific source that generated the lead
+  /// interaction. This ID provides traceability back to the original lead
+  /// generation activity.
+  final String? sourceId;
+
+  /// The descriptive name of the source that generated the lead interaction,
+  /// providing a human-readable identifier for the lead generation channel or
+  /// activity.
+  final String? sourceName;
+
+  /// Specifies the type of source that generated the lead interaction, such as
+  /// "Event", "Website", "Referral", or "Campaign". This categorization helps
+  /// track lead generation effectiveness across different channels.
+  final String? sourceType;
 
   /// Describes the specific use case or business scenario discussed during the
   /// lead interaction. This helps categorize the customer's interests and
@@ -12531,12 +13778,12 @@ class LeadInteraction {
 
   LeadInteraction({
     required this.contact,
-    required this.customerAction,
-    required this.sourceId,
-    required this.sourceName,
-    required this.sourceType,
     this.businessProblem,
+    this.customerAction,
     this.interactionDate,
+    this.sourceId,
+    this.sourceName,
+    this.sourceType,
     this.usecase,
   });
 
@@ -12545,34 +13792,34 @@ class LeadInteraction {
       contact: LeadContact.fromJson(
           (json['Contact'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      customerAction: (json['CustomerAction'] as String?) ?? '',
-      sourceId: (json['SourceId'] as String?) ?? '',
-      sourceName: (json['SourceName'] as String?) ?? '',
-      sourceType: (json['SourceType'] as String?) ?? '',
       businessProblem: json['BusinessProblem'] as String?,
+      customerAction: json['CustomerAction'] as String?,
       interactionDate: timeStampFromJson(json['InteractionDate']),
+      sourceId: json['SourceId'] as String?,
+      sourceName: json['SourceName'] as String?,
+      sourceType: json['SourceType'] as String?,
       usecase: json['Usecase'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final contact = this.contact;
+    final businessProblem = this.businessProblem;
     final customerAction = this.customerAction;
+    final interactionDate = this.interactionDate;
     final sourceId = this.sourceId;
     final sourceName = this.sourceName;
     final sourceType = this.sourceType;
-    final businessProblem = this.businessProblem;
-    final interactionDate = this.interactionDate;
     final usecase = this.usecase;
     return {
       'Contact': contact,
-      'CustomerAction': customerAction,
-      'SourceId': sourceId,
-      'SourceName': sourceName,
-      'SourceType': sourceType,
       if (businessProblem != null) 'BusinessProblem': businessProblem,
+      if (customerAction != null) 'CustomerAction': customerAction,
       if (interactionDate != null)
         'InteractionDate': iso8601ToJson(interactionDate),
+      if (sourceId != null) 'SourceId': sourceId,
+      if (sourceName != null) 'SourceName': sourceName,
+      if (sourceType != null) 'SourceType': sourceType,
       if (usecase != null) 'Usecase': usecase,
     };
   }
@@ -12634,6 +13881,53 @@ class LeadContact {
   }
 }
 
+/// The address information for a lead customer, including city, state or
+/// region, postal code, and country code.
+///
+/// @nodoc
+class LeadAddress {
+  /// The city of the lead customer's address.
+  final String? city;
+
+  /// The country code of the lead customer's address.
+  final String? countryCode;
+
+  /// The postal code of the lead customer's address.
+  final String? postalCode;
+
+  /// The state or region of the lead customer's address.
+  final String? stateOrRegion;
+
+  LeadAddress({
+    this.city,
+    this.countryCode,
+    this.postalCode,
+    this.stateOrRegion,
+  });
+
+  factory LeadAddress.fromJson(Map<String, dynamic> json) {
+    return LeadAddress(
+      city: json['City'] as String?,
+      countryCode: json['CountryCode'] as String?,
+      postalCode: json['PostalCode'] as String?,
+      stateOrRegion: json['StateOrRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final city = this.city;
+    final countryCode = this.countryCode;
+    final postalCode = this.postalCode;
+    final stateOrRegion = this.stateOrRegion;
+    return {
+      if (city != null) 'City': city,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (postalCode != null) 'PostalCode': postalCode,
+      if (stateOrRegion != null) 'StateOrRegion': stateOrRegion,
+    };
+  }
+}
+
 /// Provides comprehensive details about a customer project associated with an
 /// Engagement. This may include information such as project goals, timelines,
 /// and specific customer requirements.
@@ -12687,17 +13981,25 @@ class UpdateEngagementContextPayload {
   /// engagement.
   final UpdateLeadContext? lead;
 
+  /// Contains updated prospecting result data when the context type is
+  /// "ProspectingResult". This field includes enriched data and insights that the
+  /// system generates when a partner runs an autonomous prospecting job on leads.
+  final ProspectingResult? prospectingResult;
+
   UpdateEngagementContextPayload({
     this.customerProject,
     this.lead,
+    this.prospectingResult,
   });
 
   Map<String, dynamic> toJson() {
     final customerProject = this.customerProject;
     final lead = this.lead;
+    final prospectingResult = this.prospectingResult;
     return {
       if (customerProject != null) 'CustomerProject': customerProject,
       if (lead != null) 'Lead': lead,
+      if (prospectingResult != null) 'ProspectingResult': prospectingResult,
     };
   }
 }
@@ -12710,6 +14012,11 @@ class UpdateLeadContext {
   /// Updated customer information associated with the lead.
   final LeadCustomer customer;
 
+  /// Insights that AI generates and associates with the lead. These insights
+  /// provide automated analysis to help partners assess the lead quality and
+  /// readiness.
+  final LeadInsights? insights;
+
   /// Updated interaction details for the lead context.
   final LeadInteraction? interaction;
 
@@ -12718,16 +14025,19 @@ class UpdateLeadContext {
 
   UpdateLeadContext({
     required this.customer,
+    this.insights,
     this.interaction,
     this.qualificationStatus,
   });
 
   Map<String, dynamic> toJson() {
     final customer = this.customer;
+    final insights = this.insights;
     final interaction = this.interaction;
     final qualificationStatus = this.qualificationStatus;
     return {
       'Customer': customer,
+      if (insights != null) 'Insights': insights,
       if (interaction != null) 'Interaction': interaction,
       if (qualificationStatus != null)
         'QualificationStatus': qualificationStatus,

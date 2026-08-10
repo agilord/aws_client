@@ -28,10 +28,19 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// <ul>
 /// <li>
-/// Forward and reverse geocoding for addresses and coordinates
+/// Forward and reverse geocoding for addresses and coordinates. See <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Geocode.html">Geocode</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_ReverseGeocode.html">ReverseGeocode</a>.
 /// </li>
 /// <li>
-/// Comprehensive place searches with detailed information, including:
+/// Comprehensive place searches with detailed information. See <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchText.html">SearchText</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchNearby.html">SearchNearby</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_GetPlace.html">GetPlace</a>.
+/// Place information you can find include:
 ///
 /// <ul>
 /// <li>
@@ -44,7 +53,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Hours of operation
 /// </li>
 /// <li>
-/// POI (Points of Interest) categories
+/// Points of Interest (POI) categories
 /// </li>
 /// <li>
 /// Food types for restaurants
@@ -54,10 +63,27 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// </ul> </li>
 /// <li>
-/// Global data coverage with a wide range of POI categories
+/// Address and place completion as users type, enhancing input efficiency by
+/// completing partial queries with valid addresses. See <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Autocomplete.html">Autocomplete</a>.
 /// </li>
 /// <li>
-/// Regular data updates to ensure accuracy and relevance
+/// Intelligent place and query recommendation based on user's input or context,
+/// returning relevant places, points of interest, query terms, or search
+/// categories. See <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_Suggest.html">Suggest</a>.
+/// </li>
+/// <li>
+/// Global data coverage with a wide range of POI categories.
+/// </li>
+/// <li>
+/// Regular data updates to ensure accuracy and relevance.
+/// </li>
+/// <li>
+/// Bulk address validation for verifying and standardizing large volumes of
+/// addresses in a single operation using <a
+/// href="https://docs.aws.amazon.com/location/latest/APIReference/Welcome.html#Welcome_Amazon_Location_Service_Jobs">Amazon
+/// Location Service Jobs</a>.
 /// </li>
 /// </ul>
 class GeoPlaces {
@@ -109,7 +135,11 @@ class GeoPlaces {
   /// keystrokes. It helps you by completing partial queries with valid address
   /// completion. Also, the API supports the filtering of results based on
   /// geographic location, country, or specific place types, and can be tailored
-  /// using optional parameters like language and political views.
+  /// using optional parameters like language and political views. Not supported
+  /// in <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for
+  /// <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
+  /// customers.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/autocomplete.html">Autocomplete</a>
@@ -156,7 +186,8 @@ class GeoPlaces {
   /// valid SigV4 signature must be provided when making a request.
   ///
   /// Parameter [language] :
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If
   /// there is no data for the result in the requested language, data will be
   /// returned in the default language for the entry.
@@ -229,7 +260,9 @@ class GeoPlaces {
   /// empty, partial district or locality information may be returned under a
   /// single postal code result entry. If it's populated with the value
   /// <code>EnumerateSpannedLocalities</code>, all cities in that postal code
-  /// are returned.
+  /// are returned. If it's populated with the value
+  /// <code>EnumerateSpannedDistricts</code>, all combinations of the postal
+  /// code with the corresponding district and city names are returned.
   Future<AutocompleteResponse> autocomplete({
     required String queryText,
     List<AutocompleteAdditionalFeature>? additionalFeatures,
@@ -283,7 +316,10 @@ class GeoPlaces {
   /// free-form text or structured queries with components like street names,
   /// postal codes, and regions. The Geocode API can also provide additional
   /// features such as time zone information and the inclusion of political
-  /// views.
+  /// views. Not supported in <code>ap-southeast-1</code> and
+  /// <code>ap-southeast-5</code> regions for <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
+  /// customers.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/geocode.html">Geocode</a>
@@ -297,6 +333,22 @@ class GeoPlaces {
   /// Parameter [additionalFeatures] :
   /// A list of optional additional parameters, such as time zone, that can be
   /// requested for each result.
+  ///
+  /// Parameter [addressNamesMode] :
+  /// Specifies how address names are returned. If not set, the service returns
+  /// normalized (official) names by default. When set to <code>Matched</code>,
+  /// address names in the response are based on the input query rather than
+  /// official names. When set to <code>Administrative</code>, the service
+  /// returns the official administrative names for address components.
+  /// <code>Administrative</code> currently applies only to addresses in the
+  /// United States.
+  ///
+  /// Parameter [addressTranslations] :
+  /// Specifies which address components to include translations for.
+  /// Translations include all name variants and alternative names for the
+  /// requested fields in all available languages. Valid values are
+  /// <code>District</code>, <code>Locality</code>, <code>Region</code>, and
+  /// <code>SubRegion</code>.
   ///
   /// Parameter [biasPosition] :
   /// The position, in longitude and latitude, that the results should be close
@@ -329,7 +381,8 @@ class GeoPlaces {
   /// valid SigV4 signature must be provided when making a request.
   ///
   /// Parameter [language] :
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If
   /// there is no data for the result in the requested language, data will be
   /// returned in the default language for the entry.
@@ -345,11 +398,23 @@ class GeoPlaces {
   /// unresolved territorial claims through the point of view of the specified
   /// country.
   ///
+  /// Parameter [postalCodeMode] :
+  /// The <code>PostalCodeMode</code> affects how postal code results are
+  /// returned. If a postal code spans multiple localities and this value is
+  /// empty, partial district or locality information may be returned under a
+  /// single postal code result entry. If it's populated with the value
+  /// <code>EnumerateSpannedLocalities</code>, all cities in that postal code
+  /// are returned. If it's populated with the value
+  /// <code>EnumerateSpannedDistricts</code>, all combinations of the postal
+  /// code with the corresponding district and city names are returned.
+  ///
   /// Parameter [queryText] :
   /// The free-form text query to match addresses against. This is usually a
   /// partially typed address from an end user in an address box or form.
   Future<GeocodeResponse> geocode({
     List<GeocodeAdditionalFeature>? additionalFeatures,
+    GeocodeAddressNamesMode? addressNamesMode,
+    List<AddressTranslationComponent>? addressTranslations,
     List<double>? biasPosition,
     GeocodeFilter? filter,
     GeocodeIntendedUse? intendedUse,
@@ -357,6 +422,7 @@ class GeoPlaces {
     String? language,
     int? maxResults,
     String? politicalView,
+    PostalCodeMode? postalCodeMode,
     GeocodeQueryComponents? queryComponents,
     String? queryText,
   }) async {
@@ -366,6 +432,9 @@ class GeoPlaces {
     final $payload = <String, dynamic>{
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
+      if (addressNamesMode != null) 'AddressNamesMode': addressNamesMode.value,
+      if (addressTranslations != null)
+        'AddressTranslations': addressTranslations.map((e) => e.value).toList(),
       if (biasPosition != null)
         'BiasPosition': biasPosition.map(_s.encodeJsonDouble).toList(),
       if (filter != null) 'Filter': filter,
@@ -373,6 +442,7 @@ class GeoPlaces {
       if (language != null) 'Language': language,
       if (maxResults != null) 'MaxResults': maxResults,
       if (politicalView != null) 'PoliticalView': politicalView,
+      if (postalCodeMode != null) 'PostalCodeMode': postalCodeMode.value,
       if (queryComponents != null) 'QueryComponents': queryComponents,
       if (queryText != null) 'QueryText': queryText,
     };
@@ -417,6 +487,12 @@ class GeoPlaces {
   /// customers, <code>ap-southeast-1</code> and <code>ap-southeast-5</code>
   /// regions support only the <code>TimeZone</code> value.
   ///
+  /// Parameter [addressNamesMode] :
+  /// Specifies how address names are returned. When set to
+  /// <code>Administrative</code>, the service returns the official
+  /// administrative names for address components. <code>Administrative</code>
+  /// currently applies only to addresses in the United States.
+  ///
   /// Parameter [intendedUse] :
   /// Indicates if the query results will be persisted in customer
   /// infrastructure. Defaults to <code>SingleUse</code> (not stored). Not
@@ -438,7 +514,8 @@ class GeoPlaces {
   /// valid SigV4 signature must be provided when making a request.
   ///
   /// Parameter [language] :
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If
   /// there is no data for the result in the requested language, data will be
   /// returned in the default language for the entry. For <a
@@ -458,6 +535,7 @@ class GeoPlaces {
   Future<GetPlaceResponse> getPlace({
     required String placeId,
     List<GetPlaceAdditionalFeature>? additionalFeatures,
+    GetPlaceAddressNamesMode? addressNamesMode,
     GetPlaceIntendedUse? intendedUse,
     String? key,
     String? language,
@@ -466,6 +544,8 @@ class GeoPlaces {
     final $query = <String, List<String>>{
       if (additionalFeatures != null)
         'additional-features': additionalFeatures.map((e) => e.value).toList(),
+      if (addressNamesMode != null)
+        'address-names-mode': [addressNamesMode.value],
       if (intendedUse != null) 'intended-use': [intendedUse.value],
       if (key != null) 'key': [key],
       if (language != null) 'language': [language],
@@ -506,6 +586,11 @@ class GeoPlaces {
       contacts: $json['Contacts'] != null
           ? Contacts.fromJson($json['Contacts'] as Map<String, dynamic>)
           : null,
+      crossReferences: ($json['CrossReferences'] as List?)
+          ?.nonNulls
+          .map((e) => CrossReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      estimatedPointAddress: $json['EstimatedPointAddress'] as bool?,
       foodTypes: ($json['FoodTypes'] as List?)
           ?.nonNulls
           .map((e) => FoodType.fromJson(e as Map<String, dynamic>))
@@ -524,6 +609,10 @@ class GeoPlaces {
       phonemes: $json['Phonemes'] != null
           ? PhonemeDetails.fromJson($json['Phonemes'] as Map<String, dynamic>)
           : null,
+      placeAttributes: ($json['PlaceAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => PlaceAttribute.fromString((e as String)))
+          .toList(),
       politicalView: $json['PoliticalView'] as String?,
       position: ($json['Position'] as List?)
           ?.nonNulls
@@ -575,6 +664,12 @@ class GeoPlaces {
   /// customers, <code>ap-southeast-1</code> and <code>ap-southeast-5</code>
   /// regions support only the <code>TimeZone</code> value.
   ///
+  /// Parameter [addressNamesMode] :
+  /// Specifies how address names are returned. When set to
+  /// <code>Administrative</code>, the service returns the official
+  /// administrative names for address components. <code>Administrative</code>
+  /// currently applies only to addresses in the United States.
+  ///
   /// Parameter [filter] :
   /// A structure which contains a set of inclusion/exclusion properties that
   /// results must possess in order to be returned as a result.
@@ -603,7 +698,8 @@ class GeoPlaces {
   /// valid SigV4 signature must be provided when making a request.
   ///
   /// Parameter [language] :
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If
   /// there is no data for the result in the requested language, data will be
   /// returned in the default language for the entry. For <a
@@ -635,6 +731,7 @@ class GeoPlaces {
   Future<ReverseGeocodeResponse> reverseGeocode({
     required List<double> queryPosition,
     List<ReverseGeocodeAdditionalFeature>? additionalFeatures,
+    ReverseGeocodeAddressNamesMode? addressNamesMode,
     ReverseGeocodeFilter? filter,
     double? heading,
     ReverseGeocodeIntendedUse? intendedUse,
@@ -663,6 +760,7 @@ class GeoPlaces {
       'QueryPosition': queryPosition.map(_s.encodeJsonDouble).toList(),
       if (additionalFeatures != null)
         'AdditionalFeatures': additionalFeatures.map((e) => e.value).toList(),
+      if (addressNamesMode != null) 'AddressNamesMode': addressNamesMode.value,
       if (filter != null) 'Filter': filter,
       if (heading != null) 'Heading': _s.encodeJsonDouble(heading),
       if (intendedUse != null) 'IntendedUse': intendedUse.value,
@@ -695,7 +793,10 @@ class GeoPlaces {
   /// such as categories, business chains, food types and more. The API returns
   /// details such as a place name, address, phone, category, food type,
   /// contact, opening hours. Also, the API can return phonemes, time zones and
-  /// more based on requested parameters.
+  /// more based on requested parameters. Not supported in
+  /// <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
+  /// customers.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/search-nearby.html">Search
@@ -741,7 +842,8 @@ class GeoPlaces {
   /// valid SigV4 signature must be provided when making a request.
   ///
   /// Parameter [language] :
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If
   /// there is no data for the result in the requested language, data will be
   /// returned in the default language for the entry.
@@ -874,7 +976,8 @@ class GeoPlaces {
   /// valid SigV4 signature must be provided when making a request.
   ///
   /// Parameter [language] :
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If
   /// there is no data for the result in the requested language, data will be
   /// returned in the default language for the entry. For <a
@@ -921,6 +1024,11 @@ class GeoPlaces {
   /// Exactly one of the following fields must be set: <code>QueryText</code> or
   /// <code>QueryId</code>.
   /// </note>
+  ///
+  /// Parameter [travelMode] :
+  /// Indicates the mode of mobility used by the end user. This is used to
+  /// improve the relevance of search results. Valid values are
+  /// <code>Car</code>, <code>Scooter</code>, and <code>Truck</code>.
   Future<SearchTextResponse> searchText({
     List<SearchTextAdditionalFeature>? additionalFeatures,
     List<double>? biasPosition,
@@ -933,6 +1041,7 @@ class GeoPlaces {
     String? politicalView,
     String? queryId,
     String? queryText,
+    SearchTextTravelMode? travelMode,
   }) async {
     final $query = <String, List<String>>{
       if (key != null) 'key': [key],
@@ -950,6 +1059,7 @@ class GeoPlaces {
       if (politicalView != null) 'PoliticalView': politicalView,
       if (queryId != null) 'QueryId': queryId,
       if (queryText != null) 'QueryText': queryText,
+      if (travelMode != null) 'TravelMode': travelMode.value,
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -1031,7 +1141,8 @@ class GeoPlaces {
   /// valid SigV4 signature must be provided when making a request.
   ///
   /// Parameter [language] :
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If
   /// there is no data for the result in the requested language, data will be
   /// returned in the default language for the entry. For <a
@@ -1060,6 +1171,11 @@ class GeoPlaces {
   /// <code>ap-southeast-5</code> regions for <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
+  ///
+  /// Parameter [travelMode] :
+  /// Indicates the mode of mobility used by the end user. This is used to
+  /// improve the relevance of search results. Valid values are
+  /// <code>Car</code>, <code>Scooter</code>, and <code>Truck</code>.
   Future<SuggestResponse> suggest({
     required String queryText,
     List<SuggestAdditionalFeature>? additionalFeatures,
@@ -1071,6 +1187,7 @@ class GeoPlaces {
     int? maxQueryRefinements,
     int? maxResults,
     String? politicalView,
+    SuggestTravelMode? travelMode,
   }) async {
     final $query = <String, List<String>>{
       if (key != null) 'key': [key],
@@ -1088,6 +1205,7 @@ class GeoPlaces {
         'MaxQueryRefinements': maxQueryRefinements,
       if (maxResults != null) 'MaxResults': maxResults,
       if (politicalView != null) 'PoliticalView': politicalView,
+      if (travelMode != null) 'TravelMode': travelMode.value,
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -1222,6 +1340,14 @@ class GetPlaceResponse {
   /// customers.
   final Contacts? contacts;
 
+  /// The list of supplier references available for this place. Requires the
+  /// <code>CrossReferences</code> additional feature to be enabled.
+  final List<CrossReference>? crossReferences;
+
+  /// If <code>true</code>, indicates that the coordinates of the position and
+  /// access points of the point address are estimated.
+  final bool? estimatedPointAddress;
+
   /// List of food types offered by this result. Not available in
   /// <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
@@ -1255,6 +1381,10 @@ class GetPlaceResponse {
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
   final PhonemeDetails? phonemes;
+
+  /// A list of place attributes for the result, such as whether the business
+  /// offers drive-through service.
+  final List<PlaceAttribute>? placeAttributes;
 
   /// The alpha-2 or alpha-3 character code for the political view of a country.
   /// The political view applies to the results of the request to represent
@@ -1302,11 +1432,14 @@ class GetPlaceResponse {
     this.businessChains,
     this.categories,
     this.contacts,
+    this.crossReferences,
+    this.estimatedPointAddress,
     this.foodTypes,
     this.mainAddress,
     this.mapView,
     this.openingHours,
     this.phonemes,
+    this.placeAttributes,
     this.politicalView,
     this.position,
     this.postalCodeDetails,
@@ -1326,11 +1459,14 @@ class GetPlaceResponse {
     final businessChains = this.businessChains;
     final categories = this.categories;
     final contacts = this.contacts;
+    final crossReferences = this.crossReferences;
+    final estimatedPointAddress = this.estimatedPointAddress;
     final foodTypes = this.foodTypes;
     final mainAddress = this.mainAddress;
     final mapView = this.mapView;
     final openingHours = this.openingHours;
     final phonemes = this.phonemes;
+    final placeAttributes = this.placeAttributes;
     final politicalView = this.politicalView;
     final position = this.position;
     final postalCodeDetails = this.postalCodeDetails;
@@ -1348,11 +1484,16 @@ class GetPlaceResponse {
       if (businessChains != null) 'BusinessChains': businessChains,
       if (categories != null) 'Categories': categories,
       if (contacts != null) 'Contacts': contacts,
+      if (crossReferences != null) 'CrossReferences': crossReferences,
+      if (estimatedPointAddress != null)
+        'EstimatedPointAddress': estimatedPointAddress,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (mainAddress != null) 'MainAddress': mainAddress,
       if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (openingHours != null) 'OpeningHours': openingHours,
       if (phonemes != null) 'Phonemes': phonemes,
+      if (placeAttributes != null)
+        'PlaceAttributes': placeAttributes.map((e) => e.value).toList(),
       if (politicalView != null) 'PoliticalView': politicalView,
       if (position != null)
         'Position': position.map(_s.encodeJsonDouble).toList(),
@@ -1659,6 +1800,10 @@ class SuggestPlaceResult {
   /// Categories of results that results must belong to.
   final List<Category>? categories;
 
+  /// The list of supplier references available for this place. Requires the
+  /// <code>CrossReferences</code> additional feature to be enabled.
+  final List<CrossReference>? crossReferences;
+
   /// The distance in meters from the QueryPosition.
   final int? distance;
 
@@ -1681,6 +1826,10 @@ class SuggestPlaceResult {
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
   final PhonemeDetails? phonemes;
+
+  /// A list of place attributes for the result, such as whether the business
+  /// offers drive-through service.
+  final List<PlaceAttribute>? placeAttributes;
 
   /// The <code>PlaceId</code> of the place you wish to receive the information
   /// for.
@@ -1711,10 +1860,12 @@ class SuggestPlaceResult {
     this.address,
     this.businessChains,
     this.categories,
+    this.crossReferences,
     this.distance,
     this.foodTypes,
     this.mapView,
     this.phonemes,
+    this.placeAttributes,
     this.placeId,
     this.placeType,
     this.politicalView,
@@ -1743,6 +1894,10 @@ class SuggestPlaceResult {
           ?.nonNulls
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
+      crossReferences: (json['CrossReferences'] as List?)
+          ?.nonNulls
+          .map((e) => CrossReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
       distance: json['Distance'] as int?,
       foodTypes: (json['FoodTypes'] as List?)
           ?.nonNulls
@@ -1755,6 +1910,10 @@ class SuggestPlaceResult {
       phonemes: json['Phonemes'] != null
           ? PhonemeDetails.fromJson(json['Phonemes'] as Map<String, dynamic>)
           : null,
+      placeAttributes: (json['PlaceAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => PlaceAttribute.fromString((e as String)))
+          .toList(),
       placeId: json['PlaceId'] as String?,
       placeType: (json['PlaceType'] as String?)?.let(PlaceType.fromString),
       politicalView: json['PoliticalView'] as String?,
@@ -1774,10 +1933,12 @@ class SuggestPlaceResult {
     final address = this.address;
     final businessChains = this.businessChains;
     final categories = this.categories;
+    final crossReferences = this.crossReferences;
     final distance = this.distance;
     final foodTypes = this.foodTypes;
     final mapView = this.mapView;
     final phonemes = this.phonemes;
+    final placeAttributes = this.placeAttributes;
     final placeId = this.placeId;
     final placeType = this.placeType;
     final politicalView = this.politicalView;
@@ -1789,10 +1950,13 @@ class SuggestPlaceResult {
       if (address != null) 'Address': address,
       if (businessChains != null) 'BusinessChains': businessChains,
       if (categories != null) 'Categories': categories,
+      if (crossReferences != null) 'CrossReferences': crossReferences,
       if (distance != null) 'Distance': distance,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (phonemes != null) 'Phonemes': phonemes,
+      if (placeAttributes != null)
+        'PlaceAttributes': placeAttributes.map((e) => e.value).toList(),
       if (placeId != null) 'PlaceId': placeId,
       if (placeType != null) 'PlaceType': placeType.value,
       if (politicalView != null) 'PoliticalView': politicalView,
@@ -2312,6 +2476,74 @@ class PhonemeDetails {
   }
 }
 
+/// A reference to a third-party supplier's identifier for a place, enabling
+/// correlation of places across external systems.
+///
+/// @nodoc
+class CrossReference {
+  /// The name of the third-party data supplier (for example, <code>Yelp</code> or
+  /// <code>TripAdvisor</code>).
+  final String source;
+
+  /// The place identifier assigned by the third-party supplier.
+  final String sourcePlaceId;
+
+  /// The list of place category identifiers this supplier reference relates to.
+  final List<Category>? sourceCategories;
+
+  CrossReference({
+    required this.source,
+    required this.sourcePlaceId,
+    this.sourceCategories,
+  });
+
+  factory CrossReference.fromJson(Map<String, dynamic> json) {
+    return CrossReference(
+      source: (json['Source'] as String?) ?? '',
+      sourcePlaceId: (json['SourcePlaceId'] as String?) ?? '',
+      sourceCategories: (json['SourceCategories'] as List?)
+          ?.nonNulls
+          .map((e) => Category.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final sourcePlaceId = this.sourcePlaceId;
+    final sourceCategories = this.sourceCategories;
+    return {
+      'Source': source,
+      'SourcePlaceId': sourcePlaceId,
+      if (sourceCategories != null) 'SourceCategories': sourceCategories,
+    };
+  }
+}
+
+/// @nodoc
+class PlaceAttribute {
+  static const driveThrough = PlaceAttribute._('DriveThrough');
+
+  final String value;
+
+  const PlaceAttribute._(this.value);
+
+  static const values = [driveThrough];
+
+  static PlaceAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PlaceAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is PlaceAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// How to pronounce the various components of the address or place.
 ///
 /// @nodoc
@@ -2430,7 +2662,8 @@ class AddressComponentPhonemes {
 ///
 /// @nodoc
 class PhonemeTranscription {
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If there
   /// is no data for the result in the requested language, data will be returned
   /// in the default language for the entry.
@@ -2510,30 +2743,92 @@ class AccessRestriction {
 ///
 /// @nodoc
 class AccessPoint {
+  /// A short textual description of the access point, such as <code>"North
+  /// Entrance"</code>.
+  final String? label;
+
   /// The position in World Geodetic System (WGS 84) format: \[longitude,
   /// latitude\].
   final List<double>? position;
 
+  /// Set to <code>true</code> for the primary access position when the place has
+  /// more than one access point.
+  final bool? primary;
+
+  /// The type of access point, indicating its intended use. Only applies to
+  /// results of type place.
+  final AccessPointType? type;
+
   AccessPoint({
+    this.label,
     this.position,
+    this.primary,
+    this.type,
   });
 
   factory AccessPoint.fromJson(Map<String, dynamic> json) {
     return AccessPoint(
+      label: json['Label'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
           .map((e) => _s.parseJsonDouble(e)!)
           .toList(),
+      primary: json['Primary'] as bool?,
+      type: (json['Type'] as String?)?.let(AccessPointType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final label = this.label;
     final position = this.position;
+    final primary = this.primary;
+    final type = this.type;
     return {
+      if (label != null) 'Label': label,
       if (position != null)
         'Position': position.map(_s.encodeJsonDouble).toList(),
+      if (primary != null) 'Primary': primary,
+      if (type != null) 'Type': type.value,
     };
   }
+}
+
+/// @nodoc
+class AccessPointType {
+  static const delivery = AccessPointType._('Delivery');
+  static const emergency = AccessPointType._('Emergency');
+  static const entrance = AccessPointType._('Entrance');
+  static const loading = AccessPointType._('Loading');
+  static const other = AccessPointType._('Other');
+  static const parking = AccessPointType._('Parking');
+  static const taxi = AccessPointType._('Taxi');
+
+  final String value;
+
+  const AccessPointType._(this.value);
+
+  static const values = [
+    delivery,
+    emergency,
+    entrance,
+    loading,
+    other,
+    parking,
+    taxi
+  ];
+
+  static AccessPointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessPointType._(value));
+
+  @override
+  bool operator ==(other) => other is AccessPointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A businesschain is a chain of businesses that belong to the same brand. For
@@ -2821,10 +3116,11 @@ class StreetComponents {
   /// Indicates the official directional identifiers assigned to highways.
   final String? direction;
 
-  /// A <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP 47</a>
-  /// compliant language codes for the results to be rendered in. If there is no
-  /// data for the result in the requested language, data will be returned in the
-  /// default language for the entry.
+  /// A <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
+  /// 47</a> compliant language codes for the results to be rendered in. If there
+  /// is no data for the result in the requested language, data will be returned
+  /// in the default language for the entry.
   final String? language;
 
   /// A prefix is a directional identifier that precedes, but is not included in,
@@ -2985,17 +3281,44 @@ class SuggestIntendedUse {
 }
 
 /// @nodoc
+class SuggestTravelMode {
+  static const car = SuggestTravelMode._('Car');
+  static const scooter = SuggestTravelMode._('Scooter');
+  static const truck = SuggestTravelMode._('Truck');
+
+  final String value;
+
+  const SuggestTravelMode._(this.value);
+
+  static const values = [car, scooter, truck];
+
+  static SuggestTravelMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SuggestTravelMode._(value));
+
+  @override
+  bool operator ==(other) => other is SuggestTravelMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class SuggestAdditionalFeature {
   static const core = SuggestAdditionalFeature._('Core');
   static const timeZone = SuggestAdditionalFeature._('TimeZone');
   static const phonemes = SuggestAdditionalFeature._('Phonemes');
   static const access = SuggestAdditionalFeature._('Access');
+  static const crossReferences = SuggestAdditionalFeature._('CrossReferences');
 
   final String value;
 
   const SuggestAdditionalFeature._(this.value);
 
-  static const values = [core, timeZone, phonemes, access];
+  static const values = [core, timeZone, phonemes, access, crossReferences];
 
   static SuggestAdditionalFeature fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -3079,6 +3402,10 @@ class SearchTextResultItem {
   /// List of potential contact methods for the result/place.
   final Contacts? contacts;
 
+  /// The list of supplier references available for this place. Requires the
+  /// <code>CrossReferences</code> additional feature to be enabled.
+  final List<CrossReference>? crossReferences;
+
   /// The distance in meters from the QueryPosition.
   final int? distance;
 
@@ -3092,12 +3419,19 @@ class SearchTextResultItem {
   /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? mapView;
 
-  /// List of opening hours objects.
+  /// List of opening hours objects. Not available in <code>ap-southeast-1</code>
+  /// and <code>ap-southeast-5</code> regions for <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
+  /// customers.
   final List<OpeningHours>? openingHours;
 
   /// How the various components of the result's address are pronounced in various
   /// languages.
   final PhonemeDetails? phonemes;
+
+  /// A list of place attributes for the result, such as whether the business
+  /// offers drive-through service.
+  final List<PlaceAttribute>? placeAttributes;
 
   /// The alpha-2 or alpha-3 character code for the political view of a country.
   /// The political view applies to the results of the request to represent
@@ -3123,11 +3457,13 @@ class SearchTextResultItem {
     this.businessChains,
     this.categories,
     this.contacts,
+    this.crossReferences,
     this.distance,
     this.foodTypes,
     this.mapView,
     this.openingHours,
     this.phonemes,
+    this.placeAttributes,
     this.politicalView,
     this.position,
     this.timeZone,
@@ -3161,6 +3497,10 @@ class SearchTextResultItem {
       contacts: json['Contacts'] != null
           ? Contacts.fromJson(json['Contacts'] as Map<String, dynamic>)
           : null,
+      crossReferences: (json['CrossReferences'] as List?)
+          ?.nonNulls
+          .map((e) => CrossReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
       distance: json['Distance'] as int?,
       foodTypes: (json['FoodTypes'] as List?)
           ?.nonNulls
@@ -3177,6 +3517,10 @@ class SearchTextResultItem {
       phonemes: json['Phonemes'] != null
           ? PhonemeDetails.fromJson(json['Phonemes'] as Map<String, dynamic>)
           : null,
+      placeAttributes: (json['PlaceAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => PlaceAttribute.fromString((e as String)))
+          .toList(),
       politicalView: json['PoliticalView'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
@@ -3199,11 +3543,13 @@ class SearchTextResultItem {
     final businessChains = this.businessChains;
     final categories = this.categories;
     final contacts = this.contacts;
+    final crossReferences = this.crossReferences;
     final distance = this.distance;
     final foodTypes = this.foodTypes;
     final mapView = this.mapView;
     final openingHours = this.openingHours;
     final phonemes = this.phonemes;
+    final placeAttributes = this.placeAttributes;
     final politicalView = this.politicalView;
     final position = this.position;
     final timeZone = this.timeZone;
@@ -3219,11 +3565,14 @@ class SearchTextResultItem {
       if (businessChains != null) 'BusinessChains': businessChains,
       if (categories != null) 'Categories': categories,
       if (contacts != null) 'Contacts': contacts,
+      if (crossReferences != null) 'CrossReferences': crossReferences,
       if (distance != null) 'Distance': distance,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (openingHours != null) 'OpeningHours': openingHours,
       if (phonemes != null) 'Phonemes': phonemes,
+      if (placeAttributes != null)
+        'PlaceAttributes': placeAttributes.map((e) => e.value).toList(),
       if (politicalView != null) 'PoliticalView': politicalView,
       if (position != null)
         'Position': position.map(_s.encodeJsonDouble).toList(),
@@ -3493,17 +3842,46 @@ class SearchTextIntendedUse {
 }
 
 /// @nodoc
+class SearchTextTravelMode {
+  static const car = SearchTextTravelMode._('Car');
+  static const scooter = SearchTextTravelMode._('Scooter');
+  static const truck = SearchTextTravelMode._('Truck');
+
+  final String value;
+
+  const SearchTextTravelMode._(this.value);
+
+  static const values = [car, scooter, truck];
+
+  static SearchTextTravelMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchTextTravelMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchTextTravelMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class SearchTextAdditionalFeature {
   static const timeZone = SearchTextAdditionalFeature._('TimeZone');
   static const phonemes = SearchTextAdditionalFeature._('Phonemes');
   static const access = SearchTextAdditionalFeature._('Access');
   static const contact = SearchTextAdditionalFeature._('Contact');
+  static const crossReferences =
+      SearchTextAdditionalFeature._('CrossReferences');
 
   final String value;
 
   const SearchTextAdditionalFeature._(this.value);
 
-  static const values = [timeZone, phonemes, access, contact];
+  static const values = [timeZone, phonemes, access, contact, crossReferences];
 
   static SearchTextAdditionalFeature fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -3558,6 +3936,10 @@ class SearchNearbyResultItem {
   /// List of potential contact methods for the result/place.
   final Contacts? contacts;
 
+  /// The list of supplier references available for this place. Requires the
+  /// <code>CrossReferences</code> additional feature to be enabled.
+  final List<CrossReference>? crossReferences;
+
   /// The distance in meters from the QueryPosition.
   final int? distance;
 
@@ -3577,6 +3959,10 @@ class SearchNearbyResultItem {
   /// How the various components of the result's address are pronounced in various
   /// languages.
   final PhonemeDetails? phonemes;
+
+  /// A list of place attributes for the result, such as whether the business
+  /// offers drive-through service.
+  final List<PlaceAttribute>? placeAttributes;
 
   /// The alpha-2 or alpha-3 character code for the political view of a country.
   /// The political view applies to the results of the request to represent
@@ -3602,11 +3988,13 @@ class SearchNearbyResultItem {
     this.businessChains,
     this.categories,
     this.contacts,
+    this.crossReferences,
     this.distance,
     this.foodTypes,
     this.mapView,
     this.openingHours,
     this.phonemes,
+    this.placeAttributes,
     this.politicalView,
     this.position,
     this.timeZone,
@@ -3640,6 +4028,10 @@ class SearchNearbyResultItem {
       contacts: json['Contacts'] != null
           ? Contacts.fromJson(json['Contacts'] as Map<String, dynamic>)
           : null,
+      crossReferences: (json['CrossReferences'] as List?)
+          ?.nonNulls
+          .map((e) => CrossReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
       distance: json['Distance'] as int?,
       foodTypes: (json['FoodTypes'] as List?)
           ?.nonNulls
@@ -3656,6 +4048,10 @@ class SearchNearbyResultItem {
       phonemes: json['Phonemes'] != null
           ? PhonemeDetails.fromJson(json['Phonemes'] as Map<String, dynamic>)
           : null,
+      placeAttributes: (json['PlaceAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => PlaceAttribute.fromString((e as String)))
+          .toList(),
       politicalView: json['PoliticalView'] as String?,
       position: (json['Position'] as List?)
           ?.nonNulls
@@ -3678,11 +4074,13 @@ class SearchNearbyResultItem {
     final businessChains = this.businessChains;
     final categories = this.categories;
     final contacts = this.contacts;
+    final crossReferences = this.crossReferences;
     final distance = this.distance;
     final foodTypes = this.foodTypes;
     final mapView = this.mapView;
     final openingHours = this.openingHours;
     final phonemes = this.phonemes;
+    final placeAttributes = this.placeAttributes;
     final politicalView = this.politicalView;
     final position = this.position;
     final timeZone = this.timeZone;
@@ -3698,11 +4096,14 @@ class SearchNearbyResultItem {
       if (businessChains != null) 'BusinessChains': businessChains,
       if (categories != null) 'Categories': categories,
       if (contacts != null) 'Contacts': contacts,
+      if (crossReferences != null) 'CrossReferences': crossReferences,
       if (distance != null) 'Distance': distance,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (openingHours != null) 'OpeningHours': openingHours,
       if (phonemes != null) 'Phonemes': phonemes,
+      if (placeAttributes != null)
+        'PlaceAttributes': placeAttributes.map((e) => e.value).toList(),
       if (politicalView != null) 'PoliticalView': politicalView,
       if (position != null)
         'Position': position.map(_s.encodeJsonDouble).toList(),
@@ -3813,12 +4214,14 @@ class SearchNearbyAdditionalFeature {
   static const phonemes = SearchNearbyAdditionalFeature._('Phonemes');
   static const access = SearchNearbyAdditionalFeature._('Access');
   static const contact = SearchNearbyAdditionalFeature._('Contact');
+  static const crossReferences =
+      SearchNearbyAdditionalFeature._('CrossReferences');
 
   final String value;
 
   const SearchNearbyAdditionalFeature._(this.value);
 
-  static const values = [timeZone, phonemes, access, contact];
+  static const values = [timeZone, phonemes, access, contact, crossReferences];
 
   static SearchNearbyAdditionalFeature fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -3873,6 +4276,10 @@ class ReverseGeocodeResultItem {
   /// The distance in meters from the QueryPosition.
   final int? distance;
 
+  /// If <code>true</code>, indicates that the coordinates of the position and
+  /// access points of the point address are estimated.
+  final bool? estimatedPointAddress;
+
   /// List of food types offered by this result. Not available in
   /// <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
@@ -3884,6 +4291,9 @@ class ReverseGeocodeResultItem {
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
   final List<Intersection>? intersections;
+
+  /// The main address corresponding to a place of type Secondary Address.
+  final RelatedPlace? mainAddress;
 
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
@@ -3923,8 +4333,10 @@ class ReverseGeocodeResultItem {
     this.addressNumberCorrected,
     this.categories,
     this.distance,
+    this.estimatedPointAddress,
     this.foodTypes,
     this.intersections,
+    this.mainAddress,
     this.mapView,
     this.politicalView,
     this.position,
@@ -3950,6 +4362,7 @@ class ReverseGeocodeResultItem {
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
       distance: json['Distance'] as int?,
+      estimatedPointAddress: json['EstimatedPointAddress'] as bool?,
       foodTypes: (json['FoodTypes'] as List?)
           ?.nonNulls
           .map((e) => FoodType.fromJson(e as Map<String, dynamic>))
@@ -3958,6 +4371,9 @@ class ReverseGeocodeResultItem {
           ?.nonNulls
           .map((e) => Intersection.fromJson(e as Map<String, dynamic>))
           .toList(),
+      mainAddress: json['MainAddress'] != null
+          ? RelatedPlace.fromJson(json['MainAddress'] as Map<String, dynamic>)
+          : null,
       mapView: (json['MapView'] as List?)
           ?.nonNulls
           .map((e) => _s.parseJsonDouble(e)!)
@@ -3986,8 +4402,10 @@ class ReverseGeocodeResultItem {
     final addressNumberCorrected = this.addressNumberCorrected;
     final categories = this.categories;
     final distance = this.distance;
+    final estimatedPointAddress = this.estimatedPointAddress;
     final foodTypes = this.foodTypes;
     final intersections = this.intersections;
+    final mainAddress = this.mainAddress;
     final mapView = this.mapView;
     final politicalView = this.politicalView;
     final position = this.position;
@@ -4003,14 +4421,87 @@ class ReverseGeocodeResultItem {
         'AddressNumberCorrected': addressNumberCorrected,
       if (categories != null) 'Categories': categories,
       if (distance != null) 'Distance': distance,
+      if (estimatedPointAddress != null)
+        'EstimatedPointAddress': estimatedPointAddress,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (intersections != null) 'Intersections': intersections,
+      if (mainAddress != null) 'MainAddress': mainAddress,
       if (mapView != null) 'MapView': mapView.map(_s.encodeJsonDouble).toList(),
       if (politicalView != null) 'PoliticalView': politicalView,
       if (position != null)
         'Position': position.map(_s.encodeJsonDouble).toList(),
       if (postalCodeDetails != null) 'PostalCodeDetails': postalCodeDetails,
       if (timeZone != null) 'TimeZone': timeZone,
+    };
+  }
+}
+
+/// Place that is related to the result item.
+///
+/// @nodoc
+class RelatedPlace {
+  /// The <code>PlaceId</code> of the place result.
+  final String placeId;
+
+  /// A <code>PlaceType</code> is a category that the result place must belong to.
+  final PlaceType placeType;
+
+  /// The localized display name of this result item based on request parameter
+  /// <code>language</code>.
+  final String title;
+
+  /// Position of the access point in World Geodetic System (WGS 84) format:
+  /// \[longitude, latitude\].
+  final List<AccessPoint>? accessPoints;
+  final Address? address;
+
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
+  final List<double>? position;
+
+  RelatedPlace({
+    required this.placeId,
+    required this.placeType,
+    required this.title,
+    this.accessPoints,
+    this.address,
+    this.position,
+  });
+
+  factory RelatedPlace.fromJson(Map<String, dynamic> json) {
+    return RelatedPlace(
+      placeId: (json['PlaceId'] as String?) ?? '',
+      placeType: PlaceType.fromString((json['PlaceType'] as String?) ?? ''),
+      title: (json['Title'] as String?) ?? '',
+      accessPoints: (json['AccessPoints'] as List?)
+          ?.nonNulls
+          .map((e) => AccessPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      address: json['Address'] != null
+          ? Address.fromJson(json['Address'] as Map<String, dynamic>)
+          : null,
+      position: (json['Position'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final placeId = this.placeId;
+    final placeType = this.placeType;
+    final title = this.title;
+    final accessPoints = this.accessPoints;
+    final address = this.address;
+    final position = this.position;
+    return {
+      'PlaceId': placeId,
+      'PlaceType': placeType.value,
+      'Title': title,
+      if (accessPoints != null) 'AccessPoints': accessPoints,
+      if (address != null) 'Address': address,
+      if (position != null)
+        'Position': position.map(_s.encodeJsonDouble).toList(),
     };
   }
 }
@@ -4381,6 +4872,32 @@ class ReverseGeocodeIntendedUse {
 }
 
 /// @nodoc
+class ReverseGeocodeAddressNamesMode {
+  static const administrative =
+      ReverseGeocodeAddressNamesMode._('Administrative');
+
+  final String value;
+
+  const ReverseGeocodeAddressNamesMode._(this.value);
+
+  static const values = [administrative];
+
+  static ReverseGeocodeAddressNamesMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReverseGeocodeAddressNamesMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReverseGeocodeAddressNamesMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class ReverseGeocodeAdditionalFeature {
   static const timeZone = ReverseGeocodeAdditionalFeature._('TimeZone');
   static const access = ReverseGeocodeAdditionalFeature._('Access');
@@ -4416,6 +4933,10 @@ class ReverseGeocodeFilterPlaceType {
   static const pointAddress = ReverseGeocodeFilterPlaceType._('PointAddress');
   static const interpolatedAddress =
       ReverseGeocodeFilterPlaceType._('InterpolatedAddress');
+  static const secondaryAddress =
+      ReverseGeocodeFilterPlaceType._('SecondaryAddress');
+  static const pointOfInterest =
+      ReverseGeocodeFilterPlaceType._('PointOfInterest');
 
   final String value;
 
@@ -4426,7 +4947,9 @@ class ReverseGeocodeFilterPlaceType {
     intersection,
     street,
     pointAddress,
-    interpolatedAddress
+    interpolatedAddress,
+    secondaryAddress,
+    pointOfInterest
   ];
 
   static ReverseGeocodeFilterPlaceType fromString(String value) =>
@@ -4442,76 +4965,6 @@ class ReverseGeocodeFilterPlaceType {
 
   @override
   String toString() => value;
-}
-
-/// Place that is related to the result item.
-///
-/// @nodoc
-class RelatedPlace {
-  /// The <code>PlaceId</code> of the place result.
-  final String placeId;
-
-  /// A <code>PlaceType</code> is a category that the result place must belong to.
-  final PlaceType placeType;
-
-  /// The localized display name of this result item based on request parameter
-  /// <code>language</code>.
-  final String title;
-
-  /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// \[longitude, latitude\].
-  final List<AccessPoint>? accessPoints;
-  final Address? address;
-
-  /// The position in World Geodetic System (WGS 84) format: \[longitude,
-  /// latitude\].
-  final List<double>? position;
-
-  RelatedPlace({
-    required this.placeId,
-    required this.placeType,
-    required this.title,
-    this.accessPoints,
-    this.address,
-    this.position,
-  });
-
-  factory RelatedPlace.fromJson(Map<String, dynamic> json) {
-    return RelatedPlace(
-      placeId: (json['PlaceId'] as String?) ?? '',
-      placeType: PlaceType.fromString((json['PlaceType'] as String?) ?? ''),
-      title: (json['Title'] as String?) ?? '',
-      accessPoints: (json['AccessPoints'] as List?)
-          ?.nonNulls
-          .map((e) => AccessPoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      address: json['Address'] != null
-          ? Address.fromJson(json['Address'] as Map<String, dynamic>)
-          : null,
-      position: (json['Position'] as List?)
-          ?.nonNulls
-          .map((e) => _s.parseJsonDouble(e)!)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final placeId = this.placeId;
-    final placeType = this.placeType;
-    final title = this.title;
-    final accessPoints = this.accessPoints;
-    final address = this.address;
-    final position = this.position;
-    return {
-      'PlaceId': placeId,
-      'PlaceType': placeType.value,
-      'Title': title,
-      if (accessPoints != null) 'AccessPoints': accessPoints,
-      if (address != null) 'Address': address,
-      if (position != null)
-        'Position': position.map(_s.encodeJsonDouble).toList(),
-    };
-  }
 }
 
 /// @nodoc
@@ -4541,6 +4994,31 @@ class GetPlaceIntendedUse {
 }
 
 /// @nodoc
+class GetPlaceAddressNamesMode {
+  static const administrative = GetPlaceAddressNamesMode._('Administrative');
+
+  final String value;
+
+  const GetPlaceAddressNamesMode._(this.value);
+
+  static const values = [administrative];
+
+  static GetPlaceAddressNamesMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GetPlaceAddressNamesMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GetPlaceAddressNamesMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class GetPlaceAdditionalFeature {
   static const timeZone = GetPlaceAdditionalFeature._('TimeZone');
   static const phonemes = GetPlaceAdditionalFeature._('Phonemes');
@@ -4548,6 +5026,7 @@ class GetPlaceAdditionalFeature {
   static const contact = GetPlaceAdditionalFeature._('Contact');
   static const secondaryAddresses =
       GetPlaceAdditionalFeature._('SecondaryAddresses');
+  static const crossReferences = GetPlaceAdditionalFeature._('CrossReferences');
 
   final String value;
 
@@ -4558,7 +5037,8 @@ class GetPlaceAdditionalFeature {
     phonemes,
     access,
     contact,
-    secondaryAddresses
+    secondaryAddresses,
+    crossReferences
   ];
 
   static GetPlaceAdditionalFeature fromString(String value) =>
@@ -4605,6 +5085,10 @@ class GeocodeResultItem {
 
   /// The distance in meters from the QueryPosition.
   final int? distance;
+
+  /// If <code>true</code>, indicates that the coordinates of the position and
+  /// access points of the point address are estimated.
+  final bool? estimatedPointAddress;
 
   /// List of food types offered by this result.
   final List<FoodType>? foodTypes;
@@ -4654,6 +5138,10 @@ class GeocodeResultItem {
   /// The time zone in which the place is located.
   final TimeZone? timeZone;
 
+  /// All name translations and alternative names for the requested address fields
+  /// in all available languages.
+  final TranslationDetails? translations;
+
   GeocodeResultItem({
     required this.placeId,
     required this.placeType,
@@ -4663,6 +5151,7 @@ class GeocodeResultItem {
     this.addressNumberCorrected,
     this.categories,
     this.distance,
+    this.estimatedPointAddress,
     this.foodTypes,
     this.intersections,
     this.mainAddress,
@@ -4674,6 +5163,7 @@ class GeocodeResultItem {
     this.postalCodeDetails,
     this.secondaryAddresses,
     this.timeZone,
+    this.translations,
   });
 
   factory GeocodeResultItem.fromJson(Map<String, dynamic> json) {
@@ -4694,6 +5184,7 @@ class GeocodeResultItem {
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
       distance: json['Distance'] as int?,
+      estimatedPointAddress: json['EstimatedPointAddress'] as bool?,
       foodTypes: (json['FoodTypes'] as List?)
           ?.nonNulls
           .map((e) => FoodType.fromJson(e as Map<String, dynamic>))
@@ -4733,6 +5224,10 @@ class GeocodeResultItem {
       timeZone: json['TimeZone'] != null
           ? TimeZone.fromJson(json['TimeZone'] as Map<String, dynamic>)
           : null,
+      translations: json['Translations'] != null
+          ? TranslationDetails.fromJson(
+              json['Translations'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4745,6 +5240,7 @@ class GeocodeResultItem {
     final addressNumberCorrected = this.addressNumberCorrected;
     final categories = this.categories;
     final distance = this.distance;
+    final estimatedPointAddress = this.estimatedPointAddress;
     final foodTypes = this.foodTypes;
     final intersections = this.intersections;
     final mainAddress = this.mainAddress;
@@ -4756,6 +5252,7 @@ class GeocodeResultItem {
     final postalCodeDetails = this.postalCodeDetails;
     final secondaryAddresses = this.secondaryAddresses;
     final timeZone = this.timeZone;
+    final translations = this.translations;
     return {
       'PlaceId': placeId,
       'PlaceType': placeType.value,
@@ -4766,6 +5263,8 @@ class GeocodeResultItem {
         'AddressNumberCorrected': addressNumberCorrected,
       if (categories != null) 'Categories': categories,
       if (distance != null) 'Distance': distance,
+      if (estimatedPointAddress != null)
+        'EstimatedPointAddress': estimatedPointAddress,
       if (foodTypes != null) 'FoodTypes': foodTypes,
       if (intersections != null) 'Intersections': intersections,
       if (mainAddress != null) 'MainAddress': mainAddress,
@@ -4778,6 +5277,7 @@ class GeocodeResultItem {
       if (postalCodeDetails != null) 'PostalCodeDetails': postalCodeDetails,
       if (secondaryAddresses != null) 'SecondaryAddresses': secondaryAddresses,
       if (timeZone != null) 'TimeZone': timeZone,
+      if (translations != null) 'Translations': translations,
     };
   }
 }
@@ -4858,6 +5358,230 @@ class GeocodeParsedQuery {
   }
 }
 
+/// Translation details for the address, including alternative names and
+/// translations in available languages.
+///
+/// @nodoc
+class TranslationDetails {
+  /// A list of administrative names and translations for the district address
+  /// component.
+  final List<AdminNames>? district;
+
+  /// A list of administrative names and translations for the locality address
+  /// component.
+  final List<AdminNames>? locality;
+
+  /// A list of administrative names and translations for the region address
+  /// component.
+  final List<AdminNames>? region;
+
+  /// A list of administrative names and translations for the sub-region address
+  /// component.
+  final List<AdminNames>? subRegion;
+
+  TranslationDetails({
+    this.district,
+    this.locality,
+    this.region,
+    this.subRegion,
+  });
+
+  factory TranslationDetails.fromJson(Map<String, dynamic> json) {
+    return TranslationDetails(
+      district: (json['District'] as List?)
+          ?.nonNulls
+          .map((e) => AdminNames.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      locality: (json['Locality'] as List?)
+          ?.nonNulls
+          .map((e) => AdminNames.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      region: (json['Region'] as List?)
+          ?.nonNulls
+          .map((e) => AdminNames.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subRegion: (json['SubRegion'] as List?)
+          ?.nonNulls
+          .map((e) => AdminNames.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final district = this.district;
+    final locality = this.locality;
+    final region = this.region;
+    final subRegion = this.subRegion;
+    return {
+      if (district != null) 'District': district,
+      if (locality != null) 'Locality': locality,
+      if (region != null) 'Region': region,
+      if (subRegion != null) 'SubRegion': subRegion,
+    };
+  }
+}
+
+/// The official administrative names for an address component, returned when
+/// <code>AddressNamesMode</code> is set to <code>Administrative</code>.
+///
+/// @nodoc
+class AdminNames {
+  /// A list of translation names for the administrative address component,
+  /// including name variants and translations in available languages.
+  final List<TranslationName> names;
+
+  /// Indicates the preference level of the administrative name. Valid values are
+  /// <code>Primary</code> and <code>Alternative</code>.
+  final AdminNamesPreference? preference;
+
+  AdminNames({
+    required this.names,
+    this.preference,
+  });
+
+  factory AdminNames.fromJson(Map<String, dynamic> json) {
+    return AdminNames(
+      names: ((json['Names'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TranslationName.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      preference:
+          (json['Preference'] as String?)?.let(AdminNamesPreference.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final names = this.names;
+    final preference = this.preference;
+    return {
+      'Names': names,
+      if (preference != null) 'Preference': preference.value,
+    };
+  }
+}
+
+/// @nodoc
+class AdminNamesPreference {
+  static const alternative = AdminNamesPreference._('Alternative');
+  static const primary = AdminNamesPreference._('Primary');
+
+  final String value;
+
+  const AdminNamesPreference._(this.value);
+
+  static const values = [alternative, primary];
+
+  static AdminNamesPreference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdminNamesPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdminNamesPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A translation or alternative name for an address component.
+///
+/// @nodoc
+class TranslationName {
+  /// The type of translation name. Valid values are <code>Abbreviation</code>,
+  /// <code>AreaCode</code>, <code>BaseName</code>, <code>Exonym</code>,
+  /// <code>Shortened</code>, and <code>Synonym</code>.
+  final TranslationNameType type;
+
+  /// The translated or alternative name value.
+  final String value;
+
+  /// A <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
+  /// 47</a> compliant language code for the translation name.
+  final String? language;
+
+  /// If <code>true</code>, indicates this is the primary name variant for the
+  /// given language.
+  final bool? primary;
+
+  /// If <code>true</code>, indicates this name is a transliterated version rather
+  /// than a native script translation.
+  final bool? transliterated;
+
+  TranslationName({
+    required this.type,
+    required this.value,
+    this.language,
+    this.primary,
+    this.transliterated,
+  });
+
+  factory TranslationName.fromJson(Map<String, dynamic> json) {
+    return TranslationName(
+      type: TranslationNameType.fromString((json['Type'] as String?) ?? ''),
+      value: (json['Value'] as String?) ?? '',
+      language: json['Language'] as String?,
+      primary: json['Primary'] as bool?,
+      transliterated: json['Transliterated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    final language = this.language;
+    final primary = this.primary;
+    final transliterated = this.transliterated;
+    return {
+      'Type': type.value,
+      'Value': value,
+      if (language != null) 'Language': language,
+      if (primary != null) 'Primary': primary,
+      if (transliterated != null) 'Transliterated': transliterated,
+    };
+  }
+}
+
+/// @nodoc
+class TranslationNameType {
+  static const abbreviation = TranslationNameType._('Abbreviation');
+  static const areaCode = TranslationNameType._('AreaCode');
+  static const baseName = TranslationNameType._('BaseName');
+  static const exonym = TranslationNameType._('Exonym');
+  static const shortened = TranslationNameType._('Shortened');
+  static const synonym = TranslationNameType._('Synonym');
+
+  final String value;
+
+  const TranslationNameType._(this.value);
+
+  static const values = [
+    abbreviation,
+    areaCode,
+    baseName,
+    exonym,
+    shortened,
+    synonym
+  ];
+
+  static TranslationNameType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranslationNameType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TranslationNameType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Parsed address components in the provided QueryText.
 ///
 /// @nodoc
@@ -4884,6 +5608,10 @@ class GeocodeParsedQueryAddressComponents {
   ///
   /// Example: <code>Vancouver</code>.
   final List<ParsedQueryComponent>? locality;
+
+  /// Additional information extracted from the query that does not correspond to
+  /// standard address components.
+  final List<ParsedQueryComponent>? otherComponents;
 
   /// An alphanumeric string included in a postal address to facilitate mail
   /// sorting, such as post code, postcode, or ZIP code, for which the result
@@ -4927,6 +5655,7 @@ class GeocodeParsedQueryAddressComponents {
     this.country,
     this.district,
     this.locality,
+    this.otherComponents,
     this.postalCode,
     this.region,
     this.secondaryAddressComponents,
@@ -4960,6 +5689,10 @@ class GeocodeParsedQueryAddressComponents {
           .map((e) => ParsedQueryComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
       locality: (json['Locality'] as List?)
+          ?.nonNulls
+          .map((e) => ParsedQueryComponent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      otherComponents: (json['OtherComponents'] as List?)
           ?.nonNulls
           .map((e) => ParsedQueryComponent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5002,6 +5735,7 @@ class GeocodeParsedQueryAddressComponents {
     final country = this.country;
     final district = this.district;
     final locality = this.locality;
+    final otherComponents = this.otherComponents;
     final postalCode = this.postalCode;
     final region = this.region;
     final secondaryAddressComponents = this.secondaryAddressComponents;
@@ -5016,6 +5750,7 @@ class GeocodeParsedQueryAddressComponents {
       if (country != null) 'Country': country,
       if (district != null) 'District': district,
       if (locality != null) 'Locality': locality,
+      if (otherComponents != null) 'OtherComponents': otherComponents,
       if (postalCode != null) 'PostalCode': postalCode,
       if (region != null) 'Region': region,
       if (secondaryAddressComponents != null)
@@ -5455,6 +6190,93 @@ class GeocodeIntendedUse {
 }
 
 /// @nodoc
+class PostalCodeMode {
+  static const mergeAllSpannedLocalities =
+      PostalCodeMode._('MergeAllSpannedLocalities');
+  static const enumerateSpannedLocalities =
+      PostalCodeMode._('EnumerateSpannedLocalities');
+  static const enumerateSpannedDistricts =
+      PostalCodeMode._('EnumerateSpannedDistricts');
+
+  final String value;
+
+  const PostalCodeMode._(this.value);
+
+  static const values = [
+    mergeAllSpannedLocalities,
+    enumerateSpannedLocalities,
+    enumerateSpannedDistricts
+  ];
+
+  static PostalCodeMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PostalCodeMode._(value));
+
+  @override
+  bool operator ==(other) => other is PostalCodeMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class GeocodeAddressNamesMode {
+  static const matched = GeocodeAddressNamesMode._('Matched');
+  static const administrative = GeocodeAddressNamesMode._('Administrative');
+
+  final String value;
+
+  const GeocodeAddressNamesMode._(this.value);
+
+  static const values = [matched, administrative];
+
+  static GeocodeAddressNamesMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GeocodeAddressNamesMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GeocodeAddressNamesMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class AddressTranslationComponent {
+  static const district = AddressTranslationComponent._('District');
+  static const locality = AddressTranslationComponent._('Locality');
+  static const region = AddressTranslationComponent._('Region');
+  static const subRegion = AddressTranslationComponent._('SubRegion');
+
+  final String value;
+
+  const AddressTranslationComponent._(this.value);
+
+  static const values = [district, locality, region, subRegion];
+
+  static AddressTranslationComponent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AddressTranslationComponent._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AddressTranslationComponent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class GeocodeAdditionalFeature {
   static const timeZone = GeocodeAdditionalFeature._('TimeZone');
   static const access = GeocodeAdditionalFeature._('Access');
@@ -5492,6 +6314,10 @@ class GeocodeFilterPlaceType {
   static const pointAddress = GeocodeFilterPlaceType._('PointAddress');
   static const interpolatedAddress =
       GeocodeFilterPlaceType._('InterpolatedAddress');
+  static const secondaryAddress = GeocodeFilterPlaceType._('SecondaryAddress');
+  static const pointOfInterest = GeocodeFilterPlaceType._('PointOfInterest');
+  static const country = GeocodeFilterPlaceType._('Country');
+  static const region = GeocodeFilterPlaceType._('Region');
 
   final String value;
 
@@ -5503,7 +6329,11 @@ class GeocodeFilterPlaceType {
     intersection,
     street,
     pointAddress,
-    interpolatedAddress
+    interpolatedAddress,
+    secondaryAddress,
+    pointOfInterest,
+    country,
+    region
   ];
 
   static GeocodeFilterPlaceType fromString(String value) =>
@@ -5543,11 +6373,16 @@ class AutocompleteResultItem {
   /// result is.
   final int? distance;
 
+  /// If <code>true</code>, indicates that the coordinates of the position and
+  /// access points of the point address are estimated.
+  final bool? estimatedPointAddress;
+
   /// Indicates the starting and ending index of the place in the text query that
   /// match the found title.
   final AutocompleteHighlights? highlights;
 
-  /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
+  /// A list of <a
+  /// href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If there
   /// is no data for the result in the requested language, data will be returned
   /// in the default language for the entry.
@@ -5565,6 +6400,7 @@ class AutocompleteResultItem {
     required this.title,
     this.address,
     this.distance,
+    this.estimatedPointAddress,
     this.highlights,
     this.language,
     this.politicalView,
@@ -5579,6 +6415,7 @@ class AutocompleteResultItem {
           ? Address.fromJson(json['Address'] as Map<String, dynamic>)
           : null,
       distance: json['Distance'] as int?,
+      estimatedPointAddress: json['EstimatedPointAddress'] as bool?,
       highlights: json['Highlights'] != null
           ? AutocompleteHighlights.fromJson(
               json['Highlights'] as Map<String, dynamic>)
@@ -5594,6 +6431,7 @@ class AutocompleteResultItem {
     final title = this.title;
     final address = this.address;
     final distance = this.distance;
+    final estimatedPointAddress = this.estimatedPointAddress;
     final highlights = this.highlights;
     final language = this.language;
     final politicalView = this.politicalView;
@@ -5603,6 +6441,8 @@ class AutocompleteResultItem {
       'Title': title,
       if (address != null) 'Address': address,
       if (distance != null) 'Distance': distance,
+      if (estimatedPointAddress != null)
+        'EstimatedPointAddress': estimatedPointAddress,
       if (highlights != null) 'Highlights': highlights,
       if (language != null) 'Language': language,
       if (politicalView != null) 'PoliticalView': politicalView,
@@ -5992,33 +6832,6 @@ class AutocompleteFilter {
 }
 
 /// @nodoc
-class PostalCodeMode {
-  static const mergeAllSpannedLocalities =
-      PostalCodeMode._('MergeAllSpannedLocalities');
-  static const enumerateSpannedLocalities =
-      PostalCodeMode._('EnumerateSpannedLocalities');
-
-  final String value;
-
-  const PostalCodeMode._(this.value);
-
-  static const values = [mergeAllSpannedLocalities, enumerateSpannedLocalities];
-
-  static PostalCodeMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PostalCodeMode._(value));
-
-  @override
-  bool operator ==(other) => other is PostalCodeMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
 class AutocompleteIntendedUse {
   static const singleUse = AutocompleteIntendedUse._('SingleUse');
 
@@ -6072,12 +6885,28 @@ class AutocompleteAdditionalFeature {
 class AutocompleteFilterPlaceType {
   static const locality = AutocompleteFilterPlaceType._('Locality');
   static const postalCode = AutocompleteFilterPlaceType._('PostalCode');
+  static const street = AutocompleteFilterPlaceType._('Street');
+  static const intersection = AutocompleteFilterPlaceType._('Intersection');
+  static const pointAddress = AutocompleteFilterPlaceType._('PointAddress');
+  static const interpolatedAddress =
+      AutocompleteFilterPlaceType._('InterpolatedAddress');
+  static const country = AutocompleteFilterPlaceType._('Country');
+  static const region = AutocompleteFilterPlaceType._('Region');
 
   final String value;
 
   const AutocompleteFilterPlaceType._(this.value);
 
-  static const values = [locality, postalCode];
+  static const values = [
+    locality,
+    postalCode,
+    street,
+    intersection,
+    pointAddress,
+    interpolatedAddress,
+    country,
+    region
+  ];
 
   static AutocompleteFilterPlaceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,

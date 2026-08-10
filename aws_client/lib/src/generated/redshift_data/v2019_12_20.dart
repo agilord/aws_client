@@ -131,11 +131,12 @@ class RedshiftData {
   /// May throw [ValidationException].
   ///
   /// Parameter [sqls] :
-  /// One or more SQL statements to run. The SQL statements are run as a single
-  /// transaction. They run serially in the order of the array. Subsequent SQL
-  /// statements don't start until the previous statement in the array
-  /// completes. If any SQL statement fails, then because they are run as one
-  /// transaction, all work is rolled back.
+  /// One or more SQL statements to run. The SQL statements run serially in the
+  /// order of the array. Subsequent SQL statements don't start until the
+  /// previous statement in the array completes. By default, the SQL statements
+  /// are run as a single transaction. If any SQL statement fails, all work is
+  /// rolled back. To change this behavior, see the <code>ExecutionMode</code>
+  /// parameter.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -154,9 +155,18 @@ class RedshiftData {
   /// The database user name. This parameter is required when connecting to a
   /// cluster as a database user and authenticating using temporary credentials.
   ///
+  /// Parameter [executionMode] :
+  /// Determines how the SQL statements in the batch are run. If set to
+  /// <code>TRANSACTION</code> (the default), all SQL statements are run as a
+  /// single transaction and they are committed or rolled back together. If set
+  /// to <code>AUTO_COMMIT</code>, each SQL statement is committed individually,
+  /// and a failure of one statement does not affect the others.
+  ///
   /// Parameter [parameters] :
-  /// The parameters for the SQL statements. The parameters are shared across
-  /// all SQL statements in the batch.
+  /// The parameters for the SQL statements. The parameters are available to all
+  /// SQL statements in the batch. Each statement can reference any subset of
+  /// the provided parameters. Each provided parameter must be referenced by at
+  /// least one SQL statement in the batch.
   ///
   /// Parameter [resultFormat] :
   /// The data format of the result of the SQL statement. If no format is
@@ -178,6 +188,12 @@ class RedshiftData {
   /// The name of the SQL statements. You can name the SQL statements when you
   /// create them to identify the query.
   ///
+  /// Parameter [waitTimeSeconds] :
+  /// The number of seconds to wait for all SQL statements in the batch to
+  /// complete execution before returning the response. If the SQL statements do
+  /// not complete within the specified time, the response returns the current
+  /// status. The maximum value is 30 seconds.
+  ///
   /// Parameter [withEvent] :
   /// A value that indicates whether to send an event to the Amazon EventBridge
   /// event bus after the SQL statements run.
@@ -192,12 +208,14 @@ class RedshiftData {
     String? clusterIdentifier,
     String? database,
     String? dbUser,
+    ExecutionMode? executionMode,
     List<SqlParameter>? parameters,
     ResultFormatString? resultFormat,
     String? secretArn,
     String? sessionId,
     int? sessionKeepAliveSeconds,
     String? statementName,
+    int? waitTimeSeconds,
     bool? withEvent,
     String? workgroupName,
   }) async {
@@ -206,6 +224,12 @@ class RedshiftData {
       sessionKeepAliveSeconds,
       0,
       86400,
+    );
+    _s.validateNumRange(
+      'waitTimeSeconds',
+      waitTimeSeconds,
+      1,
+      30,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -223,6 +247,7 @@ class RedshiftData {
         if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
         if (database != null) 'Database': database,
         if (dbUser != null) 'DbUser': dbUser,
+        if (executionMode != null) 'ExecutionMode': executionMode.value,
         if (parameters != null) 'Parameters': parameters,
         if (resultFormat != null) 'ResultFormat': resultFormat.value,
         if (secretArn != null) 'SecretArn': secretArn,
@@ -230,6 +255,7 @@ class RedshiftData {
         if (sessionKeepAliveSeconds != null)
           'SessionKeepAliveSeconds': sessionKeepAliveSeconds,
         if (statementName != null) 'StatementName': statementName,
+        if (waitTimeSeconds != null) 'WaitTimeSeconds': waitTimeSeconds,
         if (withEvent != null) 'WithEvent': withEvent,
         if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
@@ -289,6 +315,7 @@ class RedshiftData {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
+  /// May throw [ActiveWaitingRequestsExceededException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -301,9 +328,20 @@ class RedshiftData {
   /// <code>:2</code> that indicates the second SQL statement of a batch query.
   /// This identifier is returned by <code>BatchExecuteStatment</code>,
   /// <code>ExecuteStatement</code>, and <code>ListStatements</code>.
+  ///
+  /// Parameter [waitTimeSeconds] :
+  /// The number of seconds to wait for the SQL statement to complete execution
+  /// before returning the description. The maximum value is 30 seconds.
   Future<DescribeStatementResponse> describeStatement({
     required String id,
+    int? waitTimeSeconds,
   }) async {
+    _s.validateNumRange(
+      'waitTimeSeconds',
+      waitTimeSeconds,
+      1,
+      30,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RedshiftData.DescribeStatement'
@@ -316,6 +354,7 @@ class RedshiftData {
       headers: headers,
       payload: {
         'Id': id,
+        if (waitTimeSeconds != null) 'WaitTimeSeconds': waitTimeSeconds,
       },
     );
 
@@ -571,6 +610,12 @@ class RedshiftData {
   /// The name of the SQL statement. You can name the SQL statement when you
   /// create it to identify the query.
   ///
+  /// Parameter [waitTimeSeconds] :
+  /// The number of seconds to wait for the SQL statement to complete execution
+  /// before returning the response. If the SQL statement does not complete
+  /// within the specified time, the response returns the current status. The
+  /// maximum value is 30 seconds.
+  ///
   /// Parameter [withEvent] :
   /// A value that indicates whether to send an event to the Amazon EventBridge
   /// event bus after the SQL statement runs.
@@ -591,6 +636,7 @@ class RedshiftData {
     String? sessionId,
     int? sessionKeepAliveSeconds,
     String? statementName,
+    int? waitTimeSeconds,
     bool? withEvent,
     String? workgroupName,
   }) async {
@@ -599,6 +645,12 @@ class RedshiftData {
       sessionKeepAliveSeconds,
       0,
       86400,
+    );
+    _s.validateNumRange(
+      'waitTimeSeconds',
+      waitTimeSeconds,
+      1,
+      30,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -623,6 +675,7 @@ class RedshiftData {
         if (sessionKeepAliveSeconds != null)
           'SessionKeepAliveSeconds': sessionKeepAliveSeconds,
         if (statementName != null) 'StatementName': statementName,
+        if (waitTimeSeconds != null) 'WaitTimeSeconds': waitTimeSeconds,
         if (withEvent != null) 'WithEvent': withEvent,
         if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
@@ -643,6 +696,7 @@ class RedshiftData {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
+  /// May throw [ActiveWaitingRequestsExceededException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -664,10 +718,21 @@ class RedshiftData {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
+  ///
+  /// Parameter [waitTimeSeconds] :
+  /// The number of seconds to wait for the SQL statement to complete execution
+  /// before returning the result. The maximum value is 30 seconds.
   Future<GetStatementResultResponse> getStatementResult({
     required String id,
     String? nextToken,
+    int? waitTimeSeconds,
   }) async {
+    _s.validateNumRange(
+      'waitTimeSeconds',
+      waitTimeSeconds,
+      1,
+      30,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RedshiftData.GetStatementResult'
@@ -681,6 +746,7 @@ class RedshiftData {
       payload: {
         'Id': id,
         if (nextToken != null) 'NextToken': nextToken,
+        if (waitTimeSeconds != null) 'WaitTimeSeconds': waitTimeSeconds,
       },
     );
 
@@ -699,6 +765,7 @@ class RedshiftData {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
+  /// May throw [ActiveWaitingRequestsExceededException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
@@ -720,10 +787,21 @@ class RedshiftData {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
+  ///
+  /// Parameter [waitTimeSeconds] :
+  /// The number of seconds to wait for the SQL statement to complete execution
+  /// before returning the result. The maximum value is 30 seconds.
   Future<GetStatementResultV2Response> getStatementResultV2({
     required String id,
     String? nextToken,
+    int? waitTimeSeconds,
   }) async {
+    _s.validateNumRange(
+      'waitTimeSeconds',
+      waitTimeSeconds,
+      1,
+      30,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RedshiftData.GetStatementResultV2'
@@ -737,6 +815,7 @@ class RedshiftData {
       payload: {
         'Id': id,
         if (nextToken != null) 'NextToken': nextToken,
+        if (waitTimeSeconds != null) 'WaitTimeSeconds': waitTimeSeconds,
       },
     );
 
@@ -1012,6 +1091,123 @@ class RedshiftData {
     );
 
     return ListSchemasResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the sessions that the caller created in the last 24 hours. By
+  /// default, only sessions with a status of <code>AVAILABLE</code> or
+  /// <code>BUSY</code> are returned. You can filter the results by session
+  /// status, compute target (cluster or serverless workgroup), or database. To
+  /// retrieve the metadata for a single session, provide the
+  /// <code>SessionId</code> parameter. Use <code>NextToken</code> to page
+  /// through the session list.
+  ///
+  /// Returns only the sessions that the caller created. When identity-enhanced
+  /// role sessions are used, you must provide either the
+  /// <code>ClusterIdentifier</code> or <code>WorkgroupName</code> parameter to
+  /// ensure that the AWS IAM Identity Center user can only access the Amazon
+  /// Redshift IAM Identity Center applications they are assigned. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html">
+  /// Trusted identity propagation overview</a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The cluster identifier. Only sessions on this cluster are returned. When
+  /// providing <code>ClusterIdentifier</code>, then <code>WorkgroupName</code>
+  /// can't be specified.
+  ///
+  /// Parameter [database] :
+  /// The name of the database. Only sessions connected to this database are
+  /// returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of sessions to return in the response. If more sessions
+  /// exist than fit in one response, the operation returns
+  /// <code>NextToken</code> to paginate the results.
+  ///
+  /// Parameter [nextToken] :
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned NextToken
+  /// value in the next NextToken parameter and retrying the command. If the
+  /// NextToken field is empty, all response records have been retrieved for the
+  /// request.
+  ///
+  /// Parameter [roleLevel] :
+  /// Specifies whether to return all sessions created by the caller's IAM role,
+  /// including sessions from previous IAM sessions. If false, only sessions
+  /// created in the current IAM session are returned. The default is true.
+  ///
+  /// Parameter [sessionId] :
+  /// The identifier of a specific session to return metadata for. This value is
+  /// a universally unique identifier (UUID) generated by Amazon Redshift Data
+  /// API. When you provide <code>SessionId</code>, you can't specify
+  /// <code>Status</code>, <code>ClusterIdentifier</code>,
+  /// <code>WorkgroupName</code>, or <code>Database</code>.
+  ///
+  /// Parameter [status] :
+  /// The status of the sessions to list. If no status is specified, sessions
+  /// with a status of <code>AVAILABLE</code> or <code>BUSY</code> are returned.
+  /// Status values are defined as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// AVAILABLE – The session is open and ready to run a SQL statement.
+  /// </li>
+  /// <li>
+  /// BUSY – The session is currently running a SQL statement.
+  /// </li>
+  /// <li>
+  /// CLOSED – The session is closed and can no longer run SQL statements.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name or Amazon Resource Name (ARN). Only sessions
+  /// on this workgroup are returned. When providing <code>WorkgroupName</code>,
+  /// then <code>ClusterIdentifier</code> can't be specified.
+  Future<ListSessionsResponse> listSessions({
+    String? clusterIdentifier,
+    String? database,
+    int? maxResults,
+    String? nextToken,
+    bool? roleLevel,
+    String? sessionId,
+    SessionStatusString? status,
+    String? workgroupName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftData.ListSessions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+        if (database != null) 'Database': database,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (roleLevel != null) 'RoleLevel': roleLevel,
+        if (sessionId != null) 'SessionId': sessionId,
+        if (status != null) 'Status': status.value,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
+      },
+    );
+
+    return ListSessionsResponse.fromJson(jsonResponse.body);
   }
 
   /// List of SQL statements. By default, only finished statements are shown. A
@@ -1325,16 +1521,48 @@ class BatchExecuteStatementOutput {
   /// The database user name.
   final String? dbUser;
 
+  /// A value that indicates whether the statement has a result set. The result
+  /// set can be empty. The value is true for an empty result set. The value is
+  /// true if any substatement returns a result set.
+  final bool? hasResultSet;
+
   /// The identifier of the SQL statement whose results are to be fetched. This
   /// value is a universally unique identifier (UUID) generated by Amazon Redshift
   /// Data API. This identifier is returned by <code>BatchExecuteStatment</code>.
   final String? id;
+
+  /// The process identifier from Amazon Redshift.
+  final int? redshiftPid;
 
   /// The name or ARN of the secret that enables access to the database.
   final String? secretArn;
 
   /// The session identifier of the query.
   final String? sessionId;
+
+  /// The status of the SQL statement. Status values are defined as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// ABORTED - The query run was stopped by the user.
+  /// </li>
+  /// <li>
+  /// FAILED - The query run failed.
+  /// </li>
+  /// <li>
+  /// FINISHED - The query has finished running.
+  /// </li>
+  /// <li>
+  /// PICKED - The query has been chosen to be run.
+  /// </li>
+  /// <li>
+  /// STARTED - The query run has started.
+  /// </li>
+  /// <li>
+  /// SUBMITTED - The query was submitted, but not yet processed.
+  /// </li>
+  /// </ul>
+  final StatementStatusString? status;
 
   /// The serverless workgroup name or Amazon Resource Name (ARN). This element is
   /// not returned when connecting to a provisioned cluster.
@@ -1346,9 +1574,12 @@ class BatchExecuteStatementOutput {
     this.database,
     this.dbGroups,
     this.dbUser,
+    this.hasResultSet,
     this.id,
+    this.redshiftPid,
     this.secretArn,
     this.sessionId,
+    this.status,
     this.workgroupName,
   });
 
@@ -1362,9 +1593,13 @@ class BatchExecuteStatementOutput {
           .map((e) => e as String)
           .toList(),
       dbUser: json['DbUser'] as String?,
+      hasResultSet: json['HasResultSet'] as bool?,
       id: json['Id'] as String?,
+      redshiftPid: json['RedshiftPid'] as int?,
       secretArn: json['SecretArn'] as String?,
       sessionId: json['SessionId'] as String?,
+      status:
+          (json['Status'] as String?)?.let(StatementStatusString.fromString),
       workgroupName: json['WorkgroupName'] as String?,
     );
   }
@@ -1375,9 +1610,12 @@ class BatchExecuteStatementOutput {
     final database = this.database;
     final dbGroups = this.dbGroups;
     final dbUser = this.dbUser;
+    final hasResultSet = this.hasResultSet;
     final id = this.id;
+    final redshiftPid = this.redshiftPid;
     final secretArn = this.secretArn;
     final sessionId = this.sessionId;
+    final status = this.status;
     final workgroupName = this.workgroupName;
     return {
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
@@ -1385,9 +1623,12 @@ class BatchExecuteStatementOutput {
       if (database != null) 'Database': database,
       if (dbGroups != null) 'DbGroups': dbGroups,
       if (dbUser != null) 'DbUser': dbUser,
+      if (hasResultSet != null) 'HasResultSet': hasResultSet,
       if (id != null) 'Id': id,
+      if (redshiftPid != null) 'RedshiftPid': redshiftPid,
       if (secretArn != null) 'SecretArn': secretArn,
       if (sessionId != null) 'SessionId': sessionId,
+      if (status != null) 'Status': status.value,
       if (workgroupName != null) 'WorkgroupName': workgroupName,
     };
   }
@@ -1440,6 +1681,11 @@ class DescribeStatementResponse {
   /// The error message from the cluster if the SQL statement encountered an error
   /// while running.
   final String? error;
+
+  /// The execution mode of the batch request. <code>TRANSACTION</code> indicates
+  /// all SQL statements are run as a single transaction. <code>AUTO_COMMIT</code>
+  /// indicates each SQL statement is committed individually.
+  final ExecutionMode? executionMode;
 
   /// A value that indicates whether the statement has a result set. The result
   /// set can be empty. The value is true for an empty result set. The value is
@@ -1527,6 +1773,7 @@ class DescribeStatementResponse {
     this.dbUser,
     this.duration,
     this.error,
+    this.executionMode,
     this.hasResultSet,
     this.queryParameters,
     this.queryString,
@@ -1552,6 +1799,8 @@ class DescribeStatementResponse {
       dbUser: json['DbUser'] as String?,
       duration: json['Duration'] as int?,
       error: json['Error'] as String?,
+      executionMode:
+          (json['ExecutionMode'] as String?)?.let(ExecutionMode.fromString),
       hasResultSet: json['HasResultSet'] as bool?,
       queryParameters: (json['QueryParameters'] as List?)
           ?.nonNulls
@@ -1584,6 +1833,7 @@ class DescribeStatementResponse {
     final dbUser = this.dbUser;
     final duration = this.duration;
     final error = this.error;
+    final executionMode = this.executionMode;
     final hasResultSet = this.hasResultSet;
     final queryParameters = this.queryParameters;
     final queryString = this.queryString;
@@ -1606,6 +1856,7 @@ class DescribeStatementResponse {
       if (dbUser != null) 'DbUser': dbUser,
       if (duration != null) 'Duration': duration,
       if (error != null) 'Error': error,
+      if (executionMode != null) 'ExecutionMode': executionMode.value,
       if (hasResultSet != null) 'HasResultSet': hasResultSet,
       if (queryParameters != null) 'QueryParameters': queryParameters,
       if (queryString != null) 'QueryString': queryString,
@@ -1687,16 +1938,47 @@ class ExecuteStatementOutput {
   /// The database user name.
   final String? dbUser;
 
+  /// A value that indicates whether the statement has a result set. The result
+  /// set can be empty. The value is true for an empty result set.
+  final bool? hasResultSet;
+
   /// The identifier of the SQL statement whose results are to be fetched. This
   /// value is a universally unique identifier (UUID) generated by Amazon Redshift
   /// Data API.
   final String? id;
+
+  /// The process identifier from Amazon Redshift.
+  final int? redshiftPid;
 
   /// The name or ARN of the secret that enables access to the database.
   final String? secretArn;
 
   /// The session identifier of the query.
   final String? sessionId;
+
+  /// The status of the SQL statement. Status values are defined as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// ABORTED - The query run was stopped by the user.
+  /// </li>
+  /// <li>
+  /// FAILED - The query run failed.
+  /// </li>
+  /// <li>
+  /// FINISHED - The query has finished running.
+  /// </li>
+  /// <li>
+  /// PICKED - The query has been chosen to be run.
+  /// </li>
+  /// <li>
+  /// STARTED - The query run has started.
+  /// </li>
+  /// <li>
+  /// SUBMITTED - The query was submitted, but not yet processed.
+  /// </li>
+  /// </ul>
+  final StatementStatusString? status;
 
   /// The serverless workgroup name or Amazon Resource Name (ARN). This element is
   /// not returned when connecting to a provisioned cluster.
@@ -1708,9 +1990,12 @@ class ExecuteStatementOutput {
     this.database,
     this.dbGroups,
     this.dbUser,
+    this.hasResultSet,
     this.id,
+    this.redshiftPid,
     this.secretArn,
     this.sessionId,
+    this.status,
     this.workgroupName,
   });
 
@@ -1724,9 +2009,13 @@ class ExecuteStatementOutput {
           .map((e) => e as String)
           .toList(),
       dbUser: json['DbUser'] as String?,
+      hasResultSet: json['HasResultSet'] as bool?,
       id: json['Id'] as String?,
+      redshiftPid: json['RedshiftPid'] as int?,
       secretArn: json['SecretArn'] as String?,
       sessionId: json['SessionId'] as String?,
+      status:
+          (json['Status'] as String?)?.let(StatementStatusString.fromString),
       workgroupName: json['WorkgroupName'] as String?,
     );
   }
@@ -1737,9 +2026,12 @@ class ExecuteStatementOutput {
     final database = this.database;
     final dbGroups = this.dbGroups;
     final dbUser = this.dbUser;
+    final hasResultSet = this.hasResultSet;
     final id = this.id;
+    final redshiftPid = this.redshiftPid;
     final secretArn = this.secretArn;
     final sessionId = this.sessionId;
+    final status = this.status;
     final workgroupName = this.workgroupName;
     return {
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
@@ -1747,9 +2039,12 @@ class ExecuteStatementOutput {
       if (database != null) 'Database': database,
       if (dbGroups != null) 'DbGroups': dbGroups,
       if (dbUser != null) 'DbUser': dbUser,
+      if (hasResultSet != null) 'HasResultSet': hasResultSet,
       if (id != null) 'Id': id,
+      if (redshiftPid != null) 'RedshiftPid': redshiftPid,
       if (secretArn != null) 'SecretArn': secretArn,
       if (sessionId != null) 'SessionId': sessionId,
+      if (status != null) 'Status': status.value,
       if (workgroupName != null) 'WorkgroupName': workgroupName,
     };
   }
@@ -1952,6 +2247,44 @@ class ListSchemasResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (schemas != null) 'Schemas': schemas,
+    };
+  }
+}
+
+/// @nodoc
+class ListSessionsResponse {
+  /// The sessions that match the request.
+  final List<SessionData> sessions;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned NextToken
+  /// value in the next NextToken parameter and retrying the command. If the
+  /// NextToken field is empty, all response records have been retrieved for the
+  /// request.
+  final String? nextToken;
+
+  ListSessionsResponse({
+    required this.sessions,
+    this.nextToken,
+  });
+
+  factory ListSessionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSessionsResponse(
+      sessions: ((json['Sessions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SessionData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessions = this.sessions;
+    final nextToken = this.nextToken;
+    return {
+      'Sessions': sessions,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -2283,6 +2616,150 @@ class SqlParameter {
   }
 }
 
+/// Contains the metadata for a session returned by <code>ListSessions</code>,
+/// including its status, compute target, database connection, and lifecycle
+/// timestamps.
+///
+/// @nodoc
+class SessionData {
+  /// The date and time (UTC) when the session was created.
+  final DateTime createdAt;
+
+  /// The session identifier. This value is a universally unique identifier (UUID)
+  /// generated by Amazon Redshift Data API.
+  final String sessionId;
+
+  /// The status of the session. Status values are defined as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// AVAILABLE – The session is open and ready to run a SQL statement.
+  /// </li>
+  /// <li>
+  /// BUSY – The session is currently running a SQL statement.
+  /// </li>
+  /// <li>
+  /// CLOSED – The session is closed and can no longer run SQL statements.
+  /// </li>
+  /// </ul>
+  final SessionStatusString status;
+
+  /// The cluster identifier. This element is not returned when connecting to a
+  /// serverless workgroup.
+  final String? clusterIdentifier;
+
+  /// The identifier of the SQL statement currently running in the session. This
+  /// value is a universally unique identifier (UUID) generated by Amazon Redshift
+  /// Data API. This element is returned only when the session status is
+  /// <code>BUSY</code>.
+  final String? currentStatementId;
+
+  /// The name of the database that the session is connected to.
+  final String? database;
+
+  /// The database user name.
+  final String? dbUser;
+
+  /// The number of seconds that the session is kept alive after a query finishes.
+  final int? sessionAliveSeconds;
+
+  /// The date and time (UTC) when the session is set to expire and be closed.
+  final DateTime? sessionTtl;
+
+  /// The date and time (UTC) that the session metadata was last updated. An
+  /// example is the time the status last changed.
+  final DateTime? updatedAt;
+
+  /// The serverless workgroup name or Amazon Resource Name (ARN). This element is
+  /// not returned when connecting to a provisioned cluster.
+  final String? workgroupName;
+
+  SessionData({
+    required this.createdAt,
+    required this.sessionId,
+    required this.status,
+    this.clusterIdentifier,
+    this.currentStatementId,
+    this.database,
+    this.dbUser,
+    this.sessionAliveSeconds,
+    this.sessionTtl,
+    this.updatedAt,
+    this.workgroupName,
+  });
+
+  factory SessionData.fromJson(Map<String, dynamic> json) {
+    return SessionData(
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      sessionId: (json['SessionId'] as String?) ?? '',
+      status: SessionStatusString.fromString((json['Status'] as String?) ?? ''),
+      clusterIdentifier: json['ClusterIdentifier'] as String?,
+      currentStatementId: json['CurrentStatementId'] as String?,
+      database: json['Database'] as String?,
+      dbUser: json['DbUser'] as String?,
+      sessionAliveSeconds: json['SessionAliveSeconds'] as int?,
+      sessionTtl: timeStampFromJson(json['SessionTtl']),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+      workgroupName: json['WorkgroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final sessionId = this.sessionId;
+    final status = this.status;
+    final clusterIdentifier = this.clusterIdentifier;
+    final currentStatementId = this.currentStatementId;
+    final database = this.database;
+    final dbUser = this.dbUser;
+    final sessionAliveSeconds = this.sessionAliveSeconds;
+    final sessionTtl = this.sessionTtl;
+    final updatedAt = this.updatedAt;
+    final workgroupName = this.workgroupName;
+    return {
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'SessionId': sessionId,
+      'Status': status.value,
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (currentStatementId != null) 'CurrentStatementId': currentStatementId,
+      if (database != null) 'Database': database,
+      if (dbUser != null) 'DbUser': dbUser,
+      if (sessionAliveSeconds != null)
+        'SessionAliveSeconds': sessionAliveSeconds,
+      if (sessionTtl != null) 'SessionTtl': unixTimestampToJson(sessionTtl),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+      if (workgroupName != null) 'WorkgroupName': workgroupName,
+    };
+  }
+}
+
+/// @nodoc
+class SessionStatusString {
+  static const available = SessionStatusString._('AVAILABLE');
+  static const busy = SessionStatusString._('BUSY');
+  static const closed = SessionStatusString._('CLOSED');
+
+  final String value;
+
+  const SessionStatusString._(this.value);
+
+  static const values = [available, busy, closed];
+
+  static SessionStatusString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SessionStatusString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionStatusString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The properties (metadata) of a column.
 ///
 /// @nodoc
@@ -2478,6 +2955,61 @@ class Field {
   }
 }
 
+/// @nodoc
+class StatementStatusString {
+  static const submitted = StatementStatusString._('SUBMITTED');
+  static const picked = StatementStatusString._('PICKED');
+  static const started = StatementStatusString._('STARTED');
+  static const finished = StatementStatusString._('FINISHED');
+  static const aborted = StatementStatusString._('ABORTED');
+  static const failed = StatementStatusString._('FAILED');
+
+  final String value;
+
+  const StatementStatusString._(this.value);
+
+  static const values = [submitted, picked, started, finished, aborted, failed];
+
+  static StatementStatusString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatementStatusString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StatementStatusString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ExecutionMode {
+  static const transaction = ExecutionMode._('TRANSACTION');
+  static const autoCommit = ExecutionMode._('AUTO_COMMIT');
+
+  final String value;
+
+  const ExecutionMode._(this.value);
+
+  static const values = [transaction, autoCommit];
+
+  static ExecutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionMode._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about an SQL statement.
 ///
 /// @nodoc
@@ -2587,36 +3119,6 @@ class SubStatementData {
 }
 
 /// @nodoc
-class StatementStatusString {
-  static const submitted = StatementStatusString._('SUBMITTED');
-  static const picked = StatementStatusString._('PICKED');
-  static const started = StatementStatusString._('STARTED');
-  static const finished = StatementStatusString._('FINISHED');
-  static const aborted = StatementStatusString._('ABORTED');
-  static const failed = StatementStatusString._('FAILED');
-
-  final String value;
-
-  const StatementStatusString._(this.value);
-
-  static const values = [submitted, picked, started, finished, aborted, failed];
-
-  static StatementStatusString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StatementStatusString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StatementStatusString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
 class ActiveSessionsExceededException extends _s.GenericAwsException {
   ActiveSessionsExceededException({String? type, String? message})
       : super(
@@ -2631,6 +3133,15 @@ class ActiveStatementsExceededException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'ActiveStatementsExceededException',
+            message: message);
+}
+
+/// @nodoc
+class ActiveWaitingRequestsExceededException extends _s.GenericAwsException {
+  ActiveWaitingRequestsExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ActiveWaitingRequestsExceededException',
             message: message);
 }
 
@@ -2685,6 +3196,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ActiveSessionsExceededException(type: type, message: message),
   'ActiveStatementsExceededException': (type, message) =>
       ActiveStatementsExceededException(type: type, message: message),
+  'ActiveWaitingRequestsExceededException': (type, message) =>
+      ActiveWaitingRequestsExceededException(type: type, message: message),
   'BatchExecuteStatementException': (type, message) =>
       BatchExecuteStatementException(type: type, message: message),
   'DatabaseConnectionException': (type, message) =>

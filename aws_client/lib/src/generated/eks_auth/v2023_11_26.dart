@@ -90,12 +90,27 @@ class EksAuth {
   ///
   /// Parameter [token] :
   /// The token of the Kubernetes service account for the pod.
+  ///
+  /// Parameter [eksNodeName] :
+  /// The Kubernetes node name of the worker node where the pod is running.
+  ///
+  /// Parameter [instanceId] :
+  /// The Amazon EC2 instance ID of the worker node where the pod is running.
+  ///
+  /// Parameter [zone] :
+  /// The Availability Zone ID of the worker node where the pod is running.
   Future<AssumeRoleForPodIdentityResponse> assumeRoleForPodIdentity({
     required String clusterName,
     required String token,
+    String? eksNodeName,
+    String? instanceId,
+    String? zone,
   }) async {
     final $payload = <String, dynamic>{
       'token': token,
+      if (eksNodeName != null) 'eksNodeName': eksNodeName,
+      if (instanceId != null) 'instanceId': instanceId,
+      if (zone != null) 'zone': zone,
     };
     final response = await _protocol.send(
       payload: $payload,

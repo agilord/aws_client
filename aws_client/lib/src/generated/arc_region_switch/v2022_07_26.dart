@@ -632,6 +632,7 @@ class ArcRegionSwitch {
   /// execution blocks in a workflow or skips specific execution blocks.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [IllegalArgumentException].
   /// May throw [IllegalStateException].
   /// May throw [ResourceNotFoundException].
@@ -647,6 +648,16 @@ class ArcRegionSwitch {
   /// Parameter [targetRegion] :
   /// The Amazon Web Services Region to target with this execution. This is the
   /// Region that traffic will be shifted to or from, depending on the action.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the operation completes
+  /// no more than one time. If this token matches a previous request, the
+  /// service ignores the request and returns the result of the original
+  /// successful request. If you don't provide a client token, the service
+  /// automatically generates one. For more information about idempotency, see
+  /// <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
   ///
   /// Parameter [comment] :
   /// An optional comment explaining why the plan execution is being started.
@@ -668,6 +679,7 @@ class ArcRegionSwitch {
     required ExecutionAction action,
     required String planArn,
     required String targetRegion,
+    String? clientToken,
     String? comment,
     String? latestVersion,
     ExecutionMode? mode,
@@ -687,6 +699,7 @@ class ArcRegionSwitch {
         'action': action.value,
         'planArn': planArn,
         'targetRegion': targetRegion,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (comment != null) 'comment': comment,
         if (latestVersion != null) 'latestVersion': latestVersion,
         if (mode != null) 'mode': mode.value,
@@ -5798,6 +5811,12 @@ class AccessDeniedException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
+/// @nodoc
 class IllegalArgumentException extends _s.GenericAwsException {
   IllegalArgumentException({String? type, String? message})
       : super(type: type, code: 'IllegalArgumentException', message: message);
@@ -5824,6 +5843,8 @@ class ResourceNotFoundException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'IllegalArgumentException': (type, message) =>
       IllegalArgumentException(type: type, message: message),
   'IllegalStateException': (type, message) =>

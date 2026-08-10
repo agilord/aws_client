@@ -30,6 +30,22 @@ ResolvedEndpoint resolveEndpoint({
       final partitionResult = fn.awsPartition(region);
       if ((partitionResult.name == 'aws') &&
           (useFips == false) &&
+          (useDualStack == false)) {
+        return ResolvedEndpoint(url: 'https://iam.amazonaws.com', authSchemes: [
+          EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-east-1')
+        ]);
+      }
+      if ((partitionResult.name == 'aws') &&
+          (useFips == true) &&
+          (useDualStack == false)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.amazonaws.com',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-east-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws') &&
+          (useFips == false) &&
           (useDualStack == true)) {
         return ResolvedEndpoint(
             url: 'https://iam.global.api.aws',
@@ -56,10 +72,28 @@ ResolvedEndpoint resolveEndpoint({
             ]);
       }
       if ((partitionResult.name == 'aws-cn') &&
+          (useFips == true) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.api.amazonwebservices.com.cn',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'cn-north-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-cn') &&
           (useFips == false) &&
           (useDualStack == false)) {
         return ResolvedEndpoint(
             url: 'https://iam.cn-north-1.amazonaws.com.cn',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'cn-north-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-cn') &&
+          (useFips == true) &&
+          (useDualStack == false)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.amazonaws.com.cn',
             authSchemes: [
               EndpointAuthScheme(name: 'sigv4', signingRegion: 'cn-north-1')
             ]);
@@ -118,6 +152,24 @@ ResolvedEndpoint resolveEndpoint({
               EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-iso-east-1')
             ]);
       }
+      if ((partitionResult.name == 'aws-iso') &&
+          (useFips == false) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam.api.aws.ic.gov',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-iso-east-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-iso') &&
+          (useFips == true) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.api.aws.ic.gov',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-iso-east-1')
+            ]);
+      }
       if ((partitionResult.name == 'aws-iso-b') &&
           (useFips == false) &&
           (useDualStack == false)) {
@@ -136,11 +188,56 @@ ResolvedEndpoint resolveEndpoint({
               EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-isob-east-1')
             ]);
       }
+      if ((partitionResult.name == 'aws-iso-b') &&
+          (useFips == false) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam.api.aws.scloud',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-isob-east-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-iso-b') &&
+          (useFips == true) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.api.aws.scloud',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'us-isob-east-1')
+            ]);
+      }
       if ((partitionResult.name == 'aws-iso-e') &&
           (useFips == false) &&
           (useDualStack == false)) {
         return ResolvedEndpoint(
             url: 'https://iam.eu-isoe-west-1.cloud.adc-e.uk',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'eu-isoe-west-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-iso-e') &&
+          (useFips == true) &&
+          (useDualStack == false)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.cloud.adc-e.uk',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'eu-isoe-west-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-iso-e') &&
+          (useFips == false) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam.api.cloud-aws.adc-e.uk',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'eu-isoe-west-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-iso-e') &&
+          (useFips == true) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.api.cloud-aws.adc-e.uk',
             authSchemes: [
               EndpointAuthScheme(name: 'sigv4', signingRegion: 'eu-isoe-west-1')
             ]);
@@ -155,6 +252,36 @@ ResolvedEndpoint resolveEndpoint({
                   name: 'sigv4', signingRegion: 'us-isof-south-1')
             ]);
       }
+      if ((partitionResult.name == 'aws-iso-f') &&
+          (useFips == true) &&
+          (useDualStack == false)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.csp.hci.ic.gov',
+            authSchemes: [
+              EndpointAuthScheme(
+                  name: 'sigv4', signingRegion: 'us-isof-south-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-iso-f') &&
+          (useFips == false) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam.api.aws.hci.ic.gov',
+            authSchemes: [
+              EndpointAuthScheme(
+                  name: 'sigv4', signingRegion: 'us-isof-south-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-iso-f') &&
+          (useFips == true) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.api.aws.hci.ic.gov',
+            authSchemes: [
+              EndpointAuthScheme(
+                  name: 'sigv4', signingRegion: 'us-isof-south-1')
+            ]);
+      }
       if ((partitionResult.name == 'aws-eusc') &&
           (useFips == false) &&
           (useDualStack == false)) {
@@ -164,11 +291,39 @@ ResolvedEndpoint resolveEndpoint({
               EndpointAuthScheme(name: 'sigv4', signingRegion: 'eusc-de-east-1')
             ]);
       }
+      if ((partitionResult.name == 'aws-eusc') &&
+          (useFips == true) &&
+          (useDualStack == false)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.amazonaws.eu',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'eusc-de-east-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-eusc') &&
+          (useFips == false) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam.global.api.amazonwebservices.eu',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'eusc-de-east-1')
+            ]);
+      }
+      if ((partitionResult.name == 'aws-eusc') &&
+          (useFips == true) &&
+          (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url: 'https://iam-fips.api.amazonwebservices.eu',
+            authSchemes: [
+              EndpointAuthScheme(name: 'sigv4', signingRegion: 'eusc-de-east-1')
+            ]);
+      }
       if ((useFips == true) && (useDualStack == true)) {
         if ((true == partitionResult.supportsFips) &&
             (true == partitionResult.supportsDualStack)) {
           return ResolvedEndpoint(
-              url: 'https://iam-fips.${partitionResult.dualStackDnsSuffix}',
+              url:
+                  'https://iam-fips.${partitionResult.implicitGlobalRegion}.${partitionResult.dualStackDnsSuffix}',
               authSchemes: [
                 EndpointAuthScheme(
                     name: 'sigv4',
@@ -181,7 +336,8 @@ ResolvedEndpoint resolveEndpoint({
       if ((useFips == true) && (useDualStack == false)) {
         if (partitionResult.supportsFips == true) {
           return ResolvedEndpoint(
-              url: 'https://iam-fips.${partitionResult.dnsSuffix}',
+              url:
+                  'https://iam-fips.${partitionResult.implicitGlobalRegion}.${partitionResult.dnsSuffix}',
               authSchemes: [
                 EndpointAuthScheme(
                     name: 'sigv4',
@@ -194,7 +350,8 @@ ResolvedEndpoint resolveEndpoint({
       if ((useFips == false) && (useDualStack == true)) {
         if (true == partitionResult.supportsDualStack) {
           return ResolvedEndpoint(
-              url: 'https://iam.${partitionResult.dualStackDnsSuffix}',
+              url:
+                  'https://iam.${partitionResult.implicitGlobalRegion}.${partitionResult.dualStackDnsSuffix}',
               authSchemes: [
                 EndpointAuthScheme(
                     name: 'sigv4',
@@ -205,7 +362,8 @@ ResolvedEndpoint resolveEndpoint({
             'DualStack is enabled but this partition does not support DualStack');
       }
       return ResolvedEndpoint(
-          url: 'https://iam.${partitionResult.dnsSuffix}',
+          url:
+              'https://iam.${partitionResult.implicitGlobalRegion}.${partitionResult.dnsSuffix}',
           authSchemes: [
             EndpointAuthScheme(
                 name: 'sigv4',

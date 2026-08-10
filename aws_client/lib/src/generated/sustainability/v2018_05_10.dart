@@ -23,39 +23,37 @@ import 'v2018_05_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The AWS Sustainability service provides programmatic access to estimated
-/// carbon emissions data for your Amazon Web Services usage. Use the AWS
-/// Sustainability service to retrieve, analyze, and track the carbon footprint
-/// of your cloud infrastructure over time.
+/// environmental impact data for your Amazon Web Services usage. Use the AWS
+/// Sustainability service to retrieve, analyze, and track the environmental
+/// impact of your cloud infrastructure over time.
 ///
 /// With the AWS Sustainability service, you can:
 ///
 /// <ul>
 /// <li>
-/// Retrieve estimated carbon emissions for your Amazon Web Services usage
-/// across different time periods
+/// Retrieve estimated carbon emissions and water allocation for your Amazon Web
+/// Services usage across different time periods
 /// </li>
 /// <li>
-/// Group emissions data by dimensions such as account, region, and service
+/// Group environmental impact data by dimensions such as account, region, and
+/// service
 /// </li>
 /// <li>
-/// Filter emissions data to focus on specific accounts, regions, or services
+/// Filter environmental impact data to focus on specific accounts, regions, or
+/// services
 /// </li>
 /// <li>
-/// Access multiple emissions calculation methodologies including Location-based
-/// Method (LBM) and Market-based Method (MBM)
+/// Access multiple carbon emissions calculation methodologies including
+/// Location-based Method (LBM) and Market-based Method (MBM)
 /// </li>
 /// <li>
-/// Aggregate emissions data at various time granularities including monthly,
-/// quarterly, and yearly periods
+/// Aggregate environmental impact data at various time granularities including
+/// monthly, quarterly, and yearly periods
 /// </li>
 /// </ul>
 /// The API supports pagination for efficient data retrieval and provides
 /// dimension values to help you understand the available grouping and filtering
 /// options for your account.
-///
-/// All emissions values are calculated using methodologies aligned with the
-/// Greenhouse Gas (GHG) Protocol and are provided in metric tons of carbon
-/// dioxide-equivalent (MTCO2e).
 class Sustainability {
   final _s.RestJsonProtocol _protocol;
   factory Sustainability({
@@ -109,7 +107,9 @@ class Sustainability {
   /// May throw [ValidationException].
   ///
   /// Parameter [timePeriod] :
-  /// The date range for fetching estimated carbon emissions.
+  /// The date range for fetching estimated carbon emissions. The range must
+  /// include the start date of a month for that month's data to be included in
+  /// the response.
   ///
   /// Parameter [emissionsTypes] :
   /// The emission types to include in the results. If absent, returns
@@ -117,11 +117,20 @@ class Sustainability {
   /// <code>TOTAL_MBM_CARBON_EMISSIONS</code> emissions types.
   ///
   /// Parameter [filterBy] :
-  /// The criteria for filtering estimated carbon emissions.
+  /// The criteria for filtering estimated carbon emissions. To determine which
+  /// dimensions are available to be filtered by, you can first call
+  /// <a>GetEstimatedCarbonEmissionsDimensionValues</a>
   ///
   /// Parameter [granularity] :
   /// The time granularity for the results. If absent, uses <code>MONTHLY</code>
-  /// time granularity.
+  /// time granularity. The smallest supported granularity for carbon emissions
+  /// is <code>MONTHLY</code>.
+  ///
+  /// If requesting partial time periods, data will be returned based on the
+  /// smallest supported granularity. For example, requesting
+  /// <code>2025-04-01T00:00:00Z</code> to <code>2026-04-01T00:00:00Z</code>
+  /// with <code>YEARLY_CALENDAR</code> granularity will return the last 9
+  /// months for 2025 and the first 3 months of 2026.
   ///
   /// Parameter [granularityConfiguration] :
   /// Configuration for fiscal year calculations when using
@@ -131,7 +140,7 @@ class Sustainability {
   /// The dimensions available for grouping estimated carbon emissions.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in a single call. Default is 40.
+  /// The maximum number of results to return in a single call. Default is 1000.
   ///
   /// Parameter [nextToken] :
   /// The pagination token specifying which page of results to return in the
@@ -186,10 +195,12 @@ class Sustainability {
   /// The dimensions available for grouping estimated carbon emissions.
   ///
   /// Parameter [timePeriod] :
-  /// The date range for fetching the dimension values.
+  /// The date range for fetching the dimension values. The range must include
+  /// the start date of a month for that month's dimensions to be included in
+  /// the response.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return in a single call. Default is 40.
+  /// The maximum number of results to return in a single call. Default is 1000.
   ///
   /// Parameter [nextToken] :
   /// The pagination token specifying which page of results to return in the
@@ -220,6 +231,134 @@ class Sustainability {
       exceptionFnMap: _exceptionFns,
     );
     return GetEstimatedCarbonEmissionsDimensionValuesResponse.fromJson(
+        response);
+  }
+
+  /// Returns estimated water allocation values based on customer grouping and
+  /// filtering parameters. We recommend using pagination to ensure that the
+  /// operation returns quickly and successfully.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [timePeriod] :
+  /// The date range for fetching estimated water allocation. The range must
+  /// include the start date of a year for that year's data to be included in
+  /// the response.
+  ///
+  /// Parameter [allocationTypes] :
+  /// The allocation types to include in the results. If absent, returns
+  /// <code>TOTAL_WATER_WITHDRAWALS</code> allocation types.
+  ///
+  /// Parameter [filterBy] :
+  /// The criteria for filtering estimated water allocation. To determine which
+  /// dimensions are available to be filtered by, you can first call
+  /// <a>GetEstimatedWaterAllocationDimensionValues</a>
+  ///
+  /// Parameter [granularity] :
+  /// The time granularity for the results. Only <code>YEARLY_CALENDAR</code>
+  /// time granularity is currently supported for water allocation. Defaults to
+  /// <code>YEARLY_CALENDAR</code> if absent.
+  ///
+  /// If requesting partial time periods, data will be returned based on the
+  /// smallest supported granularity. For example, requesting
+  /// <code>2025-04-01T00:00:00Z</code> to <code>2026-04-01T00:00:00Z</code>
+  /// with <code>YEARLY_CALENDAR</code> will return all the data for 2026 only.
+  ///
+  /// Parameter [groupBy] :
+  /// The dimensions available for grouping estimated water allocation.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Default is 1000.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token specifying which page of results to return in the
+  /// response. If no token is provided, the default page is the first page.
+  Future<GetEstimatedWaterAllocationResponse> getEstimatedWaterAllocation({
+    required TimePeriod timePeriod,
+    List<WaterAllocationType>? allocationTypes,
+    FilterExpression? filterBy,
+    TimeGranularity? granularity,
+    List<Dimension>? groupBy,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      5000,
+    );
+    final $payload = <String, dynamic>{
+      'TimePeriod': timePeriod,
+      if (allocationTypes != null)
+        'AllocationTypes': allocationTypes.map((e) => e.value).toList(),
+      if (filterBy != null) 'FilterBy': filterBy,
+      if (granularity != null) 'Granularity': granularity.value,
+      if (groupBy != null) 'GroupBy': groupBy.map((e) => e.value).toList(),
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/estimated-water-allocation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEstimatedWaterAllocationResponse.fromJson(response);
+  }
+
+  /// Returns the possible dimension values available for a customer's account.
+  /// We recommend using pagination to ensure that the operation returns quickly
+  /// and successfully.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dimensions] :
+  /// The dimensions available for grouping estimated water allocation.
+  ///
+  /// Parameter [timePeriod] :
+  /// The date range for fetching the dimension values. The range must include
+  /// the start date of a year for that year's data to be included in the
+  /// response.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Default is 1000.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token specifying which page of results to return in the
+  /// response. If no token is provided, the default page is the first page.
+  Future<GetEstimatedWaterAllocationDimensionValuesResponse>
+      getEstimatedWaterAllocationDimensionValues({
+    required List<Dimension> dimensions,
+    required TimePeriod timePeriod,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      5000,
+    );
+    final $payload = <String, dynamic>{
+      'Dimensions': dimensions.map((e) => e.value).toList(),
+      'TimePeriod': timePeriod,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/estimated-water-allocation-dimension-values',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEstimatedWaterAllocationDimensionValuesResponse.fromJson(
         response);
   }
 }
@@ -295,6 +434,78 @@ class GetEstimatedCarbonEmissionsDimensionValuesResponse {
   }
 }
 
+/// @nodoc
+class GetEstimatedWaterAllocationResponse {
+  /// The result of the requested inputs.
+  final List<EstimatedWaterAllocation> results;
+
+  /// The pagination token indicating there are additional pages available. You
+  /// can use the token in a following request to fetch the next set of results.
+  final String? nextToken;
+
+  GetEstimatedWaterAllocationResponse({
+    required this.results,
+    this.nextToken,
+  });
+
+  factory GetEstimatedWaterAllocationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEstimatedWaterAllocationResponse(
+      results: ((json['Results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              EstimatedWaterAllocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final nextToken = this.nextToken;
+    return {
+      'Results': results,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class GetEstimatedWaterAllocationDimensionValuesResponse {
+  /// The list of possible dimensions over which the allocation data is
+  /// aggregated.
+  final List<DimensionEntry> results;
+
+  /// The pagination token indicating there are additional pages available. You
+  /// can use the token in a following request to fetch the next set of results.
+  final String? nextToken;
+
+  GetEstimatedWaterAllocationDimensionValuesResponse({
+    required this.results,
+    this.nextToken,
+  });
+
+  factory GetEstimatedWaterAllocationDimensionValuesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEstimatedWaterAllocationDimensionValuesResponse(
+      results: ((json['Results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DimensionEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final nextToken = this.nextToken;
+    return {
+      'Results': results,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// Represents a dimension and its corresponding value.
 ///
 /// @nodoc
@@ -329,8 +540,8 @@ class DimensionEntry {
   }
 }
 
-/// Specifies the dimensions available for grouping and filtering emissions
-/// data.
+/// Specifies the dimensions available for grouping and filtering environmental
+/// impact data.
 ///
 /// @nodoc
 class Dimension {
@@ -389,6 +600,211 @@ class TimePeriod {
       'Start': iso8601ToJson(start),
     };
   }
+}
+
+/// Contains estimated water allocation data for a specific time period and
+/// dimension grouping.
+///
+/// @nodoc
+class EstimatedWaterAllocation {
+  /// The allocation values for the requested water allocation types.
+  final Map<WaterAllocationType, WaterAllocation> allocationValues;
+
+  /// The dimensions used to group water allocation values.
+  final Map<Dimension, String> dimensionsValues;
+
+  /// The semantic version-formatted string that indicates the methodology version
+  /// used to calculate the water allocation values.
+  /// <note>
+  /// The AWS Sustainability service reflects the most recent model version for
+  /// every month. You will not see two entries for the same month with different
+  /// <code>ModelVersion</code> values.
+  /// </note>
+  final String modelVersion;
+
+  /// The reporting period for water allocation values.
+  final TimePeriod timePeriod;
+
+  EstimatedWaterAllocation({
+    required this.allocationValues,
+    required this.dimensionsValues,
+    required this.modelVersion,
+    required this.timePeriod,
+  });
+
+  factory EstimatedWaterAllocation.fromJson(Map<String, dynamic> json) {
+    return EstimatedWaterAllocation(
+      allocationValues: ((json['AllocationValues'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(WaterAllocationType.fromString(k),
+              WaterAllocation.fromJson(e as Map<String, dynamic>))),
+      dimensionsValues: ((json['DimensionsValues'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(Dimension.fromString(k), e as String)),
+      modelVersion: (json['ModelVersion'] as String?) ?? '',
+      timePeriod: TimePeriod.fromJson(
+          (json['TimePeriod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocationValues = this.allocationValues;
+    final dimensionsValues = this.dimensionsValues;
+    final modelVersion = this.modelVersion;
+    final timePeriod = this.timePeriod;
+    return {
+      'AllocationValues': allocationValues.map((k, e) => MapEntry(k.value, e)),
+      'DimensionsValues': dimensionsValues.map((k, e) => MapEntry(k.value, e)),
+      'ModelVersion': modelVersion,
+      'TimePeriod': timePeriod,
+    };
+  }
+}
+
+/// Specifies the types of water allocation calculations available.
+///
+/// @nodoc
+class WaterAllocationType {
+  static const totalWaterWithdrawals =
+      WaterAllocationType._('TOTAL_WATER_WITHDRAWALS');
+
+  final String value;
+
+  const WaterAllocationType._(this.value);
+
+  static const values = [totalWaterWithdrawals];
+
+  static WaterAllocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WaterAllocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WaterAllocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a water allocation quantity with its value and unit of
+/// measurement.
+///
+/// @nodoc
+class WaterAllocation {
+  /// The unit of measurement for the allocation value.
+  final WaterAllocationUnit unit;
+
+  /// The numeric value of the allocation quantity.
+  final double value;
+
+  WaterAllocation({
+    required this.unit,
+    required this.value,
+  });
+
+  factory WaterAllocation.fromJson(Map<String, dynamic> json) {
+    return WaterAllocation(
+      unit: WaterAllocationUnit.fromString((json['Unit'] as String?) ?? ''),
+      value: _s.parseJsonDouble(json['Value']) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'Unit': unit.value,
+      'Value': _s.encodeJsonDouble(value),
+    };
+  }
+}
+
+/// Specifies the unit of measurement for allocation.
+///
+/// @nodoc
+class WaterAllocationUnit {
+  static const m3 = WaterAllocationUnit._('m3');
+
+  final String value;
+
+  const WaterAllocationUnit._(this.value);
+
+  static const values = [m3];
+
+  static WaterAllocationUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WaterAllocationUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WaterAllocationUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filters environmental impact values by specific dimension values.
+///
+/// @nodoc
+class FilterExpression {
+  /// Filters environmental impact values by specific dimension values.
+  final Map<Dimension, List<String>>? dimensions;
+
+  FilterExpression({
+    this.dimensions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    return {
+      if (dimensions != null)
+        'Dimensions': dimensions.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// Specifies the time period over which environmental impact data is
+/// aggregated.
+///
+/// @nodoc
+class TimeGranularity {
+  static const yearlyCalendar = TimeGranularity._('YEARLY_CALENDAR');
+  static const yearlyFiscal = TimeGranularity._('YEARLY_FISCAL');
+  static const quarterlyCalendar = TimeGranularity._('QUARTERLY_CALENDAR');
+  static const quarterlyFiscal = TimeGranularity._('QUARTERLY_FISCAL');
+  static const monthly = TimeGranularity._('MONTHLY');
+
+  final String value;
+
+  const TimeGranularity._(this.value);
+
+  static const values = [
+    yearlyCalendar,
+    yearlyFiscal,
+    quarterlyCalendar,
+    quarterlyFiscal,
+    monthly
+  ];
+
+  static TimeGranularity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TimeGranularity._(value));
+
+  @override
+  bool operator ==(other) => other is TimeGranularity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains estimated carbon emissions data for a specific time period and
@@ -553,62 +969,6 @@ class EmissionsUnit {
 
   @override
   bool operator ==(other) => other is EmissionsUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Filters emission values by specific dimension values.
-///
-/// @nodoc
-class FilterExpression {
-  /// Filters emission values by specific dimension values.
-  final Map<Dimension, List<String>>? dimensions;
-
-  FilterExpression({
-    this.dimensions,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dimensions = this.dimensions;
-    return {
-      if (dimensions != null)
-        'Dimensions': dimensions.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// Specifies the time period over which emissions data is aggregated.
-///
-/// @nodoc
-class TimeGranularity {
-  static const yearlyCalendar = TimeGranularity._('YEARLY_CALENDAR');
-  static const yearlyFiscal = TimeGranularity._('YEARLY_FISCAL');
-  static const quarterlyCalendar = TimeGranularity._('QUARTERLY_CALENDAR');
-  static const quarterlyFiscal = TimeGranularity._('QUARTERLY_FISCAL');
-  static const monthly = TimeGranularity._('MONTHLY');
-
-  final String value;
-
-  const TimeGranularity._(this.value);
-
-  static const values = [
-    yearlyCalendar,
-    yearlyFiscal,
-    quarterlyCalendar,
-    quarterlyFiscal,
-    monthly
-  ];
-
-  static TimeGranularity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TimeGranularity._(value));
-
-  @override
-  bool operator ==(other) => other is TimeGranularity && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

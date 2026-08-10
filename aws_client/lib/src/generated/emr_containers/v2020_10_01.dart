@@ -202,6 +202,9 @@ class EmrContainers {
   /// The configuration settings that will be used to override existing
   /// configurations.
   ///
+  /// Parameter [sessionIdleTimeoutInMinutes] :
+  /// The number of idle minutes before the managed endpoint session times out.
+  ///
   /// Parameter [tags] :
   /// The tags of the managed endpoint.
   Future<CreateManagedEndpointResponse> createManagedEndpoint({
@@ -213,6 +216,7 @@ class EmrContainers {
     String? certificateArn,
     String? clientToken,
     ConfigurationOverrides? configurationOverrides,
+    int? sessionIdleTimeoutInMinutes,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -224,6 +228,8 @@ class EmrContainers {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (configurationOverrides != null)
         'configurationOverrides': configurationOverrides,
+      if (sessionIdleTimeoutInMinutes != null)
+        'sessionIdleTimeoutInMinutes': sessionIdleTimeoutInMinutes,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -284,9 +290,9 @@ class EmrContainers {
   }
 
   /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon
-  /// EMR on EKS. You can create, describe, list and delete virtual clusters.
-  /// They do not consume any additional resource in your system. A single
-  /// virtual cluster maps to a single Kubernetes namespace. Given this
+  /// EMR on EKS. You can create, update, describe, list and delete virtual
+  /// clusters. They do not consume any additional resource in your system. A
+  /// single virtual cluster maps to a single Kubernetes namespace. Given this
   /// relationship, you can model virtual clusters the same way you model
   /// Kubernetes namespaces to meet your requirements.
   ///
@@ -304,8 +310,15 @@ class EmrContainers {
   /// Parameter [clientToken] :
   /// The client token of the virtual cluster.
   ///
+  /// Parameter [schedulerConfiguration] :
+  /// The scheduler configuration (concurrency and queue limits) to apply to the
+  /// virtual cluster at creation time. When omitted, no limits are applied.
+  ///
   /// Parameter [securityConfigurationId] :
   /// The ID of the security configuration.
+  ///
+  /// Parameter [sessionEnabled] :
+  /// Indicates whether the virtual cluster has session support enabled.
   ///
   /// Parameter [tags] :
   /// The tags assigned to the virtual cluster.
@@ -313,15 +326,20 @@ class EmrContainers {
     required ContainerProvider containerProvider,
     required String name,
     String? clientToken,
+    SchedulerConfiguration? schedulerConfiguration,
     String? securityConfigurationId,
+    bool? sessionEnabled,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'containerProvider': containerProvider,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (schedulerConfiguration != null)
+        'schedulerConfiguration': schedulerConfiguration,
       if (securityConfigurationId != null)
         'securityConfigurationId': securityConfigurationId,
+      if (sessionEnabled != null) 'sessionEnabled': sessionEnabled,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -381,10 +399,29 @@ class EmrContainers {
     return DeleteManagedEndpointResponse.fromJson(response);
   }
 
+  /// Deletes a security configuration.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the security configuration to delete.
+  Future<DeleteSecurityConfigurationResponse> deleteSecurityConfiguration({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/securityconfigurations/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteSecurityConfigurationResponse.fromJson(response);
+  }
+
   /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon
-  /// EMR on EKS. You can create, describe, list and delete virtual clusters.
-  /// They do not consume any additional resource in your system. A single
-  /// virtual cluster maps to a single Kubernetes namespace. Given this
+  /// EMR on EKS. You can create, update, describe, list and delete virtual
+  /// clusters. They do not consume any additional resource in your system. A
+  /// single virtual cluster maps to a single Kubernetes namespace. Given this
   /// relationship, you can model virtual clusters the same way you model
   /// Kubernetes namespaces to meet your requirements.
   ///
@@ -508,7 +545,7 @@ class EmrContainers {
   }
 
   /// Displays detailed information about a specified virtual cluster. Virtual
-  /// cluster is a managed entity on Amazon EMR on EKS. You can create,
+  /// cluster is a managed entity on Amazon EMR on EKS. You can create, update,
   /// describe, list and delete virtual clusters. They do not consume any
   /// additional resource in your system. A single virtual cluster maps to a
   /// single Kubernetes namespace. Given this relationship, you can model
@@ -813,11 +850,12 @@ class EmrContainers {
   }
 
   /// Lists information about the specified virtual cluster. Virtual cluster is
-  /// a managed entity on Amazon EMR on EKS. You can create, describe, list and
-  /// delete virtual clusters. They do not consume any additional resource in
-  /// your system. A single virtual cluster maps to a single Kubernetes
-  /// namespace. Given this relationship, you can model virtual clusters the
-  /// same way you model Kubernetes namespaces to meet your requirements.
+  /// a managed entity on Amazon EMR on EKS. You can create, update, describe,
+  /// list and delete virtual clusters. They do not consume any additional
+  /// resource in your system. A single virtual cluster maps to a single
+  /// Kubernetes namespace. Given this relationship, you can model virtual
+  /// clusters the same way you model Kubernetes namespaces to meet your
+  /// requirements.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -1021,6 +1059,49 @@ class EmrContainers {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates a virtual cluster. Virtual cluster is a managed entity on Amazon
+  /// EMR on EKS. You can create, update, describe, list and delete virtual
+  /// clusters. They do not consume any additional resource in your system. A
+  /// single virtual cluster maps to a single Kubernetes namespace. Given this
+  /// relationship, you can model virtual clusters the same way you model
+  /// Kubernetes namespaces to meet your requirements.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the virtual cluster to update.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// operation completes no more than one time. If this token matches a
+  /// previous request, the service ignores the request, but does not return an
+  /// error.
+  ///
+  /// Parameter [schedulerConfiguration] :
+  /// The scheduler configuration to apply to the virtual cluster. The new
+  /// configuration fully replaces the existing one. If you omit a field, the
+  /// corresponding limit is removed.
+  Future<UpdateVirtualClusterResponse> updateVirtualCluster({
+    required String id,
+    String? clientToken,
+    SchedulerConfiguration? schedulerConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (schedulerConfiguration != null)
+        'schedulerConfiguration': schedulerConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/virtualclusters/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateVirtualClusterResponse.fromJson(response);
   }
 }
 
@@ -1272,6 +1353,30 @@ class DeleteManagedEndpointResponse {
 }
 
 /// @nodoc
+class DeleteSecurityConfigurationResponse {
+  /// The ID of the deleted security configuration.
+  final String? id;
+
+  DeleteSecurityConfigurationResponse({
+    this.id,
+  });
+
+  factory DeleteSecurityConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteSecurityConfigurationResponse(
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// @nodoc
 class DeleteVirtualClusterResponse {
   /// This output contains the ID of the virtual cluster that will be deleted.
   final String? id;
@@ -1428,6 +1533,9 @@ class GetManagedEndpointSessionCredentialsResponse {
   /// The structure containing the session credentials.
   final Credentials? credentials;
 
+  /// The session credentials that the operation returns.
+  final Credentials? endpointCredentials;
+
   /// The date and time when the session token will expire.
   final DateTime? expiresAt;
 
@@ -1436,6 +1544,7 @@ class GetManagedEndpointSessionCredentialsResponse {
 
   GetManagedEndpointSessionCredentialsResponse({
     this.credentials,
+    this.endpointCredentials,
     this.expiresAt,
     this.id,
   });
@@ -1446,6 +1555,10 @@ class GetManagedEndpointSessionCredentialsResponse {
       credentials: json['credentials'] != null
           ? Credentials.fromJson(json['credentials'] as Map<String, dynamic>)
           : null,
+      endpointCredentials: json['endpointCredentials'] != null
+          ? Credentials.fromJson(
+              json['endpointCredentials'] as Map<String, dynamic>)
+          : null,
       expiresAt: timeStampFromJson(json['expiresAt']),
       id: json['id'] as String?,
     );
@@ -1453,10 +1566,13 @@ class GetManagedEndpointSessionCredentialsResponse {
 
   Map<String, dynamic> toJson() {
     final credentials = this.credentials;
+    final endpointCredentials = this.endpointCredentials;
     final expiresAt = this.expiresAt;
     final id = this.id;
     return {
       if (credentials != null) 'credentials': credentials,
+      if (endpointCredentials != null)
+        'endpointCredentials': endpointCredentials,
       if (expiresAt != null) 'expiresAt': iso8601ToJson(expiresAt),
       if (id != null) 'id': id,
     };
@@ -1722,6 +1838,384 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Contains the virtual cluster returned after a successful update request.
+///
+/// @nodoc
+class UpdateVirtualClusterResponse {
+  /// The updated virtual cluster.
+  final VirtualCluster? virtualCluster;
+
+  UpdateVirtualClusterResponse({
+    this.virtualCluster,
+  });
+
+  factory UpdateVirtualClusterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVirtualClusterResponse(
+      virtualCluster: json['virtualCluster'] != null
+          ? VirtualCluster.fromJson(
+              json['virtualCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualCluster = this.virtualCluster;
+    return {
+      if (virtualCluster != null) 'virtualCluster': virtualCluster,
+    };
+  }
+}
+
+/// This entity describes a virtual cluster. A virtual cluster is a Kubernetes
+/// namespace that Amazon EMR is registered with. Amazon EMR uses virtual
+/// clusters to run jobs and host endpoints. Multiple virtual clusters can be
+/// backed by the same physical cluster. However, each virtual cluster maps to
+/// one namespace on an Amazon EKS cluster. Virtual clusters do not create any
+/// active resources that contribute to your bill or that require lifecycle
+/// management outside the service.
+///
+/// @nodoc
+class VirtualCluster {
+  /// The ARN of the virtual cluster.
+  final String? arn;
+
+  /// The container provider of the virtual cluster.
+  final ContainerProvider? containerProvider;
+
+  /// The date and time when the virtual cluster is created.
+  final DateTime? createdAt;
+
+  /// The ID of the virtual cluster.
+  final String? id;
+
+  /// The name of the virtual cluster.
+  final String? name;
+
+  /// The scheduler configuration (concurrency and queue limits) applied to the
+  /// virtual cluster. The service does not return this field when no scheduler
+  /// limits are configured.
+  final SchedulerConfiguration? schedulerConfiguration;
+
+  /// The current in-queue and concurrent job-run counts for the virtual cluster.
+  final SchedulerStatus? schedulerStatus;
+
+  /// The ID of the security configuration.
+  final String? securityConfigurationId;
+
+  /// Specifies whether the virtual cluster has session support enabled.
+  final bool? sessionEnabled;
+
+  /// The state of the virtual cluster.
+  final VirtualClusterState? state;
+
+  /// The assigned tags of the virtual cluster.
+  final Map<String, String>? tags;
+
+  VirtualCluster({
+    this.arn,
+    this.containerProvider,
+    this.createdAt,
+    this.id,
+    this.name,
+    this.schedulerConfiguration,
+    this.schedulerStatus,
+    this.securityConfigurationId,
+    this.sessionEnabled,
+    this.state,
+    this.tags,
+  });
+
+  factory VirtualCluster.fromJson(Map<String, dynamic> json) {
+    return VirtualCluster(
+      arn: json['arn'] as String?,
+      containerProvider: json['containerProvider'] != null
+          ? ContainerProvider.fromJson(
+              json['containerProvider'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      schedulerConfiguration: json['schedulerConfiguration'] != null
+          ? SchedulerConfiguration.fromJson(
+              json['schedulerConfiguration'] as Map<String, dynamic>)
+          : null,
+      schedulerStatus: json['schedulerStatus'] != null
+          ? SchedulerStatus.fromJson(
+              json['schedulerStatus'] as Map<String, dynamic>)
+          : null,
+      securityConfigurationId: json['securityConfigurationId'] as String?,
+      sessionEnabled: json['sessionEnabled'] as bool?,
+      state: (json['state'] as String?)?.let(VirtualClusterState.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final containerProvider = this.containerProvider;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final schedulerConfiguration = this.schedulerConfiguration;
+    final schedulerStatus = this.schedulerStatus;
+    final securityConfigurationId = this.securityConfigurationId;
+    final sessionEnabled = this.sessionEnabled;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (containerProvider != null) 'containerProvider': containerProvider,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (schedulerConfiguration != null)
+        'schedulerConfiguration': schedulerConfiguration,
+      if (schedulerStatus != null) 'schedulerStatus': schedulerStatus,
+      if (securityConfigurationId != null)
+        'securityConfigurationId': securityConfigurationId,
+      if (sessionEnabled != null) 'sessionEnabled': sessionEnabled,
+      if (state != null) 'state': state.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class VirtualClusterState {
+  static const running = VirtualClusterState._('RUNNING');
+  static const terminating = VirtualClusterState._('TERMINATING');
+  static const terminated = VirtualClusterState._('TERMINATED');
+  static const arrested = VirtualClusterState._('ARRESTED');
+
+  final String value;
+
+  const VirtualClusterState._(this.value);
+
+  static const values = [running, terminating, terminated, arrested];
+
+  static VirtualClusterState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualClusterState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The information about the container provider.
+///
+/// @nodoc
+class ContainerProvider {
+  /// The ID of the container cluster.
+  final String id;
+
+  /// The type of the container provider. Amazon EKS is the only supported type as
+  /// of now.
+  final ContainerProviderType type;
+
+  /// The information about the container cluster.
+  final ContainerInfo? info;
+
+  ContainerProvider({
+    required this.id,
+    required this.type,
+    this.info,
+  });
+
+  factory ContainerProvider.fromJson(Map<String, dynamic> json) {
+    return ContainerProvider(
+      id: (json['id'] as String?) ?? '',
+      type: ContainerProviderType.fromString((json['type'] as String?) ?? ''),
+      info: json['info'] != null
+          ? ContainerInfo.fromJson(json['info'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    final info = this.info;
+    return {
+      'id': id,
+      'type': type.value,
+      if (info != null) 'info': info,
+    };
+  }
+}
+
+/// The scheduler configuration for a virtual cluster on Amazon EMR on EKS. It
+/// controls how many job runs can run concurrently and how many can wait in the
+/// queue. When not set, no concurrency or queue limits are applied.
+///
+/// @nodoc
+class SchedulerConfiguration {
+  /// The maximum number of job runs that can be in the <code>RUNNING</code> state
+  /// at any time for the virtual cluster. As running slots free up, queued job
+  /// runs start automatically. If you omit this field, the service applies no
+  /// concurrency limit.
+  final int? maxConcurrentJobRuns;
+
+  /// The maximum number of job runs that can be in the <code>PENDING</code> or
+  /// <code>SUBMITTED</code> state at any time for the virtual cluster. When the
+  /// queue is full, the service rejects <code>StartJobRun</code> requests with a
+  /// <code>ValidationException</code>. If you omit this field, the service
+  /// applies no queue-depth limit.
+  final int? maxInQueueJobRuns;
+
+  SchedulerConfiguration({
+    this.maxConcurrentJobRuns,
+    this.maxInQueueJobRuns,
+  });
+
+  factory SchedulerConfiguration.fromJson(Map<String, dynamic> json) {
+    return SchedulerConfiguration(
+      maxConcurrentJobRuns: json['maxConcurrentJobRuns'] as int?,
+      maxInQueueJobRuns: json['maxInQueueJobRuns'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxConcurrentJobRuns = this.maxConcurrentJobRuns;
+    final maxInQueueJobRuns = this.maxInQueueJobRuns;
+    return {
+      if (maxConcurrentJobRuns != null)
+        'maxConcurrentJobRuns': maxConcurrentJobRuns,
+      if (maxInQueueJobRuns != null) 'maxInQueueJobRuns': maxInQueueJobRuns,
+    };
+  }
+}
+
+/// The current job-run counts for a virtual cluster, reflecting how much of the
+/// configured scheduler capacity is in use.
+///
+/// @nodoc
+class SchedulerStatus {
+  /// The number of job runs currently in the <code>RUNNING</code> state for the
+  /// virtual cluster.
+  final int? currentConcurrentJobRuns;
+
+  /// The number of job runs currently waiting in the queue (<code>PENDING</code>
+  /// or <code>SUBMITTED</code>) for the virtual cluster.
+  final int? currentInQueueJobRuns;
+
+  SchedulerStatus({
+    this.currentConcurrentJobRuns,
+    this.currentInQueueJobRuns,
+  });
+
+  factory SchedulerStatus.fromJson(Map<String, dynamic> json) {
+    return SchedulerStatus(
+      currentConcurrentJobRuns: json['currentConcurrentJobRuns'] as int?,
+      currentInQueueJobRuns: json['currentInQueueJobRuns'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentConcurrentJobRuns = this.currentConcurrentJobRuns;
+    final currentInQueueJobRuns = this.currentInQueueJobRuns;
+    return {
+      if (currentConcurrentJobRuns != null)
+        'currentConcurrentJobRuns': currentConcurrentJobRuns,
+      if (currentInQueueJobRuns != null)
+        'currentInQueueJobRuns': currentInQueueJobRuns,
+    };
+  }
+}
+
+/// @nodoc
+class ContainerProviderType {
+  static const eks = ContainerProviderType._('EKS');
+
+  final String value;
+
+  const ContainerProviderType._(this.value);
+
+  static const values = [eks];
+
+  static ContainerProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The information about the container used for a job run or a managed
+/// endpoint.
+///
+/// @nodoc
+class ContainerInfo {
+  /// The information about the Amazon EKS cluster.
+  final EksInfo? eksInfo;
+
+  ContainerInfo({
+    this.eksInfo,
+  });
+
+  factory ContainerInfo.fromJson(Map<String, dynamic> json) {
+    return ContainerInfo(
+      eksInfo: json['eksInfo'] != null
+          ? EksInfo.fromJson(json['eksInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eksInfo = this.eksInfo;
+    return {
+      if (eksInfo != null) 'eksInfo': eksInfo,
+    };
+  }
+}
+
+/// The information about the Amazon EKS cluster.
+///
+/// @nodoc
+class EksInfo {
+  /// The namespaces of the Amazon EKS cluster.
+  final String? namespace;
+
+  /// The nodeLabel of the nodes where the resources of this virtual cluster can
+  /// get scheduled. It requires relevant scaling and policy engine addons.
+  final String? nodeLabel;
+
+  EksInfo({
+    this.namespace,
+    this.nodeLabel,
+  });
+
+  factory EksInfo.fromJson(Map<String, dynamic> json) {
+    return EksInfo(
+      namespace: json['namespace'] as String?,
+      nodeLabel: json['nodeLabel'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    final nodeLabel = this.nodeLabel;
+    return {
+      if (namespace != null) 'namespace': namespace,
+      if (nodeLabel != null) 'nodeLabel': nodeLabel,
+    };
   }
 }
 
@@ -2007,20 +2501,27 @@ class S3MonitoringConfiguration {
   /// Amazon S3 destination URI for log publishing.
   final String logUri;
 
+  /// The Amazon Resource Name (ARN) of the encryption key for logs.
+  final String? encryptionKeyArn;
+
   S3MonitoringConfiguration({
     required this.logUri,
+    this.encryptionKeyArn,
   });
 
   factory S3MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
     return S3MonitoringConfiguration(
       logUri: (json['logUri'] as String?) ?? '',
+      encryptionKeyArn: json['encryptionKeyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final logUri = this.logUri;
+    final encryptionKeyArn = this.encryptionKeyArn;
     return {
       'logUri': logUri,
+      if (encryptionKeyArn != null) 'encryptionKeyArn': encryptionKeyArn,
     };
   }
 }
@@ -2208,247 +2709,6 @@ class SparkSqlJobDriver {
   }
 }
 
-/// This entity describes a virtual cluster. A virtual cluster is a Kubernetes
-/// namespace that Amazon EMR is registered with. Amazon EMR uses virtual
-/// clusters to run jobs and host endpoints. Multiple virtual clusters can be
-/// backed by the same physical cluster. However, each virtual cluster maps to
-/// one namespace on an Amazon EKS cluster. Virtual clusters do not create any
-/// active resources that contribute to your bill or that require lifecycle
-/// management outside the service.
-///
-/// @nodoc
-class VirtualCluster {
-  /// The ARN of the virtual cluster.
-  final String? arn;
-
-  /// The container provider of the virtual cluster.
-  final ContainerProvider? containerProvider;
-
-  /// The date and time when the virtual cluster is created.
-  final DateTime? createdAt;
-
-  /// The ID of the virtual cluster.
-  final String? id;
-
-  /// The name of the virtual cluster.
-  final String? name;
-
-  /// The ID of the security configuration.
-  final String? securityConfigurationId;
-
-  /// The state of the virtual cluster.
-  final VirtualClusterState? state;
-
-  /// The assigned tags of the virtual cluster.
-  final Map<String, String>? tags;
-
-  VirtualCluster({
-    this.arn,
-    this.containerProvider,
-    this.createdAt,
-    this.id,
-    this.name,
-    this.securityConfigurationId,
-    this.state,
-    this.tags,
-  });
-
-  factory VirtualCluster.fromJson(Map<String, dynamic> json) {
-    return VirtualCluster(
-      arn: json['arn'] as String?,
-      containerProvider: json['containerProvider'] != null
-          ? ContainerProvider.fromJson(
-              json['containerProvider'] as Map<String, dynamic>)
-          : null,
-      createdAt: timeStampFromJson(json['createdAt']),
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      securityConfigurationId: json['securityConfigurationId'] as String?,
-      state: (json['state'] as String?)?.let(VirtualClusterState.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final containerProvider = this.containerProvider;
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final name = this.name;
-    final securityConfigurationId = this.securityConfigurationId;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (containerProvider != null) 'containerProvider': containerProvider,
-      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (securityConfigurationId != null)
-        'securityConfigurationId': securityConfigurationId,
-      if (state != null) 'state': state.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// @nodoc
-class VirtualClusterState {
-  static const running = VirtualClusterState._('RUNNING');
-  static const terminating = VirtualClusterState._('TERMINATING');
-  static const terminated = VirtualClusterState._('TERMINATED');
-  static const arrested = VirtualClusterState._('ARRESTED');
-
-  final String value;
-
-  const VirtualClusterState._(this.value);
-
-  static const values = [running, terminating, terminated, arrested];
-
-  static VirtualClusterState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VirtualClusterState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VirtualClusterState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The information about the container provider.
-///
-/// @nodoc
-class ContainerProvider {
-  /// The ID of the container cluster.
-  final String id;
-
-  /// The type of the container provider. Amazon EKS is the only supported type as
-  /// of now.
-  final ContainerProviderType type;
-
-  /// The information about the container cluster.
-  final ContainerInfo? info;
-
-  ContainerProvider({
-    required this.id,
-    required this.type,
-    this.info,
-  });
-
-  factory ContainerProvider.fromJson(Map<String, dynamic> json) {
-    return ContainerProvider(
-      id: (json['id'] as String?) ?? '',
-      type: ContainerProviderType.fromString((json['type'] as String?) ?? ''),
-      info: json['info'] != null
-          ? ContainerInfo.fromJson(json['info'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final type = this.type;
-    final info = this.info;
-    return {
-      'id': id,
-      'type': type.value,
-      if (info != null) 'info': info,
-    };
-  }
-}
-
-/// @nodoc
-class ContainerProviderType {
-  static const eks = ContainerProviderType._('EKS');
-
-  final String value;
-
-  const ContainerProviderType._(this.value);
-
-  static const values = [eks];
-
-  static ContainerProviderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContainerProviderType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContainerProviderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The information about the container used for a job run or a managed
-/// endpoint.
-///
-/// @nodoc
-class ContainerInfo {
-  /// The information about the Amazon EKS cluster.
-  final EksInfo? eksInfo;
-
-  ContainerInfo({
-    this.eksInfo,
-  });
-
-  factory ContainerInfo.fromJson(Map<String, dynamic> json) {
-    return ContainerInfo(
-      eksInfo: json['eksInfo'] != null
-          ? EksInfo.fromJson(json['eksInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eksInfo = this.eksInfo;
-    return {
-      if (eksInfo != null) 'eksInfo': eksInfo,
-    };
-  }
-}
-
-/// The information about the Amazon EKS cluster.
-///
-/// @nodoc
-class EksInfo {
-  /// The namespaces of the Amazon EKS cluster.
-  final String? namespace;
-
-  /// The nodeLabel of the nodes where the resources of this virtual cluster can
-  /// get scheduled. It requires relevant scaling and policy engine addons.
-  final String? nodeLabel;
-
-  EksInfo({
-    this.namespace,
-    this.nodeLabel,
-  });
-
-  factory EksInfo.fromJson(Map<String, dynamic> json) {
-    return EksInfo(
-      namespace: json['namespace'] as String?,
-      nodeLabel: json['nodeLabel'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final namespace = this.namespace;
-    final nodeLabel = this.nodeLabel;
-    return {
-      if (namespace != null) 'namespace': namespace,
-      if (nodeLabel != null) 'nodeLabel': nodeLabel,
-    };
-  }
-}
-
 /// Inputs related to the security configuration. Security configurations in
 /// Amazon EMR on EKS are templates for different security setups. You can use
 /// security configurations to configure the Lake Formation integration setup.
@@ -2529,15 +2789,23 @@ class SecurityConfiguration {
 ///
 /// @nodoc
 class SecurityConfigurationData {
+  /// Authentication-related configuration input for the security configuration.
+  final AuthenticationConfiguration? authenticationConfiguration;
+
   /// Authorization-related configuration input for the security configuration.
   final AuthorizationConfiguration? authorizationConfiguration;
 
   SecurityConfigurationData({
+    this.authenticationConfiguration,
     this.authorizationConfiguration,
   });
 
   factory SecurityConfigurationData.fromJson(Map<String, dynamic> json) {
     return SecurityConfigurationData(
+      authenticationConfiguration: json['authenticationConfiguration'] != null
+          ? AuthenticationConfiguration.fromJson(
+              json['authenticationConfiguration'] as Map<String, dynamic>)
+          : null,
       authorizationConfiguration: json['authorizationConfiguration'] != null
           ? AuthorizationConfiguration.fromJson(
               json['authorizationConfiguration'] as Map<String, dynamic>)
@@ -2546,8 +2814,11 @@ class SecurityConfigurationData {
   }
 
   Map<String, dynamic> toJson() {
+    final authenticationConfiguration = this.authenticationConfiguration;
     final authorizationConfiguration = this.authorizationConfiguration;
     return {
+      if (authenticationConfiguration != null)
+        'authenticationConfiguration': authenticationConfiguration,
       if (authorizationConfiguration != null)
         'authorizationConfiguration': authorizationConfiguration,
     };
@@ -2590,6 +2861,132 @@ class AuthorizationConfiguration {
         'encryptionConfiguration': encryptionConfiguration,
       if (lakeFormationConfiguration != null)
         'lakeFormationConfiguration': lakeFormationConfiguration,
+    };
+  }
+}
+
+/// Contains the authentication settings for a security configuration, including
+/// Identity Center and IAM configuration options.
+///
+/// @nodoc
+class AuthenticationConfiguration {
+  /// The IAM configuration to use for authentication.
+  final IAMConfiguration? iamConfiguration;
+
+  /// The IAM Identity Center configuration to use for authentication.
+  final IdentityCenterConfiguration? identityCenterConfiguration;
+
+  AuthenticationConfiguration({
+    this.iamConfiguration,
+    this.identityCenterConfiguration,
+  });
+
+  factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuthenticationConfiguration(
+      iamConfiguration: json['iamConfiguration'] != null
+          ? IAMConfiguration.fromJson(
+              json['iamConfiguration'] as Map<String, dynamic>)
+          : null,
+      identityCenterConfiguration: json['identityCenterConfiguration'] != null
+          ? IdentityCenterConfiguration.fromJson(
+              json['identityCenterConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iamConfiguration = this.iamConfiguration;
+    final identityCenterConfiguration = this.identityCenterConfiguration;
+    return {
+      if (iamConfiguration != null) 'iamConfiguration': iamConfiguration,
+      if (identityCenterConfiguration != null)
+        'identityCenterConfiguration': identityCenterConfiguration,
+    };
+  }
+}
+
+/// Contains the IAM Identity Center settings for a security configuration,
+/// including instance ARN, application assignment requirements, and application
+/// ARN.
+///
+/// @nodoc
+class IdentityCenterConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon EMR Identity Center
+  /// application.
+  final String? emrIdentityCenterApplicationARN;
+
+  /// Specifies whether Identity Center is enabled for the security configuration.
+  final bool? enableIdentityCenter;
+
+  /// Specifies whether user assignment is required for the Identity Center
+  /// application.
+  final bool? identityCenterApplicationAssignmentRequired;
+
+  /// The Amazon Resource Name (ARN) of the Identity Center instance.
+  final String? identityCenterInstanceARN;
+
+  IdentityCenterConfiguration({
+    this.emrIdentityCenterApplicationARN,
+    this.enableIdentityCenter,
+    this.identityCenterApplicationAssignmentRequired,
+    this.identityCenterInstanceARN,
+  });
+
+  factory IdentityCenterConfiguration.fromJson(Map<String, dynamic> json) {
+    return IdentityCenterConfiguration(
+      emrIdentityCenterApplicationARN:
+          json['emrIdentityCenterApplicationARN'] as String?,
+      enableIdentityCenter: json['enableIdentityCenter'] as bool?,
+      identityCenterApplicationAssignmentRequired:
+          json['identityCenterApplicationAssignmentRequired'] as bool?,
+      identityCenterInstanceARN: json['identityCenterInstanceARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emrIdentityCenterApplicationARN =
+        this.emrIdentityCenterApplicationARN;
+    final enableIdentityCenter = this.enableIdentityCenter;
+    final identityCenterApplicationAssignmentRequired =
+        this.identityCenterApplicationAssignmentRequired;
+    final identityCenterInstanceARN = this.identityCenterInstanceARN;
+    return {
+      if (emrIdentityCenterApplicationARN != null)
+        'emrIdentityCenterApplicationARN': emrIdentityCenterApplicationARN,
+      if (enableIdentityCenter != null)
+        'enableIdentityCenter': enableIdentityCenter,
+      if (identityCenterApplicationAssignmentRequired != null)
+        'identityCenterApplicationAssignmentRequired':
+            identityCenterApplicationAssignmentRequired,
+      if (identityCenterInstanceARN != null)
+        'identityCenterInstanceARN': identityCenterInstanceARN,
+    };
+  }
+}
+
+/// Contains the IAM settings for a security configuration, including the system
+/// role used for authentication.
+///
+/// @nodoc
+class IAMConfiguration {
+  /// The Amazon Resource Name (ARN) of the system role used by the security
+  /// configuration.
+  final String? systemRole;
+
+  IAMConfiguration({
+    this.systemRole,
+  });
+
+  factory IAMConfiguration.fromJson(Map<String, dynamic> json) {
+    return IAMConfiguration(
+      systemRole: json['systemRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final systemRole = this.systemRole;
+    return {
+      if (systemRole != null) 'systemRole': systemRole,
     };
   }
 }
@@ -2815,6 +3212,9 @@ class Endpoint {
   /// The ARN of the endpoint.
   final String? arn;
 
+  /// The authentication proxy URL of the endpoint.
+  final String? authProxyUrl;
+
   /// The certificate ARN of the endpoint. This field is under deprecation and
   /// will be removed in future.
   final String? certificateArn;
@@ -2871,6 +3271,7 @@ class Endpoint {
 
   Endpoint({
     this.arn,
+    this.authProxyUrl,
     this.certificateArn,
     this.certificateAuthority,
     this.configurationOverrides,
@@ -2893,6 +3294,7 @@ class Endpoint {
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
       arn: json['arn'] as String?,
+      authProxyUrl: json['authProxyUrl'] as String?,
       certificateArn: json['certificateArn'] as String?,
       certificateAuthority: json['certificateAuthority'] != null
           ? Certificate.fromJson(
@@ -2926,6 +3328,7 @@ class Endpoint {
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final authProxyUrl = this.authProxyUrl;
     final certificateArn = this.certificateArn;
     final certificateAuthority = this.certificateAuthority;
     final configurationOverrides = this.configurationOverrides;
@@ -2945,6 +3348,7 @@ class Endpoint {
     final virtualClusterId = this.virtualClusterId;
     return {
       if (arn != null) 'arn': arn,
+      if (authProxyUrl != null) 'authProxyUrl': authProxyUrl,
       if (certificateArn != null) 'certificateArn': certificateArn,
       if (certificateAuthority != null)
         'certificateAuthority': certificateAuthority,

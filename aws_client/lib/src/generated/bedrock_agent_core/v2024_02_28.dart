@@ -456,6 +456,7 @@ class BedrockAgentCore {
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [RuntimeClientError].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -477,6 +478,10 @@ class BedrockAgentCore {
   /// The tools that the agent is allowed to use for this invocation. If
   /// specified, overrides the harness default.
   ///
+  /// Parameter [baggage] :
+  /// W3C Baggage header for user-defined context propagation. Format:
+  /// key1=value1,key2=value2
+  ///
   /// Parameter [maxIterations] :
   /// The maximum number of iterations the agent loop can execute. If specified,
   /// overrides the harness default.
@@ -488,6 +493,9 @@ class BedrockAgentCore {
   /// Parameter [model] :
   /// The model configuration to use for this invocation. If specified,
   /// overrides the harness default.
+  ///
+  /// Parameter [qualifier] :
+  /// The endpoint name to invoke. If omitted, the DEFAULT endpoint is used.
   ///
   /// Parameter [runtimeUserId] :
   /// An identifier for the end user making the request. This value is passed
@@ -508,29 +516,49 @@ class BedrockAgentCore {
   /// Parameter [tools] :
   /// The tools available to the agent for this invocation. If specified,
   /// overrides the harness default.
+  ///
+  /// Parameter [traceId] :
+  /// Trace ID for maintaining observability through the operation.
+  ///
+  /// Parameter [traceParent] :
+  /// W3C trace context parent header containing version, trace ID, parent span
+  /// ID, and trace flags.
+  ///
+  /// Parameter [traceState] :
+  /// W3C trace context state header for vendor-specific trace information.
   Future<InvokeHarnessResponse> invokeHarness({
     required String harnessArn,
     required List<HarnessMessage> messages,
     required String runtimeSessionId,
     String? actorId,
     List<String>? allowedTools,
+    String? baggage,
     int? maxIterations,
     int? maxTokens,
     HarnessModelConfiguration? model,
+    String? qualifier,
     String? runtimeUserId,
     List<HarnessSkill>? skills,
     List<HarnessSystemContentBlock>? systemPrompt,
     int? timeoutSeconds,
     List<HarnessTool>? tools,
+    String? traceId,
+    String? traceParent,
+    String? traceState,
   }) async {
     final headers = <String, String>{
       'X-Amzn-Bedrock-AgentCore-Runtime-Session-Id':
           runtimeSessionId.toString(),
+      if (baggage != null) 'baggage': baggage.toString(),
       if (runtimeUserId != null)
         'X-Amzn-Bedrock-AgentCore-Runtime-User-Id': runtimeUserId.toString(),
+      if (traceId != null) 'X-Amzn-Trace-Id': traceId.toString(),
+      if (traceParent != null) 'traceparent': traceParent.toString(),
+      if (traceState != null) 'tracestate': traceState.toString(),
     };
     final $query = <String, List<String>>{
       'harnessArn': [harnessArn],
+      if (qualifier != null) 'qualifier': [qualifier],
     };
     final $payload = <String, dynamic>{
       'messages': messages,
@@ -563,6 +591,7 @@ class BedrockAgentCore {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [RuntimeClientError].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
@@ -681,6 +710,26 @@ class BedrockAgentCore {
   /// runtime how to interpret the payload data. Common values include
   /// application/json for JSON data.
   ///
+  /// Parameter [mcpMethod] :
+  /// The MCP method being invoked. For example, <code>tools/call</code>,
+  /// <code>resources/read</code>, or <code>prompts/get</code>.
+  ///
+  /// Parameter [mcpName] :
+  /// The name of the MCP resource, tool, or prompt being accessed. The value
+  /// depends on the method:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tools/call</code> – The tool name.
+  /// </li>
+  /// <li>
+  /// <code>resources/read</code> – The resource URI.
+  /// </li>
+  /// <li>
+  /// <code>prompts/get</code> – The prompt name.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [mcpProtocolVersion] :
   /// The version of the MCP protocol being used.
   ///
@@ -713,6 +762,8 @@ class BedrockAgentCore {
     String? accountId,
     String? baggage,
     String? contentType,
+    String? mcpMethod,
+    String? mcpName,
     String? mcpProtocolVersion,
     String? mcpSessionId,
     String? qualifier,
@@ -726,6 +777,8 @@ class BedrockAgentCore {
       if (accept != null) 'Accept': accept.toString(),
       if (baggage != null) 'baggage': baggage.toString(),
       if (contentType != null) 'Content-Type': contentType.toString(),
+      if (mcpMethod != null) 'Mcp-Method': mcpMethod.toString(),
+      if (mcpName != null) 'Mcp-Name': mcpName.toString(),
       if (mcpProtocolVersion != null)
         'Mcp-Protocol-Version': mcpProtocolVersion.toString(),
       if (mcpSessionId != null) 'Mcp-Session-Id': mcpSessionId.toString(),
@@ -786,6 +839,7 @@ class BedrockAgentCore {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [RuntimeClientError].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
@@ -1308,6 +1362,13 @@ class BedrockAgentCore {
   /// Parameter [extensions] :
   /// A list of browser extensions to load into the browser session.
   ///
+  /// Parameter [filesystemConfigurations] :
+  /// The file system configurations to mount into the browser session. Use
+  /// these configurations to mount your own Amazon Simple Storage Service
+  /// (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access
+  /// points. Your session can then read and write your data. If you don't
+  /// specify this field, no additional file systems are mounted.
+  ///
   /// Parameter [name] :
   /// The name of the browser session. This name helps you identify and manage
   /// the session. The name does not need to be unique.
@@ -1349,6 +1410,7 @@ class BedrockAgentCore {
     String? clientToken,
     List<BrowserEnterprisePolicy>? enterprisePolicies,
     List<BrowserExtension>? extensions,
+    List<ToolsFileSystemConfiguration>? filesystemConfigurations,
     String? name,
     BrowserProfileConfiguration? profileConfiguration,
     ProxyConfiguration? proxyConfiguration,
@@ -1372,6 +1434,8 @@ class BedrockAgentCore {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (enterprisePolicies != null) 'enterprisePolicies': enterprisePolicies,
       if (extensions != null) 'extensions': extensions,
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
       if (name != null) 'name': name,
       if (profileConfiguration != null)
         'profileConfiguration': profileConfiguration,
@@ -1512,6 +1576,37 @@ class BedrockAgentCore {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBrowserStreamResponse.fromJson(response);
+  }
+
+  /// Deletes a session associated with a capacity provider in Amazon Bedrock
+  /// AgentCore and makes the session unavailable for further use. To delete a
+  /// capacity provider session, specify both the capacity provider identifier
+  /// and the session ID. After you delete a session, you cannot restart it.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [capacityProviderId] :
+  /// The unique identifier of the capacity provider associated with the
+  /// session.
+  ///
+  /// Parameter [sessionId] :
+  /// The unique identifier of the capacity provider session to delete.
+  Future<DeleteCapacityProviderSessionResponse> deleteCapacityProviderSession({
+    required String capacityProviderId,
+    required String sessionId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/capacity-providers/${Uri.encodeComponent(capacityProviderId)}/sessions/${Uri.encodeComponent(sessionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteCapacityProviderSessionResponse.fromJson(response);
   }
 
   /// Retrieves detailed information about a specific code interpreter session
@@ -1698,6 +1793,13 @@ class BedrockAgentCore {
   /// error. This parameter helps prevent the creation of duplicate sessions if
   /// there are temporary network issues.
   ///
+  /// Parameter [filesystemConfigurations] :
+  /// The file system configurations to mount into the code interpreter session.
+  /// Use these configurations to mount your own Amazon Simple Storage Service
+  /// (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access
+  /// points. Your session can then read and write your data. If you don't
+  /// specify this field, no additional file systems are mounted.
+  ///
   /// Parameter [name] :
   /// The name of the code interpreter session. This name helps you identify and
   /// manage the session. The name does not need to be unique.
@@ -1717,6 +1819,7 @@ class BedrockAgentCore {
     required String codeInterpreterIdentifier,
     List<Certificate>? certificates,
     String? clientToken,
+    List<ToolsFileSystemConfiguration>? filesystemConfigurations,
     String? name,
     int? sessionTimeoutSeconds,
     String? traceId,
@@ -1735,6 +1838,8 @@ class BedrockAgentCore {
     final $payload = <String, dynamic>{
       if (certificates != null) 'certificates': certificates,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
       if (name != null) 'name': name,
       if (sessionTimeoutSeconds != null)
         'sessionTimeoutSeconds': sessionTimeoutSeconds,
@@ -1875,6 +1980,9 @@ class BedrockAgentCore {
   /// Parameter [gatewayFilter] :
   /// Optional filter to restrict which gateway target paths are included in the
   /// A/B test.
+  ///
+  /// Parameter [tags] :
+  /// A map of tag keys and values to associate with the A/B test.
   Future<CreateABTestResponse> createABTest({
     required ABTestEvaluationConfig evaluationConfig,
     required String gatewayArn,
@@ -1885,6 +1993,7 @@ class BedrockAgentCore {
     String? description,
     bool? enableOnCreate,
     GatewayFilter? gatewayFilter,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'evaluationConfig': evaluationConfig,
@@ -1896,6 +2005,7 @@ class BedrockAgentCore {
       if (description != null) 'description': description,
       if (enableOnCreate != null) 'enableOnCreate': enableOnCreate,
       if (gatewayFilter != null) 'gatewayFilter': gatewayFilter,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2262,6 +2372,17 @@ class BedrockAgentCore {
   /// Parameter [evaluators] :
   /// The list of evaluators to apply during the batch evaluation. Can include
   /// both built-in evaluators and custom evaluators. Maximum of 10 evaluators.
+  ///
+  /// Parameter [insights] :
+  /// The list of insight analyses to run against sessions during the batch
+  /// evaluation. Maximum of 10 insights.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The ARN of the KMS key used to encrypt evaluation data. If provided,
+  /// customer data is encrypted at rest with the specified key.
+  ///
+  /// Parameter [tags] :
+  /// A map of tag keys and values to associate with the batch evaluation.
   Future<StartBatchEvaluationResponse> startBatchEvaluation({
     required String batchEvaluationName,
     required DataSourceConfig dataSourceConfig,
@@ -2269,6 +2390,9 @@ class BedrockAgentCore {
     String? description,
     EvaluationMetadata? evaluationMetadata,
     List<Evaluator>? evaluators,
+    List<Insight>? insights,
+    String? kmsKeyArn,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'batchEvaluationName': batchEvaluationName,
@@ -2277,6 +2401,9 @@ class BedrockAgentCore {
       if (description != null) 'description': description,
       if (evaluationMetadata != null) 'evaluationMetadata': evaluationMetadata,
       if (evaluators != null) 'evaluators': evaluators,
+      if (insights != null) 'insights': insights,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2318,12 +2445,21 @@ class BedrockAgentCore {
   ///
   /// Parameter [description] :
   /// The description of the recommendation.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The ARN of the KMS key used to encrypt recommendation data. If provided,
+  /// customer data is encrypted at rest with the specified key.
+  ///
+  /// Parameter [tags] :
+  /// A map of tag keys and values to associate with the recommendation.
   Future<StartRecommendationResponse> startRecommendation({
     required String name,
     required RecommendationConfig recommendationConfig,
     required RecommendationType type,
     String? clientToken,
     String? description,
+    String? kmsKeyArn,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
@@ -2331,6 +2467,8 @@ class BedrockAgentCore {
       'type': type.value,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2585,6 +2723,12 @@ class BedrockAgentCore {
   /// no more than one time. If this token matches a previous request, AgentCore
   /// ignores the request, but does not return an error.
   ///
+  /// Parameter [extractionMode] :
+  /// Controls long-term memory extraction for this event. When set to
+  /// <code>SKIP</code>, the event is stored in short-term memory but is
+  /// excluded from long-term memory extraction. If not specified, the event is
+  /// processed for extraction as usual.
+  ///
   /// Parameter [metadata] :
   /// The key-value metadata to attach to the event.
   ///
@@ -2598,6 +2742,7 @@ class BedrockAgentCore {
     required List<PayloadType> payload,
     Branch? branch,
     String? clientToken,
+    ExtractionMode? extractionMode,
     Map<String, MetadataValue>? metadata,
     String? sessionId,
   }) async {
@@ -2607,6 +2752,7 @@ class BedrockAgentCore {
       'payload': payload,
       if (branch != null) 'branch': branch,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (extractionMode != null) 'extractionMode': extractionMode.value,
       if (metadata != null) 'metadata': metadata,
       if (sessionId != null) 'sessionId': sessionId,
     };
@@ -4463,6 +4609,10 @@ class GetBrowserSessionResponse {
   /// The list of browser extensions that are configured in the browser session.
   final List<BrowserExtension>? extensions;
 
+  /// The file system configurations for the browser session. Each entry describes
+  /// an access point and its mount path.
+  final List<ToolsFileSystemConfiguration>? filesystemConfigurations;
+
   /// The time at which the browser session was last updated.
   final DateTime? lastUpdatedAt;
 
@@ -4502,6 +4652,7 @@ class GetBrowserSessionResponse {
     this.certificates,
     this.enterprisePolicies,
     this.extensions,
+    this.filesystemConfigurations,
     this.lastUpdatedAt,
     this.name,
     this.profileConfiguration,
@@ -4530,6 +4681,11 @@ class GetBrowserSessionResponse {
       extensions: (json['extensions'] as List?)
           ?.nonNulls
           .map((e) => BrowserExtension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      filesystemConfigurations: (json['filesystemConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ToolsFileSystemConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       name: json['name'] as String?,
@@ -4561,6 +4717,7 @@ class GetBrowserSessionResponse {
     final certificates = this.certificates;
     final enterprisePolicies = this.enterprisePolicies;
     final extensions = this.extensions;
+    final filesystemConfigurations = this.filesystemConfigurations;
     final lastUpdatedAt = this.lastUpdatedAt;
     final name = this.name;
     final profileConfiguration = this.profileConfiguration;
@@ -4577,6 +4734,8 @@ class GetBrowserSessionResponse {
       if (certificates != null) 'certificates': certificates,
       if (enterprisePolicies != null) 'enterprisePolicies': enterprisePolicies,
       if (extensions != null) 'extensions': extensions,
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       if (name != null) 'name': name,
       if (profileConfiguration != null)
@@ -4783,6 +4942,48 @@ class UpdateBrowserStreamResponse {
 }
 
 /// @nodoc
+class DeleteCapacityProviderSessionResponse {
+  /// The Amazon Resource Name (ARN) of the capacity provider associated with the
+  /// deleted session.
+  final String capacityProviderArn;
+
+  /// The unique identifier of the deleted capacity provider session.
+  final String sessionId;
+
+  /// The current status of the capacity provider session. When the status is
+  /// <code>Deleting</code>, the session is being deleted and is not available.
+  /// When the status is <code>Deleted</code>, the session is no longer available.
+  final CapacityProviderSessionStatus status;
+
+  DeleteCapacityProviderSessionResponse({
+    required this.capacityProviderArn,
+    required this.sessionId,
+    required this.status,
+  });
+
+  factory DeleteCapacityProviderSessionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteCapacityProviderSessionResponse(
+      capacityProviderArn: (json['capacityProviderArn'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
+      status: CapacityProviderSessionStatus.fromString(
+          (json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderArn = this.capacityProviderArn;
+    final sessionId = this.sessionId;
+    final status = this.status;
+    return {
+      'capacityProviderArn': capacityProviderArn,
+      'sessionId': sessionId,
+      'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
 class GetCodeInterpreterSessionResponse {
   /// The identifier of the code interpreter.
   final String codeInterpreterIdentifier;
@@ -4795,6 +4996,10 @@ class GetCodeInterpreterSessionResponse {
 
   /// The list of certificates installed in the code interpreter session.
   final List<Certificate>? certificates;
+
+  /// The file system configurations for the code interpreter session. Each entry
+  /// describes an access point and its mount path.
+  final List<ToolsFileSystemConfiguration>? filesystemConfigurations;
 
   /// The name of the code interpreter session.
   final String? name;
@@ -4811,6 +5016,7 @@ class GetCodeInterpreterSessionResponse {
     required this.createdAt,
     required this.sessionId,
     this.certificates,
+    this.filesystemConfigurations,
     this.name,
     this.sessionTimeoutSeconds,
     this.status,
@@ -4827,6 +5033,11 @@ class GetCodeInterpreterSessionResponse {
           ?.nonNulls
           .map((e) => Certificate.fromJson(e as Map<String, dynamic>))
           .toList(),
+      filesystemConfigurations: (json['filesystemConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ToolsFileSystemConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       name: json['name'] as String?,
       sessionTimeoutSeconds: json['sessionTimeoutSeconds'] as int?,
       status: (json['status'] as String?)
@@ -4839,6 +5050,7 @@ class GetCodeInterpreterSessionResponse {
     final createdAt = this.createdAt;
     final sessionId = this.sessionId;
     final certificates = this.certificates;
+    final filesystemConfigurations = this.filesystemConfigurations;
     final name = this.name;
     final sessionTimeoutSeconds = this.sessionTimeoutSeconds;
     final status = this.status;
@@ -4847,6 +5059,8 @@ class GetCodeInterpreterSessionResponse {
       'createdAt': iso8601ToJson(createdAt),
       'sessionId': sessionId,
       if (certificates != null) 'certificates': certificates,
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
       if (name != null) 'name': name,
       if (sessionTimeoutSeconds != null)
         'sessionTimeoutSeconds': sessionTimeoutSeconds,
@@ -5362,11 +5576,29 @@ class GetBatchEvaluationResponse {
   /// The list of evaluators applied during the batch evaluation.
   final List<Evaluator>? evaluators;
 
+  /// The execution summary clustering results from insights, containing grouped
+  /// execution patterns across evaluated sessions.
+  final ExecutionSummaryClusteringResultContent? executionSummaryResult;
+
+  /// The failure analysis results from insights, containing categorized failure
+  /// clusters with root causes and recommendations.
+  final FailureAnalysisResultContent? failureAnalysisResult;
+
+  /// The list of insight analyses applied during the batch evaluation.
+  final List<Insight>? insights;
+
+  /// The ARN of the KMS key used to encrypt evaluation data.
+  final String? kmsKeyArn;
+
   /// The output configuration specifying where evaluation results are written.
   final OutputConfig? outputConfig;
 
   /// The timestamp when the batch evaluation was last updated.
   final DateTime? updatedAt;
+
+  /// The user intent clustering results from insights, containing grouped user
+  /// intents across evaluated sessions.
+  final UserIntentClusteringResultContent? userIntentResult;
 
   GetBatchEvaluationResponse({
     required this.batchEvaluationArn,
@@ -5379,8 +5611,13 @@ class GetBatchEvaluationResponse {
     this.errorDetails,
     this.evaluationResults,
     this.evaluators,
+    this.executionSummaryResult,
+    this.failureAnalysisResult,
+    this.insights,
+    this.kmsKeyArn,
     this.outputConfig,
     this.updatedAt,
+    this.userIntentResult,
   });
 
   factory GetBatchEvaluationResponse.fromJson(Map<String, dynamic> json) {
@@ -5408,10 +5645,27 @@ class GetBatchEvaluationResponse {
           ?.nonNulls
           .map((e) => Evaluator.fromJson(e as Map<String, dynamic>))
           .toList(),
+      executionSummaryResult: json['executionSummaryResult'] != null
+          ? ExecutionSummaryClusteringResultContent.fromJson(
+              json['executionSummaryResult'] as Map<String, dynamic>)
+          : null,
+      failureAnalysisResult: json['failureAnalysisResult'] != null
+          ? FailureAnalysisResultContent.fromJson(
+              json['failureAnalysisResult'] as Map<String, dynamic>)
+          : null,
+      insights: (json['insights'] as List?)
+          ?.nonNulls
+          .map((e) => Insight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kmsKeyArn: json['kmsKeyArn'] as String?,
       outputConfig: json['outputConfig'] != null
           ? OutputConfig.fromJson(json['outputConfig'] as Map<String, dynamic>)
           : null,
       updatedAt: timeStampFromJson(json['updatedAt']),
+      userIntentResult: json['userIntentResult'] != null
+          ? UserIntentClusteringResultContent.fromJson(
+              json['userIntentResult'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -5426,8 +5680,13 @@ class GetBatchEvaluationResponse {
     final errorDetails = this.errorDetails;
     final evaluationResults = this.evaluationResults;
     final evaluators = this.evaluators;
+    final executionSummaryResult = this.executionSummaryResult;
+    final failureAnalysisResult = this.failureAnalysisResult;
+    final insights = this.insights;
+    final kmsKeyArn = this.kmsKeyArn;
     final outputConfig = this.outputConfig;
     final updatedAt = this.updatedAt;
+    final userIntentResult = this.userIntentResult;
     return {
       'batchEvaluationArn': batchEvaluationArn,
       'batchEvaluationId': batchEvaluationId,
@@ -5439,8 +5698,15 @@ class GetBatchEvaluationResponse {
       if (errorDetails != null) 'errorDetails': errorDetails,
       if (evaluationResults != null) 'evaluationResults': evaluationResults,
       if (evaluators != null) 'evaluators': evaluators,
+      if (executionSummaryResult != null)
+        'executionSummaryResult': executionSummaryResult,
+      if (failureAnalysisResult != null)
+        'failureAnalysisResult': failureAnalysisResult,
+      if (insights != null) 'insights': insights,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (outputConfig != null) 'outputConfig': outputConfig,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+      if (userIntentResult != null) 'userIntentResult': userIntentResult,
     };
   }
 }
@@ -5474,6 +5740,9 @@ class GetRecommendationResponse {
   /// The description of the recommendation.
   final String? description;
 
+  /// The ARN of the KMS key used to encrypt recommendation data.
+  final String? kmsKeyArn;
+
   /// The result of the recommendation, containing the optimized system prompt or
   /// tool descriptions. Only present when the recommendation status is
   /// <code>COMPLETED</code>.
@@ -5489,6 +5758,7 @@ class GetRecommendationResponse {
     required this.type,
     required this.updatedAt,
     this.description,
+    this.kmsKeyArn,
     this.recommendationResult,
   });
 
@@ -5506,6 +5776,7 @@ class GetRecommendationResponse {
       type: RecommendationType.fromString((json['type'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
       recommendationResult: json['recommendationResult'] != null
           ? RecommendationResult.fromJson(
               json['recommendationResult'] as Map<String, dynamic>)
@@ -5523,6 +5794,7 @@ class GetRecommendationResponse {
     final type = this.type;
     final updatedAt = this.updatedAt;
     final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
     final recommendationResult = this.recommendationResult;
     return {
       'createdAt': iso8601ToJson(createdAt),
@@ -5534,6 +5806,7 @@ class GetRecommendationResponse {
       'type': type.value,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (recommendationResult != null)
         'recommendationResult': recommendationResult,
     };
@@ -5670,8 +5943,17 @@ class StartBatchEvaluationResponse {
   /// The list of evaluators applied during the batch evaluation.
   final List<Evaluator>? evaluators;
 
+  /// The list of insight analyses applied during the batch evaluation.
+  final List<Insight>? insights;
+
+  /// The ARN of the KMS key used to encrypt evaluation data.
+  final String? kmsKeyArn;
+
   /// The output configuration specifying where evaluation results are written.
   final OutputConfig? outputConfig;
+
+  /// The tags associated with the batch evaluation.
+  final Map<String, String>? tags;
 
   StartBatchEvaluationResponse({
     required this.batchEvaluationArn,
@@ -5681,7 +5963,10 @@ class StartBatchEvaluationResponse {
     required this.status,
     this.description,
     this.evaluators,
+    this.insights,
+    this.kmsKeyArn,
     this.outputConfig,
+    this.tags,
   });
 
   factory StartBatchEvaluationResponse.fromJson(Map<String, dynamic> json) {
@@ -5697,9 +5982,16 @@ class StartBatchEvaluationResponse {
           ?.nonNulls
           .map((e) => Evaluator.fromJson(e as Map<String, dynamic>))
           .toList(),
+      insights: (json['insights'] as List?)
+          ?.nonNulls
+          .map((e) => Insight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kmsKeyArn: json['kmsKeyArn'] as String?,
       outputConfig: json['outputConfig'] != null
           ? OutputConfig.fromJson(json['outputConfig'] as Map<String, dynamic>)
           : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -5711,7 +6003,10 @@ class StartBatchEvaluationResponse {
     final status = this.status;
     final description = this.description;
     final evaluators = this.evaluators;
+    final insights = this.insights;
+    final kmsKeyArn = this.kmsKeyArn;
     final outputConfig = this.outputConfig;
+    final tags = this.tags;
     return {
       'batchEvaluationArn': batchEvaluationArn,
       'batchEvaluationId': batchEvaluationId,
@@ -5720,7 +6015,10 @@ class StartBatchEvaluationResponse {
       'status': status.value,
       if (description != null) 'description': description,
       if (evaluators != null) 'evaluators': evaluators,
+      if (insights != null) 'insights': insights,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (outputConfig != null) 'outputConfig': outputConfig,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -9509,6 +9807,30 @@ class MemoryRecord {
   }
 }
 
+/// @nodoc
+class ExtractionMode {
+  static const skip = ExtractionMode._('SKIP');
+
+  final String value;
+
+  const ExtractionMode._(this.value);
+
+  static const values = [skip];
+
+  static ExtractionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExtractionMode._(value));
+
+  @override
+  bool operator ==(other) => other is ExtractionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Output information returned after processing a memory record operation.
 ///
 /// @nodoc
@@ -10188,17 +10510,17 @@ class SystemPromptRecommendationConfig {
   /// The agent traces to analyze for generating recommendations.
   final AgentTracesConfig agentTraces;
 
-  /// The evaluation configuration specifying which evaluator to use for assessing
-  /// recommendation quality.
-  final RecommendationEvaluationConfig evaluationConfig;
-
   /// The current system prompt to optimize.
   final SystemPromptConfig systemPrompt;
 
+  /// The evaluation configuration specifying which evaluator to use for assessing
+  /// recommendation quality.
+  final RecommendationEvaluationConfig? evaluationConfig;
+
   SystemPromptRecommendationConfig({
     required this.agentTraces,
-    required this.evaluationConfig,
     required this.systemPrompt,
+    this.evaluationConfig,
   });
 
   factory SystemPromptRecommendationConfig.fromJson(Map<String, dynamic> json) {
@@ -10206,23 +10528,24 @@ class SystemPromptRecommendationConfig {
       agentTraces: AgentTracesConfig.fromJson(
           (json['agentTraces'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      evaluationConfig: RecommendationEvaluationConfig.fromJson(
-          (json['evaluationConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
       systemPrompt: SystemPromptConfig.fromJson(
           (json['systemPrompt'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      evaluationConfig: json['evaluationConfig'] != null
+          ? RecommendationEvaluationConfig.fromJson(
+              json['evaluationConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final agentTraces = this.agentTraces;
-    final evaluationConfig = this.evaluationConfig;
     final systemPrompt = this.systemPrompt;
+    final evaluationConfig = this.evaluationConfig;
     return {
       'agentTraces': agentTraces,
-      'evaluationConfig': evaluationConfig,
       'systemPrompt': systemPrompt,
+      if (evaluationConfig != null) 'evaluationConfig': evaluationConfig,
     };
   }
 }
@@ -10310,6 +10633,9 @@ class ToolDescriptionSource {
 ///
 /// @nodoc
 class AgentTracesConfig {
+  /// Use a completed batch evaluation as the source of agent traces.
+  final BatchEvaluationTraceConfig? batchEvaluation;
+
   /// Agent traces read from CloudWatch Logs.
   final CloudWatchLogsTraceConfig? cloudwatchLogs;
 
@@ -10317,12 +10643,17 @@ class AgentTracesConfig {
   final List<Object>? sessionSpans;
 
   AgentTracesConfig({
+    this.batchEvaluation,
     this.cloudwatchLogs,
     this.sessionSpans,
   });
 
   factory AgentTracesConfig.fromJson(Map<String, dynamic> json) {
     return AgentTracesConfig(
+      batchEvaluation: json['batchEvaluation'] != null
+          ? BatchEvaluationTraceConfig.fromJson(
+              json['batchEvaluation'] as Map<String, dynamic>)
+          : null,
       cloudwatchLogs: json['cloudwatchLogs'] != null
           ? CloudWatchLogsTraceConfig.fromJson(
               json['cloudwatchLogs'] as Map<String, dynamic>)
@@ -10332,9 +10663,11 @@ class AgentTracesConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final batchEvaluation = this.batchEvaluation;
     final cloudwatchLogs = this.cloudwatchLogs;
     final sessionSpans = this.sessionSpans;
     return {
+      if (batchEvaluation != null) 'batchEvaluation': batchEvaluation,
       if (cloudwatchLogs != null) 'cloudwatchLogs': cloudwatchLogs,
       if (sessionSpans != null) 'sessionSpans': sessionSpans,
     };
@@ -10399,6 +10732,32 @@ class CloudWatchLogsTraceConfig {
       'serviceNames': serviceNames,
       'startTime': iso8601ToJson(startTime),
       if (rule != null) 'rule': rule,
+    };
+  }
+}
+
+/// Configuration for using a batch evaluation as the source of agent traces for
+/// recommendations.
+///
+/// @nodoc
+class BatchEvaluationTraceConfig {
+  /// The ARN of the completed batch evaluation to use as the trace source.
+  final String batchEvaluationArn;
+
+  BatchEvaluationTraceConfig({
+    required this.batchEvaluationArn,
+  });
+
+  factory BatchEvaluationTraceConfig.fromJson(Map<String, dynamic> json) {
+    return BatchEvaluationTraceConfig(
+      batchEvaluationArn: (json['batchEvaluationArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchEvaluationArn = this.batchEvaluationArn;
+    return {
+      'batchEvaluationArn': batchEvaluationArn,
     };
   }
 }
@@ -10917,7 +11276,35 @@ class CloudWatchOutputConfig {
   }
 }
 
-/// An evaluator to run against sessions.
+/// A reference to an insight analysis to run against sessions during batch
+/// evaluation. Insights provide deeper analysis beyond individual evaluator
+/// scores, including failure detection, user intent clustering, and execution
+/// summarization.
+///
+/// @nodoc
+class Insight {
+  /// The unique identifier of the insight to run.
+  final String insightId;
+
+  Insight({
+    required this.insightId,
+  });
+
+  factory Insight.fromJson(Map<String, dynamic> json) {
+    return Insight(
+      insightId: (json['insightId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final insightId = this.insightId;
+    return {
+      'insightId': insightId,
+    };
+  }
+}
+
+/// An evaluator to run against sessions during batch evaluation.
 ///
 /// @nodoc
 class Evaluator {
@@ -10950,8 +11337,12 @@ class DataSourceConfig {
   /// Configuration for pulling agent session traces from CloudWatch Logs.
   final CloudWatchLogsSource? cloudWatchLogs;
 
+  /// Reference an existing OnlineEvaluationConfig as session source
+  final OnlineEvaluationConfigSource? onlineEvaluationConfigSource;
+
   DataSourceConfig({
     this.cloudWatchLogs,
+    this.onlineEvaluationConfigSource,
   });
 
   factory DataSourceConfig.fromJson(Map<String, dynamic> json) {
@@ -10960,13 +11351,20 @@ class DataSourceConfig {
           ? CloudWatchLogsSource.fromJson(
               json['cloudWatchLogs'] as Map<String, dynamic>)
           : null,
+      onlineEvaluationConfigSource: json['onlineEvaluationConfigSource'] != null
+          ? OnlineEvaluationConfigSource.fromJson(
+              json['onlineEvaluationConfigSource'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final cloudWatchLogs = this.cloudWatchLogs;
+    final onlineEvaluationConfigSource = this.onlineEvaluationConfigSource;
     return {
       if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
+      if (onlineEvaluationConfigSource != null)
+        'onlineEvaluationConfigSource': onlineEvaluationConfigSource,
     };
   }
 }
@@ -11217,29 +11615,28 @@ class CloudWatchLogsSource {
   }
 }
 
-/// Filter configuration for narrowing down CloudWatch Logs sessions for
-/// evaluation.
+/// A reference to an existing online evaluation configuration to use as the
+/// data source for batch evaluation.
 ///
 /// @nodoc
-class CloudWatchFilterConfig {
-  /// A list of specific session IDs to evaluate. If specified, only these
-  /// sessions are included in the evaluation.
-  final List<String>? sessionIds;
+class OnlineEvaluationConfigSource {
+  /// The Amazon Resource Name (ARN) of the online evaluation configuration to use
+  /// as the session source.
+  final String onlineEvaluationConfigArn;
 
-  /// The time range filter for selecting sessions to evaluate.
+  /// Optional session filter configuration to narrow down which sessions from the
+  /// online evaluation configuration to include.
   final SessionFilterConfig? timeRange;
 
-  CloudWatchFilterConfig({
-    this.sessionIds,
+  OnlineEvaluationConfigSource({
+    required this.onlineEvaluationConfigArn,
     this.timeRange,
   });
 
-  factory CloudWatchFilterConfig.fromJson(Map<String, dynamic> json) {
-    return CloudWatchFilterConfig(
-      sessionIds: (json['sessionIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
+  factory OnlineEvaluationConfigSource.fromJson(Map<String, dynamic> json) {
+    return OnlineEvaluationConfigSource(
+      onlineEvaluationConfigArn:
+          (json['onlineEvaluationConfigArn'] as String?) ?? '',
       timeRange: json['timeRange'] != null
           ? SessionFilterConfig.fromJson(
               json['timeRange'] as Map<String, dynamic>)
@@ -11248,10 +11645,10 @@ class CloudWatchFilterConfig {
   }
 
   Map<String, dynamic> toJson() {
-    final sessionIds = this.sessionIds;
+    final onlineEvaluationConfigArn = this.onlineEvaluationConfigArn;
     final timeRange = this.timeRange;
     return {
-      if (sessionIds != null) 'sessionIds': sessionIds,
+      'onlineEvaluationConfigArn': onlineEvaluationConfigArn,
       if (timeRange != null) 'timeRange': timeRange,
     };
   }
@@ -11288,6 +11685,46 @@ class SessionFilterConfig {
     return {
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
+    };
+  }
+}
+
+/// Filter configuration for narrowing down CloudWatch Logs sessions for
+/// evaluation.
+///
+/// @nodoc
+class CloudWatchFilterConfig {
+  /// A list of specific session IDs to evaluate. If specified, only these
+  /// sessions are included in the evaluation.
+  final List<String>? sessionIds;
+
+  /// The time range filter for selecting sessions to evaluate.
+  final SessionFilterConfig? timeRange;
+
+  CloudWatchFilterConfig({
+    this.sessionIds,
+    this.timeRange,
+  });
+
+  factory CloudWatchFilterConfig.fromJson(Map<String, dynamic> json) {
+    return CloudWatchFilterConfig(
+      sessionIds: (json['sessionIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      timeRange: json['timeRange'] != null
+          ? SessionFilterConfig.fromJson(
+              json['timeRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionIds = this.sessionIds;
+    final timeRange = this.timeRange;
+    return {
+      if (sessionIds != null) 'sessionIds': sessionIds,
+      if (timeRange != null) 'timeRange': timeRange,
     };
   }
 }
@@ -11398,6 +11835,12 @@ class BatchEvaluationSummary {
   /// The list of evaluators applied during the batch evaluation.
   final List<Evaluator>? evaluators;
 
+  /// The list of insight analyses applied during the batch evaluation.
+  final List<Insight>? insights;
+
+  /// The ARN of the KMS key used to encrypt evaluation data.
+  final String? kmsKeyArn;
+
   /// The timestamp when the batch evaluation was last updated.
   final DateTime? updatedAt;
 
@@ -11411,6 +11854,8 @@ class BatchEvaluationSummary {
     this.errorDetails,
     this.evaluationResults,
     this.evaluators,
+    this.insights,
+    this.kmsKeyArn,
     this.updatedAt,
   });
 
@@ -11435,6 +11880,11 @@ class BatchEvaluationSummary {
           ?.nonNulls
           .map((e) => Evaluator.fromJson(e as Map<String, dynamic>))
           .toList(),
+      insights: (json['insights'] as List?)
+          ?.nonNulls
+          .map((e) => Insight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kmsKeyArn: json['kmsKeyArn'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -11449,6 +11899,8 @@ class BatchEvaluationSummary {
     final errorDetails = this.errorDetails;
     final evaluationResults = this.evaluationResults;
     final evaluators = this.evaluators;
+    final insights = this.insights;
+    final kmsKeyArn = this.kmsKeyArn;
     final updatedAt = this.updatedAt;
     return {
       'batchEvaluationArn': batchEvaluationArn,
@@ -11460,6 +11912,8 @@ class BatchEvaluationSummary {
       if (errorDetails != null) 'errorDetails': errorDetails,
       if (evaluationResults != null) 'evaluationResults': evaluationResults,
       if (evaluators != null) 'evaluators': evaluators,
+      if (insights != null) 'insights': insights,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
@@ -11754,6 +12208,10 @@ class SystemPromptRecommendationResult {
   /// The error message if the recommendation failed.
   final String? errorMessage;
 
+  /// An explanation of why the recommendation was generated and what patterns
+  /// were identified in the agent traces.
+  final String? explanation;
+
   /// The optimized system prompt text generated by the recommendation.
   final String? recommendedSystemPrompt;
 
@@ -11761,6 +12219,7 @@ class SystemPromptRecommendationResult {
     this.configurationBundle,
     this.errorCode,
     this.errorMessage,
+    this.explanation,
     this.recommendedSystemPrompt,
   });
 
@@ -11772,6 +12231,7 @@ class SystemPromptRecommendationResult {
           : null,
       errorCode: json['errorCode'] as String?,
       errorMessage: json['errorMessage'] as String?,
+      explanation: json['explanation'] as String?,
       recommendedSystemPrompt: json['recommendedSystemPrompt'] as String?,
     );
   }
@@ -11780,12 +12240,14 @@ class SystemPromptRecommendationResult {
     final configurationBundle = this.configurationBundle;
     final errorCode = this.errorCode;
     final errorMessage = this.errorMessage;
+    final explanation = this.explanation;
     final recommendedSystemPrompt = this.recommendedSystemPrompt;
     return {
       if (configurationBundle != null)
         'configurationBundle': configurationBundle,
       if (errorCode != null) 'errorCode': errorCode,
       if (errorMessage != null) 'errorMessage': errorMessage,
+      if (explanation != null) 'explanation': explanation,
       if (recommendedSystemPrompt != null)
         'recommendedSystemPrompt': recommendedSystemPrompt,
     };
@@ -11889,30 +12351,774 @@ class ToolDescriptionOutput {
   /// The name of the tool.
   final String toolName;
 
+  /// An explanation of why the recommendation was generated for this tool and
+  /// what patterns were identified in the agent traces.
+  final String? explanation;
+
   /// The optimized tool description text generated by the recommendation.
   final String? recommendedToolDescription;
 
   ToolDescriptionOutput({
     required this.toolName,
+    this.explanation,
     this.recommendedToolDescription,
   });
 
   factory ToolDescriptionOutput.fromJson(Map<String, dynamic> json) {
     return ToolDescriptionOutput(
       toolName: (json['toolName'] as String?) ?? '',
+      explanation: json['explanation'] as String?,
       recommendedToolDescription: json['recommendedToolDescription'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final toolName = this.toolName;
+    final explanation = this.explanation;
     final recommendedToolDescription = this.recommendedToolDescription;
     return {
       'toolName': toolName,
+      if (explanation != null) 'explanation': explanation,
       if (recommendedToolDescription != null)
         'recommendedToolDescription': recommendedToolDescription,
     };
   }
+}
+
+/// The failure analysis clustering result containing categorized failure
+/// clusters with root causes and remediation recommendations.
+///
+/// @nodoc
+class FailureAnalysisResultContent {
+  /// The list of failure category clusters identified across analyzed sessions.
+  final List<FailureCategoryCluster> failures;
+
+  FailureAnalysisResultContent({
+    required this.failures,
+  });
+
+  factory FailureAnalysisResultContent.fromJson(Map<String, dynamic> json) {
+    return FailureAnalysisResultContent(
+      failures: ((json['failures'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => FailureCategoryCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    return {
+      'failures': failures,
+    };
+  }
+}
+
+/// The user intent clustering result containing grouped user intents identified
+/// across evaluated sessions.
+///
+/// @nodoc
+class UserIntentClusteringResultContent {
+  /// The list of user intent clusters identified across analyzed sessions.
+  final List<UserIntentCluster> userIntents;
+
+  UserIntentClusteringResultContent({
+    required this.userIntents,
+  });
+
+  factory UserIntentClusteringResultContent.fromJson(
+      Map<String, dynamic> json) {
+    return UserIntentClusteringResultContent(
+      userIntents: ((json['userIntents'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => UserIntentCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userIntents = this.userIntents;
+    return {
+      'userIntents': userIntents,
+    };
+  }
+}
+
+/// The execution summary clustering result containing grouped execution
+/// patterns identified across evaluated sessions.
+///
+/// @nodoc
+class ExecutionSummaryClusteringResultContent {
+  /// The list of execution summary clusters identified across analyzed sessions.
+  final List<ExecutionSummaryCluster> executionSummaries;
+
+  ExecutionSummaryClusteringResultContent({
+    required this.executionSummaries,
+  });
+
+  factory ExecutionSummaryClusteringResultContent.fromJson(
+      Map<String, dynamic> json) {
+    return ExecutionSummaryClusteringResultContent(
+      executionSummaries: ((json['executionSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              ExecutionSummaryCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionSummaries = this.executionSummaries;
+    return {
+      'executionSummaries': executionSummaries,
+    };
+  }
+}
+
+/// A cluster of similar execution patterns identified across sessions.
+///
+/// @nodoc
+class ExecutionSummaryCluster {
+  /// The number of sessions with this execution pattern.
+  final int affectedSessionCount;
+
+  /// The list of sessions with this execution pattern.
+  final List<ExecutionSummaryAffectedSession> affectedSessions;
+
+  /// The unique identifier of the execution summary cluster.
+  final int clusterId;
+
+  /// A description of the execution pattern.
+  final String description;
+
+  /// The name of the execution pattern cluster.
+  final String name;
+
+  ExecutionSummaryCluster({
+    required this.affectedSessionCount,
+    required this.affectedSessions,
+    required this.clusterId,
+    required this.description,
+    required this.name,
+  });
+
+  factory ExecutionSummaryCluster.fromJson(Map<String, dynamic> json) {
+    return ExecutionSummaryCluster(
+      affectedSessionCount: (json['affectedSessionCount'] as int?) ?? 0,
+      affectedSessions: ((json['affectedSessions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ExecutionSummaryAffectedSession.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      clusterId: (json['clusterId'] as int?) ?? 0,
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSessionCount = this.affectedSessionCount;
+    final affectedSessions = this.affectedSessions;
+    final clusterId = this.clusterId;
+    final description = this.description;
+    final name = this.name;
+    return {
+      'affectedSessionCount': affectedSessionCount,
+      'affectedSessions': affectedSessions,
+      'clusterId': clusterId,
+      'description': description,
+      'name': name,
+    };
+  }
+}
+
+/// A session associated with an execution summary cluster.
+///
+/// @nodoc
+class ExecutionSummaryAffectedSession {
+  /// The approach taken by the agent during this session.
+  final String approachTaken;
+
+  /// The final outcome of the session.
+  final String finalOutcome;
+
+  /// The unique identifier of the session.
+  final String sessionId;
+
+  ExecutionSummaryAffectedSession({
+    required this.approachTaken,
+    required this.finalOutcome,
+    required this.sessionId,
+  });
+
+  factory ExecutionSummaryAffectedSession.fromJson(Map<String, dynamic> json) {
+    return ExecutionSummaryAffectedSession(
+      approachTaken: (json['approachTaken'] as String?) ?? '',
+      finalOutcome: (json['finalOutcome'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approachTaken = this.approachTaken;
+    final finalOutcome = this.finalOutcome;
+    final sessionId = this.sessionId;
+    return {
+      'approachTaken': approachTaken,
+      'finalOutcome': finalOutcome,
+      'sessionId': sessionId,
+    };
+  }
+}
+
+/// A cluster of similar user intents identified across sessions.
+///
+/// @nodoc
+class UserIntentCluster {
+  /// The number of sessions with this user intent.
+  final int affectedSessionCount;
+
+  /// The list of sessions with this user intent.
+  final List<UserIntentAffectedSession> affectedSessions;
+
+  /// The unique identifier of the user intent cluster.
+  final int clusterId;
+
+  /// A description of the user intent pattern.
+  final String description;
+
+  /// The name of the user intent cluster.
+  final String name;
+
+  UserIntentCluster({
+    required this.affectedSessionCount,
+    required this.affectedSessions,
+    required this.clusterId,
+    required this.description,
+    required this.name,
+  });
+
+  factory UserIntentCluster.fromJson(Map<String, dynamic> json) {
+    return UserIntentCluster(
+      affectedSessionCount: (json['affectedSessionCount'] as int?) ?? 0,
+      affectedSessions: ((json['affectedSessions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              UserIntentAffectedSession.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clusterId: (json['clusterId'] as int?) ?? 0,
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSessionCount = this.affectedSessionCount;
+    final affectedSessions = this.affectedSessions;
+    final clusterId = this.clusterId;
+    final description = this.description;
+    final name = this.name;
+    return {
+      'affectedSessionCount': affectedSessionCount,
+      'affectedSessions': affectedSessions,
+      'clusterId': clusterId,
+      'description': description,
+      'name': name,
+    };
+  }
+}
+
+/// A session associated with a user intent cluster.
+///
+/// @nodoc
+class UserIntentAffectedSession {
+  /// The unique identifier of the session.
+  final String sessionId;
+
+  /// The user messages from this session that contributed to the intent cluster.
+  final List<String> userMessages;
+
+  UserIntentAffectedSession({
+    required this.sessionId,
+    required this.userMessages,
+  });
+
+  factory UserIntentAffectedSession.fromJson(Map<String, dynamic> json) {
+    return UserIntentAffectedSession(
+      sessionId: (json['sessionId'] as String?) ?? '',
+      userMessages: ((json['userMessages'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionId = this.sessionId;
+    final userMessages = this.userMessages;
+    return {
+      'sessionId': sessionId,
+      'userMessages': userMessages,
+    };
+  }
+}
+
+/// A top-level failure category identified by clustering similar failure
+/// patterns across sessions.
+///
+/// @nodoc
+class FailureCategoryCluster {
+  /// The number of sessions affected by this failure category.
+  final int affectedSessionCount;
+
+  /// The unique identifier of the failure category cluster.
+  final int clusterId;
+
+  /// A description of the failure category pattern.
+  final String description;
+
+  /// The name of the failure category.
+  final String name;
+
+  /// The list of failure subcategories within this category.
+  final List<FailureSubCategoryCluster> subCategories;
+
+  FailureCategoryCluster({
+    required this.affectedSessionCount,
+    required this.clusterId,
+    required this.description,
+    required this.name,
+    required this.subCategories,
+  });
+
+  factory FailureCategoryCluster.fromJson(Map<String, dynamic> json) {
+    return FailureCategoryCluster(
+      affectedSessionCount: (json['affectedSessionCount'] as int?) ?? 0,
+      clusterId: (json['clusterId'] as int?) ?? 0,
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      subCategories: ((json['subCategories'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              FailureSubCategoryCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSessionCount = this.affectedSessionCount;
+    final clusterId = this.clusterId;
+    final description = this.description;
+    final name = this.name;
+    final subCategories = this.subCategories;
+    return {
+      'affectedSessionCount': affectedSessionCount,
+      'clusterId': clusterId,
+      'description': description,
+      'name': name,
+      'subCategories': subCategories,
+    };
+  }
+}
+
+/// A subcategory of failures within a top-level failure category.
+///
+/// @nodoc
+class FailureSubCategoryCluster {
+  /// The number of sessions affected by this failure subcategory.
+  final int affectedSessionCount;
+
+  /// The unique identifier of the failure subcategory cluster.
+  final int clusterId;
+
+  /// A description of the failure subcategory pattern.
+  final String description;
+
+  /// The name of the failure subcategory.
+  final String name;
+
+  /// The list of root cause clusters identified within this subcategory.
+  final List<RootCauseCluster> rootCauses;
+
+  FailureSubCategoryCluster({
+    required this.affectedSessionCount,
+    required this.clusterId,
+    required this.description,
+    required this.name,
+    required this.rootCauses,
+  });
+
+  factory FailureSubCategoryCluster.fromJson(Map<String, dynamic> json) {
+    return FailureSubCategoryCluster(
+      affectedSessionCount: (json['affectedSessionCount'] as int?) ?? 0,
+      clusterId: (json['clusterId'] as int?) ?? 0,
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      rootCauses: ((json['rootCauses'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RootCauseCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSessionCount = this.affectedSessionCount;
+    final clusterId = this.clusterId;
+    final description = this.description;
+    final name = this.name;
+    final rootCauses = this.rootCauses;
+    return {
+      'affectedSessionCount': affectedSessionCount,
+      'clusterId': clusterId,
+      'description': description,
+      'name': name,
+      'rootCauses': rootCauses,
+    };
+  }
+}
+
+/// A cluster of similar root causes identified within a failure subcategory.
+///
+/// @nodoc
+class RootCauseCluster {
+  /// The number of sessions affected by this root cause.
+  final int affectedSessionCount;
+
+  /// The list of sessions affected by this root cause.
+  final List<AffectedSession> affectedSessions;
+
+  /// The unique identifier of the root cause cluster.
+  final int clusterId;
+
+  /// The name of the root cause cluster.
+  final String name;
+
+  /// The recommended fix for this root cause.
+  final String recommendation;
+
+  /// The root cause explanation for this cluster of failures.
+  final String rootCause;
+
+  RootCauseCluster({
+    required this.affectedSessionCount,
+    required this.affectedSessions,
+    required this.clusterId,
+    required this.name,
+    required this.recommendation,
+    required this.rootCause,
+  });
+
+  factory RootCauseCluster.fromJson(Map<String, dynamic> json) {
+    return RootCauseCluster(
+      affectedSessionCount: (json['affectedSessionCount'] as int?) ?? 0,
+      affectedSessions: ((json['affectedSessions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AffectedSession.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clusterId: (json['clusterId'] as int?) ?? 0,
+      name: (json['name'] as String?) ?? '',
+      recommendation: (json['recommendation'] as String?) ?? '',
+      rootCause: (json['rootCause'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedSessionCount = this.affectedSessionCount;
+    final affectedSessions = this.affectedSessions;
+    final clusterId = this.clusterId;
+    final name = this.name;
+    final recommendation = this.recommendation;
+    final rootCause = this.rootCause;
+    return {
+      'affectedSessionCount': affectedSessionCount,
+      'affectedSessions': affectedSessions,
+      'clusterId': clusterId,
+      'name': name,
+      'recommendation': recommendation,
+      'rootCause': rootCause,
+    };
+  }
+}
+
+/// A session affected by a detected failure pattern, including root cause
+/// details.
+///
+/// @nodoc
+class AffectedSession {
+  /// An explanation of how the failure manifested in this session.
+  final String explanation;
+
+  /// The list of spans where failures were detected in this session.
+  final List<FailureSpanDetail> failureSpans;
+
+  /// The type of fix recommended for this failure.
+  final String fixType;
+
+  /// The specific fix recommendation for this session.
+  final String recommendation;
+
+  /// The unique identifier of the affected session.
+  final String sessionId;
+
+  AffectedSession({
+    required this.explanation,
+    required this.failureSpans,
+    required this.fixType,
+    required this.recommendation,
+    required this.sessionId,
+  });
+
+  factory AffectedSession.fromJson(Map<String, dynamic> json) {
+    return AffectedSession(
+      explanation: (json['explanation'] as String?) ?? '',
+      failureSpans: ((json['failureSpans'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FailureSpanDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fixType: (json['fixType'] as String?) ?? '',
+      recommendation: (json['recommendation'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final explanation = this.explanation;
+    final failureSpans = this.failureSpans;
+    final fixType = this.fixType;
+    final recommendation = this.recommendation;
+    final sessionId = this.sessionId;
+    return {
+      'explanation': explanation,
+      'failureSpans': failureSpans,
+      'fixType': fixType,
+      'recommendation': recommendation,
+      'sessionId': sessionId,
+    };
+  }
+}
+
+/// Details about a specific span where a failure was detected.
+///
+/// @nodoc
+class FailureSpanDetail {
+  /// The failure signals detected in this span.
+  final List<InsightsFailureSignal> signals;
+
+  /// The unique identifier of the span where the failure occurred.
+  final String spanId;
+
+  /// The trace identifier associated with the failure span.
+  final String traceId;
+
+  FailureSpanDetail({
+    required this.signals,
+    required this.spanId,
+    required this.traceId,
+  });
+
+  factory FailureSpanDetail.fromJson(Map<String, dynamic> json) {
+    return FailureSpanDetail(
+      signals: ((json['signals'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InsightsFailureSignal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      spanId: (json['spanId'] as String?) ?? '',
+      traceId: (json['traceId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signals = this.signals;
+    final spanId = this.spanId;
+    final traceId = this.traceId;
+    return {
+      'signals': signals,
+      'spanId': spanId,
+      'traceId': traceId,
+    };
+  }
+}
+
+/// A signal indicating a detected failure within a span.
+///
+/// @nodoc
+class InsightsFailureSignal {
+  /// The failure category classification for this signal.
+  final InsightsFailureCategory category;
+
+  /// The confidence score of the failure detection.
+  final double confidence;
+
+  /// The evidence supporting the failure detection.
+  final String evidence;
+
+  InsightsFailureSignal({
+    required this.category,
+    required this.confidence,
+    required this.evidence,
+  });
+
+  factory InsightsFailureSignal.fromJson(Map<String, dynamic> json) {
+    return InsightsFailureSignal(
+      category: InsightsFailureCategory.fromString(
+          (json['category'] as String?) ?? ''),
+      confidence: _s.parseJsonDouble(json['confidence']) ?? 0,
+      evidence: (json['evidence'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final confidence = this.confidence;
+    final evidence = this.evidence;
+    return {
+      'category': category.value,
+      'confidence': _s.encodeJsonDouble(confidence),
+      'evidence': evidence,
+    };
+  }
+}
+
+/// Failure category taxonomy for agent session insights. Values must stay in
+/// sync with the category registry in AgentCoreLens
+/// (amzn_agentcore_lens.config.failure_detection.FAILURE_CATEGORIES).
+///
+/// @nodoc
+class InsightsFailureCategory {
+  static const executionErrorCategoryAuthentication =
+      InsightsFailureCategory._('execution-error-category-authentication');
+  static const executionErrorCategoryResourceNotFound =
+      InsightsFailureCategory._('execution-error-category-resource-not-found');
+  static const executionErrorCategoryServiceErrors =
+      InsightsFailureCategory._('execution-error-category-service-errors');
+  static const executionErrorCategoryRateLimiting =
+      InsightsFailureCategory._('execution-error-category-rate-limiting');
+  static const executionErrorCategoryFormatting =
+      InsightsFailureCategory._('execution-error-category-formatting');
+  static const executionErrorCategoryTimeout =
+      InsightsFailureCategory._('execution-error-category-timeout');
+  static const executionErrorCategoryResourceExhaustion =
+      InsightsFailureCategory._('execution-error-category-resource-exhaustion');
+  static const executionErrorCategoryEnvironment =
+      InsightsFailureCategory._('execution-error-category-environment');
+  static const executionErrorCategoryToolSchema =
+      InsightsFailureCategory._('execution-error-category-tool-schema');
+  static const taskInstructionCategoryNonCompliance =
+      InsightsFailureCategory._('task-instruction-category-non-compliance');
+  static const taskInstructionCategoryProblemId =
+      InsightsFailureCategory._('task-instruction-category-problem-id');
+  static const incorrectActionsCategoryToolSelection =
+      InsightsFailureCategory._('incorrect-actions-category-tool-selection');
+  static const incorrectActionsCategoryPoorInformationRetrieval =
+      InsightsFailureCategory._(
+          'incorrect-actions-category-poor-information-retrieval');
+  static const incorrectActionsCategoryClarification =
+      InsightsFailureCategory._('incorrect-actions-category-clarification');
+  static const incorrectActionsCategoryInappropriateInfoRequest =
+      InsightsFailureCategory._(
+          'incorrect-actions-category-inappropriate-info-request');
+  static const contextHandlingErrorCategoryContextHandlingFailures =
+      InsightsFailureCategory._(
+          'context-handling-error-category-context-handling-failures');
+  static const hallucinationCategoryHallCapabilities =
+      InsightsFailureCategory._('hallucination-category-hall-capabilities');
+  static const hallucinationCategoryHallMisunderstand =
+      InsightsFailureCategory._('hallucination-category-hall-misunderstand');
+  static const hallucinationCategoryHallUsage =
+      InsightsFailureCategory._('hallucination-category-hall-usage');
+  static const hallucinationCategoryHallHistory =
+      InsightsFailureCategory._('hallucination-category-hall-history');
+  static const hallucinationCategoryHallParams =
+      InsightsFailureCategory._('hallucination-category-hall-params');
+  static const hallucinationCategoryFabricateToolOutputs =
+      InsightsFailureCategory._(
+          'hallucination-category-fabricate-tool-outputs');
+  static const repetitiveBehaviorCategoryRepetitionTool =
+      InsightsFailureCategory._('repetitive-behavior-category-repetition-tool');
+  static const repetitiveBehaviorCategoryRepetitionInfo =
+      InsightsFailureCategory._('repetitive-behavior-category-repetition-info');
+  static const repetitiveBehaviorCategoryStepRepetition =
+      InsightsFailureCategory._('repetitive-behavior-category-step-repetition');
+  static const orchestrationRelatedErrorsCategoryReasoningMismatch =
+      InsightsFailureCategory._(
+          'orchestration-related-errors-category-reasoning-mismatch');
+  static const orchestrationRelatedErrorsCategoryGoalDeviation =
+      InsightsFailureCategory._(
+          'orchestration-related-errors-category-goal-deviation');
+  static const orchestrationRelatedErrorsCategoryPrematureTermination =
+      InsightsFailureCategory._(
+          'orchestration-related-errors-category-premature-termination');
+  static const orchestrationRelatedErrorsCategoryUnawareTermination =
+      InsightsFailureCategory._(
+          'orchestration-related-errors-category-unaware-termination');
+  static const llmOutputCategoryNonsensical =
+      InsightsFailureCategory._('llm-output-category-nonsensical');
+  static const configurationMismatchCategoryToolDefinition =
+      InsightsFailureCategory._(
+          'configuration-mismatch-category-tool-definition');
+  static const codingUseCaseSpecificFailureTypesCategoryEdgeCaseOversights =
+      InsightsFailureCategory._(
+          'coding-use-case-specific-failure-types-category-edge-case-oversights');
+  static const codingUseCaseSpecificFailureTypesCategoryDependencyIssues =
+      InsightsFailureCategory._(
+          'coding-use-case-specific-failure-types-category-dependency-issues');
+  static const other = InsightsFailureCategory._('other');
+
+  final String value;
+
+  const InsightsFailureCategory._(this.value);
+
+  static const values = [
+    executionErrorCategoryAuthentication,
+    executionErrorCategoryResourceNotFound,
+    executionErrorCategoryServiceErrors,
+    executionErrorCategoryRateLimiting,
+    executionErrorCategoryFormatting,
+    executionErrorCategoryTimeout,
+    executionErrorCategoryResourceExhaustion,
+    executionErrorCategoryEnvironment,
+    executionErrorCategoryToolSchema,
+    taskInstructionCategoryNonCompliance,
+    taskInstructionCategoryProblemId,
+    incorrectActionsCategoryToolSelection,
+    incorrectActionsCategoryPoorInformationRetrieval,
+    incorrectActionsCategoryClarification,
+    incorrectActionsCategoryInappropriateInfoRequest,
+    contextHandlingErrorCategoryContextHandlingFailures,
+    hallucinationCategoryHallCapabilities,
+    hallucinationCategoryHallMisunderstand,
+    hallucinationCategoryHallUsage,
+    hallucinationCategoryHallHistory,
+    hallucinationCategoryHallParams,
+    hallucinationCategoryFabricateToolOutputs,
+    repetitiveBehaviorCategoryRepetitionTool,
+    repetitiveBehaviorCategoryRepetitionInfo,
+    repetitiveBehaviorCategoryStepRepetition,
+    orchestrationRelatedErrorsCategoryReasoningMismatch,
+    orchestrationRelatedErrorsCategoryGoalDeviation,
+    orchestrationRelatedErrorsCategoryPrematureTermination,
+    orchestrationRelatedErrorsCategoryUnawareTermination,
+    llmOutputCategoryNonsensical,
+    configurationMismatchCategoryToolDefinition,
+    codingUseCaseSpecificFailureTypesCategoryEdgeCaseOversights,
+    codingUseCaseSpecificFailureTypesCategoryDependencyIssues,
+    other
+  ];
+
+  static InsightsFailureCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightsFailureCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightsFailureCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The statistical results of an A/B test.
@@ -12504,6 +13710,147 @@ class EvaluationReferenceInput {
   }
 }
 
+/// Specifies a file system to mount into the session by providing exactly one
+/// of the following:
+///
+/// <ul>
+/// <li>
+/// <code>s3FilesConfiguration</code> - Mounts an Amazon Simple Storage Service
+/// (Amazon S3) Files access point.
+/// </li>
+/// <li>
+/// <code>efsConfiguration</code> - Mounts an Amazon Elastic File System (Amazon
+/// EFS) access point.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ToolsFileSystemConfiguration {
+  /// The configuration for mounting your own Amazon Elastic File System (Amazon
+  /// EFS) access point into the session.
+  final EfsConfiguration? efsConfiguration;
+
+  /// The configuration for mounting your own Amazon Simple Storage Service
+  /// (Amazon S3) Files access point into the session.
+  final S3FilesConfiguration? s3FilesConfiguration;
+
+  ToolsFileSystemConfiguration({
+    this.efsConfiguration,
+    this.s3FilesConfiguration,
+  });
+
+  factory ToolsFileSystemConfiguration.fromJson(Map<String, dynamic> json) {
+    return ToolsFileSystemConfiguration(
+      efsConfiguration: json['efsConfiguration'] != null
+          ? EfsConfiguration.fromJson(
+              json['efsConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3FilesConfiguration: json['s3FilesConfiguration'] != null
+          ? S3FilesConfiguration.fromJson(
+              json['s3FilesConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final efsConfiguration = this.efsConfiguration;
+    final s3FilesConfiguration = this.s3FilesConfiguration;
+    return {
+      if (efsConfiguration != null) 'efsConfiguration': efsConfiguration,
+      if (s3FilesConfiguration != null)
+        's3FilesConfiguration': s3FilesConfiguration,
+    };
+  }
+}
+
+/// The configuration for mounting an Amazon Simple Storage Service (Amazon S3)
+/// Files access point that you own into a session.
+///
+/// @nodoc
+class S3FilesConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon
+  /// S3) Files access point to mount.
+  final String accessPointArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon
+  /// S3) Files file system that owns the access point.
+  final String fileSystemArn;
+
+  /// The absolute path within the session at which the access point is mounted,
+  /// for example <code>/mnt/s3data</code>. Each mount path must be unique across
+  /// all file system configurations in the session.
+  final String mountPath;
+
+  S3FilesConfiguration({
+    required this.accessPointArn,
+    required this.fileSystemArn,
+    required this.mountPath,
+  });
+
+  factory S3FilesConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3FilesConfiguration(
+      accessPointArn: (json['accessPointArn'] as String?) ?? '',
+      fileSystemArn: (json['fileSystemArn'] as String?) ?? '',
+      mountPath: (json['mountPath'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final fileSystemArn = this.fileSystemArn;
+    final mountPath = this.mountPath;
+    return {
+      'accessPointArn': accessPointArn,
+      'fileSystemArn': fileSystemArn,
+      'mountPath': mountPath,
+    };
+  }
+}
+
+/// The configuration for mounting an Amazon Elastic File System (Amazon EFS)
+/// access point that you own into a session.
+///
+/// @nodoc
+class EfsConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon
+  /// EFS) access point to mount.
+  final String accessPointArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon
+  /// EFS) file system that owns the access point.
+  final String fileSystemArn;
+
+  /// The absolute path within the session at which the access point is mounted,
+  /// for example <code>/mnt/efs</code>. Each mount path must be unique across all
+  /// file system configurations in the session.
+  final String mountPath;
+
+  EfsConfiguration({
+    required this.accessPointArn,
+    required this.fileSystemArn,
+    required this.mountPath,
+  });
+
+  factory EfsConfiguration.fromJson(Map<String, dynamic> json) {
+    return EfsConfiguration(
+      accessPointArn: (json['accessPointArn'] as String?) ?? '',
+      fileSystemArn: (json['fileSystemArn'] as String?) ?? '',
+      mountPath: (json['mountPath'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final fileSystemArn = this.fileSystemArn;
+    final mountPath = this.mountPath;
+    return {
+      'accessPointArn': accessPointArn,
+      'fileSystemArn': fileSystemArn,
+      'mountPath': mountPath,
+    };
+  }
+}
+
 /// A certificate to install in the browser or code interpreter session.
 ///
 /// @nodoc
@@ -12675,6 +14022,44 @@ class CodeInterpreterSessionStatus {
   @override
   bool operator ==(other) =>
       other is CodeInterpreterSessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class CapacityProviderSessionStatus {
+  static const provisioning = CapacityProviderSessionStatus._('Provisioning');
+  static const deprovisioning =
+      CapacityProviderSessionStatus._('Deprovisioning');
+  static const active = CapacityProviderSessionStatus._('Active');
+  static const deleting = CapacityProviderSessionStatus._('Deleting');
+  static const deleted = CapacityProviderSessionStatus._('Deleted');
+  static const stopped = CapacityProviderSessionStatus._('Stopped');
+
+  final String value;
+
+  const CapacityProviderSessionStatus._(this.value);
+
+  static const values = [
+    provisioning,
+    deprovisioning,
+    active,
+    deleting,
+    deleted,
+    stopped
+  ];
+
+  static CapacityProviderSessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityProviderSessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderSessionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -14881,6 +16266,9 @@ class HarnessContentBlockDelta {
   /// A tool result delta.
   final List<HarnessToolResultBlockDelta>? toolResult;
 
+  /// A tool result metadata delta.
+  final HarnessToolResultMetadataBlockDelta? toolResultMetadata;
+
   /// A tool use input delta.
   final HarnessToolUseBlockDelta? toolUse;
 
@@ -14888,6 +16276,7 @@ class HarnessContentBlockDelta {
     this.reasoningContent,
     this.text,
     this.toolResult,
+    this.toolResultMetadata,
     this.toolUse,
   });
 
@@ -14903,6 +16292,10 @@ class HarnessContentBlockDelta {
           .map((e) =>
               HarnessToolResultBlockDelta.fromJson(e as Map<String, dynamic>))
           .toList(),
+      toolResultMetadata: json['toolResultMetadata'] != null
+          ? HarnessToolResultMetadataBlockDelta.fromJson(
+              json['toolResultMetadata'] as Map<String, dynamic>)
+          : null,
       toolUse: json['toolUse'] != null
           ? HarnessToolUseBlockDelta.fromJson(
               json['toolUse'] as Map<String, dynamic>)
@@ -14914,11 +16307,13 @@ class HarnessContentBlockDelta {
     final reasoningContent = this.reasoningContent;
     final text = this.text;
     final toolResult = this.toolResult;
+    final toolResultMetadata = this.toolResultMetadata;
     final toolUse = this.toolUse;
     return {
       if (reasoningContent != null) 'reasoningContent': reasoningContent,
       if (text != null) 'text': text,
       if (toolResult != null) 'toolResult': toolResult,
+      if (toolResultMetadata != null) 'toolResultMetadata': toolResultMetadata,
       if (toolUse != null) 'toolUse': toolUse,
     };
   }
@@ -14987,6 +16382,32 @@ class HarnessReasoningContentBlockDelta {
         'redactedContent': base64Encode(redactedContent),
       if (signature != null) 'signature': signature,
       if (text != null) 'text': text,
+    };
+  }
+}
+
+/// Delta payload for a tool result metadata.
+///
+/// @nodoc
+class HarnessToolResultMetadataBlockDelta {
+  /// The partial JSON-string fragment of the tool result metadata.
+  final String metadata;
+
+  HarnessToolResultMetadataBlockDelta({
+    required this.metadata,
+  });
+
+  factory HarnessToolResultMetadataBlockDelta.fromJson(
+      Map<String, dynamic> json) {
+    return HarnessToolResultMetadataBlockDelta(
+      metadata: (json['metadata'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    return {
+      'metadata': metadata,
     };
   }
 }
@@ -15260,6 +16681,9 @@ class HarnessModelConfiguration {
 ///
 /// @nodoc
 class HarnessSkill {
+  /// AWS Skills baked into the Harness's underlying Runtime.
+  final HarnessSkillAwsSkillsSource? awsSkills;
+
   /// A git repository containing the skill.
   final HarnessSkillGitSource? git;
 
@@ -15270,16 +16694,19 @@ class HarnessSkill {
   final HarnessSkillS3Source? s3;
 
   HarnessSkill({
+    this.awsSkills,
     this.git,
     this.path,
     this.s3,
   });
 
   Map<String, dynamic> toJson() {
+    final awsSkills = this.awsSkills;
     final git = this.git;
     final path = this.path;
     final s3 = this.s3;
     return {
+      if (awsSkills != null) 'awsSkills': awsSkills,
       if (git != null) 'git': git,
       if (path != null) 'path': path,
       if (s3 != null) 's3': s3,
@@ -15334,6 +16761,26 @@ class HarnessSkillGitSource {
       'url': url,
       if (auth != null) 'auth': auth,
       if (path != null) 'path': path,
+    };
+  }
+}
+
+/// Passed to show that AWS Skills should be included.
+///
+/// @nodoc
+class HarnessSkillAwsSkillsSource {
+  /// Optionally filter allowed skills with glob syntax, e.g.,
+  /// \['core-skills/*'\].
+  final List<String>? paths;
+
+  HarnessSkillAwsSkillsSource({
+    this.paths,
+  });
+
+  Map<String, dynamic> toJson() {
+    final paths = this.paths;
+    return {
+      if (paths != null) 'paths': paths,
     };
   }
 }
@@ -15828,6 +17275,10 @@ class HarnessGeminiModelConfig {
   /// The Gemini model ID.
   final String modelId;
 
+  /// Provider-specific parameters passed through to the Gemini model provider
+  /// unchanged.
+  final Document? additionalParams;
+
   /// The maximum number of tokens to allow in the generated response per
   /// iteration.
   final int? maxTokens;
@@ -15844,6 +17295,7 @@ class HarnessGeminiModelConfig {
   HarnessGeminiModelConfig({
     required this.apiKeyArn,
     required this.modelId,
+    this.additionalParams,
     this.maxTokens,
     this.temperature,
     this.topK,
@@ -15853,6 +17305,7 @@ class HarnessGeminiModelConfig {
   Map<String, dynamic> toJson() {
     final apiKeyArn = this.apiKeyArn;
     final modelId = this.modelId;
+    final additionalParams = this.additionalParams;
     final maxTokens = this.maxTokens;
     final temperature = this.temperature;
     final topK = this.topK;
@@ -15860,6 +17313,7 @@ class HarnessGeminiModelConfig {
     return {
       'apiKeyArn': apiKeyArn,
       'modelId': modelId,
+      if (additionalParams != null) 'additionalParams': additionalParams,
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (topK != null) 'topK': topK,

@@ -1668,6 +1668,38 @@ class ListingBadgeType {
   String toString() => value;
 }
 
+/// A category used to classify a listing or product into a logical group.
+///
+/// @nodoc
+class Category {
+  /// The machine-readable identifier of the category.
+  final String categoryId;
+
+  /// The human-readable name of the category.
+  final String displayName;
+
+  Category({
+    required this.categoryId,
+    required this.displayName,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      categoryId: (json['categoryId'] as String?) ?? '',
+      displayName: (json['displayName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryId = this.categoryId;
+    final displayName = this.displayName;
+    return {
+      'categoryId': categoryId,
+      'displayName': displayName,
+    };
+  }
+}
+
 /// A summary of a fulfillment option available for deploying or accessing a
 /// listing or product.
 ///
@@ -1755,38 +1787,6 @@ class FulfillmentOptionType {
 
   @override
   String toString() => value;
-}
-
-/// A category used to classify a listing or product into a logical group.
-///
-/// @nodoc
-class Category {
-  /// The machine-readable identifier of the category.
-  final String categoryId;
-
-  /// The human-readable name of the category.
-  final String displayName;
-
-  Category({
-    required this.categoryId,
-    required this.displayName,
-  });
-
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      categoryId: (json['categoryId'] as String?) ?? '',
-      displayName: (json['displayName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categoryId = this.categoryId;
-    final displayName = this.displayName;
-    return {
-      'categoryId': categoryId,
-      'displayName': displayName,
-    };
-  }
 }
 
 /// @nodoc
@@ -4153,6 +4153,9 @@ class OfferTerm {
   final FixedUpfrontPricingTerm? fixedUpfrontPricingTerm;
   final FreeTrialPricingTerm? freeTrialPricingTerm;
   final LegalTerm? legalTerm;
+
+  /// A net payment term.
+  final NetPaymentTerm? netPaymentTerm;
   final PaymentScheduleTerm? paymentScheduleTerm;
   final RecurringPaymentTerm? recurringPaymentTerm;
   final RenewalTerm? renewalTerm;
@@ -4167,6 +4170,7 @@ class OfferTerm {
     this.fixedUpfrontPricingTerm,
     this.freeTrialPricingTerm,
     this.legalTerm,
+    this.netPaymentTerm,
     this.paymentScheduleTerm,
     this.recurringPaymentTerm,
     this.renewalTerm,
@@ -4197,6 +4201,10 @@ class OfferTerm {
           : null,
       legalTerm: json['legalTerm'] != null
           ? LegalTerm.fromJson(json['legalTerm'] as Map<String, dynamic>)
+          : null,
+      netPaymentTerm: json['netPaymentTerm'] != null
+          ? NetPaymentTerm.fromJson(
+              json['netPaymentTerm'] as Map<String, dynamic>)
           : null,
       paymentScheduleTerm: json['paymentScheduleTerm'] != null
           ? PaymentScheduleTerm.fromJson(
@@ -4232,6 +4240,7 @@ class OfferTerm {
     final fixedUpfrontPricingTerm = this.fixedUpfrontPricingTerm;
     final freeTrialPricingTerm = this.freeTrialPricingTerm;
     final legalTerm = this.legalTerm;
+    final netPaymentTerm = this.netPaymentTerm;
     final paymentScheduleTerm = this.paymentScheduleTerm;
     final recurringPaymentTerm = this.recurringPaymentTerm;
     final renewalTerm = this.renewalTerm;
@@ -4248,6 +4257,7 @@ class OfferTerm {
       if (freeTrialPricingTerm != null)
         'freeTrialPricingTerm': freeTrialPricingTerm,
       if (legalTerm != null) 'legalTerm': legalTerm,
+      if (netPaymentTerm != null) 'netPaymentTerm': netPaymentTerm,
       if (paymentScheduleTerm != null)
         'paymentScheduleTerm': paymentScheduleTerm,
       if (recurringPaymentTerm != null)
@@ -4834,6 +4844,46 @@ class VariablePaymentTerm {
   }
 }
 
+/// Defines a net payment term that sets how many days after the invoice date
+/// the payment is due.
+///
+/// @nodoc
+class NetPaymentTerm {
+  /// The unique identifier of the term.
+  final String id;
+
+  /// The duration after invoice date by which payment is due.
+  final String paymentDuePeriod;
+
+  /// The category of the term.
+  final TermType type;
+
+  NetPaymentTerm({
+    required this.id,
+    required this.paymentDuePeriod,
+    required this.type,
+  });
+
+  factory NetPaymentTerm.fromJson(Map<String, dynamic> json) {
+    return NetPaymentTerm(
+      id: (json['id'] as String?) ?? '',
+      paymentDuePeriod: (json['paymentDuePeriod'] as String?) ?? '',
+      type: TermType.fromString((json['type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final paymentDuePeriod = this.paymentDuePeriod;
+    final type = this.type;
+    return {
+      'id': id,
+      'paymentDuePeriod': paymentDuePeriod,
+      'type': type.value,
+    };
+  }
+}
+
 /// @nodoc
 class TermType {
   static const byolPricingTerm = TermType._('ByolPricingTerm');
@@ -4849,6 +4899,7 @@ class TermType {
   static const supportTerm = TermType._('SupportTerm');
   static const validityTerm = TermType._('ValidityTerm');
   static const variablePaymentTerm = TermType._('VariablePaymentTerm');
+  static const netPaymentTerm = TermType._('NetPaymentTerm');
 
   final String value;
 
@@ -4866,7 +4917,8 @@ class TermType {
     renewalTerm,
     supportTerm,
     validityTerm,
-    variablePaymentTerm
+    variablePaymentTerm,
+    netPaymentTerm
   ];
 
   static TermType fromString(String value) => values

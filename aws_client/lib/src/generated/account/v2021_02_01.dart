@@ -664,6 +664,53 @@ class Account {
     return GetPrimaryEmailResponse.fromJson(response);
   }
 
+  /// Retrieves the status of the most recent primary email update for the
+  /// specified account. For complete details about how to update the primary
+  /// email address, see <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-root-user-email.html">Update
+  /// the primary email address for your AWS account</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. To use this
+  /// parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// admin</a> account assigned.
+  ///
+  /// This operation can only be called from the management account or the
+  /// delegated administrator account of an organization for a member account.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>.
+  /// </note>
+  Future<GetPrimaryEmailUpdateStatusResponse> getPrimaryEmailUpdateStatus({
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accountId != null) 'AccountId': accountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getPrimaryEmailUpdateStatus',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPrimaryEmailUpdateStatusResponse.fromJson(response);
+  }
+
   /// Starts the process to update the primary email address for the specified
   /// account.
   ///
@@ -1171,6 +1218,39 @@ class GetPrimaryEmailResponse {
 }
 
 /// @nodoc
+class GetPrimaryEmailUpdateStatusResponse {
+  /// The status of the most recent primary email update request.
+  final PrimaryEmailUpdateStatus status;
+
+  /// The date and time that the most recent primary email update status was last
+  /// changed.
+  final DateTime? updatedAt;
+
+  GetPrimaryEmailUpdateStatusResponse({
+    required this.status,
+    this.updatedAt,
+  });
+
+  factory GetPrimaryEmailUpdateStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetPrimaryEmailUpdateStatusResponse(
+      status: PrimaryEmailUpdateStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
 class StartPrimaryEmailUpdateResponse {
   /// The status of the primary email update request.
   final PrimaryEmailUpdateStatus? status;
@@ -1336,12 +1416,14 @@ class RegionOptStatus {
 class PrimaryEmailUpdateStatus {
   static const pending = PrimaryEmailUpdateStatus._('PENDING');
   static const accepted = PrimaryEmailUpdateStatus._('ACCEPTED');
+  static const completed = PrimaryEmailUpdateStatus._('COMPLETED');
+  static const failed = PrimaryEmailUpdateStatus._('FAILED');
 
   final String value;
 
   const PrimaryEmailUpdateStatus._(this.value);
 
-  static const values = [pending, accepted];
+  static const values = [pending, accepted, completed, failed];
 
   static PrimaryEmailUpdateStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,

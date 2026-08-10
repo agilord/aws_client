@@ -3453,6 +3453,25 @@ class SsoAdmin {
   /// Update the details for the instance of IAM Identity Center that is owned
   /// by the Amazon Web Services account.
   ///
+  /// In a single <code>UpdateInstance</code> request, you can perform only one
+  /// of the following operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Update the encryption configuration of the instance by specifying
+  /// <code>EncryptionConfiguration</code>.
+  /// </li>
+  /// <li>
+  /// Enable permission sets for the instance by specifying
+  /// <code>PermissionSetsEnabled</code>.
+  /// </li>
+  /// </ul>
+  /// A request that specifies both <code>EncryptionConfiguration</code> and
+  /// <code>PermissionSetsEnabled</code> returns a
+  /// <code>ValidationException</code>. To perform both operations, call
+  /// <code>UpdateInstance</code> separately for each. The two calls can be made
+  /// in parallel.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
@@ -3474,10 +3493,22 @@ class SsoAdmin {
   ///
   /// Parameter [name] :
   /// Updates the instance name.
+  ///
+  /// Parameter [permissionSetsEnabled] :
+  /// Enables permission sets for this Identity Center instance. The only
+  /// accepted value is <code>true </code>. After permission sets are enabled,
+  /// they cannot be disabled.
+  /// <note>
+  /// You can't set <code>EncryptionConfiguration</code> and
+  /// <code>PermissionSetsEnabled</code> in the same request. To configure both,
+  /// make two separate <code>UpdateInstance</code> calls. These calls can be
+  /// made in parallel.
+  /// </note>
   Future<void> updateInstance({
     required String instanceArn,
     EncryptionConfiguration? encryptionConfiguration,
     String? name,
+    bool? permissionSetsEnabled,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3494,6 +3525,8 @@ class SsoAdmin {
         if (encryptionConfiguration != null)
           'EncryptionConfiguration': encryptionConfiguration,
         if (name != null) 'Name': name,
+        if (permissionSetsEnabled != null)
+          'PermissionSetsEnabled': permissionSetsEnabled,
       },
     );
   }
@@ -4876,6 +4909,10 @@ class DescribeInstanceResponse {
   /// created.
   final String? ownerAccountId;
 
+  /// Indicates whether permission sets are enabled for this Identity Center
+  /// instance.
+  final bool? permissionSetsEnabled;
+
   /// The status of the instance.
   final InstanceStatus? status;
 
@@ -4894,6 +4931,7 @@ class DescribeInstanceResponse {
     this.instanceArn,
     this.name,
     this.ownerAccountId,
+    this.permissionSetsEnabled,
     this.status,
     this.statusReason,
   });
@@ -4910,6 +4948,7 @@ class DescribeInstanceResponse {
       instanceArn: json['InstanceArn'] as String?,
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
+      permissionSetsEnabled: json['PermissionSetsEnabled'] as bool?,
       status: (json['Status'] as String?)?.let(InstanceStatus.fromString),
       statusReason: json['StatusReason'] as String?,
     );
@@ -4922,6 +4961,7 @@ class DescribeInstanceResponse {
     final instanceArn = this.instanceArn;
     final name = this.name;
     final ownerAccountId = this.ownerAccountId;
+    final permissionSetsEnabled = this.permissionSetsEnabled;
     final status = this.status;
     final statusReason = this.statusReason;
     return {
@@ -4932,6 +4972,8 @@ class DescribeInstanceResponse {
       if (instanceArn != null) 'InstanceArn': instanceArn,
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (permissionSetsEnabled != null)
+        'PermissionSetsEnabled': permissionSetsEnabled,
       if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };
@@ -7740,6 +7782,14 @@ class InstanceMetadata {
   /// Center instance.
   final String? ownerAccountId;
 
+  /// The primary Region where the IAM Identity Center instance was originally
+  /// enabled. The primary Region cannot be removed.
+  final String? primaryRegion;
+
+  /// The list of Regions enabled in the IAM Identity Center instance, including
+  /// Regions with ACTIVE, ADDING, or REMOVING status.
+  final List<RegionMetadata>? regions;
+
   /// The current status of this Identity Center instance.
   final InstanceStatus? status;
 
@@ -7756,6 +7806,8 @@ class InstanceMetadata {
     this.instanceArn,
     this.name,
     this.ownerAccountId,
+    this.primaryRegion,
+    this.regions,
     this.status,
     this.statusReason,
   });
@@ -7767,6 +7819,11 @@ class InstanceMetadata {
       instanceArn: json['InstanceArn'] as String?,
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
+      primaryRegion: json['PrimaryRegion'] as String?,
+      regions: (json['Regions'] as List?)
+          ?.nonNulls
+          .map((e) => RegionMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: (json['Status'] as String?)?.let(InstanceStatus.fromString),
       statusReason: json['StatusReason'] as String?,
     );
@@ -7778,6 +7835,8 @@ class InstanceMetadata {
     final instanceArn = this.instanceArn;
     final name = this.name;
     final ownerAccountId = this.ownerAccountId;
+    final primaryRegion = this.primaryRegion;
+    final regions = this.regions;
     final status = this.status;
     final statusReason = this.statusReason;
     return {
@@ -7786,6 +7845,8 @@ class InstanceMetadata {
       if (instanceArn != null) 'InstanceArn': instanceArn,
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (primaryRegion != null) 'PrimaryRegion': primaryRegion,
+      if (regions != null) 'Regions': regions,
       if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason,
     };

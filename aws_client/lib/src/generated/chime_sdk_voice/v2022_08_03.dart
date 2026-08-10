@@ -265,6 +265,10 @@ class ChimeSdkVoice {
 
   /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector
   /// for the specified participant phone numbers.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -456,6 +460,10 @@ class ChimeSdkVoice {
   /// Parameter [name] :
   /// The name of the SIP rule.
   ///
+  /// Parameter [targetApplications] :
+  /// List of SIP media applications, with priority and AWS Region. Only one SIP
+  /// application per AWS Region can be used.
+  ///
   /// Parameter [triggerType] :
   /// The type of trigger assigned to the SIP rule in <code>TriggerValue</code>,
   /// currently <code>RequestUriHostname</code> or <code>ToPhoneNumber</code>.
@@ -473,23 +481,19 @@ class ChimeSdkVoice {
   /// Parameter [disabled] :
   /// Disables or enables a SIP rule. You must disable SIP rules before you can
   /// delete them.
-  ///
-  /// Parameter [targetApplications] :
-  /// List of SIP media applications, with priority and AWS Region. Only one SIP
-  /// application per AWS Region can be used.
   Future<CreateSipRuleResponse> createSipRule({
     required String name,
+    required List<SipRuleTargetApplication> targetApplications,
     required SipRuleTriggerType triggerType,
     required String triggerValue,
     bool? disabled,
-    List<SipRuleTargetApplication>? targetApplications,
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
+      'TargetApplications': targetApplications,
       'TriggerType': triggerType.value,
       'TriggerValue': triggerValue,
       if (disabled != null) 'Disabled': disabled,
-      if (targetApplications != null) 'TargetApplications': targetApplications,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -541,7 +545,10 @@ class ChimeSdkVoice {
   /// Additionally, enterprises migrating their contact center to Connect
   /// Customer can start with Connect telephony and IVR for immediate
   /// modernization ahead of agent migration.
-  /// </li>
+  /// <note>
+  /// This integration is a gated feature. Please reach out to your account team
+  /// to discuss this feature with a Connect Specialist.
+  /// </note> </li>
   /// <li>
   /// <code>CONNECT_ANALYTICS_CONNECTOR</code> - Enables enterprises to
   /// integrate Connect Customer with other voice systems for real-time and
@@ -560,8 +567,7 @@ class ChimeSdkVoice {
   /// </ul>
   ///
   /// Parameter [networkType] :
-  /// The type of network for the Voice Connector. Either IPv4 only or
-  /// dual-stack (IPv4 and IPv6).
+  /// The type of network for the Voice Connector.
   ///
   /// Parameter [tags] :
   /// The tags assigned to the Voice Connector.
@@ -602,6 +608,7 @@ class ChimeSdkVoice {
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceLimitExceededException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
@@ -615,10 +622,13 @@ class ChimeSdkVoice {
   /// Lists the Voice Connectors that inbound calls are routed to.
   Future<CreateVoiceConnectorGroupResponse> createVoiceConnectorGroup({
     required String name,
+    CallDistributionType? callDistributionType,
     List<VoiceConnectorItem>? voiceConnectorItems,
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
+      if (callDistributionType != null)
+        'CallDistributionType': callDistributionType.value,
       if (voiceConnectorItems != null)
         'VoiceConnectorItems': voiceConnectorItems,
     };
@@ -767,6 +777,10 @@ class ChimeSdkVoice {
 
   /// Deletes the specified proxy session from the specified Amazon Chime SDK
   /// Voice Connector.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -977,6 +991,10 @@ class ChimeSdkVoice {
 
   /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice
   /// Connector.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1301,6 +1319,10 @@ class ChimeSdkVoice {
 
   /// Retrieves the specified proxy session details for the specified Amazon
   /// Chime SDK Voice Connector.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1365,6 +1387,7 @@ class ChimeSdkVoice {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [GoneException].
   /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
@@ -1636,6 +1659,10 @@ class ChimeSdkVoice {
 
   /// Retrieves the proxy configuration details for the specified Amazon Chime
   /// SDK Voice Connector.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1955,6 +1982,10 @@ class ChimeSdkVoice {
 
   /// Lists the proxy sessions for the specified Amazon Chime SDK Voice
   /// Connector.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2045,6 +2076,7 @@ class ChimeSdkVoice {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
@@ -2340,6 +2372,7 @@ class ChimeSdkVoice {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [GoneException].
   /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
@@ -2524,6 +2557,7 @@ class ChimeSdkVoice {
 
   /// Updates a Voice Connector's origination settings.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
@@ -2556,6 +2590,10 @@ class ChimeSdkVoice {
 
   /// Puts the specified proxy configuration to the specified Amazon Chime SDK
   /// Voice Connector.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
@@ -3058,10 +3096,10 @@ class ChimeSdkVoice {
   /// Parameter [voiceConnector] :
   /// The Voice Connector settings.
   Future<void> updateGlobalSettings({
-    VoiceConnectorSettings? voiceConnector,
+    required VoiceConnectorSettings voiceConnector,
   }) async {
     final $payload = <String, dynamic>{
-      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+      'VoiceConnector': voiceConnector,
     };
     await _protocol.send(
       payload: $payload,
@@ -3153,6 +3191,10 @@ class ChimeSdkVoice {
 
   /// Updates the specified proxy session details, such as voice or SMS
   /// capabilities.
+  /// <important>
+  /// End of support notice: On April 7, 2026, AWS will end support for Amazon
+  /// Chime SDK proxy sessions.
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3382,10 +3424,13 @@ class ChimeSdkVoice {
     required String name,
     required String voiceConnectorGroupId,
     required List<VoiceConnectorItem> voiceConnectorItems,
+    CallDistributionType? callDistributionType,
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
       'VoiceConnectorItems': voiceConnectorItems,
+      if (callDistributionType != null)
+        'CallDistributionType': callDistributionType.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -6009,6 +6054,8 @@ class VoiceProfile {
 ///
 /// @nodoc
 class VoiceConnectorGroup {
+  final CallDistributionType? callDistributionType;
+
   /// The Voice Connector group's creation time stamp, in ISO 8601 format.
   final DateTime? createdTimestamp;
 
@@ -6028,6 +6075,7 @@ class VoiceConnectorGroup {
   final List<VoiceConnectorItem>? voiceConnectorItems;
 
   VoiceConnectorGroup({
+    this.callDistributionType,
     this.createdTimestamp,
     this.name,
     this.updatedTimestamp,
@@ -6038,6 +6086,8 @@ class VoiceConnectorGroup {
 
   factory VoiceConnectorGroup.fromJson(Map<String, dynamic> json) {
     return VoiceConnectorGroup(
+      callDistributionType: (json['CallDistributionType'] as String?)
+          ?.let(CallDistributionType.fromString),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       name: json['Name'] as String?,
       updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
@@ -6051,6 +6101,7 @@ class VoiceConnectorGroup {
   }
 
   Map<String, dynamic> toJson() {
+    final callDistributionType = this.callDistributionType;
     final createdTimestamp = this.createdTimestamp;
     final name = this.name;
     final updatedTimestamp = this.updatedTimestamp;
@@ -6058,6 +6109,8 @@ class VoiceConnectorGroup {
     final voiceConnectorGroupId = this.voiceConnectorGroupId;
     final voiceConnectorItems = this.voiceConnectorItems;
     return {
+      if (callDistributionType != null)
+        'CallDistributionType': callDistributionType.value,
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
       if (name != null) 'Name': name,
@@ -6073,39 +6126,70 @@ class VoiceConnectorGroup {
   }
 }
 
+/// @nodoc
+class CallDistributionType {
+  static const priorityWeightedDistribution =
+      CallDistributionType._('PriorityWeightedDistribution');
+  static const loadBalancedDistribution =
+      CallDistributionType._('LoadBalancedDistribution');
+
+  final String value;
+
+  const CallDistributionType._(this.value);
+
+  static const values = [
+    priorityWeightedDistribution,
+    loadBalancedDistribution
+  ];
+
+  static CallDistributionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CallDistributionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallDistributionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice
 /// Connectors to which you route inbound calls. Includes priority configuration
 /// settings. Limit: 3 VoiceConnectorItems per Voice Connector group.
 ///
 /// @nodoc
 class VoiceConnectorItem {
+  /// The Voice Connector ID.
+  final String voiceConnectorId;
+
   /// The priority setting of a Voice Connector item. Calls are routed to hosts in
   /// priority order, with 1 as the highest priority. When hosts have equal
   /// priority, the system distributes calls among them based on their relative
   /// weight.
-  final int priority;
-
-  /// The Voice Connector ID.
-  final String voiceConnectorId;
+  final int? priority;
 
   VoiceConnectorItem({
-    required this.priority,
     required this.voiceConnectorId,
+    this.priority,
   });
 
   factory VoiceConnectorItem.fromJson(Map<String, dynamic> json) {
     return VoiceConnectorItem(
-      priority: (json['Priority'] as int?) ?? 0,
       voiceConnectorId: (json['VoiceConnectorId'] as String?) ?? '',
+      priority: json['Priority'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final priority = this.priority;
     final voiceConnectorId = this.voiceConnectorId;
+    final priority = this.priority;
     return {
-      'Priority': priority,
       'VoiceConnectorId': voiceConnectorId,
+      if (priority != null) 'Priority': priority,
     };
   }
 }
@@ -6127,8 +6211,7 @@ class VoiceConnector {
   /// The Voice Connector's name.
   final String? name;
 
-  /// The type of network of the Voice Connector. Either IPv4 only or dual-stack
-  /// (IPv4 and IPv6).
+  /// The type of network for the Voice Connector.
   final NetworkType? networkType;
 
   /// The outbound host name for the Voice Connector.
@@ -6916,6 +6999,7 @@ class PhoneNumber {
 
   /// The phone number's order ID.
   final String? orderId;
+  final String? phoneNumberArn;
 
   /// The phone number's ID.
   final String? phoneNumberId;
@@ -6943,6 +7027,7 @@ class PhoneNumber {
     this.e164PhoneNumber,
     this.name,
     this.orderId,
+    this.phoneNumberArn,
     this.phoneNumberId,
     this.productType,
     this.status,
@@ -6970,6 +7055,7 @@ class PhoneNumber {
       e164PhoneNumber: json['E164PhoneNumber'] as String?,
       name: json['Name'] as String?,
       orderId: json['OrderId'] as String?,
+      phoneNumberArn: json['PhoneNumberArn'] as String?,
       phoneNumberId: json['PhoneNumberId'] as String?,
       productType: (json['ProductType'] as String?)
           ?.let(PhoneNumberProductType.fromString),
@@ -6990,6 +7076,7 @@ class PhoneNumber {
     final e164PhoneNumber = this.e164PhoneNumber;
     final name = this.name;
     final orderId = this.orderId;
+    final phoneNumberArn = this.phoneNumberArn;
     final phoneNumberId = this.phoneNumberId;
     final productType = this.productType;
     final status = this.status;
@@ -7009,6 +7096,7 @@ class PhoneNumber {
       if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
       if (name != null) 'Name': name,
       if (orderId != null) 'OrderId': orderId,
+      if (phoneNumberArn != null) 'PhoneNumberArn': phoneNumberArn,
       if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
       if (productType != null) 'ProductType': productType.value,
       if (status != null) 'Status': status.value,
@@ -7501,6 +7589,7 @@ class ErrorCode {
   static const phoneNumberAssociationsExist =
       ErrorCode._('PhoneNumberAssociationsExist');
   static const gone = ErrorCode._('Gone');
+  static const validation = ErrorCode._('Validation');
 
   final String value;
 
@@ -7522,7 +7611,8 @@ class ErrorCode {
     unprocessable,
     voiceConnectorGroupAssociationsExist,
     phoneNumberAssociationsExist,
-    gone
+    gone,
+    validation
   ];
 
   static ErrorCode fromString(String value) => values
@@ -8642,7 +8732,7 @@ class PhoneNumberOrder {
 
   /// The Firm Order Commitment (FOC) date for phone number porting orders. This
   /// field is null if a phone number order is not a porting order.
-  final DateTime? focDate;
+  final String? focDate;
 
   /// The type of phone number being ordered, local or toll-free.
   final PhoneNumberOrderType? orderType;
@@ -8677,7 +8767,7 @@ class PhoneNumberOrder {
   factory PhoneNumberOrder.fromJson(Map<String, dynamic> json) {
     return PhoneNumberOrder(
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      focDate: timeStampFromJson(json['FocDate']),
+      focDate: json['FocDate'] as String?,
       orderType:
           (json['OrderType'] as String?)?.let(PhoneNumberOrderType.fromString),
       orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List?)
@@ -8705,7 +8795,7 @@ class PhoneNumberOrder {
     return {
       if (createdTimestamp != null)
         'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (focDate != null) 'FocDate': iso8601ToJson(focDate),
+      if (focDate != null) 'FocDate': focDate,
       if (orderType != null) 'OrderType': orderType.value,
       if (orderedPhoneNumbers != null)
         'OrderedPhoneNumbers': orderedPhoneNumbers,

@@ -223,7 +223,7 @@ class ResiliencehubV2 {
   /// The permission model for the service.
   ///
   /// Parameter [regions] :
-  /// The AWS Regions where the service operates.
+  /// The Regions where the service operates.
   ///
   /// Parameter [associatedSystems] :
   /// The systems to associate with the service.
@@ -365,6 +365,58 @@ class ResiliencehubV2 {
       exceptionFnMap: _exceptionFns,
     );
     return CreateSystemResponse.fromJson(response);
+  }
+
+  /// Creates a test for a service by configuring a test template. Each service
+  /// has one test per template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service to create the test for.
+  ///
+  /// Parameter [testTemplateArn] :
+  /// The ARN of the test template to configure.
+  ///
+  /// Parameter [loggingConfiguration] :
+  /// The logging configuration for the test.
+  ///
+  /// Parameter [parameters] :
+  /// The parameter values for the test.
+  ///
+  /// Parameter [roleName] :
+  /// The name of the IAM execution role to use when running the test.
+  ///
+  /// Parameter [stopConditions] :
+  /// The stop conditions for the test.
+  Future<CreateTestResponse> createTest({
+    required String serviceArn,
+    required String testTemplateArn,
+    LoggingConfiguration? loggingConfiguration,
+    Map<String, List<String>>? parameters,
+    String? roleName,
+    List<StopCondition>? stopConditions,
+  }) async {
+    final $payload = <String, dynamic>{
+      'serviceArn': serviceArn,
+      'testTemplateArn': testTemplateArn,
+      if (loggingConfiguration != null)
+        'loggingConfiguration': loggingConfiguration,
+      if (parameters != null) 'parameters': parameters,
+      if (roleName != null) 'roleName': roleName,
+      if (stopConditions != null) 'stopConditions': stopConditions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/create-test',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTestResponse.fromJson(response);
   }
 
   /// Creates a user journey within a system.
@@ -576,6 +628,71 @@ class ResiliencehubV2 {
     return DeleteSystemResponse.fromJson(response);
   }
 
+  /// Deletes a test.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test belongs to.
+  ///
+  /// Parameter [testId] :
+  /// The identifier of the test to delete.
+  Future<DeleteTestResponse> deleteTest({
+    required String serviceArn,
+    required String testId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'serviceArn': serviceArn,
+      'testId': testId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/delete-test',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteTestResponse.fromJson(response);
+  }
+
+  /// Removes monitoring sources from a test. The operation is transactional and
+  /// idempotent — removing a source that is not attached is a no-op.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test belongs to.
+  ///
+  /// Parameter [testId] :
+  /// The identifier of the test to remove sources from.
+  ///
+  /// Parameter [testSources] :
+  /// The monitoring sources to remove.
+  Future<void> deleteTestSources({
+    required String serviceArn,
+    required String testId,
+    required List<TestSourceInput> testSources,
+  }) async {
+    final $payload = <String, dynamic>{
+      'serviceArn': serviceArn,
+      'testId': testId,
+      'testSources': testSources,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/delete-test-sources',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a user journey.
   ///
   /// May throw [AccessDeniedException].
@@ -694,6 +811,93 @@ class ResiliencehubV2 {
       exceptionFnMap: _exceptionFns,
     );
     return GetSystemResponse.fromJson(response);
+  }
+
+  /// Retrieves a test by ID.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test belongs to.
+  ///
+  /// Parameter [testId] :
+  /// The identifier of the test to retrieve.
+  Future<GetTestResponse> getTest({
+    required String serviceArn,
+    required String testId,
+  }) async {
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      'testId': [testId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/get-test',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTestResponse.fromJson(response);
+  }
+
+  /// Retrieves a test run by ID, including its status, results, and the
+  /// configuration snapshotted when the run started.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test run belongs to.
+  ///
+  /// Parameter [testRunId] :
+  /// The identifier of the test run to retrieve.
+  Future<GetTestRunResponse> getTestRun({
+    required String serviceArn,
+    required String testRunId,
+  }) async {
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      'testRunId': [testRunId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/get-test-run',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTestRunResponse.fromJson(response);
+  }
+
+  /// Retrieves a resilience test template by ARN, including the parameters it
+  /// accepts and the fault actions it runs.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [testTemplateArn] :
+  /// The ARN of the test template to retrieve.
+  Future<GetTestTemplateResponse> getTestTemplate({
+    required String testTemplateArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'testTemplateArn': [testTemplateArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/get-test-template',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTestTemplateResponse.fromJson(response);
   }
 
   /// Retrieves a user journey.
@@ -907,10 +1111,32 @@ class ResiliencehubV2 {
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [assessmentStatuses] :
+  /// Specifies the assessment statuses to include in the results.
+  ///
+  /// Parameter [endedBefore] :
+  /// Specifies that only assessments that ended at or before this timestamp
+  /// appear in the results.
+  ///
+  /// Parameter [sortBy] :
+  /// The field to use for sorting failure mode assessments.
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order for results.
+  ///
+  /// Parameter [startedAfter] :
+  /// Specifies that only assessments that started at or after this timestamp
+  /// appear in the results.
   Future<ListFailureModeAssessmentsResponse> listFailureModeAssessments({
     required String serviceArn,
+    List<AssessmentStatus>? assessmentStatuses,
+    DateTime? endedBefore,
     int? maxResults,
     String? nextToken,
+    AssessmentSortField? sortBy,
+    SortOrder? sortOrder,
+    DateTime? startedAfter,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -920,8 +1146,16 @@ class ResiliencehubV2 {
     );
     final $query = <String, List<String>>{
       'serviceArn': [serviceArn],
+      if (assessmentStatuses != null)
+        'assessmentStatuses': assessmentStatuses.map((e) => e.value).toList(),
+      if (endedBefore != null)
+        'endedBefore': [_s.iso8601ToJson(endedBefore).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (startedAfter != null)
+        'startedAfter': [_s.iso8601ToJson(startedAfter).toString()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1065,6 +1299,7 @@ class ResiliencehubV2 {
     String? nextToken,
     ReportType? reportType,
     String? serviceArn,
+    String? testRunId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1077,6 +1312,7 @@ class ResiliencehubV2 {
       if (nextToken != null) 'nextToken': [nextToken],
       if (reportType != null) 'reportType': [reportType.value],
       if (serviceArn != null) 'serviceArn': [serviceArn],
+      if (testRunId != null) 'testRunId': [testRunId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1086,6 +1322,48 @@ class ResiliencehubV2 {
       exceptionFnMap: _exceptionFns,
     );
     return ListReportsResponse.fromJson(response);
+  }
+
+  /// Lists the AWS resources that AWS Fault Injection Service (AWS FIS)
+  /// resolved as targets for a test run.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test run belongs to.
+  ///
+  /// Parameter [testRunId] :
+  /// The identifier of the test run to list resolved target resources for.
+  Future<ListResolvedTestRunTargetResourcesResponse>
+      listResolvedTestRunTargetResources({
+    required String serviceArn,
+    required String testRunId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/test-runs/${Uri.encodeComponent(testRunId)}/resolved-target-resources',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListResolvedTestRunTargetResourcesResponse.fromJson(response);
   }
 
   /// List resources.
@@ -1098,13 +1376,22 @@ class ResiliencehubV2 {
   /// Parameter [awsRegion] :
   /// Filter resources by AWS Region.
   ///
+  /// Parameter [billable] :
+  /// Specifies whether to filter non-billable resources. When true (the
+  /// default), the operation returns only billable resources.
+  ///
+  /// Parameter [resourceTypes] :
+  /// The CloudFormation resource types to include in the response.
+  ///
   /// Parameter [serviceFunctionId] :
   /// Filter resources by service function identifier.
   Future<ListResourcesResponse> listResources({
     required String serviceArn,
     String? awsRegion,
+    bool? billable,
     int? maxResults,
     String? nextToken,
+    List<String>? resourceTypes,
     String? serviceFunctionId,
   }) async {
     _s.validateNumRange(
@@ -1116,8 +1403,10 @@ class ResiliencehubV2 {
     final $query = <String, List<String>>{
       'serviceArn': [serviceArn],
       if (awsRegion != null) 'awsRegion': [awsRegion],
+      if (billable != null) 'billable': [billable.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (resourceTypes != null) 'resourceTypes': resourceTypes,
       if (serviceFunctionId != null) 'serviceFunctionId': [serviceFunctionId],
     };
     final response = await _protocol.send(
@@ -1398,6 +1687,238 @@ class ResiliencehubV2 {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Lists the events in a test run's timeline.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test run belongs to.
+  ///
+  /// Parameter [testRunId] :
+  /// The identifier of the test run to list events for.
+  ///
+  /// Parameter [endedAt] :
+  /// Return events at or before this timestamp.
+  ///
+  /// Parameter [startedAt] :
+  /// Return events at or after this timestamp.
+  Future<ListTestRunEventsResponse> listTestRunEvents({
+    required String serviceArn,
+    required String testRunId,
+    DateTime? endedAt,
+    int? maxResults,
+    String? nextToken,
+    DateTime? startedAt,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      if (endedAt != null) 'endedAt': [_s.iso8601ToJson(endedAt).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (startedAt != null)
+        'startedAt': [_s.iso8601ToJson(startedAt).toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/test-runs/${Uri.encodeComponent(testRunId)}/events',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTestRunEventsResponse.fromJson(response);
+  }
+
+  /// Lists the runs of a test, or all test runs for a service.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service to list test runs for.
+  ///
+  /// Parameter [testId] :
+  /// Filter test runs by test identifier.
+  Future<ListTestRunsResponse> listTestRuns({
+    required String serviceArn,
+    int? maxResults,
+    String? nextToken,
+    String? testId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (testId != null) 'testId': [testId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/list-test-runs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTestRunsResponse.fromJson(response);
+  }
+
+  /// Lists the monitoring source snapshots captured for a test run, optionally
+  /// filtered by type.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test run belongs to.
+  ///
+  /// Parameter [testRunId] :
+  /// The identifier of the test run to list sources for.
+  ///
+  /// Parameter [type] :
+  /// Filter sources by type.
+  Future<ListTestRunSourcesResponse> listTestRunSources({
+    required String serviceArn,
+    required String testRunId,
+    int? maxResults,
+    String? nextToken,
+    TestRunSourceType? type,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (type != null) 'type': [type.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/test-runs/${Uri.encodeComponent(testRunId)}/sources',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTestRunSourcesResponse.fromJson(response);
+  }
+
+  /// Lists the tests configured for a service.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service to list tests for.
+  Future<ListTestsResponse> listTests({
+    required String serviceArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/list-tests',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTestsResponse.fromJson(response);
+  }
+
+  /// Lists the monitoring sources attached to a test, optionally filtered by
+  /// type.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test belongs to.
+  ///
+  /// Parameter [testId] :
+  /// The identifier of the test to list sources for.
+  ///
+  /// Parameter [type] :
+  /// Filter sources by type.
+  Future<ListTestSourcesResponse> listTestSources({
+    required String serviceArn,
+    required String testId,
+    int? maxResults,
+    String? nextToken,
+    TestSourceType? type,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'serviceArn': [serviceArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (type != null) 'type': [type.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/tests/${Uri.encodeComponent(testId)}/sources',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTestSourcesResponse.fromJson(response);
+  }
+
+  /// Lists the available resilience test templates. A test template is a
+  /// pre-configured, AWS recommended test that defines which resilience
+  /// capability to validate.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  Future<ListTestTemplatesResponse> listTestTemplates() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/list-test-templates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTestTemplatesResponse.fromJson(response);
+  }
+
   /// Lists user journeys for a system.
   ///
   /// May throw [AccessDeniedException].
@@ -1430,7 +1951,44 @@ class ResiliencehubV2 {
     return ListUserJourneysResponse.fromJson(response);
   }
 
-  /// Start a failure mode assessment.
+  /// Adds or updates the monitoring sources on a test. The operation is
+  /// transactional — either every source is written or the call fails and
+  /// nothing is written.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test belongs to.
+  ///
+  /// Parameter [testId] :
+  /// The identifier of the test to add sources to.
+  ///
+  /// Parameter [testSources] :
+  /// The monitoring sources to add or update.
+  Future<void> putTestSources({
+    required String serviceArn,
+    required String testId,
+    required List<TestSourceInput> testSources,
+  }) async {
+    final $payload = <String, dynamic>{
+      'serviceArn': serviceArn,
+      'testId': testId,
+      'testSources': testSources,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/put-test-sources',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Starts a failure mode assessment.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -1453,6 +2011,67 @@ class ResiliencehubV2 {
       exceptionFnMap: _exceptionFns,
     );
     return StartFailureModeAssessmentResponse.fromJson(response);
+  }
+
+  /// Starts a run of a test. Each run scopes to the current resources in the
+  /// service and produces a pass or fail outcome.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test belongs to.
+  ///
+  /// Parameter [testId] :
+  /// The identifier of the test to run.
+  Future<StartTestRunResponse> startTestRun({
+    required String serviceArn,
+    required String testId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'serviceArn': serviceArn,
+      'testId': testId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/start-test-run',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartTestRunResponse.fromJson(response);
+  }
+
+  /// Stops an in-progress test run.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test run belongs to.
+  ///
+  /// Parameter [testRunId] :
+  /// The identifier of the test run to stop.
+  Future<StopTestRunResponse> stopTestRun({
+    required String serviceArn,
+    required String testRunId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'serviceArn': serviceArn,
+      'testRunId': testRunId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/stop-test-run',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StopTestRunResponse.fromJson(response);
   }
 
   /// Adds tags to a resource.
@@ -1766,6 +2385,57 @@ class ResiliencehubV2 {
     return UpdateSystemResponse.fromJson(response);
   }
 
+  /// Updates the configuration of an existing test.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [serviceArn] :
+  /// The ARN of the service the test belongs to.
+  ///
+  /// Parameter [testId] :
+  /// The identifier of the test to update.
+  ///
+  /// Parameter [loggingConfiguration] :
+  /// The updated logging configuration for the test.
+  ///
+  /// Parameter [parameters] :
+  /// The updated parameter values for the test.
+  ///
+  /// Parameter [roleName] :
+  /// The updated IAM execution role name.
+  ///
+  /// Parameter [stopConditions] :
+  /// The updated stop conditions for the test.
+  Future<UpdateTestResponse> updateTest({
+    required String serviceArn,
+    required String testId,
+    LoggingConfiguration? loggingConfiguration,
+    Map<String, List<String>>? parameters,
+    String? roleName,
+    List<StopCondition>? stopConditions,
+  }) async {
+    final $payload = <String, dynamic>{
+      'serviceArn': serviceArn,
+      'testId': testId,
+      if (loggingConfiguration != null)
+        'loggingConfiguration': loggingConfiguration,
+      if (parameters != null) 'parameters': parameters,
+      if (roleName != null) 'roleName': roleName,
+      if (stopConditions != null) 'stopConditions': stopConditions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/update-test',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTestResponse.fromJson(response);
+  }
+
   /// Updates an existing user journey.
   ///
   /// May throw [AccessDeniedException].
@@ -2015,6 +2685,30 @@ class CreateSystemResponse {
 }
 
 /// @nodoc
+class CreateTestResponse {
+  /// The created test.
+  final Test test;
+
+  CreateTestResponse({
+    required this.test,
+  });
+
+  factory CreateTestResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTestResponse(
+      test: Test.fromJson(
+          (json['test'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final test = this.test;
+    return {
+      'test': test,
+    };
+  }
+}
+
+/// @nodoc
 class CreateUserJourneyResponse {
   /// The created user journey.
   final UserJourney userJourney;
@@ -2219,6 +2913,42 @@ class DeleteSystemResponse {
 }
 
 /// @nodoc
+class DeleteTestResponse {
+  /// The identifier of the deleted test.
+  final String testId;
+
+  DeleteTestResponse({
+    required this.testId,
+  });
+
+  factory DeleteTestResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteTestResponse(
+      testId: (json['testId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testId = this.testId;
+    return {
+      'testId': testId,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteTestSourcesResponse {
+  DeleteTestSourcesResponse();
+
+  factory DeleteTestSourcesResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTestSourcesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class DeleteUserJourneyResponse {
   /// The identifier of the deleted user journey.
   final String userJourneyId;
@@ -2334,6 +3064,79 @@ class GetSystemResponse {
     final system = this.system;
     return {
       'system': system,
+    };
+  }
+}
+
+/// @nodoc
+class GetTestResponse {
+  /// The requested test.
+  final Test test;
+
+  GetTestResponse({
+    required this.test,
+  });
+
+  factory GetTestResponse.fromJson(Map<String, dynamic> json) {
+    return GetTestResponse(
+      test: Test.fromJson(
+          (json['test'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final test = this.test;
+    return {
+      'test': test,
+    };
+  }
+}
+
+/// @nodoc
+class GetTestRunResponse {
+  /// The requested test run.
+  final TestRun testRun;
+
+  GetTestRunResponse({
+    required this.testRun,
+  });
+
+  factory GetTestRunResponse.fromJson(Map<String, dynamic> json) {
+    return GetTestRunResponse(
+      testRun: TestRun.fromJson((json['testRun'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testRun = this.testRun;
+    return {
+      'testRun': testRun,
+    };
+  }
+}
+
+/// @nodoc
+class GetTestTemplateResponse {
+  /// The requested test template.
+  final TestTemplate testTemplate;
+
+  GetTestTemplateResponse({
+    required this.testTemplate,
+  });
+
+  factory GetTestTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return GetTestTemplateResponse(
+      testTemplate: TestTemplate.fromJson(
+          (json['testTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testTemplate = this.testTemplate;
+    return {
+      'testTemplate': testTemplate,
     };
   }
 }
@@ -2633,6 +3436,40 @@ class ListReportsResponse {
 }
 
 /// @nodoc
+class ListResolvedTestRunTargetResourcesResponse {
+  /// The list of resolved target resources.
+  final List<ResolvedTargetResource> resolvedTargetResources;
+  final String? nextToken;
+
+  ListResolvedTestRunTargetResourcesResponse({
+    required this.resolvedTargetResources,
+    this.nextToken,
+  });
+
+  factory ListResolvedTestRunTargetResourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListResolvedTestRunTargetResourcesResponse(
+      resolvedTargetResources: ((json['resolvedTargetResources'] as List?) ??
+              const [])
+          .nonNulls
+          .map(
+              (e) => ResolvedTargetResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolvedTargetResources = this.resolvedTargetResources;
+    final nextToken = this.nextToken;
+    return {
+      'resolvedTargetResources': resolvedTargetResources,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListResourcesResponse {
   final String? nextToken;
 
@@ -2885,6 +3722,187 @@ class ListTagsForResourceResponse {
 }
 
 /// @nodoc
+class ListTestRunEventsResponse {
+  /// The list of test run events.
+  final List<TestRunEvent> events;
+  final String? nextToken;
+
+  ListTestRunEventsResponse({
+    required this.events,
+    this.nextToken,
+  });
+
+  factory ListTestRunEventsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTestRunEventsResponse(
+      events: ((json['events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TestRunEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextToken = this.nextToken;
+    return {
+      'events': events,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListTestRunsResponse {
+  /// The list of test run summaries.
+  final List<TestRunSummary> testRuns;
+  final String? nextToken;
+
+  ListTestRunsResponse({
+    required this.testRuns,
+    this.nextToken,
+  });
+
+  factory ListTestRunsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTestRunsResponse(
+      testRuns: ((json['testRuns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TestRunSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testRuns = this.testRuns;
+    final nextToken = this.nextToken;
+    return {
+      'testRuns': testRuns,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListTestRunSourcesResponse {
+  /// The list of monitoring source snapshots.
+  final List<TestRunSourceSummary> testRunSources;
+  final String? nextToken;
+
+  ListTestRunSourcesResponse({
+    required this.testRunSources,
+    this.nextToken,
+  });
+
+  factory ListTestRunSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTestRunSourcesResponse(
+      testRunSources: ((json['testRunSources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TestRunSourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testRunSources = this.testRunSources;
+    final nextToken = this.nextToken;
+    return {
+      'testRunSources': testRunSources,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListTestsResponse {
+  /// The list of test summaries.
+  final List<TestSummary> tests;
+  final String? nextToken;
+
+  ListTestsResponse({
+    required this.tests,
+    this.nextToken,
+  });
+
+  factory ListTestsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTestsResponse(
+      tests: ((json['tests'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TestSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tests = this.tests;
+    final nextToken = this.nextToken;
+    return {
+      'tests': tests,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListTestSourcesResponse {
+  /// The list of configured monitoring sources.
+  final List<TestSourceSummary> testSources;
+  final String? nextToken;
+
+  ListTestSourcesResponse({
+    required this.testSources,
+    this.nextToken,
+  });
+
+  factory ListTestSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTestSourcesResponse(
+      testSources: ((json['testSources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TestSourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testSources = this.testSources;
+    final nextToken = this.nextToken;
+    return {
+      'testSources': testSources,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListTestTemplatesResponse {
+  /// The list of test template summaries.
+  final List<TestTemplateSummary> testTemplates;
+
+  ListTestTemplatesResponse({
+    required this.testTemplates,
+  });
+
+  factory ListTestTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTestTemplatesResponse(
+      testTemplates: ((json['testTemplates'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TestTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testTemplates = this.testTemplates;
+    return {
+      'testTemplates': testTemplates,
+    };
+  }
+}
+
+/// @nodoc
 class ListUserJourneysResponse {
   /// The list of user journey summaries.
   final List<UserJourneySummary> userJourneySummaries;
@@ -2913,6 +3931,19 @@ class ListUserJourneysResponse {
       'userJourneySummaries': userJourneySummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
+  }
+}
+
+/// @nodoc
+class PutTestSourcesResponse {
+  PutTestSourcesResponse();
+
+  factory PutTestSourcesResponse.fromJson(Map<String, dynamic> _) {
+    return PutTestSourcesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2956,6 +3987,77 @@ class StartFailureModeAssessmentResponse {
       if (assessmentStatus != null) 'assessmentStatus': assessmentStatus.value,
       if (serviceArn != null) 'serviceArn': serviceArn,
       if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
+    };
+  }
+}
+
+/// @nodoc
+class StartTestRunResponse {
+  /// The ARNs of the AWS Fault Injection Service (AWS FIS) experiments started
+  /// for the run.
+  final List<String> experimentArns;
+
+  /// The status of the started test run.
+  final TestRunStatus status;
+
+  /// The identifier of the started test run.
+  final String testRunId;
+
+  StartTestRunResponse({
+    required this.experimentArns,
+    required this.status,
+    required this.testRunId,
+  });
+
+  factory StartTestRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartTestRunResponse(
+      experimentArns: ((json['experimentArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      status: TestRunStatus.fromString((json['status'] as String?) ?? ''),
+      testRunId: (json['testRunId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final experimentArns = this.experimentArns;
+    final status = this.status;
+    final testRunId = this.testRunId;
+    return {
+      'experimentArns': experimentArns,
+      'status': status.value,
+      'testRunId': testRunId,
+    };
+  }
+}
+
+/// @nodoc
+class StopTestRunResponse {
+  /// The status of the test run.
+  final TestRunStatus status;
+
+  /// The identifier of the stopped test run.
+  final String testRunId;
+
+  StopTestRunResponse({
+    required this.status,
+    required this.testRunId,
+  });
+
+  factory StopTestRunResponse.fromJson(Map<String, dynamic> json) {
+    return StopTestRunResponse(
+      status: TestRunStatus.fromString((json['status'] as String?) ?? ''),
+      testRunId: (json['testRunId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final testRunId = this.testRunId;
+    return {
+      'status': status.value,
+      'testRunId': testRunId,
     };
   }
 }
@@ -3200,6 +4302,30 @@ class UpdateSystemResponse {
 }
 
 /// @nodoc
+class UpdateTestResponse {
+  /// The updated test.
+  final Test test;
+
+  UpdateTestResponse({
+    required this.test,
+  });
+
+  factory UpdateTestResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTestResponse(
+      test: Test.fromJson(
+          (json['test'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final test = this.test;
+    return {
+      'test': test,
+    };
+  }
+}
+
+/// @nodoc
 class UpdateUserJourneyResponse {
   /// The updated user journey.
   final UserJourney userJourney;
@@ -3275,6 +4401,262 @@ class UserJourney {
       if (description != null) 'description': description,
       if (policyArn != null) 'policyArn': policyArn,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Represents a test created for a service by configuring a test template.
+///
+/// @nodoc
+class Test {
+  /// The timestamp when the test was created.
+  final DateTime creationTime;
+
+  /// The name of the test.
+  final String name;
+
+  /// The ARN of the service the test belongs to.
+  final String serviceArn;
+
+  /// The number of successful runs of the test.
+  final int successfulTestRuns;
+
+  /// The unique identifier of the test.
+  final String testId;
+
+  /// The ARN of the test template the test was created from.
+  final String testTemplateArn;
+
+  /// The total number of runs of the test.
+  final int totalTestRuns;
+
+  /// The fault actions the test runs.
+  final List<TestAction>? actions;
+
+  /// The logging configuration for the test.
+  final LoggingConfiguration? loggingConfiguration;
+
+  /// The parameter values configured for the test.
+  final Map<String, List<String>>? parameters;
+
+  /// The name of the IAM execution role used to run the test.
+  final String? roleName;
+
+  /// The stop conditions for the test.
+  final List<StopCondition>? stopConditions;
+
+  Test({
+    required this.creationTime,
+    required this.name,
+    required this.serviceArn,
+    required this.successfulTestRuns,
+    required this.testId,
+    required this.testTemplateArn,
+    required this.totalTestRuns,
+    this.actions,
+    this.loggingConfiguration,
+    this.parameters,
+    this.roleName,
+    this.stopConditions,
+  });
+
+  factory Test.fromJson(Map<String, dynamic> json) {
+    return Test(
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      serviceArn: (json['serviceArn'] as String?) ?? '',
+      successfulTestRuns: (json['successfulTestRuns'] as int?) ?? 0,
+      testId: (json['testId'] as String?) ?? '',
+      testTemplateArn: (json['testTemplateArn'] as String?) ?? '',
+      totalTestRuns: (json['totalTestRuns'] as int?) ?? 0,
+      actions: (json['actions'] as List?)
+          ?.nonNulls
+          .map((e) => TestAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      loggingConfiguration: json['loggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['loggingConfiguration'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+      roleName: json['roleName'] as String?,
+      stopConditions: (json['stopConditions'] as List?)
+          ?.nonNulls
+          .map((e) => StopCondition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final name = this.name;
+    final serviceArn = this.serviceArn;
+    final successfulTestRuns = this.successfulTestRuns;
+    final testId = this.testId;
+    final testTemplateArn = this.testTemplateArn;
+    final totalTestRuns = this.totalTestRuns;
+    final actions = this.actions;
+    final loggingConfiguration = this.loggingConfiguration;
+    final parameters = this.parameters;
+    final roleName = this.roleName;
+    final stopConditions = this.stopConditions;
+    return {
+      'creationTime': unixTimestampToJson(creationTime),
+      'name': name,
+      'serviceArn': serviceArn,
+      'successfulTestRuns': successfulTestRuns,
+      'testId': testId,
+      'testTemplateArn': testTemplateArn,
+      'totalTestRuns': totalTestRuns,
+      if (actions != null) 'actions': actions,
+      if (loggingConfiguration != null)
+        'loggingConfiguration': loggingConfiguration,
+      if (parameters != null) 'parameters': parameters,
+      if (roleName != null) 'roleName': roleName,
+      if (stopConditions != null) 'stopConditions': stopConditions,
+    };
+  }
+}
+
+/// Configuration for test execution logging destinations.
+///
+/// @nodoc
+class LoggingConfiguration {
+  /// The ARN of the CloudWatch Logs log group for log delivery.
+  final String? cloudWatchLogGroupArn;
+
+  /// The version of the log schema.
+  final String? logSchemaVersion;
+
+  /// The name of the S3 bucket for log delivery.
+  final String? s3BucketName;
+
+  LoggingConfiguration({
+    this.cloudWatchLogGroupArn,
+    this.logSchemaVersion,
+    this.s3BucketName,
+  });
+
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      cloudWatchLogGroupArn: json['cloudWatchLogGroupArn'] as String?,
+      logSchemaVersion: json['logSchemaVersion'] as String?,
+      s3BucketName: json['s3BucketName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogGroupArn = this.cloudWatchLogGroupArn;
+    final logSchemaVersion = this.logSchemaVersion;
+    final s3BucketName = this.s3BucketName;
+    return {
+      if (cloudWatchLogGroupArn != null)
+        'cloudWatchLogGroupArn': cloudWatchLogGroupArn,
+      if (logSchemaVersion != null) 'logSchemaVersion': logSchemaVersion,
+      if (s3BucketName != null) 's3BucketName': s3BucketName,
+    };
+  }
+}
+
+/// A CloudWatch alarm that automatically stops a test run if it breaches its
+/// threshold.
+///
+/// @nodoc
+class StopCondition {
+  /// The source of the stop condition.
+  final StopConditionSource source;
+
+  /// The value of the stop condition, such as the ARN of the CloudWatch alarm.
+  final String value;
+
+  StopCondition({
+    required this.source,
+    required this.value,
+  });
+
+  factory StopCondition.fromJson(Map<String, dynamic> json) {
+    return StopCondition(
+      source: StopConditionSource.fromString((json['source'] as String?) ?? ''),
+      value: (json['value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final value = this.value;
+    return {
+      'source': source.value,
+      'value': value,
+    };
+  }
+}
+
+/// The source of a test stop condition, matching AWS Fault Injection Service
+/// (AWS FIS) stop condition sources.
+///
+/// @nodoc
+class StopConditionSource {
+  static const awsCloudwatchAlarm =
+      StopConditionSource._('aws:cloudwatch:alarm');
+  static const none = StopConditionSource._('none');
+
+  final String value;
+
+  const StopConditionSource._(this.value);
+
+  static const values = [awsCloudwatchAlarm, none];
+
+  static StopConditionSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StopConditionSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StopConditionSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a fault action that a test runs, along with the resource type it
+/// targets.
+///
+/// @nodoc
+class TestAction {
+  /// The identifier of the fault action.
+  final String actionId;
+
+  /// The resource type that the action targets.
+  final String resourceType;
+
+  /// A description of the fault action.
+  final String? description;
+
+  TestAction({
+    required this.actionId,
+    required this.resourceType,
+    this.description,
+  });
+
+  factory TestAction.fromJson(Map<String, dynamic> json) {
+    return TestAction(
+      actionId: (json['actionId'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final resourceType = this.resourceType;
+    final description = this.description;
+    return {
+      'actionId': actionId,
+      'resourceType': resourceType,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -3541,7 +4923,7 @@ class Service {
   final PermissionModel? permissionModel;
   final String? policyArn;
 
-  /// The AWS Regions where the service operates.
+  /// The Regions where the service operates.
   final List<String>? regions;
   final ServiceReportConfiguration? reportConfiguration;
 
@@ -3741,11 +5123,20 @@ class DependencyDiscoveryConfig {
   /// The current status of dependency discovery.
   final DependencyDiscoveryStatus status;
 
+  /// The count of resources eligible for dependency attribution.
+  final int? eligibleResourceCount;
+
+  /// A status message for dependency discovery, displayed during the
+  /// initialization state.
+  final String? message;
+
   /// The timestamp when dependency discovery was last updated.
   final DateTime? updatedAt;
 
   DependencyDiscoveryConfig({
     required this.status,
+    this.eligibleResourceCount,
+    this.message,
     this.updatedAt,
   });
 
@@ -3753,15 +5144,22 @@ class DependencyDiscoveryConfig {
     return DependencyDiscoveryConfig(
       status: DependencyDiscoveryStatus.fromString(
           (json['status'] as String?) ?? ''),
+      eligibleResourceCount: json['eligibleResourceCount'] as int?,
+      message: json['message'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
+    final eligibleResourceCount = this.eligibleResourceCount;
+    final message = this.message;
     final updatedAt = this.updatedAt;
     return {
       'status': status.value,
+      if (eligibleResourceCount != null)
+        'eligibleResourceCount': eligibleResourceCount,
+      if (message != null) 'message': message,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -3873,6 +5271,10 @@ class Achievability {
   /// The achievability status of the availability SLO target for the service.
   final AchievabilityStatus? availabilitySlo;
 
+  /// The achievability status of the data recovery time between backups for the
+  /// service.
+  final AchievabilityStatus? dataRecoveryTimeBetweenBackups;
+
   /// The achievability status of the multi-AZ RTO and RPO targets for the
   /// service.
   final AchievabilityStatus? multiAzRtoRpo;
@@ -3883,6 +5285,7 @@ class Achievability {
 
   Achievability({
     this.availabilitySlo,
+    this.dataRecoveryTimeBetweenBackups,
     this.multiAzRtoRpo,
     this.multiRegionRtoRpo,
   });
@@ -3891,6 +5294,9 @@ class Achievability {
     return Achievability(
       availabilitySlo: (json['availabilitySlo'] as String?)
           ?.let(AchievabilityStatus.fromString),
+      dataRecoveryTimeBetweenBackups:
+          (json['dataRecoveryTimeBetweenBackups'] as String?)
+              ?.let(AchievabilityStatus.fromString),
       multiAzRtoRpo: (json['multiAzRtoRpo'] as String?)
           ?.let(AchievabilityStatus.fromString),
       multiRegionRtoRpo: (json['multiRegionRtoRpo'] as String?)
@@ -3900,10 +5306,13 @@ class Achievability {
 
   Map<String, dynamic> toJson() {
     final availabilitySlo = this.availabilitySlo;
+    final dataRecoveryTimeBetweenBackups = this.dataRecoveryTimeBetweenBackups;
     final multiAzRtoRpo = this.multiAzRtoRpo;
     final multiRegionRtoRpo = this.multiRegionRtoRpo;
     return {
       if (availabilitySlo != null) 'availabilitySlo': availabilitySlo.value,
+      if (dataRecoveryTimeBetweenBackups != null)
+        'dataRecoveryTimeBetweenBackups': dataRecoveryTimeBetweenBackups.value,
       if (multiAzRtoRpo != null) 'multiAzRtoRpo': multiAzRtoRpo.value,
       if (multiRegionRtoRpo != null)
         'multiRegionRtoRpo': multiRegionRtoRpo.value,
@@ -5279,6 +6688,111 @@ class AssertionSource {
   String toString() => value;
 }
 
+/// The status of a test run through its lifecycle.
+///
+/// @nodoc
+class TestRunStatus {
+  static const initializing = TestRunStatus._('INITIALIZING');
+  static const running = TestRunStatus._('RUNNING');
+  static const stopping = TestRunStatus._('STOPPING');
+  static const passed = TestRunStatus._('PASSED');
+  static const failed = TestRunStatus._('FAILED');
+  static const stopped = TestRunStatus._('STOPPED');
+  static const error = TestRunStatus._('ERROR');
+
+  final String value;
+
+  const TestRunStatus._(this.value);
+
+  static const values = [
+    initializing,
+    running,
+    stopping,
+    passed,
+    failed,
+    stopped,
+    error
+  ];
+
+  static TestRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TestRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies a monitoring source to add to or remove from a test. Exactly one
+/// member is set.
+///
+/// @nodoc
+class TestSourceInput {
+  /// An observability alarm included for visibility only.
+  final ObservabilityAlarmInput? observabilityAlarm;
+
+  /// A success criteria alarm that determines whether the test passes or fails.
+  final SuccessCriteriaAlarmInput? successCriteriaAlarm;
+
+  TestSourceInput({
+    this.observabilityAlarm,
+    this.successCriteriaAlarm,
+  });
+
+  Map<String, dynamic> toJson() {
+    final observabilityAlarm = this.observabilityAlarm;
+    final successCriteriaAlarm = this.successCriteriaAlarm;
+    return {
+      if (observabilityAlarm != null) 'observabilityAlarm': observabilityAlarm,
+      if (successCriteriaAlarm != null)
+        'successCriteriaAlarm': successCriteriaAlarm,
+    };
+  }
+}
+
+/// Identifies a success criteria alarm by its ARN.
+///
+/// @nodoc
+class SuccessCriteriaAlarmInput {
+  /// The ARN of the CloudWatch alarm.
+  final String alarmArn;
+
+  SuccessCriteriaAlarmInput({
+    required this.alarmArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final alarmArn = this.alarmArn;
+    return {
+      'alarmArn': alarmArn,
+    };
+  }
+}
+
+/// Identifies an observability alarm by its ARN.
+///
+/// @nodoc
+class ObservabilityAlarmInput {
+  /// The ARN of the CloudWatch alarm.
+  final String alarmArn;
+
+  ObservabilityAlarmInput({
+    required this.alarmArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final alarmArn = this.alarmArn;
+    return {
+      'alarmArn': alarmArn,
+    };
+  }
+}
+
 /// Contains summary information about a user journey.
 ///
 /// @nodoc
@@ -5320,6 +6834,643 @@ class UserJourneySummary {
       'userJourneyId': userJourneyId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains summary information about a test template.
+///
+/// @nodoc
+class TestTemplateSummary {
+  /// A description of the test template.
+  final String description;
+
+  /// The name of the test template.
+  final String name;
+
+  /// The ARN of the test template.
+  final String testTemplateArn;
+
+  TestTemplateSummary({
+    required this.description,
+    required this.name,
+    required this.testTemplateArn,
+  });
+
+  factory TestTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return TestTemplateSummary(
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      testTemplateArn: (json['testTemplateArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final name = this.name;
+    final testTemplateArn = this.testTemplateArn;
+    return {
+      'description': description,
+      'name': name,
+      'testTemplateArn': testTemplateArn,
+    };
+  }
+}
+
+/// A configured monitoring source returned by ListTestSources. Exactly one
+/// member is set.
+///
+/// @nodoc
+class TestSourceSummary {
+  /// A configured observability alarm.
+  final ObservabilityAlarmSummary? observabilityAlarm;
+
+  /// A configured success criteria alarm.
+  final SuccessCriteriaAlarmSummary? successCriteriaAlarm;
+
+  TestSourceSummary({
+    this.observabilityAlarm,
+    this.successCriteriaAlarm,
+  });
+
+  factory TestSourceSummary.fromJson(Map<String, dynamic> json) {
+    return TestSourceSummary(
+      observabilityAlarm: json['observabilityAlarm'] != null
+          ? ObservabilityAlarmSummary.fromJson(
+              json['observabilityAlarm'] as Map<String, dynamic>)
+          : null,
+      successCriteriaAlarm: json['successCriteriaAlarm'] != null
+          ? SuccessCriteriaAlarmSummary.fromJson(
+              json['successCriteriaAlarm'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final observabilityAlarm = this.observabilityAlarm;
+    final successCriteriaAlarm = this.successCriteriaAlarm;
+    return {
+      if (observabilityAlarm != null) 'observabilityAlarm': observabilityAlarm,
+      if (successCriteriaAlarm != null)
+        'successCriteriaAlarm': successCriteriaAlarm,
+    };
+  }
+}
+
+/// Summary information about a configured success criteria alarm.
+///
+/// @nodoc
+class SuccessCriteriaAlarmSummary {
+  /// The account ID that owns the CloudWatch alarm.
+  final String accountId;
+
+  /// The ARN of the CloudWatch alarm.
+  final String alarmArn;
+
+  /// The name of the CloudWatch alarm.
+  final String alarmName;
+
+  /// The Region of the CloudWatch alarm.
+  final String region;
+
+  /// The timestamp when the source was configured.
+  final DateTime? createdAt;
+
+  SuccessCriteriaAlarmSummary({
+    required this.accountId,
+    required this.alarmArn,
+    required this.alarmName,
+    required this.region,
+    this.createdAt,
+  });
+
+  factory SuccessCriteriaAlarmSummary.fromJson(Map<String, dynamic> json) {
+    return SuccessCriteriaAlarmSummary(
+      accountId: (json['accountId'] as String?) ?? '',
+      alarmArn: (json['alarmArn'] as String?) ?? '',
+      alarmName: (json['alarmName'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+      createdAt: timeStampFromJson(json['createdAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final alarmArn = this.alarmArn;
+    final alarmName = this.alarmName;
+    final region = this.region;
+    final createdAt = this.createdAt;
+    return {
+      'accountId': accountId,
+      'alarmArn': alarmArn,
+      'alarmName': alarmName,
+      'region': region,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+    };
+  }
+}
+
+/// Summary information about a configured observability alarm.
+///
+/// @nodoc
+class ObservabilityAlarmSummary {
+  /// The account ID that owns the CloudWatch alarm.
+  final String accountId;
+
+  /// The ARN of the CloudWatch alarm.
+  final String alarmArn;
+
+  /// The name of the CloudWatch alarm.
+  final String alarmName;
+
+  /// The Region of the CloudWatch alarm.
+  final String region;
+
+  /// The timestamp when the source was configured.
+  final DateTime? createdAt;
+
+  ObservabilityAlarmSummary({
+    required this.accountId,
+    required this.alarmArn,
+    required this.alarmName,
+    required this.region,
+    this.createdAt,
+  });
+
+  factory ObservabilityAlarmSummary.fromJson(Map<String, dynamic> json) {
+    return ObservabilityAlarmSummary(
+      accountId: (json['accountId'] as String?) ?? '',
+      alarmArn: (json['alarmArn'] as String?) ?? '',
+      alarmName: (json['alarmName'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+      createdAt: timeStampFromJson(json['createdAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final alarmArn = this.alarmArn;
+    final alarmName = this.alarmName;
+    final region = this.region;
+    final createdAt = this.createdAt;
+    return {
+      'accountId': accountId,
+      'alarmArn': alarmArn,
+      'alarmName': alarmName,
+      'region': region,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+    };
+  }
+}
+
+/// The purpose of a test monitoring source.
+///
+/// @nodoc
+class TestSourceType {
+  static const successCriteria = TestSourceType._('SUCCESS_CRITERIA');
+  static const observability = TestSourceType._('OBSERVABILITY');
+
+  final String value;
+
+  const TestSourceType._(this.value);
+
+  static const values = [successCriteria, observability];
+
+  static TestSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is TestSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about a test.
+///
+/// @nodoc
+class TestSummary {
+  /// The timestamp when the test was created.
+  final DateTime creationTime;
+
+  /// The ARN of the service the test belongs to.
+  final String serviceArn;
+
+  /// The number of successful runs of the test.
+  final int successfulTestRuns;
+
+  /// The unique identifier of the test.
+  final String testId;
+
+  /// The ARN of the test template the test was created from.
+  final String testTemplateArn;
+
+  /// The total number of runs of the test.
+  final int totalTestRuns;
+
+  TestSummary({
+    required this.creationTime,
+    required this.serviceArn,
+    required this.successfulTestRuns,
+    required this.testId,
+    required this.testTemplateArn,
+    required this.totalTestRuns,
+  });
+
+  factory TestSummary.fromJson(Map<String, dynamic> json) {
+    return TestSummary(
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      serviceArn: (json['serviceArn'] as String?) ?? '',
+      successfulTestRuns: (json['successfulTestRuns'] as int?) ?? 0,
+      testId: (json['testId'] as String?) ?? '',
+      testTemplateArn: (json['testTemplateArn'] as String?) ?? '',
+      totalTestRuns: (json['totalTestRuns'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final serviceArn = this.serviceArn;
+    final successfulTestRuns = this.successfulTestRuns;
+    final testId = this.testId;
+    final testTemplateArn = this.testTemplateArn;
+    final totalTestRuns = this.totalTestRuns;
+    return {
+      'creationTime': unixTimestampToJson(creationTime),
+      'serviceArn': serviceArn,
+      'successfulTestRuns': successfulTestRuns,
+      'testId': testId,
+      'testTemplateArn': testTemplateArn,
+      'totalTestRuns': totalTestRuns,
+    };
+  }
+}
+
+/// A monitoring-source snapshot captured for a test run. Exactly one member is
+/// set.
+///
+/// @nodoc
+class TestRunSourceSummary {
+  /// An observability alarm snapshot captured for the test run.
+  final TestRunObservabilityAlarmSummary? observabilityAlarm;
+
+  /// A success criteria alarm snapshot captured for the test run.
+  final TestRunSuccessCriteriaAlarmSummary? successCriteriaAlarm;
+
+  TestRunSourceSummary({
+    this.observabilityAlarm,
+    this.successCriteriaAlarm,
+  });
+
+  factory TestRunSourceSummary.fromJson(Map<String, dynamic> json) {
+    return TestRunSourceSummary(
+      observabilityAlarm: json['observabilityAlarm'] != null
+          ? TestRunObservabilityAlarmSummary.fromJson(
+              json['observabilityAlarm'] as Map<String, dynamic>)
+          : null,
+      successCriteriaAlarm: json['successCriteriaAlarm'] != null
+          ? TestRunSuccessCriteriaAlarmSummary.fromJson(
+              json['successCriteriaAlarm'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final observabilityAlarm = this.observabilityAlarm;
+    final successCriteriaAlarm = this.successCriteriaAlarm;
+    return {
+      if (observabilityAlarm != null) 'observabilityAlarm': observabilityAlarm,
+      if (successCriteriaAlarm != null)
+        'successCriteriaAlarm': successCriteriaAlarm,
+    };
+  }
+}
+
+/// Summary information about a success criteria alarm snapshot captured for a
+/// test run.
+///
+/// @nodoc
+class TestRunSuccessCriteriaAlarmSummary {
+  /// The account ID that owns the CloudWatch alarm.
+  final String accountId;
+
+  /// The ARN of the CloudWatch alarm.
+  final String alarmArn;
+
+  /// The name of the CloudWatch alarm.
+  final String alarmName;
+
+  /// The Region of the CloudWatch alarm.
+  final String region;
+
+  /// The evaluation outcome of the source. Absent while the source has not yet
+  /// been evaluated; set to the terminal outcome afterwards.
+  final TestSourceOutcome? outcome;
+
+  /// A human-readable reason for the outcome.
+  final String? outcomeReason;
+
+  TestRunSuccessCriteriaAlarmSummary({
+    required this.accountId,
+    required this.alarmArn,
+    required this.alarmName,
+    required this.region,
+    this.outcome,
+    this.outcomeReason,
+  });
+
+  factory TestRunSuccessCriteriaAlarmSummary.fromJson(
+      Map<String, dynamic> json) {
+    return TestRunSuccessCriteriaAlarmSummary(
+      accountId: (json['accountId'] as String?) ?? '',
+      alarmArn: (json['alarmArn'] as String?) ?? '',
+      alarmName: (json['alarmName'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+      outcome: (json['outcome'] as String?)?.let(TestSourceOutcome.fromString),
+      outcomeReason: json['outcomeReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final alarmArn = this.alarmArn;
+    final alarmName = this.alarmName;
+    final region = this.region;
+    final outcome = this.outcome;
+    final outcomeReason = this.outcomeReason;
+    return {
+      'accountId': accountId,
+      'alarmArn': alarmArn,
+      'alarmName': alarmName,
+      'region': region,
+      if (outcome != null) 'outcome': outcome.value,
+      if (outcomeReason != null) 'outcomeReason': outcomeReason,
+    };
+  }
+}
+
+/// Summary information about an observability alarm snapshot captured for a
+/// test run.
+///
+/// @nodoc
+class TestRunObservabilityAlarmSummary {
+  /// The account ID that owns the CloudWatch alarm.
+  final String accountId;
+
+  /// The ARN of the CloudWatch alarm.
+  final String alarmArn;
+
+  /// The name of the CloudWatch alarm.
+  final String alarmName;
+
+  /// The Region of the CloudWatch alarm.
+  final String region;
+
+  TestRunObservabilityAlarmSummary({
+    required this.accountId,
+    required this.alarmArn,
+    required this.alarmName,
+    required this.region,
+  });
+
+  factory TestRunObservabilityAlarmSummary.fromJson(Map<String, dynamic> json) {
+    return TestRunObservabilityAlarmSummary(
+      accountId: (json['accountId'] as String?) ?? '',
+      alarmArn: (json['alarmArn'] as String?) ?? '',
+      alarmName: (json['alarmName'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final alarmArn = this.alarmArn;
+    final alarmName = this.alarmName;
+    final region = this.region;
+    return {
+      'accountId': accountId,
+      'alarmArn': alarmArn,
+      'alarmName': alarmName,
+      'region': region,
+    };
+  }
+}
+
+/// The evaluation outcome of a test run success criteria source.
+///
+/// @nodoc
+class TestSourceOutcome {
+  static const passed = TestSourceOutcome._('PASSED');
+  static const failed = TestSourceOutcome._('FAILED');
+  static const error = TestSourceOutcome._('ERROR');
+
+  final String value;
+
+  const TestSourceOutcome._(this.value);
+
+  static const values = [passed, failed, error];
+
+  static TestSourceOutcome fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestSourceOutcome._(value));
+
+  @override
+  bool operator ==(other) => other is TestSourceOutcome && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The type of a test run monitoring-source snapshot.
+///
+/// @nodoc
+class TestRunSourceType {
+  static const successCriteria = TestRunSourceType._('SUCCESS_CRITERIA');
+  static const observability = TestRunSourceType._('OBSERVABILITY');
+
+  final String value;
+
+  const TestRunSourceType._(this.value);
+
+  static const values = [successCriteria, observability];
+
+  static TestRunSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestRunSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is TestRunSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about a test run.
+///
+/// @nodoc
+class TestRunSummary {
+  /// The timestamp when the test run started.
+  final DateTime startedAt;
+
+  /// The current status of the test run.
+  final TestRunStatus status;
+
+  /// The unique identifier of the test run.
+  final String testRunId;
+
+  /// The ARN of the test template the test run was based on.
+  final String testTemplateArn;
+
+  /// Indicates whether this test run targets a single account or multiple
+  /// accounts.
+  final AccountTargeting? accountTargeting;
+
+  /// The timestamp when the test run ended.
+  final DateTime? endedAt;
+
+  /// A human-readable reason for test run failure. Only present when the status
+  /// is FAILED or ERROR.
+  final String? errorMessage;
+
+  /// The ARN of the service the test run belongs to.
+  final String? serviceArn;
+
+  TestRunSummary({
+    required this.startedAt,
+    required this.status,
+    required this.testRunId,
+    required this.testTemplateArn,
+    this.accountTargeting,
+    this.endedAt,
+    this.errorMessage,
+    this.serviceArn,
+  });
+
+  factory TestRunSummary.fromJson(Map<String, dynamic> json) {
+    return TestRunSummary(
+      startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
+      status: TestRunStatus.fromString((json['status'] as String?) ?? ''),
+      testRunId: (json['testRunId'] as String?) ?? '',
+      testTemplateArn: (json['testTemplateArn'] as String?) ?? '',
+      accountTargeting: (json['accountTargeting'] as String?)
+          ?.let(AccountTargeting.fromString),
+      endedAt: timeStampFromJson(json['endedAt']),
+      errorMessage: json['errorMessage'] as String?,
+      serviceArn: json['serviceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final testRunId = this.testRunId;
+    final testTemplateArn = this.testTemplateArn;
+    final accountTargeting = this.accountTargeting;
+    final endedAt = this.endedAt;
+    final errorMessage = this.errorMessage;
+    final serviceArn = this.serviceArn;
+    return {
+      'startedAt': unixTimestampToJson(startedAt),
+      'status': status.value,
+      'testRunId': testRunId,
+      'testTemplateArn': testTemplateArn,
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
+      if (endedAt != null) 'endedAt': unixTimestampToJson(endedAt),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (serviceArn != null) 'serviceArn': serviceArn,
+    };
+  }
+}
+
+/// Whether a test run targets resources in a single AWS account or across
+/// multiple accounts.
+///
+/// @nodoc
+class AccountTargeting {
+  static const singleAccount = AccountTargeting._('SINGLE_ACCOUNT');
+  static const multiAccount = AccountTargeting._('MULTI_ACCOUNT');
+
+  final String value;
+
+  const AccountTargeting._(this.value);
+
+  static const values = [singleAccount, multiAccount];
+
+  static AccountTargeting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountTargeting._(value));
+
+  @override
+  bool operator ==(other) => other is AccountTargeting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single event in a test run's timeline.
+///
+/// @nodoc
+class TestRunEvent {
+  /// The unique identifier of the event.
+  final String eventId;
+
+  /// The type of the event, such as action_started, action_completed, or
+  /// rto_recovery_detected.
+  final String eventType;
+
+  /// A human-readable description of what happened.
+  final String message;
+
+  /// The timestamp when the event occurred.
+  final DateTime timestamp;
+
+  /// Machine-parseable key-value attributes for the event.
+  final Map<String, String>? attributes;
+
+  TestRunEvent({
+    required this.eventId,
+    required this.eventType,
+    required this.message,
+    required this.timestamp,
+    this.attributes,
+  });
+
+  factory TestRunEvent.fromJson(Map<String, dynamic> json) {
+    return TestRunEvent(
+      eventId: (json['eventId'] as String?) ?? '',
+      eventType: (json['eventType'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventId = this.eventId;
+    final eventType = this.eventType;
+    final message = this.message;
+    final timestamp = this.timestamp;
+    final attributes = this.attributes;
+    return {
+      'eventId': eventId,
+      'eventType': eventType,
+      'message': message,
+      'timestamp': unixTimestampToJson(timestamp),
+      if (attributes != null) 'attributes': attributes,
     };
   }
 }
@@ -6175,13 +8326,29 @@ class ServiceTopologyEdgeSummary {
   /// The identifier of the source resource.
   final String sourceResourceIdentifier;
 
+  /// The AWS account ID of the destination resource.
+  final String? destinationAccount;
+
+  /// The AWS Region of the destination resource.
+  final String? destinationRegion;
+
   /// The properties of the topology edge.
   final List<EdgePropertySummary>? properties;
+
+  /// The AWS account ID of the source resource.
+  final String? sourceAccount;
+
+  /// The AWS Region of the source resource.
+  final String? sourceRegion;
 
   ServiceTopologyEdgeSummary({
     required this.destinationResourceIdentifier,
     required this.sourceResourceIdentifier,
+    this.destinationAccount,
+    this.destinationRegion,
     this.properties,
+    this.sourceAccount,
+    this.sourceRegion,
   });
 
   factory ServiceTopologyEdgeSummary.fromJson(Map<String, dynamic> json) {
@@ -6190,21 +8357,33 @@ class ServiceTopologyEdgeSummary {
           (json['destinationResourceIdentifier'] as String?) ?? '',
       sourceResourceIdentifier:
           (json['sourceResourceIdentifier'] as String?) ?? '',
+      destinationAccount: json['destinationAccount'] as String?,
+      destinationRegion: json['destinationRegion'] as String?,
       properties: (json['properties'] as List?)
           ?.nonNulls
           .map((e) => EdgePropertySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      sourceAccount: json['sourceAccount'] as String?,
+      sourceRegion: json['sourceRegion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final destinationResourceIdentifier = this.destinationResourceIdentifier;
     final sourceResourceIdentifier = this.sourceResourceIdentifier;
+    final destinationAccount = this.destinationAccount;
+    final destinationRegion = this.destinationRegion;
     final properties = this.properties;
+    final sourceAccount = this.sourceAccount;
+    final sourceRegion = this.sourceRegion;
     return {
       'destinationResourceIdentifier': destinationResourceIdentifier,
       'sourceResourceIdentifier': sourceResourceIdentifier,
+      if (destinationAccount != null) 'destinationAccount': destinationAccount,
+      if (destinationRegion != null) 'destinationRegion': destinationRegion,
       if (properties != null) 'properties': properties,
+      if (sourceAccount != null) 'sourceAccount': sourceAccount,
+      if (sourceRegion != null) 'sourceRegion': sourceRegion,
     };
   }
 }
@@ -6304,7 +8483,7 @@ class ServiceSummary {
   final String? ouId;
   final String? policyArn;
 
-  /// The AWS Regions where the service operates.
+  /// The Regions where the service operates.
   final List<String>? regions;
 
   /// The number of resolved findings.
@@ -7595,6 +9774,50 @@ class InputSourceType {
   String toString() => value;
 }
 
+/// A single AWS resource that AWS Fault Injection Service (AWS FIS) resolved as
+/// a target during a test run.
+///
+/// @nodoc
+class ResolvedTargetResource {
+  /// The AWS FIS resource type the target belongs to, such as aws:ec2:instance,
+  /// aws:ecs:task, or aws:eks:pod.
+  final String resourceType;
+
+  /// The raw target information map as returned by AWS FIS.
+  final Map<String, String> targetInformation;
+
+  /// The name of the target in the AWS FIS experiment template.
+  final String targetName;
+
+  ResolvedTargetResource({
+    required this.resourceType,
+    required this.targetInformation,
+    required this.targetName,
+  });
+
+  factory ResolvedTargetResource.fromJson(Map<String, dynamic> json) {
+    return ResolvedTargetResource(
+      resourceType: (json['resourceType'] as String?) ?? '',
+      targetInformation:
+          ((json['targetInformation'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      targetName: (json['targetName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final targetInformation = this.targetInformation;
+    final targetName = this.targetName;
+    return {
+      'resourceType': resourceType,
+      'targetInformation': targetInformation,
+      'targetName': targetName,
+    };
+  }
+}
+
 /// Result of a report generation attempt.
 ///
 /// @nodoc
@@ -7616,6 +9839,8 @@ class ReportGenerationResult {
 
   /// The service this report was generated for.
   final String? serviceArn;
+  final String? testRunId;
+  final String? testTemplateArn;
 
   ReportGenerationResult({
     required this.reportType,
@@ -7624,6 +9849,8 @@ class ReportGenerationResult {
     this.createdAt,
     this.reportOutput,
     this.serviceArn,
+    this.testRunId,
+    this.testTemplateArn,
   });
 
   factory ReportGenerationResult.fromJson(Map<String, dynamic> json) {
@@ -7637,6 +9864,8 @@ class ReportGenerationResult {
           ? ReportOutput.fromJson(json['reportOutput'] as Map<String, dynamic>)
           : null,
       serviceArn: json['serviceArn'] as String?,
+      testRunId: json['testRunId'] as String?,
+      testTemplateArn: json['testTemplateArn'] as String?,
     );
   }
 
@@ -7647,6 +9876,8 @@ class ReportGenerationResult {
     final createdAt = this.createdAt;
     final reportOutput = this.reportOutput;
     final serviceArn = this.serviceArn;
+    final testRunId = this.testRunId;
+    final testTemplateArn = this.testTemplateArn;
     return {
       'reportType': reportType.value,
       'status': status.value,
@@ -7654,6 +9885,8 @@ class ReportGenerationResult {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (reportOutput != null) 'reportOutput': reportOutput,
       if (serviceArn != null) 'serviceArn': serviceArn,
+      if (testRunId != null) 'testRunId': testRunId,
+      if (testTemplateArn != null) 'testTemplateArn': testTemplateArn,
     };
   }
 }
@@ -7661,12 +9894,13 @@ class ReportGenerationResult {
 /// @nodoc
 class ReportType {
   static const failureMode = ReportType._('FAILURE_MODE');
+  static const testing = ReportType._('TESTING');
 
   final String value;
 
   const ReportType._(this.value);
 
-  static const values = [failureMode];
+  static const values = [failureMode, testing];
 
   static ReportType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => ReportType._(value));
@@ -8265,19 +10499,33 @@ class AssessmentSummary {
 
 /// @nodoc
 class AssessmentStep {
+  static const topologyGeneration = AssessmentStep._('TOPOLOGY_GENERATION');
+  static const inputValidation = AssessmentStep._('INPUT_VALIDATION');
+  static const designAnalysis = AssessmentStep._('DESIGN_ANALYSIS');
   static const topologyEnhancement = AssessmentStep._('TOPOLOGY_ENHANCEMENT');
   static const serviceFunctionGeneration =
       AssessmentStep._('SERVICE_FUNCTION_GENERATION');
+  static const policyValidation = AssessmentStep._('POLICY_VALIDATION');
   static const resilienceAssessment = AssessmentStep._('RESILIENCE_ASSESSMENT');
+  static const failureModeFindingsConsolidation =
+      AssessmentStep._('FAILURE_MODE_FINDINGS_CONSOLIDATION');
+  static const failureModeFindingsEnrichment =
+      AssessmentStep._('FAILURE_MODE_FINDINGS_ENRICHMENT');
 
   final String value;
 
   const AssessmentStep._(this.value);
 
   static const values = [
+    topologyGeneration,
+    inputValidation,
+    designAnalysis,
     topologyEnhancement,
     serviceFunctionGeneration,
-    resilienceAssessment
+    policyValidation,
+    resilienceAssessment,
+    failureModeFindingsConsolidation,
+    failureModeFindingsEnrichment
   ];
 
   static AssessmentStep fromString(String value) =>
@@ -8323,6 +10571,59 @@ class AssessmentErrorCode {
   @override
   bool operator ==(other) =>
       other is AssessmentErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The field by which to sort failure mode assessment results.
+///
+/// @nodoc
+class AssessmentSortField {
+  static const startedAt = AssessmentSortField._('STARTED_AT');
+
+  final String value;
+
+  const AssessmentSortField._(this.value);
+
+  static const values = [startedAt];
+
+  static AssessmentSortField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentSortField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentSortField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The order in which to sort results.
+///
+/// @nodoc
+class SortOrder {
+  static const asc = SortOrder._('ASC');
+  static const desc = SortOrder._('DESC');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [asc, desc];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8534,6 +10835,501 @@ class QueryDataPoint {
     return {
       'queryCount': queryCount,
       'timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+/// A pre-configured, AWS recommended test that defines which resilience
+/// capability to validate, the fault actions it runs, and the parameters it
+/// accepts.
+///
+/// @nodoc
+class TestTemplate {
+  /// The name of the test template.
+  final String name;
+
+  /// The ARN of the test template.
+  final String testTemplateArn;
+
+  /// The fault actions the test template runs.
+  final List<TestAction>? actions;
+
+  /// A description of the test template.
+  final String? description;
+
+  /// The parameters the test template accepts.
+  final List<TestTemplateParameter>? parameters;
+
+  TestTemplate({
+    required this.name,
+    required this.testTemplateArn,
+    this.actions,
+    this.description,
+    this.parameters,
+  });
+
+  factory TestTemplate.fromJson(Map<String, dynamic> json) {
+    return TestTemplate(
+      name: (json['name'] as String?) ?? '',
+      testTemplateArn: (json['testTemplateArn'] as String?) ?? '',
+      actions: (json['actions'] as List?)
+          ?.nonNulls
+          .map((e) => TestAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      parameters: (json['parameters'] as List?)
+          ?.nonNulls
+          .map((e) => TestTemplateParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final testTemplateArn = this.testTemplateArn;
+    final actions = this.actions;
+    final description = this.description;
+    final parameters = this.parameters;
+    return {
+      'name': name,
+      'testTemplateArn': testTemplateArn,
+      if (actions != null) 'actions': actions,
+      if (description != null) 'description': description,
+      if (parameters != null) 'parameters': parameters,
+    };
+  }
+}
+
+/// Describes a parameter accepted by a test template.
+///
+/// @nodoc
+class TestTemplateParameter {
+  /// The name of the parameter.
+  final String name;
+
+  /// Indicates whether the parameter is required.
+  final bool required;
+
+  /// The data type of the parameter.
+  final ParameterType type;
+
+  /// The default value of the parameter.
+  final String? defaultValue;
+
+  /// A description of the parameter.
+  final String? description;
+
+  /// The maximum number of values the parameter accepts.
+  final int? maxValues;
+
+  TestTemplateParameter({
+    required this.name,
+    required this.required,
+    required this.type,
+    this.defaultValue,
+    this.description,
+    this.maxValues,
+  });
+
+  factory TestTemplateParameter.fromJson(Map<String, dynamic> json) {
+    return TestTemplateParameter(
+      name: (json['name'] as String?) ?? '',
+      required: (json['required'] as bool?) ?? false,
+      type: ParameterType.fromString((json['type'] as String?) ?? ''),
+      defaultValue: json['defaultValue'] as String?,
+      description: json['description'] as String?,
+      maxValues: json['maxValues'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final required = this.required;
+    final type = this.type;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final maxValues = this.maxValues;
+    return {
+      'name': name,
+      'required': required,
+      'type': type.value,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+      if (maxValues != null) 'maxValues': maxValues,
+    };
+  }
+}
+
+/// The data type of a test template parameter.
+///
+/// @nodoc
+class ParameterType {
+  static const string = ParameterType._('STRING');
+  static const stringList = ParameterType._('STRING_LIST');
+  static const integer = ParameterType._('INTEGER');
+
+  final String value;
+
+  const ParameterType._(this.value);
+
+  static const values = [string, stringList, integer];
+
+  static ParameterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParameterType._(value));
+
+  @override
+  bool operator ==(other) => other is ParameterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a single run of a test. Configuration is snapshotted from the
+/// test and service at the time the run is started.
+///
+/// @nodoc
+class TestRun {
+  /// The timestamp when the test run started.
+  final DateTime startedAt;
+
+  /// The current status of the test run.
+  final TestRunStatus status;
+
+  /// The identifier of the test that was run.
+  final String testId;
+
+  /// The unique identifier of the test run.
+  final String testRunId;
+
+  /// The ARN of the test template snapshotted from the test when the run was
+  /// started.
+  final String testTemplateArn;
+
+  /// Indicates whether this test run targets a single account or multiple
+  /// accounts.
+  final AccountTargeting? accountTargeting;
+
+  /// The timestamp when the test run ended.
+  final DateTime? endedAt;
+
+  /// A human-readable reason for test run failure. Only present when the status
+  /// is FAILED or ERROR.
+  final String? errorMessage;
+
+  /// The number of events recorded for the test run. Use ListTestRunEvents to
+  /// retrieve the details.
+  final int? eventCount;
+
+  /// The AWS Fault Injection Service (AWS FIS) experiments run as part of the
+  /// test run.
+  final List<ExperimentDetails>? experiments;
+
+  /// The logging configuration snapshotted from the test when the run was
+  /// started.
+  final LoggingConfiguration? loggingConfiguration;
+
+  /// The parameter values used for the test run.
+  final Map<String, List<String>>? parameters;
+
+  /// The permission model snapshotted from the service when the run was started.
+  final PermissionModel? permissionModel;
+
+  /// The resilience policy snapshotted from the service when the run was started.
+  final TestRunPolicySnapshot? policy;
+
+  /// The identifier of the ARC Region switch execution detected during the test
+  /// run.
+  final String? regionSwitchExecutionId;
+
+  /// The ARN of the ARC Region switch plan associated with the test run.
+  final String? regionSwitchPlanArn;
+
+  /// The Regions snapshotted from the service when the run was started.
+  final List<String>? regions;
+
+  /// The report configuration snapshotted from the service when the run was
+  /// started.
+  final TestRunReportConfiguration? reportConfiguration;
+
+  /// The report generation result for the test run. Present after report
+  /// generation completes or fails.
+  final ReportGenerationResult? reportOutput;
+
+  /// The IAM execution role name snapshotted from the test when the run was
+  /// started.
+  final String? roleName;
+
+  /// The ARN of the service the test run belongs to.
+  final String? serviceArn;
+
+  /// The stop conditions snapshotted from the test when the run was started.
+  final List<StopCondition>? stopConditions;
+
+  TestRun({
+    required this.startedAt,
+    required this.status,
+    required this.testId,
+    required this.testRunId,
+    required this.testTemplateArn,
+    this.accountTargeting,
+    this.endedAt,
+    this.errorMessage,
+    this.eventCount,
+    this.experiments,
+    this.loggingConfiguration,
+    this.parameters,
+    this.permissionModel,
+    this.policy,
+    this.regionSwitchExecutionId,
+    this.regionSwitchPlanArn,
+    this.regions,
+    this.reportConfiguration,
+    this.reportOutput,
+    this.roleName,
+    this.serviceArn,
+    this.stopConditions,
+  });
+
+  factory TestRun.fromJson(Map<String, dynamic> json) {
+    return TestRun(
+      startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
+      status: TestRunStatus.fromString((json['status'] as String?) ?? ''),
+      testId: (json['testId'] as String?) ?? '',
+      testRunId: (json['testRunId'] as String?) ?? '',
+      testTemplateArn: (json['testTemplateArn'] as String?) ?? '',
+      accountTargeting: (json['accountTargeting'] as String?)
+          ?.let(AccountTargeting.fromString),
+      endedAt: timeStampFromJson(json['endedAt']),
+      errorMessage: json['errorMessage'] as String?,
+      eventCount: json['eventCount'] as int?,
+      experiments: (json['experiments'] as List?)
+          ?.nonNulls
+          .map((e) => ExperimentDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      loggingConfiguration: json['loggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['loggingConfiguration'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+      permissionModel: json['permissionModel'] != null
+          ? PermissionModel.fromJson(
+              json['permissionModel'] as Map<String, dynamic>)
+          : null,
+      policy: json['policy'] != null
+          ? TestRunPolicySnapshot.fromJson(
+              json['policy'] as Map<String, dynamic>)
+          : null,
+      regionSwitchExecutionId: json['regionSwitchExecutionId'] as String?,
+      regionSwitchPlanArn: json['regionSwitchPlanArn'] as String?,
+      regions:
+          (json['regions'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      reportConfiguration: json['reportConfiguration'] != null
+          ? TestRunReportConfiguration.fromJson(
+              json['reportConfiguration'] as Map<String, dynamic>)
+          : null,
+      reportOutput: json['reportOutput'] != null
+          ? ReportGenerationResult.fromJson(
+              json['reportOutput'] as Map<String, dynamic>)
+          : null,
+      roleName: json['roleName'] as String?,
+      serviceArn: json['serviceArn'] as String?,
+      stopConditions: (json['stopConditions'] as List?)
+          ?.nonNulls
+          .map((e) => StopCondition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final testId = this.testId;
+    final testRunId = this.testRunId;
+    final testTemplateArn = this.testTemplateArn;
+    final accountTargeting = this.accountTargeting;
+    final endedAt = this.endedAt;
+    final errorMessage = this.errorMessage;
+    final eventCount = this.eventCount;
+    final experiments = this.experiments;
+    final loggingConfiguration = this.loggingConfiguration;
+    final parameters = this.parameters;
+    final permissionModel = this.permissionModel;
+    final policy = this.policy;
+    final regionSwitchExecutionId = this.regionSwitchExecutionId;
+    final regionSwitchPlanArn = this.regionSwitchPlanArn;
+    final regions = this.regions;
+    final reportConfiguration = this.reportConfiguration;
+    final reportOutput = this.reportOutput;
+    final roleName = this.roleName;
+    final serviceArn = this.serviceArn;
+    final stopConditions = this.stopConditions;
+    return {
+      'startedAt': unixTimestampToJson(startedAt),
+      'status': status.value,
+      'testId': testId,
+      'testRunId': testRunId,
+      'testTemplateArn': testTemplateArn,
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
+      if (endedAt != null) 'endedAt': unixTimestampToJson(endedAt),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (eventCount != null) 'eventCount': eventCount,
+      if (experiments != null) 'experiments': experiments,
+      if (loggingConfiguration != null)
+        'loggingConfiguration': loggingConfiguration,
+      if (parameters != null) 'parameters': parameters,
+      if (permissionModel != null) 'permissionModel': permissionModel,
+      if (policy != null) 'policy': policy,
+      if (regionSwitchExecutionId != null)
+        'regionSwitchExecutionId': regionSwitchExecutionId,
+      if (regionSwitchPlanArn != null)
+        'regionSwitchPlanArn': regionSwitchPlanArn,
+      if (regions != null) 'regions': regions,
+      if (reportConfiguration != null)
+        'reportConfiguration': reportConfiguration,
+      if (reportOutput != null) 'reportOutput': reportOutput,
+      if (roleName != null) 'roleName': roleName,
+      if (serviceArn != null) 'serviceArn': serviceArn,
+      if (stopConditions != null) 'stopConditions': stopConditions,
+    };
+  }
+}
+
+/// A snapshot of the report configuration captured onto a test run from the
+/// service when the run was started.
+///
+/// @nodoc
+class TestRunReportConfiguration {
+  /// The output destinations for generated reports.
+  final List<ReportOutputConfiguration> reportOutput;
+
+  TestRunReportConfiguration({
+    required this.reportOutput,
+  });
+
+  factory TestRunReportConfiguration.fromJson(Map<String, dynamic> json) {
+    return TestRunReportConfiguration(
+      reportOutput: ((json['reportOutput'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              ReportOutputConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reportOutput = this.reportOutput;
+    return {
+      'reportOutput': reportOutput,
+    };
+  }
+}
+
+/// A snapshot of the resilience policy captured onto a test run from the
+/// service when the run was started.
+///
+/// @nodoc
+class TestRunPolicySnapshot {
+  /// The availability SLO targets.
+  final AvailabilitySlo? availabilitySlo;
+
+  /// The data recovery targets.
+  final DataRecoveryTargets? dataRecovery;
+
+  /// The multi-AZ resilience targets.
+  final MultiAzTargets? multiAz;
+
+  /// The multi-Region resilience targets.
+  final MultiRegionTargets? multiRegion;
+
+  /// The name of the policy.
+  final String? name;
+
+  /// The ARN of the policy.
+  final String? policyArn;
+
+  TestRunPolicySnapshot({
+    this.availabilitySlo,
+    this.dataRecovery,
+    this.multiAz,
+    this.multiRegion,
+    this.name,
+    this.policyArn,
+  });
+
+  factory TestRunPolicySnapshot.fromJson(Map<String, dynamic> json) {
+    return TestRunPolicySnapshot(
+      availabilitySlo: json['availabilitySlo'] != null
+          ? AvailabilitySlo.fromJson(
+              json['availabilitySlo'] as Map<String, dynamic>)
+          : null,
+      dataRecovery: json['dataRecovery'] != null
+          ? DataRecoveryTargets.fromJson(
+              json['dataRecovery'] as Map<String, dynamic>)
+          : null,
+      multiAz: json['multiAz'] != null
+          ? MultiAzTargets.fromJson(json['multiAz'] as Map<String, dynamic>)
+          : null,
+      multiRegion: json['multiRegion'] != null
+          ? MultiRegionTargets.fromJson(
+              json['multiRegion'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      policyArn: json['policyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilitySlo = this.availabilitySlo;
+    final dataRecovery = this.dataRecovery;
+    final multiAz = this.multiAz;
+    final multiRegion = this.multiRegion;
+    final name = this.name;
+    final policyArn = this.policyArn;
+    return {
+      if (availabilitySlo != null) 'availabilitySlo': availabilitySlo,
+      if (dataRecovery != null) 'dataRecovery': dataRecovery,
+      if (multiAz != null) 'multiAz': multiAz,
+      if (multiRegion != null) 'multiRegion': multiRegion,
+      if (name != null) 'name': name,
+      if (policyArn != null) 'policyArn': policyArn,
+    };
+  }
+}
+
+/// Details about an AWS Fault Injection Service (AWS FIS) experiment run as
+/// part of a test run.
+///
+/// @nodoc
+class ExperimentDetails {
+  /// The ARN of the AWS FIS experiment.
+  final String experimentArn;
+
+  /// Additional details about the experiment.
+  final String? details;
+
+  ExperimentDetails({
+    required this.experimentArn,
+    this.details,
+  });
+
+  factory ExperimentDetails.fromJson(Map<String, dynamic> json) {
+    return ExperimentDetails(
+      experimentArn: (json['experimentArn'] as String?) ?? '',
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final experimentArn = this.experimentArn;
+    final details = this.details;
+    return {
+      'experimentArn': experimentArn,
+      if (details != null) 'details': details,
     };
   }
 }

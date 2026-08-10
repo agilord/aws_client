@@ -93,6 +93,33 @@ class ApplicationSignals {
     _protocol.close();
   }
 
+  /// Deletes multiple instrumentation configurations in a single request.
+  /// Supports two mutually exclusive selection methods: - By scope: Delete all
+  /// configurations matching a Service + Environment + InstrumentationType - By
+  /// ARN list: Delete specific configurations by providing a list of resource
+  /// ARNs
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [deletionTarget] :
+  /// The deletion target - either bulk by scope or targeted by ARN list.
+  Future<BatchDeleteInstrumentationConfigurationsResponse>
+      batchDeleteInstrumentationConfigurations({
+    required BatchDeleteDeletionTarget deletionTarget,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DeletionTarget': deletionTarget,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/batch-delete-instrumentation-configurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDeleteInstrumentationConfigurationsResponse.fromJson(response);
+  }
+
   /// Use this operation to retrieve one or more <i>service level objective
   /// (SLO) budget reports</i>.
   ///
@@ -176,6 +203,99 @@ class ApplicationSignals {
     return BatchUpdateExclusionWindowsOutput.fromJson(response);
   }
 
+  /// Creates a dynamic instrumentation configuration for a specific code or
+  /// endpoint location within a service and environment. Configurations are
+  /// immutable after creation.
+  ///
+  /// For <code>BREAKPOINT</code> type configurations, they expire after 24
+  /// hours unless a shorter expiration is provided. For <code>PROBE</code> type
+  /// configurations, they persist until explicitly deleted; an expiration
+  /// cannot be set for <code>PROBE</code> configurations.
+  ///
+  /// If a configuration already exists for the same service, environment,
+  /// signal type, and location, this operation returns a conflict instead of
+  /// overwriting it. Use attribute filters and capture settings to control
+  /// where the instrumentation runs and which data is collected.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [captureConfiguration] :
+  /// Specifies what to capture when the instrumentation point is hit. Specify
+  /// <code>CodeCapture</code> for code-level capture settings.
+  ///
+  /// Parameter [environment] :
+  /// The environment that the service is running in, such as
+  /// <code>eks:cluster-prod/namespace</code> or <code>ec2:production</code>.
+  ///
+  /// Parameter [instrumentationType] :
+  /// Type of instrumentation: BREAKPOINT (temporary) or PROBE (permanent)
+  ///
+  /// Parameter [location] :
+  /// The location where instrumentation should be applied. Specify a
+  /// <code>CodeLocation</code> for code-level instrumentation.
+  ///
+  /// Parameter [service] :
+  /// The name of the service to instrument. This should match the
+  /// <code>service.name</code> resource attribute reported by the application.
+  ///
+  /// Parameter [signalType] :
+  /// The telemetry signal type to emit for this instrumentation. The supported
+  /// value is <code>SNAPSHOT</code>.
+  ///
+  /// Parameter [attributeFilters] :
+  /// Client-side filters that target specific instances. Each object in the
+  /// array is AND-matched on its keys, and multiple objects are OR-matched to
+  /// decide where to apply the instrumentation.
+  ///
+  /// Parameter [description] :
+  /// An optional short description (up to 50 characters) that explains the
+  /// purpose of this instrumentation.
+  ///
+  /// Parameter [expiresAt] :
+  /// For BREAKPOINT: optional, defaults to 24 hours, must be between 5 min and
+  /// 24 hours. For PROBE: not supported. PROBE configurations are permanent and
+  /// persist until explicitly deleted.
+  ///
+  /// Parameter [tags] :
+  /// An optional list of key-value pairs to associate with the instrumentation
+  /// configuration. Tags can help you organize and categorize your resources.
+  Future<CreateInstrumentationConfigurationResponse>
+      createInstrumentationConfiguration({
+    required CaptureConfiguration captureConfiguration,
+    required String environment,
+    required InstrumentationType instrumentationType,
+    required Location location,
+    required String service,
+    required DynamicInstrumentationSignalType signalType,
+    List<Map<String, String>>? attributeFilters,
+    String? description,
+    DateTime? expiresAt,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CaptureConfiguration': captureConfiguration,
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'Location': location,
+      'Service': service,
+      'SignalType': signalType.value,
+      if (attributeFilters != null) 'AttributeFilters': attributeFilters,
+      if (description != null) 'Description': description,
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/create-instrumentation-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateInstrumentationConfigurationResponse.fromJson(response);
+  }
+
   /// Deletes the grouping configuration for this account. This removes all
   /// custom grouping attribute definitions that were previously configured.
   ///
@@ -189,6 +309,184 @@ class ApplicationSignals {
       requestUri: '/grouping-configuration',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deletes the specified instrumentation configuration. SDKs remove the
+  /// instrumentation during their next sync after the configuration is deleted
+  /// or expires.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [environment] :
+  /// Environment name for the instrumentation configuration.
+  ///
+  /// Parameter [instrumentationType] :
+  /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to
+  /// identify the configuration to delete.
+  ///
+  /// Parameter [locationIdentifier] :
+  /// Location identifier - either full code location or a pre-computed hash.
+  ///
+  /// Parameter [service] :
+  /// Service name for the instrumentation configuration.
+  ///
+  /// Parameter [signalType] :
+  /// Signal type for the instrumentation configuration.
+  Future<DeleteInstrumentationConfigurationResponse>
+      deleteInstrumentationConfiguration({
+    required String environment,
+    required InstrumentationType instrumentationType,
+    required LocationIdentifier locationIdentifier,
+    required String service,
+    required DynamicInstrumentationSignalType signalType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'LocationIdentifier': locationIdentifier,
+      'Service': service,
+      'SignalType': signalType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/delete-instrumentation-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteInstrumentationConfigurationResponse.fromJson(response);
+  }
+
+  /// Returns the details of a single instrumentation configuration identified
+  /// by service, environment, signal type, and location. Use this to audit or
+  /// display configuration details.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [environment] :
+  /// Environment name for the instrumentation configuration.
+  ///
+  /// Parameter [instrumentationType] :
+  /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to
+  /// identify the configuration to retrieve.
+  ///
+  /// Parameter [locationIdentifier] :
+  /// Location identifier - either full code location or a pre-computed hash.
+  ///
+  /// Parameter [service] :
+  /// Service name for the instrumentation configuration.
+  ///
+  /// Parameter [signalType] :
+  /// Signal type for the instrumentation configuration.
+  Future<GetInstrumentationConfigurationResponse>
+      getInstrumentationConfiguration({
+    required String environment,
+    required InstrumentationType instrumentationType,
+    required LocationIdentifier locationIdentifier,
+    required String service,
+    required DynamicInstrumentationSignalType signalType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'LocationIdentifier': locationIdentifier,
+      'Service': service,
+      'SignalType': signalType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-instrumentation-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInstrumentationConfigurationResponse.fromJson(response);
+  }
+
+  /// Retrieves the status history for a single instrumentation configuration
+  /// during a specified time range. The response lists when the configuration
+  /// was ACTIVE, READY, ERROR, or DISABLED.
+  ///
+  /// If no status or time window is provided, the operation defaults to ACTIVE
+  /// events from the last hour.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [environment] :
+  /// Environment name for the instrumentation configuration.
+  ///
+  /// Parameter [instrumentationType] :
+  /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to
+  /// identify the configuration to retrieve.
+  ///
+  /// Parameter [locationIdentifier] :
+  /// Location identifier - either full code location or a pre-computed hash.
+  ///
+  /// Parameter [service] :
+  /// Service name for the instrumentation configuration.
+  ///
+  /// Parameter [signalType] :
+  /// Signal type for the instrumentation configuration.
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time range to retrieve status events for.
+  /// <code>StartTime</code> and <code>EndTime</code> must both be provided
+  /// together or both be omitted. When both are omitted, the time range
+  /// defaults to the last hour.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of status events to return in one call. The default is
+  /// 60.
+  ///
+  /// Parameter [nextToken] :
+  /// Use the token returned by a previous call to retrieve the next page of
+  /// status events.
+  ///
+  /// Parameter [startTime] :
+  /// The start of the time range to retrieve status events for.
+  /// <code>StartTime</code> and <code>EndTime</code> must both be provided
+  /// together or both be omitted. When both are omitted, the time range
+  /// defaults to the last hour.
+  ///
+  /// Parameter [status] :
+  /// The single status to query for. If omitted, only <code>ACTIVE</code>
+  /// status events are returned.
+  Future<GetInstrumentationConfigurationStatusResponse>
+      getInstrumentationConfigurationStatus({
+    required String environment,
+    required InstrumentationType instrumentationType,
+    required LocationIdentifier locationIdentifier,
+    required String service,
+    required DynamicInstrumentationSignalType signalType,
+    DateTime? endTime,
+    int? maxResults,
+    String? nextToken,
+    DateTime? startTime,
+    InstrumentationConfigurationStatus? status,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'LocationIdentifier': locationIdentifier,
+      'Service': service,
+      'SignalType': signalType.value,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-instrumentation-configuration-status',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInstrumentationConfigurationStatusResponse.fromJson(response);
   }
 
   /// Returns information about a service discovered by Application Signals.
@@ -533,6 +831,66 @@ class ApplicationSignals {
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupingAttributeDefinitionsOutput.fromJson(response);
+  }
+
+  /// Returns all active instrumentation configurations for a service and
+  /// environment. SDKs use this operation to sync configurations and apply
+  /// client-side filters locally.
+  ///
+  /// Include the previous <code>SyncedAt</code> value to perform incremental
+  /// syncs. When no changes are detected, the response sets
+  /// <code>Changed</code> to <code>false</code> and omits configuration
+  /// details.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [environment] :
+  /// The environment that the service is running in.
+  ///
+  /// Parameter [instrumentationType] :
+  /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to
+  /// determine which backing store to query.
+  ///
+  /// Parameter [service] :
+  /// The name of the service to retrieve instrumentation configurations for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of configurations to return in one call. The default is
+  /// 50 and the maximum is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// Use the token returned by a previous call to retrieve the next page of
+  /// configurations.
+  ///
+  /// Parameter [syncedAt] :
+  /// The timestamp from the last successful sync. When provided, the response
+  /// returns <code>Changed</code> as <code>false</code> if nothing is new since
+  /// this time, or returns the latest configurations when changes exist.
+  Future<InstrumentationConfigurationsPage> listInstrumentationConfigurations({
+    required String environment,
+    required InstrumentationType instrumentationType,
+    required String service,
+    int? maxResults,
+    String? nextToken,
+    DateTime? syncedAt,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'Service': service,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (syncedAt != null) 'SyncedAt': unixTimestampToJson(syncedAt),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-instrumentation-configurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return InstrumentationConfigurationsPage.fromJson(response);
   }
 
   /// Returns a list of service dependencies of the service that you specify. A
@@ -1059,6 +1417,47 @@ class ApplicationSignals {
       exceptionFnMap: _exceptionFns,
     );
     return PutGroupingConfigurationOutput.fromJson(response);
+  }
+
+  /// Reports the status of one or more instrumentation configurations from SDK
+  /// instances. Use this to record when configurations become ready, hit
+  /// errors, become active, or are disabled by limits.
+  ///
+  /// Report <code>READY</code>, <code>ERROR</code>, and <code>DISABLED</code>
+  /// when the status changes. Report <code>ACTIVE</code> periodically (for
+  /// example, every minute) while instrumentation is running.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [configurations] :
+  /// An array of configuration status reports (up to 100) that include the
+  /// instrumentation type, signal type, location hash, status, timestamp, and
+  /// optional error cause.
+  ///
+  /// Parameter [environment] :
+  /// The environment that the service is running in.
+  ///
+  /// Parameter [service] :
+  /// The service that the reported configurations belong to.
+  Future<ReportInstrumentationConfigurationStatusResponse>
+      reportInstrumentationConfigurationStatus({
+    required List<InstrumentationConfigurationStatusReport> configurations,
+    required String environment,
+    required String service,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Configurations': configurations,
+      'Environment': environment,
+      'Service': service,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/report-instrumentation-configuration-status',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ReportInstrumentationConfigurationStatusResponse.fromJson(response);
   }
 
   /// Enables this Amazon Web Services account to be able to use CloudWatch
@@ -1646,6 +2045,55 @@ class ApplicationSignals {
 }
 
 /// @nodoc
+class BatchDeleteInstrumentationConfigurationsResponse {
+  /// Number of configurations successfully deleted. When deleting by scope, this
+  /// is the total count of deleted items. When deleting by ARN list, this equals
+  /// the length of SuccessfulDeletions.
+  final int deletedCount;
+
+  /// List of configurations that failed to delete.
+  final List<BatchDeleteError> errors;
+
+  /// List of successfully deleted configurations. Deleting by scope populates
+  /// SignalType and LocationHash per item. Deleting by ARN list populates
+  /// ResourceArn per item.
+  final List<BatchDeleteSuccessfulDeletion> successfulDeletions;
+
+  BatchDeleteInstrumentationConfigurationsResponse({
+    required this.deletedCount,
+    required this.errors,
+    required this.successfulDeletions,
+  });
+
+  factory BatchDeleteInstrumentationConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDeleteInstrumentationConfigurationsResponse(
+      deletedCount: (json['DeletedCount'] as int?) ?? 0,
+      errors: ((json['Errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchDeleteError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulDeletions: ((json['SuccessfulDeletions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              BatchDeleteSuccessfulDeletion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletedCount = this.deletedCount;
+    final errors = this.errors;
+    final successfulDeletions = this.successfulDeletions;
+    return {
+      'DeletedCount': deletedCount,
+      'Errors': errors,
+      'SuccessfulDeletions': successfulDeletions,
+    };
+  }
+}
+
+/// @nodoc
 class BatchGetServiceLevelObjectiveBudgetReportOutput {
   /// An array of structures, where each structure includes an error indicating
   /// that one of the requests in the array was not valid.
@@ -1732,6 +2180,126 @@ class BatchUpdateExclusionWindowsOutput {
 }
 
 /// @nodoc
+class CreateInstrumentationConfigurationResponse {
+  /// ARN for the created instrumentation configuration
+  final String arn;
+
+  /// The capture settings that were stored for this instrumentation
+  /// configuration.
+  final CaptureConfiguration captureConfiguration;
+
+  /// The server-generated creation timestamp for this instrumentation
+  /// configuration.
+  final DateTime createdAt;
+
+  /// The environment for the instrumentation configuration, echoed from the
+  /// request.
+  final String environment;
+
+  /// The type of instrumentation that was created, echoed from the request.
+  final InstrumentationType instrumentationType;
+
+  /// The location where instrumentation is applied, echoed from the request.
+  final Location location;
+
+  /// A stable hash computed from the location that uniquely identifies this
+  /// instrumentation point within the service, environment, and signal type.
+  final String locationHash;
+
+  /// The service name for the instrumentation configuration, echoed from the
+  /// request.
+  final String service;
+
+  /// The telemetry signal type for the instrumentation configuration, echoed from
+  /// the request.
+  final DynamicInstrumentationSignalType signalType;
+
+  /// The attribute filters returned with the configuration so SDKs can perform
+  /// client-side targeting.
+  final List<Map<String, String>>? attributeFilters;
+
+  /// The optional description that was stored with the instrumentation
+  /// configuration.
+  final String? description;
+
+  /// The timestamp after which this configuration is no longer served to clients.
+  /// Present only for <code>BREAKPOINT</code> configurations; <code>PROBE</code>
+  /// configurations do not expire.
+  final DateTime? expiresAt;
+
+  CreateInstrumentationConfigurationResponse({
+    required this.arn,
+    required this.captureConfiguration,
+    required this.createdAt,
+    required this.environment,
+    required this.instrumentationType,
+    required this.location,
+    required this.locationHash,
+    required this.service,
+    required this.signalType,
+    this.attributeFilters,
+    this.description,
+    this.expiresAt,
+  });
+
+  factory CreateInstrumentationConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateInstrumentationConfigurationResponse(
+      arn: (json['ARN'] as String?) ?? '',
+      captureConfiguration: CaptureConfiguration.fromJson(
+          (json['CaptureConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      environment: (json['Environment'] as String?) ?? '',
+      instrumentationType: InstrumentationType.fromString(
+          (json['InstrumentationType'] as String?) ?? ''),
+      location: Location.fromJson((json['Location'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      locationHash: (json['LocationHash'] as String?) ?? '',
+      service: (json['Service'] as String?) ?? '',
+      signalType: DynamicInstrumentationSignalType.fromString(
+          (json['SignalType'] as String?) ?? ''),
+      attributeFilters: (json['AttributeFilters'] as List?)
+          ?.nonNulls
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      description: json['Description'] as String?,
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final captureConfiguration = this.captureConfiguration;
+    final createdAt = this.createdAt;
+    final environment = this.environment;
+    final instrumentationType = this.instrumentationType;
+    final location = this.location;
+    final locationHash = this.locationHash;
+    final service = this.service;
+    final signalType = this.signalType;
+    final attributeFilters = this.attributeFilters;
+    final description = this.description;
+    final expiresAt = this.expiresAt;
+    return {
+      'ARN': arn,
+      'CaptureConfiguration': captureConfiguration,
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'Location': location,
+      'LocationHash': locationHash,
+      'Service': service,
+      'SignalType': signalType.value,
+      if (attributeFilters != null) 'AttributeFilters': attributeFilters,
+      if (description != null) 'Description': description,
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+    };
+  }
+}
+
+/// @nodoc
 class DeleteGroupingConfigurationOutput {
   DeleteGroupingConfigurationOutput();
 
@@ -1741,6 +2309,134 @@ class DeleteGroupingConfigurationOutput {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class DeleteInstrumentationConfigurationResponse {
+  /// The result of the delete request. The value is <code>DELETED</code> when the
+  /// configuration has been removed.
+  final DynamicInstrumentationDeletionStatus deletionStatus;
+
+  DeleteInstrumentationConfigurationResponse({
+    required this.deletionStatus,
+  });
+
+  factory DeleteInstrumentationConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteInstrumentationConfigurationResponse(
+      deletionStatus: DynamicInstrumentationDeletionStatus.fromString(
+          (json['DeletionStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionStatus = this.deletionStatus;
+    return {
+      'DeletionStatus': deletionStatus.value,
+    };
+  }
+}
+
+/// @nodoc
+class GetInstrumentationConfigurationResponse {
+  /// The complete instrumentation configuration, including its location hash,
+  /// capture settings, filters, expiration, and creation time.
+  final InstrumentationConfiguration configuration;
+
+  GetInstrumentationConfigurationResponse({
+    required this.configuration,
+  });
+
+  factory GetInstrumentationConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetInstrumentationConfigurationResponse(
+      configuration: InstrumentationConfiguration.fromJson(
+          (json['Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    return {
+      'Configuration': configuration,
+    };
+  }
+}
+
+/// @nodoc
+class GetInstrumentationConfigurationStatusResponse {
+  /// The environment echoed from the request.
+  final String environment;
+
+  /// The list of status events within the requested time window, sorted with the
+  /// most recent first. Error events include an error cause.
+  final List<InstrumentationStatusEvent> events;
+
+  /// The code location echoed from the request.
+  final Location location;
+
+  /// The service name echoed from the request.
+  final String service;
+
+  /// The telemetry signal type echoed from the request.
+  final DynamicInstrumentationSignalType signalType;
+
+  /// The status that was queried. If not specified in the request, this is
+  /// <code>ACTIVE</code>.
+  final InstrumentationConfigurationStatus status;
+
+  /// Pagination token to continue retrieving status events.
+  final String? nextToken;
+
+  GetInstrumentationConfigurationStatusResponse({
+    required this.environment,
+    required this.events,
+    required this.location,
+    required this.service,
+    required this.signalType,
+    required this.status,
+    this.nextToken,
+  });
+
+  factory GetInstrumentationConfigurationStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetInstrumentationConfigurationStatusResponse(
+      environment: (json['Environment'] as String?) ?? '',
+      events: ((json['Events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              InstrumentationStatusEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      location: Location.fromJson((json['Location'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      service: (json['Service'] as String?) ?? '',
+      signalType: DynamicInstrumentationSignalType.fromString(
+          (json['SignalType'] as String?) ?? ''),
+      status: InstrumentationConfigurationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final environment = this.environment;
+    final events = this.events;
+    final location = this.location;
+    final service = this.service;
+    final signalType = this.signalType;
+    final status = this.status;
+    final nextToken = this.nextToken;
+    return {
+      'Environment': environment,
+      'Events': events,
+      'Location': location,
+      'Service': service,
+      'SignalType': signalType.value,
+      'Status': status.value,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -1971,6 +2667,83 @@ class ListGroupingAttributeDefinitionsOutput {
       'GroupingAttributeDefinitions': groupingAttributeDefinitions,
       if (nextToken != null) 'NextToken': nextToken,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class InstrumentationConfigurationsPage {
+  /// Indicates whether there are configuration changes since the provided
+  /// <code>SyncedAt</code> timestamp.
+  final bool changed;
+
+  /// The environment associated with the returned configurations.
+  final String environment;
+
+  /// The service name associated with the returned configurations.
+  final String service;
+
+  /// The suggested number of seconds to wait before the next sync request. This
+  /// is at least 60 seconds to prevent excessive polling.
+  final int syncInterval;
+
+  /// The server timestamp to supply on the next sync call.
+  final DateTime syncedAt;
+
+  /// The current set of active instrumentation configurations for the service and
+  /// environment. Items omit service and environment because they are provided in
+  /// the request.
+  final List<InstrumentationConfigurationWithoutServiceEnv>?
+      latestConfigurations;
+
+  /// Pagination token to continue listing configurations when more results are
+  /// available.
+  final String? nextToken;
+
+  InstrumentationConfigurationsPage({
+    required this.changed,
+    required this.environment,
+    required this.service,
+    required this.syncInterval,
+    required this.syncedAt,
+    this.latestConfigurations,
+    this.nextToken,
+  });
+
+  factory InstrumentationConfigurationsPage.fromJson(
+      Map<String, dynamic> json) {
+    return InstrumentationConfigurationsPage(
+      changed: (json['Changed'] as bool?) ?? false,
+      environment: (json['Environment'] as String?) ?? '',
+      service: (json['Service'] as String?) ?? '',
+      syncInterval: (json['SyncInterval'] as int?) ?? 0,
+      syncedAt: nonNullableTimeStampFromJson(json['SyncedAt'] ?? 0),
+      latestConfigurations: (json['LatestConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => InstrumentationConfigurationWithoutServiceEnv.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changed = this.changed;
+    final environment = this.environment;
+    final service = this.service;
+    final syncInterval = this.syncInterval;
+    final syncedAt = this.syncedAt;
+    final latestConfigurations = this.latestConfigurations;
+    final nextToken = this.nextToken;
+    return {
+      'Changed': changed,
+      'Environment': environment,
+      'Service': service,
+      'SyncInterval': syncInterval,
+      'SyncedAt': unixTimestampToJson(syncedAt),
+      if (latestConfigurations != null)
+        'LatestConfigurations': latestConfigurations,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -2356,6 +3129,50 @@ class PutGroupingConfigurationOutput {
     final groupingConfiguration = this.groupingConfiguration;
     return {
       'GroupingConfiguration': groupingConfiguration,
+    };
+  }
+}
+
+/// @nodoc
+class ReportInstrumentationConfigurationStatusResponse {
+  /// The environment echoed from the request.
+  final String environment;
+
+  /// The service name echoed from the request.
+  final String service;
+
+  /// Status events that failed to be processed. Each entry includes the
+  /// configuration identifiers, status, timestamp, and a reason for the failure.
+  final List<UnprocessedStatusEvent> unprocessedStatusEvents;
+
+  ReportInstrumentationConfigurationStatusResponse({
+    required this.environment,
+    required this.service,
+    required this.unprocessedStatusEvents,
+  });
+
+  factory ReportInstrumentationConfigurationStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ReportInstrumentationConfigurationStatusResponse(
+      environment: (json['Environment'] as String?) ?? '',
+      service: (json['Service'] as String?) ?? '',
+      unprocessedStatusEvents: ((json['UnprocessedStatusEvents'] as List?) ??
+              const [])
+          .nonNulls
+          .map(
+              (e) => UnprocessedStatusEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final environment = this.environment;
+    final service = this.service;
+    final unprocessedStatusEvents = this.unprocessedStatusEvents;
+    return {
+      'Environment': environment,
+      'Service': service,
+      'UnprocessedStatusEvents': unprocessedStatusEvents,
     };
   }
 }
@@ -4578,6 +5395,345 @@ class Tag {
   }
 }
 
+/// A status event that could not be processed by the service.
+///
+/// @nodoc
+class UnprocessedStatusEvent {
+  /// The reason why this status event could not be processed, such as throttling
+  /// or validation errors.
+  final UnprocessedStatusEventFailureReason failedReason;
+
+  /// The type of instrumentation configuration for the unprocessed status event.
+  final InstrumentationType instrumentationType;
+
+  /// The stable hash of the instrumentation location for the unprocessed event.
+  final String locationHash;
+
+  /// The telemetry signal type for the unprocessed status event.
+  final DynamicInstrumentationSignalType signalType;
+
+  /// The status that failed to be processed.
+  final InstrumentationConfigurationStatus status;
+
+  /// The timestamp of the status event that failed to be processed.
+  final DateTime time;
+
+  UnprocessedStatusEvent({
+    required this.failedReason,
+    required this.instrumentationType,
+    required this.locationHash,
+    required this.signalType,
+    required this.status,
+    required this.time,
+  });
+
+  factory UnprocessedStatusEvent.fromJson(Map<String, dynamic> json) {
+    return UnprocessedStatusEvent(
+      failedReason: UnprocessedStatusEventFailureReason.fromString(
+          (json['FailedReason'] as String?) ?? ''),
+      instrumentationType: InstrumentationType.fromString(
+          (json['InstrumentationType'] as String?) ?? ''),
+      locationHash: (json['LocationHash'] as String?) ?? '',
+      signalType: DynamicInstrumentationSignalType.fromString(
+          (json['SignalType'] as String?) ?? ''),
+      status: InstrumentationConfigurationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedReason = this.failedReason;
+    final instrumentationType = this.instrumentationType;
+    final locationHash = this.locationHash;
+    final signalType = this.signalType;
+    final status = this.status;
+    final time = this.time;
+    return {
+      'FailedReason': failedReason.value,
+      'InstrumentationType': instrumentationType.value,
+      'LocationHash': locationHash,
+      'SignalType': signalType.value,
+      'Status': status.value,
+      'Time': unixTimestampToJson(time),
+    };
+  }
+}
+
+/// Type of instrumentation configuration
+///
+/// @nodoc
+class InstrumentationType {
+  static const breakpoint = InstrumentationType._('BREAKPOINT');
+  static const probe = InstrumentationType._('PROBE');
+
+  final String value;
+
+  const InstrumentationType._(this.value);
+
+  static const values = [breakpoint, probe];
+
+  static InstrumentationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstrumentationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstrumentationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The telemetry signal type for instrumentation.
+///
+/// <ul>
+/// <li>
+/// <code>SNAPSHOT</code> - Captures a snapshot of the instrumentation point.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class DynamicInstrumentationSignalType {
+  static const snapshot = DynamicInstrumentationSignalType._('SNAPSHOT');
+
+  final String value;
+
+  const DynamicInstrumentationSignalType._(this.value);
+
+  static const values = [snapshot];
+
+  static DynamicInstrumentationSignalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DynamicInstrumentationSignalType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynamicInstrumentationSignalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of an instrumentation configuration on a host.
+///
+/// <ul>
+/// <li>
+/// <code>READY</code> - The configuration has been applied but has not been hit
+/// yet.
+/// </li>
+/// <li>
+/// <code>ERROR</code> - Applying the configuration failed; see the error cause.
+/// </li>
+/// <li>
+/// <code>ACTIVE</code> - The configuration has been hit and is capturing data.
+/// </li>
+/// <li>
+/// <code>DISABLED</code> - The configuration was disabled, for example because
+/// a limit was reached.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class InstrumentationConfigurationStatus {
+  static const ready = InstrumentationConfigurationStatus._('READY');
+  static const error = InstrumentationConfigurationStatus._('ERROR');
+  static const active = InstrumentationConfigurationStatus._('ACTIVE');
+  static const disabled = InstrumentationConfigurationStatus._('DISABLED');
+
+  final String value;
+
+  const InstrumentationConfigurationStatus._(this.value);
+
+  static const values = [ready, error, active, disabled];
+
+  static InstrumentationConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstrumentationConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstrumentationConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The reason an instrumentation status event could not be processed.
+///
+/// <ul>
+/// <li>
+/// <code>THROTTLED</code> - The request exceeded allowed throughput.
+/// </li>
+/// <li>
+/// <code>INTERNAL_ERROR</code> - An internal server error occurred while
+/// processing the event.
+/// </li>
+/// <li>
+/// <code>VALIDATION_ERROR</code> - The event failed validation.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class UnprocessedStatusEventFailureReason {
+  static const throttled = UnprocessedStatusEventFailureReason._('THROTTLED');
+  static const internalError =
+      UnprocessedStatusEventFailureReason._('INTERNAL_ERROR');
+  static const validationError =
+      UnprocessedStatusEventFailureReason._('VALIDATION_ERROR');
+
+  final String value;
+
+  const UnprocessedStatusEventFailureReason._(this.value);
+
+  static const values = [throttled, internalError, validationError];
+
+  static UnprocessedStatusEventFailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UnprocessedStatusEventFailureReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UnprocessedStatusEventFailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of a single instrumentation configuration reported by an SDK
+/// instance.
+///
+/// @nodoc
+class InstrumentationConfigurationStatusReport {
+  /// The type of instrumentation configuration being reported.
+  final InstrumentationType instrumentationType;
+
+  /// The stable hash of the instrumentation location that identifies the
+  /// configuration being reported.
+  final String locationHash;
+
+  /// The telemetry signal type for this instrumentation configuration.
+  final DynamicInstrumentationSignalType signalType;
+
+  /// The status of the instrumentation configuration: <code>READY</code>,
+  /// <code>ERROR</code>, <code>ACTIVE</code>, or <code>DISABLED</code>.
+  final InstrumentationConfigurationStatus status;
+
+  /// The timestamp when the status event occurred.
+  final DateTime time;
+
+  /// The error cause when the status is <code>ERROR</code>, such as the file or
+  /// method not being found.
+  final InstrumentationErrorCause? errorCause;
+
+  InstrumentationConfigurationStatusReport({
+    required this.instrumentationType,
+    required this.locationHash,
+    required this.signalType,
+    required this.status,
+    required this.time,
+    this.errorCause,
+  });
+
+  Map<String, dynamic> toJson() {
+    final instrumentationType = this.instrumentationType;
+    final locationHash = this.locationHash;
+    final signalType = this.signalType;
+    final status = this.status;
+    final time = this.time;
+    final errorCause = this.errorCause;
+    return {
+      'InstrumentationType': instrumentationType.value,
+      'LocationHash': locationHash,
+      'SignalType': signalType.value,
+      'Status': status.value,
+      'Time': unixTimestampToJson(time),
+      if (errorCause != null) 'ErrorCause': errorCause.value,
+    };
+  }
+}
+
+/// The reason why applying an instrumentation configuration failed.
+///
+/// <ul>
+/// <li>
+/// <code>FILE_NOT_FOUND</code> - The specified file or file location could not
+/// be located.
+/// </li>
+/// <li>
+/// <code>METHOD_NOT_FOUND</code> - The specified method or function does not
+/// exist.
+/// </li>
+/// <li>
+/// <code>LINE_NOT_EXECUTABLE</code> - The specified line does not contain
+/// executable code.
+/// </li>
+/// <li>
+/// <code>OVERLOADED_METHODS</code> - Multiple overloaded methods were found;
+/// provide a line number to disambiguate.
+/// </li>
+/// <li>
+/// <code>LANGUAGE_MISMATCH</code> - The language specified in the configuration
+/// does not match the service.
+/// </li>
+/// <li>
+/// <code>RUNTIME_ERROR</code> - A runtime error occurred while applying the
+/// instrumentation.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class InstrumentationErrorCause {
+  static const fileNotFound = InstrumentationErrorCause._('FILE_NOT_FOUND');
+  static const methodNotFound = InstrumentationErrorCause._('METHOD_NOT_FOUND');
+  static const lineNotExecutable =
+      InstrumentationErrorCause._('LINE_NOT_EXECUTABLE');
+  static const overloadedMethods =
+      InstrumentationErrorCause._('OVERLOADED_METHODS');
+  static const languageMismatch =
+      InstrumentationErrorCause._('LANGUAGE_MISMATCH');
+  static const runtimeError = InstrumentationErrorCause._('RUNTIME_ERROR');
+
+  final String value;
+
+  const InstrumentationErrorCause._(this.value);
+
+  static const values = [
+    fileNotFound,
+    methodNotFound,
+    lineNotExecutable,
+    overloadedMethods,
+    languageMismatch,
+    runtimeError
+  ];
+
+  static InstrumentationErrorCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstrumentationErrorCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstrumentationErrorCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A structure that contains the complete grouping configuration for an
 /// account, including all defined grouping attributes and metadata about when
 /// it was last updated.
@@ -5499,6 +6655,413 @@ class ServiceDependency {
   }
 }
 
+/// An instrumentation configuration that omits service and environment because
+/// they are provided at a higher level, such as in a list response.
+///
+/// @nodoc
+class InstrumentationConfigurationWithoutServiceEnv {
+  /// ARN for the instrumentation configuration
+  final String arn;
+
+  /// The capture settings for this instrumentation configuration.
+  final CaptureConfiguration captureConfiguration;
+
+  /// The timestamp when this instrumentation configuration was created.
+  final DateTime createdAt;
+
+  /// The type of instrumentation for this configuration.
+  final InstrumentationType instrumentationType;
+
+  /// The location where this instrumentation is applied.
+  final Location location;
+
+  /// The stable hash derived from the location that identifies this
+  /// instrumentation point.
+  final String locationHash;
+
+  /// The telemetry signal type for this instrumentation configuration.
+  final DynamicInstrumentationSignalType signalType;
+
+  /// Client-side filters that determine which instances apply this
+  /// instrumentation.
+  final List<Map<String, String>>? attributeFilters;
+
+  /// An optional short description of the instrumentation configuration.
+  final String? description;
+
+  /// The timestamp when this configuration expires.
+  final DateTime? expiresAt;
+
+  InstrumentationConfigurationWithoutServiceEnv({
+    required this.arn,
+    required this.captureConfiguration,
+    required this.createdAt,
+    required this.instrumentationType,
+    required this.location,
+    required this.locationHash,
+    required this.signalType,
+    this.attributeFilters,
+    this.description,
+    this.expiresAt,
+  });
+
+  factory InstrumentationConfigurationWithoutServiceEnv.fromJson(
+      Map<String, dynamic> json) {
+    return InstrumentationConfigurationWithoutServiceEnv(
+      arn: (json['ARN'] as String?) ?? '',
+      captureConfiguration: CaptureConfiguration.fromJson(
+          (json['CaptureConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      instrumentationType: InstrumentationType.fromString(
+          (json['InstrumentationType'] as String?) ?? ''),
+      location: Location.fromJson((json['Location'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      locationHash: (json['LocationHash'] as String?) ?? '',
+      signalType: DynamicInstrumentationSignalType.fromString(
+          (json['SignalType'] as String?) ?? ''),
+      attributeFilters: (json['AttributeFilters'] as List?)
+          ?.nonNulls
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      description: json['Description'] as String?,
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final captureConfiguration = this.captureConfiguration;
+    final createdAt = this.createdAt;
+    final instrumentationType = this.instrumentationType;
+    final location = this.location;
+    final locationHash = this.locationHash;
+    final signalType = this.signalType;
+    final attributeFilters = this.attributeFilters;
+    final description = this.description;
+    final expiresAt = this.expiresAt;
+    return {
+      'ARN': arn,
+      'CaptureConfiguration': captureConfiguration,
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'InstrumentationType': instrumentationType.value,
+      'Location': location,
+      'LocationHash': locationHash,
+      'SignalType': signalType.value,
+      if (attributeFilters != null) 'AttributeFilters': attributeFilters,
+      if (description != null) 'Description': description,
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+    };
+  }
+}
+
+/// A union that identifies the location to instrument. Specify a
+/// <code>CodeLocation</code> for code-level instrumentation.
+///
+/// @nodoc
+class Location {
+  /// A code location for code-level instrumentation, including language, code
+  /// unit, class, method, file path, and optional line number.
+  final CodeLocation? codeLocation;
+
+  Location({
+    this.codeLocation,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      codeLocation: json['CodeLocation'] != null
+          ? CodeLocation.fromJson(json['CodeLocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeLocation = this.codeLocation;
+    return {
+      if (codeLocation != null) 'CodeLocation': codeLocation,
+    };
+  }
+}
+
+/// A union that defines what data to capture when the instrumentation point is
+/// hit. Specify <code>CodeCapture</code> for code-level capture settings.
+///
+/// @nodoc
+class CaptureConfiguration {
+  /// Capture settings for code-level instrumentation, including arguments, return
+  /// values, stack traces, local variables, and safety limits.
+  final CodeCaptureConfiguration? codeCapture;
+
+  CaptureConfiguration({
+    this.codeCapture,
+  });
+
+  factory CaptureConfiguration.fromJson(Map<String, dynamic> json) {
+    return CaptureConfiguration(
+      codeCapture: json['CodeCapture'] != null
+          ? CodeCaptureConfiguration.fromJson(
+              json['CodeCapture'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeCapture = this.codeCapture;
+    return {
+      if (codeCapture != null) 'CodeCapture': codeCapture,
+    };
+  }
+}
+
+/// Defines what data to capture for code-level instrumentation, including
+/// arguments, return values, stack traces, local variables, and safety limits.
+///
+/// @nodoc
+class CodeCaptureConfiguration {
+  /// Safety limits that bound what is captured, including hit counts, string
+  /// length, collection depth, and stack trace size.
+  final CaptureLimitsConfig captureLimits;
+
+  /// The function arguments to capture. Omit to capture defaults, use an empty
+  /// list to capture none, use <code>\["*"\]</code> to capture all arguments, or
+  /// specify argument names to capture selectively (up to 10 entries).
+  final List<String>? captureArguments;
+
+  /// The local variables to capture by name. Omit or pass an empty list to
+  /// capture none. You can specify up to 20 names.
+  final List<String>? captureLocals;
+
+  /// Whether to capture the return value. Defaults to false.
+  final bool? captureReturn;
+
+  /// Whether to capture a stack trace when the instrumentation point is hit.
+  /// Defaults to true.
+  final bool? captureStackTrace;
+
+  CodeCaptureConfiguration({
+    required this.captureLimits,
+    this.captureArguments,
+    this.captureLocals,
+    this.captureReturn,
+    this.captureStackTrace,
+  });
+
+  factory CodeCaptureConfiguration.fromJson(Map<String, dynamic> json) {
+    return CodeCaptureConfiguration(
+      captureLimits: CaptureLimitsConfig.fromJson(
+          (json['CaptureLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      captureArguments: (json['CaptureArguments'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      captureLocals: (json['CaptureLocals'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      captureReturn: json['CaptureReturn'] as bool?,
+      captureStackTrace: json['CaptureStackTrace'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final captureLimits = this.captureLimits;
+    final captureArguments = this.captureArguments;
+    final captureLocals = this.captureLocals;
+    final captureReturn = this.captureReturn;
+    final captureStackTrace = this.captureStackTrace;
+    return {
+      'CaptureLimits': captureLimits,
+      if (captureArguments != null) 'CaptureArguments': captureArguments,
+      if (captureLocals != null) 'CaptureLocals': captureLocals,
+      if (captureReturn != null) 'CaptureReturn': captureReturn,
+      if (captureStackTrace != null) 'CaptureStackTrace': captureStackTrace,
+    };
+  }
+}
+
+/// Guardrails that prevent instrumentation from impacting application
+/// performance by limiting how much data is captured.
+///
+/// @nodoc
+class CaptureLimitsConfig {
+  /// The maximum nesting depth to traverse inside collections. Defaults to 3.
+  final int? maxCollectionDepth;
+
+  /// The maximum number of items to capture from any collection to prevent large
+  /// payloads. Defaults to 10.
+  final int? maxCollectionWidth;
+
+  /// The maximum number of fields to capture for any object. Defaults to 10.
+  final int? maxFieldsPerObject;
+
+  /// The maximum number of times the instrumentation point can be hit before it
+  /// is automatically disabled. Defaults to 100.
+  final int? maxHits;
+
+  /// The maximum depth for nested object traversal when capturing structured
+  /// data. Defaults to 3.
+  final int? maxObjectDepth;
+
+  /// The maximum number of stack frames to capture in stack traces. Defaults to
+  /// 2.
+  final int? maxStackFrames;
+
+  /// The maximum total size, in bytes, of a captured stack trace. Defaults to
+  /// 1000.
+  final int? maxStackTraceSize;
+
+  /// The maximum length of captured string values in characters. Strings longer
+  /// than this are truncated. Defaults to 128.
+  final int? maxStringLength;
+
+  CaptureLimitsConfig({
+    this.maxCollectionDepth,
+    this.maxCollectionWidth,
+    this.maxFieldsPerObject,
+    this.maxHits,
+    this.maxObjectDepth,
+    this.maxStackFrames,
+    this.maxStackTraceSize,
+    this.maxStringLength,
+  });
+
+  factory CaptureLimitsConfig.fromJson(Map<String, dynamic> json) {
+    return CaptureLimitsConfig(
+      maxCollectionDepth: json['MaxCollectionDepth'] as int?,
+      maxCollectionWidth: json['MaxCollectionWidth'] as int?,
+      maxFieldsPerObject: json['MaxFieldsPerObject'] as int?,
+      maxHits: json['MaxHits'] as int?,
+      maxObjectDepth: json['MaxObjectDepth'] as int?,
+      maxStackFrames: json['MaxStackFrames'] as int?,
+      maxStackTraceSize: json['MaxStackTraceSize'] as int?,
+      maxStringLength: json['MaxStringLength'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCollectionDepth = this.maxCollectionDepth;
+    final maxCollectionWidth = this.maxCollectionWidth;
+    final maxFieldsPerObject = this.maxFieldsPerObject;
+    final maxHits = this.maxHits;
+    final maxObjectDepth = this.maxObjectDepth;
+    final maxStackFrames = this.maxStackFrames;
+    final maxStackTraceSize = this.maxStackTraceSize;
+    final maxStringLength = this.maxStringLength;
+    return {
+      if (maxCollectionDepth != null) 'MaxCollectionDepth': maxCollectionDepth,
+      if (maxCollectionWidth != null) 'MaxCollectionWidth': maxCollectionWidth,
+      if (maxFieldsPerObject != null) 'MaxFieldsPerObject': maxFieldsPerObject,
+      if (maxHits != null) 'MaxHits': maxHits,
+      if (maxObjectDepth != null) 'MaxObjectDepth': maxObjectDepth,
+      if (maxStackFrames != null) 'MaxStackFrames': maxStackFrames,
+      if (maxStackTraceSize != null) 'MaxStackTraceSize': maxStackTraceSize,
+      if (maxStringLength != null) 'MaxStringLength': maxStringLength,
+    };
+  }
+}
+
+/// Identifies a code location to instrument, including the programming
+/// language, code unit, class, method, file path, and optional line number.
+///
+/// @nodoc
+class CodeLocation {
+  /// The source file path relative to the project or source root, such as
+  /// <code>src/payment/PaymentProcessor.java</code> or
+  /// <code>src/payment/PaymentProcessor.py</code>.
+  final String filePath;
+
+  /// The programming language for this instrumentation point, such as Java,
+  /// Python, or JavaScript.
+  final ProgrammingLanguage language;
+
+  /// The class or type name that contains the method. This is required for Java
+  /// and optional for Python module-level functions.
+  final String? className;
+
+  /// The package, module, or namespace that contains the target code, for example
+  /// <code>com.amazon.payment</code> or <code>payment_service</code>.
+  final String? codeUnit;
+
+  /// The line number to instrument. Provide this to disambiguate overloaded
+  /// methods and to target a specific line when needed.
+  final int? lineNumber;
+
+  /// The method or function name to instrument, such as
+  /// <code>validateCreditCard</code> or <code>__init__</code>.
+  final String? methodName;
+
+  CodeLocation({
+    required this.filePath,
+    required this.language,
+    this.className,
+    this.codeUnit,
+    this.lineNumber,
+    this.methodName,
+  });
+
+  factory CodeLocation.fromJson(Map<String, dynamic> json) {
+    return CodeLocation(
+      filePath: (json['FilePath'] as String?) ?? '',
+      language:
+          ProgrammingLanguage.fromString((json['Language'] as String?) ?? ''),
+      className: json['ClassName'] as String?,
+      codeUnit: json['CodeUnit'] as String?,
+      lineNumber: json['LineNumber'] as int?,
+      methodName: json['MethodName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final language = this.language;
+    final className = this.className;
+    final codeUnit = this.codeUnit;
+    final lineNumber = this.lineNumber;
+    final methodName = this.methodName;
+    return {
+      'FilePath': filePath,
+      'Language': language.value,
+      if (className != null) 'ClassName': className,
+      if (codeUnit != null) 'CodeUnit': codeUnit,
+      if (lineNumber != null) 'LineNumber': lineNumber,
+      if (methodName != null) 'MethodName': methodName,
+    };
+  }
+}
+
+/// The programming language of the instrumentation point. Java, Python, and
+/// JavaScript are currently supported.
+///
+/// @nodoc
+class ProgrammingLanguage {
+  static const java = ProgrammingLanguage._('Java');
+  static const python = ProgrammingLanguage._('Python');
+  static const javascript = ProgrammingLanguage._('Javascript');
+
+  final String value;
+
+  const ProgrammingLanguage._(this.value);
+
+  static const values = [java, python, javascript];
+
+  static ProgrammingLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProgrammingLanguage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProgrammingLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A structure that contains information about an audit finding, which
 /// represents an automated analysis result about service behavior, performance
 /// issues, or potential problems identified through heuristic algorithms.
@@ -6285,6 +7848,211 @@ class Service {
   }
 }
 
+/// A status event for an instrumentation configuration returned by
+/// <code>GetInstrumentationConfigurationStatus</code>. Events include the
+/// timestamp and, for errors, an error cause.
+///
+/// @nodoc
+class InstrumentationStatusEvent {
+  /// The time when the status was reported, rounded to the nearest minute.
+  final DateTime time;
+
+  /// The error cause when the status is <code>ERROR</code>.
+  final InstrumentationErrorCause? errorCause;
+
+  InstrumentationStatusEvent({
+    required this.time,
+    this.errorCause,
+  });
+
+  factory InstrumentationStatusEvent.fromJson(Map<String, dynamic> json) {
+    return InstrumentationStatusEvent(
+      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
+      errorCause: (json['ErrorCause'] as String?)
+          ?.let(InstrumentationErrorCause.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final time = this.time;
+    final errorCause = this.errorCause;
+    return {
+      'Time': unixTimestampToJson(time),
+      if (errorCause != null) 'ErrorCause': errorCause.value,
+    };
+  }
+}
+
+/// Union type for identifying an instrumentation configuration by code location
+/// or locationHash. Used in Get/Delete/GetStatus operations to allow flexible
+/// identification.
+///
+/// @nodoc
+class LocationIdentifier {
+  /// The full code location specification (will be hashed internally)
+  final CodeLocation? codeLocation;
+
+  /// The pre-computed location hash (16-character hex string)
+  final String? locationHash;
+
+  LocationIdentifier({
+    this.codeLocation,
+    this.locationHash,
+  });
+
+  Map<String, dynamic> toJson() {
+    final codeLocation = this.codeLocation;
+    final locationHash = this.locationHash;
+    return {
+      if (codeLocation != null) 'CodeLocation': codeLocation,
+      if (locationHash != null) 'LocationHash': locationHash,
+    };
+  }
+}
+
+/// The full instrumentation configuration, including the instrumentation type,
+/// service, environment, signal type, location details, stable location hash,
+/// capture settings, filters, expiration, creation time, and ARN.
+///
+/// @nodoc
+class InstrumentationConfiguration {
+  /// ARN for the instrumentation configuration
+  final String arn;
+
+  /// The capture settings for this instrumentation configuration.
+  final CaptureConfiguration captureConfiguration;
+
+  /// The timestamp when this instrumentation configuration was created.
+  final DateTime createdAt;
+
+  /// The environment where the service is running.
+  final String environment;
+
+  /// The type of instrumentation for this configuration.
+  final InstrumentationType instrumentationType;
+
+  /// The location where this instrumentation is applied.
+  final Location location;
+
+  /// The stable hash derived from the location that uniquely identifies this
+  /// instrumentation point within the service and environment.
+  final String locationHash;
+
+  /// The service that this instrumentation configuration targets.
+  final String service;
+
+  /// The telemetry signal type for this instrumentation configuration.
+  final DynamicInstrumentationSignalType signalType;
+
+  /// Client-side filters that determine which instances apply this
+  /// instrumentation.
+  final List<Map<String, String>>? attributeFilters;
+
+  /// An optional short description of the instrumentation configuration.
+  final String? description;
+
+  /// The timestamp when this configuration expires.
+  final DateTime? expiresAt;
+
+  InstrumentationConfiguration({
+    required this.arn,
+    required this.captureConfiguration,
+    required this.createdAt,
+    required this.environment,
+    required this.instrumentationType,
+    required this.location,
+    required this.locationHash,
+    required this.service,
+    required this.signalType,
+    this.attributeFilters,
+    this.description,
+    this.expiresAt,
+  });
+
+  factory InstrumentationConfiguration.fromJson(Map<String, dynamic> json) {
+    return InstrumentationConfiguration(
+      arn: (json['ARN'] as String?) ?? '',
+      captureConfiguration: CaptureConfiguration.fromJson(
+          (json['CaptureConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      environment: (json['Environment'] as String?) ?? '',
+      instrumentationType: InstrumentationType.fromString(
+          (json['InstrumentationType'] as String?) ?? ''),
+      location: Location.fromJson((json['Location'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      locationHash: (json['LocationHash'] as String?) ?? '',
+      service: (json['Service'] as String?) ?? '',
+      signalType: DynamicInstrumentationSignalType.fromString(
+          (json['SignalType'] as String?) ?? ''),
+      attributeFilters: (json['AttributeFilters'] as List?)
+          ?.nonNulls
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      description: json['Description'] as String?,
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final captureConfiguration = this.captureConfiguration;
+    final createdAt = this.createdAt;
+    final environment = this.environment;
+    final instrumentationType = this.instrumentationType;
+    final location = this.location;
+    final locationHash = this.locationHash;
+    final service = this.service;
+    final signalType = this.signalType;
+    final attributeFilters = this.attributeFilters;
+    final description = this.description;
+    final expiresAt = this.expiresAt;
+    return {
+      'ARN': arn,
+      'CaptureConfiguration': captureConfiguration,
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'Location': location,
+      'LocationHash': locationHash,
+      'Service': service,
+      'SignalType': signalType.value,
+      if (attributeFilters != null) 'AttributeFilters': attributeFilters,
+      if (description != null) 'Description': description,
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+    };
+  }
+}
+
+/// The status of a delete request for an instrumentation configuration. The
+/// value is <code>DELETED</code> after a successful deletion.
+///
+/// @nodoc
+class DynamicInstrumentationDeletionStatus {
+  static const deleted = DynamicInstrumentationDeletionStatus._('DELETED');
+
+  final String value;
+
+  const DynamicInstrumentationDeletionStatus._(this.value);
+
+  static const values = [deleted];
+
+  static DynamicInstrumentationDeletionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DynamicInstrumentationDeletionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DynamicInstrumentationDeletionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// An array of structures, where each structure includes an error indicating
 /// that one of the requests in the array was not valid.
 ///
@@ -6564,6 +8332,204 @@ class ServiceLevelObjectiveBudgetStatus {
 
   @override
   String toString() => value;
+}
+
+/// Represents an error that occurred when attempting to delete a configuration.
+///
+/// @nodoc
+class BatchDeleteError {
+  /// Error code indicating the type of failure.
+  final BatchDeleteErrorCode code;
+
+  /// Descriptive error message.
+  final String message;
+
+  /// ARN of the configuration that failed to delete.
+  final String resourceArn;
+
+  BatchDeleteError({
+    required this.code,
+    required this.message,
+    required this.resourceArn,
+  });
+
+  factory BatchDeleteError.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteError(
+      code: BatchDeleteErrorCode.fromString((json['Code'] as String?) ?? ''),
+      message: (json['Message'] as String?) ?? '',
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final resourceArn = this.resourceArn;
+    return {
+      'Code': code.value,
+      'Message': message,
+      'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// Error codes for batch delete item-level failures.
+///
+/// @nodoc
+class BatchDeleteErrorCode {
+  static const resourceNotFoundException =
+      BatchDeleteErrorCode._('ResourceNotFoundException');
+  static const accessDeniedException =
+      BatchDeleteErrorCode._('AccessDeniedException');
+  static const internalServiceException =
+      BatchDeleteErrorCode._('InternalServiceException');
+
+  final String value;
+
+  const BatchDeleteErrorCode._(this.value);
+
+  static const values = [
+    resourceNotFoundException,
+    accessDeniedException,
+    internalServiceException
+  ];
+
+  static BatchDeleteErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchDeleteErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchDeleteErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a successfully deleted instrumentation configuration.
+///
+/// @nodoc
+class BatchDeleteSuccessfulDeletion {
+  /// Location hash of the deleted configuration (populated only when deleting by
+  /// scope).
+  final String? locationHash;
+
+  /// ARN of the deleted configuration (populated only when deleting by ARN list).
+  final String? resourceArn;
+
+  /// Signal type of the deleted configuration (populated only when deleting by
+  /// scope).
+  final String? signalType;
+
+  BatchDeleteSuccessfulDeletion({
+    this.locationHash,
+    this.resourceArn,
+    this.signalType,
+  });
+
+  factory BatchDeleteSuccessfulDeletion.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteSuccessfulDeletion(
+      locationHash: json['LocationHash'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      signalType: json['SignalType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationHash = this.locationHash;
+    final resourceArn = this.resourceArn;
+    final signalType = this.signalType;
+    return {
+      if (locationHash != null) 'LocationHash': locationHash,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (signalType != null) 'SignalType': signalType,
+    };
+  }
+}
+
+/// Union type for batch delete target selection. Exactly one of the two modes
+/// must be specified.
+///
+/// @nodoc
+class BatchDeleteDeletionTarget {
+  /// Delete specific configurations by ARN list.
+  final BatchDeleteByResourceArns? resourceArns;
+
+  /// Delete all configurations matching the specified scope.
+  final BatchDeleteScope? scope;
+
+  BatchDeleteDeletionTarget({
+    this.resourceArns,
+    this.scope,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceArns = this.resourceArns;
+    final scope = this.scope;
+    return {
+      if (resourceArns != null) 'ResourceArns': resourceArns,
+      if (scope != null) 'Scope': scope,
+    };
+  }
+}
+
+/// Scope parameters for bulk delete by scope.
+///
+/// @nodoc
+class BatchDeleteScope {
+  /// Environment identifier for the instrumentation configurations.
+  final String environment;
+
+  /// Instrumentation type: BREAKPOINT or PROBE.
+  final InstrumentationType instrumentationType;
+
+  /// Service name for the instrumentation configurations.
+  final String service;
+
+  BatchDeleteScope({
+    required this.environment,
+    required this.instrumentationType,
+    required this.service,
+  });
+
+  Map<String, dynamic> toJson() {
+    final environment = this.environment;
+    final instrumentationType = this.instrumentationType;
+    final service = this.service;
+    return {
+      'Environment': environment,
+      'InstrumentationType': instrumentationType.value,
+      'Service': service,
+    };
+  }
+}
+
+/// Parameters for targeted delete by ARN list.
+///
+/// @nodoc
+class BatchDeleteByResourceArns {
+  /// Instrumentation type: BREAKPOINT or PROBE.
+  final InstrumentationType instrumentationType;
+
+  /// List of resource ARNs to delete.
+  final List<String> resourceArns;
+
+  BatchDeleteByResourceArns({
+    required this.instrumentationType,
+    required this.resourceArns,
+  });
+
+  Map<String, dynamic> toJson() {
+    final instrumentationType = this.instrumentationType;
+    final resourceArns = this.resourceArns;
+    return {
+      'InstrumentationType': instrumentationType.value,
+      'ResourceArns': resourceArns,
+    };
+  }
 }
 
 /// @nodoc

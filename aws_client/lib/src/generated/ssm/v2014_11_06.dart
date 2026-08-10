@@ -726,8 +726,8 @@ class Ssm {
   /// Services accounts where you want to run the association. Use this action
   /// to create an association in multiple Regions and multiple accounts.
   /// <note>
-  /// The <code>IncludeChildOrganizationUnits</code> parameter is not supported
-  /// by State Manager.
+  /// The <code>TargetLocationAlarmConfiguration</code> parameter is not
+  /// supported by State Manager.
   /// </note>
   ///
   /// Parameter [targetMaps] :
@@ -889,6 +889,66 @@ class Ssm {
     );
 
     return CreateAssociationBatchResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a cloud connector that establishes a connection between Systems
+  /// Manager and a third-party cloud environment.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerError].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [configConnectorArn] :
+  /// The ARN of the Amazon Web Services Config connector associated with this
+  /// cloud connector.
+  ///
+  /// Parameter [configuration] :
+  /// The configuration details for connecting to the third-party cloud
+  /// environment.
+  ///
+  /// Parameter [displayName] :
+  /// A friendly name for the cloud connector.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role that the cloud connector
+  /// uses to communicate with the third-party cloud environment.
+  ///
+  /// Parameter [description] :
+  /// A description for the cloud connector.
+  ///
+  /// Parameter [tags] :
+  /// Optional metadata that you assign to a resource. Tags enable you to
+  /// categorize a resource in different ways, such as by purpose, owner, or
+  /// environment.
+  Future<CreateCloudConnectorResult> createCloudConnector({
+    required String configConnectorArn,
+    required CloudConnectorConfiguration configuration,
+    required String displayName,
+    required String roleArn,
+    String? description,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.CreateCloudConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConfigConnectorArn': configConnectorArn,
+        'Configuration': configuration,
+        'DisplayName': displayName,
+        'RoleArn': roleArn,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateCloudConnectorResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM
@@ -1870,6 +1930,35 @@ class Ssm {
         if (name != null) 'Name': name,
       },
     );
+  }
+
+  /// Deletes a cloud connector.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [cloudConnectorId] :
+  /// The ID of the cloud connector to delete.
+  Future<DeleteCloudConnectorResult> deleteCloudConnector({
+    required String cloudConnectorId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.DeleteCloudConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CloudConnectorId': cloudConnectorId,
+      },
+    );
+
+    return DeleteCloudConnectorResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the Amazon Web Services Systems Manager document (SSM document)
@@ -4774,6 +4863,34 @@ class Ssm {
     return GetCalendarStateResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns detailed information about a cloud connector.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [cloudConnectorId] :
+  /// The ID of the cloud connector to retrieve information about.
+  Future<GetCloudConnectorResult> getCloudConnector({
+    required String cloudConnectorId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.GetCloudConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CloudConnectorId': cloudConnectorId,
+      },
+    );
+
+    return GetCloudConnectorResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns detailed information about command execution for an invocation or
   /// plugin. The Run Command API follows an eventual consistency model, due to
   /// the distributed nature of the system supporting the API. This means that
@@ -5526,6 +5643,25 @@ class Ssm {
   /// <note>
   /// To get information about more than one parameter at a time, use the
   /// <a>GetParameters</a> operation.
+  /// </note> <note>
+  /// Parameter Store throughput defines the number of API transactions per
+  /// second (TPS) that Systems Manager can process. This applies to
+  /// <code>GetParameter</code>, <code>GetParameters</code>, and
+  /// <code>PutParameter</code> API calls for your Amazon Web Services account
+  /// and Amazon Web Services Region. By default, Parameter Store is configured
+  /// with a standard throughput quota suitable for low- to moderate-volume
+  /// workloads. Applications that retrieve configuration data infrequently or
+  /// operate at smaller scale can use this default setting without additional
+  /// cost.
+  ///
+  /// For higher-volume workloads, you can enable higher throughput. This
+  /// increases the maximum number of supported transactions per second for your
+  /// account and Region. Increased throughput supports applications and
+  /// workloads that need concurrent access to multiple parameters. If you
+  /// experience <code>ThrottlingException: Rate exceeded</code> errors, enable
+  /// higher throughput. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html">Changing
+  /// Parameter Store throughput</a>.
   /// </note>
   ///
   /// May throw [InternalServerError].
@@ -5650,6 +5786,26 @@ class Ssm {
   /// specified for the beginning or end of a parameter name. If the specified
   /// name for a parameter contains spaces between characters, the request fails
   /// with a <code>ValidationException</code> error.
+  /// <note>
+  /// Parameter Store throughput defines the number of API transactions per
+  /// second (TPS) that Systems Manager can process. This applies to
+  /// <code>GetParameter</code>, <code>GetParameters</code>, and
+  /// <code>PutParameter</code> API calls for your Amazon Web Services account
+  /// and Amazon Web Services Region. By default, Parameter Store is configured
+  /// with a standard throughput quota suitable for low- to moderate-volume
+  /// workloads. Applications that retrieve configuration data infrequently or
+  /// operate at smaller scale can use this default setting without additional
+  /// cost.
+  ///
+  /// For higher-volume workloads, you can enable higher throughput. This
+  /// increases the maximum number of supported transactions per second for your
+  /// account and Region. Increased throughput supports applications and
+  /// workloads that need concurrent access to multiple parameters. If you
+  /// experience <code>ThrottlingException: Rate exceeded</code> errors, enable
+  /// higher throughput. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html">Changing
+  /// Parameter Store throughput</a>.
+  /// </note>
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidKeyId].
@@ -5846,7 +6002,7 @@ class Ssm {
   ///
   /// Parameter [operatingSystem] :
   /// Returns the operating system rule specified for patch groups using the
-  /// patch baseline.
+  /// patch baseline. The default value is <code>WINDOWS</code>.
   Future<GetPatchBaselineForPatchGroupResult> getPatchBaselineForPatchGroup({
     required String patchGroup,
     OperatingSystem? operatingSystem,
@@ -6196,6 +6352,52 @@ class Ssm {
     );
 
     return ListAssociationVersionsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of cloud connectors in the current Amazon Web Services
+  /// account and Amazon Web Services Region.
+  ///
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [filters] :
+  /// One or more filters to limit the cloud connectors returned in the
+  /// response.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of items to return. (You received this token
+  /// from a previous call.)
+  Future<ListCloudConnectorsResult> listCloudConnectors({
+    List<CloudConnectorFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      10,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.ListCloudConnectors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCloudConnectorsResult.fromJson(jsonResponse.body);
   }
 
   /// An invocation is copy of a command sent to a specific managed node. A
@@ -7406,6 +7608,26 @@ class Ssm {
   }
 
   /// Create or update a parameter in Parameter Store.
+  /// <note>
+  /// Parameter Store throughput defines the number of API transactions per
+  /// second (TPS) that Systems Manager can process. This applies to
+  /// <code>GetParameter</code>, <code>GetParameters</code>, and
+  /// <code>PutParameter</code> API calls for your Amazon Web Services account
+  /// and Amazon Web Services Region. By default, Parameter Store is configured
+  /// with a standard throughput quota suitable for low- to moderate-volume
+  /// workloads. Applications that retrieve configuration data infrequently or
+  /// operate at smaller scale can use this default setting without additional
+  /// cost.
+  ///
+  /// For higher-volume workloads, you can enable higher throughput. This
+  /// increases the maximum number of supported transactions per second for your
+  /// account and Region. Increased throughput supports applications and
+  /// workloads that need concurrent access to multiple parameters. If you
+  /// experience <code>ThrottlingException: Rate exceeded</code> errors, enable
+  /// higher throughput. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html">Changing
+  /// Parameter Store throughput</a>.
+  /// </note>
   ///
   /// May throw [HierarchyLevelLimitExceededException].
   /// May throw [HierarchyTypeMismatchException].
@@ -9569,8 +9791,8 @@ class Ssm {
   /// Services accounts where you want to run the association. Use this action
   /// to update an association in multiple Regions and multiple accounts.
   /// <note>
-  /// The <code>IncludeChildOrganizationUnits</code> parameter is not supported
-  /// by State Manager.
+  /// The <code>TargetLocationAlarmConfiguration</code> parameter is not
+  /// supported by State Manager.
   /// </note>
   ///
   /// Parameter [targetMaps] :
@@ -9707,6 +9929,51 @@ class Ssm {
     );
 
     return UpdateAssociationStatusResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing cloud connector with new configuration details.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [cloudConnectorId] :
+  /// The ID of the cloud connector to update.
+  ///
+  /// Parameter [configuration] :
+  /// The updated configuration details for connecting to the third-party cloud
+  /// environment.
+  ///
+  /// Parameter [description] :
+  /// A new description for the cloud connector.
+  ///
+  /// Parameter [displayName] :
+  /// A new friendly name for the cloud connector.
+  Future<UpdateCloudConnectorResult> updateCloudConnector({
+    required String cloudConnectorId,
+    CloudConnectorConfiguration? configuration,
+    String? description,
+    String? displayName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.UpdateCloudConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CloudConnectorId': cloudConnectorId,
+        if (configuration != null) 'Configuration': configuration,
+        if (description != null) 'Description': description,
+        if (displayName != null) 'DisplayName': displayName,
+      },
+    );
+
+    return UpdateCloudConnectorResult.fromJson(jsonResponse.body);
   }
 
   /// Updates one or more values for an SSM document.
@@ -11001,6 +11268,51 @@ class Ssm {
       },
     );
   }
+
+  /// Validates the configuration and connectivity of a cloud connector.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [cloudConnectorId] :
+  /// The ID of the cloud connector to validate.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of validation findings to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of items to return. (You received this token
+  /// from a previous call.)
+  Future<ValidateCloudConnectorResult> validateCloudConnector({
+    required String cloudConnectorId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      75,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.ValidateCloudConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CloudConnectorId': cloudConnectorId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ValidateCloudConnectorResult.fromJson(jsonResponse.body);
+  }
 }
 
 /// @nodoc
@@ -11178,6 +11490,29 @@ class CreateAssociationBatchResult {
 }
 
 /// @nodoc
+class CreateCloudConnectorResult {
+  /// The ID of the cloud connector that was created.
+  final String? cloudConnectorId;
+
+  CreateCloudConnectorResult({
+    this.cloudConnectorId,
+  });
+
+  factory CreateCloudConnectorResult.fromJson(Map<String, dynamic> json) {
+    return CreateCloudConnectorResult(
+      cloudConnectorId: json['CloudConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudConnectorId = this.cloudConnectorId;
+    return {
+      if (cloudConnectorId != null) 'CloudConnectorId': cloudConnectorId,
+    };
+  }
+}
+
+/// @nodoc
 class CreateDocumentResult {
   /// Information about the SSM document.
   final DocumentDescription? documentDescription;
@@ -11340,6 +11675,29 @@ class DeleteAssociationResult {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class DeleteCloudConnectorResult {
+  /// The ID of the cloud connector that was deleted.
+  final String? cloudConnectorId;
+
+  DeleteCloudConnectorResult({
+    this.cloudConnectorId,
+  });
+
+  factory DeleteCloudConnectorResult.fromJson(Map<String, dynamic> json) {
+    return DeleteCloudConnectorResult(
+      cloudConnectorId: json['CloudConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudConnectorId = this.cloudConnectorId;
+    return {
+      if (cloudConnectorId != null) 'CloudConnectorId': cloudConnectorId,
+    };
   }
 }
 
@@ -13127,6 +13485,82 @@ class GetCalendarStateResponse {
       if (atTime != null) 'AtTime': atTime,
       if (nextTransitionTime != null) 'NextTransitionTime': nextTransitionTime,
       if (state != null) 'State': state.value,
+    };
+  }
+}
+
+/// @nodoc
+class GetCloudConnectorResult {
+  /// The ARN of the cloud connector.
+  final String? cloudConnectorArn;
+
+  /// The ARN of the Amazon Web Services Config connector associated with this
+  /// cloud connector.
+  final String? configConnectorArn;
+
+  /// The configuration details for the third-party cloud environment connection.
+  final CloudConnectorConfiguration? configuration;
+
+  /// The date and time the cloud connector was created.
+  final DateTime? createdAt;
+
+  /// The description of the cloud connector.
+  final String? description;
+
+  /// The friendly name of the cloud connector.
+  final String? displayName;
+
+  /// The ARN of the IAM role used by the cloud connector.
+  final String? roleArn;
+
+  /// The date and time the cloud connector was last updated.
+  final DateTime? updatedAt;
+
+  GetCloudConnectorResult({
+    this.cloudConnectorArn,
+    this.configConnectorArn,
+    this.configuration,
+    this.createdAt,
+    this.description,
+    this.displayName,
+    this.roleArn,
+    this.updatedAt,
+  });
+
+  factory GetCloudConnectorResult.fromJson(Map<String, dynamic> json) {
+    return GetCloudConnectorResult(
+      cloudConnectorArn: json['CloudConnectorArn'] as String?,
+      configConnectorArn: json['ConfigConnectorArn'] as String?,
+      configuration: json['Configuration'] != null
+          ? CloudConnectorConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudConnectorArn = this.cloudConnectorArn;
+    final configConnectorArn = this.configConnectorArn;
+    final configuration = this.configuration;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayName = this.displayName;
+    final roleArn = this.roleArn;
+    final updatedAt = this.updatedAt;
+    return {
+      if (cloudConnectorArn != null) 'CloudConnectorArn': cloudConnectorArn,
+      if (configConnectorArn != null) 'ConfigConnectorArn': configConnectorArn,
+      if (configuration != null) 'Configuration': configuration,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
@@ -15014,6 +15448,39 @@ class ListAssociationVersionsResult {
 }
 
 /// @nodoc
+class ListCloudConnectorsResult {
+  /// A list of cloud connector summary objects.
+  final List<CloudConnectorSummary>? cloudConnectors;
+
+  /// The token to use when requesting the next set of items.
+  final String? nextToken;
+
+  ListCloudConnectorsResult({
+    this.cloudConnectors,
+    this.nextToken,
+  });
+
+  factory ListCloudConnectorsResult.fromJson(Map<String, dynamic> json) {
+    return ListCloudConnectorsResult(
+      cloudConnectors: (json['CloudConnectors'] as List?)
+          ?.nonNulls
+          .map((e) => CloudConnectorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudConnectors = this.cloudConnectors;
+    final nextToken = this.nextToken;
+    return {
+      if (cloudConnectors != null) 'CloudConnectors': cloudConnectors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListCommandInvocationsResult {
   /// (Optional) A list of all invocations.
   final List<CommandInvocation>? commandInvocations;
@@ -16257,6 +16724,29 @@ class UpdateAssociationStatusResult {
 }
 
 /// @nodoc
+class UpdateCloudConnectorResult {
+  /// The ID of the cloud connector that was updated.
+  final String? cloudConnectorId;
+
+  UpdateCloudConnectorResult({
+    this.cloudConnectorId,
+  });
+
+  factory UpdateCloudConnectorResult.fromJson(Map<String, dynamic> json) {
+    return UpdateCloudConnectorResult(
+      cloudConnectorId: json['CloudConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudConnectorId = this.cloudConnectorId;
+    return {
+      if (cloudConnectorId != null) 'CloudConnectorId': cloudConnectorId,
+    };
+  }
+}
+
+/// @nodoc
 class UpdateDocumentResult {
   /// A description of the document that was updated.
   final DocumentDescription? documentDescription;
@@ -16912,6 +17402,234 @@ class UpdateServiceSettingResult {
   }
 }
 
+/// @nodoc
+class ValidateCloudConnectorResult {
+  /// The token to use when requesting the next set of items.
+  final String? nextToken;
+
+  /// A list of validation findings for the cloud connector.
+  final List<ValidationFinding>? validationFindings;
+
+  ValidateCloudConnectorResult({
+    this.nextToken,
+    this.validationFindings,
+  });
+
+  factory ValidateCloudConnectorResult.fromJson(Map<String, dynamic> json) {
+    return ValidateCloudConnectorResult(
+      nextToken: json['NextToken'] as String?,
+      validationFindings: (json['ValidationFindings'] as List?)
+          ?.nonNulls
+          .map((e) => ValidationFinding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final validationFindings = this.validationFindings;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (validationFindings != null) 'ValidationFindings': validationFindings,
+    };
+  }
+}
+
+/// A validation finding from a cloud connector validation check.
+///
+/// @nodoc
+class ValidationFinding {
+  /// A code that identifies the specific validation finding.
+  final ValidationFindingCode? code;
+
+  /// A message that describes the validation finding.
+  final String? message;
+
+  /// A message from the third-party cloud provider related to the validation
+  /// finding.
+  final String? providerMessage;
+
+  /// The scope of the validation finding, identifying the specific resource
+  /// affected.
+  final ValidationFindingScope? scope;
+
+  /// The type of the validation finding.
+  final ValidationFindingType? type;
+
+  ValidationFinding({
+    this.code,
+    this.message,
+    this.providerMessage,
+    this.scope,
+    this.type,
+  });
+
+  factory ValidationFinding.fromJson(Map<String, dynamic> json) {
+    return ValidationFinding(
+      code: (json['Code'] as String?)?.let(ValidationFindingCode.fromString),
+      message: json['Message'] as String?,
+      providerMessage: json['ProviderMessage'] as String?,
+      scope: json['Scope'] != null
+          ? ValidationFindingScope.fromJson(
+              json['Scope'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(ValidationFindingType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final providerMessage = this.providerMessage;
+    final scope = this.scope;
+    final type = this.type;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (providerMessage != null) 'ProviderMessage': providerMessage,
+      if (scope != null) 'Scope': scope,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class ValidationFindingType {
+  static const info = ValidationFindingType._('INFO');
+  static const warn = ValidationFindingType._('WARN');
+  static const error = ValidationFindingType._('ERROR');
+
+  final String value;
+
+  const ValidationFindingType._(this.value);
+
+  static const values = [info, warn, error];
+
+  static ValidationFindingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidationFindingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidationFindingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ValidationFindingCode {
+  static const targetInaccessible =
+      ValidationFindingCode._('TargetInaccessible');
+  static const targetUnusable = ValidationFindingCode._('TargetUnusable');
+  static const targetStateWarning =
+      ValidationFindingCode._('TargetStateWarning');
+  static const awsRoleAssumptionFailed =
+      ValidationFindingCode._('AwsRoleAssumptionFailed');
+  static const webIdentityTokenFailed =
+      ValidationFindingCode._('WebIdentityTokenFailed');
+  static const outboundWebIdentityFederationDisabled =
+      ValidationFindingCode._('OutboundWebIdentityFederationDisabled');
+  static const providerCredentialCreationFailed =
+      ValidationFindingCode._('ProviderCredentialCreationFailed');
+  static const tenantSummary = ValidationFindingCode._('TenantSummary');
+  static const subscriptionAccessible =
+      ValidationFindingCode._('SubscriptionAccessible');
+
+  final String value;
+
+  const ValidationFindingCode._(this.value);
+
+  static const values = [
+    targetInaccessible,
+    targetUnusable,
+    targetStateWarning,
+    awsRoleAssumptionFailed,
+    webIdentityTokenFailed,
+    outboundWebIdentityFederationDisabled,
+    providerCredentialCreationFailed,
+    tenantSummary,
+    subscriptionAccessible
+  ];
+
+  static ValidationFindingCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidationFindingCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidationFindingCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies the specific resource scope of a validation finding.
+///
+/// @nodoc
+class ValidationFindingScope {
+  /// The ID of the resource within the scope.
+  final String? id;
+
+  /// The type of the resource scope.
+  final ValidationFindingScopeType? type;
+
+  ValidationFindingScope({
+    this.id,
+    this.type,
+  });
+
+  factory ValidationFindingScope.fromJson(Map<String, dynamic> json) {
+    return ValidationFindingScope(
+      id: json['Id'] as String?,
+      type:
+          (json['Type'] as String?)?.let(ValidationFindingScopeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class ValidationFindingScopeType {
+  static const azureTenant = ValidationFindingScopeType._('azure:tenant');
+  static const azureSubscription =
+      ValidationFindingScopeType._('azure:subscription');
+
+  final String value;
+
+  const ValidationFindingScopeType._(this.value);
+
+  static const values = [azureTenant, azureSubscription];
+
+  static ValidationFindingScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidationFindingScopeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidationFindingScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about the source of the data included in the resource data sync.
 ///
 /// @nodoc
@@ -17328,9 +18046,9 @@ class PatchRule {
   /// they are released.
   ///
   /// Patch Manager evaluates patch release dates using Coordinated Universal Time
-  /// (UTC). If the day represented by <code>7</code> is <code>2025-11-16</code>,
-  /// patches released between <code>2025-11-16T00:00:00Z</code> and
-  /// <code>2025-11-16T23:59:59Z</code> will be included in the approval.
+  /// (UTC). If a patch is released at <code>2025-11-09T18:00:00Z</code> and
+  /// <code>ApproveAfterDays</code> is set to <code>7</code>, the patch will be
+  /// approved after <code>2025-11-16T18:00:00Z</code>.
   ///
   /// This parameter is marked as <code>Required: No</code>, but your request must
   /// include a value for either <code>ApproveAfterDays</code> or
@@ -19546,6 +20264,155 @@ class AttachmentsSourceKey {
   String toString() => value;
 }
 
+/// The configuration that provides access details and targets for connecting to
+/// a third-party cloud environment.
+///
+/// @nodoc
+class CloudConnectorConfiguration {
+  /// The access details and targets for connecting to a Microsoft Azure
+  /// environment.
+  final AzureConfiguration? azureConfiguration;
+
+  CloudConnectorConfiguration({
+    this.azureConfiguration,
+  });
+
+  factory CloudConnectorConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudConnectorConfiguration(
+      azureConfiguration: json['AzureConfiguration'] != null
+          ? AzureConfiguration.fromJson(
+              json['AzureConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final azureConfiguration = this.azureConfiguration;
+    return {
+      if (azureConfiguration != null) 'AzureConfiguration': azureConfiguration,
+    };
+  }
+}
+
+/// The access details and targets for connecting to a Microsoft Azure tenant,
+/// including the application registration used for authentication and the
+/// subscriptions to target.
+///
+/// @nodoc
+class AzureConfiguration {
+  /// The ID of the Azure application registration used for authentication.
+  final String applicationId;
+
+  /// The ID of the Azure tenant.
+  final String tenantId;
+
+  /// The display name of the Azure application registration.
+  final String? applicationDisplayName;
+
+  /// The target Azure subscriptions for the cloud connector.
+  final ConfigurationTargets? targets;
+
+  /// The display name of the Azure tenant.
+  final String? tenantDisplayName;
+
+  AzureConfiguration({
+    required this.applicationId,
+    required this.tenantId,
+    this.applicationDisplayName,
+    this.targets,
+    this.tenantDisplayName,
+  });
+
+  factory AzureConfiguration.fromJson(Map<String, dynamic> json) {
+    return AzureConfiguration(
+      applicationId: (json['ApplicationId'] as String?) ?? '',
+      tenantId: (json['TenantId'] as String?) ?? '',
+      applicationDisplayName: json['ApplicationDisplayName'] as String?,
+      targets: json['Targets'] != null
+          ? ConfigurationTargets.fromJson(
+              json['Targets'] as Map<String, dynamic>)
+          : null,
+      tenantDisplayName: json['TenantDisplayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final tenantId = this.tenantId;
+    final applicationDisplayName = this.applicationDisplayName;
+    final targets = this.targets;
+    final tenantDisplayName = this.tenantDisplayName;
+    return {
+      'ApplicationId': applicationId,
+      'TenantId': tenantId,
+      if (applicationDisplayName != null)
+        'ApplicationDisplayName': applicationDisplayName,
+      if (targets != null) 'Targets': targets,
+      if (tenantDisplayName != null) 'TenantDisplayName': tenantDisplayName,
+    };
+  }
+}
+
+/// The target resources in the third-party cloud environment.
+///
+/// @nodoc
+class ConfigurationTargets {
+  /// A list of Azure subscriptions to target.
+  final List<AzureSubscription>? subscriptions;
+
+  ConfigurationTargets({
+    this.subscriptions,
+  });
+
+  factory ConfigurationTargets.fromJson(Map<String, dynamic> json) {
+    return ConfigurationTargets(
+      subscriptions: (json['Subscriptions'] as List?)
+          ?.nonNulls
+          .map((e) => AzureSubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriptions = this.subscriptions;
+    return {
+      if (subscriptions != null) 'Subscriptions': subscriptions,
+    };
+  }
+}
+
+/// Information about an Azure subscription targeted by the cloud connector.
+///
+/// @nodoc
+class AzureSubscription {
+  /// The ID of the Azure subscription.
+  final String id;
+
+  /// The display name of the Azure subscription.
+  final String? displayName;
+
+  AzureSubscription({
+    required this.id,
+    this.displayName,
+  });
+
+  factory AzureSubscription.fromJson(Map<String, dynamic> json) {
+    return AzureSubscription(
+      id: (json['Id'] as String?) ?? '',
+      displayName: json['DisplayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final displayName = this.displayName;
+    return {
+      'Id': id,
+      if (displayName != null) 'DisplayName': displayName,
+    };
+  }
+}
+
 /// Describes the parameters for a document.
 ///
 /// @nodoc
@@ -20129,9 +20996,6 @@ class TargetLocation {
 
   /// Indicates whether to include child organizational units (OUs) that are
   /// children of the targeted OUs. The default is <code>false</code>.
-  /// <note>
-  /// This parameter is not supported by State Manager.
-  /// </note>
   final bool? includeChildOrganizationUnits;
 
   /// The Amazon Web Services Regions targeted by the current Automation
@@ -21034,6 +21898,7 @@ class ResourceTypeForTagging {
   static const opsMetadata = ResourceTypeForTagging._('OpsMetadata');
   static const automation = ResourceTypeForTagging._('Automation');
   static const association = ResourceTypeForTagging._('Association');
+  static const cloudConnector = ResourceTypeForTagging._('CloudConnector');
 
   final String value;
 
@@ -21048,7 +21913,8 @@ class ResourceTypeForTagging {
     opsItem,
     opsMetadata,
     automation,
-    association
+    association,
+    cloudConnector
   ];
 
   static ResourceTypeForTagging fromString(String value) =>
@@ -22632,6 +23498,8 @@ class NodeAttributeName {
   static const platformVersion = NodeAttributeName._('PlatformVersion');
   static const region = NodeAttributeName._('Region');
   static const resourceType = NodeAttributeName._('ResourceType');
+  static const sourceType = NodeAttributeName._('SourceType');
+  static const availabilityZone = NodeAttributeName._('AvailabilityZone');
 
   final String value;
 
@@ -22643,7 +23511,9 @@ class NodeAttributeName {
     platformType,
     platformVersion,
     region,
-    resourceType
+    resourceType,
+    sourceType,
+    availabilityZone
   ];
 
   static NodeAttributeName fromString(String value) =>
@@ -22711,6 +23581,11 @@ class NodeFilterKey {
       NodeFilterKey._('OrganizationalUnitPath');
   static const region = NodeFilterKey._('Region');
   static const accountId = NodeFilterKey._('AccountId');
+  static const sourceType = NodeFilterKey._('SourceType');
+  static const sourceId = NodeFilterKey._('SourceId');
+  static const sourceLocation = NodeFilterKey._('SourceLocation');
+  static const availabilityZone = NodeFilterKey._('AvailabilityZone');
+  static const availabilityZoneId = NodeFilterKey._('AvailabilityZoneId');
 
   final String value;
 
@@ -22731,7 +23606,12 @@ class NodeFilterKey {
     organizationalUnitId,
     organizationalUnitPath,
     region,
-    accountId
+    accountId,
+    sourceType,
+    sourceId,
+    sourceLocation,
+    availabilityZone,
+    availabilityZoneId
   ];
 
   static NodeFilterKey fromString(String value) =>
@@ -22915,6 +23795,12 @@ class InstanceInfo {
   /// The version number of the agent installed on the node.
   final String? agentVersion;
 
+  /// The Availability Zone where the managed node is located.
+  final String? availabilityZone;
+
+  /// The Availability Zone ID where the managed node is located.
+  final String? availabilityZoneId;
+
   /// The fully qualified host name of the managed node.
   final String? computerName;
 
@@ -22926,6 +23812,9 @@ class InstanceInfo {
 
   /// Indicates whether the node is managed by Systems Manager.
   final ManagedStatus? managedStatus;
+
+  /// The name assigned to the managed node.
+  final String? name;
 
   /// The name of the operating system platform running on your managed node.
   final String? platformName;
@@ -22940,59 +23829,94 @@ class InstanceInfo {
   /// type in a hybrid fleet.
   final ResourceType? resourceType;
 
+  /// The ID of the source resource. For IoT Greengrass devices,
+  /// <code>SourceId</code> is the Thing name.
+  final String? sourceId;
+
+  /// The location of the source resource in the third-party cloud environment.
+  final String? sourceLocation;
+
+  /// The type of the source resource. For IoT Greengrass devices,
+  /// <code>SourceType</code> is <code>AWS::IoT::Thing</code>.
+  final SourceType? sourceType;
+
   InstanceInfo({
     this.agentType,
     this.agentVersion,
+    this.availabilityZone,
+    this.availabilityZoneId,
     this.computerName,
     this.instanceStatus,
     this.ipAddress,
     this.managedStatus,
+    this.name,
     this.platformName,
     this.platformType,
     this.platformVersion,
     this.resourceType,
+    this.sourceId,
+    this.sourceLocation,
+    this.sourceType,
   });
 
   factory InstanceInfo.fromJson(Map<String, dynamic> json) {
     return InstanceInfo(
       agentType: json['AgentType'] as String?,
       agentVersion: json['AgentVersion'] as String?,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
       computerName: json['ComputerName'] as String?,
       instanceStatus: json['InstanceStatus'] as String?,
       ipAddress: json['IpAddress'] as String?,
       managedStatus:
           (json['ManagedStatus'] as String?)?.let(ManagedStatus.fromString),
+      name: json['Name'] as String?,
       platformName: json['PlatformName'] as String?,
       platformType:
           (json['PlatformType'] as String?)?.let(PlatformType.fromString),
       platformVersion: json['PlatformVersion'] as String?,
       resourceType:
           (json['ResourceType'] as String?)?.let(ResourceType.fromString),
+      sourceId: json['SourceId'] as String?,
+      sourceLocation: json['SourceLocation'] as String?,
+      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final agentType = this.agentType;
     final agentVersion = this.agentVersion;
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
     final computerName = this.computerName;
     final instanceStatus = this.instanceStatus;
     final ipAddress = this.ipAddress;
     final managedStatus = this.managedStatus;
+    final name = this.name;
     final platformName = this.platformName;
     final platformType = this.platformType;
     final platformVersion = this.platformVersion;
     final resourceType = this.resourceType;
+    final sourceId = this.sourceId;
+    final sourceLocation = this.sourceLocation;
+    final sourceType = this.sourceType;
     return {
       if (agentType != null) 'AgentType': agentType,
       if (agentVersion != null) 'AgentVersion': agentVersion,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
       if (computerName != null) 'ComputerName': computerName,
       if (instanceStatus != null) 'InstanceStatus': instanceStatus,
       if (ipAddress != null) 'IpAddress': ipAddress,
       if (managedStatus != null) 'ManagedStatus': managedStatus.value,
+      if (name != null) 'Name': name,
       if (platformName != null) 'PlatformName': platformName,
       if (platformType != null) 'PlatformType': platformType.value,
       if (platformVersion != null) 'PlatformVersion': platformVersion,
       if (resourceType != null) 'ResourceType': resourceType.value,
+      if (sourceId != null) 'SourceId': sourceId,
+      if (sourceLocation != null) 'SourceLocation': sourceLocation,
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
 }
@@ -23039,6 +23963,39 @@ class ResourceType {
 
   @override
   bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class SourceType {
+  static const awsEc2Instance = SourceType._('AWS::EC2::Instance');
+  static const awsIoTThing = SourceType._('AWS::IoT::Thing');
+  static const awsSsmManagedInstance =
+      SourceType._('AWS::SSM::ManagedInstance');
+  static const microsoftComputeVirtualMachines =
+      SourceType._('Microsoft.Compute/virtualMachines');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [
+    awsEc2Instance,
+    awsIoTThing,
+    awsSsmManagedInstance,
+    microsoftComputeVirtualMachines
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -24524,6 +25481,124 @@ class CommandPluginStatus {
   String toString() => value;
 }
 
+/// Summary information about a cloud connector.
+///
+/// @nodoc
+class CloudConnectorSummary {
+  /// The ID of the cloud connector.
+  final String? cloudConnectorId;
+
+  /// The date and time the cloud connector was created.
+  final DateTime? createdAt;
+
+  /// The description of the cloud connector.
+  final String? description;
+
+  /// The friendly name of the cloud connector.
+  final String? displayName;
+
+  /// The ARN of the IAM role used by the cloud connector.
+  final String? roleArn;
+
+  /// The date and time the cloud connector was last updated.
+  final DateTime? updatedAt;
+
+  CloudConnectorSummary({
+    this.cloudConnectorId,
+    this.createdAt,
+    this.description,
+    this.displayName,
+    this.roleArn,
+    this.updatedAt,
+  });
+
+  factory CloudConnectorSummary.fromJson(Map<String, dynamic> json) {
+    return CloudConnectorSummary(
+      cloudConnectorId: json['CloudConnectorId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudConnectorId = this.cloudConnectorId;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayName = this.displayName;
+    final roleArn = this.roleArn;
+    final updatedAt = this.updatedAt;
+    return {
+      if (cloudConnectorId != null) 'CloudConnectorId': cloudConnectorId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// A filter for listing cloud connectors.
+///
+/// @nodoc
+class CloudConnectorFilter {
+  /// The name of the filter key.
+  final CloudConnectorFilterKey? filterKey;
+
+  /// The filter values. Valid values for each filter key are as follows:
+  /// <dl> <dt>SubscriptionId</dt> <dd>
+  /// The Azure subscription ID to filter by. To return only tenant-level
+  /// connectors, specify <code>NONE</code>.
+  /// </dd> <dt>TenantId</dt> <dd>
+  /// The Azure tenant ID to filter by. Filters the results to connectors that
+  /// target the specified tenant.
+  /// </dd> </dl>
+  final List<String>? filterValues;
+
+  CloudConnectorFilter({
+    this.filterKey,
+    this.filterValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filterKey = this.filterKey;
+    final filterValues = this.filterValues;
+    return {
+      if (filterKey != null) 'FilterKey': filterKey.value,
+      if (filterValues != null) 'FilterValues': filterValues,
+    };
+  }
+}
+
+/// @nodoc
+class CloudConnectorFilterKey {
+  static const subscriptionId = CloudConnectorFilterKey._('SubscriptionId');
+  static const tenantId = CloudConnectorFilterKey._('TenantId');
+
+  final String value;
+
+  const CloudConnectorFilterKey._(this.value);
+
+  static const values = [subscriptionId, tenantId];
+
+  static CloudConnectorFilterKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudConnectorFilterKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudConnectorFilterKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about the association version.
 ///
 /// @nodoc
@@ -24950,6 +26025,7 @@ class AssociationFilterKey {
   static const lastExecutedAfter = AssociationFilterKey._('LastExecutedAfter');
   static const associationName = AssociationFilterKey._('AssociationName');
   static const resourceGroupName = AssociationFilterKey._('ResourceGroupName');
+  static const cloudConnectorId = AssociationFilterKey._('CloudConnectorId');
 
   final String value;
 
@@ -24963,7 +26039,8 @@ class AssociationFilterKey {
     lastExecutedBefore,
     lastExecutedAfter,
     associationName,
-    resourceGroupName
+    resourceGroupName,
+    cloudConnectorId
   ];
 
   static AssociationFilterKey fromString(String value) =>
@@ -26732,6 +27809,10 @@ class AutomationExecution {
   /// Variables defined for the automation.
   final Map<String, List<String>>? variables;
 
+  /// A message that describes a non-critical issue that occurred during the
+  /// automation execution.
+  final String? warningMessage;
+
   AutomationExecution({
     this.alarmConfiguration,
     this.associationId,
@@ -26768,6 +27849,7 @@ class AutomationExecution {
     this.targets,
     this.triggeredAlarms,
     this.variables,
+    this.warningMessage,
   });
 
   factory AutomationExecution.fromJson(Map<String, dynamic> json) {
@@ -26841,6 +27923,7 @@ class AutomationExecution {
           .toList(),
       variables: (json['Variables'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+      warningMessage: json['WarningMessage'] as String?,
     );
   }
 
@@ -26880,6 +27963,7 @@ class AutomationExecution {
     final targets = this.targets;
     final triggeredAlarms = this.triggeredAlarms;
     final variables = this.variables;
+    final warningMessage = this.warningMessage;
     return {
       if (alarmConfiguration != null) 'AlarmConfiguration': alarmConfiguration,
       if (associationId != null) 'AssociationId': associationId,
@@ -26925,6 +28009,7 @@ class AutomationExecution {
       if (targets != null) 'Targets': targets,
       if (triggeredAlarms != null) 'TriggeredAlarms': triggeredAlarms,
       if (variables != null) 'Variables': variables,
+      if (warningMessage != null) 'WarningMessage': warningMessage,
     };
   }
 }
@@ -27211,6 +28296,10 @@ class StepExecution {
   /// specific step.
   final List<String>? validNextSteps;
 
+  /// A message that describes a non-critical issue that occurred during the step
+  /// execution. Present only if the step status includes a warning.
+  final String? warningMessage;
+
   StepExecution({
     this.action,
     this.executionEndTime,
@@ -27236,6 +28325,7 @@ class StepExecution {
     this.timeoutSeconds,
     this.triggeredAlarms,
     this.validNextSteps,
+    this.warningMessage,
   });
 
   factory StepExecution.fromJson(Map<String, dynamic> json) {
@@ -27288,6 +28378,7 @@ class StepExecution {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      warningMessage: json['WarningMessage'] as String?,
     );
   }
 
@@ -27316,6 +28407,7 @@ class StepExecution {
     final timeoutSeconds = this.timeoutSeconds;
     final triggeredAlarms = this.triggeredAlarms;
     final validNextSteps = this.validNextSteps;
+    final warningMessage = this.warningMessage;
     return {
       if (action != null) 'Action': action,
       if (executionEndTime != null)
@@ -27344,6 +28436,7 @@ class StepExecution {
       if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
       if (triggeredAlarms != null) 'TriggeredAlarms': triggeredAlarms,
       if (validNextSteps != null) 'ValidNextSteps': validNextSteps,
+      if (warningMessage != null) 'WarningMessage': warningMessage,
     };
   }
 }
@@ -28654,6 +29747,10 @@ class MaintenanceWindowTask {
   /// <code>TaskArn</code> is the Amazon Web Services Systems Manager (SSM
   /// document) name or ARN. For <code>LAMBDA</code> tasks, it's the function name
   /// or ARN. For <code>STEP_FUNCTIONS</code> tasks, it's the state machine ARN.
+  /// <note>
+  /// Maintenance Window does not validate the TaskArn when you register a task. A
+  /// successful registration does not guarantee that the TaskArn is valid.
+  /// </note>
   final String? taskArn;
 
   /// The parameters that should be passed to the task when it is run.
@@ -29555,6 +30652,9 @@ class InstanceProperty {
   /// The status of the State Manager association applied to the managed node.
   final String? associationStatus;
 
+  /// The Availability Zone where the managed node is located.
+  final String? availabilityZone;
+
   /// The fully qualified host name of the managed node.
   final String? computerName;
 
@@ -29622,7 +30722,13 @@ class InstanceProperty {
   /// The ID of the source resource.
   final String? sourceId;
 
-  /// The type of the source resource.
+  /// The location of the source resource in the third-party cloud environment.
+  final String? sourceLocation;
+
+  /// The type of the source resource. Valid values:
+  /// <code>AWS::EC2::Instance</code> | <code>AWS::SSM::ManagedInstance</code> |
+  /// <code>AWS::IoT::Thing</code> |
+  /// <code>Microsoft.Compute/virtualMachines</code>.
   final SourceType? sourceType;
 
   InstanceProperty({
@@ -29631,6 +30737,7 @@ class InstanceProperty {
     this.architecture,
     this.associationOverview,
     this.associationStatus,
+    this.availabilityZone,
     this.computerName,
     this.iPAddress,
     this.iamRole,
@@ -29651,6 +30758,7 @@ class InstanceProperty {
     this.registrationDate,
     this.resourceType,
     this.sourceId,
+    this.sourceLocation,
     this.sourceType,
   });
 
@@ -29664,6 +30772,7 @@ class InstanceProperty {
               json['AssociationOverview'] as Map<String, dynamic>)
           : null,
       associationStatus: json['AssociationStatus'] as String?,
+      availabilityZone: json['AvailabilityZone'] as String?,
       computerName: json['ComputerName'] as String?,
       iPAddress: json['IPAddress'] as String?,
       iamRole: json['IamRole'] as String?,
@@ -29687,6 +30796,7 @@ class InstanceProperty {
       registrationDate: timeStampFromJson(json['RegistrationDate']),
       resourceType: json['ResourceType'] as String?,
       sourceId: json['SourceId'] as String?,
+      sourceLocation: json['SourceLocation'] as String?,
       sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
     );
   }
@@ -29697,6 +30807,7 @@ class InstanceProperty {
     final architecture = this.architecture;
     final associationOverview = this.associationOverview;
     final associationStatus = this.associationStatus;
+    final availabilityZone = this.availabilityZone;
     final computerName = this.computerName;
     final iPAddress = this.iPAddress;
     final iamRole = this.iamRole;
@@ -29718,6 +30829,7 @@ class InstanceProperty {
     final registrationDate = this.registrationDate;
     final resourceType = this.resourceType;
     final sourceId = this.sourceId;
+    final sourceLocation = this.sourceLocation;
     final sourceType = this.sourceType;
     return {
       if (activationId != null) 'ActivationId': activationId,
@@ -29726,6 +30838,7 @@ class InstanceProperty {
       if (associationOverview != null)
         'AssociationOverview': associationOverview,
       if (associationStatus != null) 'AssociationStatus': associationStatus,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (computerName != null) 'ComputerName': computerName,
       if (iPAddress != null) 'IPAddress': iPAddress,
       if (iamRole != null) 'IamRole': iamRole,
@@ -29752,6 +30865,7 @@ class InstanceProperty {
         'RegistrationDate': unixTimestampToJson(registrationDate),
       if (resourceType != null) 'ResourceType': resourceType,
       if (sourceId != null) 'SourceId': sourceId,
+      if (sourceLocation != null) 'SourceLocation': sourceLocation,
       if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
@@ -29819,32 +30933,6 @@ class InstanceAggregatedAssociationOverview {
             instanceAssociationStatusAggregatedCount,
     };
   }
-}
-
-/// @nodoc
-class SourceType {
-  static const awsEc2Instance = SourceType._('AWS::EC2::Instance');
-  static const awsIoTThing = SourceType._('AWS::IoT::Thing');
-  static const awsSsmManagedInstance =
-      SourceType._('AWS::SSM::ManagedInstance');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [awsEc2Instance, awsIoTThing, awsSsmManagedInstance];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// The filters to describe or get information about your managed nodes.
@@ -30633,8 +31721,13 @@ class InstanceInformation {
   /// <code>SourceId</code> is the Thing name.
   final String? sourceId;
 
+  /// The location of the source resource in the third-party cloud environment.
+  final String? sourceLocation;
+
   /// The type of the source resource. For IoT Greengrass devices,
-  /// <code>SourceType</code> is <code>AWS::IoT::Thing</code>.
+  /// <code>SourceType</code> is <code>AWS::IoT::Thing</code>. For Azure Virtual
+  /// Machines, <code>SourceType</code> is
+  /// <code>Microsoft.Compute/virtualMachines</code>.
   final SourceType? sourceType;
 
   InstanceInformation({
@@ -30658,6 +31751,7 @@ class InstanceInformation {
     this.registrationDate,
     this.resourceType,
     this.sourceId,
+    this.sourceLocation,
     this.sourceType,
   });
 
@@ -30690,6 +31784,7 @@ class InstanceInformation {
       resourceType:
           (json['ResourceType'] as String?)?.let(ResourceType.fromString),
       sourceId: json['SourceId'] as String?,
+      sourceLocation: json['SourceLocation'] as String?,
       sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
     );
   }
@@ -30716,6 +31811,7 @@ class InstanceInformation {
     final registrationDate = this.registrationDate;
     final resourceType = this.resourceType;
     final sourceId = this.sourceId;
+    final sourceLocation = this.sourceLocation;
     final sourceType = this.sourceType;
     return {
       if (activationId != null) 'ActivationId': activationId,
@@ -30745,6 +31841,7 @@ class InstanceInformation {
         'RegistrationDate': unixTimestampToJson(registrationDate),
       if (resourceType != null) 'ResourceType': resourceType.value,
       if (sourceId != null) 'SourceId': sourceId,
+      if (sourceLocation != null) 'SourceLocation': sourceLocation,
       if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
@@ -30757,8 +31854,8 @@ class InstanceInformationStringFilter {
   /// The filter key name to describe your managed nodes.
   ///
   /// Valid filter key values: ActivationIds | AgentVersion | AssociationStatus |
-  /// IamRole | InstanceIds | PingStatus | PlatformType | ResourceType | SourceIds
-  /// | SourceTypes | "tag-key" | "tag:<code>{keyname}</code>
+  /// IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType |
+  /// SourceIds | SourceTypes | "tag-key" | "tag:<code>{keyname}</code>
   ///
   /// <ul>
   /// <li>
@@ -30770,8 +31867,8 @@ class InstanceInformationStringFilter {
   /// ConnectionLost | Inactive (deprecated)
   /// </li>
   /// <li>
-  /// Valid values for the <code>PlatformType</code> filter key: Windows | Linux |
-  /// MacOS
+  /// Valid values for the <code>PlatformTypes</code> filter key: Windows | Linux
+  /// | MacOS
   /// </li>
   /// <li>
   /// Valid values for the <code>ResourceType</code> filter key: EC2Instance |
@@ -30779,7 +31876,8 @@ class InstanceInformationStringFilter {
   /// </li>
   /// <li>
   /// Valid values for the <code>SourceType</code> filter key: AWS::EC2::Instance
-  /// | AWS::SSM::ManagedInstance | AWS::IoT::Thing
+  /// | AWS::SSM::ManagedInstance | AWS::IoT::Thing |
+  /// Microsoft.Compute/virtualMachines
   /// </li>
   /// <li>
   /// Valid tag examples: <code>Key=tag-key,Values=Purpose</code> |
@@ -31578,7 +32676,8 @@ class AutomationExecutionMetadata {
   /// The time the execution started.
   final DateTime? executionStartTime;
 
-  /// The list of execution outputs as defined in the Automation runbook.
+  /// A message that describes a failure that occurred during the automation
+  /// execution.
   final String? failureMessage;
 
   /// An S3 bucket where execution information is stored.
@@ -31639,6 +32738,10 @@ class AutomationExecutionMetadata {
   /// The CloudWatch alarm that was invoked by the automation.
   final List<AlarmStateInformation>? triggeredAlarms;
 
+  /// A message that describes a non-critical issue that occurred during the
+  /// automation execution.
+  final String? warningMessage;
+
   AutomationExecutionMetadata({
     this.alarmConfiguration,
     this.associationId,
@@ -31671,6 +32774,7 @@ class AutomationExecutionMetadata {
     this.targetParameterName,
     this.targets,
     this.triggeredAlarms,
+    this.warningMessage,
   });
 
   factory AutomationExecutionMetadata.fromJson(Map<String, dynamic> json) {
@@ -31730,6 +32834,7 @@ class AutomationExecutionMetadata {
           ?.nonNulls
           .map((e) => AlarmStateInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      warningMessage: json['WarningMessage'] as String?,
     );
   }
 
@@ -31765,6 +32870,7 @@ class AutomationExecutionMetadata {
     final targetParameterName = this.targetParameterName;
     final targets = this.targets;
     final triggeredAlarms = this.triggeredAlarms;
+    final warningMessage = this.warningMessage;
     return {
       if (alarmConfiguration != null) 'AlarmConfiguration': alarmConfiguration,
       if (associationId != null) 'AssociationId': associationId,
@@ -31805,6 +32911,7 @@ class AutomationExecutionMetadata {
         'TargetParameterName': targetParameterName,
       if (targets != null) 'Targets': targets,
       if (triggeredAlarms != null) 'TriggeredAlarms': triggeredAlarms,
+      if (warningMessage != null) 'WarningMessage': warningMessage,
     };
   }
 }
@@ -32951,6 +34058,12 @@ class ComplianceTypeCountLimitExceededException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
+/// @nodoc
 class CustomSchemaCountLimitExceededException extends _s.GenericAwsException {
   CustomSchemaCountLimitExceededException({String? type, String? message})
       : super(
@@ -33886,6 +34999,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AutomationStepNotFoundException(type: type, message: message),
   'ComplianceTypeCountLimitExceededException': (type, message) =>
       ComplianceTypeCountLimitExceededException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'CustomSchemaCountLimitExceededException': (type, message) =>
       CustomSchemaCountLimitExceededException(type: type, message: message),
   'DocumentAlreadyExists': (type, message) =>

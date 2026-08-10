@@ -1558,6 +1558,32 @@ class PinpointSmsVoiceV2 {
     return DeleteRcsAgentResult.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an account-level monthly spending limit override for sending RCS
+  /// messages. Deleting a spend limit override sets the
+  /// <code>EnforcedLimit</code> to equal the <code>MaxLimit</code>, which is
+  /// set by Amazon Web Services.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  Future<DeleteRcsMessageSpendLimitOverrideResult>
+      deleteRcsMessageSpendLimitOverride() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'PinpointSMSVoiceV2.DeleteRcsMessageSpendLimitOverride'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DeleteRcsMessageSpendLimitOverrideResult.fromJson(jsonResponse.body);
+  }
+
   /// Permanently delete an existing registration from your account.
   ///
   /// May throw [AccessDeniedException].
@@ -4245,7 +4271,10 @@ class PinpointSmsVoiceV2 {
   /// region.
   ///
   /// Parameter [senderId] :
-  /// The sender ID string to request.
+  /// The sender ID string to request. The sender ID can be 1-11 alphanumeric
+  /// characters including letters (A-Z, a-z), numbers (0-9), or hyphens (-).
+  /// The sender ID must contain at least one letter and cannot start or end
+  /// with a hyphen.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
@@ -4693,6 +4722,123 @@ class PinpointSmsVoiceV2 {
     return SendNotifyVoiceMessageResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a new RCS message and sends it to a recipient's phone number. RCS
+  /// messages support rich content including text, files, rich cards, and
+  /// carousels with interactive suggested actions.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [destinationPhoneNumber] :
+  /// The destination phone number in E.164 format.
+  ///
+  /// Parameter [originationIdentity] :
+  /// The origination identity of the message. This can be either the
+  /// RcsAgentId, RcsAgentArn, PoolId, or PoolArn.
+  ///
+  /// Parameter [configurationSetName] :
+  /// The name of the configuration set to use. This can be either the
+  /// ConfigurationSetName or ConfigurationSetArn.
+  ///
+  /// Parameter [context] :
+  /// You can specify custom data in this field. If you do, that data is logged
+  /// to the event destination.
+  ///
+  /// Parameter [dryRun] :
+  /// When set to true, the message is checked and validated, but isn't sent to
+  /// the end recipient.
+  ///
+  /// Parameter [fallbackConfiguration] :
+  /// Configuration for SMS or MMS fallback when RCS delivery fails. If
+  /// provided, the service sends a fallback message via the specified channel
+  /// when the RCS message fails or the TimeToLive expires.
+  ///
+  /// Parameter [maxPrice] :
+  /// The maximum amount that you want to spend, in US dollars, per each RCS
+  /// message.
+  ///
+  /// Parameter [messageFeedbackEnabled] :
+  /// Set to true to enable message feedback for the message. When a user
+  /// receives the message you need to update the message status using
+  /// <a>PutMessageFeedback</a>.
+  ///
+  /// Parameter [messageTrafficType] :
+  /// The traffic type of the RCS message. Valid values are AUTHENTICATION,
+  /// TRANSACTION, PROMOTION, SERVICE_REQUEST, and ACKNOWLEDGEMENT. This field
+  /// is reserved for future use.
+  ///
+  /// Parameter [protectConfigurationId] :
+  /// The unique identifier of the protect configuration to use.
+  ///
+  /// Parameter [rcsMessageContent] :
+  /// The content of the RCS message. Contains the message content (text, file,
+  /// rich card, or carousel) and optional message-level suggested actions.
+  ///
+  /// Parameter [timeToLive] :
+  /// The duration in seconds that the RCS message is valid for delivery. If the
+  /// message cannot be delivered within this duration, it is considered
+  /// expired. Valid values are 1 to 172800 (48 hours). If a
+  /// FallbackConfiguration is provided, the fallback is triggered when the
+  /// duration expires without delivery confirmation.
+  Future<SendRcsMessageResult> sendRcsMessage({
+    required String destinationPhoneNumber,
+    required String originationIdentity,
+    String? configurationSetName,
+    Map<String, String>? context,
+    bool? dryRun,
+    RcsFallbackConfiguration? fallbackConfiguration,
+    String? maxPrice,
+    bool? messageFeedbackEnabled,
+    String? messageTrafficType,
+    String? protectConfigurationId,
+    RcsMessageContent? rcsMessageContent,
+    int? timeToLive,
+  }) async {
+    _s.validateNumRange(
+      'timeToLive',
+      timeToLive,
+      1,
+      172800,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'PinpointSMSVoiceV2.SendRcsMessage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DestinationPhoneNumber': destinationPhoneNumber,
+        'OriginationIdentity': originationIdentity,
+        if (configurationSetName != null)
+          'ConfigurationSetName': configurationSetName,
+        if (context != null) 'Context': context,
+        if (dryRun != null) 'DryRun': dryRun,
+        if (fallbackConfiguration != null)
+          'FallbackConfiguration': fallbackConfiguration,
+        if (maxPrice != null) 'MaxPrice': maxPrice,
+        if (messageFeedbackEnabled != null)
+          'MessageFeedbackEnabled': messageFeedbackEnabled,
+        if (messageTrafficType != null)
+          'MessageTrafficType': messageTrafficType,
+        if (protectConfigurationId != null)
+          'ProtectConfigurationId': protectConfigurationId,
+        if (rcsMessageContent != null) 'RcsMessageContent': rcsMessageContent,
+        if (timeToLive != null) 'TimeToLive': timeToLive,
+      },
+    );
+
+    return SendRcsMessageResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new text message and sends it to a recipient's phone number.
   /// SendTextMessage only sends an SMS message to one recipient each time it is
   /// invoked.
@@ -4782,8 +4928,8 @@ class PinpointSmsVoiceV2 {
   ///
   /// Parameter [originationIdentity] :
   /// The origination identity of the message. This can be either the
-  /// PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId,
-  /// or PoolArn.
+  /// PhoneNumber, PhoneNumberId, PhoneNumberArn, RcsAgentId, RcsAgentArn,
+  /// SenderId, SenderIdArn, PoolId, or PoolArn.
   /// <important>
   /// If you are using a shared End User Messaging SMS resource then you must
   /// use the full Amazon Resource Name(ARN).
@@ -5226,6 +5372,46 @@ class PinpointSmsVoiceV2 {
     return SetNotifyMessageSpendLimitOverrideResult.fromJson(jsonResponse.body);
   }
 
+  /// Sets an account level monthly spend limit override for sending RCS
+  /// messages. The requested spend limit must be less than or equal to the
+  /// <code>MaxLimit</code>, which is set by Amazon Web Services.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [monthlyLimit] :
+  /// The new monthly limit to enforce on RCS message spending.
+  Future<SetRcsMessageSpendLimitOverrideResult>
+      setRcsMessageSpendLimitOverride({
+    required int monthlyLimit,
+  }) async {
+    _s.validateNumRange(
+      'monthlyLimit',
+      monthlyLimit,
+      0,
+      1000000000,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'PinpointSMSVoiceV2.SetRcsMessageSpendLimitOverride'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MonthlyLimit': monthlyLimit,
+      },
+    );
+
+    return SetRcsMessageSpendLimitOverrideResult.fromJson(jsonResponse.body);
+  }
+
   /// Sets an account level monthly spend limit override for sending text
   /// messages. The requested spend limit must be less than or equal to the
   /// <code>MaxLimit</code>, which is set by Amazon Web Services.
@@ -5517,8 +5703,11 @@ class PinpointSmsVoiceV2 {
   /// <a>DescribeNotifyConfigurations</a> operation.
   ///
   /// Parameter [defaultTemplateId] :
-  /// The template ID to set as the default, or the special value
-  /// UNSET_DEFAULT_TEMPLATE to clear the current default template.
+  /// The default template identifier to associate with the notify
+  /// configuration. If specified, this template is used when sending messages
+  /// without an explicit template identifier. Pass the special value
+  /// <code>UNSET_DEFAULT_TEMPLATE</code> to clear the current default template
+  /// from the notify configuration.
   ///
   /// Parameter [deletionProtectionEnabled] :
   /// When set to true the notify configuration can't be deleted.
@@ -5532,8 +5721,10 @@ class PinpointSmsVoiceV2 {
   /// that are enabled for the notify configuration.
   ///
   /// Parameter [poolId] :
-  /// The pool ID or ARN to associate, or the special value
-  /// UNSET_DEFAULT_POOL_FOR_NOTIFY to clear the current default pool.
+  /// The pool identifier or Amazon Resource Name (ARN) to associate with the
+  /// notify configuration. Pass the special value
+  /// <code>UNSET_DEFAULT_POOL_FOR_NOTIFY</code> to clear the current default
+  /// pool from the notify configuration.
   Future<UpdateNotifyConfigurationResult> updateNotifyConfiguration({
     required String notifyConfigurationId,
     String? defaultTemplateId,
@@ -5885,6 +6076,30 @@ class PinpointSmsVoiceV2 {
   /// Parameter [twoWayEnabled] :
   /// By default this is set to false. When set to true you can receive incoming
   /// text messages from your end recipients.
+  ///
+  /// Parameter [twoWayMediaS3BucketName] :
+  /// The name of the S3 bucket where inbound RCS media files are stored.
+  /// Two-way messaging must be enabled on the agent. To remove the media
+  /// configuration, pass the sentinel value
+  /// <code>UNSET_RCS_MEDIA_CONFIGURATION</code> for both this field and
+  /// TwoWayMediaS3Role.
+  ///
+  /// Parameter [twoWayMediaS3KeyPrefix] :
+  /// The key prefix used for inbound RCS media objects in the S3 bucket.
+  ///
+  /// Parameter [twoWayMediaS3Role] :
+  /// The ARN of the IAM role used to write inbound RCS media files to the S3
+  /// bucket. The role must have <code>s3:PutObject</code> permission on the
+  /// bucket and a trust policy allowing <code>sms-voice.amazonaws.com</code> to
+  /// assume it. To remove the media configuration, pass the sentinel value
+  /// <code>UNSET_RCS_MEDIA_CONFIGURATION</code> for both this field and
+  /// TwoWayMediaS3BucketName.
+  ///
+  /// Parameter [twoWayRcsEventsEnabled] :
+  /// The list of RCS event types to enable for two-way messaging. Pass an empty
+  /// list to disable all event types. The special value <code>ALL</code>
+  /// enables all current and future event types and must be the sole element if
+  /// used.
   Future<UpdateRcsAgentResult> updateRcsAgent({
     required String rcsAgentId,
     bool? deletionProtectionEnabled,
@@ -5893,6 +6108,10 @@ class PinpointSmsVoiceV2 {
     String? twoWayChannelArn,
     String? twoWayChannelRole,
     bool? twoWayEnabled,
+    String? twoWayMediaS3BucketName,
+    String? twoWayMediaS3KeyPrefix,
+    String? twoWayMediaS3Role,
+    List<String>? twoWayRcsEventsEnabled,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -5914,6 +6133,13 @@ class PinpointSmsVoiceV2 {
         if (twoWayChannelArn != null) 'TwoWayChannelArn': twoWayChannelArn,
         if (twoWayChannelRole != null) 'TwoWayChannelRole': twoWayChannelRole,
         if (twoWayEnabled != null) 'TwoWayEnabled': twoWayEnabled,
+        if (twoWayMediaS3BucketName != null)
+          'TwoWayMediaS3BucketName': twoWayMediaS3BucketName,
+        if (twoWayMediaS3KeyPrefix != null)
+          'TwoWayMediaS3KeyPrefix': twoWayMediaS3KeyPrefix,
+        if (twoWayMediaS3Role != null) 'TwoWayMediaS3Role': twoWayMediaS3Role,
+        if (twoWayRcsEventsEnabled != null)
+          'TwoWayRcsEventsEnabled': twoWayRcsEventsEnabled,
       },
     );
 
@@ -6716,6 +6942,21 @@ class CreateRcsAgentResult {
   /// SMS messages.
   final String? twoWayChannelRole;
 
+  /// The name of the S3 bucket where inbound RCS media files are stored.
+  final String? twoWayMediaS3BucketName;
+
+  /// The key prefix used for inbound RCS media objects in the S3 bucket.
+  final String? twoWayMediaS3KeyPrefix;
+
+  /// The ARN of the IAM role used to write inbound RCS media files to the S3
+  /// bucket. The role must have <code>s3:PutObject</code> permission on the
+  /// bucket and a trust policy allowing <code>sms-voice.amazonaws.com</code> to
+  /// assume it.
+  final String? twoWayMediaS3Role;
+
+  /// The list of RCS event types enabled for two-way messaging on the agent.
+  final List<String>? twoWayRcsEventsEnabled;
+
   CreateRcsAgentResult({
     required this.createdTimestamp,
     required this.deletionProtectionEnabled,
@@ -6728,6 +6969,10 @@ class CreateRcsAgentResult {
     this.tags,
     this.twoWayChannelArn,
     this.twoWayChannelRole,
+    this.twoWayMediaS3BucketName,
+    this.twoWayMediaS3KeyPrefix,
+    this.twoWayMediaS3Role,
+    this.twoWayRcsEventsEnabled,
   });
 
   factory CreateRcsAgentResult.fromJson(Map<String, dynamic> json) {
@@ -6749,6 +6994,13 @@ class CreateRcsAgentResult {
           .toList(),
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
       twoWayChannelRole: json['TwoWayChannelRole'] as String?,
+      twoWayMediaS3BucketName: json['TwoWayMediaS3BucketName'] as String?,
+      twoWayMediaS3KeyPrefix: json['TwoWayMediaS3KeyPrefix'] as String?,
+      twoWayMediaS3Role: json['TwoWayMediaS3Role'] as String?,
+      twoWayRcsEventsEnabled: (json['TwoWayRcsEventsEnabled'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -6764,6 +7016,10 @@ class CreateRcsAgentResult {
     final tags = this.tags;
     final twoWayChannelArn = this.twoWayChannelArn;
     final twoWayChannelRole = this.twoWayChannelRole;
+    final twoWayMediaS3BucketName = this.twoWayMediaS3BucketName;
+    final twoWayMediaS3KeyPrefix = this.twoWayMediaS3KeyPrefix;
+    final twoWayMediaS3Role = this.twoWayMediaS3Role;
+    final twoWayRcsEventsEnabled = this.twoWayRcsEventsEnabled;
     return {
       'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       'DeletionProtectionEnabled': deletionProtectionEnabled,
@@ -6776,6 +7032,13 @@ class CreateRcsAgentResult {
       if (tags != null) 'Tags': tags,
       if (twoWayChannelArn != null) 'TwoWayChannelArn': twoWayChannelArn,
       if (twoWayChannelRole != null) 'TwoWayChannelRole': twoWayChannelRole,
+      if (twoWayMediaS3BucketName != null)
+        'TwoWayMediaS3BucketName': twoWayMediaS3BucketName,
+      if (twoWayMediaS3KeyPrefix != null)
+        'TwoWayMediaS3KeyPrefix': twoWayMediaS3KeyPrefix,
+      if (twoWayMediaS3Role != null) 'TwoWayMediaS3Role': twoWayMediaS3Role,
+      if (twoWayRcsEventsEnabled != null)
+        'TwoWayRcsEventsEnabled': twoWayRcsEventsEnabled,
     };
   }
 }
@@ -8075,6 +8338,10 @@ class DeleteRcsAgentResult {
   /// SMS messages.
   final String? twoWayChannelRole;
 
+  /// The list of RCS event types that were enabled for two-way messaging on the
+  /// deleted agent.
+  final List<String>? twoWayRcsEventsEnabled;
+
   DeleteRcsAgentResult({
     required this.createdTimestamp,
     required this.deletionProtectionEnabled,
@@ -8086,6 +8353,7 @@ class DeleteRcsAgentResult {
     this.optOutListName,
     this.twoWayChannelArn,
     this.twoWayChannelRole,
+    this.twoWayRcsEventsEnabled,
   });
 
   factory DeleteRcsAgentResult.fromJson(Map<String, dynamic> json) {
@@ -8103,6 +8371,10 @@ class DeleteRcsAgentResult {
       optOutListName: json['OptOutListName'] as String?,
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
       twoWayChannelRole: json['TwoWayChannelRole'] as String?,
+      twoWayRcsEventsEnabled: (json['TwoWayRcsEventsEnabled'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -8117,6 +8389,7 @@ class DeleteRcsAgentResult {
     final optOutListName = this.optOutListName;
     final twoWayChannelArn = this.twoWayChannelArn;
     final twoWayChannelRole = this.twoWayChannelRole;
+    final twoWayRcsEventsEnabled = this.twoWayRcsEventsEnabled;
     return {
       'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       'DeletionProtectionEnabled': deletionProtectionEnabled,
@@ -8128,6 +8401,32 @@ class DeleteRcsAgentResult {
       if (optOutListName != null) 'OptOutListName': optOutListName,
       if (twoWayChannelArn != null) 'TwoWayChannelArn': twoWayChannelArn,
       if (twoWayChannelRole != null) 'TwoWayChannelRole': twoWayChannelRole,
+      if (twoWayRcsEventsEnabled != null)
+        'TwoWayRcsEventsEnabled': twoWayRcsEventsEnabled,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteRcsMessageSpendLimitOverrideResult {
+  /// The current monthly limit to enforce on RCS message spending.
+  final int? monthlyLimit;
+
+  DeleteRcsMessageSpendLimitOverrideResult({
+    this.monthlyLimit,
+  });
+
+  factory DeleteRcsMessageSpendLimitOverrideResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteRcsMessageSpendLimitOverrideResult(
+      monthlyLimit: json['MonthlyLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monthlyLimit = this.monthlyLimit;
+    return {
+      if (monthlyLimit != null) 'MonthlyLimit': monthlyLimit,
     };
   }
 }
@@ -10924,6 +11223,29 @@ class SendNotifyVoiceMessageResult {
 }
 
 /// @nodoc
+class SendRcsMessageResult {
+  /// The unique identifier for the message.
+  final String? messageId;
+
+  SendRcsMessageResult({
+    this.messageId,
+  });
+
+  factory SendRcsMessageResult.fromJson(Map<String, dynamic> json) {
+    return SendRcsMessageResult(
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      if (messageId != null) 'MessageId': messageId,
+    };
+  }
+}
+
+/// @nodoc
 class SendTextMessageResult {
   /// The unique identifier for the message.
   final String? messageId;
@@ -11158,6 +11480,30 @@ class SetNotifyMessageSpendLimitOverrideResult {
   factory SetNotifyMessageSpendLimitOverrideResult.fromJson(
       Map<String, dynamic> json) {
     return SetNotifyMessageSpendLimitOverrideResult(
+      monthlyLimit: json['MonthlyLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monthlyLimit = this.monthlyLimit;
+    return {
+      if (monthlyLimit != null) 'MonthlyLimit': monthlyLimit,
+    };
+  }
+}
+
+/// @nodoc
+class SetRcsMessageSpendLimitOverrideResult {
+  /// The current monthly limit to enforce on RCS message spending.
+  final int? monthlyLimit;
+
+  SetRcsMessageSpendLimitOverrideResult({
+    this.monthlyLimit,
+  });
+
+  factory SetRcsMessageSpendLimitOverrideResult.fromJson(
+      Map<String, dynamic> json) {
+    return SetRcsMessageSpendLimitOverrideResult(
       monthlyLimit: json['MonthlyLimit'] as int?,
     );
   }
@@ -11937,6 +12283,19 @@ class UpdateRcsAgentResult {
   /// SMS messages.
   final String? twoWayChannelRole;
 
+  /// The name of the S3 bucket where inbound RCS media files are stored.
+  final String? twoWayMediaS3BucketName;
+
+  /// The key prefix used for inbound RCS media objects in the S3 bucket.
+  final String? twoWayMediaS3KeyPrefix;
+
+  /// The ARN of the IAM role used to write inbound RCS media files to the S3
+  /// bucket.
+  final String? twoWayMediaS3Role;
+
+  /// The list of RCS event types enabled for two-way messaging on the agent.
+  final List<String>? twoWayRcsEventsEnabled;
+
   UpdateRcsAgentResult({
     required this.createdTimestamp,
     required this.deletionProtectionEnabled,
@@ -11948,6 +12307,10 @@ class UpdateRcsAgentResult {
     this.optOutListName,
     this.twoWayChannelArn,
     this.twoWayChannelRole,
+    this.twoWayMediaS3BucketName,
+    this.twoWayMediaS3KeyPrefix,
+    this.twoWayMediaS3Role,
+    this.twoWayRcsEventsEnabled,
   });
 
   factory UpdateRcsAgentResult.fromJson(Map<String, dynamic> json) {
@@ -11965,6 +12328,13 @@ class UpdateRcsAgentResult {
       optOutListName: json['OptOutListName'] as String?,
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
       twoWayChannelRole: json['TwoWayChannelRole'] as String?,
+      twoWayMediaS3BucketName: json['TwoWayMediaS3BucketName'] as String?,
+      twoWayMediaS3KeyPrefix: json['TwoWayMediaS3KeyPrefix'] as String?,
+      twoWayMediaS3Role: json['TwoWayMediaS3Role'] as String?,
+      twoWayRcsEventsEnabled: (json['TwoWayRcsEventsEnabled'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -11979,6 +12349,10 @@ class UpdateRcsAgentResult {
     final optOutListName = this.optOutListName;
     final twoWayChannelArn = this.twoWayChannelArn;
     final twoWayChannelRole = this.twoWayChannelRole;
+    final twoWayMediaS3BucketName = this.twoWayMediaS3BucketName;
+    final twoWayMediaS3KeyPrefix = this.twoWayMediaS3KeyPrefix;
+    final twoWayMediaS3Role = this.twoWayMediaS3Role;
+    final twoWayRcsEventsEnabled = this.twoWayRcsEventsEnabled;
     return {
       'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       'DeletionProtectionEnabled': deletionProtectionEnabled,
@@ -11990,6 +12364,13 @@ class UpdateRcsAgentResult {
       if (optOutListName != null) 'OptOutListName': optOutListName,
       if (twoWayChannelArn != null) 'TwoWayChannelArn': twoWayChannelArn,
       if (twoWayChannelRole != null) 'TwoWayChannelRole': twoWayChannelRole,
+      if (twoWayMediaS3BucketName != null)
+        'TwoWayMediaS3BucketName': twoWayMediaS3BucketName,
+      if (twoWayMediaS3KeyPrefix != null)
+        'TwoWayMediaS3KeyPrefix': twoWayMediaS3KeyPrefix,
+      if (twoWayMediaS3Role != null) 'TwoWayMediaS3Role': twoWayMediaS3Role,
+      if (twoWayRcsEventsEnabled != null)
+        'TwoWayRcsEventsEnabled': twoWayRcsEventsEnabled,
     };
   }
 }
@@ -12784,6 +13165,15 @@ class EventType {
   static const mediaFileTypeUnsupported =
       EventType._('MEDIA_FILE_TYPE_UNSUPPORTED');
   static const mediaFileSizeExceeded = EventType._('MEDIA_FILE_SIZE_EXCEEDED');
+  static const rcsAll = EventType._('RCS_ALL');
+  static const rcsQueued = EventType._('RCS_QUEUED');
+  static const rcsSent = EventType._('RCS_SENT');
+  static const rcsDelivered = EventType._('RCS_DELIVERED');
+  static const rcsRead = EventType._('RCS_READ');
+  static const rcsFailed = EventType._('RCS_FAILED');
+  static const rcsTtlExpired = EventType._('RCS_TTL_EXPIRED');
+  static const rcsProtectBlocked = EventType._('RCS_PROTECT_BLOCKED');
+  static const rcsFallenBackToSms = EventType._('RCS_FALLEN_BACK_TO_SMS');
 
   final String value;
 
@@ -12832,7 +13222,16 @@ class EventType {
     mediaTtlExpired,
     mediaFileInaccessible,
     mediaFileTypeUnsupported,
-    mediaFileSizeExceeded
+    mediaFileSizeExceeded,
+    rcsAll,
+    rcsQueued,
+    rcsSent,
+    rcsDelivered,
+    rcsRead,
+    rcsFailed,
+    rcsTtlExpired,
+    rcsProtectBlocked,
+    rcsFallenBackToSms
   ];
 
   static EventType fromString(String value) => values
@@ -13232,6 +13631,684 @@ class DestinationCountryParameterKey {
 
   @override
   String toString() => value;
+}
+
+/// The content of an RCS message, containing the message body (text, file, rich
+/// card, or carousel) and optional message-level suggested actions.
+///
+/// @nodoc
+class RcsMessageContent {
+  /// The content of the RCS message. Exactly one content type must be specified:
+  /// TextMessage, FileMessage, RichCard, or Carousel.
+  final RcsContent content;
+
+  /// Message-level suggested actions displayed to the recipient. Maximum 11
+  /// suggestions per message.
+  final List<RcsSuggestedAction>? suggestions;
+
+  RcsMessageContent({
+    required this.content,
+    this.suggestions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final suggestions = this.suggestions;
+    return {
+      'Content': content,
+      if (suggestions != null) 'Suggestions': suggestions,
+    };
+  }
+}
+
+/// Configuration for SMS or MMS fallback when RCS delivery fails or the
+/// TimeToLive expires without delivery confirmation.
+///
+/// @nodoc
+class RcsFallbackConfiguration {
+  /// The fallback channel to use when RCS delivery fails. Valid values are SMS
+  /// and MMS. SMS and MMS are mutually exclusive.
+  final RcsFallbackChannel channel;
+
+  /// An array of S3 URIs to media files for MMS fallback. Only valid when Channel
+  /// is MMS.
+  final List<String>? mediaUrls;
+
+  /// The text body of the fallback message. Required for SMS fallback. For MMS
+  /// fallback, at least one of MessageBody or MediaUrls must be provided.
+  final String? messageBody;
+
+  /// The origination identity to use for the fallback message. This can be a
+  /// PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. Pool
+  /// IDs and pool ARNs are not accepted. If not specified and the original
+  /// message was sent via a pool, the service selects a suitable number from the
+  /// pool.
+  final String? originationIdentity;
+
+  RcsFallbackConfiguration({
+    required this.channel,
+    this.mediaUrls,
+    this.messageBody,
+    this.originationIdentity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final channel = this.channel;
+    final mediaUrls = this.mediaUrls;
+    final messageBody = this.messageBody;
+    final originationIdentity = this.originationIdentity;
+    return {
+      'Channel': channel.value,
+      if (mediaUrls != null) 'MediaUrls': mediaUrls,
+      if (messageBody != null) 'MessageBody': messageBody,
+      if (originationIdentity != null)
+        'OriginationIdentity': originationIdentity,
+    };
+  }
+}
+
+/// @nodoc
+class RcsFallbackChannel {
+  static const sms = RcsFallbackChannel._('SMS');
+  static const mms = RcsFallbackChannel._('MMS');
+
+  final String value;
+
+  const RcsFallbackChannel._(this.value);
+
+  static const values = [sms, mms];
+
+  static RcsFallbackChannel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RcsFallbackChannel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RcsFallbackChannel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The message body of an RCS message. Exactly one content type must be
+/// specified.
+///
+/// @nodoc
+class RcsContent {
+  /// A carousel of 2 to 10 scrollable cards, each with media, title, description,
+  /// and suggested actions.
+  final RcsCarousel? carousel;
+
+  /// A file message containing a media file (image, video, audio, or PDF) with an
+  /// optional thumbnail.
+  final RcsFileMessage? fileMessage;
+
+  /// A standalone rich card with media, title, description, and suggested
+  /// actions.
+  final RcsStandaloneCard? richCard;
+
+  /// A plain text RCS message.
+  final RcsTextMessage? textMessage;
+
+  RcsContent({
+    this.carousel,
+    this.fileMessage,
+    this.richCard,
+    this.textMessage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final carousel = this.carousel;
+    final fileMessage = this.fileMessage;
+    final richCard = this.richCard;
+    final textMessage = this.textMessage;
+    return {
+      if (carousel != null) 'Carousel': carousel,
+      if (fileMessage != null) 'FileMessage': fileMessage,
+      if (richCard != null) 'RichCard': richCard,
+      if (textMessage != null) 'TextMessage': textMessage,
+    };
+  }
+}
+
+/// A suggested action displayed to the RCS message recipient. Can be a reply,
+/// open URL, dial phone, show location, request location, or create calendar
+/// event.
+///
+/// @nodoc
+class RcsSuggestedAction {
+  /// A suggested action that creates a calendar event on the user's device.
+  final RcsCreateCalendarEventAction? createCalendarEvent;
+
+  /// A suggested action that initiates a phone call to the specified number.
+  final RcsDialPhoneAction? dialPhone;
+
+  /// A suggested action that opens a URL in the user's browser or a webview.
+  final RcsOpenUrlAction? openUrl;
+
+  /// A suggested reply that sends predefined text and postback data when tapped.
+  final RcsReplyAction? reply;
+
+  /// A suggested action that requests the user's current location.
+  final RcsRequestLocationAction? requestLocation;
+
+  /// A suggested action that shows a location on a map.
+  final RcsShowLocationAction? showLocation;
+
+  RcsSuggestedAction({
+    this.createCalendarEvent,
+    this.dialPhone,
+    this.openUrl,
+    this.reply,
+    this.requestLocation,
+    this.showLocation,
+  });
+
+  Map<String, dynamic> toJson() {
+    final createCalendarEvent = this.createCalendarEvent;
+    final dialPhone = this.dialPhone;
+    final openUrl = this.openUrl;
+    final reply = this.reply;
+    final requestLocation = this.requestLocation;
+    final showLocation = this.showLocation;
+    return {
+      if (createCalendarEvent != null)
+        'CreateCalendarEvent': createCalendarEvent,
+      if (dialPhone != null) 'DialPhone': dialPhone,
+      if (openUrl != null) 'OpenUrl': openUrl,
+      if (reply != null) 'Reply': reply,
+      if (requestLocation != null) 'RequestLocation': requestLocation,
+      if (showLocation != null) 'ShowLocation': showLocation,
+    };
+  }
+}
+
+/// A suggested reply action that sends predefined text and postback data when
+/// tapped by the recipient.
+///
+/// @nodoc
+class RcsReplyAction {
+  /// The postback data sent to your webhook when the user taps this reply.
+  /// Maximum 2048 characters.
+  final String postbackData;
+
+  /// The display text of the suggested reply. Maximum 25 characters.
+  final String text;
+
+  RcsReplyAction({
+    required this.postbackData,
+    required this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final postbackData = this.postbackData;
+    final text = this.text;
+    return {
+      'PostbackData': postbackData,
+      'Text': text,
+    };
+  }
+}
+
+/// A suggested action that opens a URL in the recipient's browser or an in-app
+/// webview.
+///
+/// @nodoc
+class RcsOpenUrlAction {
+  /// The postback data sent to your webhook when the user taps this action.
+  /// Maximum 2048 characters.
+  final String postbackData;
+
+  /// The display text of the action. Maximum 25 characters.
+  final String text;
+
+  /// The URL to open. Must start with https://. Maximum 2048 characters.
+  final String url;
+
+  /// How to open the URL. BROWSER opens in the device's default browser. WEBVIEW
+  /// opens in an in-app webview.
+  final String? application;
+
+  /// The display mode of the webview. Valid values are FULL, HALF, and TALL. Only
+  /// applicable when Application is WEBVIEW.
+  final String? webviewViewMode;
+
+  RcsOpenUrlAction({
+    required this.postbackData,
+    required this.text,
+    required this.url,
+    this.application,
+    this.webviewViewMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final postbackData = this.postbackData;
+    final text = this.text;
+    final url = this.url;
+    final application = this.application;
+    final webviewViewMode = this.webviewViewMode;
+    return {
+      'PostbackData': postbackData,
+      'Text': text,
+      'Url': url,
+      if (application != null) 'Application': application,
+      if (webviewViewMode != null) 'WebviewViewMode': webviewViewMode,
+    };
+  }
+}
+
+/// A suggested action that initiates a phone call to a specified number when
+/// tapped by the recipient.
+///
+/// @nodoc
+class RcsDialPhoneAction {
+  /// The phone number to dial in E.164 format.
+  final String phoneNumber;
+
+  /// The postback data sent to your webhook when the user taps this action.
+  /// Maximum 2048 characters.
+  final String postbackData;
+
+  /// The display text of the action. Maximum 25 characters.
+  final String text;
+
+  RcsDialPhoneAction({
+    required this.phoneNumber,
+    required this.postbackData,
+    required this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    final postbackData = this.postbackData;
+    final text = this.text;
+    return {
+      'PhoneNumber': phoneNumber,
+      'PostbackData': postbackData,
+      'Text': text,
+    };
+  }
+}
+
+/// A suggested action that shows a location on a map when tapped by the
+/// recipient.
+///
+/// @nodoc
+class RcsShowLocationAction {
+  /// The latitude of the location. Valid values are -90 to 90.
+  final double latitude;
+
+  /// The longitude of the location. Valid values are -180 to 180.
+  final double longitude;
+
+  /// The postback data sent to your webhook when the user taps this action.
+  /// Maximum 2048 characters.
+  final String postbackData;
+
+  /// The display text of the action. Maximum 25 characters.
+  final String text;
+
+  /// An optional label for the location pin. Maximum 100 characters.
+  final String? label;
+
+  RcsShowLocationAction({
+    required this.latitude,
+    required this.longitude,
+    required this.postbackData,
+    required this.text,
+    this.label,
+  });
+
+  Map<String, dynamic> toJson() {
+    final latitude = this.latitude;
+    final longitude = this.longitude;
+    final postbackData = this.postbackData;
+    final text = this.text;
+    final label = this.label;
+    return {
+      'Latitude': _s.encodeJsonDouble(latitude),
+      'Longitude': _s.encodeJsonDouble(longitude),
+      'PostbackData': postbackData,
+      'Text': text,
+      if (label != null) 'Label': label,
+    };
+  }
+}
+
+/// A suggested action that requests the recipient's current location.
+///
+/// @nodoc
+class RcsRequestLocationAction {
+  /// The postback data sent to your webhook when the user taps this action.
+  /// Maximum 2048 characters.
+  final String postbackData;
+
+  /// The display text of the action. Maximum 25 characters.
+  final String text;
+
+  RcsRequestLocationAction({
+    required this.postbackData,
+    required this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final postbackData = this.postbackData;
+    final text = this.text;
+    return {
+      'PostbackData': postbackData,
+      'Text': text,
+    };
+  }
+}
+
+/// A suggested action that creates a calendar event on the recipient's device.
+///
+/// @nodoc
+class RcsCreateCalendarEventAction {
+  /// The end time of the calendar event in ISO 8601 format.
+  final DateTime endTime;
+
+  /// The postback data sent to your webhook when the user taps this action.
+  /// Maximum 2048 characters.
+  final String postbackData;
+
+  /// The start time of the calendar event in ISO 8601 format.
+  final DateTime startTime;
+
+  /// The display text of the action. Maximum 25 characters.
+  final String text;
+
+  /// The title of the calendar event. Maximum 100 characters.
+  final String title;
+
+  /// An optional description for the calendar event. Maximum 500 characters.
+  final String? description;
+
+  RcsCreateCalendarEventAction({
+    required this.endTime,
+    required this.postbackData,
+    required this.startTime,
+    required this.text,
+    required this.title,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final postbackData = this.postbackData;
+    final startTime = this.startTime;
+    final text = this.text;
+    final title = this.title;
+    final description = this.description;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'PostbackData': postbackData,
+      'StartTime': unixTimestampToJson(startTime),
+      'Text': text,
+      'Title': title,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// A plain text RCS message body.
+///
+/// @nodoc
+class RcsTextMessage {
+  /// The text body of the RCS message. Maximum 3072 characters.
+  final String body;
+
+  RcsTextMessage({
+    required this.body,
+  });
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    return {
+      'Body': body,
+    };
+  }
+}
+
+/// A file message containing a media file (image, video, audio, or PDF) with an
+/// optional thumbnail.
+///
+/// @nodoc
+class RcsFileMessage {
+  /// The S3 URI of the media file to send, in the format
+  /// <code>s3://bucket-name/key</code>. The service downloads the file from your
+  /// S3 bucket, rehosts it, and generates a presigned URL for the aggregator.
+  /// Maximum 2000 characters.
+  final String fileUrl;
+
+  /// The S3 URI of an optional thumbnail image for the media file, in the format
+  /// <code>s3://bucket-name/key</code>. Maximum 2000 characters.
+  final String? thumbnailUrl;
+
+  RcsFileMessage({
+    required this.fileUrl,
+    this.thumbnailUrl,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fileUrl = this.fileUrl;
+    final thumbnailUrl = this.thumbnailUrl;
+    return {
+      'FileUrl': fileUrl,
+      if (thumbnailUrl != null) 'ThumbnailUrl': thumbnailUrl,
+    };
+  }
+}
+
+/// A standalone rich card with media, title, description, and suggested
+/// actions.
+///
+/// @nodoc
+class RcsStandaloneCard {
+  /// The content of the rich card, including title, description, media, and
+  /// card-level suggested actions.
+  final RcsCardContent cardContent;
+
+  /// The orientation of the rich card. Valid values are HORIZONTAL and VERTICAL.
+  final String cardOrientation;
+
+  /// The alignment of the thumbnail image in a horizontal card. Valid values are
+  /// LEFT and RIGHT. Only applicable when CardOrientation is HORIZONTAL.
+  final String? thumbnailImageAlignment;
+
+  RcsStandaloneCard({
+    required this.cardContent,
+    required this.cardOrientation,
+    this.thumbnailImageAlignment,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cardContent = this.cardContent;
+    final cardOrientation = this.cardOrientation;
+    final thumbnailImageAlignment = this.thumbnailImageAlignment;
+    return {
+      'CardContent': cardContent,
+      'CardOrientation': cardOrientation,
+      if (thumbnailImageAlignment != null)
+        'ThumbnailImageAlignment': thumbnailImageAlignment,
+    };
+  }
+}
+
+/// A carousel of 2 to 10 scrollable rich cards.
+///
+/// @nodoc
+class RcsCarousel {
+  /// The list of cards in the carousel. Minimum 2, maximum 10 cards.
+  final List<RcsCarouselCardContent> cardContents;
+
+  /// The width of cards in the carousel. Valid values are SMALL and MEDIUM.
+  final String cardWidth;
+
+  RcsCarousel({
+    required this.cardContents,
+    required this.cardWidth,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cardContents = this.cardContents;
+    final cardWidth = this.cardWidth;
+    return {
+      'CardContents': cardContents,
+      'CardWidth': cardWidth,
+    };
+  }
+}
+
+/// The content of a carousel card, including title, description, media, and
+/// card-level suggested actions. Media height is restricted to SHORT or MEDIUM.
+///
+/// @nodoc
+class RcsCarouselCardContent {
+  /// The description text of the carousel card. Maximum 2000 characters.
+  final String? description;
+
+  /// The media content of the carousel card. Media height is restricted to SHORT
+  /// or MEDIUM (TALL is not supported in carousels).
+  final RcsCarouselCardMedia? media;
+
+  /// Card-level suggested actions for this carousel card. Maximum 4 suggestions
+  /// per card.
+  final List<RcsSuggestedAction>? suggestions;
+
+  /// The title of the carousel card. Maximum 200 characters.
+  final String? title;
+
+  RcsCarouselCardContent({
+    this.description,
+    this.media,
+    this.suggestions,
+    this.title,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final media = this.media;
+    final suggestions = this.suggestions;
+    final title = this.title;
+    return {
+      if (description != null) 'Description': description,
+      if (media != null) 'Media': media,
+      if (suggestions != null) 'Suggestions': suggestions,
+      if (title != null) 'Title': title,
+    };
+  }
+}
+
+/// The media content of a carousel card. Display height is restricted to SHORT
+/// or MEDIUM (TALL is not supported in carousels).
+///
+/// @nodoc
+class RcsCarouselCardMedia {
+  /// The S3 URI of the media file for the carousel card. Maximum 2000 characters.
+  final String fileUrl;
+
+  /// The display height of the media in the carousel card. Valid values are SHORT
+  /// and MEDIUM.
+  final String? height;
+
+  /// The S3 URI of an optional thumbnail image for the carousel card media.
+  /// Maximum 2000 characters.
+  final String? thumbnailUrl;
+
+  RcsCarouselCardMedia({
+    required this.fileUrl,
+    this.height,
+    this.thumbnailUrl,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fileUrl = this.fileUrl;
+    final height = this.height;
+    final thumbnailUrl = this.thumbnailUrl;
+    return {
+      'FileUrl': fileUrl,
+      if (height != null) 'Height': height,
+      if (thumbnailUrl != null) 'ThumbnailUrl': thumbnailUrl,
+    };
+  }
+}
+
+/// The content of a rich card, including title, description, media, and
+/// card-level suggested actions.
+///
+/// @nodoc
+class RcsCardContent {
+  /// The description text of the card. Maximum 2000 characters.
+  final String? description;
+
+  /// The media content of the card, including the file URL, optional thumbnail,
+  /// and display height.
+  final RcsCardMedia? media;
+
+  /// Card-level suggested actions. Maximum 4 suggestions per card.
+  final List<RcsSuggestedAction>? suggestions;
+
+  /// The title of the card. Maximum 200 characters.
+  final String? title;
+
+  RcsCardContent({
+    this.description,
+    this.media,
+    this.suggestions,
+    this.title,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final media = this.media;
+    final suggestions = this.suggestions;
+    final title = this.title;
+    return {
+      if (description != null) 'Description': description,
+      if (media != null) 'Media': media,
+      if (suggestions != null) 'Suggestions': suggestions,
+      if (title != null) 'Title': title,
+    };
+  }
+}
+
+/// The media content of a rich card, including the file URL, optional
+/// thumbnail, and display height.
+///
+/// @nodoc
+class RcsCardMedia {
+  /// The S3 URI of the media file for the card, in the format
+  /// <code>s3://bucket-name/key</code>. Maximum 2000 characters.
+  final String fileUrl;
+
+  /// The display height of the media in the card. Valid values are SHORT, MEDIUM,
+  /// and TALL.
+  final String? height;
+
+  /// The S3 URI of an optional thumbnail image for the card media. Maximum 2000
+  /// characters.
+  final String? thumbnailUrl;
+
+  RcsCardMedia({
+    required this.fileUrl,
+    this.height,
+    this.thumbnailUrl,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fileUrl = this.fileUrl;
+    final height = this.height;
+    final thumbnailUrl = this.thumbnailUrl;
+    return {
+      'FileUrl': fileUrl,
+      if (height != null) 'Height': height,
+      if (thumbnailUrl != null) 'ThumbnailUrl': thumbnailUrl,
+    };
+  }
 }
 
 /// @nodoc
@@ -14057,6 +15134,8 @@ class SpendLimitName {
       SpendLimitName._('MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT');
   static const notifyMessageMonthlySpendLimit =
       SpendLimitName._('NOTIFY_MESSAGE_MONTHLY_SPEND_LIMIT');
+  static const rcsMessageMonthlySpendLimit =
+      SpendLimitName._('RCS_MESSAGE_MONTHLY_SPEND_LIMIT');
 
   final String value;
 
@@ -14066,7 +15145,8 @@ class SpendLimitName {
     textMessageMonthlySpendLimit,
     voiceMessageMonthlySpendLimit,
     mediaMessageMonthlySpendLimit,
-    notifyMessageMonthlySpendLimit
+    notifyMessageMonthlySpendLimit,
+    rcsMessageMonthlySpendLimit
   ];
 
   static SpendLimitName fromString(String value) =>
@@ -15747,6 +16827,19 @@ class RcsAgentInformation {
   /// SMS messages.
   final String? twoWayChannelRole;
 
+  /// The name of the S3 bucket where inbound RCS media files are stored.
+  final String? twoWayMediaS3BucketName;
+
+  /// The key prefix used for inbound RCS media objects in the S3 bucket.
+  final String? twoWayMediaS3KeyPrefix;
+
+  /// The ARN of the IAM role used to write inbound RCS media files to the S3
+  /// bucket.
+  final String? twoWayMediaS3Role;
+
+  /// The list of RCS event types enabled for two-way messaging on the agent.
+  final List<String>? twoWayRcsEventsEnabled;
+
   RcsAgentInformation({
     required this.createdTimestamp,
     required this.deletionProtectionEnabled,
@@ -15760,6 +16853,10 @@ class RcsAgentInformation {
     this.testingAgent,
     this.twoWayChannelArn,
     this.twoWayChannelRole,
+    this.twoWayMediaS3BucketName,
+    this.twoWayMediaS3KeyPrefix,
+    this.twoWayMediaS3Role,
+    this.twoWayRcsEventsEnabled,
   });
 
   factory RcsAgentInformation.fromJson(Map<String, dynamic> json) {
@@ -15782,6 +16879,13 @@ class RcsAgentInformation {
           : null,
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
       twoWayChannelRole: json['TwoWayChannelRole'] as String?,
+      twoWayMediaS3BucketName: json['TwoWayMediaS3BucketName'] as String?,
+      twoWayMediaS3KeyPrefix: json['TwoWayMediaS3KeyPrefix'] as String?,
+      twoWayMediaS3Role: json['TwoWayMediaS3Role'] as String?,
+      twoWayRcsEventsEnabled: (json['TwoWayRcsEventsEnabled'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -15798,6 +16902,10 @@ class RcsAgentInformation {
     final testingAgent = this.testingAgent;
     final twoWayChannelArn = this.twoWayChannelArn;
     final twoWayChannelRole = this.twoWayChannelRole;
+    final twoWayMediaS3BucketName = this.twoWayMediaS3BucketName;
+    final twoWayMediaS3KeyPrefix = this.twoWayMediaS3KeyPrefix;
+    final twoWayMediaS3Role = this.twoWayMediaS3Role;
+    final twoWayRcsEventsEnabled = this.twoWayRcsEventsEnabled;
     return {
       'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       'DeletionProtectionEnabled': deletionProtectionEnabled,
@@ -15811,6 +16919,13 @@ class RcsAgentInformation {
       if (testingAgent != null) 'TestingAgent': testingAgent,
       if (twoWayChannelArn != null) 'TwoWayChannelArn': twoWayChannelArn,
       if (twoWayChannelRole != null) 'TwoWayChannelRole': twoWayChannelRole,
+      if (twoWayMediaS3BucketName != null)
+        'TwoWayMediaS3BucketName': twoWayMediaS3BucketName,
+      if (twoWayMediaS3KeyPrefix != null)
+        'TwoWayMediaS3KeyPrefix': twoWayMediaS3KeyPrefix,
+      if (twoWayMediaS3Role != null) 'TwoWayMediaS3Role': twoWayMediaS3Role,
+      if (twoWayRcsEventsEnabled != null)
+        'TwoWayRcsEventsEnabled': twoWayRcsEventsEnabled,
     };
   }
 }

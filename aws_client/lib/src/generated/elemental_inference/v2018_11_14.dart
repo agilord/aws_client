@@ -96,6 +96,91 @@ class ElementalInference {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Searches for the fixtures (sports events, such as a specific basketball
+  /// game) that are available for a sport in a date window. Each fixture in the
+  /// response includes a fixtureId that you specify in the clipping output of a
+  /// feed, so that Elemental Inference maps the event data for that fixture
+  /// onto the clipping metadata. This operation is paginated: if there are more
+  /// fixtures than fit in one page, the response includes a nextToken that you
+  /// pass in a subsequent request.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [GatewayTimedOutException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [sport] :
+  /// The sport to search for fixtures. Valid values: basketball (search for
+  /// basketball fixtures), american-football (search for american-football
+  /// fixtures).
+  ///
+  /// Parameter [startDate] :
+  /// The first day of the search window, in UTC. The search includes fixtures
+  /// that are scheduled on this day.
+  ///
+  /// Specify the date in ISO 8601 format, as <code>YYYY-MM-DD</code>. For
+  /// example, 2026-03-14.
+  ///
+  /// Parameter [endDate] :
+  /// The last day of the search window, in UTC. The search includes fixtures
+  /// that are scheduled on this day. Specify the date in ISO 8601 format, as
+  /// <code>YYYY-MM-DD</code>.
+  ///
+  /// If you omit this parameter, Elemental Inference searches only the day that
+  /// you specified in startDate. The window from startDate through endDate must
+  /// not exceed seven days.
+  ///
+  /// Parameter [filters] :
+  /// An array of filters that narrow the results. Each filter applies to one
+  /// dimension of a fixture, such as the competitor. You can specify up to 10
+  /// filters.
+  ///
+  /// A fixture must satisfy every filter in the array in order to appear in the
+  /// results. Within one filter, a fixture must match at least one of the
+  /// values.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of fixtures to return for each API request.
+  ///
+  /// The service might return fewer fixtures than the maxResults value. When
+  /// more fixtures match the search, the response also includes a nextToken
+  /// value that you can use to fetch the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that identifies the batch of results that you want to see.
+  ///
+  /// For example, you submit a SearchFixtures request with maxResults set at 5.
+  /// The service returns the first batch of results (up to 5) and a nextToken
+  /// value. To see the next batch of results, you submit the SearchFixtures
+  /// request a second time, with the same search criteria, and specify the
+  /// nextToken value.
+  Future<SearchFixturesResponse> searchFixtures({
+    required DataSourceSport sport,
+    required String startDate,
+    String? endDate,
+    List<SearchFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sport': sport.value,
+      'startDate': startDate,
+      if (endDate != null) 'endDate': endDate,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/fixtures',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchFixturesResponse.fromJson(response);
+  }
+
   /// Associates the specified tags to the resource identified by the specified
   /// resourceArn in the current region. If existing tags on a resource are not
   /// specified in the request parameters, they are not changed. When a resource
@@ -371,16 +456,24 @@ class ElementalInference {
   /// later add outputs using AssociateFeed, or add, modify, and delete outputs
   /// using UpdateFeed.
   ///
+  /// Parameter [accessRoleArn] :
+  /// The ARN of an IAM role that Elemental Inference assumes to access
+  /// resources in your account on your behalf. For example, the smart crop
+  /// feature uses this role to read graphics-compositing templates from your
+  /// Amazon S3 bucket. You specify one access role for each feed.
+  ///
   /// Parameter [tags] :
   /// Optional tags. You can also add tags later, using TagResource.
   Future<CreateFeedResponse> createFeed({
     required String name,
     required List<CreateOutput> outputs,
+    String? accessRoleArn,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
       'outputs': outputs,
+      if (accessRoleArn != null) 'accessRoleArn': accessRoleArn,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -443,14 +536,22 @@ class ElementalInference {
   /// Parameter [outputs] :
   /// Required. You can specify the existing array of outputs (to leave outputs
   /// unchanged) or you can specify a new array.
+  ///
+  /// Parameter [accessRoleArn] :
+  /// The ARN of an IAM role that Elemental Inference assumes to access
+  /// resources in your account on your behalf. You can specify the existing
+  /// role (to leave it unchanged) or a new role. You specify one access role
+  /// for each feed.
   Future<UpdateFeedResponse> updateFeed({
     required String id,
     required String name,
     required List<UpdateOutput> outputs,
+    String? accessRoleArn,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
       'outputs': outputs,
+      if (accessRoleArn != null) 'accessRoleArn': accessRoleArn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -680,6 +781,44 @@ class ListTagsForResourceResponse {
     final tags = this.tags;
     return {
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class SearchFixturesResponse {
+  /// An array of FixtureSummary objects, one for each fixture that matches the
+  /// search. The array is empty if no fixtures match.
+  final List<FixtureSummary> fixtures;
+
+  /// The token that identifies the next batch of results. To see the next batch,
+  /// submit the SearchFixtures request again, with the same search criteria, and
+  /// specify this value in nextToken.
+  ///
+  /// This parameter is absent when there are no more results to return.
+  final String? nextToken;
+
+  SearchFixturesResponse({
+    required this.fixtures,
+    this.nextToken,
+  });
+
+  factory SearchFixturesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchFixturesResponse(
+      fixtures: ((json['fixtures'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FixtureSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fixtures = this.fixtures;
+    final nextToken = this.nextToken;
+    return {
+      'fixtures': fixtures,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -1494,14 +1633,29 @@ class OutputStatus {
 ///
 /// @nodoc
 class CroppingConfig {
-  CroppingConfig();
+  /// An array of template groups for the crop output. Each template group
+  /// provides the graphics-compositing templates that Elemental Inference applies
+  /// to the cropped video. You can specify from 1 to 4 template groups.
+  final List<TemplateGroup>? templateGroups;
 
-  factory CroppingConfig.fromJson(Map<String, dynamic> _) {
-    return CroppingConfig();
+  CroppingConfig({
+    this.templateGroups,
+  });
+
+  factory CroppingConfig.fromJson(Map<String, dynamic> json) {
+    return CroppingConfig(
+      templateGroups: (json['templateGroups'] as List?)
+          ?.nonNulls
+          .map((e) => TemplateGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final templateGroups = this.templateGroups;
+    return {
+      if (templateGroups != null) 'templateGroups': templateGroups,
+    };
   }
 }
 
@@ -1515,20 +1669,37 @@ class ClippingConfig {
   /// event in the source media, for example.
   final String? callbackMetadata;
 
+  /// The data source to map onto this clipping output. This parameter is
+  /// optional. When you include this parameter, Elemental Inference reads the
+  /// event data for the fixture that you specify, and includes that data in the
+  /// event clipping metadata for this output.
+  ///
+  /// If you omit this parameter, Elemental Inference doesn't map a data source
+  /// onto this output.
+  final DataSourceConfiguration? dataSourceConfiguration;
+
   ClippingConfig({
     this.callbackMetadata,
+    this.dataSourceConfiguration,
   });
 
   factory ClippingConfig.fromJson(Map<String, dynamic> json) {
     return ClippingConfig(
       callbackMetadata: json['callbackMetadata'] as String?,
+      dataSourceConfiguration: json['dataSourceConfiguration'] != null
+          ? DataSourceConfiguration.fromJson(
+              json['dataSourceConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final callbackMetadata = this.callbackMetadata;
+    final dataSourceConfiguration = this.dataSourceConfiguration;
     return {
       if (callbackMetadata != null) 'callbackMetadata': callbackMetadata,
+      if (dataSourceConfiguration != null)
+        'dataSourceConfiguration': dataSourceConfiguration,
     };
   }
 }
@@ -1685,6 +1856,78 @@ class ProfanityFilterMode {
 
   @override
   String toString() => value;
+}
+
+/// Contains the data source configuration for a clipping output. It identifies
+/// the fixture whose event data Elemental Inference maps onto the clipping
+/// metadata. It is used in the dataSourceConfiguration property of a
+/// ClippingConfig.
+///
+/// @nodoc
+class DataSourceConfiguration {
+  /// The ID of the fixture whose event data you want Elemental Inference to map
+  /// onto this clipping output. The fixture should be the sports event in the
+  /// source media that the feed is processing.
+  ///
+  /// To obtain this ID, use the SearchFixtures operation to find the fixture,
+  /// then use the fixtureId from the matching FixtureSummary.
+  final String fixtureId;
+
+  DataSourceConfiguration({
+    required this.fixtureId,
+  });
+
+  factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSourceConfiguration(
+      fixtureId: (json['fixtureId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fixtureId = this.fixtureId;
+    return {
+      'fixtureId': fixtureId,
+    };
+  }
+}
+
+/// A named set of graphics-compositing templates used by the crop feature,
+/// specified in the templateGroups array of a CroppingConfig.
+///
+/// @nodoc
+class TemplateGroup {
+  /// A name for the template group.
+  final String name;
+
+  /// An array of Amazon S3 URIs that point to the graphics-compositing templates
+  /// for this group. You can specify 1 or 2 URIs. Each URI must be in the form
+  /// <code>s3://bucket-name/key</code>. Elemental Inference reads these templates
+  /// using the IAM role that you specify in accessRoleArn.
+  final List<String> templateUris;
+
+  TemplateGroup({
+    required this.name,
+    required this.templateUris,
+  });
+
+  factory TemplateGroup.fromJson(Map<String, dynamic> json) {
+    return TemplateGroup(
+      name: (json['name'] as String?) ?? '',
+      templateUris: ((json['templateUris'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final templateUris = this.templateUris;
+    return {
+      'name': name,
+      'templateUris': templateUris,
+    };
+  }
 }
 
 /// Contains configuration information about a feed. It is used in the ListFeeds
@@ -2038,6 +2281,192 @@ class DictionaryStatus {
   String toString() => value;
 }
 
+/// Contains information about one fixture. It is used in the SearchFixtures
+/// response.
+///
+/// Elemental Inference relays the information in this structure from the data
+/// source, so that you can identify the fixture that matches your source media.
+///
+/// @nodoc
+class FixtureSummary {
+  /// An array of the competitors (the teams or individuals) in the fixture.
+  final List<Competitor> competitors;
+
+  /// The ID of the fixture. Specify this ID in the clipping output of a feed, to
+  /// identify the fixture whose event data you want Elemental Inference to map
+  /// onto the clipping metadata.
+  final String fixtureId;
+
+  /// The name of the fixture, as provided by the data source. For example, the
+  /// names of the two competing teams.
+  final String name;
+
+  /// The status of the fixture in its lifecycle, as provided by the data source.
+  /// For example, Scheduled or Completed.
+  final String status;
+
+  /// The group that the fixture belongs to, such as the competition, league, or
+  /// tournament. The data source doesn't provide this information for every
+  /// fixture.
+  final String? fixtureGroup;
+
+  /// The scheduled start time of the fixture, as provided by the data source. The
+  /// actual start time might differ.
+  final DateTime? scheduledStart;
+
+  FixtureSummary({
+    required this.competitors,
+    required this.fixtureId,
+    required this.name,
+    required this.status,
+    this.fixtureGroup,
+    this.scheduledStart,
+  });
+
+  factory FixtureSummary.fromJson(Map<String, dynamic> json) {
+    return FixtureSummary(
+      competitors: ((json['competitors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Competitor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fixtureId: (json['fixtureId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      status: (json['status'] as String?) ?? '',
+      fixtureGroup: json['fixtureGroup'] as String?,
+      scheduledStart: timeStampFromJson(json['scheduledStart']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final competitors = this.competitors;
+    final fixtureId = this.fixtureId;
+    final name = this.name;
+    final status = this.status;
+    final fixtureGroup = this.fixtureGroup;
+    final scheduledStart = this.scheduledStart;
+    return {
+      'competitors': competitors,
+      'fixtureId': fixtureId,
+      'name': name,
+      'status': status,
+      if (fixtureGroup != null) 'fixtureGroup': fixtureGroup,
+      if (scheduledStart != null)
+        'scheduledStart': iso8601ToJson(scheduledStart),
+    };
+  }
+}
+
+/// Contains information about one competitor in a fixture. It is used in the
+/// FixtureSummary that is in the SearchFixtures response.
+///
+/// @nodoc
+class Competitor {
+  /// Specifies whether this competitor is the home side in the fixture. If true,
+  /// this competitor is the home side. If false, this competitor is the away
+  /// side.
+  final bool? isHome;
+
+  /// The name of the competitor, as provided by the data source.
+  final String? name;
+
+  Competitor({
+    this.isHome,
+    this.name,
+  });
+
+  factory Competitor.fromJson(Map<String, dynamic> json) {
+    return Competitor(
+      isHome: json['isHome'] as bool?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isHome = this.isHome;
+    final name = this.name;
+    return {
+      if (isHome != null) 'isHome': isHome,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// @nodoc
+class DataSourceSport {
+  static const basketball = DataSourceSport._('basketball');
+  static const americanFootball = DataSourceSport._('american-football');
+
+  final String value;
+
+  const DataSourceSport._(this.value);
+
+  static const values = [basketball, americanFootball];
+
+  static DataSourceSport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceSport._(value));
+
+  @override
+  bool operator ==(other) => other is DataSourceSport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter for a fixture search. It is used in the filters array of a
+/// SearchFixtures request.
+///
+/// @nodoc
+class SearchFilter {
+  /// The dimension of the fixture to filter on. Valid values: COMPETITOR.
+  final FilterName name;
+
+  /// An array of values to match in the dimension that you specified in name. You
+  /// can specify up to 10 values. A fixture appears in the results if it matches
+  /// at least one of these values.
+  final List<String> values;
+
+  SearchFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'name': name.value,
+      'values': values,
+    };
+  }
+}
+
+/// @nodoc
+class FilterName {
+  static const competitor = FilterName._('COMPETITOR');
+
+  final String value;
+
+  const FilterName._(this.value);
+
+  static const values = [competitor];
+
+  static FilterName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterName._(value));
+
+  @override
+  bool operator ==(other) => other is FilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
@@ -2048,6 +2477,12 @@ class AccessDeniedException extends _s.GenericAwsException {
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
+}
+
+/// @nodoc
+class GatewayTimedOutException extends _s.GenericAwsException {
+  GatewayTimedOutException({String? type, String? message})
+      : super(type: type, code: 'GatewayTimedOutException', message: message);
 }
 
 /// @nodoc
@@ -2073,6 +2508,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ServiceUnavailableException extends _s.GenericAwsException {
+  ServiceUnavailableException({String? type, String? message})
+      : super(
+            type: type, code: 'ServiceUnavailableException', message: message);
+}
+
+/// @nodoc
 class TooManyRequestException extends _s.GenericAwsException {
   TooManyRequestException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestException', message: message);
@@ -2089,12 +2531,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'GatewayTimedOutException': (type, message) =>
+      GatewayTimedOutException(type: type, message: message),
   'InternalServerErrorException': (type, message) =>
       InternalServerErrorException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'ServiceUnavailableException': (type, message) =>
+      ServiceUnavailableException(type: type, message: message),
   'TooManyRequestException': (type, message) =>
       TooManyRequestException(type: type, message: message),
   'ValidationException': (type, message) =>

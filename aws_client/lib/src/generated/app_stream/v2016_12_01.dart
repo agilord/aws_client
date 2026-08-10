@@ -8287,12 +8287,17 @@ class AgentAccessConfig {
   /// sessions.
   final bool? screenshotsUploadEnabled;
 
+  /// The user control mode for agent sessions. This setting determines how users
+  /// can interact with agent sessions.
+  final UserControlMode? userControlMode;
+
   AgentAccessConfig({
     required this.screenImageFormat,
     required this.screenResolution,
     required this.settings,
     this.s3BucketArn,
     this.screenshotsUploadEnabled,
+    this.userControlMode,
   });
 
   factory AgentAccessConfig.fromJson(Map<String, dynamic> json) {
@@ -8307,6 +8312,8 @@ class AgentAccessConfig {
           .toList(),
       s3BucketArn: json['S3BucketArn'] as String?,
       screenshotsUploadEnabled: json['ScreenshotsUploadEnabled'] as bool?,
+      userControlMode:
+          (json['UserControlMode'] as String?)?.let(UserControlMode.fromString),
     );
   }
 
@@ -8316,6 +8323,7 @@ class AgentAccessConfig {
     final settings = this.settings;
     final s3BucketArn = this.s3BucketArn;
     final screenshotsUploadEnabled = this.screenshotsUploadEnabled;
+    final userControlMode = this.userControlMode;
     return {
       'ScreenImageFormat': screenImageFormat.value,
       'ScreenResolution': screenResolution.value,
@@ -8323,6 +8331,7 @@ class AgentAccessConfig {
       if (s3BucketArn != null) 'S3BucketArn': s3BucketArn,
       if (screenshotsUploadEnabled != null)
         'ScreenshotsUploadEnabled': screenshotsUploadEnabled,
+      if (userControlMode != null) 'UserControlMode': userControlMode.value,
     };
   }
 }
@@ -8395,14 +8404,54 @@ class ScreenImageFormat {
   String toString() => value;
 }
 
+/// The user control mode for agent sessions.
+///
+/// <ul>
+/// <li>
+/// VIEW_ONLY - Users can view and observe agent actions as they happen.
+/// </li>
+/// <li>
+/// VIEW_STOP - Users can view agent actions and stop the agent if needed.
+/// </li>
+/// <li>
+/// DISABLED - Users cannot view or stop the agent session.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class UserControlMode {
+  static const viewOnly = UserControlMode._('VIEW_ONLY');
+  static const viewStop = UserControlMode._('VIEW_STOP');
+  static const disabled = UserControlMode._('DISABLED');
+
+  final String value;
+
+  const UserControlMode._(this.value);
+
+  static const values = [viewOnly, viewStop, disabled];
+
+  static UserControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserControlMode._(value));
+
+  @override
+  bool operator ==(other) => other is UserControlMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A permission setting for an agent action. Each setting specifies an agent
 /// action and whether it is enabled or disabled.
 ///
 /// @nodoc
 class AgentAccessSetting {
-  /// The agent action to configure. Valid values are COMPUTER_VISION and
-  /// COMPUTER_INPUT. If you enable COMPUTER_INPUT, you must also enable
-  /// COMPUTER_VISION.
+  /// The agent action to configure. Valid values are COMPUTER_VISION,
+  /// COMPUTER_INPUT, and FORWARD_MCP_TOOLS. If you enable COMPUTER_INPUT, you
+  /// must also enable COMPUTER_VISION.
   final AgentAction agentAction;
 
   /// Whether the agent action is enabled or disabled.
@@ -8441,18 +8490,25 @@ class AgentAccessSetting {
 /// COMPUTER_INPUT - Allows agents to click, type, and scroll on the desktop.
 /// Requires COMPUTER_VISION to also be enabled.
 /// </li>
+/// <li>
+/// FORWARD_MCP_TOOLS - Allows agents to interact with applications and the
+/// desktop operating system through direct MCP calls rather than using computer
+/// use tools. Forwards MCP tools configured on the WorkSpaces application
+/// session to the agent.
+/// </li>
 /// </ul>
 ///
 /// @nodoc
 class AgentAction {
   static const computerVision = AgentAction._('COMPUTER_VISION');
   static const computerInput = AgentAction._('COMPUTER_INPUT');
+  static const forwardMcpTools = AgentAction._('FORWARD_MCP_TOOLS');
 
   final String value;
 
   const AgentAction._(this.value);
 
-  static const values = [computerVision, computerInput];
+  static const values = [computerVision, computerInput, forwardMcpTools];
 
   static AgentAction fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => AgentAction._(value));
@@ -8918,12 +8974,17 @@ class AgentAccessConfigForUpdate {
   /// action.
   final List<AgentAccessSetting>? settings;
 
+  /// The user control mode for agent sessions. This setting determines how users
+  /// can interact with agent sessions.
+  final UserControlMode? userControlMode;
+
   AgentAccessConfigForUpdate({
     this.s3BucketArn,
     this.screenImageFormat,
     this.screenResolution,
     this.screenshotsUploadEnabled,
     this.settings,
+    this.userControlMode,
   });
 
   Map<String, dynamic> toJson() {
@@ -8932,6 +8993,7 @@ class AgentAccessConfigForUpdate {
     final screenResolution = this.screenResolution;
     final screenshotsUploadEnabled = this.screenshotsUploadEnabled;
     final settings = this.settings;
+    final userControlMode = this.userControlMode;
     return {
       if (s3BucketArn != null) 'S3BucketArn': s3BucketArn,
       if (screenImageFormat != null)
@@ -8940,6 +9002,7 @@ class AgentAccessConfigForUpdate {
       if (screenshotsUploadEnabled != null)
         'ScreenshotsUploadEnabled': screenshotsUploadEnabled,
       if (settings != null) 'Settings': settings,
+      if (userControlMode != null) 'UserControlMode': userControlMode.value,
     };
   }
 }

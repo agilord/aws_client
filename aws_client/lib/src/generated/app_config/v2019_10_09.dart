@@ -22,148 +22,119 @@ import '../../shared/shared.dart'
 import 'v2019_10_09.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AppConfig feature flags and dynamic configurations help software builders
-/// quickly and securely adjust application behavior in production environments
-/// without full code deployments. AppConfig speeds up software release
-/// frequency, improves application resiliency, and helps you address emergent
-/// issues more quickly. With feature flags, you can gradually release new
-/// capabilities to users and measure the impact of those changes before fully
-/// deploying the new capabilities to all users. With operational flags and
-/// dynamic configurations, you can update block lists, allow lists, throttling
-/// limits, logging verbosity, and perform other operational tuning to quickly
-/// respond to issues in production environments.
-/// <note>
-/// AppConfig is a tool in Amazon Web Services Systems Manager.
-/// </note>
-/// Despite the fact that application configuration content can vary greatly
-/// from application to application, AppConfig supports the following use cases,
-/// which cover a broad spectrum of customer needs:
+/// AppConfig helps you safely change application behavior in production without
+/// redeploying code. Using feature flags and dynamic free-form configurations,
+/// you can control how your application runs in real time. This approach
+/// reduces risk, accelerates releases, and enables faster responses to issues.
+/// You can gradually roll out new features to specific users, monitor their
+/// impact, and expand availability with confidence. You can also update block
+/// lists, allow lists, throttling limits, and logging levels instantly,
+/// allowing you to mitigate issues and fine-tune performance without a
+/// deployment.
+///
+/// AppConfig supports a broad spectrum of use cases:
 ///
 /// <ul>
 /// <li>
-/// <b>Feature flags and toggles</b> - Safely release new capabilities to your
-/// customers in a controlled environment. Instantly roll back changes if you
-/// experience a problem.
+/// <b>Feature flags and toggles</b> – Gradually release new capabilities to
+/// targeted users, monitor impact, and instantly roll back changes if issues
+/// occur.
 /// </li>
 /// <li>
-/// <b>Application tuning</b> - Carefully introduce application changes while
-/// testing the impact of those changes with users in production environments.
+/// <b>Application tuning</b> – Introduce changes safely in production, measure
+/// their effects, and refine behavior without redeploying code.
 /// </li>
 /// <li>
-/// <b>Allow list or block list</b> - Control access to premium features or
-/// instantly block specific users without deploying new code.
+/// <b>Allow list or block list</b> – Control access to features or restrict
+/// specific users in real time, without modifying application code.
 /// </li>
 /// <li>
-/// <b>Centralized configuration storage</b> - Keep your configuration data
-/// organized and consistent across all of your workloads. You can use AppConfig
-/// to deploy configuration data stored in the AppConfig hosted configuration
-/// store, Secrets Manager, Systems Manager, Parameter Store, or Amazon S3.
+/// <b>Centralized configuration storage</b> – Manage configuration data
+/// consistently across workloads. AppConfig can deploy configuration from the
+/// AppConfig hosted configuration store, Secrets Manager, Systems Manager,
+/// Systems Manager Parameter Store, or Amazon S3.
 /// </li>
 /// </ul>
 /// <b>How AppConfig works</b>
 ///
 /// This section provides a high-level description of how AppConfig works and
 /// how you get started.
-/// <dl> <dt>1. Identify configuration values in code you want to manage in the
-/// cloud</dt> <dd>
-/// Before you start creating AppConfig artifacts, we recommend you identify
-/// configuration data in your code that you want to dynamically manage using
-/// AppConfig. Good examples include feature flags or toggles, allow and block
-/// lists, logging verbosity, service limits, and throttling rules, to name a
-/// few.
+/// <dl> <dt>1. Identify configuration data to manage in AppConfig</dt> <dd>
+/// Before creating a configuration profile, identify the configuration data in
+/// your code that you want to manage dynamically using AppConfig. Common
+/// examples include feature flags, allow and block lists, logging levels,
+/// service limits, and throttling rules. These values tend to change frequently
+/// and can cause issues if misconfigured.
 ///
-/// If your configuration data already exists in the cloud, you can take
-/// advantage of AppConfig validation, deployment, and extension features to
-/// further streamline configuration data management.
-/// </dd> <dt>2. Create an application namespace</dt> <dd>
-/// To create a namespace, you create an AppConfig artifact called an
-/// application. An application is simply an organizational construct like a
-/// folder.
-/// </dd> <dt>3. Create environments</dt> <dd>
-/// For each AppConfig application, you define one or more environments. An
-/// environment is a logical grouping of targets, such as applications in a
-/// <code>Beta</code> or <code>Production</code> environment, Lambda functions,
-/// or containers. You can also define environments for application
-/// subcomponents, such as the <code>Web</code>, <code>Mobile</code>, and
-/// <code>Back-end</code>.
+/// If your configuration data already exists in cloud services such as Systems
+/// Manager Parameter Store or Amazon S3, you can use AppConfig to validate,
+/// deploy, and manage that data more effectively.
+/// </dd> <dt>2. Create a configuration profile in AppConfig</dt> <dd>
+/// A configuration profile defines how AppConfig locates and manages your
+/// configuration data. It includes a URI that points to the data source and a
+/// profile type.
 ///
-/// You can configure Amazon CloudWatch alarms for each environment. The system
-/// monitors alarms during a configuration deployment. If an alarm is triggered,
-/// the system rolls back the configuration.
-/// </dd> <dt>4. Create a configuration profile</dt> <dd>
-/// A configuration profile includes, among other things, a URI that enables
-/// AppConfig to locate your configuration data in its stored location and a
-/// profile type. AppConfig supports two configuration profile types: feature
-/// flags and freeform configurations. Feature flag configuration profiles store
-/// their data in the AppConfig hosted configuration store and the URI is simply
-/// <code>hosted</code>. For freeform configuration profiles, you can store your
-/// data in the AppConfig hosted configuration store or any Amazon Web Services
-/// service that integrates with AppConfig, as described in <a
-/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-free-form-configurations-creating.html">Creating
-/// a free form configuration profile</a> in the the <i>AppConfig User
-/// Guide</i>.
-///
-/// A configuration profile can also include optional validators to ensure your
-/// configuration data is syntactically and semantically correct. AppConfig
-/// performs a check using the validators when you start a deployment. If any
-/// errors are detected, the deployment rolls back to the previous configuration
-/// data.
-/// </dd> <dt>5. Deploy configuration data</dt> <dd>
-/// When you create a new deployment, you specify the following:
+/// AppConfig supports two profile types
 ///
 /// <ul>
 /// <li>
-/// An application ID
+/// <b>Feature flags</b> – Enable controlled feature releases, gradual rollouts,
+/// and testing in production.
 /// </li>
 /// <li>
-/// A configuration profile ID
-/// </li>
-/// <li>
-/// A configuration version
-/// </li>
-/// <li>
-/// An environment ID where you want to deploy the configuration data
-/// </li>
-/// <li>
-/// A deployment strategy ID that defines how fast you want the changes to take
-/// effect
+/// <b>Free-form configurations</b> – Store and retrieve configuration data from
+/// external sources and update it without redeploying code.
 /// </li>
 /// </ul>
-/// When you call the <a
-/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_StartDeployment.html">StartDeployment</a>
-/// API action, AppConfig performs the following tasks:
+/// Both profile types help decouple configuration from code, support continuous
+/// delivery, and reduce deployment risk.
+///
+/// You can also add optional validators to ensure that configuration data is
+/// syntactically and semantically correct. During deployment, AppConfig
+/// evaluates these validators and automatically rolls back changes if
+/// validation fails.
+///
+/// Each configuration profile is associated with an application, which acts as
+/// a logical container for your configuration resources. For more information
+/// about creating a configuration profile, see <a
+/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html">Creating
+/// a configuration profile in AppConfig</a> in the the <i>AppConfig User
+/// Guide</i>.
+/// </dd> <dt>3. Deploy configuration data</dt> <dd>
+/// When you start a deployment, AppConfig:
 /// <ol>
 /// <li>
-/// Retrieves the configuration data from the underlying data store by using the
-/// location URI in the configuration profile.
+/// Retrieves configuration data from the source defined in the configuration
+/// profile
 /// </li>
 /// <li>
-/// Verifies the configuration data is syntactically and semantically correct by
-/// using the validators you specified when you created your configuration
-/// profile.
+/// Validates the data using the configured validators
 /// </li>
 /// <li>
-/// Caches a copy of the data so it is ready to be retrieved by your
-/// application. This cached copy is called the <i>deployed data</i>.
-/// </li> </ol> </dd> <dt>6. Retrieve the configuration</dt> <dd>
-/// You can configure AppConfig Agent as a local host and have the agent poll
-/// AppConfig for configuration updates. The agent calls the <a
-/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html">StartConfigurationSession</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
-/// API actions and caches your configuration data locally. To retrieve the
-/// data, your application makes an HTTP call to the localhost server. AppConfig
-/// Agent supports several use cases, as described in <a
-/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-simplified-methods.html">Simplified
-/// retrieval methods</a> in the the <i>AppConfig User Guide</i>.
+/// Delivers the validated configuration to AppConfig Agent
+/// </li> </ol>
+/// The delivered configuration becomes the deployed version used by your
+/// application. For more information about deploying a configuration, see <a
+/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/deploying-feature-flags.html">Deploying
+/// feature flags and configuration data in AppConfig</a>.
+/// </dd> <dt>4. Retrieve configuration data</dt> <dd>
+/// Your application retrieves configuration data by calling a local endpoint
+/// exposed by AppConfig Agent, which caches the deployed configuration.
+/// Retrieving data is a metered event. AppConfig Agent supports a variety of
+/// use cases, as described in <a
+/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-agent-how-to-use.html">How
+/// to use AppConfig Agent to retrieve configuration data</a>.
 ///
-/// If AppConfig Agent isn't supported for your use case, you can configure your
-/// application to poll AppConfig for configuration updates by directly calling
-/// the <a
+/// If the agent is not suitable for your use case, your application can
+/// retrieve configuration data directly from AppConfig by calling the <a
 /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html">StartConfigurationSession</a>
 /// and <a
 /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
 /// API actions.
+///
+/// For more information about retrieving a configuration, see <a
+/// href="http://docs.aws.amazon.com/appconfig/latest/userguide/retrieving-feature-flags.html">Retrieving
+/// feature flags and configuration data in AppConfig</a>.
 /// </dd> </dl>
 /// This reference is intended to be used with the <a
 /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html">AppConfig
@@ -425,6 +396,16 @@ class AppConfig {
   ///
   /// Parameter [deploymentDurationInMinutes] :
   /// Total amount of time for a deployment to last.
+  /// <note>
+  /// AppConfig Agent supports deploying feature flag or free-form configuration
+  /// data to specific segments or individual users during a gradual rollout.
+  /// Entity-based gradual deployments ensure that once a user or segment
+  /// receives a configuration version, they continue to receive that same
+  /// version throughout the deployment period, regardless of which compute
+  /// resource serves their requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-agent-how-to-use.html#appconfig-entity-based-gradual-deployments">Using
+  /// AppConfig Agent for user-based or entity-based gradual deployments</a>
+  /// </note>
   ///
   /// Parameter [growthFactor] :
   /// The percentage of targets to receive a deployed configuration during each
@@ -587,6 +568,96 @@ class AppConfig {
     return Environment.fromJson(response);
   }
 
+  /// Creates an experiment definition in AppConfig. An experiment definition
+  /// describes the purpose, scope, and operational configuration of an
+  /// experiment, including the target audience, feature flag, and treatment
+  /// configurations.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [audienceRule] :
+  /// A rule that defines which users are eligible to be assigned to treatments
+  /// during the experiment.
+  ///
+  /// Parameter [configurationProfileIdentifier] :
+  /// The configuration profile ID or name that stores the feature flag.
+  ///
+  /// Parameter [control] :
+  /// The control treatment that represents the baseline experience for
+  /// comparison.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The environment ID or name where the experiment will run.
+  ///
+  /// Parameter [flagKey] :
+  /// The key of the existing feature flag to use with the experiment.
+  ///
+  /// Parameter [name] :
+  /// A name for the experiment definition.
+  ///
+  /// Parameter [treatments] :
+  /// A list of treatments to evaluate during the experiment. Each treatment
+  /// defines a distinct variation compared to the control.
+  ///
+  /// Parameter [audienceDescription] :
+  /// A description of the intended audience for the experiment.
+  ///
+  /// Parameter [hypothesis] :
+  /// A description of the goal or hypothesis the experiment is designed to
+  /// validate.
+  ///
+  /// Parameter [launchCriteria] :
+  /// Information about the conditions under which you would launch the winning
+  /// treatment.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the experiment definition. Tags help organize and
+  /// categorize your AppConfig resources.
+  Future<ExperimentDefinition> createExperimentDefinition({
+    required String applicationIdentifier,
+    required String audienceRule,
+    required String configurationProfileIdentifier,
+    required TreatmentInput control,
+    required String environmentIdentifier,
+    required String flagKey,
+    required String name,
+    required List<TreatmentInput> treatments,
+    String? audienceDescription,
+    String? hypothesis,
+    String? launchCriteria,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AudienceRule': audienceRule,
+      'ConfigurationProfileIdentifier': configurationProfileIdentifier,
+      'Control': control,
+      'EnvironmentIdentifier': environmentIdentifier,
+      'FlagKey': flagKey,
+      'Name': name,
+      'Treatments': treatments,
+      if (audienceDescription != null)
+        'AudienceDescription': audienceDescription,
+      if (hypothesis != null) 'Hypothesis': hypothesis,
+      if (launchCriteria != null) 'LaunchCriteria': launchCriteria,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentDefinition.fromJson(response);
+  }
+
   /// Creates an AppConfig extension. An extension augments your ability to
   /// inject logic or behavior at different points during the AppConfig workflow
   /// of creating or deploying a configuration.
@@ -742,7 +813,7 @@ class AppConfig {
   /// Creates a new configuration in the AppConfig hosted configuration store.
   /// If you're creating a feature flag, we recommend you familiarize yourself
   /// with the JSON schema for feature flag data. For more information, see <a
-  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile-feature-flags.html#appconfig-type-reference-feature-flags">Type
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-type-reference-feature-flags.html">Type
   /// reference for AWS.AppConfig.FeatureFlags</a> in the <i>AppConfig User
   /// Guide</i>.
   ///
@@ -773,6 +844,9 @@ class AppConfig {
   ///
   /// Parameter [description] :
   /// A description of the configuration.
+  /// <note>
+  /// Due to HTTP limitations, this field only supports ASCII characters.
+  /// </note>
   ///
   /// Parameter [latestVersionNumber] :
   /// An optional locking token used to prevent race conditions from overwriting
@@ -991,6 +1065,42 @@ class AppConfig {
       requestUri:
           '/applications/${Uri.encodeComponent(applicationId)}/environments/${Uri.encodeComponent(environmentId)}',
       headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an experiment definition. You can archive the definition to hide
+  /// it from the active list while preserving it for future reference, or
+  /// permanently delete it along with all associated run history.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [deleteType] :
+  /// The type of deletion to perform. Valid values include archive (hide but
+  /// preserve) and permanent (delete permanently).
+  Future<void> deleteExperimentDefinition({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    DeleteType? deleteType,
+  }) async {
+    final $query = <String, List<String>>{
+      if (deleteType != null) 'delete_type': [deleteType.value],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1318,6 +1428,68 @@ class AppConfig {
     return Environment.fromJson(response);
   }
 
+  /// Retrieves information about an experiment definition.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  Future<ExperimentDefinition> getExperimentDefinition({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentDefinition.fromJson(response);
+  }
+
+  /// Retrieves information about an experiment run, including its status, start
+  /// time, and exposure settings.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [run] :
+  /// The run number to retrieve.
+  Future<ExperimentRun> getExperimentRun({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    required int run,
+  }) async {
+    _s.validateNumRange(
+      'run',
+      run,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}/experimentruns/${Uri.encodeComponent(run.toString())}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentRun.fromJson(response);
+  }
+
   /// Returns information about an AppConfig extension.
   ///
   /// May throw [BadRequestException].
@@ -1631,6 +1803,171 @@ class AppConfig {
     return Environments.fromJson(response);
   }
 
+  /// Lists the experiment definitions for an account. You can filter results by
+  /// application, configuration profile, environment, or status.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name to filter results.
+  ///
+  /// Parameter [configurationProfileIdentifier] :
+  /// The configuration profile ID or name to filter results.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The environment ID or name to filter results.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list from a previously truncated response.
+  ///
+  /// Parameter [status] :
+  /// A filter for the experiment definition status.
+  Future<ExperimentDefinitions> listExperimentDefinitions({
+    String? applicationIdentifier,
+    String? configurationProfileIdentifier,
+    String? environmentIdentifier,
+    int? maxResults,
+    String? nextToken,
+    ExperimentDefinitionStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (applicationIdentifier != null)
+        'application_identifier': [applicationIdentifier],
+      if (configurationProfileIdentifier != null)
+        'configuration_profile_identifier': [configurationProfileIdentifier],
+      if (environmentIdentifier != null)
+        'environment_identifier': [environmentIdentifier],
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+      if (status != null) 'status': [status.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/experimentdefinitions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentDefinitions.fromJson(response);
+  }
+
+  /// Lists the events for a specified experiment run. Events provide a timeline
+  /// of actions and state changes that occurred during the run.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [run] :
+  /// The run number.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list from a previously truncated response.
+  Future<ExperimentRunEvents> listExperimentRunEvents({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    required int run,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'run',
+      run,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}/experimentruns/${Uri.encodeComponent(run.toString())}/events',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentRunEvents.fromJson(response);
+  }
+
+  /// Lists the experiment runs for a specified experiment definition. You can
+  /// filter by status.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list from a previously truncated response.
+  ///
+  /// Parameter [status] :
+  /// A filter for the experiment run status.
+  Future<ExperimentRuns> listExperimentRuns({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    int? maxResults,
+    String? nextToken,
+    ExperimentRunStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+      if (status != null) 'status': [status.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}/experimentruns',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentRuns.fromJson(response);
+  }
+
   /// Lists all AppConfig extension associations in the account. For more
   /// information about extensions and associations, see <a
   /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
@@ -1810,6 +2147,16 @@ class AppConfig {
   }
 
   /// Starts a deployment.
+  /// <note>
+  /// AppConfig Agent supports deploying feature flag or free-form configuration
+  /// data to specific segments or individual users during a gradual rollout.
+  /// Entity-based gradual deployments ensure that once a user or segment
+  /// receives a configuration version, they continue to receive that same
+  /// version throughout the deployment period, regardless of which compute
+  /// resource serves their requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-agent-how-to-use.html#appconfig-entity-based-gradual-deployments">Using
+  /// AppConfig Agent for user-based or entity-based gradual deployments</a>
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1845,6 +2192,11 @@ class AppConfig {
   /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses
   /// this ID to encrypt the configuration data using a customer managed key.
   ///
+  /// Parameter [latestDeploymentNumber] :
+  /// The number of the latest deployment. Use this value to ensure that the
+  /// deployment starts from the expected state and to prevent conflicting
+  /// updates.
+  ///
   /// Parameter [tags] :
   /// Metadata to assign to the deployment. Tags help organize and categorize
   /// your AppConfig resources. Each tag consists of a key and an optional
@@ -1858,6 +2210,7 @@ class AppConfig {
     String? description,
     Map<String, String>? dynamicExtensionParameters,
     String? kmsKeyIdentifier,
+    int? latestDeploymentNumber,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -1868,6 +2221,8 @@ class AppConfig {
       if (dynamicExtensionParameters != null)
         'DynamicExtensionParameters': dynamicExtensionParameters,
       if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
+      if (latestDeploymentNumber != null)
+        'LatestDeploymentNumber': latestDeploymentNumber,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -1878,6 +2233,79 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
+  }
+
+  /// Starts an experiment run for the specified experiment definition. An
+  /// experiment run delivers treatments to the target audience and collects
+  /// metrics. You can start multiple experiment runs from the same experiment
+  /// definition.
+  /// <note>
+  /// Billing for this experiment begins when you call this operation and
+  /// continues until the experiment is stopped. For pricing details, see <a
+  /// href="https://aws.amazon.com/systems-manager/pricing/">AppConfig
+  /// pricing</a>.
+  /// </note>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [deploymentParameters] :
+  /// The deployment parameters for the experiment run, including a KMS key
+  /// identifier for encryption.
+  ///
+  /// Parameter [description] :
+  /// A description of this experiment run.
+  ///
+  /// Parameter [exposurePercentage] :
+  /// The percentage of the target audience to expose to treatments. Set to 0 to
+  /// validate the experiment before exposing production users.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the experiment run.
+  ///
+  /// Parameter [treatmentOverrides] :
+  /// Treatment assignment overrides that assign specific entity IDs to
+  /// treatments directly, bypassing random assignment.
+  Future<ExperimentRun> startExperimentRun({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    DeploymentParameters? deploymentParameters,
+    String? description,
+    double? exposurePercentage,
+    Map<String, String>? tags,
+    TreatmentOverrides? treatmentOverrides,
+  }) async {
+    _s.validateNumRange(
+      'exposurePercentage',
+      exposurePercentage,
+      0.0,
+      100.0,
+    );
+    final $payload = <String, dynamic>{
+      if (deploymentParameters != null)
+        'DeploymentParameters': deploymentParameters,
+      if (description != null) 'Description': description,
+      if (exposurePercentage != null)
+        'ExposurePercentage': _s.encodeJsonDouble(exposurePercentage),
+      if (tags != null) 'Tags': tags,
+      if (treatmentOverrides != null) 'TreatmentOverrides': treatmentOverrides,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}/experimentruns',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentRun.fromJson(response);
   }
 
   /// Stops a deployment. This API action works only on deployments that have a
@@ -1923,6 +2351,59 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
+  }
+
+  /// Stops a running experiment. Stopping an experiment run ends audience
+  /// exposure and returns users to the currently deployed feature flag
+  /// configuration.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [run] :
+  /// The run number to stop.
+  ///
+  /// Parameter [deploymentParameters] :
+  /// The deployment parameters for the stop operation.
+  ///
+  /// Parameter [result] :
+  /// The result of the experiment run, including an executive summary and
+  /// reasons for or against launching.
+  Future<ExperimentRun> stopExperimentRun({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    required int run,
+    DeploymentParameters? deploymentParameters,
+    ExperimentRunResult? result,
+  }) async {
+    _s.validateNumRange(
+      'run',
+      run,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      if (deploymentParameters != null)
+        'DeploymentParameters': deploymentParameters,
+      if (result != null) 'Result': result,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}/experimentruns/${Uri.encodeComponent(run.toString())}/stop',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentRun.fromJson(response);
   }
 
   /// Assigns metadata to an AppConfig resource. Tags help organize and
@@ -1996,11 +2477,16 @@ class AppConfig {
   /// or for the configuration profile or from the environment during the
   /// specified interval. The default interval for
   /// <code>ProtectionPeriodInMinutes</code> is 60.
+  ///
+  /// Parameter [vendedMetrics] :
+  /// The configuration for vended metrics in the account.
   Future<AccountSettings> updateAccountSettings({
     DeletionProtectionSettings? deletionProtection,
+    VendedMetricsSettings? vendedMetrics,
   }) async {
     final $payload = <String, dynamic>{
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (vendedMetrics != null) 'VendedMetrics': vendedMetrics,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2245,6 +2731,140 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
     return Environment.fromJson(response);
+  }
+
+  /// Updates an experiment definition. You can update treatments, the control,
+  /// audience rules, and other properties. You cannot update an experiment
+  /// definition while an experiment run is active.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [audienceDescription] :
+  /// An updated audience description.
+  ///
+  /// Parameter [audienceRule] :
+  /// An updated audience rule.
+  ///
+  /// Parameter [control] :
+  /// An updated control treatment.
+  ///
+  /// Parameter [hypothesis] :
+  /// An updated hypothesis.
+  ///
+  /// Parameter [launchCriteria] :
+  /// Updated launch criteria.
+  ///
+  /// Parameter [treatments] :
+  /// The updated list of treatments to evaluate during the experiment. Each
+  /// treatment defines a distinct variation compared to the control.
+  Future<ExperimentDefinition> updateExperimentDefinition({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    String? audienceDescription,
+    String? audienceRule,
+    TreatmentInput? control,
+    String? hypothesis,
+    String? launchCriteria,
+    List<TreatmentInput>? treatments,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (audienceDescription != null)
+        'AudienceDescription': audienceDescription,
+      if (audienceRule != null) 'AudienceRule': audienceRule,
+      if (control != null) 'Control': control,
+      if (hypothesis != null) 'Hypothesis': hypothesis,
+      if (launchCriteria != null) 'LaunchCriteria': launchCriteria,
+      if (treatments != null) 'Treatments': treatments,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentDefinition.fromJson(response);
+  }
+
+  /// Updates a running experiment. Use this operation to increase audience
+  /// exposure, modify treatment assignment overrides, or update the description
+  /// of an active experiment run. Audience exposure can only be increased, not
+  /// decreased.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// The application ID or name.
+  ///
+  /// Parameter [experimentDefinitionIdentifier] :
+  /// The experiment definition ID or name.
+  ///
+  /// Parameter [run] :
+  /// The run number to update.
+  ///
+  /// Parameter [deploymentParameters] :
+  /// The updated deployment parameters for the experiment run.
+  ///
+  /// Parameter [description] :
+  /// An updated description for the experiment run.
+  ///
+  /// Parameter [exposurePercentage] :
+  /// The new exposure percentage. This value can only be increased from the
+  /// current setting.
+  ///
+  /// Parameter [treatmentOverrides] :
+  /// The updated treatment assignment overrides that assign specific entity IDs
+  /// to treatments, bypassing random assignment.
+  Future<ExperimentRun> updateExperimentRun({
+    required String applicationIdentifier,
+    required String experimentDefinitionIdentifier,
+    required int run,
+    DeploymentParameters? deploymentParameters,
+    String? description,
+    double? exposurePercentage,
+    TreatmentOverrides? treatmentOverrides,
+  }) async {
+    _s.validateNumRange(
+      'run',
+      run,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'exposurePercentage',
+      exposurePercentage,
+      0.0,
+      100.0,
+    );
+    final $payload = <String, dynamic>{
+      if (deploymentParameters != null)
+        'DeploymentParameters': deploymentParameters,
+      if (description != null) 'Description': description,
+      if (exposurePercentage != null)
+        'ExposurePercentage': _s.encodeJsonDouble(exposurePercentage),
+      if (treatmentOverrides != null) 'TreatmentOverrides': treatmentOverrides,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationIdentifier)}/experimentdefinitions/${Uri.encodeComponent(experimentDefinitionIdentifier)}/experimentruns/${Uri.encodeComponent(run.toString())}/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExperimentRun.fromJson(response);
   }
 
   /// Updates an AppConfig extension. For more information about extensions, see
@@ -2641,6 +3261,148 @@ class Environment {
   }
 }
 
+/// Describes an experiment definition, including the target audience, feature
+/// flag, treatments, and current status.
+///
+/// @nodoc
+class ExperimentDefinition {
+  /// The application ID.
+  final String? applicationId;
+
+  /// A description of the intended audience for the experiment.
+  final String? audienceDescription;
+
+  /// The rule that defines which users are eligible to be assigned to treatments.
+  final String? audienceRule;
+
+  /// The configuration profile ID associated with the experiment.
+  final String? configurationProfileId;
+
+  /// The control treatment used as the baseline for comparison.
+  final Treatment? control;
+
+  /// The date and time the experiment definition was created, in ISO 8601 format.
+  final DateTime? createdAt;
+
+  /// The environment ID where the experiment runs.
+  final String? environmentId;
+
+  /// The key of the feature flag used by the experiment.
+  final String? flagKey;
+
+  /// The hypothesis that the experiment is designed to validate.
+  final String? hypothesis;
+
+  /// The experiment definition ID.
+  final String? id;
+
+  /// The Amazon Resource Name (ARN) of the KMS key used to encrypt experiment
+  /// data.
+  final String? kmsKeyIdentifier;
+
+  /// The conditions under which the winning treatment should be launched.
+  final String? launchCriteria;
+
+  /// The name of the experiment definition.
+  final String? name;
+
+  /// The current status of the experiment definition. Valid values:
+  /// <code>ACTIVE</code>, <code>IDLE</code>, <code>ARCHIVED</code>.
+  final ExperimentDefinitionStatus? status;
+
+  /// The list of treatments defined for the experiment.
+  final List<Treatment>? treatments;
+
+  /// The date and time the experiment definition was last updated, in ISO 8601
+  /// format.
+  final DateTime? updatedAt;
+
+  ExperimentDefinition({
+    this.applicationId,
+    this.audienceDescription,
+    this.audienceRule,
+    this.configurationProfileId,
+    this.control,
+    this.createdAt,
+    this.environmentId,
+    this.flagKey,
+    this.hypothesis,
+    this.id,
+    this.kmsKeyIdentifier,
+    this.launchCriteria,
+    this.name,
+    this.status,
+    this.treatments,
+    this.updatedAt,
+  });
+
+  factory ExperimentDefinition.fromJson(Map<String, dynamic> json) {
+    return ExperimentDefinition(
+      applicationId: json['ApplicationId'] as String?,
+      audienceDescription: json['AudienceDescription'] as String?,
+      audienceRule: json['AudienceRule'] as String?,
+      configurationProfileId: json['ConfigurationProfileId'] as String?,
+      control: json['Control'] != null
+          ? Treatment.fromJson(json['Control'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      environmentId: json['EnvironmentId'] as String?,
+      flagKey: json['FlagKey'] as String?,
+      hypothesis: json['Hypothesis'] as String?,
+      id: json['Id'] as String?,
+      kmsKeyIdentifier: json['KmsKeyIdentifier'] as String?,
+      launchCriteria: json['LaunchCriteria'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(ExperimentDefinitionStatus.fromString),
+      treatments: (json['Treatments'] as List?)
+          ?.nonNulls
+          .map((e) => Treatment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final audienceDescription = this.audienceDescription;
+    final audienceRule = this.audienceRule;
+    final configurationProfileId = this.configurationProfileId;
+    final control = this.control;
+    final createdAt = this.createdAt;
+    final environmentId = this.environmentId;
+    final flagKey = this.flagKey;
+    final hypothesis = this.hypothesis;
+    final id = this.id;
+    final kmsKeyIdentifier = this.kmsKeyIdentifier;
+    final launchCriteria = this.launchCriteria;
+    final name = this.name;
+    final status = this.status;
+    final treatments = this.treatments;
+    final updatedAt = this.updatedAt;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (audienceDescription != null)
+        'AudienceDescription': audienceDescription,
+      if (audienceRule != null) 'AudienceRule': audienceRule,
+      if (configurationProfileId != null)
+        'ConfigurationProfileId': configurationProfileId,
+      if (control != null) 'Control': control,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (environmentId != null) 'EnvironmentId': environmentId,
+      if (flagKey != null) 'FlagKey': flagKey,
+      if (hypothesis != null) 'Hypothesis': hypothesis,
+      if (id != null) 'Id': id,
+      if (kmsKeyIdentifier != null) 'KmsKeyIdentifier': kmsKeyIdentifier,
+      if (launchCriteria != null) 'LaunchCriteria': launchCriteria,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+      if (treatments != null) 'Treatments': treatments,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
 /// @nodoc
 class Extension {
   /// The actions defined in the extension.
@@ -2845,8 +3607,12 @@ class AccountSettings {
   /// <code>ProtectionPeriodInMinutes</code> is 60.
   final DeletionProtectionSettings? deletionProtection;
 
+  /// The configuration for vended metrics in the account.
+  final VendedMetricsSettings? vendedMetrics;
+
   AccountSettings({
     this.deletionProtection,
+    this.vendedMetrics,
   });
 
   factory AccountSettings.fromJson(Map<String, dynamic> json) {
@@ -2855,13 +3621,19 @@ class AccountSettings {
           ? DeletionProtectionSettings.fromJson(
               json['DeletionProtection'] as Map<String, dynamic>)
           : null,
+      vendedMetrics: json['VendedMetrics'] != null
+          ? VendedMetricsSettings.fromJson(
+              json['VendedMetrics'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final deletionProtection = this.deletionProtection;
+    final vendedMetrics = this.vendedMetrics;
     return {
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (vendedMetrics != null) 'VendedMetrics': vendedMetrics,
     };
   }
 }
@@ -3097,6 +3869,123 @@ class Deployment {
   }
 }
 
+/// Describes an experiment run, including its status, exposure settings, and
+/// treatment overrides.
+///
+/// @nodoc
+class ExperimentRun {
+  /// The application ID.
+  final String? applicationId;
+
+  /// A description of the experiment run.
+  final String? description;
+
+  /// The date and time the experiment run ended, in ISO 8601 format.
+  final DateTime? endedAt;
+
+  /// The experiment definition ID.
+  final String? experimentDefinitionId;
+
+  /// A snapshot of the experiment definition at the time the run was started.
+  final ExperimentDefinitionSnapshot? experimentDefinitionSnapshot;
+
+  /// The percentage of the target audience exposed to treatments.
+  final double? exposurePercentage;
+
+  /// The result of the experiment run, including the executive summary and launch
+  /// decision rationale.
+  final ExperimentRunResult? result;
+
+  /// The experiment run number.
+  final int? run;
+
+  /// The date and time the experiment run started, in ISO 8601 format.
+  final DateTime? startedAt;
+
+  /// The current status of the experiment run. Valid values:
+  /// <code>RUNNING</code>, <code>DONE</code>.
+  final ExperimentRunStatus? status;
+
+  /// Treatment assignment overrides that assign specific entity IDs to
+  /// treatments.
+  final TreatmentOverrides? treatmentOverrides;
+
+  /// The date and time the experiment run was last updated, in ISO 8601 format.
+  final DateTime? updatedAt;
+
+  ExperimentRun({
+    this.applicationId,
+    this.description,
+    this.endedAt,
+    this.experimentDefinitionId,
+    this.experimentDefinitionSnapshot,
+    this.exposurePercentage,
+    this.result,
+    this.run,
+    this.startedAt,
+    this.status,
+    this.treatmentOverrides,
+    this.updatedAt,
+  });
+
+  factory ExperimentRun.fromJson(Map<String, dynamic> json) {
+    return ExperimentRun(
+      applicationId: json['ApplicationId'] as String?,
+      description: json['Description'] as String?,
+      endedAt: timeStampFromJson(json['EndedAt']),
+      experimentDefinitionId: json['ExperimentDefinitionId'] as String?,
+      experimentDefinitionSnapshot: json['ExperimentDefinitionSnapshot'] != null
+          ? ExperimentDefinitionSnapshot.fromJson(
+              json['ExperimentDefinitionSnapshot'] as Map<String, dynamic>)
+          : null,
+      exposurePercentage: _s.parseJsonDouble(json['ExposurePercentage']),
+      result: json['Result'] != null
+          ? ExperimentRunResult.fromJson(json['Result'] as Map<String, dynamic>)
+          : null,
+      run: json['Run'] as int?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.let(ExperimentRunStatus.fromString),
+      treatmentOverrides: json['TreatmentOverrides'] != null
+          ? TreatmentOverrides.fromJson(
+              json['TreatmentOverrides'] as Map<String, dynamic>)
+          : null,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final description = this.description;
+    final endedAt = this.endedAt;
+    final experimentDefinitionId = this.experimentDefinitionId;
+    final experimentDefinitionSnapshot = this.experimentDefinitionSnapshot;
+    final exposurePercentage = this.exposurePercentage;
+    final result = this.result;
+    final run = this.run;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final treatmentOverrides = this.treatmentOverrides;
+    final updatedAt = this.updatedAt;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (description != null) 'Description': description,
+      if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
+      if (experimentDefinitionId != null)
+        'ExperimentDefinitionId': experimentDefinitionId,
+      if (experimentDefinitionSnapshot != null)
+        'ExperimentDefinitionSnapshot': experimentDefinitionSnapshot,
+      if (exposurePercentage != null)
+        'ExposurePercentage': _s.encodeJsonDouble(exposurePercentage),
+      if (result != null) 'Result': result,
+      if (run != null) 'Run': run,
+      if (startedAt != null) 'StartedAt': iso8601ToJson(startedAt),
+      if (status != null) 'Status': status.value,
+      if (treatmentOverrides != null) 'TreatmentOverrides': treatmentOverrides,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
 /// @nodoc
 class Applications {
   /// The elements from this collection.
@@ -3253,6 +4142,112 @@ class Environments {
       items: (json['Items'] as List?)
           ?.nonNulls
           .map((e) => Environment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// The response for a list experiment definitions request.
+///
+/// @nodoc
+class ExperimentDefinitions {
+  /// The list of experiment definitions.
+  final List<ExperimentDefinitionSummary>? items;
+
+  /// A token to use for the next set of results.
+  final String? nextToken;
+
+  ExperimentDefinitions({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ExperimentDefinitions.fromJson(Map<String, dynamic> json) {
+    return ExperimentDefinitions(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ExperimentDefinitionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// The response for a list experiment run events request.
+///
+/// @nodoc
+class ExperimentRunEvents {
+  /// The list of experiment run events.
+  final List<ExperimentRunEvent>? items;
+
+  /// A token to use for the next set of results.
+  final String? nextToken;
+
+  ExperimentRunEvents({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ExperimentRunEvents.fromJson(Map<String, dynamic> json) {
+    return ExperimentRunEvents(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => ExperimentRunEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// The response for a list experiment runs request.
+///
+/// @nodoc
+class ExperimentRuns {
+  /// The list of experiment runs.
+  final List<ExperimentRunSummary>? items;
+
+  /// A token to use for the next set of results.
+  final String? nextToken;
+
+  ExperimentRuns({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ExperimentRuns.fromJson(Map<String, dynamic> json) {
+    return ExperimentRuns(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => ExperimentRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -3571,6 +4566,188 @@ class Action {
   }
 }
 
+/// Treatment assignment overrides that assign specific entity IDs to
+/// treatments, bypassing random assignment.
+///
+/// @nodoc
+class TreatmentOverrides {
+  /// A map of entity IDs to treatment keys. Each entry assigns the specified
+  /// entity to the specified treatment, bypassing random assignment.
+  final Map<String, String>? inline;
+
+  TreatmentOverrides({
+    this.inline,
+  });
+
+  factory TreatmentOverrides.fromJson(Map<String, dynamic> json) {
+    return TreatmentOverrides(
+      inline: (json['Inline'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inline = this.inline;
+    return {
+      if (inline != null) 'Inline': inline,
+    };
+  }
+}
+
+/// The deployment parameters for an experiment run, including dynamic extension
+/// parameters and tags.
+///
+/// @nodoc
+class DeploymentParameters {
+  /// A map of extension parameters for the deployment.
+  final Map<String, String>? dynamicExtensionParameters;
+
+  /// The tags to assign to the deployment.
+  final Map<String, String>? tags;
+
+  DeploymentParameters({
+    this.dynamicExtensionParameters,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dynamicExtensionParameters = this.dynamicExtensionParameters;
+    final tags = this.tags;
+    return {
+      if (dynamicExtensionParameters != null)
+        'DynamicExtensionParameters': dynamicExtensionParameters,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Input structure for defining a treatment when creating or updating an
+/// experiment definition.
+///
+/// @nodoc
+class TreatmentInput {
+  /// The feature flag value to serve to users assigned to this treatment.
+  final FlagValue flagValue;
+
+  /// The traffic allocation weight for this treatment.
+  final double weight;
+
+  /// A description of the treatment.
+  final String? description;
+
+  TreatmentInput({
+    required this.flagValue,
+    required this.weight,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final flagValue = this.flagValue;
+    final weight = this.weight;
+    final description = this.description;
+    return {
+      'FlagValue': flagValue,
+      'Weight': _s.encodeJsonDouble(weight),
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// The feature flag value configuration for a treatment, including the enabled
+/// state and attribute values.
+///
+/// @nodoc
+class FlagValue {
+  /// Specifies whether the feature flag is enabled for this treatment.
+  final bool enabled;
+
+  /// The attribute values associated with this flag value.
+  final Map<String, AttributeValue>? attributeValues;
+
+  FlagValue({
+    required this.enabled,
+    this.attributeValues,
+  });
+
+  factory FlagValue.fromJson(Map<String, dynamic> json) {
+    return FlagValue(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      attributeValues: (json['AttributeValues'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final attributeValues = this.attributeValues;
+    return {
+      'Enabled': enabled,
+      if (attributeValues != null) 'AttributeValues': attributeValues,
+    };
+  }
+}
+
+/// A value for a feature flag attribute. Only one of the members can be set.
+///
+/// @nodoc
+class AttributeValue {
+  /// A Boolean value for the attribute.
+  final bool? booleanValue;
+
+  /// An array of numeric values for the attribute.
+  final List<double>? numberArray;
+
+  /// A numeric value for the attribute.
+  final double? numberValue;
+
+  /// An array of string values for the attribute.
+  final List<String>? stringArray;
+
+  /// A string value for the attribute.
+  final String? stringValue;
+
+  AttributeValue({
+    this.booleanValue,
+    this.numberArray,
+    this.numberValue,
+    this.stringArray,
+    this.stringValue,
+  });
+
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      booleanValue: json['BooleanValue'] as bool?,
+      numberArray: (json['NumberArray'] as List?)
+          ?.nonNulls
+          .map((e) => _s.parseJsonDouble(e)!)
+          .toList(),
+      numberValue: _s.parseJsonDouble(json['NumberValue']),
+      stringArray: (json['StringArray'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stringValue: json['StringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final booleanValue = this.booleanValue;
+    final numberArray = this.numberArray;
+    final numberValue = this.numberValue;
+    final stringArray = this.stringArray;
+    final stringValue = this.stringValue;
+    return {
+      if (booleanValue != null) 'BooleanValue': booleanValue,
+      if (numberArray != null)
+        'NumberArray': numberArray.map(_s.encodeJsonDouble).toList(),
+      if (numberValue != null) 'NumberValue': _s.encodeJsonDouble(numberValue),
+      if (stringArray != null) 'StringArray': stringArray,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
 /// Amazon CloudWatch alarms to monitor during the deployment process.
 ///
 /// @nodoc
@@ -3738,6 +4915,71 @@ class DeletionProtectionSettings {
       if (enabled != null) 'Enabled': enabled,
       if (protectionPeriodInMinutes != null)
         'ProtectionPeriodInMinutes': protectionPeriodInMinutes,
+    };
+  }
+}
+
+/// The configuration settings for vended metrics in your AppConfig account.
+///
+/// @nodoc
+class VendedMetricsSettings {
+  /// Specifies whether vended metrics are enabled for the account.
+  final bool? enabled;
+
+  VendedMetricsSettings({
+    this.enabled,
+  });
+
+  factory VendedMetricsSettings.fromJson(Map<String, dynamic> json) {
+    return VendedMetricsSettings(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
+}
+
+/// The result of an experiment run, including the executive summary and launch
+/// decision rationale.
+///
+/// @nodoc
+class ExperimentRunResult {
+  /// A summary of the experiment outcome and key findings.
+  final String? executiveSummary;
+
+  /// Evidence against launching the treatment.
+  final String? reasonsNotToLaunch;
+
+  /// Evidence in favor of launching the winning treatment.
+  final String? reasonsToLaunch;
+
+  ExperimentRunResult({
+    this.executiveSummary,
+    this.reasonsNotToLaunch,
+    this.reasonsToLaunch,
+  });
+
+  factory ExperimentRunResult.fromJson(Map<String, dynamic> json) {
+    return ExperimentRunResult(
+      executiveSummary: json['ExecutiveSummary'] as String?,
+      reasonsNotToLaunch: json['ReasonsNotToLaunch'] as String?,
+      reasonsToLaunch: json['ReasonsToLaunch'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executiveSummary = this.executiveSummary;
+    final reasonsNotToLaunch = this.reasonsNotToLaunch;
+    final reasonsToLaunch = this.reasonsToLaunch;
+    return {
+      if (executiveSummary != null) 'ExecutiveSummary': executiveSummary,
+      if (reasonsNotToLaunch != null) 'ReasonsNotToLaunch': reasonsNotToLaunch,
+      if (reasonsToLaunch != null) 'ReasonsToLaunch': reasonsToLaunch,
     };
   }
 }
@@ -3915,6 +5157,353 @@ class ExtensionAssociationSummary {
   }
 }
 
+/// Summary information about an experiment run.
+///
+/// @nodoc
+class ExperimentRunSummary {
+  /// A description of the experiment run.
+  final String? description;
+
+  /// The date and time the experiment run ended, in ISO 8601 format.
+  final DateTime? endedAt;
+
+  /// The experiment definition ID.
+  final String? experimentDefinitionId;
+
+  /// The experiment run number.
+  final int? run;
+
+  /// The date and time the experiment run started, in ISO 8601 format.
+  final DateTime? startedAt;
+
+  /// The current status of the experiment run.
+  final ExperimentRunStatus? status;
+
+  /// The date and time the experiment run was last updated, in ISO 8601 format.
+  final DateTime? updatedAt;
+
+  ExperimentRunSummary({
+    this.description,
+    this.endedAt,
+    this.experimentDefinitionId,
+    this.run,
+    this.startedAt,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory ExperimentRunSummary.fromJson(Map<String, dynamic> json) {
+    return ExperimentRunSummary(
+      description: json['Description'] as String?,
+      endedAt: timeStampFromJson(json['EndedAt']),
+      experimentDefinitionId: json['ExperimentDefinitionId'] as String?,
+      run: json['Run'] as int?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.let(ExperimentRunStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final endedAt = this.endedAt;
+    final experimentDefinitionId = this.experimentDefinitionId;
+    final run = this.run;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (description != null) 'Description': description,
+      if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
+      if (experimentDefinitionId != null)
+        'ExperimentDefinitionId': experimentDefinitionId,
+      if (run != null) 'Run': run,
+      if (startedAt != null) 'StartedAt': iso8601ToJson(startedAt),
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class ExperimentRunStatus {
+  static const running = ExperimentRunStatus._('RUNNING');
+  static const done = ExperimentRunStatus._('DONE');
+
+  final String value;
+
+  const ExperimentRunStatus._(this.value);
+
+  static const values = [running, done];
+
+  static ExperimentRunStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentRunStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an event that occurred during an experiment run.
+///
+/// @nodoc
+class ExperimentRunEvent {
+  /// The Amazon Resource Name (ARN) of the deployment associated with this event.
+  final String? associatedDeployment;
+
+  /// A description of the event.
+  final String? description;
+
+  /// The type of event. Valid values: <code>RUN_STARTED</code>,
+  /// <code>EXPOSURE_UPDATED</code>, <code>OVERRIDES_UPDATED</code>,
+  /// <code>RUN_STOPPED</code>.
+  final ExperimentRunEventType? eventType;
+
+  /// The exposure percentage at the time of the event.
+  final double? exposurePercentage;
+
+  /// The date and time the event occurred, in ISO 8601 format.
+  final DateTime? occurredAt;
+
+  /// The treatment overrides at the time of the event.
+  final TreatmentOverrides? treatmentOverrides;
+
+  /// The principal that triggered the event.
+  final TriggeredBy? triggeredBy;
+
+  ExperimentRunEvent({
+    this.associatedDeployment,
+    this.description,
+    this.eventType,
+    this.exposurePercentage,
+    this.occurredAt,
+    this.treatmentOverrides,
+    this.triggeredBy,
+  });
+
+  factory ExperimentRunEvent.fromJson(Map<String, dynamic> json) {
+    return ExperimentRunEvent(
+      associatedDeployment: json['AssociatedDeployment'] as String?,
+      description: json['Description'] as String?,
+      eventType: (json['EventType'] as String?)
+          ?.let(ExperimentRunEventType.fromString),
+      exposurePercentage: _s.parseJsonDouble(json['ExposurePercentage']),
+      occurredAt: timeStampFromJson(json['OccurredAt']),
+      treatmentOverrides: json['TreatmentOverrides'] != null
+          ? TreatmentOverrides.fromJson(
+              json['TreatmentOverrides'] as Map<String, dynamic>)
+          : null,
+      triggeredBy:
+          (json['TriggeredBy'] as String?)?.let(TriggeredBy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedDeployment = this.associatedDeployment;
+    final description = this.description;
+    final eventType = this.eventType;
+    final exposurePercentage = this.exposurePercentage;
+    final occurredAt = this.occurredAt;
+    final treatmentOverrides = this.treatmentOverrides;
+    final triggeredBy = this.triggeredBy;
+    return {
+      if (associatedDeployment != null)
+        'AssociatedDeployment': associatedDeployment,
+      if (description != null) 'Description': description,
+      if (eventType != null) 'EventType': eventType.value,
+      if (exposurePercentage != null)
+        'ExposurePercentage': _s.encodeJsonDouble(exposurePercentage),
+      if (occurredAt != null) 'OccurredAt': iso8601ToJson(occurredAt),
+      if (treatmentOverrides != null) 'TreatmentOverrides': treatmentOverrides,
+      if (triggeredBy != null) 'TriggeredBy': triggeredBy.value,
+    };
+  }
+}
+
+/// @nodoc
+class ExperimentRunEventType {
+  static const runStarted = ExperimentRunEventType._('RUN_STARTED');
+  static const exposureUpdated = ExperimentRunEventType._('EXPOSURE_UPDATED');
+  static const overridesUpdated = ExperimentRunEventType._('OVERRIDES_UPDATED');
+  static const runStopped = ExperimentRunEventType._('RUN_STOPPED');
+
+  final String value;
+
+  const ExperimentRunEventType._(this.value);
+
+  static const values = [
+    runStarted,
+    exposureUpdated,
+    overridesUpdated,
+    runStopped
+  ];
+
+  static ExperimentRunEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentRunEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentRunEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class TriggeredBy {
+  static const user = TriggeredBy._('USER');
+  static const appconfig = TriggeredBy._('APPCONFIG');
+  static const cloudwatchAlarm = TriggeredBy._('CLOUDWATCH_ALARM');
+  static const internalError = TriggeredBy._('INTERNAL_ERROR');
+
+  final String value;
+
+  const TriggeredBy._(this.value);
+
+  static const values = [user, appconfig, cloudwatchAlarm, internalError];
+
+  static TriggeredBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggeredBy._(value));
+
+  @override
+  bool operator ==(other) => other is TriggeredBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information about an experiment definition.
+///
+/// @nodoc
+class ExperimentDefinitionSummary {
+  /// The application ID.
+  final String? applicationId;
+
+  /// The configuration profile ID associated with the experiment.
+  final String? configurationProfileId;
+
+  /// The date and time the experiment definition was created, in ISO 8601 format.
+  final DateTime? createdAt;
+
+  /// The environment ID where the experiment runs.
+  final String? environmentId;
+
+  /// The key of the feature flag used by the experiment.
+  final String? flagKey;
+
+  /// The hypothesis that the experiment is designed to validate.
+  final String? hypothesis;
+
+  /// The experiment definition ID.
+  final String? id;
+
+  /// The name of the experiment definition.
+  final String? name;
+
+  /// The current status of the experiment definition.
+  final ExperimentDefinitionStatus? status;
+
+  /// The date and time the experiment definition was last updated, in ISO 8601
+  /// format.
+  final DateTime? updatedAt;
+
+  ExperimentDefinitionSummary({
+    this.applicationId,
+    this.configurationProfileId,
+    this.createdAt,
+    this.environmentId,
+    this.flagKey,
+    this.hypothesis,
+    this.id,
+    this.name,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory ExperimentDefinitionSummary.fromJson(Map<String, dynamic> json) {
+    return ExperimentDefinitionSummary(
+      applicationId: json['ApplicationId'] as String?,
+      configurationProfileId: json['ConfigurationProfileId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      environmentId: json['EnvironmentId'] as String?,
+      flagKey: json['FlagKey'] as String?,
+      hypothesis: json['Hypothesis'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(ExperimentDefinitionStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final configurationProfileId = this.configurationProfileId;
+    final createdAt = this.createdAt;
+    final environmentId = this.environmentId;
+    final flagKey = this.flagKey;
+    final hypothesis = this.hypothesis;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (configurationProfileId != null)
+        'ConfigurationProfileId': configurationProfileId,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (environmentId != null) 'EnvironmentId': environmentId,
+      if (flagKey != null) 'FlagKey': flagKey,
+      if (hypothesis != null) 'Hypothesis': hypothesis,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class ExperimentDefinitionStatus {
+  static const active = ExperimentDefinitionStatus._('ACTIVE');
+  static const idle = ExperimentDefinitionStatus._('IDLE');
+  static const archived = ExperimentDefinitionStatus._('ARCHIVED');
+
+  final String value;
+
+  const ExperimentDefinitionStatus._(this.value);
+
+  static const values = [active, idle, archived];
+
+  static ExperimentDefinitionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentDefinitionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentDefinitionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about the deployment.
 ///
 /// @nodoc
@@ -3924,6 +5513,9 @@ class DeploymentSummary {
 
   /// The name of the configuration.
   final String? configurationName;
+
+  /// The ID of the configuration profile that was deployed.
+  final String? configurationProfileId;
 
   /// The version of the configuration.
   final String? configurationVersion;
@@ -3954,12 +5546,16 @@ class DeploymentSummary {
   /// The state of the deployment.
   final DeploymentState? state;
 
+  /// The type of deployment.
+  final DeploymentType? type;
+
   /// A user-defined label for an AppConfig hosted configuration version.
   final String? versionLabel;
 
   DeploymentSummary({
     this.completedAt,
     this.configurationName,
+    this.configurationProfileId,
     this.configurationVersion,
     this.deploymentDurationInMinutes,
     this.deploymentNumber,
@@ -3969,6 +5565,7 @@ class DeploymentSummary {
     this.percentageComplete,
     this.startedAt,
     this.state,
+    this.type,
     this.versionLabel,
   });
 
@@ -3976,6 +5573,7 @@ class DeploymentSummary {
     return DeploymentSummary(
       completedAt: timeStampFromJson(json['CompletedAt']),
       configurationName: json['ConfigurationName'] as String?,
+      configurationProfileId: json['ConfigurationProfileId'] as String?,
       configurationVersion: json['ConfigurationVersion'] as String?,
       deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
       deploymentNumber: json['DeploymentNumber'] as int?,
@@ -3985,6 +5583,7 @@ class DeploymentSummary {
       percentageComplete: _s.parseJsonDouble(json['PercentageComplete']),
       startedAt: timeStampFromJson(json['StartedAt']),
       state: (json['State'] as String?)?.let(DeploymentState.fromString),
+      type: (json['Type'] as String?)?.let(DeploymentType.fromString),
       versionLabel: json['VersionLabel'] as String?,
     );
   }
@@ -3992,6 +5591,7 @@ class DeploymentSummary {
   Map<String, dynamic> toJson() {
     final completedAt = this.completedAt;
     final configurationName = this.configurationName;
+    final configurationProfileId = this.configurationProfileId;
     final configurationVersion = this.configurationVersion;
     final deploymentDurationInMinutes = this.deploymentDurationInMinutes;
     final deploymentNumber = this.deploymentNumber;
@@ -4001,10 +5601,13 @@ class DeploymentSummary {
     final percentageComplete = this.percentageComplete;
     final startedAt = this.startedAt;
     final state = this.state;
+    final type = this.type;
     final versionLabel = this.versionLabel;
     return {
       if (completedAt != null) 'CompletedAt': iso8601ToJson(completedAt),
       if (configurationName != null) 'ConfigurationName': configurationName,
+      if (configurationProfileId != null)
+        'ConfigurationProfileId': configurationProfileId,
       if (configurationVersion != null)
         'ConfigurationVersion': configurationVersion,
       if (deploymentDurationInMinutes != null)
@@ -4019,6 +5622,7 @@ class DeploymentSummary {
         'PercentageComplete': _s.encodeJsonDouble(percentageComplete),
       if (startedAt != null) 'StartedAt': iso8601ToJson(startedAt),
       if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
       if (versionLabel != null) 'VersionLabel': versionLabel,
     };
   }
@@ -4054,6 +5658,31 @@ class DeploymentState {
 
   @override
   bool operator ==(other) => other is DeploymentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DeploymentType {
+  static const user = DeploymentType._('USER');
+  static const managed = DeploymentType._('MANAGED');
+
+  final String value;
+
+  const DeploymentType._(this.value);
+
+  static const values = [user, managed];
+
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4131,6 +5760,166 @@ class ConfigurationProfileSummary {
       if (type != null) 'Type': type,
       if (validatorTypes != null)
         'ValidatorTypes': validatorTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A snapshot of the experiment definition captured at the time an experiment
+/// run was started. This preserves the configuration that was active during the
+/// run.
+///
+/// @nodoc
+class ExperimentDefinitionSnapshot {
+  /// The application ID at the time the run was started.
+  final String? applicationId;
+
+  /// The audience description at the time the run was started.
+  final String? audienceDescription;
+
+  /// The audience rule at the time the run was started.
+  final String? audienceRule;
+
+  /// The configuration profile ID at the time the run was started.
+  final String? configurationProfileId;
+
+  /// The control treatment at the time the run was started.
+  final Treatment? control;
+
+  /// The environment ID at the time the run was started.
+  final String? environmentId;
+
+  /// The feature flag key at the time the run was started.
+  final String? flagKey;
+
+  /// The hypothesis at the time the run was started.
+  final String? hypothesis;
+
+  /// The experiment definition ID.
+  final String? id;
+
+  /// The launch criteria at the time the run was started.
+  final String? launchCriteria;
+
+  /// The name of the experiment definition at the time the run was started.
+  final String? name;
+
+  /// The treatments at the time the run was started.
+  final List<Treatment>? treatments;
+
+  ExperimentDefinitionSnapshot({
+    this.applicationId,
+    this.audienceDescription,
+    this.audienceRule,
+    this.configurationProfileId,
+    this.control,
+    this.environmentId,
+    this.flagKey,
+    this.hypothesis,
+    this.id,
+    this.launchCriteria,
+    this.name,
+    this.treatments,
+  });
+
+  factory ExperimentDefinitionSnapshot.fromJson(Map<String, dynamic> json) {
+    return ExperimentDefinitionSnapshot(
+      applicationId: json['ApplicationId'] as String?,
+      audienceDescription: json['AudienceDescription'] as String?,
+      audienceRule: json['AudienceRule'] as String?,
+      configurationProfileId: json['ConfigurationProfileId'] as String?,
+      control: json['Control'] != null
+          ? Treatment.fromJson(json['Control'] as Map<String, dynamic>)
+          : null,
+      environmentId: json['EnvironmentId'] as String?,
+      flagKey: json['FlagKey'] as String?,
+      hypothesis: json['Hypothesis'] as String?,
+      id: json['Id'] as String?,
+      launchCriteria: json['LaunchCriteria'] as String?,
+      name: json['Name'] as String?,
+      treatments: (json['Treatments'] as List?)
+          ?.nonNulls
+          .map((e) => Treatment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final audienceDescription = this.audienceDescription;
+    final audienceRule = this.audienceRule;
+    final configurationProfileId = this.configurationProfileId;
+    final control = this.control;
+    final environmentId = this.environmentId;
+    final flagKey = this.flagKey;
+    final hypothesis = this.hypothesis;
+    final id = this.id;
+    final launchCriteria = this.launchCriteria;
+    final name = this.name;
+    final treatments = this.treatments;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (audienceDescription != null)
+        'AudienceDescription': audienceDescription,
+      if (audienceRule != null) 'AudienceRule': audienceRule,
+      if (configurationProfileId != null)
+        'ConfigurationProfileId': configurationProfileId,
+      if (control != null) 'Control': control,
+      if (environmentId != null) 'EnvironmentId': environmentId,
+      if (flagKey != null) 'FlagKey': flagKey,
+      if (hypothesis != null) 'Hypothesis': hypothesis,
+      if (id != null) 'Id': id,
+      if (launchCriteria != null) 'LaunchCriteria': launchCriteria,
+      if (name != null) 'Name': name,
+      if (treatments != null) 'Treatments': treatments,
+    };
+  }
+}
+
+/// Describes a treatment in an experiment, including its traffic allocation
+/// weight and feature flag value.
+///
+/// @nodoc
+class Treatment {
+  /// The feature flag value served to users assigned to this treatment.
+  final FlagValue flagValue;
+
+  /// The traffic allocation weight for this treatment.
+  final double weight;
+
+  /// A description of the treatment.
+  final String? description;
+
+  /// The unique key that identifies this treatment.
+  final String? key;
+
+  Treatment({
+    required this.flagValue,
+    required this.weight,
+    this.description,
+    this.key,
+  });
+
+  factory Treatment.fromJson(Map<String, dynamic> json) {
+    return Treatment(
+      flagValue: FlagValue.fromJson(
+          (json['FlagValue'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      weight: _s.parseJsonDouble(json['Weight']) ?? 0,
+      description: json['Description'] as String?,
+      key: json['Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flagValue = this.flagValue;
+    final weight = this.weight;
+    final description = this.description;
+    final key = this.key;
+    return {
+      'FlagValue': flagValue,
+      'Weight': _s.encodeJsonDouble(weight),
+      if (description != null) 'Description': description,
+      if (key != null) 'Key': key,
     };
   }
 }
@@ -4299,32 +6088,6 @@ class DeploymentEventType {
   String toString() => value;
 }
 
-/// @nodoc
-class TriggeredBy {
-  static const user = TriggeredBy._('USER');
-  static const appconfig = TriggeredBy._('APPCONFIG');
-  static const cloudwatchAlarm = TriggeredBy._('CLOUDWATCH_ALARM');
-  static const internalError = TriggeredBy._('INTERNAL_ERROR');
-
-  final String value;
-
-  const TriggeredBy._(this.value);
-
-  static const values = [user, appconfig, cloudwatchAlarm, internalError];
-
-  static TriggeredBy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TriggeredBy._(value));
-
-  @override
-  bool operator ==(other) => other is TriggeredBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// An extension that was invoked as part of a deployment event.
 ///
 /// @nodoc
@@ -4396,6 +6159,30 @@ class ActionInvocation {
       if (uri != null) 'Uri': uri,
     };
   }
+}
+
+/// @nodoc
+class DeleteType {
+  static const archive = DeleteType._('ARCHIVE');
+  static const destroy = DeleteType._('DESTROY');
+
+  final String value;
+
+  const DeleteType._(this.value);
+
+  static const values = [archive, destroy];
+
+  static DeleteType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeleteType._(value));
+
+  @override
+  bool operator ==(other) => other is DeleteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc

@@ -191,6 +191,63 @@ class IoTSiteWise {
     );
   }
 
+  /// Associates a batch of data segments with a curated dataset. Data segments
+  /// are time-bounded slices of time series data selected from source session
+  /// datasets. Data segments that belong to the same time series can't overlap
+  /// in time, regardless of which dataset they belong to.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associateDataSegmentEntries] :
+  /// The list of data segment entries to associate with the dataset.
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the curated dataset to associate data segments with.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// request is idempotent. If you retry a request that completed successfully
+  /// using the same client token, the retry succeeds without performing any
+  /// further actions.
+  Future<BatchAssociateDataSegmentsToDatasetResponse>
+      batchAssociateDataSegmentsToDataset({
+    required List<AssociateDataSegmentEntry> associateDataSegmentEntries,
+    required String datasetId,
+    required String workspaceName,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'associateDataSegmentEntries': associateDataSegmentEntries,
+      'workspaceName': workspaceName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/datasets/${Uri.encodeComponent(datasetId)}/data-segments/associate',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchAssociateDataSegmentsToDatasetResponse.fromJson(response);
+  }
+
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
   ///
   /// May throw [InternalFailureException].
@@ -227,6 +284,100 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return BatchAssociateProjectAssetsResponse.fromJson(response);
+  }
+
+  /// Deletes a batch of data segments from a session dataset. Deleting a data
+  /// segment deletes the underlying time series data for the segment's time
+  /// range.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the session dataset from which to delete data segments.
+  ///
+  /// Parameter [deleteDataSegmentEntries] :
+  /// The list of data segment entries to delete.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// request is idempotent. If you retry a request that completed successfully
+  /// using the same client token, the retry succeeds without performing any
+  /// further actions.
+  Future<BatchDeleteDatasetDataSegmentsResponse>
+      batchDeleteDatasetDataSegments({
+    required String datasetId,
+    required List<DeleteDataSegmentEntry> deleteDataSegmentEntries,
+    required String workspaceName,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'deleteDataSegmentEntries': deleteDataSegmentEntries,
+      'workspaceName': workspaceName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/datasets/${Uri.encodeComponent(datasetId)}/data-segments/batch-delete',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDeleteDatasetDataSegmentsResponse.fromJson(response);
+  }
+
+  /// Disassociates a batch of data segments from a curated dataset.
+  /// Disassociating a data segment doesn't delete the underlying data in the
+  /// source session dataset.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the curated dataset to disassociate data segments from.
+  ///
+  /// Parameter [disassociateDataSegmentEntries] :
+  /// The list of data segment entries to disassociate from the dataset.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// request is idempotent. If you retry a request that completed successfully
+  /// using the same client token, the retry succeeds without performing any
+  /// further actions.
+  Future<BatchDisassociateDataSegmentsFromDatasetResponse>
+      batchDisassociateDataSegmentsFromDataset({
+    required String datasetId,
+    required List<DisassociateDataSegmentEntry> disassociateDataSegmentEntries,
+    required String workspaceName,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'disassociateDataSegmentEntries': disassociateDataSegmentEntries,
+      'workspaceName': workspaceName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/datasets/${Uri.encodeComponent(datasetId)}/data-segments/disassociate',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDisassociateDataSegmentsFromDatasetResponse.fromJson(response);
   }
 
   /// Disassociates a group (batch) of assets from an IoT SiteWise Monitor
@@ -489,6 +640,146 @@ class IoTSiteWise {
     return BatchPutAssetPropertyValueResponse.fromJson(response);
   }
 
+  /// Cancels a running or pending enrichment job. This is an idempotent
+  /// operation—calling it multiple times with the same jobId is safe and
+  /// returns the current status.
+  /// <h2>Behavior</h2>
+  /// <ul>
+  /// <li>Jobs in PENDING or RUNNING status transition to CANCELLED</li>
+  /// <li>Jobs in RUNNING state may not be cancellable once they have progressed
+  /// to certain processing stages</li>
+  /// <li>Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot
+  /// be cancelled; the operation returns a ConflictingOperationException</li>
+  /// <li>Cancelling an already-CANCELLED job is a no-op and returns the current
+  /// status (idempotent behavior)</li>
+  /// <li>The API responds immediately after recording the cancellation</li>
+  /// <li>Cleanup of job resources happens asynchronously in the background</li>
+  /// </ul> <h2>When to Cancel</h2>
+  /// Cancel a job when:
+  ///
+  /// <ul>
+  /// <li>The job is taking longer than expected</li>
+  /// <li>The job was created with incorrect parameters</li>
+  /// <li>You no longer need the results</li>
+  /// </ul> <h2>Idempotency</h2>
+  /// You can safely retry cancellation requests. Calling CancelEnrichmentJob
+  /// multiple times for the same job returns the current status without error
+  /// as long as the job is not in a terminal state other than CANCELLED.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobId] :
+  /// The unique identifier of the enrichment job to cancel. This is the jobId
+  /// returned by CreateEnrichmentJob.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the IoT SiteWise workspace containing the enrichment job to
+  /// cancel.
+  Future<CancelEnrichmentJobResponse> cancelEnrichmentJob({
+    required String jobId,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/enrichment-jobs/${Uri.encodeComponent(jobId)}/cancel',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelEnrichmentJobResponse.fromJson(response);
+  }
+
+  /// Cancels a pipeline execution in the specified workspace. If the execution
+  /// is not in a terminal state (such as NOT_STARTED or RUNNING), it
+  /// transitions to CANCELLING and asynchronously to CANCELLED. This operation
+  /// is idempotent: calling it on an execution that is already CANCELLING or
+  /// CANCELLED returns success with the current state. Calling it on a terminal
+  /// execution (SUCCEEDED or FAILED) returns a conflict error. You can
+  /// optionally provide a reason; it is returned in the stateDetails field when
+  /// you describe the execution.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [pipelineExecutionId] :
+  /// The unique identifier of the pipeline execution.
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [reason] :
+  /// A message describing why the pipeline execution is being cancelled.
+  Future<CancelPipelineExecutionResponse> cancelPipelineExecution({
+    required String pipelineExecutionId,
+    required String pipelineName,
+    required String workspaceName,
+    String? reason,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (reason != null) 'reason': reason,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines/${Uri.encodeComponent(pipelineName)}/executions/${Uri.encodeComponent(pipelineExecutionId)}/cancel',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelPipelineExecutionResponse.fromJson(response);
+  }
+
+  /// Cancels a running query.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [queryId] :
+  /// The unique identifier for the query execution to cancel.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace associated with the query.
+  Future<CancelQueryResponse> cancelQuery({
+    required String queryId,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/queries/${Uri.encodeComponent(queryId)}/cancel',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelQueryResponse.fromJson(response);
+  }
+
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Creates an access policy that grants the specified identity (IAM Identity
   /// Center user, IAM Identity Center group, or IAM user) access to the
   /// specified IoT SiteWise Monitor portal or project resource.
@@ -547,6 +838,59 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccessPolicyResponse.fromJson(response);
+  }
+
+  /// Creates a new application for the workspace and IdC application provided
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [idcInstanceArn] :
+  /// Identity Center Instance ARN to create the application in
+  ///
+  /// Parameter [name] :
+  /// Name of the application
+  ///
+  /// Parameter [workspaceName] :
+  /// Name of the workspace to associate with the underlying Application
+  ///
+  /// Parameter [clientToken] :
+  /// Unique client token for idempotent request handling
+  ///
+  /// Parameter [description] :
+  /// Description of the application
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs that contain metadata for the application.
+  Future<CreateApplicationResponse> createApplication({
+    required String idcInstanceArn,
+    required String name,
+    required String workspaceName,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'idcInstanceArn': idcInstanceArn,
+      'name': name,
+      'workspaceName': workspaceName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/applications',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateApplicationResponse.fromJson(response);
   }
 
   /// Creates an asset from an existing asset model. For more information, see
@@ -945,10 +1289,15 @@ class IoTSiteWise {
   /// a bulk import job (CLI)</a> in the <i>Amazon Simple Storage Service User
   /// Guide</i>.
   /// <important>
-  /// Before you create a bulk import job, you must enable IoT SiteWise warm
-  /// tier or IoT SiteWise cold tier. For more information about how to
-  /// configure storage settings, see <a
+  /// Before you create a bulk import job that ingests data into time series
+  /// outside of a workspace, you must enable IoT SiteWise warm tier or IoT
+  /// SiteWise cold tier. For more information about how to configure storage
+  /// settings, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html">PutStorageConfiguration</a>.
+  /// This requirement doesn't apply to bulk import jobs that ingest data into a
+  /// session dataset in a workspace (jobs that specify a
+  /// <code>workspaceName</code> and <code>datasetId</code>). Those jobs don't
+  /// use IoT SiteWise warm or cold tier storage.
   ///
   /// Bulk import is designed to store historical data to IoT SiteWise.
   ///
@@ -979,11 +1328,18 @@ class IoTSiteWise {
   /// request are saved.
   ///
   /// Parameter [files] :
-  /// The files in the specified Amazon S3 bucket that contain your data.
+  /// The files in the specified Amazon S3 bucket that contain your data. You
+  /// can specify up to 100 files for each bulk import job. Each file supports
+  /// the following size limits:
   ///
-  /// Parameter [jobConfiguration] :
-  /// Contains the configuration information of a job, such as the file format
-  /// used to save data in Amazon S3.
+  /// <ul>
+  /// <li>
+  /// Parquet files – Up to 256 MiB.
+  /// </li>
+  /// <li>
+  /// Other file formats – Up to 5 GiB.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [jobName] :
   /// The unique name that helps identify the job request.
@@ -998,27 +1354,44 @@ class IoTSiteWise {
   /// with notifications, metrics and transforms are computed. If set to false,
   /// historical data is ingested into IoT SiteWise as is.
   ///
+  /// Parameter [datasetId] :
+  /// The ID of the session dataset to ingest data into. Specify this field,
+  /// together with <code>workspaceName</code>, to ingest data into a session
+  /// dataset in a workspace.
+  ///
   /// Parameter [deleteFilesAfterImport] :
   /// If set to true, your data files is deleted from S3, after ingestion into
   /// IoT SiteWise storage.
+  ///
+  /// Parameter [jobConfiguration] :
+  /// Contains the configuration information of a job, such as the file format
+  /// used to save data in Amazon S3.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the session dataset. Specify this
+  /// field together with <code>datasetId</code>.
   Future<CreateBulkImportJobResponse> createBulkImportJob({
     required ErrorReportLocation errorReportLocation,
     required List<File> files,
-    required JobConfiguration jobConfiguration,
     required String jobName,
     required String jobRoleArn,
     bool? adaptiveIngestion,
+    String? datasetId,
     bool? deleteFilesAfterImport,
+    JobConfiguration? jobConfiguration,
+    String? workspaceName,
   }) async {
     final $payload = <String, dynamic>{
       'errorReportLocation': errorReportLocation,
       'files': files,
-      'jobConfiguration': jobConfiguration,
       'jobName': jobName,
       'jobRoleArn': jobRoleArn,
       if (adaptiveIngestion != null) 'adaptiveIngestion': adaptiveIngestion,
+      if (datasetId != null) 'datasetId': datasetId,
       if (deleteFilesAfterImport != null)
         'deleteFilesAfterImport': deleteFilesAfterImport,
+      if (jobConfiguration != null) 'jobConfiguration': jobConfiguration,
+      if (workspaceName != null) 'workspaceName': workspaceName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1092,6 +1465,14 @@ class IoTSiteWise {
     return CreateComputationModelResponse.fromJson(response);
   }
 
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Creates a dashboard in an IoT SiteWise Monitor project.
   ///
   /// May throw [InternalFailureException].
@@ -1163,7 +1544,11 @@ class IoTSiteWise {
     return CreateDashboardResponse.fromJson(response);
   }
 
-  /// Creates a dataset to connect an external datasource.
+  /// Creates a dataset. Session and curated datasets are created in a
+  /// workspace. A session dataset contains data segments of time series data,
+  /// and a curated dataset curates data segments selected from source session
+  /// datasets. A dataset that connects to an external datasource is created
+  /// outside of a workspace.
   ///
   /// May throw [ConflictingOperationException].
   /// May throw [InternalFailureException].
@@ -1184,32 +1569,55 @@ class IoTSiteWise {
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
   ///
+  /// Parameter [datasetConfig] :
+  /// The configuration for the dataset.
+  ///
   /// Parameter [datasetDescription] :
   /// A description about the dataset, and its functionality.
   ///
   /// Parameter [datasetId] :
   /// The ID of the dataset.
   ///
+  /// Parameter [datasetType] :
+  /// The type of dataset: a session dataset, a curated dataset, or a connection
+  /// to an external datasource.
+  ///
+  /// Parameter [metadata] :
+  /// The metadata for the dataset, provided as key-value pairs.
+  ///
   /// Parameter [tags] :
   /// A list of key-value pairs that contain metadata for the access policy. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html">Tagging
   /// your IoT SiteWise resources</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset. Required for session
+  /// and curated datasets. Omit this field for datasets that connect to an
+  /// external datasource.
   Future<CreateDatasetResponse> createDataset({
     required String datasetName,
     required DatasetSource datasetSource,
     String? clientToken,
+    DatasetConfig? datasetConfig,
     String? datasetDescription,
     String? datasetId,
+    DatasetTypeEnum? datasetType,
+    Map<String, String>? metadata,
     Map<String, String>? tags,
+    String? workspaceName,
   }) async {
     final $payload = <String, dynamic>{
       'datasetName': datasetName,
       'datasetSource': datasetSource,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (datasetConfig != null) 'datasetConfig': datasetConfig,
       if (datasetDescription != null) 'datasetDescription': datasetDescription,
       if (datasetId != null) 'datasetId': datasetId,
+      if (datasetType != null) 'datasetType': datasetType.value,
+      if (metadata != null) 'metadata': metadata,
       if (tags != null) 'tags': tags,
+      if (workspaceName != null) 'workspaceName': workspaceName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1219,6 +1627,137 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return CreateDatasetResponse.fromJson(response);
+  }
+
+  /// Starts an asynchronous job that exports dataset and time-series data from
+  /// a workspace to Amazon S3. The operation returns a jobId immediately; poll
+  /// DescribeDatasetExportJob to track progress and ListDatasetExportJobs to
+  /// enumerate a workspace's jobs.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [destinationS3Uri] :
+  /// The S3 URI where output clips will be written.
+  ///
+  /// Parameter [errorReportLocation] :
+  /// The location where the error report will be written on failure.
+  ///
+  /// Parameter [input] :
+  /// The processing input source.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace in which to create the dataset export job.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. The AWS SDKs and CLI populate this
+  /// automatically.
+  Future<CreateDatasetExportJobResponse> createDatasetExportJob({
+    required String destinationS3Uri,
+    required ExportErrorReportLocation errorReportLocation,
+    required ProcessingInput input,
+    required String workspaceName,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'destinationS3Uri': destinationS3Uri,
+      'errorReportLocation': errorReportLocation,
+      'input': input,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/dataset-export-jobs',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDatasetExportJobResponse.fromJson(response);
+  }
+
+  /// Creates an asynchronous enrichment job to analyze time-series sensor data.
+  /// The operation returns immediately with job details while processing
+  /// continues in the background.
+  /// <h2>Idempotency</h2>
+  /// Include a clientToken to make the operation idempotent. If you submit the
+  /// same request with the same token within the idempotency window, you
+  /// receive the original job details without creating a duplicate.
+  /// <h2>Prerequisites</h2>
+  /// Before creating a job, ensure:
+  ///
+  /// <ul>
+  /// <li>The workspace is in ACTIVE state (not being deleted)</li>
+  /// <li>You have IAM permissions for the workspace, dataset, and time-series
+  /// resources</li>
+  /// <li>You have KMS Decrypt permission on the workspace's customer-managed
+  /// encryption key</li>
+  /// <li>No duplicate job (same workspace, dataset, property, and job type) is
+  /// currently running</li>
+  /// </ul> <h2>Workflow</h2> <ol>
+  /// <li>Submit the job with configuration specifying which video data to
+  /// analyze and the time range</li>
+  /// <li>Capture the jobId from the response</li>
+  /// <li>Use DescribeEnrichmentJob to monitor progress and check job
+  /// status</li>
+  /// <li>When status reaches a terminal state (COMPLETED, FAILED, TIMED_OUT,
+  /// CANCELLED), check results</li>
+  /// <li>For COMPLETED jobs, query IoT SiteWise for semantic search on video
+  /// events</li> </ol> <h2>Error Handling</h2>
+  /// <ul>
+  /// <li>ConflictingOperationException: A duplicate job is already running for
+  /// the same configuration</li>
+  /// <li>InvalidRequestException: Invalid parameters (e.g., both timeSeriesId
+  /// and propertyAlias specified)</li>
+  /// <li>AccessDeniedException: Insufficient IAM or KMS permissions</li>
+  /// <li>LimitExceededException: Too many concurrent jobs or requests</li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobConfiguration] :
+  /// Configuration defining the type of enrichment analysis to perform and
+  /// which video data to analyze. Currently supports eventDetection for
+  /// generating embeddings from video data for semantic search.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the IoT SiteWise workspace containing the video data to
+  /// analyze.
+  ///
+  /// Parameter [clientToken] :
+  /// Optional unique token that makes the operation idempotent. If you submit
+  /// the same request with the same token within the idempotency window, the
+  /// service returns the original job without creating a duplicate. Use a UUID
+  /// or timestamp-based token for each unique request.
+  Future<CreateEnrichmentJobResponse> createEnrichmentJob({
+    required EnrichmentJobConfiguration jobConfiguration,
+    required String workspaceName,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'jobConfiguration': jobConfiguration,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/enrichment-jobs',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEnrichmentJobResponse.fromJson(response);
   }
 
   /// Creates a gateway, which is a virtual or edge device that delivers
@@ -1282,6 +1821,91 @@ class IoTSiteWise {
     return CreateGatewayResponse.fromJson(response);
   }
 
+  /// Creates a new pipeline in the specified workspace. A pipeline defines a
+  /// directed acyclic graph (DAG) of compute nodes, where each node references
+  /// a task and can declare dependencies on other nodes. Cyclic dependencies
+  /// are not allowed. Nodes without dependencies run in parallel, while nodes
+  /// with dependencies wait for all upstream nodes to complete successfully
+  /// before starting.
+  ///
+  /// You can set environment variables at the pipeline level that are shared
+  /// across all compute nodes, and override them at the individual compute node
+  /// level.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computations] :
+  /// The list of compute nodes that form the pipeline DAG. Each compute node
+  /// references a task and can declare dependencies on other nodes.
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline to create. Must be unique within the workspace.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If you retry a request that completed
+  /// successfully using the same client token, the server returns the cached
+  /// result from the original successful request without performing the
+  /// operation again.
+  ///
+  /// Parameter [description] :
+  /// A description of the pipeline.
+  ///
+  /// Parameter [environmentVariables] :
+  /// Environment variables shared across all compute nodes in the pipeline.
+  /// Individual compute nodes can override these values with their own
+  /// environment variables.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs that contain metadata for the pipeline. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html">Tagging
+  /// your AWS IoT SiteWise resources</a> in the AWS IoT SiteWise User Guide.
+  Future<CreatePipelineResponse> createPipeline({
+    required List<ComputeNode> computations,
+    required String pipelineName,
+    required String workspaceName,
+    String? clientToken,
+    String? description,
+    Map<String, String>? environmentVariables,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'computations': computations,
+      'pipelineName': pipelineName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePipelineResponse.fromJson(response);
+  }
+
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Creates a portal, which can contain projects and dashboards. IoT SiteWise
   /// Monitor uses IAM Identity Center or IAM to authenticate portal users and
   /// manage user permissions.
@@ -1425,6 +2049,14 @@ class IoTSiteWise {
     return CreatePortalResponse.fromJson(response);
   }
 
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Creates a project in the specified portal.
   /// <note>
   /// Make sure that the project name and description don't contain confidential
@@ -1480,6 +2112,135 @@ class IoTSiteWise {
     return CreateProjectResponse.fromJson(response);
   }
 
+  /// Creates a new task in the specified workspace. A task defines a reusable
+  /// containerized compute workload that can be referenced by one or more
+  /// pipeline compute nodes.
+  ///
+  /// Specify a <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html"><code>containerTaskConfiguration</code></a>
+  /// for custom container workloads with configurable ECR image, processing
+  /// type, processing unit, and environment variables.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [taskConfiguration] :
+  /// The task execution configuration. Specify a <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html">containerTaskConfiguration</a>
+  /// for custom container workloads.
+  ///
+  /// Parameter [taskName] :
+  /// The name of the task to create. Must be unique within the workspace.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If you retry a request that completed
+  /// successfully using the same client token, the server returns the cached
+  /// result from the original successful request without performing the
+  /// operation again.
+  ///
+  /// Parameter [description] :
+  /// A description of the task.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs that contain metadata for the task. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html">Tagging
+  /// your AWS IoT SiteWise resources</a> in the AWS IoT SiteWise User Guide.
+  Future<CreateTaskResponse> createTask({
+    required TaskConfiguration taskConfiguration,
+    required String taskName,
+    required String workspaceName,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'taskConfiguration': taskConfiguration,
+      'taskName': taskName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}/tasks',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTaskResponse.fromJson(response);
+  }
+
+  /// Creates a workspace in IoT SiteWise. A workspace isolates its resources,
+  /// such as datasets, time series, pipelines, and tasks, and their data from
+  /// other workspaces, and has its own quotas and throttling limits. You must
+  /// specify an encryption configuration when you create a workspace. The
+  /// operation returns immediately with the workspace in the
+  /// <code>CREATING</code> state. Provisioning completes asynchronously, after
+  /// which the workspace state is <code>ACTIVE</code>, or <code>FAILED</code>
+  /// if provisioning doesn't complete.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [encryptionConfiguration] :
+  /// The encryption configuration for the workspace.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace to create.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// request is idempotent. If you retry a request that completed successfully
+  /// using the same client token, the retry succeeds without performing any
+  /// further actions.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs that contain metadata for the workspace. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html">Tagging
+  /// your IoT SiteWise resources</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [workspaceDescription] :
+  /// A description for the workspace.
+  Future<CreateWorkspaceResponse> createWorkspace({
+    required WorkspaceEncryptionConfiguration encryptionConfiguration,
+    required String workspaceName,
+    String? clientToken,
+    Map<String, String>? tags,
+    String? workspaceDescription,
+  }) async {
+    final $payload = <String, dynamic>{
+      'encryptionConfiguration': encryptionConfiguration,
+      'workspaceName': workspaceName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+      if (workspaceDescription != null)
+        'workspaceDescription': workspaceDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/workspaces',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorkspaceResponse.fromJson(response);
+  }
+
   /// Deletes an access policy that grants the specified identity access to the
   /// specified IoT SiteWise Monitor resource. You can use this operation to
   /// revoke access to an IoT SiteWise Monitor resource.
@@ -1509,6 +2270,34 @@ class IoTSiteWise {
       requestUri: '/access-policies/${Uri.encodeComponent(accessPolicyId)}',
       queryParams: $query,
       hostPrefix: 'monitor.',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an application by ID
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [id] :
+  /// ID of the Application to delete
+  ///
+  /// Parameter [workspaceName] :
+  /// Name of the workspace to associate with the underlying Application
+  Future<void> deleteApplication({
+    required String id,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/applications/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1813,7 +2602,12 @@ class IoTSiteWise {
     );
   }
 
-  /// Deletes a dataset. This cannot be undone.
+  /// Deletes a dataset. This can't be undone. Deleting a session dataset also
+  /// deletes the underlying time series data in the session. You can't delete a
+  /// session dataset while a curated dataset references its data segments.
+  /// First delete the curated dataset or disassociate the data segments.
+  /// Deleting a curated dataset doesn't delete the underlying data in the
+  /// source session datasets.
   ///
   /// May throw [ConflictingOperationException].
   /// May throw [InternalFailureException].
@@ -1828,12 +2622,17 @@ class IoTSiteWise {
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
   Future<DeleteDatasetResponse> deleteDataset({
     required String datasetId,
     String? clientToken,
+    String? workspaceName,
   }) async {
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
+      if (workspaceName != null) 'workspaceName': [workspaceName],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1867,6 +2666,39 @@ class IoTSiteWise {
       hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deletes a pipeline from the specified workspace. A pipeline cannot be
+  /// deleted if it has any active executions. Wait for all executions to
+  /// complete before attempting to delete the pipeline, or use <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CancelPipelineExecution.html">CancelPipelineExecution</a>
+  /// to stop a running execution.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline to delete.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  Future<DeletePipelineResponse> deletePipeline({
+    required String pipelineName,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines/${Uri.encodeComponent(pipelineName)}',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeletePipelineResponse.fromJson(response);
   }
 
   /// Deletes a portal from IoT SiteWise Monitor.
@@ -1933,9 +2765,42 @@ class IoTSiteWise {
     );
   }
 
+  /// Deletes a task from the specified workspace. A task cannot be deleted if
+  /// it is currently referenced by any existing pipeline. Remove the task from
+  /// all pipelines before attempting to delete it.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [taskName] :
+  /// The name of the task to delete.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  Future<DeleteTaskResponse> deleteTask({
+    required String taskName,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/tasks/${Uri.encodeComponent(taskName)}',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteTaskResponse.fromJson(response);
+  }
+
   /// Deletes a time series (data stream). If you delete a time series that's
   /// associated with an asset property, the asset property still exists, but
-  /// the time series will no longer be associated with this asset property.
+  /// the time series will no longer be associated with this asset property. You
+  /// can't delete a time series until all of its data segments have been
+  /// deleted from session datasets.
   ///
   /// To identify a time series, do one of the following:
   ///
@@ -1986,16 +2851,21 @@ class IoTSiteWise {
   /// it has one. For more information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
   Future<void> deleteTimeSeries({
     String? alias,
     String? assetId,
     String? clientToken,
     String? propertyId,
+    String? workspaceName,
   }) async {
     final $query = <String, List<String>>{
       if (alias != null) 'alias': [alias],
       if (assetId != null) 'assetId': [assetId],
       if (propertyId != null) 'propertyId': [propertyId],
+      if (workspaceName != null) 'workspaceName': [workspaceName],
     };
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -2008,6 +2878,43 @@ class IoTSiteWise {
       hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deletes a workspace. Before you delete a workspace, you must delete all
+  /// resources contained in or associated with the workspace, such as datasets,
+  /// time series, pipelines, and tasks.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace to delete.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// request is idempotent. If you retry a request that completed successfully
+  /// using the same client token, the retry succeeds without performing any
+  /// further actions.
+  Future<DeleteWorkspaceResponse> deleteWorkspace({
+    required String workspaceName,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteWorkspaceResponse.fromJson(response);
   }
 
   /// Describes an access policy, which specifies an identity's access to an IoT
@@ -2053,6 +2960,34 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeActionResponse.fromJson(response);
+  }
+
+  /// Retrieves Application details based on the ID
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [id] :
+  /// ID of the Application
+  ///
+  /// Parameter [workspaceName] :
+  /// Name of the workspace to associate with the underlying Application
+  Future<DescribeApplicationResponse> describeApplication({
+    required String id,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/applications/${Uri.encodeComponent(id)}',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeApplicationResponse.fromJson(response);
   }
 
   /// Retrieves information about an asset.
@@ -2357,13 +3292,21 @@ class IoTSiteWise {
   ///
   /// Parameter [jobId] :
   /// The ID of the job.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
   Future<DescribeBulkImportJobResponse> describeBulkImportJob({
     required String jobId,
+    String? workspaceName,
   }) async {
+    final $query = <String, List<String>>{
+      if (workspaceName != null) 'workspaceName': [workspaceName],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/jobs/${Uri.encodeComponent(jobId)}',
+      queryParams: $query,
       hostPrefix: 'data.',
       exceptionFnMap: _exceptionFns,
     );
@@ -2472,17 +3415,58 @@ class IoTSiteWise {
   ///
   /// Parameter [datasetId] :
   /// The ID of the dataset.
+  ///
+  /// Parameter [datasetVersion] :
+  /// The version of the dataset.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
   Future<DescribeDatasetResponse> describeDataset({
     required String datasetId,
+    String? datasetVersion,
+    String? workspaceName,
   }) async {
+    final $query = <String, List<String>>{
+      if (datasetVersion != null) 'datasetVersion': [datasetVersion],
+      if (workspaceName != null) 'workspaceName': [workspaceName],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/datasets/${Uri.encodeComponent(datasetId)}',
+      queryParams: $query,
       hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDatasetResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a dataset export job.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobId] :
+  /// The unique identifier for the dataset export job.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset export job.
+  Future<DescribeDatasetExportJobResponse> describeDatasetExportJob({
+    required String jobId,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/dataset-export-jobs/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDatasetExportJobResponse.fromJson(response);
   }
 
   /// Retrieves information about the default encryption configuration for the
@@ -2493,6 +3477,7 @@ class IoTSiteWise {
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   Future<DescribeDefaultEncryptionConfigurationResponse>
       describeDefaultEncryptionConfiguration() async {
@@ -2504,6 +3489,67 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDefaultEncryptionConfigurationResponse.fromJson(response);
+  }
+
+  /// Retrieves detailed information about a specific enrichment job, including
+  /// its current status, configuration, and timestamps.
+  /// <h2>Use Cases</h2>
+  /// <ul>
+  /// <li>Monitor job progress by checking status updates with
+  /// DescribeEnrichmentJob</li>
+  /// <li>Retrieve the complete job configuration submitted during creation</li>
+  /// <li>Debug failed jobs by examining the failureMessage field</li>
+  /// <li>Track job lifecycle with creation, update, completion, and
+  /// cancellation timestamps</li>
+  /// </ul> <h2>Status Monitoring</h2>
+  /// Jobs progress through statuses: PENDING → RUNNING → terminal state
+  ///
+  /// Terminal states:
+  ///
+  /// <ul>
+  /// <li>COMPLETED: Job finished successfully; query IoT SiteWise for semantic
+  /// search results</li>
+  /// <li>FAILED: Job encountered an error; check failureMessage for
+  /// details</li>
+  /// <li>TIMED_OUT: Job exceeded maximum processing time</li>
+  /// <li>CANCELLED: Job was cancelled via CancelEnrichmentJob</li>
+  /// </ul> <h2>Response Fields</h2>
+  /// The response includes:
+  ///
+  /// <ul>
+  /// <li>Current job status and type</li>
+  /// <li>Full job configuration as originally submitted</li>
+  /// <li>Lifecycle timestamps (created, updated, completed, cancelled)</li>
+  /// <li>Failure details if status is FAILED</li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobId] :
+  /// The unique identifier of the enrichment job to retrieve. This is the jobId
+  /// returned by CreateEnrichmentJob.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the IoT SiteWise workspace containing the enrichment job.
+  Future<DescribeEnrichmentJobResponse> describeEnrichmentJob({
+    required String jobId,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/enrichment-jobs/${Uri.encodeComponent(jobId)}',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeEnrichmentJobResponse.fromJson(response);
   }
 
   /// Retrieves information about the execution.
@@ -2615,15 +3661,116 @@ class IoTSiteWise {
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  Future<DescribeLoggingOptionsResponse> describeLoggingOptions() async {
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  Future<DescribeLoggingOptionsResponse> describeLoggingOptions({
+    String? workspaceName,
+  }) async {
+    final $query = <String, List<String>>{
+      if (workspaceName != null) 'workspaceName': [workspaceName],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/logging',
+      queryParams: $query,
       hostPrefix: 'api.',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeLoggingOptionsResponse.fromJson(response);
+  }
+
+  /// Retrieves detailed information about a specific pipeline in a workspace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [pipelineVersion] :
+  /// The version number of the pipeline to retrieve. If not specified, returns
+  /// the latest version.
+  Future<DescribePipelineResponse> describePipeline({
+    required String pipelineName,
+    required String workspaceName,
+    String? pipelineVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (pipelineVersion != null) 'version': [pipelineVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines/${Uri.encodeComponent(pipelineName)}',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribePipelineResponse.fromJson(response);
+  }
+
+  /// Retrieves detailed information about a specific pipeline execution,
+  /// including the overall execution status and the status of each individual
+  /// compute node. Use this operation to monitor execution progress and inspect
+  /// per-node results, environment variables, and error details.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [pipelineExecutionId] :
+  /// The unique identifier of the pipeline execution.
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of compute nodes to return per request. This is an
+  /// upper bound; the actual number of results may be less. Default: 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<DescribePipelineExecutionResponse> describePipelineExecution({
+    required String pipelineExecutionId,
+    required String pipelineName,
+    required String workspaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines/${Uri.encodeComponent(pipelineName)}/executions/${Uri.encodeComponent(pipelineExecutionId)}',
+      queryParams: $query,
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribePipelineExecutionResponse.fromJson(response);
   }
 
   /// Retrieves information about a portal.
@@ -2670,6 +3817,66 @@ class IoTSiteWise {
     return DescribeProjectResponse.fromJson(response);
   }
 
+  /// Retrieves information about a query, including its status.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [queryId] :
+  /// The unique identifier for the query execution.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace associated with the query.
+  Future<DescribeQueryResponse> describeQuery({
+    required String queryId,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/queries/${Uri.encodeComponent(queryId)}',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeQueryResponse.fromJson(response);
+  }
+
+  /// Returns the current status and metadata of a single search, including the
+  /// query that was submitted, the search type, and — when the search has
+  /// failed — the reason. Use this to poll a search started with
+  /// <code>StartSearch</code> until it reaches a terminal status
+  /// (<code>SUCCEEDED</code> or <code>FAILED</code>).
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [searchId] :
+  /// The identifier of the search to describe.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace the search belongs to.
+  Future<DescribeSearchResponse> describeSearch({
+    required String searchId,
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/searches/${Uri.encodeComponent(searchId)}',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeSearchResponse.fromJson(response);
+  }
+
   /// Retrieves information about the storage configuration for IoT SiteWise.
   ///
   /// May throw [ConflictingOperationException].
@@ -2688,6 +3895,43 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeStorageConfigurationResponse.fromJson(response);
+  }
+
+  /// Retrieves detailed information about a specific task in a workspace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [taskName] :
+  /// The name of the task.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [taskVersion] :
+  /// The version number of the task to retrieve. If not specified, returns the
+  /// latest version.
+  Future<DescribeTaskResponse> describeTask({
+    required String taskName,
+    required String workspaceName,
+    String? taskVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (taskVersion != null) 'version': [taskVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/tasks/${Uri.encodeComponent(taskName)}',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeTaskResponse.fromJson(response);
   }
 
   /// Retrieves information about a time series (data stream).
@@ -2735,15 +3979,20 @@ class IoTSiteWise {
   /// it has one. For more information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
   Future<DescribeTimeSeriesResponse> describeTimeSeries({
     String? alias,
     String? assetId,
     String? propertyId,
+    String? workspaceName,
   }) async {
     final $query = <String, List<String>>{
       if (alias != null) 'alias': [alias],
       if (assetId != null) 'assetId': [assetId],
       if (propertyId != null) 'propertyId': [propertyId],
+      if (workspaceName != null) 'workspaceName': [workspaceName],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2754,6 +4003,29 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTimeSeriesResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a workspace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  Future<DescribeWorkspaceResponse> describeWorkspace({
+    required String workspaceName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeWorkspaceResponse.fromJson(response);
   }
 
   /// Disassociates a child asset from the given parent asset through a
@@ -3277,6 +4549,64 @@ class IoTSiteWise {
     return GetAssetPropertyValueHistoryResponse.fromJson(response);
   }
 
+  /// Retrieves video data for a specific time range.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [endTime] :
+  /// The end time for the video data range. Must be greater than startTime.
+  ///
+  /// Parameter [startTime] :
+  /// The start time for the video data range.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the capture source.
+  ///
+  /// Parameter [formatSettings] :
+  /// The optional format settings for the output.
+  ///
+  /// Parameter [nextToken] :
+  /// The token from a previous response used to continue retrieving data.
+  ///
+  /// Parameter [propertyAlias] :
+  /// The property alias that identifies the capture source. Mutually exclusive
+  /// with timeSeriesId.
+  ///
+  /// Parameter [timeSeriesId] :
+  /// The time series ID that identifies the capture source. Mutually exclusive
+  /// with propertyAlias.
+  Future<GetCaptureDataResponse> getCaptureData({
+    required TimeInNanos endTime,
+    required TimeInNanos startTime,
+    required String workspaceName,
+    FormatSettings? formatSettings,
+    String? nextToken,
+    String? propertyAlias,
+    String? timeSeriesId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'endTime': endTime,
+      'startTime': startTime,
+      if (formatSettings != null) 'formatSettings': formatSettings,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (timeSeriesId != null) 'timeSeriesId': timeSeriesId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/get-capture-data',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCaptureDataResponse.fromJson(response);
+  }
+
   /// Get interpolated values for an asset property for a specified time
   /// interval, during a period of time. If your time series is missing data
   /// points during the specified time interval, you can use interpolation to
@@ -3502,6 +4832,111 @@ class IoTSiteWise {
     return GetInterpolatedAssetPropertyValuesResponse.fromJson(response);
   }
 
+  /// Retrieves the paginated results of a query. Returns empty rows if the
+  /// query is not yet complete.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [queryId] :
+  /// The unique identifier for the query execution.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace associated with the query.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<GetQueryResultsResponse> getQueryResults({
+    required String queryId,
+    required String workspaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/queries/${Uri.encodeComponent(queryId)}/results',
+      queryParams: $query,
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetQueryResultsResponse.fromJson(response);
+  }
+
+  /// Retrieves the ranked results of a search, ordered by descending relevance
+  /// score. Results are available only after the search has reached the
+  /// <code>SUCCEEDED</code> status. Calling this on a search that exists but
+  /// has not yet completed returns <code>InvalidRequestException</code>, while
+  /// calling it on a search that does not exist returns
+  /// <code>ResourceNotFoundException</code>. The response is paginated: when
+  /// <code>nextToken</code> is present, pass it on a subsequent call to
+  /// retrieve the next page.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [searchId] :
+  /// The identifier of the search whose results are retrieved.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace the search belongs to.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single page. Valid range is 1
+  /// to 10,000; if omitted, a service-defined default is used.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token returned by a previous GetSearchResults call. Provide
+  /// it to retrieve the next page of results; omit it to retrieve the first
+  /// page.
+  Future<GetSearchResultsResponse> getSearchResults({
+    required String searchId,
+    required String workspaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/searches/${Uri.encodeComponent(searchId)}/results',
+      queryParams: $query,
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSearchResultsResponse.fromJson(response);
+  }
+
   /// Invokes SiteWise Assistant to start or continue a conversation.
   ///
   /// May throw [AccessDeniedException].
@@ -3681,6 +5116,44 @@ class IoTSiteWise {
     return ListActionsResponse.fromJson(response);
   }
 
+  /// Retrieves a paginated list of existing applications
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results to return
+  ///
+  /// Parameter [nextToken] :
+  /// Next Page Token
+  Future<ListApplicationsResponse> listApplications({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/applications',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListApplicationsResponse.fromJson(response);
+  }
+
   /// Retrieves a paginated list of composite models associated with the asset
   /// model
   ///
@@ -3819,6 +5292,7 @@ class IoTSiteWise {
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelTypes] :
@@ -4210,10 +5684,14 @@ class IoTSiteWise {
   ///
   /// Parameter [nextToken] :
   /// The token to be used for the next set of paginated results.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
   Future<ListBulkImportJobsResponse> listBulkImportJobs({
     ListBulkImportJobsFilter? filter,
     int? maxResults,
     String? nextToken,
+    String? workspaceName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4225,6 +5703,7 @@ class IoTSiteWise {
       if (filter != null) 'filter': [filter.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (workspaceName != null) 'workspaceName': [workspaceName],
     };
     final response = await _protocol.send(
       payload: null,
@@ -4464,23 +5943,32 @@ class IoTSiteWise {
     return ListDashboardsResponse.fromJson(response);
   }
 
-  /// Retrieves a paginated list of datasets for a specific target resource.
+  /// Retrieves a paginated list of data segment relationships for a session
+  /// dataset. Use this operation to find the curated datasets that reference
+  /// data segments of the specified session dataset. Use the
+  /// <code>nextToken</code> parameter to retrieve additional results.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
-  /// Parameter [sourceType] :
-  /// The type of data source for the dataset.
+  /// Parameter [datasetId] :
+  /// The ID of the session dataset to list data segment relationships for.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for each paginated request.
+  /// Default: 50.
   ///
   /// Parameter [nextToken] :
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  Future<ListDatasetsResponse> listDatasets({
-    required DatasetSourceType sourceType,
+  /// The token to be used for the next set of paginated results.
+  Future<ListDatasetDataSegmentRelationshipsResponse>
+      listDatasetDataSegmentRelationships({
+    required String datasetId,
+    required String workspaceName,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -4491,9 +5979,166 @@ class IoTSiteWise {
       250,
     );
     final $query = <String, List<String>>{
-      'sourceType': [sourceType.value],
+      'workspaceName': [workspaceName],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/datasets/${Uri.encodeComponent(datasetId)}/data-segment-relationships',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDatasetDataSegmentRelationshipsResponse.fromJson(response);
+  }
+
+  /// Retrieves a paginated list of data segments associated with a dataset. Use
+  /// the <code>nextToken</code> parameter to retrieve additional results.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the dataset.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
+  ///
+  /// Parameter [datasetVersion] :
+  /// The version of the dataset to list data segments for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  /// Default: 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListDatasetDataSegmentsResponse> listDatasetDataSegments({
+    required String datasetId,
+    required String workspaceName,
+    String? datasetVersion,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      'workspaceName': [workspaceName],
+      if (datasetVersion != null) 'datasetVersion': [datasetVersion],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetId)}/data-segments',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDatasetDataSegmentsResponse.fromJson(response);
+  }
+
+  /// Retrieves a paginated list of dataset export jobs for a workspace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace whose dataset export jobs should be listed.
+  ///
+  /// Parameter [filter] :
+  /// The optional filter that returns only jobs matching the given filter
+  /// value. Defaults to ALL.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListDatasetExportJobsResponse> listDatasetExportJobs({
+    required String workspaceName,
+    DatasetExportJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (filter != null) 'filter': [filter.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/dataset-export-jobs',
+      queryParams: $query,
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDatasetExportJobsResponse.fromJson(response);
+  }
+
+  /// Retrieves a paginated list of datasets for a specific target resource.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [sourceType] :
+  /// The type of data source for the dataset.
+  ///
+  /// Parameter [datasetType] :
+  /// The type of dataset to filter by: a session dataset, a curated dataset, or
+  /// a connection to an external datasource.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace to filter datasets by.
+  Future<ListDatasetsResponse> listDatasets({
+    required DatasetSourceType sourceType,
+    DatasetTypeEnum? datasetType,
+    int? maxResults,
+    String? nextToken,
+    String? workspaceName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      'sourceType': [sourceType.value],
+      if (datasetType != null) 'datasetType': [datasetType.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (workspaceName != null) 'workspaceName': [workspaceName],
     };
     final response = await _protocol.send(
       payload: null,
@@ -4504,6 +6149,140 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return ListDatasetsResponse.fromJson(response);
+  }
+
+  /// Lists enrichment jobs within a workspace with optional filtering and
+  /// pagination. Results are ordered by createdAt timestamp descending (newest
+  /// first).
+  /// <h2>Filtering</h2>
+  /// Combine filters to narrow results:
+  ///
+  /// <ul>
+  /// <li><strong>datasetId</strong>: Filter by dataset</li>
+  /// <li><strong>propertyAlias</strong> OR <strong>timeSeriesId</strong>:
+  /// Filter by time series (specify one, not both)</li>
+  /// <li><strong>status</strong>: Filter by job status (e.g., RUNNING to find
+  /// active jobs)</li>
+  /// <li><strong>jobType</strong>: Filter by enrichment type (currently only
+  /// EVENT_DETECTION)</li>
+  /// <li><strong>startDate</strong> and <strong>endDate</strong>: Filter by job
+  /// creation time range</li>
+  /// </ul> <h2>Important Constraints</h2>
+  /// <ul>
+  /// <li>You must specify either propertyAlias OR timeSeriesId, but not
+  /// both</li>
+  /// <li>Attempting to specify both results in an InvalidRequestException</li>
+  /// <li>Date filters use ISO 8601 format</li>
+  /// <li>startDate is exclusive, endDate is inclusive</li>
+  /// </ul> <h2>Pagination</h2>
+  /// The operation returns up to maxResults jobs per page (default 50). If more
+  /// results exist, the response includes a nextToken. Submit this token in a
+  /// subsequent request to retrieve the next page.
+  /// <h2>Common Use Cases</h2>
+  /// <ul>
+  /// <li>Find all running jobs: Filter by status=RUNNING</li>
+  /// <li>List recent jobs for a dataset: Filter by datasetId with optional date
+  /// range</li>
+  /// <li>Monitor jobs for a specific sensor: Filter by propertyAlias or
+  /// timeSeriesId</li>
+  /// <li>Track all event detection jobs: Filter by jobType=EVENT_DETECTION</li>
+  /// </ul> <h2>Performance</h2>
+  /// Performance is optimal when filtering by supported fields (datasetId,
+  /// propertyAlias, timeSeriesId, status, jobType).
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the IoT SiteWise workspace to list enrichment jobs from.
+  ///
+  /// Parameter [datasetId] :
+  /// Filter jobs by dataset ID. Returns only jobs analyzing data from the
+  /// specified dataset.
+  ///
+  /// Parameter [endDate] :
+  /// The inclusive end of the date range for filtering jobs by creation time.
+  /// Jobs created on or before this timestamp are included. Use ISO 8601 format
+  /// (e.g., 2024-01-31T23:59:59Z).
+  ///
+  /// Parameter [jobType] :
+  /// Filter by enrichment job type. Currently only EVENT_DETECTION is
+  /// supported. Use this filter to future-proof queries when additional job
+  /// types are added.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of jobs to return per page. Defaults to 50 if not
+  /// specified. Use smaller values for faster responses, larger values to
+  /// reduce API calls.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous ListEnrichmentJobs response. Include this
+  /// token to retrieve the next page of results. Omit for the first request.
+  ///
+  /// Parameter [propertyAlias] :
+  /// Filter by property alias (human-readable sensor name). Specify either
+  /// propertyAlias or timeSeriesId, but not both. Returns only jobs analyzing
+  /// the specified property alias.
+  ///
+  /// Parameter [startDate] :
+  /// The exclusive start of the date range for filtering jobs by creation time.
+  /// Jobs created after this timestamp are included. Use ISO 8601 format (e.g.,
+  /// 2024-01-01T00:00:00Z).
+  ///
+  /// Parameter [status] :
+  /// Filter by job status. Returns only jobs in the specified status. Use
+  /// RUNNING to find active jobs, or FAILED to identify jobs requiring
+  /// attention.
+  ///
+  /// Parameter [timeSeriesId] :
+  /// Filter by time series ID (system identifier). Specify either timeSeriesId
+  /// or propertyAlias, but not both. Returns only jobs analyzing the specified
+  /// time series.
+  Future<ListEnrichmentJobsResponse> listEnrichmentJobs({
+    required String workspaceName,
+    String? datasetId,
+    DateTime? endDate,
+    JobType? jobType,
+    int? maxResults,
+    String? nextToken,
+    String? propertyAlias,
+    DateTime? startDate,
+    EnrichmentJobStatus? status,
+    String? timeSeriesId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (datasetId != null) 'datasetId': [datasetId],
+      if (endDate != null) 'endDate': [_s.iso8601ToJson(endDate).toString()],
+      if (jobType != null) 'jobType': [jobType.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (propertyAlias != null) 'propertyAlias': [propertyAlias],
+      if (startDate != null)
+        'startDate': [_s.iso8601ToJson(startDate).toString()],
+      if (status != null) 'status': [status.value],
+      if (timeSeriesId != null) 'timeSeriesId': [timeSeriesId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/enrichment-jobs',
+      queryParams: $query,
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEnrichmentJobsResponse.fromJson(response);
   }
 
   /// Retrieves a paginated list of summaries of all executions.
@@ -4653,6 +6432,146 @@ class IoTSiteWise {
     return ListInterfaceRelationshipsResponse.fromJson(response);
   }
 
+  /// Lists pipeline executions for a specific pipeline in a workspace. Supports
+  /// filtering by state and time range. State can be combined with either
+  /// startTime or endTime filters. Time range filters are grouped: use
+  /// startTime filters (startTimeAfter, startTimeBefore) or endTime filters
+  /// (endTimeAfter, endTimeBefore), but not both. Combining startTime and
+  /// endTime filters returns an InvalidRequestException. Note: endTime filters
+  /// only return executions in terminal states, as in-progress executions have
+  /// no endTime.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [endTimeAfter] :
+  /// Inclusive lower bound on execution end time (ISO-8601). Only executions
+  /// with endTime &gt;= endTimeAfter are returned. Cannot be combined with
+  /// startTimeAfter or startTimeBefore. Only matches executions in terminal
+  /// states.
+  ///
+  /// Parameter [endTimeBefore] :
+  /// Exclusive upper bound on execution end time (ISO-8601). Only executions
+  /// with endTime &lt; endTimeBefore are returned. Cannot be combined with
+  /// startTimeAfter or startTimeBefore. Only matches executions in terminal
+  /// states.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per request. This is an upper
+  /// bound; the actual number of results may be less. Default: 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  ///
+  /// Parameter [startTimeAfter] :
+  /// Inclusive lower bound on execution start time (ISO-8601). Only executions
+  /// with startTime &gt;= startTimeAfter are returned. Cannot be combined with
+  /// endTimeAfter or endTimeBefore.
+  ///
+  /// Parameter [startTimeBefore] :
+  /// Exclusive upper bound on execution start time (ISO-8601). Only executions
+  /// with startTime &lt; startTimeBefore are returned. Cannot be combined with
+  /// endTimeAfter or endTimeBefore.
+  ///
+  /// Parameter [state] :
+  /// Filter by execution state. If not specified, executions in all states are
+  /// returned.
+  Future<ListPipelineExecutionsResponse> listPipelineExecutions({
+    required String pipelineName,
+    required String workspaceName,
+    DateTime? endTimeAfter,
+    DateTime? endTimeBefore,
+    int? maxResults,
+    String? nextToken,
+    DateTime? startTimeAfter,
+    DateTime? startTimeBefore,
+    PipelineExecutionState? state,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (endTimeAfter != null)
+        'endTimeAfter': [_s.iso8601ToJson(endTimeAfter).toString()],
+      if (endTimeBefore != null)
+        'endTimeBefore': [_s.iso8601ToJson(endTimeBefore).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (startTimeAfter != null)
+        'startTimeAfter': [_s.iso8601ToJson(startTimeAfter).toString()],
+      if (startTimeBefore != null)
+        'startTimeBefore': [_s.iso8601ToJson(startTimeBefore).toString()],
+      if (state != null) 'state': [state.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines/${Uri.encodeComponent(pipelineName)}/executions',
+      queryParams: $query,
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPipelineExecutionsResponse.fromJson(response);
+  }
+
+  /// Lists pipelines in a workspace. To get complete details about a pipeline,
+  /// use <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribePipeline.html">DescribePipeline</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  /// Default: 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListPipelinesResponse> listPipelines({
+    required String workspaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPipelinesResponse.fromJson(response);
+  }
+
   /// Retrieves a paginated list of IoT SiteWise Monitor portals.
   ///
   /// May throw [InternalFailureException].
@@ -4777,6 +6696,108 @@ class IoTSiteWise {
     return ListProjectsResponse.fromJson(response);
   }
 
+  /// Retrieves a paginated list of queries for a workspace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace to list queries for.
+  ///
+  /// Parameter [filter] :
+  /// An optional filter to return only queries with the specified status. The
+  /// value must be one of the supported query statuses: SUBMITTED, RUNNING,
+  /// COMPLETED, FAILED, CANCELED, or CANCELING.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListQueriesResponse> listQueries({
+    required String workspaceName,
+    String? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10000,
+    );
+    final $query = <String, List<String>>{
+      if (filter != null) 'filter': [filter],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}/queries',
+      queryParams: $query,
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListQueriesResponse.fromJson(response);
+  }
+
+  /// Lists the searches in a workspace, most recently started first. Results
+  /// can be narrowed with optional filters (status, search type, group, and
+  /// started-at time range) and are paginated: when <code>nextToken</code> is
+  /// present, pass it on a subsequent call to retrieve the next page.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace whose searches are listed.
+  ///
+  /// Parameter [listSearchesFilters] :
+  /// Optional filters that restrict which searches are returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of searches to return in a single page. Valid range is
+  /// 1 to 1,000; if omitted, a service-defined default is used.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token returned by a previous ListSearches call. Provide it
+  /// to retrieve the next page; omit it to retrieve the first page.
+  Future<ListSearchesResponse> listSearches({
+    required String workspaceName,
+    ListSearchesFilters? listSearchesFilters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $payload = <String, dynamic>{
+      if (listSearchesFilters != null)
+        'listSearchesFilters': listSearchesFilters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/searches/list',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSearchesResponse.fromJson(response);
+  }
+
   /// Retrieves the list of tags for an IoT SiteWise resource.
   ///
   /// May throw [ConflictingOperationException].
@@ -4806,6 +6827,50 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Lists tasks in a workspace. To get complete details about a task, use <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeTask.html">DescribeTask</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  /// Default: 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListTasksResponse> listTasks({
+    required String workspaceName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}/tasks',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTasksResponse.fromJson(response);
   }
 
   /// Retrieves a paginated list of time series (data streams).
@@ -4845,12 +6910,16 @@ class IoTSiteWise {
   /// asset property.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
   Future<ListTimeSeriesResponse> listTimeSeries({
     String? aliasPrefix,
     String? assetId,
     int? maxResults,
     String? nextToken,
     ListTimeSeriesType? timeSeriesType,
+    String? workspaceName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4864,6 +6933,7 @@ class IoTSiteWise {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (timeSeriesType != null) 'timeSeriesType': [timeSeriesType.value],
+      if (workspaceName != null) 'workspaceName': [workspaceName],
     };
     final response = await _protocol.send(
       payload: null,
@@ -4874,6 +6944,45 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return ListTimeSeriesResponse.fromJson(response);
+  }
+
+  /// Retrieves a paginated list of workspaces. Use the <code>nextToken</code>
+  /// parameter to retrieve additional results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  /// Default: 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListWorkspacesResponse> listWorkspaces({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/workspaces',
+      queryParams: $query,
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkspacesResponse.fromJson(response);
   }
 
   /// Creates or updates an interface relationship between an asset model and an
@@ -4936,6 +7045,7 @@ class IoTSiteWise {
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [encryptionType] :
@@ -4973,11 +7083,16 @@ class IoTSiteWise {
   ///
   /// Parameter [loggingOptions] :
   /// The logging options to set.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
   Future<void> putLoggingOptions({
     required LoggingOptions loggingOptions,
+    String? workspaceName,
   }) async {
     final $payload = <String, dynamic>{
       'loggingOptions': loggingOptions,
+      if (workspaceName != null) 'workspaceName': workspaceName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5085,6 +7200,180 @@ class IoTSiteWise {
     return PutStorageConfigurationResponse.fromJson(response);
   }
 
+  /// Starts execution of a pipeline in the specified workspace. Each compute
+  /// node runs according to the DAG dependency order defined in the pipeline.
+  /// Nodes without dependencies start immediately, while dependent nodes wait
+  /// for all upstream nodes to complete successfully.
+  ///
+  /// You can provide runtime environment variable overrides that take the
+  /// highest priority in the environment variable hierarchy, without modifying
+  /// the pipeline definition.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline to execute.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace containing the pipeline.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If you retry a request that completed
+  /// successfully using the same client token, the server returns the cached
+  /// result from the original successful request without performing the
+  /// operation again.
+  ///
+  /// Parameter [executionEnvironmentVariableOverrides] :
+  /// Runtime environment variable overrides for the execution. Includes global
+  /// variables that apply to all compute nodes and computeNodes for per-node
+  /// overrides. These take the highest priority in the environment variable
+  /// hierarchy.
+  ///
+  /// Parameter [executionPriority] :
+  /// Scheduling priority for the execution. Lower values indicate higher
+  /// priority. Defaults to 2 when not specified.
+  Future<StartPipelineExecutionResponse> startPipelineExecution({
+    required String pipelineName,
+    required String workspaceName,
+    String? clientToken,
+    ExecutionEnvironmentVariables? executionEnvironmentVariableOverrides,
+    int? executionPriority,
+  }) async {
+    _s.validateNumRange(
+      'executionPriority',
+      executionPriority,
+      0,
+      2,
+    );
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (executionEnvironmentVariableOverrides != null)
+        'executionEnvironmentVariableOverrides':
+            executionEnvironmentVariableOverrides,
+      if (executionPriority != null) 'executionPriority': executionPriority,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines/${Uri.encodeComponent(pipelineName)}/executions',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartPipelineExecutionResponse.fromJson(response);
+  }
+
+  /// Starts an asynchronous SQL query against workspace telemetry, annotations,
+  /// data segment, and dataset data.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [queryStatement] :
+  /// The SQL query to execute against the workspace telemetry, annotations,
+  /// data segment, and dataset data.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace to query.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<StartQueryResponse> startQuery({
+    required String queryStatement,
+    required String workspaceName,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'queryStatement': queryStatement,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}/queries',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartQueryResponse.fromJson(response);
+  }
+
+  /// Starts an asynchronous search over the data in a workspace. The search
+  /// runs in the background; the response returns immediately with a
+  /// <code>searchId</code> and an initial status of <code>QUEUED</code>. Use
+  /// <code>DescribeSearch</code> to poll for completion and
+  /// <code>GetSearchResults</code> to retrieve the results once the search
+  /// reaches <code>SUCCEEDED</code>. The request is idempotent on
+  /// <code>clientToken</code>: repeating a call with the same token returns the
+  /// original search instead of starting a new one.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [queryStatement] :
+  /// The natural-language query describing the data to search for.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace whose data is searched.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier you provide to ensure the request is
+  /// idempotent. Repeating a StartSearch call with the same
+  /// <code>clientToken</code> returns the original search rather than starting
+  /// a new one. If omitted, the SDK autogenerates one.
+  ///
+  /// Parameter [groupId] :
+  /// An optional caller-supplied identifier used to group related searches
+  /// together.
+  ///
+  /// Parameter [searchFilters] :
+  /// Optional filters that restrict the search to a subset of the workspace's
+  /// data.
+  ///
+  /// Parameter [searchType] :
+  /// The search strategy to use. Defaults to <code>QUICK</code> when omitted.
+  Future<StartSearchResponse> startSearch({
+    required String queryStatement,
+    required String workspaceName,
+    String? clientToken,
+    String? groupId,
+    SearchFilters? searchFilters,
+    SearchType? searchType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'queryStatement': queryStatement,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (groupId != null) 'groupId': groupId,
+      if (searchFilters != null) 'searchFilters': searchFilters,
+      if (searchType != null) 'searchType': searchType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}/searches',
+      hostPrefix: 'data.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartSearchResponse.fromJson(response);
+  }
+
   /// Adds tags to an IoT SiteWise resource. If a tag already exists for the
   /// resource, this operation updates the tag's value.
   ///
@@ -5162,6 +7451,14 @@ class IoTSiteWise {
     );
   }
 
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Updates an existing access policy that specifies an identity's access to
   /// an IoT SiteWise Monitor portal or project resource.
   ///
@@ -5698,6 +7995,14 @@ class IoTSiteWise {
     return UpdateComputationModelResponse.fromJson(response);
   }
 
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Updates an IoT SiteWise Monitor dashboard.
   ///
   /// May throw [InternalFailureException].
@@ -5764,6 +8069,7 @@ class IoTSiteWise {
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -5781,20 +8087,35 @@ class IoTSiteWise {
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
   ///
+  /// Parameter [datasetConfig] :
+  /// The updated configuration for the dataset.
+  ///
   /// Parameter [datasetDescription] :
   /// A description about the dataset, and its functionality.
+  ///
+  /// Parameter [metadata] :
+  /// The updated metadata for the dataset.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace that contains the dataset.
   Future<UpdateDatasetResponse> updateDataset({
     required String datasetId,
     required String datasetName,
     required DatasetSource datasetSource,
     String? clientToken,
+    DatasetConfig? datasetConfig,
     String? datasetDescription,
+    Map<String, String>? metadata,
+    String? workspaceName,
   }) async {
     final $payload = <String, dynamic>{
       'datasetName': datasetName,
       'datasetSource': datasetSource,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (datasetConfig != null) 'datasetConfig': datasetConfig,
       if (datasetDescription != null) 'datasetDescription': datasetDescription,
+      if (metadata != null) 'metadata': metadata,
+      if (workspaceName != null) 'workspaceName': workspaceName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5912,6 +8233,65 @@ class IoTSiteWise {
     return UpdateGatewayCapabilityConfigurationResponse.fromJson(response);
   }
 
+  /// Updates an existing pipeline in the specified workspace. Only the fields
+  /// provided in the request are updated; fields not included in the request
+  /// are preserved unchanged. You can update the pipeline description,
+  /// environment variables, and the list of compute nodes independently.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline to update.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [computations] :
+  /// Updated list of compute nodes forming the pipeline DAG.
+  ///
+  /// Parameter [description] :
+  /// A new description for the pipeline.
+  ///
+  /// Parameter [environmentVariables] :
+  /// Updated environment variables shared across all compute nodes.
+  Future<UpdatePipelineResponse> updatePipeline({
+    required String pipelineName,
+    required String workspaceName,
+    List<ComputeNode>? computations,
+    String? description,
+    Map<String, String>? environmentVariables,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (computations != null) 'computations': computations,
+      if (description != null) 'description': description,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/pipelines/${Uri.encodeComponent(pipelineName)}',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdatePipelineResponse.fromJson(response);
+  }
+
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Updates an IoT SiteWise Monitor portal.
   ///
   /// May throw [ConflictingOperationException].
@@ -6004,6 +8384,14 @@ class IoTSiteWise {
     return UpdatePortalResponse.fromJson(response);
   }
 
+  /// <important>
+  /// The IoT SiteWise Monitor feature will no longer be open to new customers
+  /// starting November 7, 2025. If you would like to use the IoT SiteWise
+  /// Monitor feature, sign up prior to that date. Existing customers can
+  /// continue to use the service as normal. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/iotsitewise-monitor-availability-change.html">IoT
+  /// SiteWise Monitor availability change</a>.
+  /// </important>
   /// Updates an IoT SiteWise Monitor project.
   ///
   /// May throw [InternalFailureException].
@@ -6042,6 +8430,101 @@ class IoTSiteWise {
       hostPrefix: 'monitor.',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates an existing task in the specified workspace. Only the fields
+  /// provided in the request are updated; fields not included in the request
+  /// are preserved unchanged.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [taskName] :
+  /// The name of the task to update.
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace.
+  ///
+  /// Parameter [description] :
+  /// A new description for the task.
+  ///
+  /// Parameter [taskConfiguration] :
+  /// The updated task execution configuration.
+  Future<UpdateTaskResponse> updateTask({
+    required String taskName,
+    required String workspaceName,
+    String? description,
+    TaskConfiguration? taskConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (taskConfiguration != null) 'taskConfiguration': taskConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/workspaces/${Uri.encodeComponent(workspaceName)}/tasks/${Uri.encodeComponent(taskName)}',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTaskResponse.fromJson(response);
+  }
+
+  /// Updates a workspace. You can update only workspaces in the
+  /// <code>ACTIVE</code> or <code>FAILED</code> state. Fields that you omit
+  /// from the request are left unchanged. To recover a workspace in the
+  /// <code>FAILED</code> state, call this operation and supply its encryption
+  /// configuration again.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [workspaceName] :
+  /// The name of the workspace to update.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// request is idempotent. If you retry a request that completed successfully
+  /// using the same client token, the retry succeeds without performing any
+  /// further actions.
+  ///
+  /// Parameter [encryptionConfiguration] :
+  /// The encryption configuration for the workspace. Omit this field to leave
+  /// encryption unchanged. After a customer managed key configuration becomes
+  /// active, the key can't be changed; supplying the same key is accepted.
+  ///
+  /// Parameter [workspaceDescription] :
+  /// A new description for the workspace.
+  Future<UpdateWorkspaceResponse> updateWorkspace({
+    required String workspaceName,
+    String? clientToken,
+    WorkspaceEncryptionConfiguration? encryptionConfiguration,
+    String? workspaceDescription,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (workspaceDescription != null)
+        'workspaceDescription': workspaceDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/workspaces/${Uri.encodeComponent(workspaceName)}',
+      hostPrefix: 'api.',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateWorkspaceResponse.fromJson(response);
   }
 }
 
@@ -6219,6 +8702,48 @@ class ThrottlingException implements _s.AwsException {
 }
 
 /// @nodoc
+class BatchAssociateDataSegmentsToDatasetResponse {
+  /// The ID of the dataset.
+  final String datasetId;
+
+  /// The version of the dataset after association.
+  final String datasetVersion;
+
+  /// A list of data segment associations that failed.
+  final List<FailedDataSegmentAssociation> failedAssociations;
+
+  BatchAssociateDataSegmentsToDatasetResponse({
+    required this.datasetId,
+    required this.datasetVersion,
+    required this.failedAssociations,
+  });
+
+  factory BatchAssociateDataSegmentsToDatasetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchAssociateDataSegmentsToDatasetResponse(
+      datasetId: (json['datasetId'] as String?) ?? '',
+      datasetVersion: (json['datasetVersion'] as String?) ?? '',
+      failedAssociations: ((json['failedAssociations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              FailedDataSegmentAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    final datasetVersion = this.datasetVersion;
+    final failedAssociations = this.failedAssociations;
+    return {
+      'datasetId': datasetId,
+      'datasetVersion': datasetVersion,
+      'failedAssociations': failedAssociations,
+    };
+  }
+}
+
+/// @nodoc
 class BatchAssociateProjectAssetsResponse {
   /// A list of associated error information, if any.
   final List<AssetErrorDetails>? errors;
@@ -6241,6 +8766,91 @@ class BatchAssociateProjectAssetsResponse {
     final errors = this.errors;
     return {
       if (errors != null) 'errors': errors,
+    };
+  }
+}
+
+/// @nodoc
+class BatchDeleteDatasetDataSegmentsResponse {
+  /// The ID of the dataset.
+  final String datasetId;
+
+  /// The version of the dataset after deletion.
+  final String datasetVersion;
+
+  /// A list of data segment deletions that failed.
+  final List<FailedDataSegmentDeletion> errors;
+
+  BatchDeleteDatasetDataSegmentsResponse({
+    required this.datasetId,
+    required this.datasetVersion,
+    required this.errors,
+  });
+
+  factory BatchDeleteDatasetDataSegmentsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDeleteDatasetDataSegmentsResponse(
+      datasetId: (json['datasetId'] as String?) ?? '',
+      datasetVersion: (json['datasetVersion'] as String?) ?? '',
+      errors: ((json['errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              FailedDataSegmentDeletion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    final datasetVersion = this.datasetVersion;
+    final errors = this.errors;
+    return {
+      'datasetId': datasetId,
+      'datasetVersion': datasetVersion,
+      'errors': errors,
+    };
+  }
+}
+
+/// @nodoc
+class BatchDisassociateDataSegmentsFromDatasetResponse {
+  /// The ID of the dataset.
+  final String datasetId;
+
+  /// The version of the dataset after disassociation.
+  final String datasetVersion;
+
+  /// A list of data segment disassociations that failed.
+  final List<FailedDataSegmentDisassociation> failedDisassociations;
+
+  BatchDisassociateDataSegmentsFromDatasetResponse({
+    required this.datasetId,
+    required this.datasetVersion,
+    required this.failedDisassociations,
+  });
+
+  factory BatchDisassociateDataSegmentsFromDatasetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDisassociateDataSegmentsFromDatasetResponse(
+      datasetId: (json['datasetId'] as String?) ?? '',
+      datasetVersion: (json['datasetVersion'] as String?) ?? '',
+      failedDisassociations:
+          ((json['failedDisassociations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => FailedDataSegmentDisassociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    final datasetVersion = this.datasetVersion;
+    final failedDisassociations = this.failedDisassociations;
+    return {
+      'datasetId': datasetId,
+      'datasetVersion': datasetVersion,
+      'failedDisassociations': failedDisassociations,
     };
   }
 }
@@ -6494,6 +9104,121 @@ class BatchPutAssetPropertyValueResponse {
 }
 
 /// @nodoc
+class CancelEnrichmentJobResponse {
+  /// The unique identifier of the cancelled enrichment job.
+  final String jobId;
+
+  /// The status of the enrichment job after cancellation. This will be CANCELLED,
+  /// indicating the job was successfully cancelled or was already in CANCELLED
+  /// state (idempotent behavior).
+  final EnrichmentJobStatus status;
+
+  CancelEnrichmentJobResponse({
+    required this.jobId,
+    required this.status,
+  });
+
+  factory CancelEnrichmentJobResponse.fromJson(Map<String, dynamic> json) {
+    return CancelEnrichmentJobResponse(
+      jobId: (json['jobId'] as String?) ?? '',
+      status: EnrichmentJobStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final status = this.status;
+    return {
+      'jobId': jobId,
+      'status': status.value,
+    };
+  }
+}
+
+/// Access is denied.
+///
+/// @nodoc
+class AccessDeniedException implements _s.AwsException {
+  final String? message;
+
+  AccessDeniedException({
+    this.message,
+  });
+
+  factory AccessDeniedException.fromJson(Map<String, dynamic> json) {
+    return AccessDeniedException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// Response structure for CancelPipelineExecution operation.
+///
+/// @nodoc
+class CancelPipelineExecutionResponse {
+  /// The current execution state of the pipeline. Can only be CANCELLING or
+  /// CANCELLED.
+  final PipelineExecutionState state;
+
+  CancelPipelineExecutionResponse({
+    required this.state,
+  });
+
+  factory CancelPipelineExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return CancelPipelineExecutionResponse(
+      state:
+          PipelineExecutionState.fromString((json['state'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      'state': state.value,
+    };
+  }
+}
+
+/// Contains the response for the CancelQuery operation.
+///
+/// @nodoc
+class CancelQueryResponse {
+  /// The unique identifier for the cancelled query.
+  final String queryId;
+
+  /// The current query status.
+  final QueryStatus status;
+
+  CancelQueryResponse({
+    required this.queryId,
+    required this.status,
+  });
+
+  factory CancelQueryResponse.fromJson(Map<String, dynamic> json) {
+    return CancelQueryResponse(
+      queryId: (json['queryId'] as String?) ?? '',
+      status: QueryStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    final status = this.status;
+    return {
+      'queryId': queryId,
+      'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
 class CreateAccessPolicyResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -6523,6 +9248,57 @@ class CreateAccessPolicyResponse {
     return {
       'accessPolicyArn': accessPolicyArn,
       'accessPolicyId': accessPolicyId,
+    };
+  }
+}
+
+/// @nodoc
+class CreateApplicationResponse {
+  /// ARN of the application
+  final String arn;
+
+  /// DNS subdomain for the application
+  final String dnsSubdomain;
+
+  /// Unique identifier of the application
+  final String id;
+
+  /// Name of the application
+  final String name;
+
+  /// Current status of the application
+  final ApplicationStatus status;
+
+  CreateApplicationResponse({
+    required this.arn,
+    required this.dnsSubdomain,
+    required this.id,
+    required this.name,
+    required this.status,
+  });
+
+  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResponse(
+      arn: (json['arn'] as String?) ?? '',
+      dnsSubdomain: (json['dnsSubdomain'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      status: ApplicationStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final dnsSubdomain = this.dnsSubdomain;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'arn': arn,
+      'dnsSubdomain': dnsSubdomain,
+      'id': id,
+      'name': name,
+      'status': status.value,
     };
   }
 }
@@ -6627,10 +9403,14 @@ class CreateAssetModelCompositeModelResponse {
   final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
   final AssetModelStatus assetModelStatus;
 
+  /// The ID of the asset model.
+  final String? assetModelId;
+
   CreateAssetModelCompositeModelResponse({
     required this.assetModelCompositeModelId,
     required this.assetModelCompositeModelPath,
     required this.assetModelStatus,
+    this.assetModelId,
   });
 
   factory CreateAssetModelCompositeModelResponse.fromJson(
@@ -6647,6 +9427,7 @@ class CreateAssetModelCompositeModelResponse {
       assetModelStatus: AssetModelStatus.fromJson(
           (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      assetModelId: json['assetModelId'] as String?,
     );
   }
 
@@ -6654,10 +9435,12 @@ class CreateAssetModelCompositeModelResponse {
     final assetModelCompositeModelId = this.assetModelCompositeModelId;
     final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
     final assetModelStatus = this.assetModelStatus;
+    final assetModelId = this.assetModelId;
     return {
       'assetModelCompositeModelId': assetModelCompositeModelId,
       'assetModelCompositeModelPath': assetModelCompositeModelPath,
       'assetModelStatus': assetModelStatus,
+      if (assetModelId != null) 'assetModelId': assetModelId,
     };
   }
 }
@@ -6850,6 +9633,80 @@ class CreateDatasetResponse {
   }
 }
 
+/// Response for create dataset export job request.
+///
+/// @nodoc
+class CreateDatasetExportJobResponse {
+  /// The unique identifier for the dataset export job.
+  final String jobId;
+
+  /// The name of the workspace in which the dataset export job was created.
+  final String workspaceName;
+
+  CreateDatasetExportJobResponse({
+    required this.jobId,
+    required this.workspaceName,
+  });
+
+  factory CreateDatasetExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetExportJobResponse(
+      jobId: (json['jobId'] as String?) ?? '',
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final workspaceName = this.workspaceName;
+    return {
+      'jobId': jobId,
+      'workspaceName': workspaceName,
+    };
+  }
+}
+
+/// @nodoc
+class CreateEnrichmentJobResponse {
+  /// Timestamp when the enrichment job was created in ISO 8601 format.
+  final DateTime createdAt;
+
+  /// Unique identifier for the enrichment job. Use this ID with
+  /// DescribeEnrichmentJob to monitor progress or with CancelEnrichmentJob to
+  /// cancel the job.
+  final String jobId;
+
+  /// Initial status of the enrichment job, typically PENDING. The job will
+  /// transition to RUNNING when processing begins, then to a terminal state
+  /// (COMPLETED, FAILED, TIMED_OUT, or CANCELLED). Use DescribeEnrichmentJob to
+  /// track status changes.
+  final EnrichmentJobStatus status;
+
+  CreateEnrichmentJobResponse({
+    required this.createdAt,
+    required this.jobId,
+    required this.status,
+  });
+
+  factory CreateEnrichmentJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEnrichmentJobResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      jobId: (json['jobId'] as String?) ?? '',
+      status: EnrichmentJobStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final jobId = this.jobId;
+    final status = this.status;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'jobId': jobId,
+      'status': status.value,
+    };
+  }
+}
+
 /// @nodoc
 class CreateGatewayResponse {
   /// The <a
@@ -6881,6 +9738,54 @@ class CreateGatewayResponse {
     return {
       'gatewayArn': gatewayArn,
       'gatewayId': gatewayId,
+    };
+  }
+}
+
+/// Response structure for CreatePipeline operation.
+///
+/// @nodoc
+class CreatePipelineResponse {
+  /// The ARN of the created pipeline.
+  final String pipelineArn;
+
+  /// The name of the created pipeline.
+  final String pipelineName;
+
+  /// The current lifecycle status of the pipeline.
+  final ResourceStatus status;
+
+  /// The version of the newly created pipeline.
+  final String version;
+
+  CreatePipelineResponse({
+    required this.pipelineArn,
+    required this.pipelineName,
+    required this.status,
+    required this.version,
+  });
+
+  factory CreatePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePipelineResponse(
+      pipelineArn: (json['pipelineArn'] as String?) ?? '',
+      pipelineName: (json['pipelineName'] as String?) ?? '',
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      version: (json['version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineArn = this.pipelineArn;
+    final pipelineName = this.pipelineName;
+    final status = this.status;
+    final version = this.version;
+    return {
+      'pipelineArn': pipelineArn,
+      'pipelineName': pipelineName,
+      'status': status,
+      'version': version,
     };
   }
 }
@@ -6981,6 +9886,94 @@ class CreateProjectResponse {
   }
 }
 
+/// Response structure for CreateTask operation.
+///
+/// @nodoc
+class CreateTaskResponse {
+  /// The current lifecycle status of the task.
+  final ResourceStatus status;
+
+  /// The ARN of the created task.
+  final String taskArn;
+
+  /// The name of the created task.
+  final String taskName;
+
+  /// The version of the newly created task.
+  final String version;
+
+  CreateTaskResponse({
+    required this.status,
+    required this.taskArn,
+    required this.taskName,
+    required this.version,
+  });
+
+  factory CreateTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTaskResponse(
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      taskArn: (json['taskArn'] as String?) ?? '',
+      taskName: (json['taskName'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final taskArn = this.taskArn;
+    final taskName = this.taskName;
+    final version = this.version;
+    return {
+      'status': status,
+      'taskArn': taskArn,
+      'taskName': taskName,
+      'version': version,
+    };
+  }
+}
+
+/// @nodoc
+class CreateWorkspaceResponse {
+  /// The ARN of the workspace.
+  final String workspaceArn;
+
+  /// The name of the workspace.
+  final String workspaceName;
+
+  /// The status of the workspace, which is <code>CREATING</code> when the
+  /// operation returns.
+  final WorkspaceStatus workspaceStatus;
+
+  CreateWorkspaceResponse({
+    required this.workspaceArn,
+    required this.workspaceName,
+    required this.workspaceStatus,
+  });
+
+  factory CreateWorkspaceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateWorkspaceResponse(
+      workspaceArn: (json['workspaceArn'] as String?) ?? '',
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      workspaceStatus: WorkspaceStatus.fromJson(
+          (json['workspaceStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceArn = this.workspaceArn;
+    final workspaceName = this.workspaceName;
+    final workspaceStatus = this.workspaceStatus;
+    return {
+      'workspaceArn': workspaceArn,
+      'workspaceName': workspaceName,
+      'workspaceStatus': workspaceStatus,
+    };
+  }
+}
+
 /// @nodoc
 class DeleteAccessPolicyResponse {
   DeleteAccessPolicyResponse();
@@ -6995,13 +9988,30 @@ class DeleteAccessPolicyResponse {
 }
 
 /// @nodoc
+class DeleteApplicationResponse {
+  DeleteApplicationResponse();
+
+  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class DeleteAssetResponse {
   /// The status of the asset, which contains a state (<code>DELETING</code> after
   /// successfully calling this operation) and any error message.
   final AssetStatus assetStatus;
 
+  /// The ID of the asset.
+  final String? assetId;
+
   DeleteAssetResponse({
     required this.assetStatus,
+    this.assetId,
   });
 
   factory DeleteAssetResponse.fromJson(Map<String, dynamic> json) {
@@ -7009,13 +10019,16 @@ class DeleteAssetResponse {
       assetStatus: AssetStatus.fromJson(
           (json['assetStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      assetId: json['assetId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetStatus = this.assetStatus;
+    final assetId = this.assetId;
     return {
       'assetStatus': assetStatus,
+      if (assetId != null) 'assetId': assetId,
     };
   }
 }
@@ -7026,8 +10039,12 @@ class DeleteAssetModelResponse {
   /// after successfully calling this operation) and any error message.
   final AssetModelStatus assetModelStatus;
 
+  /// The ID of the asset model.
+  final String? assetModelId;
+
   DeleteAssetModelResponse({
     required this.assetModelStatus,
+    this.assetModelId,
   });
 
   factory DeleteAssetModelResponse.fromJson(Map<String, dynamic> json) {
@@ -7035,13 +10052,16 @@ class DeleteAssetModelResponse {
       assetModelStatus: AssetModelStatus.fromJson(
           (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      assetModelId: json['assetModelId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetModelStatus = this.assetModelStatus;
+    final assetModelId = this.assetModelId;
     return {
       'assetModelStatus': assetModelStatus,
+      if (assetModelId != null) 'assetModelId': assetModelId,
     };
   }
 }
@@ -7050,8 +10070,12 @@ class DeleteAssetModelResponse {
 class DeleteAssetModelCompositeModelResponse {
   final AssetModelStatus assetModelStatus;
 
+  /// The ID of the asset model.
+  final String? assetModelId;
+
   DeleteAssetModelCompositeModelResponse({
     required this.assetModelStatus,
+    this.assetModelId,
   });
 
   factory DeleteAssetModelCompositeModelResponse.fromJson(
@@ -7060,13 +10084,16 @@ class DeleteAssetModelCompositeModelResponse {
       assetModelStatus: AssetModelStatus.fromJson(
           (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      assetModelId: json['assetModelId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetModelStatus = this.assetModelStatus;
+    final assetModelId = this.assetModelId;
     return {
       'assetModelStatus': assetModelStatus,
+      if (assetModelId != null) 'assetModelId': assetModelId,
     };
   }
 }
@@ -7183,6 +10210,33 @@ class DeleteDatasetResponse {
   }
 }
 
+/// Response structure for DeletePipeline operation.
+///
+/// @nodoc
+class DeletePipelineResponse {
+  /// The current lifecycle status of the pipeline.
+  final ResourceStatus status;
+
+  DeletePipelineResponse({
+    required this.status,
+  });
+
+  factory DeletePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return DeletePipelineResponse(
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status,
+    };
+  }
+}
+
 /// @nodoc
 class DeletePortalResponse {
   /// The status of the portal, which contains a state (<code>DELETING</code>
@@ -7219,6 +10273,59 @@ class DeleteProjectResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Response structure for DeleteTask operation.
+///
+/// @nodoc
+class DeleteTaskResponse {
+  /// The current lifecycle status of the task.
+  final ResourceStatus status;
+
+  DeleteTaskResponse({
+    required this.status,
+  });
+
+  factory DeleteTaskResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteTaskResponse(
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteWorkspaceResponse {
+  /// The status of the workspace after the deletion request, which is
+  /// <code>DELETING</code> when the operation returns.
+  final WorkspaceStatus workspaceStatus;
+
+  DeleteWorkspaceResponse({
+    required this.workspaceStatus,
+  });
+
+  factory DeleteWorkspaceResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteWorkspaceResponse(
+      workspaceStatus: WorkspaceStatus.fromJson(
+          (json['workspaceStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceStatus = this.workspaceStatus;
+    return {
+      'workspaceStatus': workspaceStatus,
+    };
   }
 }
 
@@ -7362,6 +10469,92 @@ class DescribeActionResponse {
       'executionTime': unixTimestampToJson(executionTime),
       'targetResource': targetResource,
       if (resolveTo != null) 'resolveTo': resolveTo,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeApplicationResponse {
+  /// ARN of the application
+  final String arn;
+
+  /// Timestamp when the application was created
+  final DateTime createdAt;
+
+  /// DNS subdomain for the application
+  final String dnsSubdomain;
+
+  /// Unique identifier of the application
+  final String id;
+
+  /// Identity Center Application ARN associated with this application
+  final String idcApplicationArn;
+
+  /// Name of the application
+  final String name;
+
+  /// Current status of the application
+  final ApplicationStatus status;
+
+  /// Timestamp when the application was last updated
+  final DateTime updatedAt;
+
+  /// Name of the workspace this application belongs to
+  final String workspaceName;
+
+  /// Description of the application
+  final String? description;
+
+  DescribeApplicationResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.dnsSubdomain,
+    required this.id,
+    required this.idcApplicationArn,
+    required this.name,
+    required this.status,
+    required this.updatedAt,
+    required this.workspaceName,
+    this.description,
+  });
+
+  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationResponse(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dnsSubdomain: (json['dnsSubdomain'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      idcApplicationArn: (json['idcApplicationArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      status: ApplicationStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final dnsSubdomain = this.dnsSubdomain;
+    final id = this.id;
+    final idcApplicationArn = this.idcApplicationArn;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final workspaceName = this.workspaceName;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'dnsSubdomain': dnsSubdomain,
+      'id': id,
+      'idcApplicationArn': idcApplicationArn,
+      'name': name,
+      'status': status.value,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'workspaceName': workspaceName,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -8031,12 +11224,19 @@ class DescribeBulkImportJobResponse {
   /// request are saved.
   final ErrorReportLocation errorReportLocation;
 
-  /// The files in the specified Amazon S3 bucket that contain your data.
+  /// The files in the specified Amazon S3 bucket that contain your data. You can
+  /// specify up to 100 files for each bulk import job. Each file supports the
+  /// following size limits:
+  ///
+  /// <ul>
+  /// <li>
+  /// Parquet files – Up to 256 MiB.
+  /// </li>
+  /// <li>
+  /// Other file formats – Up to 5 GiB.
+  /// </li>
+  /// </ul>
   final List<File> files;
-
-  /// Contains the configuration information of a job, such as the file format
-  /// used to save data in Amazon S3.
-  final JobConfiguration jobConfiguration;
 
   /// The date the job was created, in Unix epoch TIME.
   final DateTime jobCreationDate;
@@ -8091,14 +11291,23 @@ class DescribeBulkImportJobResponse {
   /// historical data is ingested into IoT SiteWise as is.
   final bool? adaptiveIngestion;
 
+  /// The ID of the dataset.
+  final String? datasetId;
+
   /// If set to true, your data files is deleted from S3, after ingestion into IoT
   /// SiteWise storage.
   final bool? deleteFilesAfterImport;
 
+  /// Contains the configuration information of a job, such as the file format
+  /// used to save data in Amazon S3.
+  final JobConfiguration? jobConfiguration;
+
+  /// The name of the workspace.
+  final String? workspaceName;
+
   DescribeBulkImportJobResponse({
     required this.errorReportLocation,
     required this.files,
-    required this.jobConfiguration,
     required this.jobCreationDate,
     required this.jobId,
     required this.jobLastUpdateDate,
@@ -8106,7 +11315,10 @@ class DescribeBulkImportJobResponse {
     required this.jobRoleArn,
     required this.jobStatus,
     this.adaptiveIngestion,
+    this.datasetId,
     this.deleteFilesAfterImport,
+    this.jobConfiguration,
+    this.workspaceName,
   });
 
   factory DescribeBulkImportJobResponse.fromJson(Map<String, dynamic> json) {
@@ -8118,9 +11330,6 @@ class DescribeBulkImportJobResponse {
           .nonNulls
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
-      jobConfiguration: JobConfiguration.fromJson(
-          (json['jobConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
       jobCreationDate:
           nonNullableTimeStampFromJson(json['jobCreationDate'] ?? 0),
       jobId: (json['jobId'] as String?) ?? '',
@@ -8130,14 +11339,19 @@ class DescribeBulkImportJobResponse {
       jobRoleArn: (json['jobRoleArn'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['jobStatus'] as String?) ?? ''),
       adaptiveIngestion: json['adaptiveIngestion'] as bool?,
+      datasetId: json['datasetId'] as String?,
       deleteFilesAfterImport: json['deleteFilesAfterImport'] as bool?,
+      jobConfiguration: json['jobConfiguration'] != null
+          ? JobConfiguration.fromJson(
+              json['jobConfiguration'] as Map<String, dynamic>)
+          : null,
+      workspaceName: json['workspaceName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final errorReportLocation = this.errorReportLocation;
     final files = this.files;
-    final jobConfiguration = this.jobConfiguration;
     final jobCreationDate = this.jobCreationDate;
     final jobId = this.jobId;
     final jobLastUpdateDate = this.jobLastUpdateDate;
@@ -8145,11 +11359,13 @@ class DescribeBulkImportJobResponse {
     final jobRoleArn = this.jobRoleArn;
     final jobStatus = this.jobStatus;
     final adaptiveIngestion = this.adaptiveIngestion;
+    final datasetId = this.datasetId;
     final deleteFilesAfterImport = this.deleteFilesAfterImport;
+    final jobConfiguration = this.jobConfiguration;
+    final workspaceName = this.workspaceName;
     return {
       'errorReportLocation': errorReportLocation,
       'files': files,
-      'jobConfiguration': jobConfiguration,
       'jobCreationDate': unixTimestampToJson(jobCreationDate),
       'jobId': jobId,
       'jobLastUpdateDate': unixTimestampToJson(jobLastUpdateDate),
@@ -8157,8 +11373,11 @@ class DescribeBulkImportJobResponse {
       'jobRoleArn': jobRoleArn,
       'jobStatus': jobStatus.value,
       if (adaptiveIngestion != null) 'adaptiveIngestion': adaptiveIngestion,
+      if (datasetId != null) 'datasetId': datasetId,
       if (deleteFilesAfterImport != null)
         'deleteFilesAfterImport': deleteFilesAfterImport,
+      if (jobConfiguration != null) 'jobConfiguration': jobConfiguration,
+      if (workspaceName != null) 'workspaceName': workspaceName,
     };
   }
 }
@@ -8442,8 +11661,24 @@ class DescribeDatasetResponse {
   /// use.
   final DatasetStatus datasetStatus;
 
+  /// The configuration for the dataset.
+  final DatasetConfig? datasetConfig;
+
+  /// The type of dataset: a session dataset, a curated dataset, or a connection
+  /// to an external datasource.
+  final DatasetTypeEnum? datasetType;
+
   /// The version of the dataset.
   final String? datasetVersion;
+
+  /// The enrichment status of the dataset.
+  final DatasetEnrichment? enrichmentStatus;
+
+  /// The metadata for the dataset.
+  final Map<String, String>? metadata;
+
+  /// The name of the workspace that contains the dataset.
+  final String? workspaceName;
 
   DescribeDatasetResponse({
     required this.datasetArn,
@@ -8454,7 +11689,12 @@ class DescribeDatasetResponse {
     required this.datasetName,
     required this.datasetSource,
     required this.datasetStatus,
+    this.datasetConfig,
+    this.datasetType,
     this.datasetVersion,
+    this.enrichmentStatus,
+    this.metadata,
+    this.workspaceName,
   });
 
   factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
@@ -8473,7 +11713,20 @@ class DescribeDatasetResponse {
       datasetStatus: DatasetStatus.fromJson(
           (json['datasetStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      datasetConfig: json['datasetConfig'] != null
+          ? DatasetConfig.fromJson(
+              json['datasetConfig'] as Map<String, dynamic>)
+          : null,
+      datasetType:
+          (json['datasetType'] as String?)?.let(DatasetTypeEnum.fromString),
       datasetVersion: json['datasetVersion'] as String?,
+      enrichmentStatus: json['enrichmentStatus'] != null
+          ? DatasetEnrichment.fromJson(
+              json['enrichmentStatus'] as Map<String, dynamic>)
+          : null,
+      metadata: (json['metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      workspaceName: json['workspaceName'] as String?,
     );
   }
 
@@ -8486,7 +11739,12 @@ class DescribeDatasetResponse {
     final datasetName = this.datasetName;
     final datasetSource = this.datasetSource;
     final datasetStatus = this.datasetStatus;
+    final datasetConfig = this.datasetConfig;
+    final datasetType = this.datasetType;
     final datasetVersion = this.datasetVersion;
+    final enrichmentStatus = this.enrichmentStatus;
+    final metadata = this.metadata;
+    final workspaceName = this.workspaceName;
     return {
       'datasetArn': datasetArn,
       'datasetCreationDate': unixTimestampToJson(datasetCreationDate),
@@ -8496,7 +11754,92 @@ class DescribeDatasetResponse {
       'datasetName': datasetName,
       'datasetSource': datasetSource,
       'datasetStatus': datasetStatus,
+      if (datasetConfig != null) 'datasetConfig': datasetConfig,
+      if (datasetType != null) 'datasetType': datasetType.value,
       if (datasetVersion != null) 'datasetVersion': datasetVersion,
+      if (enrichmentStatus != null) 'enrichmentStatus': enrichmentStatus,
+      if (metadata != null) 'metadata': metadata,
+      if (workspaceName != null) 'workspaceName': workspaceName,
+    };
+  }
+}
+
+/// Response for describe dataset export job request.
+///
+/// @nodoc
+class DescribeDatasetExportJobResponse {
+  /// The S3 URI where output clips are written.
+  final String destinationS3Uri;
+
+  /// The location where the error report will be written on failure.
+  final ExportErrorReportLocation errorReportLocation;
+
+  /// The processing input that was provided in the CreateDatasetExportJob
+  /// request.
+  final ProcessingInput input;
+
+  /// The unique identifier for the dataset export job.
+  final String jobId;
+
+  /// The timestamp when the job started processing.
+  final DateTime startedAt;
+
+  /// The current status of the dataset export job.
+  final DatasetExportJobStatus status;
+
+  /// The name of the workspace that contains the dataset export job.
+  final String workspaceName;
+
+  /// The timestamp when the job completed, or null if the job is still running.
+  final DateTime? completedAt;
+
+  DescribeDatasetExportJobResponse({
+    required this.destinationS3Uri,
+    required this.errorReportLocation,
+    required this.input,
+    required this.jobId,
+    required this.startedAt,
+    required this.status,
+    required this.workspaceName,
+    this.completedAt,
+  });
+
+  factory DescribeDatasetExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetExportJobResponse(
+      destinationS3Uri: (json['destinationS3Uri'] as String?) ?? '',
+      errorReportLocation: ExportErrorReportLocation.fromJson(
+          (json['errorReportLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      input: ProcessingInput.fromJson(
+          (json['input'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['jobId'] as String?) ?? '',
+      startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
+      status:
+          DatasetExportJobStatus.fromString((json['status'] as String?) ?? ''),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      completedAt: timeStampFromJson(json['completedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationS3Uri = this.destinationS3Uri;
+    final errorReportLocation = this.errorReportLocation;
+    final input = this.input;
+    final jobId = this.jobId;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    final completedAt = this.completedAt;
+    return {
+      'destinationS3Uri': destinationS3Uri,
+      'errorReportLocation': errorReportLocation,
+      'input': input,
+      'jobId': jobId,
+      'startedAt': unixTimestampToJson(startedAt),
+      'status': status.value,
+      'workspaceName': workspaceName,
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
     };
   }
 }
@@ -8541,6 +11884,113 @@ class DescribeDefaultEncryptionConfigurationResponse {
       'configurationStatus': configurationStatus,
       'encryptionType': encryptionType.value,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeEnrichmentJobResponse {
+  /// Timestamp when the enrichment job was created in ISO 8601 format.
+  final DateTime createdAt;
+
+  /// The complete job configuration as originally submitted, including the
+  /// analysis type and parameters. For event detection jobs, this includes the
+  /// dataset ID, time series identifier, and trim settings defining the analysis
+  /// time range.
+  final EnrichmentJobConfiguration jobConfiguration;
+
+  /// The unique identifier of the enrichment job.
+  final String jobId;
+
+  /// The type of enrichment job, derived from the job configuration. Currently
+  /// EVENT_DETECTION is the only supported type.
+  final JobType jobType;
+
+  /// Current status of the enrichment job. Possible values:
+  ///
+  /// <ul>
+  /// <li>PENDING: Job is waiting to start processing</li>
+  /// <li>RUNNING: Job is actively processing video data</li>
+  /// <li>COMPLETED: Job finished successfully; embeddings available in IoT
+  /// SiteWise</li>
+  /// <li>FAILED: Job encountered an error; see failureMessage for details</li>
+  /// <li>TIMED_OUT: Job exceeded maximum processing time limit</li>
+  /// <li>CANCELLED: Job was cancelled by user request</li>
+  /// </ul>
+  final EnrichmentJobStatus status;
+
+  /// The name of the IoT SiteWise workspace containing the job.
+  final String workspaceName;
+
+  /// Timestamp when the job was cancelled in ISO 8601 format. Only present if
+  /// status is CANCELLED.
+  final DateTime? cancelledAt;
+
+  /// Timestamp when the job completed successfully in ISO 8601 format. Only
+  /// present if status is COMPLETED.
+  final DateTime? completedAt;
+
+  /// Human-readable error message explaining why the job failed. Only present if
+  /// status is FAILED. Use this information to diagnose configuration issues,
+  /// permission problems, or data processing errors.
+  final String? failureMessage;
+
+  /// Timestamp when the job status was last updated in ISO 8601 format. Useful
+  /// for tracking recent activity.
+  final DateTime? updatedAt;
+
+  DescribeEnrichmentJobResponse({
+    required this.createdAt,
+    required this.jobConfiguration,
+    required this.jobId,
+    required this.jobType,
+    required this.status,
+    required this.workspaceName,
+    this.cancelledAt,
+    this.completedAt,
+    this.failureMessage,
+    this.updatedAt,
+  });
+
+  factory DescribeEnrichmentJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEnrichmentJobResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      jobConfiguration: EnrichmentJobConfiguration.fromJson(
+          (json['jobConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['jobId'] as String?) ?? '',
+      jobType: JobType.fromString((json['jobType'] as String?) ?? ''),
+      status: EnrichmentJobStatus.fromString((json['status'] as String?) ?? ''),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      cancelledAt: timeStampFromJson(json['cancelledAt']),
+      completedAt: timeStampFromJson(json['completedAt']),
+      failureMessage: json['failureMessage'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final jobConfiguration = this.jobConfiguration;
+    final jobId = this.jobId;
+    final jobType = this.jobType;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    final cancelledAt = this.cancelledAt;
+    final completedAt = this.completedAt;
+    final failureMessage = this.failureMessage;
+    final updatedAt = this.updatedAt;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'jobConfiguration': jobConfiguration,
+      'jobId': jobId,
+      'jobType': jobType.value,
+      'status': status.value,
+      'workspaceName': workspaceName,
+      if (cancelledAt != null) 'cancelledAt': unixTimestampToJson(cancelledAt),
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
@@ -8850,6 +12300,209 @@ class DescribeLoggingOptionsResponse {
   }
 }
 
+/// Response structure for DescribePipeline operation.
+///
+/// @nodoc
+class DescribePipelineResponse {
+  /// The list of compute nodes that form the pipeline DAG.
+  final List<ComputeNode> computations;
+
+  /// The time the pipeline was created, in Unix epoch time.
+  final DateTime createdAt;
+
+  /// The ARN of the pipeline.
+  final String pipelineArn;
+
+  /// A unique name of the pipeline within the workspace.
+  final String pipelineName;
+
+  /// The current lifecycle status of the pipeline.
+  final ResourceStatus status;
+
+  /// The time the pipeline was last updated, in Unix epoch time.
+  final DateTime updatedAt;
+
+  /// The version of the pipeline.
+  final String version;
+
+  /// The name of the workspace.
+  final String workspaceName;
+
+  /// The description of the pipeline.
+  final String? description;
+
+  /// The environment variables shared across all compute nodes in the pipeline.
+  final Map<String, String>? environmentVariables;
+
+  DescribePipelineResponse({
+    required this.computations,
+    required this.createdAt,
+    required this.pipelineArn,
+    required this.pipelineName,
+    required this.status,
+    required this.updatedAt,
+    required this.version,
+    required this.workspaceName,
+    this.description,
+    this.environmentVariables,
+  });
+
+  factory DescribePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePipelineResponse(
+      computations: ((json['computations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ComputeNode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      pipelineArn: (json['pipelineArn'] as String?) ?? '',
+      pipelineName: (json['pipelineName'] as String?) ?? '',
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as String?) ?? '',
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      description: json['description'] as String?,
+      environmentVariables:
+          (json['environmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computations = this.computations;
+    final createdAt = this.createdAt;
+    final pipelineArn = this.pipelineArn;
+    final pipelineName = this.pipelineName;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final workspaceName = this.workspaceName;
+    final description = this.description;
+    final environmentVariables = this.environmentVariables;
+    return {
+      'computations': computations,
+      'createdAt': unixTimestampToJson(createdAt),
+      'pipelineArn': pipelineArn,
+      'pipelineName': pipelineName,
+      'status': status,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+      'workspaceName': workspaceName,
+      if (description != null) 'description': description,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+    };
+  }
+}
+
+/// Response structure for DescribePipelineExecution operation.
+///
+/// @nodoc
+class DescribePipelineExecutionResponse {
+  /// A list of compute node execution details within this pipeline execution.
+  final List<ComputeNodeExecutionDetails> computeNodeExecutionDetails;
+
+  /// The unique identifier of the pipeline execution.
+  final String pipelineExecutionId;
+
+  /// The name of the pipeline.
+  final String pipelineName;
+
+  /// The pipeline version this execution ran against.
+  final String pipelineVersion;
+
+  /// The environment variables provided as input for the pipeline execution.
+  final ExecutionEnvironmentVariables requestEnvironmentVariables;
+
+  /// The current execution status of the pipeline.
+  final PipelineExecutionStatus status;
+
+  /// The name of the workspace.
+  final String workspaceName;
+
+  /// The time the pipeline execution completed, in Unix epoch time.
+  final DateTime? endTime;
+
+  /// Scheduling priority for the execution. When not specified, defaults to
+  /// lowest priority.
+  final int? executionPriority;
+
+  /// The token to be used for the next set of paginated results.
+  final String? nextToken;
+
+  /// The time the pipeline execution started, in Unix epoch time.
+  final DateTime? startTime;
+
+  DescribePipelineExecutionResponse({
+    required this.computeNodeExecutionDetails,
+    required this.pipelineExecutionId,
+    required this.pipelineName,
+    required this.pipelineVersion,
+    required this.requestEnvironmentVariables,
+    required this.status,
+    required this.workspaceName,
+    this.endTime,
+    this.executionPriority,
+    this.nextToken,
+    this.startTime,
+  });
+
+  factory DescribePipelineExecutionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribePipelineExecutionResponse(
+      computeNodeExecutionDetails: ((json['computeNodeExecutionDetails']
+                  as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              ComputeNodeExecutionDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pipelineExecutionId: (json['pipelineExecutionId'] as String?) ?? '',
+      pipelineName: (json['pipelineName'] as String?) ?? '',
+      pipelineVersion: (json['pipelineVersion'] as String?) ?? '',
+      requestEnvironmentVariables: ExecutionEnvironmentVariables.fromJson(
+          (json['requestEnvironmentVariables'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: PipelineExecutionStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      endTime: timeStampFromJson(json['endTime']),
+      executionPriority: json['executionPriority'] as int?,
+      nextToken: json['nextToken'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeNodeExecutionDetails = this.computeNodeExecutionDetails;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final pipelineName = this.pipelineName;
+    final pipelineVersion = this.pipelineVersion;
+    final requestEnvironmentVariables = this.requestEnvironmentVariables;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    final endTime = this.endTime;
+    final executionPriority = this.executionPriority;
+    final nextToken = this.nextToken;
+    final startTime = this.startTime;
+    return {
+      'computeNodeExecutionDetails': computeNodeExecutionDetails,
+      'pipelineExecutionId': pipelineExecutionId,
+      'pipelineName': pipelineName,
+      'pipelineVersion': pipelineVersion,
+      'requestEnvironmentVariables': requestEnvironmentVariables,
+      'status': status,
+      'workspaceName': workspaceName,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (executionPriority != null) 'executionPriority': executionPriority,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
 /// @nodoc
 class DescribePortalResponse {
   /// The <a
@@ -9095,6 +12748,148 @@ class DescribeProjectResponse {
   }
 }
 
+/// Contains the response for the DescribeQuery operation.
+///
+/// @nodoc
+class DescribeQueryResponse {
+  /// The unique identifier for the query execution.
+  final String queryId;
+
+  /// The current query status.
+  final QueryStatus status;
+
+  /// The date and time when the query was submitted, in Unix epoch time.
+  final DateTime submittedAt;
+
+  /// The date and time when the query reached a terminal state, in Unix epoch
+  /// time. This field is present when the query status is COMPLETED, FAILED, or
+  /// CANCELED.
+  final DateTime? completedAt;
+
+  /// A human-readable error description. This field is present when the query
+  /// status is FAILED.
+  final String? errorMessage;
+
+  /// The query execution statistics. This field is present when the query status
+  /// is COMPLETED.
+  final QueryStatistics? statistics;
+
+  DescribeQueryResponse({
+    required this.queryId,
+    required this.status,
+    required this.submittedAt,
+    this.completedAt,
+    this.errorMessage,
+    this.statistics,
+  });
+
+  factory DescribeQueryResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeQueryResponse(
+      queryId: (json['queryId'] as String?) ?? '',
+      status: QueryStatus.fromString((json['status'] as String?) ?? ''),
+      submittedAt: nonNullableTimeStampFromJson(json['submittedAt'] ?? 0),
+      completedAt: timeStampFromJson(json['completedAt']),
+      errorMessage: json['errorMessage'] as String?,
+      statistics: json['statistics'] != null
+          ? QueryStatistics.fromJson(json['statistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    final status = this.status;
+    final submittedAt = this.submittedAt;
+    final completedAt = this.completedAt;
+    final errorMessage = this.errorMessage;
+    final statistics = this.statistics;
+    return {
+      'queryId': queryId,
+      'status': status.value,
+      'submittedAt': unixTimestampToJson(submittedAt),
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (statistics != null) 'statistics': statistics,
+    };
+  }
+}
+
+/// Output of the DescribeSearch operation.
+///
+/// @nodoc
+class DescribeSearchResponse {
+  /// The natural-language query that was submitted for the search.
+  final String queryStatement;
+
+  /// The unique identifier of the search.
+  final String searchId;
+
+  /// The search strategy used for the search.
+  final SearchType searchType;
+
+  /// The current status of the search.
+  final SearchStatus status;
+
+  /// The name of the workspace the search runs against.
+  final String workspaceName;
+
+  /// The group identifier associated with the search, if one was supplied on the
+  /// request.
+  final String? groupId;
+
+  /// The time at which the search was started.
+  final DateTime? startedAt;
+
+  /// A human-readable explanation of the current status. Populated when the
+  /// search has <code>FAILED</code>.
+  final String? statusReason;
+
+  DescribeSearchResponse({
+    required this.queryStatement,
+    required this.searchId,
+    required this.searchType,
+    required this.status,
+    required this.workspaceName,
+    this.groupId,
+    this.startedAt,
+    this.statusReason,
+  });
+
+  factory DescribeSearchResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSearchResponse(
+      queryStatement: (json['queryStatement'] as String?) ?? '',
+      searchId: (json['searchId'] as String?) ?? '',
+      searchType: SearchType.fromString((json['searchType'] as String?) ?? ''),
+      status: SearchStatus.fromString((json['status'] as String?) ?? ''),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      groupId: json['groupId'] as String?,
+      startedAt: timeStampFromJson(json['startedAt']),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryStatement = this.queryStatement;
+    final searchId = this.searchId;
+    final searchType = this.searchType;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    final groupId = this.groupId;
+    final startedAt = this.startedAt;
+    final statusReason = this.statusReason;
+    return {
+      'queryStatement': queryStatement,
+      'searchId': searchId,
+      'searchType': searchType.value,
+      'status': status.value,
+      'workspaceName': workspaceName,
+      if (groupId != null) 'groupId': groupId,
+      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
 /// @nodoc
 class DescribeStorageConfigurationResponse {
   final ConfigurationStatus configurationStatus;
@@ -9229,6 +13024,93 @@ class DescribeStorageConfigurationResponse {
   }
 }
 
+/// Response structure for DescribeTask operation.
+///
+/// @nodoc
+class DescribeTaskResponse {
+  /// The time the task was created, in Unix epoch time.
+  final DateTime createdAt;
+
+  /// The current lifecycle status of the task.
+  final ResourceStatus status;
+
+  /// The ARN of the task.
+  final String taskArn;
+
+  /// The task execution configuration. Contains a <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html">containerTaskConfiguration</a>
+  /// for custom container workloads.
+  final TaskConfiguration taskConfiguration;
+
+  /// The name of the task.
+  final String taskName;
+
+  /// The time the task was last updated, in Unix epoch time.
+  final DateTime updatedAt;
+
+  /// The version of the task.
+  final String version;
+
+  /// The name of the workspace.
+  final String workspaceName;
+
+  /// The description of the task.
+  final String? description;
+
+  DescribeTaskResponse({
+    required this.createdAt,
+    required this.status,
+    required this.taskArn,
+    required this.taskConfiguration,
+    required this.taskName,
+    required this.updatedAt,
+    required this.version,
+    required this.workspaceName,
+    this.description,
+  });
+
+  factory DescribeTaskResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTaskResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      taskArn: (json['taskArn'] as String?) ?? '',
+      taskConfiguration: TaskConfiguration.fromJson(
+          (json['taskConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      taskName: (json['taskName'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as String?) ?? '',
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final status = this.status;
+    final taskArn = this.taskArn;
+    final taskConfiguration = this.taskConfiguration;
+    final taskName = this.taskName;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final workspaceName = this.workspaceName;
+    final description = this.description;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'status': status,
+      'taskArn': taskArn,
+      'taskConfiguration': taskConfiguration,
+      'taskName': taskName,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+      'workspaceName': workspaceName,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
 /// @nodoc
 class DescribeTimeSeriesResponse {
   /// The data type of the time series.
@@ -9272,6 +13154,9 @@ class DescribeTimeSeriesResponse {
   /// The ID of the asset property, in UUID format.
   final String? propertyId;
 
+  /// The name of the workspace.
+  final String? workspaceName;
+
   DescribeTimeSeriesResponse({
     required this.dataType,
     required this.timeSeriesArn,
@@ -9282,6 +13167,7 @@ class DescribeTimeSeriesResponse {
     this.assetId,
     this.dataTypeSpec,
     this.propertyId,
+    this.workspaceName,
   });
 
   factory DescribeTimeSeriesResponse.fromJson(Map<String, dynamic> json) {
@@ -9298,6 +13184,7 @@ class DescribeTimeSeriesResponse {
       assetId: json['assetId'] as String?,
       dataTypeSpec: json['dataTypeSpec'] as String?,
       propertyId: json['propertyId'] as String?,
+      workspaceName: json['workspaceName'] as String?,
     );
   }
 
@@ -9311,6 +13198,7 @@ class DescribeTimeSeriesResponse {
     final assetId = this.assetId;
     final dataTypeSpec = this.dataTypeSpec;
     final propertyId = this.propertyId;
+    final workspaceName = this.workspaceName;
     return {
       'dataType': dataType.value,
       'timeSeriesArn': timeSeriesArn,
@@ -9321,6 +13209,79 @@ class DescribeTimeSeriesResponse {
       if (assetId != null) 'assetId': assetId,
       if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
       if (propertyId != null) 'propertyId': propertyId,
+      if (workspaceName != null) 'workspaceName': workspaceName,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeWorkspaceResponse {
+  /// The date the workspace was created, in Unix epoch time.
+  final DateTime createdAt;
+
+  /// The date the workspace was last updated, in Unix epoch time.
+  final DateTime updatedAt;
+
+  /// The ARN of the workspace.
+  final String workspaceArn;
+
+  /// The name of the workspace.
+  final String workspaceName;
+
+  /// The status of the workspace, which contains the state and any error message.
+  final WorkspaceStatus workspaceStatus;
+
+  /// The encryption configuration information for the workspace.
+  final WorkspaceEncryptionConfigurationInfo? encryptionConfiguration;
+
+  /// The description of the workspace.
+  final String? workspaceDescription;
+
+  DescribeWorkspaceResponse({
+    required this.createdAt,
+    required this.updatedAt,
+    required this.workspaceArn,
+    required this.workspaceName,
+    required this.workspaceStatus,
+    this.encryptionConfiguration,
+    this.workspaceDescription,
+  });
+
+  factory DescribeWorkspaceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkspaceResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workspaceArn: (json['workspaceArn'] as String?) ?? '',
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      workspaceStatus: WorkspaceStatus.fromJson(
+          (json['workspaceStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? WorkspaceEncryptionConfigurationInfo.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      workspaceDescription: json['workspaceDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final updatedAt = this.updatedAt;
+    final workspaceArn = this.workspaceArn;
+    final workspaceName = this.workspaceName;
+    final workspaceStatus = this.workspaceStatus;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final workspaceDescription = this.workspaceDescription;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'workspaceArn': workspaceArn,
+      'workspaceName': workspaceName,
+      'workspaceStatus': workspaceStatus,
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (workspaceDescription != null)
+        'workspaceDescription': workspaceDescription,
     };
   }
 }
@@ -9387,30 +13348,6 @@ class ExecuteQueryResponse {
       if (columns != null) 'columns': columns,
       if (nextToken != null) 'nextToken': nextToken,
       if (rows != null) 'rows': rows,
-    };
-  }
-}
-
-/// Access is denied.
-///
-/// @nodoc
-class AccessDeniedException implements _s.AwsException {
-  final String? message;
-
-  AccessDeniedException({
-    this.message,
-  });
-
-  factory AccessDeniedException.fromJson(Map<String, dynamic> json) {
-    return AccessDeniedException(
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'message': message,
     };
   }
 }
@@ -9513,6 +13450,64 @@ class GetAssetPropertyValueHistoryResponse {
   }
 }
 
+/// Response containing the video data.
+///
+/// @nodoc
+class GetCaptureDataResponse {
+  /// The binary video data.
+  final Uint8List data;
+
+  /// The type of the returned data.
+  final VideoDataType dataType;
+
+  /// The actual end time of the returned data.
+  final TimeInNanos endTime;
+
+  /// The actual start time of the returned data.
+  final TimeInNanos startTime;
+
+  /// The token used to retrieve the next chunk. Absent if no more data is
+  /// available.
+  final String? nextToken;
+
+  GetCaptureDataResponse({
+    required this.data,
+    required this.dataType,
+    required this.endTime,
+    required this.startTime,
+    this.nextToken,
+  });
+
+  factory GetCaptureDataResponse.fromJson(Map<String, dynamic> json) {
+    return GetCaptureDataResponse(
+      data: _s.decodeUint8List((json['data'] as String?) ?? ''),
+      dataType: VideoDataType.fromString((json['dataType'] as String?) ?? ''),
+      endTime: TimeInNanos.fromJson(
+          (json['endTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startTime: TimeInNanos.fromJson(
+          (json['startTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final dataType = this.dataType;
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final nextToken = this.nextToken;
+    return {
+      'data': base64Encode(data),
+      'dataType': dataType.value,
+      'endTime': endTime,
+      'startTime': startTime,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// @nodoc
 class GetInterpolatedAssetPropertyValuesResponse {
   /// The requested interpolated values.
@@ -9546,6 +13541,90 @@ class GetInterpolatedAssetPropertyValuesResponse {
     final nextToken = this.nextToken;
     return {
       'interpolatedAssetPropertyValues': interpolatedAssetPropertyValues,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Contains the response for the GetQueryResults operation.
+///
+/// @nodoc
+class GetQueryResultsResponse {
+  /// A list of column metadata for the query results. Each entry contains the
+  /// column name and data type. Present when the query status is COMPLETED.
+  final List<ColumnInformation>? columnInfo;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  /// The result rows. Each row is a list of string column values, positional to
+  /// match the columnInfo order. Present when the query status is COMPLETED.
+  final List<List<String>>? rows;
+
+  GetQueryResultsResponse({
+    this.columnInfo,
+    this.nextToken,
+    this.rows,
+  });
+
+  factory GetQueryResultsResponse.fromJson(Map<String, dynamic> json) {
+    return GetQueryResultsResponse(
+      columnInfo: (json['columnInfo'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+      rows: (json['rows'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnInfo = this.columnInfo;
+    final nextToken = this.nextToken;
+    final rows = this.rows;
+    return {
+      if (columnInfo != null) 'columnInfo': columnInfo,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (rows != null) 'rows': rows,
+    };
+  }
+}
+
+/// Output of the GetSearchResults operation.
+///
+/// @nodoc
+class GetSearchResultsResponse {
+  /// A page of search results, ordered by descending relevance score.
+  final List<SearchResult> searchResults;
+
+  /// The pagination token to use in a subsequent GetSearchResults call to
+  /// retrieve the next page. Absent when there are no more results.
+  final String? nextToken;
+
+  GetSearchResultsResponse({
+    required this.searchResults,
+    this.nextToken,
+  });
+
+  factory GetSearchResultsResponse.fromJson(Map<String, dynamic> json) {
+    return GetSearchResultsResponse(
+      searchResults: ((json['searchResults'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SearchResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final searchResults = this.searchResults;
+    final nextToken = this.nextToken;
+    return {
+      'searchResults': searchResults,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -9638,6 +13717,39 @@ class ListActionsResponse {
     return {
       'actionSummaries': actionSummaries,
       'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListApplicationsResponse {
+  /// List of applications
+  final List<ApplicationSummary> applications;
+
+  /// Next Page Token
+  final String? nextToken;
+
+  ListApplicationsResponse({
+    required this.applications,
+    this.nextToken,
+  });
+
+  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationsResponse(
+      applications: ((json['applications'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    final nextToken = this.nextToken;
+    return {
+      'applications': applications,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -10115,6 +14227,114 @@ class ListDashboardsResponse {
 }
 
 /// @nodoc
+class ListDatasetDataSegmentRelationshipsResponse {
+  /// A list that summarizes each data segment relationship.
+  final List<DataSegmentRelationshipSummary> dataSegmentRelationshipSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListDatasetDataSegmentRelationshipsResponse({
+    required this.dataSegmentRelationshipSummaries,
+    this.nextToken,
+  });
+
+  factory ListDatasetDataSegmentRelationshipsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDatasetDataSegmentRelationshipsResponse(
+      dataSegmentRelationshipSummaries:
+          ((json['dataSegmentRelationshipSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => DataSegmentRelationshipSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSegmentRelationshipSummaries =
+        this.dataSegmentRelationshipSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'dataSegmentRelationshipSummaries': dataSegmentRelationshipSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListDatasetDataSegmentsResponse {
+  /// A list that summarizes each data segment.
+  final List<DataSegmentSummary> dataSegments;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListDatasetDataSegmentsResponse({
+    required this.dataSegments,
+    this.nextToken,
+  });
+
+  factory ListDatasetDataSegmentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetDataSegmentsResponse(
+      dataSegments: ((json['dataSegments'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DataSegmentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSegments = this.dataSegments;
+    final nextToken = this.nextToken;
+    return {
+      'dataSegments': dataSegments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response for list dataset export jobs request.
+///
+/// @nodoc
+class ListDatasetExportJobsResponse {
+  /// A list of dataset export job summaries.
+  final List<ExportJobSummary> jobs;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListDatasetExportJobsResponse({
+    required this.jobs,
+    this.nextToken,
+  });
+
+  factory ListDatasetExportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetExportJobsResponse(
+      jobs: ((json['jobs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ExportJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextToken = this.nextToken;
+    return {
+      'jobs': jobs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListDatasetsResponse {
   /// A list that summarizes the dataset response.
   final List<DatasetSummary> datasetSummaries;
@@ -10123,9 +14343,13 @@ class ListDatasetsResponse {
   /// results.
   final String? nextToken;
 
+  /// The name of the workspace.
+  final String? workspaceName;
+
   ListDatasetsResponse({
     required this.datasetSummaries,
     this.nextToken,
+    this.workspaceName,
   });
 
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
@@ -10135,14 +14359,57 @@ class ListDatasetsResponse {
           .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
+      workspaceName: json['workspaceName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final datasetSummaries = this.datasetSummaries;
     final nextToken = this.nextToken;
+    final workspaceName = this.workspaceName;
     return {
       'datasetSummaries': datasetSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (workspaceName != null) 'workspaceName': workspaceName,
+    };
+  }
+}
+
+/// @nodoc
+class ListEnrichmentJobsResponse {
+  /// Array of job summaries matching the filter criteria, ordered by creation
+  /// time descending (newest first). Each summary includes key identifiers
+  /// (jobId, datasetId, propertyAlias/timeSeriesId) and status information
+  /// without the full job configuration. Use DescribeEnrichmentJob to retrieve
+  /// complete details.
+  final List<EnrichmentJobSummary> jobs;
+
+  /// Pagination token to retrieve the next page of results. If present, more jobs
+  /// exist that match the filter criteria. Include this token in a subsequent
+  /// ListEnrichmentJobs request to retrieve the next page. If absent, you have
+  /// retrieved all matching jobs.
+  final String? nextToken;
+
+  ListEnrichmentJobsResponse({
+    required this.jobs,
+    this.nextToken,
+  });
+
+  factory ListEnrichmentJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEnrichmentJobsResponse(
+      jobs: ((json['jobs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EnrichmentJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextToken = this.nextToken;
+    return {
+      'jobs': jobs,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -10254,6 +14521,78 @@ class ListInterfaceRelationshipsResponse {
   }
 }
 
+/// Response structure for ListPipelineExecutions operation.
+///
+/// @nodoc
+class ListPipelineExecutionsResponse {
+  /// A list that summarizes each pipeline execution.
+  final List<PipelineExecutionSummary> pipelineExecutionSummaries;
+
+  /// The token to be used for the next set of paginated results.
+  final String? nextToken;
+
+  ListPipelineExecutionsResponse({
+    required this.pipelineExecutionSummaries,
+    this.nextToken,
+  });
+
+  factory ListPipelineExecutionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPipelineExecutionsResponse(
+      pipelineExecutionSummaries:
+          ((json['pipelineExecutionSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  PipelineExecutionSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionSummaries = this.pipelineExecutionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'pipelineExecutionSummaries': pipelineExecutionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Response structure for ListPipelines operation.
+///
+/// @nodoc
+class ListPipelinesResponse {
+  /// A list that summarizes each pipeline in the workspace.
+  final List<PipelineSummary> pipelineSummaries;
+
+  /// The token to be used for the next set of paginated results.
+  final String? nextToken;
+
+  ListPipelinesResponse({
+    required this.pipelineSummaries,
+    this.nextToken,
+  });
+
+  factory ListPipelinesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPipelinesResponse(
+      pipelineSummaries: ((json['pipelineSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineSummaries = this.pipelineSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'pipelineSummaries': pipelineSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// @nodoc
 class ListPortalsResponse {
   /// The token for the next set of results, or null if there are no additional
@@ -10356,6 +14695,78 @@ class ListProjectsResponse {
   }
 }
 
+/// Contains the response for the ListQueries operation.
+///
+/// @nodoc
+class ListQueriesResponse {
+  /// A list of query summaries for the workspace.
+  final List<QuerySummary> queries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListQueriesResponse({
+    required this.queries,
+    this.nextToken,
+  });
+
+  factory ListQueriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListQueriesResponse(
+      queries: ((json['queries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => QuerySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queries = this.queries;
+    final nextToken = this.nextToken;
+    return {
+      'queries': queries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Output of the ListSearches operation.
+///
+/// @nodoc
+class ListSearchesResponse {
+  /// A page of search summaries, most recently started first.
+  final List<SearchSummary> searchSummaries;
+
+  /// The pagination token to use in a subsequent ListSearches call to retrieve
+  /// the next page. Absent when there are no more searches.
+  final String? nextToken;
+
+  ListSearchesResponse({
+    required this.searchSummaries,
+    this.nextToken,
+  });
+
+  factory ListSearchesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSearchesResponse(
+      searchSummaries: ((json['searchSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SearchSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final searchSummaries = this.searchSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'searchSummaries': searchSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// @nodoc
 class ListTagsForResourceResponse {
   /// The list of key-value pairs that contain metadata for the resource. For more
@@ -10383,6 +14794,41 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// Response structure for ListTasks operation.
+///
+/// @nodoc
+class ListTasksResponse {
+  /// A list that summarizes each task in the workspace.
+  final List<TaskSummary> taskSummaries;
+
+  /// The token to be used for the next set of paginated results.
+  final String? nextToken;
+
+  ListTasksResponse({
+    required this.taskSummaries,
+    this.nextToken,
+  });
+
+  factory ListTasksResponse.fromJson(Map<String, dynamic> json) {
+    return ListTasksResponse(
+      taskSummaries: ((json['taskSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TaskSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskSummaries = this.taskSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'taskSummaries': taskSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// @nodoc
 class ListTimeSeriesResponse {
   /// One or more time series summaries to list.
@@ -10392,9 +14838,13 @@ class ListTimeSeriesResponse {
   /// results.
   final String? nextToken;
 
+  /// The name of the workspace.
+  final String? workspaceName;
+
   ListTimeSeriesResponse({
     required this.timeSeriesSummaries,
     this.nextToken,
+    this.workspaceName,
   });
 
   factory ListTimeSeriesResponse.fromJson(Map<String, dynamic> json) {
@@ -10404,14 +14854,51 @@ class ListTimeSeriesResponse {
           .map((e) => TimeSeriesSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['nextToken'] as String?,
+      workspaceName: json['workspaceName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final timeSeriesSummaries = this.timeSeriesSummaries;
     final nextToken = this.nextToken;
+    final workspaceName = this.workspaceName;
     return {
       'TimeSeriesSummaries': timeSeriesSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (workspaceName != null) 'workspaceName': workspaceName,
+    };
+  }
+}
+
+/// @nodoc
+class ListWorkspacesResponse {
+  /// A list that summarizes each workspace.
+  final List<WorkspaceSummary> workspaceSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListWorkspacesResponse({
+    required this.workspaceSummaries,
+    this.nextToken,
+  });
+
+  factory ListWorkspacesResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkspacesResponse(
+      workspaceSummaries: ((json['workspaceSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => WorkspaceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceSummaries = this.workspaceSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'workspaceSummaries': workspaceSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -10642,6 +15129,111 @@ class PutStorageConfigurationResponse {
   }
 }
 
+/// Response structure for StartPipelineExecution operation.
+///
+/// @nodoc
+class StartPipelineExecutionResponse {
+  /// The unique identifier of the created pipeline execution.
+  final String pipelineExecutionId;
+
+  StartPipelineExecutionResponse({
+    required this.pipelineExecutionId,
+  });
+
+  factory StartPipelineExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return StartPipelineExecutionResponse(
+      pipelineExecutionId: (json['pipelineExecutionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    return {
+      'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
+}
+
+/// Contains the response for the StartQuery operation.
+///
+/// @nodoc
+class StartQueryResponse {
+  /// The unique identifier for the query execution.
+  final String queryId;
+
+  /// The initial query status. The value is always SUBMITTED upon creation.
+  final QueryStatus status;
+
+  StartQueryResponse({
+    required this.queryId,
+    required this.status,
+  });
+
+  factory StartQueryResponse.fromJson(Map<String, dynamic> json) {
+    return StartQueryResponse(
+      queryId: (json['queryId'] as String?) ?? '',
+      status: QueryStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    final status = this.status;
+    return {
+      'queryId': queryId,
+      'status': status.value,
+    };
+  }
+}
+
+/// Output of the StartSearch operation.
+///
+/// @nodoc
+class StartSearchResponse {
+  /// The unique identifier assigned to the newly started search.
+  final String searchId;
+
+  /// The initial status of the search. A newly started search is
+  /// <code>QUEUED</code>.
+  final SearchStatus status;
+
+  /// The name of the workspace the search runs against.
+  final String workspaceName;
+
+  /// The group identifier associated with the search, if one was supplied on the
+  /// request.
+  final String? groupId;
+
+  StartSearchResponse({
+    required this.searchId,
+    required this.status,
+    required this.workspaceName,
+    this.groupId,
+  });
+
+  factory StartSearchResponse.fromJson(Map<String, dynamic> json) {
+    return StartSearchResponse(
+      searchId: (json['searchId'] as String?) ?? '',
+      status: SearchStatus.fromString((json['status'] as String?) ?? ''),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      groupId: json['groupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final searchId = this.searchId;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    final groupId = this.groupId;
+    return {
+      'searchId': searchId,
+      'status': status.value,
+      'workspaceName': workspaceName,
+      if (groupId != null) 'groupId': groupId,
+    };
+  }
+}
+
 /// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
@@ -10687,8 +15279,12 @@ class UpdateAssetResponse {
   /// successfully calling this operation) and any error message.
   final AssetStatus assetStatus;
 
+  /// The ID of the asset.
+  final String? assetId;
+
   UpdateAssetResponse({
     required this.assetStatus,
+    this.assetId,
   });
 
   factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
@@ -10696,13 +15292,16 @@ class UpdateAssetResponse {
       assetStatus: AssetStatus.fromJson(
           (json['assetStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      assetId: json['assetId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetStatus = this.assetStatus;
+    final assetId = this.assetId;
     return {
       'assetStatus': assetStatus,
+      if (assetId != null) 'assetId': assetId,
     };
   }
 }
@@ -10713,8 +15312,12 @@ class UpdateAssetModelResponse {
   /// after successfully calling this operation) and any error message.
   final AssetModelStatus assetModelStatus;
 
+  /// The ID of the asset model.
+  final String? assetModelId;
+
   UpdateAssetModelResponse({
     required this.assetModelStatus,
+    this.assetModelId,
   });
 
   factory UpdateAssetModelResponse.fromJson(Map<String, dynamic> json) {
@@ -10722,13 +15325,16 @@ class UpdateAssetModelResponse {
       assetModelStatus: AssetModelStatus.fromJson(
           (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      assetModelId: json['assetModelId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetModelStatus = this.assetModelStatus;
+    final assetModelId = this.assetModelId;
     return {
       'assetModelStatus': assetModelStatus,
+      if (assetModelId != null) 'assetModelId': assetModelId,
     };
   }
 }
@@ -10739,9 +15345,13 @@ class UpdateAssetModelCompositeModelResponse {
   final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
   final AssetModelStatus assetModelStatus;
 
+  /// The ID of the asset model.
+  final String? assetModelId;
+
   UpdateAssetModelCompositeModelResponse({
     required this.assetModelCompositeModelPath,
     required this.assetModelStatus,
+    this.assetModelId,
   });
 
   factory UpdateAssetModelCompositeModelResponse.fromJson(
@@ -10756,15 +15366,18 @@ class UpdateAssetModelCompositeModelResponse {
       assetModelStatus: AssetModelStatus.fromJson(
           (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      assetModelId: json['assetModelId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
     final assetModelStatus = this.assetModelStatus;
+    final assetModelId = this.assetModelId;
     return {
       'assetModelCompositeModelPath': assetModelCompositeModelPath,
       'assetModelStatus': assetModelStatus,
+      if (assetModelId != null) 'assetModelId': assetModelId,
     };
   }
 }
@@ -10911,6 +15524,40 @@ class UpdateGatewayCapabilityConfigurationResponse {
   }
 }
 
+/// Response structure for UpdatePipeline operation.
+///
+/// @nodoc
+class UpdatePipelineResponse {
+  /// The current lifecycle status of the pipeline.
+  final ResourceStatus status;
+
+  /// The new version of the pipeline created by this update.
+  final String version;
+
+  UpdatePipelineResponse({
+    required this.status,
+    required this.version,
+  });
+
+  factory UpdatePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePipelineResponse(
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      version: (json['version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final version = this.version;
+    return {
+      'status': status,
+      'version': version,
+    };
+  }
+}
+
 /// @nodoc
 class UpdatePortalResponse {
   /// The status of the portal, which contains a state (<code>UPDATING</code>
@@ -10948,6 +15595,564 @@ class UpdateProjectResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
+}
+
+/// Response structure for UpdateTask operation.
+///
+/// @nodoc
+class UpdateTaskResponse {
+  /// The current lifecycle status of the task.
+  final ResourceStatus status;
+
+  /// The new version of the task created by this update.
+  final String version;
+
+  UpdateTaskResponse({
+    required this.status,
+    required this.version,
+  });
+
+  factory UpdateTaskResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTaskResponse(
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      version: (json['version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final version = this.version;
+    return {
+      'status': status,
+      'version': version,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateWorkspaceResponse {
+  /// The status of the workspace after the update, which is <code>UPDATING</code>
+  /// when the operation returns.
+  final WorkspaceStatus workspaceStatus;
+
+  UpdateWorkspaceResponse({
+    required this.workspaceStatus,
+  });
+
+  factory UpdateWorkspaceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateWorkspaceResponse(
+      workspaceStatus: WorkspaceStatus.fromJson(
+          (json['workspaceStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceStatus = this.workspaceStatus;
+    return {
+      'workspaceStatus': workspaceStatus,
+    };
+  }
+}
+
+/// Contains information about the current status of a workspace.
+///
+/// @nodoc
+class WorkspaceStatus {
+  /// The current state of the workspace.
+  final WorkspaceState state;
+
+  /// Contains associated error information, if any.
+  final WorkspaceErrorDetails? error;
+
+  WorkspaceStatus({
+    required this.state,
+    this.error,
+  });
+
+  factory WorkspaceStatus.fromJson(Map<String, dynamic> json) {
+    return WorkspaceStatus(
+      state: WorkspaceState.fromString((json['state'] as String?) ?? ''),
+      error: json['error'] != null
+          ? WorkspaceErrorDetails.fromJson(
+              json['error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'state': state.value,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// The current state of a workspace. The state changes as the workspace is
+/// created, updated, or deleted.
+///
+/// @nodoc
+class WorkspaceState {
+  static const creating = WorkspaceState._('CREATING');
+  static const active = WorkspaceState._('ACTIVE');
+  static const updating = WorkspaceState._('UPDATING');
+  static const deleting = WorkspaceState._('DELETING');
+  static const failed = WorkspaceState._('FAILED');
+
+  final String value;
+
+  const WorkspaceState._(this.value);
+
+  static const values = [creating, active, updating, deleting, failed];
+
+  static WorkspaceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkspaceState._(value));
+
+  @override
+  bool operator ==(other) => other is WorkspaceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the details of an error associated with a workspace.
+///
+/// @nodoc
+class WorkspaceErrorDetails {
+  /// The error code.
+  final ErrorCode code;
+
+  /// The error message.
+  final String message;
+
+  WorkspaceErrorDetails({
+    required this.code,
+    required this.message,
+  });
+
+  factory WorkspaceErrorDetails.fromJson(Map<String, dynamic> json) {
+    return WorkspaceErrorDetails(
+      code: ErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'code': code.value,
+      'message': message,
+    };
+  }
+}
+
+/// @nodoc
+class ErrorCode {
+  static const validationError = ErrorCode._('VALIDATION_ERROR');
+  static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [validationError, internalFailure];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the encryption configuration for a workspace.
+///
+/// @nodoc
+class WorkspaceEncryptionConfiguration {
+  /// The encryption scheme for the workspace.
+  /// <code>SITEWISE_DEFAULT_ENCRYPTION</code> encrypts data with the IoT SiteWise
+  /// default key. <code>KMS_BASED_ENCRYPTION</code> encrypts data with the
+  /// customer managed KMS key identified by <code>kmsKeyId</code>.
+  final EncryptionType encryptionType;
+
+  /// The customer managed KMS key used when <code>encryptionType</code> is
+  /// <code>KMS_BASED_ENCRYPTION</code>. Accepts a key ID, key ARN, or key alias.
+  /// Required for <code>KMS_BASED_ENCRYPTION</code>; must be omitted for
+  /// <code>SITEWISE_DEFAULT_ENCRYPTION</code>. After a workspace's customer
+  /// managed key configuration becomes active, the key can't be changed.
+  final String? kmsKeyId;
+
+  WorkspaceEncryptionConfiguration({
+    required this.encryptionType,
+    this.kmsKeyId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'encryptionType': encryptionType.value,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// @nodoc
+class EncryptionType {
+  static const sitewiseDefaultEncryption =
+      EncryptionType._('SITEWISE_DEFAULT_ENCRYPTION');
+  static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
+
+  final String value;
+
+  const EncryptionType._(this.value);
+
+  static const values = [sitewiseDefaultEncryption, kmsBasedEncryption];
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the current status of a resource.
+///
+/// @nodoc
+class ResourceStatus {
+  /// Contains associated error information, if any.
+  final ResourceError? error;
+
+  /// The current status of the resource.
+  final ResourceState? state;
+
+  ResourceStatus({
+    this.error,
+    this.state,
+  });
+
+  factory ResourceStatus.fromJson(Map<String, dynamic> json) {
+    return ResourceStatus(
+      error: json['error'] != null
+          ? ResourceError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.let(ResourceState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final state = this.state;
+    return {
+      if (error != null) 'error': error,
+      if (state != null) 'state': state.value,
+    };
+  }
+}
+
+/// Contains the details of a resource error.
+///
+/// @nodoc
+class ResourceError {
+  /// The error code.
+  final ResourceErrorCode? code;
+
+  /// The error message.
+  final String? message;
+
+  ResourceError({
+    this.code,
+    this.message,
+  });
+
+  factory ResourceError.fromJson(Map<String, dynamic> json) {
+    return ResourceError(
+      code: (json['code'] as String?)?.let(ResourceErrorCode.fromString),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code.value,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The lifecycle state of a resource.
+///
+/// @nodoc
+class ResourceState {
+  static const creating = ResourceState._('CREATING');
+  static const active = ResourceState._('ACTIVE');
+  static const updating = ResourceState._('UPDATING');
+  static const deleting = ResourceState._('DELETING');
+  static const failed = ResourceState._('FAILED');
+
+  final String value;
+
+  const ResourceState._(this.value);
+
+  static const values = [creating, active, updating, deleting, failed];
+
+  static ResourceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceState._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The error code.
+///
+/// @nodoc
+class ResourceErrorCode {
+  static const validationError = ResourceErrorCode._('VALIDATION_ERROR');
+  static const internalFailure = ResourceErrorCode._('INTERNAL_FAILURE');
+
+  final String value;
+
+  const ResourceErrorCode._(this.value);
+
+  static const values = [validationError, internalFailure];
+
+  static ResourceErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The task execution configuration. Specify a <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html">containerTaskConfiguration</a>
+/// for a custom container workload.
+///
+/// @nodoc
+class TaskConfiguration {
+  /// Configuration for running a custom container image on managed compute.
+  final ContainerTaskConfiguration? containerTaskConfiguration;
+
+  TaskConfiguration({
+    this.containerTaskConfiguration,
+  });
+
+  factory TaskConfiguration.fromJson(Map<String, dynamic> json) {
+    return TaskConfiguration(
+      containerTaskConfiguration: json['containerTaskConfiguration'] != null
+          ? ContainerTaskConfiguration.fromJson(
+              json['containerTaskConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerTaskConfiguration = this.containerTaskConfiguration;
+    return {
+      if (containerTaskConfiguration != null)
+        'containerTaskConfiguration': containerTaskConfiguration,
+    };
+  }
+}
+
+/// Configuration for a container task, including the container image, IAM role,
+/// and compute settings.
+///
+/// @nodoc
+class ContainerTaskConfiguration {
+  /// The Amazon ECR image URI for the task container.
+  final String ecrUri;
+
+  /// The processing type for compute resources.
+  final ProcessingType processingType;
+
+  /// The processing unit allocation that determines the vCPU, memory, and GPU
+  /// resources.
+  final ProcessingUnit processingUnit;
+
+  /// The ARN of the IAM role that grants the containerized workload permissions
+  /// to access AWS resources.
+  final String taskExecutionRole;
+
+  /// The command to execute in the container.
+  final List<String>? command;
+
+  /// Environment variables passed to the container at runtime.
+  final Map<String, String>? environmentVariables;
+
+  /// The timeout in seconds for task execution. Default: 3600 (1 hour).
+  final int? timeoutSeconds;
+
+  ContainerTaskConfiguration({
+    required this.ecrUri,
+    required this.processingType,
+    required this.processingUnit,
+    required this.taskExecutionRole,
+    this.command,
+    this.environmentVariables,
+    this.timeoutSeconds,
+  });
+
+  factory ContainerTaskConfiguration.fromJson(Map<String, dynamic> json) {
+    return ContainerTaskConfiguration(
+      ecrUri: (json['ecrUri'] as String?) ?? '',
+      processingType:
+          ProcessingType.fromString((json['processingType'] as String?) ?? ''),
+      processingUnit:
+          ProcessingUnit.fromString((json['processingUnit'] as String?) ?? ''),
+      taskExecutionRole: (json['taskExecutionRole'] as String?) ?? '',
+      command:
+          (json['command'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      environmentVariables:
+          (json['environmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      timeoutSeconds: json['timeoutSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ecrUri = this.ecrUri;
+    final processingType = this.processingType;
+    final processingUnit = this.processingUnit;
+    final taskExecutionRole = this.taskExecutionRole;
+    final command = this.command;
+    final environmentVariables = this.environmentVariables;
+    final timeoutSeconds = this.timeoutSeconds;
+    return {
+      'ecrUri': ecrUri,
+      'processingType': processingType.value,
+      'processingUnit': processingUnit.value,
+      'taskExecutionRole': taskExecutionRole,
+      if (command != null) 'command': command,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (timeoutSeconds != null) 'timeoutSeconds': timeoutSeconds,
+    };
+  }
+}
+
+/// The processing type for compute resources. Determines whether the task runs
+/// on standard CPU or GPU-accelerated hardware.
+///
+/// @nodoc
+class ProcessingType {
+  static const genericComputeProcessing =
+      ProcessingType._('GENERIC_COMPUTE_PROCESSING');
+  static const hardwareAcceleratedProcessing =
+      ProcessingType._('HARDWARE_ACCELERATED_PROCESSING');
+
+  final String value;
+
+  const ProcessingType._(this.value);
+
+  static const values = [
+    genericComputeProcessing,
+    hardwareAcceleratedProcessing
+  ];
+
+  static ProcessingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessingType._(value));
+
+  @override
+  bool operator ==(other) => other is ProcessingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The processing unit allocation that determines the vCPU, memory, and GPU
+/// resources assigned to a task. Available units depend on the processing type.
+///
+/// @nodoc
+class ProcessingUnit {
+  static const units_2 = ProcessingUnit._('UNITS_2');
+  static const units_4 = ProcessingUnit._('UNITS_4');
+  static const units_8 = ProcessingUnit._('UNITS_8');
+  static const units_12 = ProcessingUnit._('UNITS_12');
+  static const units_16 = ProcessingUnit._('UNITS_16');
+  static const units_24 = ProcessingUnit._('UNITS_24');
+  static const units_32 = ProcessingUnit._('UNITS_32');
+  static const units_36 = ProcessingUnit._('UNITS_36');
+  static const units_48 = ProcessingUnit._('UNITS_48');
+  static const units_60 = ProcessingUnit._('UNITS_60');
+  static const units_64 = ProcessingUnit._('UNITS_64');
+  static const units_72 = ProcessingUnit._('UNITS_72');
+  static const units_84 = ProcessingUnit._('UNITS_84');
+  static const units_96 = ProcessingUnit._('UNITS_96');
+
+  final String value;
+
+  const ProcessingUnit._(this.value);
+
+  static const values = [
+    units_2,
+    units_4,
+    units_8,
+    units_12,
+    units_16,
+    units_24,
+    units_32,
+    units_36,
+    units_48,
+    units_60,
+    units_64,
+    units_72,
+    units_84,
+    units_96
+  ];
+
+  static ProcessingUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessingUnit._(value));
+
+  @override
+  bool operator ==(other) => other is ProcessingUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the current status of a portal.
@@ -11255,6 +16460,61 @@ class ImageFileType {
   String toString() => value;
 }
 
+/// A single compute node in a pipeline DAG. Each compute node references a task
+/// and can declare dependencies on other nodes.
+///
+/// @nodoc
+class ComputeNode {
+  /// The unique name for this compute node within the pipeline.
+  final String computeNodeName;
+
+  /// The name of the task to execute for this compute node.
+  final String taskName;
+
+  /// A list of compute node names that must complete successfully before this
+  /// node can start.
+  final List<String>? dependsOn;
+
+  /// Environment variables specific to this compute node. These override
+  /// pipeline-level environment variables with the same key.
+  final Map<String, String>? environmentVariables;
+
+  ComputeNode({
+    required this.computeNodeName,
+    required this.taskName,
+    this.dependsOn,
+    this.environmentVariables,
+  });
+
+  factory ComputeNode.fromJson(Map<String, dynamic> json) {
+    return ComputeNode(
+      computeNodeName: (json['computeNodeName'] as String?) ?? '',
+      taskName: (json['taskName'] as String?) ?? '',
+      dependsOn: (json['dependsOn'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      environmentVariables:
+          (json['environmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeNodeName = this.computeNodeName;
+    final taskName = this.taskName;
+    final dependsOn = this.dependsOn;
+    final environmentVariables = this.environmentVariables;
+    return {
+      'computeNodeName': computeNodeName,
+      'taskName': taskName,
+      if (dependsOn != null) 'dependsOn': dependsOn,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+    };
+  }
+}
+
 /// @nodoc
 class CapabilitySyncStatus {
   static const inSync = CapabilitySyncStatus._('IN_SYNC');
@@ -11386,30 +16646,6 @@ class ErrorDetails {
   }
 }
 
-/// @nodoc
-class ErrorCode {
-  static const validationError = ErrorCode._('VALIDATION_ERROR');
-  static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [validationError, internalFailure];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Contains detailed error information.
 ///
 /// @nodoc
@@ -11472,6 +16708,33 @@ class DetailedErrorCode {
   String toString() => value;
 }
 
+/// Contains the configuration for a dataset.
+///
+/// @nodoc
+class DatasetConfig {
+  /// The session configuration for a session-type dataset.
+  final SessionConfig? session;
+
+  DatasetConfig({
+    this.session,
+  });
+
+  factory DatasetConfig.fromJson(Map<String, dynamic> json) {
+    return DatasetConfig(
+      session: json['session'] != null
+          ? SessionConfig.fromJson(json['session'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final session = this.session;
+    return {
+      if (session != null) 'session': session,
+    };
+  }
+}
+
 /// The data source for the dataset.
 ///
 /// @nodoc
@@ -11518,12 +16781,13 @@ class DatasetSource {
 /// @nodoc
 class DatasetSourceType {
   static const kendra = DatasetSourceType._('KENDRA');
+  static const sitewise = DatasetSourceType._('SITEWISE');
 
   final String value;
 
   const DatasetSourceType._(this.value);
 
-  static const values = [kendra];
+  static const values = [kendra, sitewise];
 
   static DatasetSourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -11542,12 +16806,13 @@ class DatasetSourceType {
 /// @nodoc
 class DatasetSourceFormat {
   static const knowledgeBase = DatasetSourceFormat._('KNOWLEDGE_BASE');
+  static const timeseries = DatasetSourceFormat._('TIMESERIES');
 
   final String value;
 
   const DatasetSourceFormat._(this.value);
 
-  static const values = [knowledgeBase];
+  static const values = [knowledgeBase, timeseries];
 
   static DatasetSourceFormat fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -11619,6 +16884,75 @@ class KendraSourceDetail {
     return {
       'knowledgeBaseArn': knowledgeBaseArn,
       'roleArn': roleArn,
+    };
+  }
+}
+
+/// Contains the session configuration for a session-type dataset.
+///
+/// @nodoc
+class SessionConfig {
+  /// The nanosecond-precision end time of the session.
+  final TimeInNanos sessionEndTimestamp;
+
+  /// The nanosecond-precision start time of the session.
+  final TimeInNanos sessionStartTimestamp;
+
+  SessionConfig({
+    required this.sessionEndTimestamp,
+    required this.sessionStartTimestamp,
+  });
+
+  factory SessionConfig.fromJson(Map<String, dynamic> json) {
+    return SessionConfig(
+      sessionEndTimestamp: TimeInNanos.fromJson(
+          (json['sessionEndTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sessionStartTimestamp: TimeInNanos.fromJson(
+          (json['sessionStartTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionEndTimestamp = this.sessionEndTimestamp;
+    final sessionStartTimestamp = this.sessionStartTimestamp;
+    return {
+      'sessionEndTimestamp': sessionEndTimestamp,
+      'sessionStartTimestamp': sessionStartTimestamp,
+    };
+  }
+}
+
+/// Contains a timestamp with optional nanosecond granularity.
+///
+/// @nodoc
+class TimeInNanos {
+  /// The timestamp date, in seconds, in the Unix epoch format. Fractional
+  /// nanosecond data is provided by <code>offsetInNanos</code>.
+  final int timeInSeconds;
+
+  /// The nanosecond offset from <code>timeInSeconds</code>.
+  final int? offsetInNanos;
+
+  TimeInNanos({
+    required this.timeInSeconds,
+    this.offsetInNanos,
+  });
+
+  factory TimeInNanos.fromJson(Map<String, dynamic> json) {
+    return TimeInNanos(
+      timeInSeconds: (json['timeInSeconds'] as int?) ?? 0,
+      offsetInNanos: json['offsetInNanos'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeInSeconds = this.timeInSeconds;
+    final offsetInNanos = this.offsetInNanos;
+    return {
+      'timeInSeconds': timeInSeconds,
+      if (offsetInNanos != null) 'offsetInNanos': offsetInNanos,
     };
   }
 }
@@ -12031,6 +17365,10 @@ class AssetModelVersionType {
 class AssetModelProperty {
   /// The data type of the asset model property.
   ///
+  /// The <code>VIDEO</code>, <code>ANNOTATION</code>, and <code>JSON</code> data
+  /// types aren't supported for asset model properties. These types are used only
+  /// by time series that store data for datasets in a workspace.
+  ///
   /// If you specify <code>STRUCT</code>, you must also specify
   /// <code>dataTypeSpec</code> to identify the type of the structure for this
   /// property.
@@ -12148,12 +17486,24 @@ class PropertyDataType {
   static const $double = PropertyDataType._('DOUBLE');
   static const boolean = PropertyDataType._('BOOLEAN');
   static const struct = PropertyDataType._('STRUCT');
+  static const video = PropertyDataType._('VIDEO');
+  static const annotation = PropertyDataType._('ANNOTATION');
+  static const json = PropertyDataType._('JSON');
 
   final String value;
 
   const PropertyDataType._(this.value);
 
-  static const values = [string, integer, $double, boolean, struct];
+  static const values = [
+    string,
+    integer,
+    $double,
+    boolean,
+    struct,
+    video,
+    annotation,
+    json
+  ];
 
   static PropertyDataType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -13382,6 +18732,198 @@ class IAMRoleIdentity {
   }
 }
 
+/// The lifecycle status of a search.
+///
+/// @nodoc
+class SearchStatus {
+  static const queued = SearchStatus._('QUEUED');
+  static const running = SearchStatus._('RUNNING');
+  static const succeeded = SearchStatus._('SUCCEEDED');
+  static const failed = SearchStatus._('FAILED');
+
+  final String value;
+
+  const SearchStatus._(this.value);
+
+  static const values = [queued, running, succeeded, failed];
+
+  static SearchStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SearchStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SearchStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The search strategy, which trades off latency against recall.
+/// <code>DEEP</code> runs the full semantic and structured search for the
+/// highest-quality matches; <code>QUICK</code> returns faster, lower-recall
+/// results. When <code>searchType</code> is omitted on a request, the search
+/// defaults to <code>QUICK</code>.
+///
+/// @nodoc
+class SearchType {
+  static const deep = SearchType._('DEEP');
+  static const quick = SearchType._('QUICK');
+
+  final String value;
+
+  const SearchType._(this.value);
+
+  static const values = [deep, quick];
+
+  static SearchType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SearchType._(value));
+
+  @override
+  bool operator ==(other) => other is SearchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Optional filters that restrict a search to a subset of the workspace's data.
+///
+/// @nodoc
+class SearchFilters {
+  /// Restricts the search to these datasets.
+  final List<String>? datasetIds;
+
+  /// Restricts the search to these time intervals.
+  final List<TimeInterval>? timeIntervals;
+
+  /// Restricts the search to these time series.
+  final List<String>? timeSeriesIds;
+
+  SearchFilters({
+    this.datasetIds,
+    this.timeIntervals,
+    this.timeSeriesIds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final datasetIds = this.datasetIds;
+    final timeIntervals = this.timeIntervals;
+    final timeSeriesIds = this.timeSeriesIds;
+    return {
+      if (datasetIds != null) 'datasetIds': datasetIds,
+      if (timeIntervals != null) 'timeIntervals': timeIntervals,
+      if (timeSeriesIds != null) 'timeSeriesIds': timeSeriesIds,
+    };
+  }
+}
+
+/// Contains a time interval with a start time and an end time. Use a time
+/// interval to restrict an operation, such as a search, to a specific time
+/// range.
+///
+/// @nodoc
+class TimeInterval {
+  /// The end of the time interval.
+  final TimeInNanos endTime;
+
+  /// The start of the time interval.
+  final TimeInNanos startTime;
+
+  TimeInterval({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': endTime,
+      'startTime': startTime,
+    };
+  }
+}
+
+/// The status of a query execution.
+///
+/// @nodoc
+class QueryStatus {
+  static const submitted = QueryStatus._('SUBMITTED');
+  static const running = QueryStatus._('RUNNING');
+  static const completed = QueryStatus._('COMPLETED');
+  static const failed = QueryStatus._('FAILED');
+  static const canceled = QueryStatus._('CANCELED');
+  static const canceling = QueryStatus._('CANCELING');
+
+  final String value;
+
+  const QueryStatus._(this.value);
+
+  static const values = [
+    submitted,
+    running,
+    completed,
+    failed,
+    canceled,
+    canceling
+  ];
+
+  static QueryStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Environment variables provided as input for a pipeline execution.
+///
+/// @nodoc
+class ExecutionEnvironmentVariables {
+  /// Per-compute-node environment variable overrides. Each entry maps a compute
+  /// node name to its environment variable overrides.
+  final Map<String, Map<String, String>>? computeNodes;
+
+  /// Global environment variables that apply to all compute nodes in the pipeline
+  /// execution.
+  final Map<String, String>? global;
+
+  ExecutionEnvironmentVariables({
+    this.computeNodes,
+    this.global,
+  });
+
+  factory ExecutionEnvironmentVariables.fromJson(Map<String, dynamic> json) {
+    return ExecutionEnvironmentVariables(
+      computeNodes: (json['computeNodes'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      global: (json['global'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeNodes = this.computeNodes;
+    final global = this.global;
+    return {
+      if (computeNodes != null) 'computeNodes': computeNodes,
+      if (global != null) 'global': global,
+    };
+  }
+}
+
 /// @nodoc
 class StorageType {
   static const sitewiseDefaultStorage =
@@ -13743,32 +19285,6 @@ class LoggingLevel {
   String toString() => value;
 }
 
-/// @nodoc
-class EncryptionType {
-  static const sitewiseDefaultEncryption =
-      EncryptionType._('SITEWISE_DEFAULT_ENCRYPTION');
-  static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
-
-  final String value;
-
-  const EncryptionType._(this.value);
-
-  static const values = [sitewiseDefaultEncryption, kmsBasedEncryption];
-
-  static EncryptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionType._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Contains configuration options for mapping properties from an interface
 /// asset model to an asset model where the interface is applied.
 ///
@@ -13836,6 +19352,62 @@ class PropertyMapping {
     return {
       'assetModelPropertyId': assetModelPropertyId,
       'interfaceAssetModelPropertyId': interfaceAssetModelPropertyId,
+    };
+  }
+}
+
+/// Contains summary information about a workspace, including its name, ARN,
+/// status, and creation and update timestamps.
+///
+/// @nodoc
+class WorkspaceSummary {
+  /// The ARN of the workspace.
+  final String arn;
+
+  /// The date the workspace was created, in Unix epoch time.
+  final DateTime createdAt;
+
+  /// The name of the workspace.
+  final String name;
+
+  /// The status of the workspace.
+  final WorkspaceStatus status;
+
+  /// The date the workspace was last updated, in Unix epoch time.
+  final DateTime updatedAt;
+
+  WorkspaceSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.name,
+    required this.status,
+    required this.updatedAt,
+  });
+
+  factory WorkspaceSummary.fromJson(Map<String, dynamic> json) {
+    return WorkspaceSummary(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: WorkspaceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      'arn': arn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'name': name,
+      'status': status,
+      'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
 }
@@ -13962,6 +19534,248 @@ class ListTimeSeriesType {
 
   @override
   String toString() => value;
+}
+
+/// Contains summary information about a task.
+///
+/// @nodoc
+class TaskSummary {
+  /// The time the task was created, in Unix epoch time.
+  final DateTime createdAt;
+
+  /// The current lifecycle status of the task.
+  final ResourceStatus status;
+
+  /// The ARN of the task.
+  final String taskArn;
+
+  /// The name of the task.
+  final String taskName;
+
+  /// The time the task was last updated, in Unix epoch time.
+  final DateTime updatedAt;
+
+  /// The version of the task.
+  final String version;
+
+  /// The description of the task.
+  final String? description;
+
+  TaskSummary({
+    required this.createdAt,
+    required this.status,
+    required this.taskArn,
+    required this.taskName,
+    required this.updatedAt,
+    required this.version,
+    this.description,
+  });
+
+  factory TaskSummary.fromJson(Map<String, dynamic> json) {
+    return TaskSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      taskArn: (json['taskArn'] as String?) ?? '',
+      taskName: (json['taskName'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final status = this.status;
+    final taskArn = this.taskArn;
+    final taskName = this.taskName;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final description = this.description;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'status': status,
+      'taskArn': taskArn,
+      'taskName': taskName,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// A summary of a single search as returned by ListSearches.
+///
+/// @nodoc
+class SearchSummary {
+  /// The natural-language query that was submitted for the search.
+  final String queryStatement;
+
+  /// The unique identifier of the search.
+  final String searchId;
+
+  /// The search strategy used for the search.
+  final SearchType searchType;
+
+  /// The current status of the search.
+  final SearchStatus status;
+
+  /// The name of the workspace the search runs against.
+  final String workspaceName;
+
+  /// The group identifier associated with the search, if one was supplied on the
+  /// request.
+  final String? groupId;
+
+  /// The time at which the search was started.
+  final DateTime? startedAt;
+
+  /// A human-readable explanation of the current status. Populated when the
+  /// search has <code>FAILED</code>.
+  final String? statusReason;
+
+  SearchSummary({
+    required this.queryStatement,
+    required this.searchId,
+    required this.searchType,
+    required this.status,
+    required this.workspaceName,
+    this.groupId,
+    this.startedAt,
+    this.statusReason,
+  });
+
+  factory SearchSummary.fromJson(Map<String, dynamic> json) {
+    return SearchSummary(
+      queryStatement: (json['queryStatement'] as String?) ?? '',
+      searchId: (json['searchId'] as String?) ?? '',
+      searchType: SearchType.fromString((json['searchType'] as String?) ?? ''),
+      status: SearchStatus.fromString((json['status'] as String?) ?? ''),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      groupId: json['groupId'] as String?,
+      startedAt: timeStampFromJson(json['startedAt']),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryStatement = this.queryStatement;
+    final searchId = this.searchId;
+    final searchType = this.searchType;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    final groupId = this.groupId;
+    final startedAt = this.startedAt;
+    final statusReason = this.statusReason;
+    return {
+      'queryStatement': queryStatement,
+      'searchId': searchId,
+      'searchType': searchType.value,
+      'status': status.value,
+      'workspaceName': workspaceName,
+      if (groupId != null) 'groupId': groupId,
+      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// Optional filters for ListSearches. When multiple filters are set, a search
+/// must match all of them.
+///
+/// @nodoc
+class ListSearchesFilters {
+  /// Returns only searches whose <code>groupId</code> is one of the listed
+  /// values.
+  final List<String>? groupIdFilter;
+
+  /// Returns only searches whose <code>searchType</code> is one of the listed
+  /// values.
+  final List<SearchType>? searchTypeFilter;
+
+  /// Returns only searches started at or after this time.
+  final DateTime? startedAfter;
+
+  /// Returns only searches started at or before this time.
+  final DateTime? startedBefore;
+
+  /// Returns only searches whose status is one of the listed values.
+  final List<SearchStatus>? statusFilter;
+
+  ListSearchesFilters({
+    this.groupIdFilter,
+    this.searchTypeFilter,
+    this.startedAfter,
+    this.startedBefore,
+    this.statusFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupIdFilter = this.groupIdFilter;
+    final searchTypeFilter = this.searchTypeFilter;
+    final startedAfter = this.startedAfter;
+    final startedBefore = this.startedBefore;
+    final statusFilter = this.statusFilter;
+    return {
+      if (groupIdFilter != null) 'groupIdFilter': groupIdFilter,
+      if (searchTypeFilter != null)
+        'searchTypeFilter': searchTypeFilter.map((e) => e.value).toList(),
+      if (startedAfter != null)
+        'startedAfter': unixTimestampToJson(startedAfter),
+      if (startedBefore != null)
+        'startedBefore': unixTimestampToJson(startedBefore),
+      if (statusFilter != null)
+        'statusFilter': statusFilter.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Contains summary information about a query.
+///
+/// @nodoc
+class QuerySummary {
+  /// The unique identifier for the query execution.
+  final String queryId;
+
+  /// The current query status.
+  final QueryStatus status;
+
+  /// The date and time when the query was submitted, in Unix epoch time.
+  final DateTime submittedAt;
+
+  /// The date and time when the query reached a terminal state, in Unix epoch
+  /// time.
+  final DateTime? completedAt;
+
+  QuerySummary({
+    required this.queryId,
+    required this.status,
+    required this.submittedAt,
+    this.completedAt,
+  });
+
+  factory QuerySummary.fromJson(Map<String, dynamic> json) {
+    return QuerySummary(
+      queryId: (json['queryId'] as String?) ?? '',
+      status: QueryStatus.fromString((json['status'] as String?) ?? ''),
+      submittedAt: nonNullableTimeStampFromJson(json['submittedAt'] ?? 0),
+      completedAt: timeStampFromJson(json['completedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    final status = this.status;
+    final submittedAt = this.submittedAt;
+    final completedAt = this.completedAt;
+    return {
+      'queryId': queryId,
+      'status': status.value,
+      'submittedAt': unixTimestampToJson(submittedAt),
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+    };
+  }
 }
 
 /// Contains project summary information.
@@ -14110,6 +19924,365 @@ class PortalSummary {
       if (roleArn != null) 'roleArn': roleArn,
     };
   }
+}
+
+/// Contains summary information about a pipeline.
+///
+/// @nodoc
+class PipelineSummary {
+  /// The time the pipeline was created, in Unix epoch time.
+  final DateTime createdAt;
+
+  /// The ARN of the pipeline.
+  final String pipelineArn;
+
+  /// The name of the pipeline.
+  final String pipelineName;
+
+  /// The current lifecycle status of the pipeline.
+  final ResourceStatus status;
+
+  /// The time the pipeline was last updated, in Unix epoch time.
+  final DateTime updatedAt;
+
+  /// The version of the pipeline.
+  final String version;
+
+  /// The description of the pipeline.
+  final String? description;
+
+  PipelineSummary({
+    required this.createdAt,
+    required this.pipelineArn,
+    required this.pipelineName,
+    required this.status,
+    required this.updatedAt,
+    required this.version,
+    this.description,
+  });
+
+  factory PipelineSummary.fromJson(Map<String, dynamic> json) {
+    return PipelineSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      pipelineArn: (json['pipelineArn'] as String?) ?? '',
+      pipelineName: (json['pipelineName'] as String?) ?? '',
+      status: ResourceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final pipelineArn = this.pipelineArn;
+    final pipelineName = this.pipelineName;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final description = this.description;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'pipelineArn': pipelineArn,
+      'pipelineName': pipelineName,
+      'status': status,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'version': version,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains summary information about a pipeline execution.
+///
+/// @nodoc
+class PipelineExecutionSummary {
+  /// The unique identifier of the pipeline execution.
+  final String pipelineExecutionId;
+
+  /// The pipeline version this execution ran against.
+  final String pipelineVersion;
+
+  /// The current execution status of the pipeline.
+  final PipelineExecutionStatus status;
+
+  /// The time the pipeline execution completed, in Unix epoch time.
+  final DateTime? endTime;
+
+  /// Scheduling priority for the execution. When not specified, defaults to
+  /// lowest priority.
+  final int? executionPriority;
+
+  /// The time the pipeline execution started, in Unix epoch time.
+  final DateTime? startTime;
+
+  PipelineExecutionSummary({
+    required this.pipelineExecutionId,
+    required this.pipelineVersion,
+    required this.status,
+    this.endTime,
+    this.executionPriority,
+    this.startTime,
+  });
+
+  factory PipelineExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return PipelineExecutionSummary(
+      pipelineExecutionId: (json['pipelineExecutionId'] as String?) ?? '',
+      pipelineVersion: (json['pipelineVersion'] as String?) ?? '',
+      status: PipelineExecutionStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      endTime: timeStampFromJson(json['endTime']),
+      executionPriority: json['executionPriority'] as int?,
+      startTime: timeStampFromJson(json['startTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final pipelineVersion = this.pipelineVersion;
+    final status = this.status;
+    final endTime = this.endTime;
+    final executionPriority = this.executionPriority;
+    final startTime = this.startTime;
+    return {
+      'pipelineExecutionId': pipelineExecutionId,
+      'pipelineVersion': pipelineVersion,
+      'status': status,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (executionPriority != null) 'executionPriority': executionPriority,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// Current execution status of a pipeline.
+///
+/// @nodoc
+class PipelineExecutionStatus {
+  /// Current state of the pipeline execution.
+  final PipelineExecutionState state;
+
+  /// Additional information about the execution outcome. Populated when the
+  /// execution has terminated (failed or cancelled).
+  final PipelineExecutionStateDetails? stateDetails;
+
+  PipelineExecutionStatus({
+    required this.state,
+    this.stateDetails,
+  });
+
+  factory PipelineExecutionStatus.fromJson(Map<String, dynamic> json) {
+    return PipelineExecutionStatus(
+      state:
+          PipelineExecutionState.fromString((json['state'] as String?) ?? ''),
+      stateDetails: json['stateDetails'] != null
+          ? PipelineExecutionStateDetails.fromJson(
+              json['stateDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateDetails = this.stateDetails;
+    return {
+      'state': state.value,
+      if (stateDetails != null) 'stateDetails': stateDetails,
+    };
+  }
+}
+
+/// The state of a pipeline execution.
+///
+/// @nodoc
+class PipelineExecutionState {
+  static const notStarted = PipelineExecutionState._('NOT_STARTED');
+  static const running = PipelineExecutionState._('RUNNING');
+  static const succeeded = PipelineExecutionState._('SUCCEEDED');
+  static const failed = PipelineExecutionState._('FAILED');
+  static const cancelling = PipelineExecutionState._('CANCELLING');
+  static const cancelled = PipelineExecutionState._('CANCELLED');
+
+  final String value;
+
+  const PipelineExecutionState._(this.value);
+
+  static const values = [
+    notStarted,
+    running,
+    succeeded,
+    failed,
+    cancelling,
+    cancelled
+  ];
+
+  static PipelineExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PipelineExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PipelineExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Additional information about the current execution status. Populated when
+/// the execution has terminated.
+///
+/// @nodoc
+class PipelineExecutionStateDetails {
+  /// Human-readable description of the outcome. For a failed execution, this
+  /// describes why it failed; for a cancelled execution, this is the reason you
+  /// supplied when calling CancelPipelineExecution.
+  final String message;
+
+  /// Classification of the failure. Present when the execution failed.
+  final PipelineErrorCode? code;
+
+  /// Per-step error entries to help diagnose a failed execution. Present when the
+  /// execution failed.
+  final List<DetailedPipelineError>? details;
+
+  PipelineExecutionStateDetails({
+    required this.message,
+    this.code,
+    this.details,
+  });
+
+  factory PipelineExecutionStateDetails.fromJson(Map<String, dynamic> json) {
+    return PipelineExecutionStateDetails(
+      message: (json['message'] as String?) ?? '',
+      code: (json['code'] as String?)?.let(PipelineErrorCode.fromString),
+      details: (json['details'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedPipelineError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final code = this.code;
+    final details = this.details;
+    return {
+      'message': message,
+      if (code != null) 'code': code.value,
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+/// Classification of a pipeline execution failure.
+///
+/// @nodoc
+class PipelineErrorCode {
+  static const validationError = PipelineErrorCode._('VALIDATION_ERROR');
+  static const internalFailure = PipelineErrorCode._('INTERNAL_FAILURE');
+  static const executionError = PipelineErrorCode._('EXECUTION_ERROR');
+  static const timedOut = PipelineErrorCode._('TIMED_OUT');
+
+  final String value;
+
+  const PipelineErrorCode._(this.value);
+
+  static const values = [
+    validationError,
+    internalFailure,
+    executionError,
+    timedOut
+  ];
+
+  static PipelineErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PipelineErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is PipelineErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a detailed error entry for granular troubleshooting of pipeline
+/// failures.
+///
+/// @nodoc
+class DetailedPipelineError {
+  /// The error code.
+  final DetailedPipelineErrorCode code;
+
+  /// The associated error message.
+  final String message;
+
+  DetailedPipelineError({
+    required this.code,
+    required this.message,
+  });
+
+  factory DetailedPipelineError.fromJson(Map<String, dynamic> json) {
+    return DetailedPipelineError(
+      code:
+          DetailedPipelineErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'code': code.value,
+      'message': message,
+    };
+  }
+}
+
+/// The error code for a detailed pipeline error entry.
+///
+/// @nodoc
+class DetailedPipelineErrorCode {
+  static const validationError =
+      DetailedPipelineErrorCode._('VALIDATION_ERROR');
+  static const internalFailure =
+      DetailedPipelineErrorCode._('INTERNAL_FAILURE');
+  static const executionError = DetailedPipelineErrorCode._('EXECUTION_ERROR');
+  static const timedOut = DetailedPipelineErrorCode._('TIMED_OUT');
+
+  final String value;
+
+  const DetailedPipelineErrorCode._(this.value);
+
+  static const values = [
+    validationError,
+    internalFailure,
+    executionError,
+    timedOut
+  ];
+
+  static DetailedPipelineErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DetailedPipelineErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DetailedPipelineErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains summary information about an interface relationship, which defines
@@ -14714,6 +20887,191 @@ class ResolveToResourceType {
   String toString() => value;
 }
 
+/// Summary information for an enrichment job returned by ListEnrichmentJobs.
+/// This lightweight representation includes identifiers, status, and key
+/// metadata without the full job configuration.
+///
+/// Use DescribeEnrichmentJob to retrieve:
+///
+/// <ul>
+/// <li>Complete job configuration (trim settings, full parameters)</li>
+/// <li>Detailed timestamps (completedAt, cancelledAt)</li>
+/// <li>Failure messages for failed jobs</li>
+/// </ul>
+/// The summary is optimized for display in lists and dashboards, providing
+/// enough information to identify and filter jobs without the overhead of full
+/// configuration details.
+///
+/// @nodoc
+class EnrichmentJobSummary {
+  /// Timestamp when the job was created in ISO 8601 format.
+  final DateTime createdAt;
+
+  /// The dataset being enriched. Useful for filtering and identifying jobs
+  /// without fetching the full configuration. This allows you to quickly find all
+  /// jobs related to a specific dataset.
+  final String datasetId;
+
+  /// Unique identifier for the enrichment job.
+  final String jobId;
+
+  /// The type of enrichment job. Currently EVENT_DETECTION is the only supported
+  /// type.
+  final JobType jobType;
+
+  /// Current status of the job: PENDING, RUNNING, COMPLETED, FAILED, TIMED_OUT,
+  /// or CANCELLED. Use this to quickly identify active jobs or jobs requiring
+  /// attention.
+  final EnrichmentJobStatus status;
+
+  /// The name of the IoT SiteWise workspace containing this job.
+  final String workspaceName;
+
+  /// The property alias (human-readable sensor name) of the time series being
+  /// enriched. Present when the job was created using a propertyAlias. Use this
+  /// to identify which sensor the job analyzes.
+  final String? propertyAlias;
+
+  /// The system identifier of the time series being enriched. Present when the
+  /// job was created using a timeSeriesId. Use this to identify which time series
+  /// the job analyzes.
+  final String? timeSeriesId;
+
+  /// Timestamp of the last job status change in ISO 8601 format. Use this to
+  /// track recent activity and identify stale jobs. For active jobs, this shows
+  /// the last time the job transitioned to a new status.
+  final DateTime? updatedAt;
+
+  EnrichmentJobSummary({
+    required this.createdAt,
+    required this.datasetId,
+    required this.jobId,
+    required this.jobType,
+    required this.status,
+    required this.workspaceName,
+    this.propertyAlias,
+    this.timeSeriesId,
+    this.updatedAt,
+  });
+
+  factory EnrichmentJobSummary.fromJson(Map<String, dynamic> json) {
+    return EnrichmentJobSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      datasetId: (json['datasetId'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
+      jobType: JobType.fromString((json['jobType'] as String?) ?? ''),
+      status: EnrichmentJobStatus.fromString((json['status'] as String?) ?? ''),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+      propertyAlias: json['propertyAlias'] as String?,
+      timeSeriesId: json['timeSeriesId'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final datasetId = this.datasetId;
+    final jobId = this.jobId;
+    final jobType = this.jobType;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    final propertyAlias = this.propertyAlias;
+    final timeSeriesId = this.timeSeriesId;
+    final updatedAt = this.updatedAt;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'datasetId': datasetId,
+      'jobId': jobId,
+      'jobType': jobType.value,
+      'status': status.value,
+      'workspaceName': workspaceName,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (timeSeriesId != null) 'timeSeriesId': timeSeriesId,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Status of an enrichment job throughout its lifecycle.
+///
+/// Status progression: PENDING → RUNNING → {COMPLETED, FAILED, TIMED_OUT,
+/// CANCELLED}
+///
+/// <ul>
+/// <li>PENDING: Job has been accepted and is waiting to start processing</li>
+/// <li>RUNNING: Job is actively processing video data to generate
+/// embeddings</li>
+/// <li>COMPLETED: Job finished successfully; embeddings are available in IoT
+/// SiteWise</li>
+/// <li>FAILED: Job encountered an error during processing</li>
+/// <li>TIMED_OUT: Job exceeded the maximum processing time limit</li>
+/// <li>CANCELLED: Job was cancelled via CancelEnrichmentJob</li>
+/// </ul>
+/// Terminal states (job will not change status): COMPLETED, FAILED, TIMED_OUT,
+/// CANCELLED
+///
+/// @nodoc
+class EnrichmentJobStatus {
+  static const pending = EnrichmentJobStatus._('PENDING');
+  static const running = EnrichmentJobStatus._('RUNNING');
+  static const completed = EnrichmentJobStatus._('COMPLETED');
+  static const failed = EnrichmentJobStatus._('FAILED');
+  static const timedOut = EnrichmentJobStatus._('TIMED_OUT');
+  static const cancelled = EnrichmentJobStatus._('CANCELLED');
+
+  final String value;
+
+  const EnrichmentJobStatus._(this.value);
+
+  static const values = [
+    pending,
+    running,
+    completed,
+    failed,
+    timedOut,
+    cancelled
+  ];
+
+  static EnrichmentJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnrichmentJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnrichmentJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The type of enrichment job, derived from the job configuration union member
+///
+/// @nodoc
+class JobType {
+  static const eventDetection = JobType._('EVENT_DETECTION');
+
+  final String value;
+
+  const JobType._(this.value);
+
+  static const values = [eventDetection];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The summary details for the dataset.
 ///
 /// @nodoc
@@ -14743,6 +21101,16 @@ class DatasetSummary {
   /// The state is <code>ACTIVE</code> when ready to use.
   final DatasetStatus status;
 
+  /// The type of dataset: a session dataset, a curated dataset, or a connection
+  /// to an external datasource.
+  final DatasetTypeEnum? datasetType;
+
+  /// The enrichment status of the dataset.
+  final DatasetEnrichment? enrichmentStatus;
+
+  /// The data source type of the dataset.
+  final DatasetSourceType? sourceType;
+
   DatasetSummary({
     required this.arn,
     required this.creationDate,
@@ -14751,6 +21119,9 @@ class DatasetSummary {
     required this.lastUpdateDate,
     required this.name,
     required this.status,
+    this.datasetType,
+    this.enrichmentStatus,
+    this.sourceType,
   });
 
   factory DatasetSummary.fromJson(Map<String, dynamic> json) {
@@ -14764,6 +21135,14 @@ class DatasetSummary {
       status: DatasetStatus.fromJson(
           (json['status'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      datasetType:
+          (json['datasetType'] as String?)?.let(DatasetTypeEnum.fromString),
+      enrichmentStatus: json['enrichmentStatus'] != null
+          ? DatasetEnrichment.fromJson(
+              json['enrichmentStatus'] as Map<String, dynamic>)
+          : null,
+      sourceType:
+          (json['sourceType'] as String?)?.let(DatasetSourceType.fromString),
     );
   }
 
@@ -14775,6 +21154,9 @@ class DatasetSummary {
     final lastUpdateDate = this.lastUpdateDate;
     final name = this.name;
     final status = this.status;
+    final datasetType = this.datasetType;
+    final enrichmentStatus = this.enrichmentStatus;
+    final sourceType = this.sourceType;
     return {
       'arn': arn,
       'creationDate': unixTimestampToJson(creationDate),
@@ -14783,6 +21165,452 @@ class DatasetSummary {
       'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
       'name': name,
       'status': status,
+      if (datasetType != null) 'datasetType': datasetType.value,
+      if (enrichmentStatus != null) 'enrichmentStatus': enrichmentStatus,
+      if (sourceType != null) 'sourceType': sourceType.value,
+    };
+  }
+}
+
+/// @nodoc
+class DatasetTypeEnum {
+  static const session = DatasetTypeEnum._('SESSION');
+  static const curated = DatasetTypeEnum._('CURATED');
+  static const external = DatasetTypeEnum._('EXTERNAL');
+
+  final String value;
+
+  const DatasetTypeEnum._(this.value);
+
+  static const values = [session, curated, external];
+
+  static DatasetTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the enrichment status information for a dataset across data types.
+///
+/// @nodoc
+class DatasetEnrichment {
+  /// The enrichment status for video data in the dataset.
+  final DatasetEnrichmentEntry? video;
+
+  DatasetEnrichment({
+    this.video,
+  });
+
+  factory DatasetEnrichment.fromJson(Map<String, dynamic> json) {
+    return DatasetEnrichment(
+      video: json['video'] != null
+          ? DatasetEnrichmentEntry.fromJson(
+              json['video'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final video = this.video;
+    return {
+      if (video != null) 'video': video,
+    };
+  }
+}
+
+/// Contains enrichment status information for a specific data type in a
+/// dataset.
+///
+/// @nodoc
+class DatasetEnrichmentEntry {
+  /// The enrichment status of the data type in the dataset.
+  final DatasetEnrichmentStatus status;
+
+  /// The date the data was last enriched, in Unix epoch time.
+  final DateTime? lastEnrichedAt;
+
+  DatasetEnrichmentEntry({
+    required this.status,
+    this.lastEnrichedAt,
+  });
+
+  factory DatasetEnrichmentEntry.fromJson(Map<String, dynamic> json) {
+    return DatasetEnrichmentEntry(
+      status:
+          DatasetEnrichmentStatus.fromString((json['status'] as String?) ?? ''),
+      lastEnrichedAt: timeStampFromJson(json['lastEnrichedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final lastEnrichedAt = this.lastEnrichedAt;
+    return {
+      'status': status.value,
+      if (lastEnrichedAt != null)
+        'lastEnrichedAt': unixTimestampToJson(lastEnrichedAt),
+    };
+  }
+}
+
+/// @nodoc
+class DatasetEnrichmentStatus {
+  static const fullyEnriched = DatasetEnrichmentStatus._('FULLY_ENRICHED');
+  static const partiallyEnriched =
+      DatasetEnrichmentStatus._('PARTIALLY_ENRICHED');
+  static const notEnriched = DatasetEnrichmentStatus._('NOT_ENRICHED');
+
+  final String value;
+
+  const DatasetEnrichmentStatus._(this.value);
+
+  static const values = [fullyEnriched, partiallyEnriched, notEnriched];
+
+  static DatasetEnrichmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetEnrichmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetEnrichmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about a dataset export job.
+///
+/// @nodoc
+class ExportJobSummary {
+  /// The S3 URI where output clips are written.
+  final String destinationS3Uri;
+
+  /// The unique identifier for the dataset export job.
+  final String jobId;
+
+  /// The timestamp when the job started processing.
+  final DateTime startedAt;
+
+  /// The current status of the dataset export job.
+  final DatasetExportJobStatus status;
+
+  /// The timestamp when the job completed, or null if the job is still running.
+  final DateTime? completedAt;
+
+  ExportJobSummary({
+    required this.destinationS3Uri,
+    required this.jobId,
+    required this.startedAt,
+    required this.status,
+    this.completedAt,
+  });
+
+  factory ExportJobSummary.fromJson(Map<String, dynamic> json) {
+    return ExportJobSummary(
+      destinationS3Uri: (json['destinationS3Uri'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
+      startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
+      status:
+          DatasetExportJobStatus.fromString((json['status'] as String?) ?? ''),
+      completedAt: timeStampFromJson(json['completedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationS3Uri = this.destinationS3Uri;
+    final jobId = this.jobId;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final completedAt = this.completedAt;
+    return {
+      'destinationS3Uri': destinationS3Uri,
+      'jobId': jobId,
+      'startedAt': unixTimestampToJson(startedAt),
+      'status': status.value,
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+    };
+  }
+}
+
+/// The status of a dataset export job.
+///
+/// @nodoc
+class DatasetExportJobStatus {
+  static const submitted = DatasetExportJobStatus._('SUBMITTED');
+  static const running = DatasetExportJobStatus._('RUNNING');
+  static const completed = DatasetExportJobStatus._('COMPLETED');
+  static const completedWithErrors =
+      DatasetExportJobStatus._('COMPLETED_WITH_ERRORS');
+  static const failed = DatasetExportJobStatus._('FAILED');
+
+  final String value;
+
+  const DatasetExportJobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    running,
+    completed,
+    completedWithErrors,
+    failed
+  ];
+
+  static DatasetExportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetExportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetExportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filter for ListDatasetExportJobs. ALL returns jobs in any status; otherwise
+/// returns jobs in the specified status.
+///
+/// @nodoc
+class DatasetExportJobFilter {
+  static const all = DatasetExportJobFilter._('ALL');
+  static const submitted = DatasetExportJobFilter._('SUBMITTED');
+  static const running = DatasetExportJobFilter._('RUNNING');
+  static const completed = DatasetExportJobFilter._('COMPLETED');
+  static const completedWithErrors =
+      DatasetExportJobFilter._('COMPLETED_WITH_ERRORS');
+  static const failed = DatasetExportJobFilter._('FAILED');
+
+  final String value;
+
+  const DatasetExportJobFilter._(this.value);
+
+  static const values = [
+    all,
+    submitted,
+    running,
+    completed,
+    completedWithErrors,
+    failed
+  ];
+
+  static DatasetExportJobFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetExportJobFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetExportJobFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about a data segment, including its source
+/// dataset, time series, timestamp range, and enrichment status.
+///
+/// @nodoc
+class DataSegmentSummary {
+  /// The alias of the time series.
+  final String alias;
+
+  /// The data type of the time series.
+  final PropertyDataType dataType;
+
+  /// The nanosecond-precision end time of the data segment.
+  final TimeInNanos endTimestamp;
+
+  /// The ID of the source dataset that contains the data segment.
+  final String sourceDatasetId;
+
+  /// The nanosecond-precision start time of the data segment.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  /// The enrichment information for the data segment.
+  final DataSegmentEnrichment? enrichment;
+
+  DataSegmentSummary({
+    required this.alias,
+    required this.dataType,
+    required this.endTimestamp,
+    required this.sourceDatasetId,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+    this.enrichment,
+  });
+
+  factory DataSegmentSummary.fromJson(Map<String, dynamic> json) {
+    return DataSegmentSummary(
+      alias: (json['alias'] as String?) ?? '',
+      dataType:
+          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
+      endTimestamp: TimeInNanos.fromJson(
+          (json['endTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sourceDatasetId: (json['sourceDatasetId'] as String?) ?? '',
+      startTimestamp: TimeInNanos.fromJson(
+          (json['startTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+      enrichment: json['enrichment'] != null
+          ? DataSegmentEnrichment.fromJson(
+              json['enrichment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final dataType = this.dataType;
+    final endTimestamp = this.endTimestamp;
+    final sourceDatasetId = this.sourceDatasetId;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    final enrichment = this.enrichment;
+    return {
+      'alias': alias,
+      'dataType': dataType.value,
+      'endTimestamp': endTimestamp,
+      'sourceDatasetId': sourceDatasetId,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+      if (enrichment != null) 'enrichment': enrichment,
+    };
+  }
+}
+
+/// Contains enrichment status information for a data segment.
+///
+/// @nodoc
+class DataSegmentEnrichment {
+  /// The enrichment status of the data segment.
+  final EnrichmentStatus status;
+
+  /// The date the data segment was last enriched, in Unix epoch time.
+  final DateTime? lastEnrichedAt;
+
+  DataSegmentEnrichment({
+    required this.status,
+    this.lastEnrichedAt,
+  });
+
+  factory DataSegmentEnrichment.fromJson(Map<String, dynamic> json) {
+    return DataSegmentEnrichment(
+      status: EnrichmentStatus.fromString((json['status'] as String?) ?? ''),
+      lastEnrichedAt: timeStampFromJson(json['lastEnrichedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final lastEnrichedAt = this.lastEnrichedAt;
+    return {
+      'status': status.value,
+      if (lastEnrichedAt != null)
+        'lastEnrichedAt': unixTimestampToJson(lastEnrichedAt),
+    };
+  }
+}
+
+/// @nodoc
+class EnrichmentStatus {
+  static const enriched = EnrichmentStatus._('ENRICHED');
+  static const notEnriched = EnrichmentStatus._('NOT_ENRICHED');
+
+  final String value;
+
+  const EnrichmentStatus._(this.value);
+
+  static const values = [enriched, notEnriched];
+
+  static EnrichmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnrichmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnrichmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about a data segment relationship between a
+/// source session dataset that contains the data and a curated dataset that
+/// references it, including the time series and timestamp range.
+///
+/// @nodoc
+class DataSegmentRelationshipSummary {
+  /// The nanosecond-precision end time of the data segment.
+  final TimeInNanos endTimestamp;
+
+  /// The ID of the source session dataset that contains the data segment.
+  final String sourceDatasetId;
+
+  /// The nanosecond-precision start time of the data segment.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the curated dataset that references the data segment.
+  final String targetDatasetId;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  DataSegmentRelationshipSummary({
+    required this.endTimestamp,
+    required this.sourceDatasetId,
+    required this.startTimestamp,
+    required this.targetDatasetId,
+    required this.timeSeriesId,
+  });
+
+  factory DataSegmentRelationshipSummary.fromJson(Map<String, dynamic> json) {
+    return DataSegmentRelationshipSummary(
+      endTimestamp: TimeInNanos.fromJson(
+          (json['endTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sourceDatasetId: (json['sourceDatasetId'] as String?) ?? '',
+      startTimestamp: TimeInNanos.fromJson(
+          (json['startTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetDatasetId: (json['targetDatasetId'] as String?) ?? '',
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final sourceDatasetId = this.sourceDatasetId;
+    final startTimestamp = this.startTimestamp;
+    final targetDatasetId = this.targetDatasetId;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'endTimestamp': endTimestamp,
+      'sourceDatasetId': sourceDatasetId,
+      'startTimestamp': startTimestamp,
+      'targetDatasetId': targetDatasetId,
+      'timeSeriesId': timeSeriesId,
     };
   }
 }
@@ -16390,6 +23218,94 @@ class AssetModelCompositeModelSummary {
   }
 }
 
+/// Summary of an application for list operations
+///
+/// @nodoc
+class ApplicationSummary {
+  /// ARN of the application
+  final String arn;
+
+  /// Timestamp when the application was created
+  final DateTime createdAt;
+
+  /// Unique identifier of the application
+  final String id;
+
+  /// Name of the application
+  final String name;
+
+  /// Current status of the application
+  final ApplicationStatus status;
+
+  /// Name of the workspace this application belongs to
+  final String workspaceName;
+
+  ApplicationSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.workspaceName,
+  });
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      status: ApplicationStatus.fromString((json['status'] as String?) ?? ''),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final workspaceName = this.workspaceName;
+    return {
+      'arn': arn,
+      'createdAt': unixTimestampToJson(createdAt),
+      'id': id,
+      'name': name,
+      'status': status.value,
+      'workspaceName': workspaceName,
+    };
+  }
+}
+
+/// Current status of the application
+///
+/// @nodoc
+class ApplicationStatus {
+  static const creating = ApplicationStatus._('CREATING');
+  static const active = ApplicationStatus._('ACTIVE');
+  static const deleting = ApplicationStatus._('DELETING');
+
+  final String value;
+
+  const ApplicationStatus._(this.value);
+
+  static const values = [creating, active, deleting];
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains the summary of the actions, including information about where the
 /// action resolves to.
 ///
@@ -16911,6 +23827,122 @@ class Location {
   }
 }
 
+/// A single matching segment of time-series data returned by a search.
+///
+/// @nodoc
+class SearchResult {
+  /// The identifier of the dataset that contains the matching data.
+  final String datasetId;
+
+  /// The end of the matching time-series segment, in nanoseconds since the Unix
+  /// epoch.
+  final TimeInNanos endTimestamp;
+
+  /// The relevance score of this result. Higher scores indicate a stronger match.
+  final double score;
+
+  /// The identifier of the search that produced this result.
+  final String searchId;
+
+  /// The start of the matching time-series segment, in nanoseconds since the Unix
+  /// epoch.
+  final TimeInNanos startTimestamp;
+
+  /// The identifier of the time series that contains the matching data.
+  final String timeSeriesId;
+
+  /// The timestamp of the most relevant point within the matching segment, in
+  /// nanoseconds since the Unix epoch.
+  final TimeInNanos topTimestamp;
+
+  /// The name of the workspace the search ran against.
+  final String workspaceName;
+
+  SearchResult({
+    required this.datasetId,
+    required this.endTimestamp,
+    required this.score,
+    required this.searchId,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+    required this.topTimestamp,
+    required this.workspaceName,
+  });
+
+  factory SearchResult.fromJson(Map<String, dynamic> json) {
+    return SearchResult(
+      datasetId: (json['datasetId'] as String?) ?? '',
+      endTimestamp: TimeInNanos.fromJson(
+          (json['endTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      score: _s.parseJsonDouble(json['score']) ?? 0,
+      searchId: (json['searchId'] as String?) ?? '',
+      startTimestamp: TimeInNanos.fromJson(
+          (json['startTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+      topTimestamp: TimeInNanos.fromJson(
+          (json['topTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workspaceName: (json['workspaceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    final endTimestamp = this.endTimestamp;
+    final score = this.score;
+    final searchId = this.searchId;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    final topTimestamp = this.topTimestamp;
+    final workspaceName = this.workspaceName;
+    return {
+      'datasetId': datasetId,
+      'endTimestamp': endTimestamp,
+      'score': _s.encodeJsonDouble(score),
+      'searchId': searchId,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+      'topTimestamp': topTimestamp,
+      'workspaceName': workspaceName,
+    };
+  }
+}
+
+/// Contains metadata about a column in the query results.
+///
+/// @nodoc
+class ColumnInformation {
+  /// The name of the column.
+  final String name;
+
+  /// The data type of the column. Valid values are STRING, DOUBLE, BOOLEAN,
+  /// INTEGER, TIMESTAMP, and VARIANT.
+  final String type;
+
+  ColumnInformation({
+    required this.name,
+    required this.type,
+  });
+
+  factory ColumnInformation.fromJson(Map<String, dynamic> json) {
+    return ColumnInformation(
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'name': name,
+      'type': type,
+    };
+  }
+}
+
 /// Contains information about an interpolated asset property value.
 ///
 /// @nodoc
@@ -16939,39 +23971,6 @@ class InterpolatedAssetPropertyValue {
     return {
       'timestamp': timestamp,
       'value': value,
-    };
-  }
-}
-
-/// Contains a timestamp with optional nanosecond granularity.
-///
-/// @nodoc
-class TimeInNanos {
-  /// The timestamp date, in seconds, in the Unix epoch format. Fractional
-  /// nanosecond data is provided by <code>offsetInNanos</code>.
-  final int timeInSeconds;
-
-  /// The nanosecond offset from <code>timeInSeconds</code>.
-  final int? offsetInNanos;
-
-  TimeInNanos({
-    required this.timeInSeconds,
-    this.offsetInNanos,
-  });
-
-  factory TimeInNanos.fromJson(Map<String, dynamic> json) {
-    return TimeInNanos(
-      timeInSeconds: (json['timeInSeconds'] as int?) ?? 0,
-      offsetInNanos: json['offsetInNanos'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timeInSeconds = this.timeInSeconds;
-    final offsetInNanos = this.offsetInNanos;
-    return {
-      'timeInSeconds': timeInSeconds,
-      if (offsetInNanos != null) 'offsetInNanos': offsetInNanos,
     };
   }
 }
@@ -17109,6 +24108,71 @@ class Quality {
 
   @override
   String toString() => value;
+}
+
+/// The allowed video data types.
+///
+/// @nodoc
+class VideoDataType {
+  static const videoMp4 = VideoDataType._('VIDEO-MP4');
+
+  final String value;
+
+  const VideoDataType._(this.value);
+
+  static const values = [videoMp4];
+
+  static VideoDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VideoDataType._(value));
+
+  @override
+  bool operator ==(other) => other is VideoDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the output format configuration for video processing.
+///
+/// @nodoc
+class FormatSettings {
+  /// The target frame rate for the output.
+  final int? framesPerSecond;
+
+  /// The target height of the output, in pixels.
+  final int? heightInPixels;
+
+  /// The target width of the output, in pixels.
+  final int? widthInPixels;
+
+  FormatSettings({
+    this.framesPerSecond,
+    this.heightInPixels,
+    this.widthInPixels,
+  });
+
+  factory FormatSettings.fromJson(Map<String, dynamic> json) {
+    return FormatSettings(
+      framesPerSecond: json['framesPerSecond'] as int?,
+      heightInPixels: json['heightInPixels'] as int?,
+      widthInPixels: json['widthInPixels'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final framesPerSecond = this.framesPerSecond;
+    final heightInPixels = this.heightInPixels;
+    final widthInPixels = this.widthInPixels;
+    return {
+      if (framesPerSecond != null) 'framesPerSecond': framesPerSecond,
+      if (heightInPixels != null) 'heightInPixels': heightInPixels,
+      if (widthInPixels != null) 'widthInPixels': widthInPixels,
+    };
+  }
 }
 
 /// Contains asset property value information.
@@ -17506,6 +24570,80 @@ class ActionPayload {
   }
 }
 
+/// Contains the encryption configuration information for a workspace.
+///
+/// @nodoc
+class WorkspaceEncryptionConfigurationInfo {
+  /// The type of encryption used for the workspace.
+  final EncryptionType encryptionType;
+
+  /// The key ARN of the KMS key used for KMS encryption if
+  /// <code>encryptionType</code> is <code>KMS_BASED_ENCRYPTION</code>.
+  final String? kmsKeyArn;
+
+  WorkspaceEncryptionConfigurationInfo({
+    required this.encryptionType,
+    this.kmsKeyArn,
+  });
+
+  factory WorkspaceEncryptionConfigurationInfo.fromJson(
+      Map<String, dynamic> json) {
+    return WorkspaceEncryptionConfigurationInfo(
+      encryptionType:
+          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'encryptionType': encryptionType.value,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// Contains statistics about a completed query execution.
+///
+/// @nodoc
+class QueryStatistics {
+  /// The total number of bytes scanned during query execution.
+  final int bytesScanned;
+
+  /// The total query execution time, in milliseconds.
+  final int executionTimeInMillis;
+
+  /// The total number of rows returned by the query.
+  final int rowCount;
+
+  QueryStatistics({
+    required this.bytesScanned,
+    required this.executionTimeInMillis,
+    required this.rowCount,
+  });
+
+  factory QueryStatistics.fromJson(Map<String, dynamic> json) {
+    return QueryStatistics(
+      bytesScanned: (json['bytesScanned'] as int?) ?? 0,
+      executionTimeInMillis: (json['executionTimeInMillis'] as int?) ?? 0,
+      rowCount: (json['rowCount'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytesScanned = this.bytesScanned;
+    final executionTimeInMillis = this.executionTimeInMillis;
+    final rowCount = this.rowCount;
+    return {
+      'bytesScanned': bytesScanned,
+      'executionTimeInMillis': executionTimeInMillis,
+      'rowCount': rowCount,
+    };
+  }
+}
+
 /// Contains an image that is uploaded to IoT SiteWise and available at a URL.
 ///
 /// @nodoc
@@ -17561,6 +24699,635 @@ class AuthMode {
 
   @override
   String toString() => value;
+}
+
+/// Contains detailed execution information for a compute node within a pipeline
+/// execution.
+///
+/// @nodoc
+class ComputeNodeExecutionDetails {
+  /// The name of the compute node.
+  final String computeNodeName;
+
+  /// A list of compute node names that this node depends on.
+  final List<String> dependsOn;
+
+  /// The current execution status of the compute node.
+  final ComputeNodeExecutionStatus status;
+
+  /// The ARN of the task.
+  final String taskArn;
+
+  /// The name of the task executed for this compute node.
+  final String taskName;
+
+  /// The task version that executed for this compute node.
+  final String taskVersion;
+
+  /// The time the compute node execution completed, in Unix epoch time.
+  final DateTime? endTime;
+
+  /// The fully resolved environment variables used for this compute node
+  /// execution.
+  final Map<String, String>? executionEnvironmentVariables;
+
+  /// The time the compute node execution started, in Unix epoch time.
+  final DateTime? startTime;
+
+  ComputeNodeExecutionDetails({
+    required this.computeNodeName,
+    required this.dependsOn,
+    required this.status,
+    required this.taskArn,
+    required this.taskName,
+    required this.taskVersion,
+    this.endTime,
+    this.executionEnvironmentVariables,
+    this.startTime,
+  });
+
+  factory ComputeNodeExecutionDetails.fromJson(Map<String, dynamic> json) {
+    return ComputeNodeExecutionDetails(
+      computeNodeName: (json['computeNodeName'] as String?) ?? '',
+      dependsOn: ((json['dependsOn'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      status: ComputeNodeExecutionStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      taskArn: (json['taskArn'] as String?) ?? '',
+      taskName: (json['taskName'] as String?) ?? '',
+      taskVersion: (json['taskVersion'] as String?) ?? '',
+      endTime: timeStampFromJson(json['endTime']),
+      executionEnvironmentVariables:
+          (json['executionEnvironmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      startTime: timeStampFromJson(json['startTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeNodeName = this.computeNodeName;
+    final dependsOn = this.dependsOn;
+    final status = this.status;
+    final taskArn = this.taskArn;
+    final taskName = this.taskName;
+    final taskVersion = this.taskVersion;
+    final endTime = this.endTime;
+    final executionEnvironmentVariables = this.executionEnvironmentVariables;
+    final startTime = this.startTime;
+    return {
+      'computeNodeName': computeNodeName,
+      'dependsOn': dependsOn,
+      'status': status,
+      'taskArn': taskArn,
+      'taskName': taskName,
+      'taskVersion': taskVersion,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (executionEnvironmentVariables != null)
+        'executionEnvironmentVariables': executionEnvironmentVariables,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// Current execution status of a compute node within a pipeline execution.
+///
+/// @nodoc
+class ComputeNodeExecutionStatus {
+  /// Current state of the compute node execution.
+  final ComputeNodeExecutionState state;
+
+  /// Additional information about the compute node's failure. Populated when the
+  /// compute node has failed.
+  final ComputeNodeExecutionStateDetails? stateDetails;
+
+  ComputeNodeExecutionStatus({
+    required this.state,
+    this.stateDetails,
+  });
+
+  factory ComputeNodeExecutionStatus.fromJson(Map<String, dynamic> json) {
+    return ComputeNodeExecutionStatus(
+      state: ComputeNodeExecutionState.fromString(
+          (json['state'] as String?) ?? ''),
+      stateDetails: json['stateDetails'] != null
+          ? ComputeNodeExecutionStateDetails.fromJson(
+              json['stateDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateDetails = this.stateDetails;
+    return {
+      'state': state.value,
+      if (stateDetails != null) 'stateDetails': stateDetails,
+    };
+  }
+}
+
+/// The state of an individual compute node execution.
+///
+/// @nodoc
+class ComputeNodeExecutionState {
+  static const notStarted = ComputeNodeExecutionState._('NOT_STARTED');
+  static const queued = ComputeNodeExecutionState._('QUEUED');
+  static const running = ComputeNodeExecutionState._('RUNNING');
+  static const succeeded = ComputeNodeExecutionState._('SUCCEEDED');
+  static const failed = ComputeNodeExecutionState._('FAILED');
+
+  final String value;
+
+  const ComputeNodeExecutionState._(this.value);
+
+  static const values = [notStarted, queued, running, succeeded, failed];
+
+  static ComputeNodeExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputeNodeExecutionState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComputeNodeExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Additional information about a compute node that has failed.
+///
+/// @nodoc
+class ComputeNodeExecutionStateDetails {
+  /// Classification of the failure.
+  final ComputeNodeErrorCode code;
+
+  /// Human-readable description of why the compute node failed.
+  final String message;
+
+  /// Detailed error entries to help diagnose the failure.
+  final List<DetailedPipelineError>? details;
+
+  ComputeNodeExecutionStateDetails({
+    required this.code,
+    required this.message,
+    this.details,
+  });
+
+  factory ComputeNodeExecutionStateDetails.fromJson(Map<String, dynamic> json) {
+    return ComputeNodeExecutionStateDetails(
+      code: ComputeNodeErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+      details: (json['details'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedPipelineError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final details = this.details;
+    return {
+      'code': code.value,
+      'message': message,
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+/// Classification of a compute node execution failure.
+///
+/// @nodoc
+class ComputeNodeErrorCode {
+  static const validationError = ComputeNodeErrorCode._('VALIDATION_ERROR');
+  static const internalFailure = ComputeNodeErrorCode._('INTERNAL_FAILURE');
+  static const executionError = ComputeNodeErrorCode._('EXECUTION_ERROR');
+  static const timedOut = ComputeNodeErrorCode._('TIMED_OUT');
+
+  final String value;
+
+  const ComputeNodeErrorCode._(this.value);
+
+  static const values = [
+    validationError,
+    internalFailure,
+    executionError,
+    timedOut
+  ];
+
+  static ComputeNodeErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputeNodeErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComputeNodeErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for the enrichment job defining which analysis type to perform
+/// on video time-series data. Currently supports event detection enrichment.
+/// Exactly one member must be specified.
+///
+/// @nodoc
+class EnrichmentJobConfiguration {
+  /// Event detection configuration that generates embeddings from video
+  /// time-series data enabling natural language similarity search on events. The
+  /// service processes video data and creates embeddings stored in IoT SiteWise
+  /// for semantic querying.
+  final EventDetection? eventDetection;
+
+  EnrichmentJobConfiguration({
+    this.eventDetection,
+  });
+
+  factory EnrichmentJobConfiguration.fromJson(Map<String, dynamic> json) {
+    return EnrichmentJobConfiguration(
+      eventDetection: json['eventDetection'] != null
+          ? EventDetection.fromJson(
+              json['eventDetection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventDetection = this.eventDetection;
+    return {
+      if (eventDetection != null) 'eventDetection': eventDetection,
+    };
+  }
+}
+
+/// Configuration for event detection enrichment on video time-series data.
+///
+/// Event detection generates embeddings from video data enabling natural
+/// language similarity search on events. This allows customers to:
+///
+/// <ul>
+/// <li>Query video events using semantic search after enrichment completes</li>
+/// <li>Find relevant video segments through natural language queries</li>
+/// <li>Search across video time-series data stored in IoT SiteWise</li>
+/// </ul>
+/// You must specify the dataset, exactly one time-series identifier
+/// (timeSeriesId OR propertyAlias), and trim settings defining the video time
+/// window to process.
+///
+/// @nodoc
+class EventDetection {
+  /// The IoT SiteWise dataset ID containing the video time-series data to
+  /// analyze. Query IoT SiteWise to discover available datasets in your
+  /// workspace.
+  final String datasetId;
+
+  /// Time range settings defining which portion of the video time-series data to
+  /// process. Required to ensure predictable processing time and prevent
+  /// analyzing unbounded datasets. Start and end times must be within the
+  /// dataset's time bounds.
+  final EnrichmentTrimSettings trimSettings;
+
+  /// Human-readable alias for the video time series to analyze (e.g.,
+  /// /camera/warehouse/zone-a). Specify either propertyAlias or timeSeriesId, but
+  /// not both. Use this when you have configured friendly aliases in IoT SiteWise
+  /// for better readability.
+  final String? propertyAlias;
+
+  /// Unique system identifier for the video time series to analyze. Specify
+  /// either timeSeriesId or propertyAlias, but not both. Use this when you have
+  /// the system-generated time series identifier from IoT SiteWise.
+  final String? timeSeriesId;
+
+  EventDetection({
+    required this.datasetId,
+    required this.trimSettings,
+    this.propertyAlias,
+    this.timeSeriesId,
+  });
+
+  factory EventDetection.fromJson(Map<String, dynamic> json) {
+    return EventDetection(
+      datasetId: (json['datasetId'] as String?) ?? '',
+      trimSettings: EnrichmentTrimSettings.fromJson(
+          (json['trimSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      propertyAlias: json['propertyAlias'] as String?,
+      timeSeriesId: json['timeSeriesId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    final trimSettings = this.trimSettings;
+    final propertyAlias = this.propertyAlias;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'datasetId': datasetId,
+      'trimSettings': trimSettings,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (timeSeriesId != null) 'timeSeriesId': timeSeriesId,
+    };
+  }
+}
+
+/// Time range settings for extracting a specific window of video time-series
+/// data to process.
+///
+/// Trim settings define the time bounds for enrichment and must satisfy:
+///
+/// <ul>
+/// <li>Start and end times must be within the dataset's time bounds</li>
+/// <li>Trim settings retrieve fully contained data segments within the
+/// specified time range</li>
+/// <li>endTime must be greater than startTime</li>
+/// <li>Both times should represent valid data ranges in the dataset</li>
+/// </ul>
+/// Trim settings are required to:
+///
+/// <ul>
+/// <li>Prevent accidentally analyzing unbounded datasets</li>
+/// <li>Ensure predictable processing time and costs</li>
+/// <li>Allow focused analysis on specific time periods of interest</li>
+/// </ul>
+///
+/// @nodoc
+class EnrichmentTrimSettings {
+  /// End time for the video analysis time range in nanoseconds since Unix epoch
+  /// (TimeInNanos format). Data segments at or before this time are included in
+  /// the enrichment. Must be greater than startTime and within the dataset's time
+  /// bounds.
+  final TimeInNanos endTime;
+
+  /// Start time for the video analysis time range in nanoseconds since Unix epoch
+  /// (TimeInNanos format). Data segments at or after this time are included in
+  /// the enrichment. Must be within the dataset's time bounds.
+  ///
+  /// Example (JavaScript): Date.parse('2024-01-01T00:00:00Z') * 1000000 Example
+  /// (Python): int(datetime.timestamp() * 1e9)
+  final TimeInNanos startTime;
+
+  EnrichmentTrimSettings({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory EnrichmentTrimSettings.fromJson(Map<String, dynamic> json) {
+    return EnrichmentTrimSettings(
+      endTime: TimeInNanos.fromJson(
+          (json['endTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startTime: TimeInNanos.fromJson(
+          (json['startTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': endTime,
+      'startTime': startTime,
+    };
+  }
+}
+
+/// Contains the location where error reports will be written on failure.
+///
+/// @nodoc
+class ExportErrorReportLocation {
+  /// The S3 URI prefix for the error report.
+  final String s3Uri;
+
+  ExportErrorReportLocation({
+    required this.s3Uri,
+  });
+
+  factory ExportErrorReportLocation.fromJson(Map<String, dynamic> json) {
+    return ExportErrorReportLocation(
+      s3Uri: (json['s3Uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      's3Uri': s3Uri,
+    };
+  }
+}
+
+/// Input source for processing. Specify exactly one option.
+///
+/// @nodoc
+class ProcessingInput {
+  /// A dataset containing multiple items to process.
+  final DatasetItem? dataset;
+
+  /// List of individual timeseries items to process.
+  final List<TimeseriesItem>? timeseries;
+
+  ProcessingInput({
+    this.dataset,
+    this.timeseries,
+  });
+
+  factory ProcessingInput.fromJson(Map<String, dynamic> json) {
+    return ProcessingInput(
+      dataset: json['dataset'] != null
+          ? DatasetItem.fromJson(json['dataset'] as Map<String, dynamic>)
+          : null,
+      timeseries: (json['timeseries'] as List?)
+          ?.nonNulls
+          .map((e) => TimeseriesItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataset = this.dataset;
+    final timeseries = this.timeseries;
+    return {
+      if (dataset != null) 'dataset': dataset,
+      if (timeseries != null) 'timeseries': timeseries,
+    };
+  }
+}
+
+/// A dataset to process.
+///
+/// @nodoc
+class DatasetItem {
+  /// The unique identifier for the dataset.
+  final String datasetId;
+
+  /// The optional subset of data types to export. If omitted, all data types are
+  /// exported.
+  final List<ExportDataType>? exportDataTypes;
+
+  /// The trim settings applied to all items in the dataset. When omitted, the
+  /// full dataset time range is used.
+  final TrimSettings? trimSettings;
+
+  DatasetItem({
+    required this.datasetId,
+    this.exportDataTypes,
+    this.trimSettings,
+  });
+
+  factory DatasetItem.fromJson(Map<String, dynamic> json) {
+    return DatasetItem(
+      datasetId: (json['datasetId'] as String?) ?? '',
+      exportDataTypes: (json['exportDataTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ExportDataType.fromString((e as String)))
+          .toList(),
+      trimSettings: json['trimSettings'] != null
+          ? TrimSettings.fromJson(json['trimSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    final exportDataTypes = this.exportDataTypes;
+    final trimSettings = this.trimSettings;
+    return {
+      'datasetId': datasetId,
+      if (exportDataTypes != null)
+        'exportDataTypes': exportDataTypes.map((e) => e.value).toList(),
+      if (trimSettings != null) 'trimSettings': trimSettings,
+    };
+  }
+}
+
+/// Contains settings for trimming content to a specific time range.
+///
+/// @nodoc
+class TrimSettings {
+  /// The end time for the trim range. Must be greater than startTime.
+  final TimeInNanos endTime;
+
+  /// The start time for the trim range.
+  final TimeInNanos startTime;
+
+  TrimSettings({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory TrimSettings.fromJson(Map<String, dynamic> json) {
+    return TrimSettings(
+      endTime: TimeInNanos.fromJson(
+          (json['endTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startTime: TimeInNanos.fromJson(
+          (json['startTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': endTime,
+      'startTime': startTime,
+    };
+  }
+}
+
+/// Data types that can be exported from a dataset.
+///
+/// @nodoc
+class ExportDataType {
+  static const video = ExportDataType._('VIDEO');
+  static const telemetry = ExportDataType._('TELEMETRY');
+  static const annotation = ExportDataType._('ANNOTATION');
+
+  final String value;
+
+  const ExportDataType._(this.value);
+
+  static const values = [video, telemetry, annotation];
+
+  static ExportDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportDataType._(value));
+
+  @override
+  bool operator ==(other) => other is ExportDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single timeseries item to process. Exactly one of timeSeriesId or
+/// propertyAlias must be provided.
+///
+/// @nodoc
+class TimeseriesItem {
+  /// The optional format settings for the output.
+  final FormatSettings? formatSettings;
+
+  /// The customer-friendly alias for the timeseries. Mutually exclusive with
+  /// timeSeriesId.
+  final String? propertyAlias;
+
+  /// The unique identifier for the timeseries. Mutually exclusive with
+  /// propertyAlias.
+  final String? timeSeriesId;
+
+  /// The trim settings for the time range to export. Required for VIDEO and
+  /// TELEMETRY data types; optional for ANNOTATION data types.
+  final TrimSettings? trimSettings;
+
+  TimeseriesItem({
+    this.formatSettings,
+    this.propertyAlias,
+    this.timeSeriesId,
+    this.trimSettings,
+  });
+
+  factory TimeseriesItem.fromJson(Map<String, dynamic> json) {
+    return TimeseriesItem(
+      formatSettings: json['formatSettings'] != null
+          ? FormatSettings.fromJson(
+              json['formatSettings'] as Map<String, dynamic>)
+          : null,
+      propertyAlias: json['propertyAlias'] as String?,
+      timeSeriesId: json['timeSeriesId'] as String?,
+      trimSettings: json['trimSettings'] != null
+          ? TrimSettings.fromJson(json['trimSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formatSettings = this.formatSettings;
+    final propertyAlias = this.propertyAlias;
+    final timeSeriesId = this.timeSeriesId;
+    final trimSettings = this.trimSettings;
+    return {
+      if (formatSettings != null) 'formatSettings': formatSettings,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (timeSeriesId != null) 'timeSeriesId': timeSeriesId,
+      if (trimSettings != null) 'trimSettings': trimSettings,
+    };
+  }
 }
 
 /// Contains a definition for an action.
@@ -17648,24 +25415,24 @@ class ErrorReportLocation {
 /// @nodoc
 class JobConfiguration {
   /// The file format of the data in S3.
-  final FileFormat fileFormat;
+  final FileFormat? fileFormat;
 
   JobConfiguration({
-    required this.fileFormat,
+    this.fileFormat,
   });
 
   factory JobConfiguration.fromJson(Map<String, dynamic> json) {
     return JobConfiguration(
-      fileFormat: FileFormat.fromJson(
-          (json['fileFormat'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+      fileFormat: json['fileFormat'] != null
+          ? FileFormat.fromJson(json['fileFormat'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final fileFormat = this.fileFormat;
     return {
-      'fileFormat': fileFormat,
+      if (fileFormat != null) 'fileFormat': fileFormat,
     };
   }
 }
@@ -17674,21 +25441,35 @@ class JobConfiguration {
 ///
 /// @nodoc
 class FileFormat {
+  /// The annotation format configuration.
+  final Annotation? annotation;
+
   /// The file is in .CSV format.
   final Csv? csv;
+
+  /// The MP4 format configuration.
+  final Mp4? mp4;
 
   /// The file is in parquet format.
   final Parquet? parquet;
 
   FileFormat({
+    this.annotation,
     this.csv,
+    this.mp4,
     this.parquet,
   });
 
   factory FileFormat.fromJson(Map<String, dynamic> json) {
     return FileFormat(
+      annotation: json['annotation'] != null
+          ? Annotation.fromJson(json['annotation'] as Map<String, dynamic>)
+          : null,
       csv: json['csv'] != null
           ? Csv.fromJson(json['csv'] as Map<String, dynamic>)
+          : null,
+      mp4: json['mp4'] != null
+          ? Mp4.fromJson(json['mp4'] as Map<String, dynamic>)
           : null,
       parquet: json['parquet'] != null
           ? Parquet.fromJson(json['parquet'] as Map<String, dynamic>)
@@ -17697,10 +25478,14 @@ class FileFormat {
   }
 
   Map<String, dynamic> toJson() {
+    final annotation = this.annotation;
     final csv = this.csv;
+    final mp4 = this.mp4;
     final parquet = this.parquet;
     return {
+      if (annotation != null) 'annotation': annotation,
       if (csv != null) 'csv': csv,
+      if (mp4 != null) 'mp4': mp4,
       if (parquet != null) 'parquet': parquet,
     };
   }
@@ -17742,6 +25527,36 @@ class Parquet {
 
   factory Parquet.fromJson(Map<String, dynamic> _) {
     return Parquet();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The MP4 video format configuration for bulk import files.
+///
+/// @nodoc
+class Mp4 {
+  Mp4();
+
+  factory Mp4.fromJson(Map<String, dynamic> _) {
+    return Mp4();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The annotation format configuration for bulk import files.
+///
+/// @nodoc
+class Annotation {
+  Annotation();
+
+  factory Annotation.fromJson(Map<String, dynamic> _) {
+    return Annotation();
   }
 
   Map<String, dynamic> toJson() {
@@ -17799,6 +25614,15 @@ class File {
   /// key that is a unique identifier. Each object has exactly one key.
   final String key;
 
+  /// The alias associated with the file's time series.
+  final String? alias;
+
+  /// The file format of the data in S3.
+  final FileFormat? fileFormat;
+
+  /// The nanosecond-precision start time for the file data.
+  final TimeInNanos? startTime;
+
   /// The version ID to identify a specific version of the Amazon S3 object that
   /// contains your data.
   final String? versionId;
@@ -17806,6 +25630,9 @@ class File {
   File({
     required this.bucket,
     required this.key,
+    this.alias,
+    this.fileFormat,
+    this.startTime,
     this.versionId,
   });
 
@@ -17813,6 +25640,13 @@ class File {
     return File(
       bucket: (json['bucket'] as String?) ?? '',
       key: (json['key'] as String?) ?? '',
+      alias: json['alias'] as String?,
+      fileFormat: json['fileFormat'] != null
+          ? FileFormat.fromJson(json['fileFormat'] as Map<String, dynamic>)
+          : null,
+      startTime: json['startTime'] != null
+          ? TimeInNanos.fromJson(json['startTime'] as Map<String, dynamic>)
+          : null,
       versionId: json['versionId'] as String?,
     );
   }
@@ -17820,10 +25654,16 @@ class File {
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
     final key = this.key;
+    final alias = this.alias;
+    final fileFormat = this.fileFormat;
+    final startTime = this.startTime;
     final versionId = this.versionId;
     return {
       'bucket': bucket,
       'key': key,
+      if (alias != null) 'alias': alias,
+      if (fileFormat != null) 'fileFormat': fileFormat,
+      if (startTime != null) 'startTime': startTime,
       if (versionId != null) 'versionId': versionId,
     };
   }
@@ -18393,6 +26233,10 @@ class AssetCompositeModel {
 /// @nodoc
 class AssetModelPropertyDefinition {
   /// The data type of the property definition.
+  ///
+  /// The <code>VIDEO</code>, <code>ANNOTATION</code>, and <code>JSON</code> data
+  /// types aren't supported for asset model properties. These types are used only
+  /// by time series that store data for datasets in a workspace.
   ///
   /// If you specify <code>STRUCT</code>, you must also specify
   /// <code>dataTypeSpec</code> to identify the type of the structure for this
@@ -19694,6 +27538,336 @@ class AssetErrorCode {
 
   @override
   String toString() => value;
+}
+
+/// Contains error information for a data segment disassociation that failed.
+///
+/// @nodoc
+class FailedDataSegmentDisassociation {
+  /// The nanosecond-precision end time of the data segment.
+  final TimeInNanos endTimestamp;
+
+  /// The error code for the failed disassociation.
+  final DataSegmentErrorCode errorCode;
+
+  /// The error message for the failed disassociation.
+  final String errorMessage;
+
+  /// The ID of the source dataset.
+  final String sourceDatasetId;
+
+  /// The nanosecond-precision start time of the data segment.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  FailedDataSegmentDisassociation({
+    required this.endTimestamp,
+    required this.errorCode,
+    required this.errorMessage,
+    required this.sourceDatasetId,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+  });
+
+  factory FailedDataSegmentDisassociation.fromJson(Map<String, dynamic> json) {
+    return FailedDataSegmentDisassociation(
+      endTimestamp: TimeInNanos.fromJson(
+          (json['endTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      errorCode:
+          DataSegmentErrorCode.fromString((json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      sourceDatasetId: (json['sourceDatasetId'] as String?) ?? '',
+      startTimestamp: TimeInNanos.fromJson(
+          (json['startTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final sourceDatasetId = this.sourceDatasetId;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'endTimestamp': endTimestamp,
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+      'sourceDatasetId': sourceDatasetId,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+    };
+  }
+}
+
+/// @nodoc
+class DataSegmentErrorCode {
+  static const internalFailure = DataSegmentErrorCode._('INTERNAL_FAILURE');
+  static const validationError = DataSegmentErrorCode._('VALIDATION_ERROR');
+  static const resourceNotFound = DataSegmentErrorCode._('RESOURCE_NOT_FOUND');
+  static const limitExceeded = DataSegmentErrorCode._('LIMIT_EXCEEDED');
+  static const conflictingOperation =
+      DataSegmentErrorCode._('CONFLICTING_OPERATION');
+
+  final String value;
+
+  const DataSegmentErrorCode._(this.value);
+
+  static const values = [
+    internalFailure,
+    validationError,
+    resourceNotFound,
+    limitExceeded,
+    conflictingOperation
+  ];
+
+  static DataSegmentErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSegmentErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSegmentErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a data segment entry to disassociate from a
+/// dataset.
+///
+/// @nodoc
+class DisassociateDataSegmentEntry {
+  /// The nanosecond-precision end time of the data segment to disassociate.
+  final TimeInNanos endTimestamp;
+
+  /// The ID of the source dataset that contains the data segment.
+  final String sourceDatasetId;
+
+  /// The nanosecond-precision start time of the data segment to disassociate.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  DisassociateDataSegmentEntry({
+    required this.endTimestamp,
+    required this.sourceDatasetId,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final sourceDatasetId = this.sourceDatasetId;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'endTimestamp': endTimestamp,
+      'sourceDatasetId': sourceDatasetId,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+    };
+  }
+}
+
+/// Contains error information for a data segment deletion that failed.
+///
+/// @nodoc
+class FailedDataSegmentDeletion {
+  /// The nanosecond-precision end time of the data segment.
+  final TimeInNanos endTimestamp;
+
+  /// The error code for the failed deletion.
+  final DataSegmentErrorCode errorCode;
+
+  /// The error message for the failed deletion.
+  final String errorMessage;
+
+  /// The nanosecond-precision start time of the data segment.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  FailedDataSegmentDeletion({
+    required this.endTimestamp,
+    required this.errorCode,
+    required this.errorMessage,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+  });
+
+  factory FailedDataSegmentDeletion.fromJson(Map<String, dynamic> json) {
+    return FailedDataSegmentDeletion(
+      endTimestamp: TimeInNanos.fromJson(
+          (json['endTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      errorCode:
+          DataSegmentErrorCode.fromString((json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      startTimestamp: TimeInNanos.fromJson(
+          (json['startTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'endTimestamp': endTimestamp,
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+    };
+  }
+}
+
+/// Contains information about a data segment entry to delete.
+///
+/// @nodoc
+class DeleteDataSegmentEntry {
+  /// The nanosecond-precision end time of the data segment to delete.
+  final TimeInNanos endTimestamp;
+
+  /// The nanosecond-precision start time of the data segment to delete.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  DeleteDataSegmentEntry({
+    required this.endTimestamp,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'endTimestamp': endTimestamp,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+    };
+  }
+}
+
+/// Contains error information for a data segment association that failed.
+///
+/// @nodoc
+class FailedDataSegmentAssociation {
+  /// The nanosecond-precision end time of the data segment.
+  final TimeInNanos endTimestamp;
+
+  /// The error code for the failed association.
+  final DataSegmentErrorCode errorCode;
+
+  /// The error message for the failed association.
+  final String errorMessage;
+
+  /// The ID of the source dataset.
+  final String sourceDatasetId;
+
+  /// The nanosecond-precision start time of the data segment.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  FailedDataSegmentAssociation({
+    required this.endTimestamp,
+    required this.errorCode,
+    required this.errorMessage,
+    required this.sourceDatasetId,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+  });
+
+  factory FailedDataSegmentAssociation.fromJson(Map<String, dynamic> json) {
+    return FailedDataSegmentAssociation(
+      endTimestamp: TimeInNanos.fromJson(
+          (json['endTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      errorCode:
+          DataSegmentErrorCode.fromString((json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      sourceDatasetId: (json['sourceDatasetId'] as String?) ?? '',
+      startTimestamp: TimeInNanos.fromJson(
+          (json['startTimestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final sourceDatasetId = this.sourceDatasetId;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'endTimestamp': endTimestamp,
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+      'sourceDatasetId': sourceDatasetId,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+    };
+  }
+}
+
+/// Contains information about a data segment entry to associate with a dataset.
+///
+/// @nodoc
+class AssociateDataSegmentEntry {
+  /// The nanosecond-precision end time of the data segment to associate.
+  final TimeInNanos endTimestamp;
+
+  /// The ID of the source dataset that contains the data segment.
+  final String sourceDatasetId;
+
+  /// The nanosecond-precision start time of the data segment to associate.
+  final TimeInNanos startTimestamp;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  AssociateDataSegmentEntry({
+    required this.endTimestamp,
+    required this.sourceDatasetId,
+    required this.startTimestamp,
+    required this.timeSeriesId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final sourceDatasetId = this.sourceDatasetId;
+    final startTimestamp = this.startTimestamp;
+    final timeSeriesId = this.timeSeriesId;
+    return {
+      'endTimestamp': endTimestamp,
+      'sourceDatasetId': sourceDatasetId,
+      'startTimestamp': startTimestamp,
+      'timeSeriesId': timeSeriesId,
+    };
+  }
 }
 
 /// @nodoc

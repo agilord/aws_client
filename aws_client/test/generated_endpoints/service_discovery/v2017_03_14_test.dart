@@ -10,161 +10,40 @@ import 'package:aws_client/src/shared/src/protocol/endpoints/endpoint_resolver.d
 import 'package:test/test.dart';
 
 void main() {
-  test('For region af-south-1 with FIPS disabled and DualStack disabled [0]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'af-south-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.af-south-1.amazonaws.com');
+  test('For custom endpoint with region not set and fips disabled [0]', () {
+    final resolved =
+        resolveEndpoint(endpoint: 'https://example.com', useFips: false);
+    expect(resolved.url, 'https://example.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region ap-east-1 with FIPS disabled and DualStack disabled [1]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ap-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.ap-east-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region ap-northeast-1 with FIPS disabled and DualStack disabled [2]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ap-northeast-1', useFips: false, useDualStack: false);
+  test('For custom endpoint with fips enabled [1]', () {
     expect(
-        resolved.url, 'https://servicediscovery.ap-northeast-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
+      () => resolveEndpoint(endpoint: 'https://example.com', useFips: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
   });
-  test(
-      'For region ap-northeast-2 with FIPS disabled and DualStack disabled [3]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ap-northeast-2', useFips: false, useDualStack: false);
+  test('For custom endpoint with fips disabled and dualstack enabled [2]', () {
     expect(
-        resolved.url, 'https://servicediscovery.ap-northeast-2.amazonaws.com');
+      () => resolveEndpoint(
+          endpoint: 'https://example.com', useFips: false, useDualStack: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+    );
+  });
+  test('For region us-east-1 with FIPS enabled and DualStack enabled [3]', () {
+    final resolved =
+        resolveEndpoint(region: 'us-east-1', useFips: true, useDualStack: true);
+    expect(resolved.url, 'https://servicediscovery-fips.us-east-1.api.aws');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region ap-south-1 with FIPS disabled and DualStack disabled [4]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ap-south-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.ap-south-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region ap-southeast-1 with FIPS disabled and DualStack disabled [5]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ap-southeast-1', useFips: false, useDualStack: false);
-    expect(
-        resolved.url, 'https://servicediscovery.ap-southeast-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region ap-southeast-2 with FIPS disabled and DualStack disabled [6]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ap-southeast-2', useFips: false, useDualStack: false);
-    expect(
-        resolved.url, 'https://servicediscovery.ap-southeast-2.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region ca-central-1 with FIPS disabled and DualStack disabled [7]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ca-central-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.ca-central-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region ca-central-1 with FIPS enabled and DualStack disabled [8]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'ca-central-1', useFips: true, useDualStack: false);
-    expect(resolved.url,
-        'https://servicediscovery-fips.ca-central-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region eu-central-1 with FIPS disabled and DualStack disabled [9]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-central-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.eu-central-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region eu-north-1 with FIPS disabled and DualStack disabled [10]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-north-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.eu-north-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region eu-south-1 with FIPS disabled and DualStack disabled [11]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-south-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.eu-south-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region eu-west-1 with FIPS disabled and DualStack disabled [12]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-west-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.eu-west-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region eu-west-2 with FIPS disabled and DualStack disabled [13]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-west-2', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.eu-west-2.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region eu-west-3 with FIPS disabled and DualStack disabled [14]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-west-3', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.eu-west-3.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region me-south-1 with FIPS disabled and DualStack disabled [15]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'me-south-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.me-south-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region sa-east-1 with FIPS disabled and DualStack disabled [16]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'sa-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.sa-east-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-1 with FIPS disabled and DualStack disabled [17]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.us-east-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-1 with FIPS enabled and DualStack disabled [18]',
-      () {
+  test('For region us-east-1 with FIPS enabled and DualStack disabled [4]', () {
     final resolved = resolveEndpoint(
         region: 'us-east-1', useFips: true, useDualStack: false);
     expect(
@@ -172,83 +51,50 @@ void main() {
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-east-2 with FIPS disabled and DualStack disabled [19]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-east-2', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.us-east-2.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-2 with FIPS enabled and DualStack disabled [20]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-east-2', useFips: true, useDualStack: false);
-    expect(
-        resolved.url, 'https://servicediscovery-fips.us-east-2.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-west-1 with FIPS disabled and DualStack disabled [21]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-west-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.us-west-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-west-1 with FIPS enabled and DualStack disabled [22]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-west-1', useFips: true, useDualStack: false);
-    expect(
-        resolved.url, 'https://servicediscovery-fips.us-west-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-west-2 with FIPS disabled and DualStack disabled [23]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-west-2', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://servicediscovery.us-west-2.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-west-2 with FIPS enabled and DualStack disabled [24]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-west-2', useFips: true, useDualStack: false);
-    expect(
-        resolved.url, 'https://servicediscovery-fips.us-west-2.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-1 with FIPS enabled and DualStack enabled [25]', () {
-    final resolved =
-        resolveEndpoint(region: 'us-east-1', useFips: true, useDualStack: true);
-    expect(resolved.url, 'https://servicediscovery-fips.us-east-1.api.aws');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-1 with FIPS disabled and DualStack enabled [26]',
-      () {
+  test('For region us-east-1 with FIPS disabled and DualStack enabled [5]', () {
     final resolved = resolveEndpoint(
         region: 'us-east-1', useFips: false, useDualStack: true);
+    expect(resolved.url, 'https://servicediscovery.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region us-east-1 with FIPS disabled and DualStack disabled [6]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-1', useFips: false, useDualStack: false);
     expect(resolved.url, 'https://servicediscovery.us-east-1.amazonaws.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region cn-north-1 with FIPS disabled and DualStack disabled [27]',
+  test('For region cn-northwest-1 with FIPS enabled and DualStack enabled [7]',
       () {
     final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: false, useDualStack: false);
-    expect(
-        resolved.url, 'https://servicediscovery.cn-north-1.amazonaws.com.cn');
+        region: 'cn-northwest-1', useFips: true, useDualStack: true);
+    expect(resolved.url,
+        'https://servicediscovery-fips.cn-northwest-1.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region cn-northwest-1 with FIPS enabled and DualStack disabled [8]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'cn-northwest-1', useFips: true, useDualStack: false);
+    expect(resolved.url,
+        'https://servicediscovery-fips.cn-northwest-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region cn-northwest-1 with FIPS disabled and DualStack enabled [9]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'cn-northwest-1', useFips: false, useDualStack: true);
+    expect(resolved.url,
+        'https://servicediscovery.cn-northwest-1.api.amazonwebservices.com.cn');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test(
-      'For region cn-northwest-1 with FIPS disabled and DualStack disabled [28]',
+      'For region cn-northwest-1 with FIPS disabled and DualStack disabled [10]',
       () {
     final resolved = resolveEndpoint(
         region: 'cn-northwest-1', useFips: false, useDualStack: false);
@@ -257,89 +103,27 @@ void main() {
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region cn-north-1 with FIPS enabled and DualStack enabled [29]',
+  test(
+      'For region eusc-de-east-1 with FIPS enabled and DualStack disabled [11]',
       () {
     final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: true, useDualStack: true);
+        region: 'eusc-de-east-1', useFips: true, useDualStack: false);
     expect(resolved.url,
-        'https://servicediscovery-fips.cn-north-1.api.amazonwebservices.com.cn');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region cn-north-1 with FIPS enabled and DualStack disabled [30]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: true, useDualStack: false);
-    expect(resolved.url,
-        'https://servicediscovery-fips.cn-north-1.amazonaws.com.cn');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region cn-north-1 with FIPS disabled and DualStack enabled [31]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'cn-north-1', useFips: false, useDualStack: true);
-    expect(
-        resolved.url, 'https://servicediscovery.cn-north-1.amazonaws.com.cn');
+        'https://servicediscovery-fips.eusc-de-east-1.amazonaws.eu');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test(
-      'For region us-gov-east-1 with FIPS disabled and DualStack disabled [32]',
+      'For region eusc-de-east-1 with FIPS disabled and DualStack disabled [12]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: false, useDualStack: false);
+        region: 'eusc-de-east-1', useFips: false, useDualStack: false);
     expect(
-        resolved.url, 'https://servicediscovery.us-gov-east-1.amazonaws.com');
+        resolved.url, 'https://servicediscovery.eusc-de-east-1.amazonaws.eu');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-gov-east-1 with FIPS enabled and DualStack disabled [33]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url,
-        'https://servicediscovery-fips.us-gov-east-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-gov-west-1 with FIPS disabled and DualStack disabled [34]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-gov-west-1', useFips: false, useDualStack: false);
-    expect(
-        resolved.url, 'https://servicediscovery.us-gov-west-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-gov-west-1 with FIPS enabled and DualStack disabled [35]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-gov-west-1', useFips: true, useDualStack: false);
-    expect(resolved.url,
-        'https://servicediscovery-fips.us-gov-west-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-gov-east-1 with FIPS enabled and DualStack enabled [36]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: true, useDualStack: true);
-    expect(resolved.url, 'https://servicediscovery-fips.us-gov-east-1.api.aws');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-gov-east-1 with FIPS disabled and DualStack enabled [37]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-gov-east-1', useFips: false, useDualStack: true);
-    expect(
-        resolved.url, 'https://servicediscovery.us-gov-east-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-iso-east-1 with FIPS enabled and DualStack disabled [38]',
+  test('For region us-iso-east-1 with FIPS enabled and DualStack disabled [13]',
       () {
     final resolved = resolveEndpoint(
         region: 'us-iso-east-1', useFips: true, useDualStack: false);
@@ -349,7 +133,7 @@ void main() {
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test(
-      'For region us-iso-east-1 with FIPS disabled and DualStack disabled [39]',
+      'For region us-iso-east-1 with FIPS disabled and DualStack disabled [14]',
       () {
     final resolved = resolveEndpoint(
         region: 'us-iso-east-1', useFips: false, useDualStack: false);
@@ -358,7 +142,7 @@ void main() {
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test(
-      'For region us-isob-east-1 with FIPS enabled and DualStack disabled [40]',
+      'For region us-isob-east-1 with FIPS enabled and DualStack disabled [15]',
       () {
     final resolved = resolveEndpoint(
         region: 'us-isob-east-1', useFips: true, useDualStack: false);
@@ -368,7 +152,7 @@ void main() {
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test(
-      'For region us-isob-east-1 with FIPS disabled and DualStack disabled [41]',
+      'For region us-isob-east-1 with FIPS disabled and DualStack disabled [16]',
       () {
     final resolved = resolveEndpoint(
         region: 'us-isob-east-1', useFips: false, useDualStack: false);
@@ -378,53 +162,81 @@ void main() {
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test(
-      'For custom endpoint with region set and fips disabled and dualstack disabled [42]',
+      'For region eu-isoe-west-1 with FIPS enabled and DualStack disabled [17]',
       () {
     final resolved = resolveEndpoint(
-        region: 'us-east-1',
-        useFips: false,
-        useDualStack: false,
-        endpoint: 'https://example.com');
-    expect(resolved.url, 'https://example.com');
+        region: 'eu-isoe-west-1', useFips: true, useDualStack: false);
+    expect(resolved.url,
+        'https://servicediscovery-fips.eu-isoe-west-1.cloud.adc-e.uk');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test(
-      'For custom endpoint with region not set and fips disabled and dualstack disabled [43]',
+      'For region eu-isoe-west-1 with FIPS disabled and DualStack disabled [18]',
       () {
     final resolved = resolveEndpoint(
-        useFips: false, useDualStack: false, endpoint: 'https://example.com');
-    expect(resolved.url, 'https://example.com');
+        region: 'eu-isoe-west-1', useFips: false, useDualStack: false);
+    expect(
+        resolved.url, 'https://servicediscovery.eu-isoe-west-1.cloud.adc-e.uk');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For custom endpoint with fips enabled and dualstack disabled [44]', () {
-    expect(
-      () => resolveEndpoint(
-          region: 'us-east-1',
-          useFips: true,
-          useDualStack: false,
-          endpoint: 'https://example.com'),
-      throwsA(isA<EndpointResolutionException>().having(
-          (e) => e.message,
-          'message',
-          'Invalid Configuration: FIPS and custom endpoint are not supported')),
-    );
+  test(
+      'For region us-isof-south-1 with FIPS enabled and DualStack disabled [19]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-isof-south-1', useFips: true, useDualStack: false);
+    expect(resolved.url,
+        'https://servicediscovery-fips.us-isof-south-1.csp.hci.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For custom endpoint with fips disabled and dualstack enabled [45]', () {
-    expect(
-      () => resolveEndpoint(
-          region: 'us-east-1',
-          useFips: false,
-          useDualStack: true,
-          endpoint: 'https://example.com'),
-      throwsA(isA<EndpointResolutionException>().having(
-          (e) => e.message,
-          'message',
-          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
-    );
+  test(
+      'For region us-isof-south-1 with FIPS disabled and DualStack disabled [20]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-isof-south-1', useFips: false, useDualStack: false);
+    expect(resolved.url,
+        'https://servicediscovery.us-isof-south-1.csp.hci.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('Missing region [46]', () {
+  test('For region us-gov-west-1 with FIPS enabled and DualStack enabled [21]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-gov-west-1', useFips: true, useDualStack: true);
+    expect(resolved.url, 'https://servicediscovery-fips.us-gov-west-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region us-gov-west-1 with FIPS enabled and DualStack disabled [22]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-gov-west-1', useFips: true, useDualStack: false);
+    expect(resolved.url,
+        'https://servicediscovery-fips.us-gov-west-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('For region us-gov-west-1 with FIPS disabled and DualStack enabled [23]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-gov-west-1', useFips: false, useDualStack: true);
+    expect(resolved.url, 'https://servicediscovery.us-gov-west-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'For region us-gov-west-1 with FIPS disabled and DualStack disabled [24]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-gov-west-1', useFips: false, useDualStack: false);
+    expect(
+        resolved.url, 'https://servicediscovery.us-gov-west-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('Missing region [25]', () {
     expect(
       () => resolveEndpoint(),
       throwsA(isA<EndpointResolutionException>().having((e) => e.message,

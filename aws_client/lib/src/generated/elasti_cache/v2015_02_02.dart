@@ -1700,7 +1700,7 @@ class ElastiCache {
   /// based on the engine version, cluster mode, and other parameters. The
   /// resolved setting is reflected in the <code>EffectiveDurability</code>
   /// property of the replication group. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html">Durability</a>.
   ///
   /// Parameter [engine] :
   /// The name of the cache engine to be used for the clusters in this
@@ -5042,7 +5042,12 @@ class ElastiCache {
   /// <important>
   /// If you perform a <code>ModifyCacheCluster</code> before a pending
   /// modification is applied, the pending modification is replaced by the newer
-  /// modification.
+  /// modification. However, a pending node-count increase on Memcached clusters
+  /// cannot be superseded by a request to add fewer nodes. To change a pending
+  /// node addition, first cancel it by setting <code>NumCacheNodes</code> equal
+  /// to the current number of nodes in the cluster, then submit the new
+  /// request. See the <code>NumCacheNodes</code> parameter for details on node
+  /// scaling behavior.
   /// </important>
   /// Valid values: <code>true</code> | <code>false</code>
   ///
@@ -5767,7 +5772,7 @@ class ElastiCache {
   /// parameter to change the durability mode of an existing replication group,
   /// for example from <code>sync</code> to <code>async</code> or vice versa.
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html">Durability</a>.
   ///
   /// Parameter [engine] :
   /// Modifies the engine listed in a replication group message. The options are
@@ -8875,7 +8880,7 @@ class ReplicationGroup {
 
   /// The durability setting of the replication group. For more information, see
   /// <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html">Durability</a>.
   final Durability? durability;
 
   /// The effective durability of the replication group. When
@@ -8883,7 +8888,7 @@ class ReplicationGroup {
   /// the actual durability based on the engine version, cluster mode, and other
   /// parameters. This field reflects the resolved value. For more information,
   /// see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ConfiguringDurability.html">Configuring
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.Configuring.html">Configuring
   /// Durability</a>.
   final EffectiveDurability? effectiveDurability;
 
@@ -14017,7 +14022,7 @@ class Snapshot {
   /// The durability setting of the cluster when the snapshot was taken. When
   /// restoring from this snapshot, the cluster uses this durability setting
   /// unless overridden in the restore request. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html">Durability</a>.
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html">Durability</a>.
   final Durability? durability;
 
   /// The name of the cache engine (<code>memcached</code> or <code>redis</code>)

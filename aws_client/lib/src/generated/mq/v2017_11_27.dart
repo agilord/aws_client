@@ -216,6 +216,9 @@ class Mq {
   /// The list of rules (1 minimum, 125 maximum) that authorize connections to
   /// brokers.
   ///
+  /// Parameter [storageSize] :
+  /// The broker's storage size in GB.
+  ///
   /// Parameter [storageType] :
   /// The broker's storage type.
   ///
@@ -268,6 +271,7 @@ class Mq {
     Logs? logs,
     WeeklyStartTime? maintenanceWindowStartTime,
     List<String>? securityGroups,
+    int? storageSize,
     BrokerStorageType? storageType,
     List<String>? subnetIds,
     Map<String, String>? tags,
@@ -296,6 +300,7 @@ class Mq {
       if (maintenanceWindowStartTime != null)
         'maintenanceWindowStartTime': maintenanceWindowStartTime,
       if (securityGroups != null) 'securityGroups': securityGroups,
+      if (storageSize != null) 'storageSize': storageSize,
       if (storageType != null) 'storageType': storageType.value,
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (tags != null) 'tags': tags,
@@ -715,6 +720,49 @@ class Mq {
     return DescribeConfigurationRevisionResponse.fromJson(response);
   }
 
+  /// Returns the resources shared to a broker.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [brokerId] :
+  /// The unique ID that Amazon MQ generates for the broker.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of resources that Amazon MQ can return per page (20 by
+  /// default). This value must be an integer from 5 to 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that specifies the next page of results Amazon MQ should return.
+  /// To request the first page, leave nextToken empty.
+  Future<DescribeSharedResourcesResponse> describeSharedResources({
+    required String brokerId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/brokers/${Uri.encodeComponent(brokerId)}/shared-resources',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeSharedResourcesResponse.fromJson(response);
+  }
+
   /// Returns information about an ActiveMQ user.
   ///
   /// May throw [BadRequestException].
@@ -1030,9 +1078,15 @@ class Mq {
   /// Parameter [maintenanceWindowStartTime] :
   /// The parameters that determine the WeeklyStartTime.
   ///
+  /// Parameter [resourceShareArns] :
+  /// The list of resource shares to update on the broker
+  ///
   /// Parameter [securityGroups] :
   /// The list of security groups (1 minimum, 5 maximum) that authorizes
   /// connections to brokers.
+  ///
+  /// Parameter [storageSize] :
+  /// The broker's storage size in GB.
   Future<UpdateBrokerResponse> updateBroker({
     required String brokerId,
     AuthenticationStrategy? authenticationStrategy,
@@ -1044,7 +1098,9 @@ class Mq {
     LdapServerMetadataInput? ldapServerMetadata,
     Logs? logs,
     WeeklyStartTime? maintenanceWindowStartTime,
+    List<String>? resourceShareArns,
     List<String>? securityGroups,
+    int? storageSize,
   }) async {
     final $payload = <String, dynamic>{
       if (authenticationStrategy != null)
@@ -1060,7 +1116,9 @@ class Mq {
       if (logs != null) 'logs': logs,
       if (maintenanceWindowStartTime != null)
         'maintenanceWindowStartTime': maintenanceWindowStartTime,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
       if (securityGroups != null) 'securityGroups': securityGroups,
+      if (storageSize != null) 'storageSize': storageSize,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1438,6 +1496,9 @@ class DescribeBrokerResponse {
   /// The list of pending security groups to authorize connections to brokers.
   final List<String>? pendingSecurityGroups;
 
+  /// The pending storage size in GB, to be applied on the next broker restart.
+  final int? pendingStorageSize;
+
   /// Enables connections from applications outside of the VPC that hosts the
   /// broker's subnets.
   final bool? publiclyAccessible;
@@ -1445,6 +1506,9 @@ class DescribeBrokerResponse {
   /// The list of rules (1 minimum, 125 maximum) that authorize connections to
   /// brokers.
   final List<String>? securityGroups;
+
+  /// The broker's storage size in GB.
+  final int? storageSize;
 
   /// The broker's storage type.
   final BrokerStorageType? storageType;
@@ -1487,8 +1551,10 @@ class DescribeBrokerResponse {
     this.pendingHostInstanceType,
     this.pendingLdapServerMetadata,
     this.pendingSecurityGroups,
+    this.pendingStorageSize,
     this.publiclyAccessible,
     this.securityGroups,
+    this.storageSize,
     this.storageType,
     this.subnetIds,
     this.tags,
@@ -1565,11 +1631,13 @@ class DescribeBrokerResponse {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      pendingStorageSize: json['pendingStorageSize'] as int?,
       publiclyAccessible: json['publiclyAccessible'] as bool?,
       securityGroups: (json['securityGroups'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      storageSize: json['storageSize'] as int?,
       storageType:
           (json['storageType'] as String?)?.let(BrokerStorageType.fromString),
       subnetIds: (json['subnetIds'] as List?)
@@ -1613,8 +1681,10 @@ class DescribeBrokerResponse {
     final pendingHostInstanceType = this.pendingHostInstanceType;
     final pendingLdapServerMetadata = this.pendingLdapServerMetadata;
     final pendingSecurityGroups = this.pendingSecurityGroups;
+    final pendingStorageSize = this.pendingStorageSize;
     final publiclyAccessible = this.publiclyAccessible;
     final securityGroups = this.securityGroups;
+    final storageSize = this.storageSize;
     final storageType = this.storageType;
     final subnetIds = this.subnetIds;
     final tags = this.tags;
@@ -1659,8 +1729,10 @@ class DescribeBrokerResponse {
         'pendingLdapServerMetadata': pendingLdapServerMetadata,
       if (pendingSecurityGroups != null)
         'pendingSecurityGroups': pendingSecurityGroups,
+      if (pendingStorageSize != null) 'pendingStorageSize': pendingStorageSize,
       if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (securityGroups != null) 'securityGroups': securityGroups,
+      if (storageSize != null) 'storageSize': storageSize,
       if (storageType != null) 'storageType': storageType.value,
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (tags != null) 'tags': tags,
@@ -1900,6 +1972,40 @@ class DescribeConfigurationRevisionResponse {
       if (created != null) 'created': iso8601ToJson(created),
       if (data != null) 'data': data,
       if (description != null) 'description': description,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeSharedResourcesResponse {
+  /// The token that specifies the next page of results Amazon MQ should return.
+  /// To request the first page, leave nextToken empty.
+  final String? nextToken;
+
+  /// A list of resources shared to the broker.
+  final List<SharedResource>? sharedResources;
+
+  DescribeSharedResourcesResponse({
+    this.nextToken,
+    this.sharedResources,
+  });
+
+  factory DescribeSharedResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSharedResourcesResponse(
+      nextToken: json['nextToken'] as String?,
+      sharedResources: (json['sharedResources'] as List?)
+          ?.nonNulls
+          .map((e) => SharedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sharedResources = this.sharedResources;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sharedResources != null) 'sharedResources': sharedResources,
     };
   }
 }
@@ -2260,9 +2366,15 @@ class UpdateBrokerResponse {
   /// after reboot.
   final DataReplicationMode? pendingDataReplicationMode;
 
+  /// The pending broker's target list of resource shares
+  final List<String>? resourceShareArns;
+
   /// The list of security groups (1 minimum, 5 maximum) that authorizes
   /// connections to brokers.
   final List<String>? securityGroups;
+
+  /// The broker's storage size in GB.
+  final int? storageSize;
 
   UpdateBrokerResponse({
     this.authenticationStrategy,
@@ -2278,7 +2390,9 @@ class UpdateBrokerResponse {
     this.maintenanceWindowStartTime,
     this.pendingDataReplicationMetadata,
     this.pendingDataReplicationMode,
+    this.resourceShareArns,
     this.securityGroups,
+    this.storageSize,
   });
 
   factory UpdateBrokerResponse.fromJson(Map<String, dynamic> json) {
@@ -2318,10 +2432,15 @@ class UpdateBrokerResponse {
       pendingDataReplicationMode:
           (json['pendingDataReplicationMode'] as String?)
               ?.let(DataReplicationMode.fromString),
+      resourceShareArns: (json['resourceShareArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       securityGroups: (json['securityGroups'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      storageSize: json['storageSize'] as int?,
     );
   }
 
@@ -2339,7 +2458,9 @@ class UpdateBrokerResponse {
     final maintenanceWindowStartTime = this.maintenanceWindowStartTime;
     final pendingDataReplicationMetadata = this.pendingDataReplicationMetadata;
     final pendingDataReplicationMode = this.pendingDataReplicationMode;
+    final resourceShareArns = this.resourceShareArns;
     final securityGroups = this.securityGroups;
+    final storageSize = this.storageSize;
     return {
       if (authenticationStrategy != null)
         'authenticationStrategy': authenticationStrategy.value,
@@ -2361,7 +2482,9 @@ class UpdateBrokerResponse {
         'pendingDataReplicationMetadata': pendingDataReplicationMetadata,
       if (pendingDataReplicationMode != null)
         'pendingDataReplicationMode': pendingDataReplicationMode.value,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
       if (securityGroups != null) 'securityGroups': securityGroups,
+      if (storageSize != null) 'storageSize': storageSize,
     };
   }
 }
@@ -3471,6 +3594,218 @@ class UserPendingChanges {
       if (groups != null) 'groups': groups,
     };
   }
+}
+
+/// Represents a resource that is shared with the broker, including its type,
+/// ARN, and current status.
+///
+/// @nodoc
+class SharedResource {
+  /// The ARN of the shared resource.
+  final String resourceArn;
+
+  /// The status of the shared resource.
+  final SharedResourceStatus status;
+
+  /// The type of shared resource.
+  final SharedResourceType type;
+
+  /// The DNS names accessible by the broker.
+  final List<String>? dnsNames;
+
+  /// Information on the error encountered by the resource.
+  final SharedResourceError? error;
+
+  /// The resource share ARNs to which the resource belongs.
+  final List<String>? resourceShareArns;
+
+  SharedResource({
+    required this.resourceArn,
+    required this.status,
+    required this.type,
+    this.dnsNames,
+    this.error,
+    this.resourceShareArns,
+  });
+
+  factory SharedResource.fromJson(Map<String, dynamic> json) {
+    return SharedResource(
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      status:
+          SharedResourceStatus.fromString((json['status'] as String?) ?? ''),
+      type: SharedResourceType.fromString((json['type'] as String?) ?? ''),
+      dnsNames: (json['dnsNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      error: json['error'] != null
+          ? SharedResourceError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      resourceShareArns: (json['resourceShareArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final status = this.status;
+    final type = this.type;
+    final dnsNames = this.dnsNames;
+    final error = this.error;
+    final resourceShareArns = this.resourceShareArns;
+    return {
+      'resourceArn': resourceArn,
+      'status': status.value,
+      'type': type.value,
+      if (dnsNames != null) 'dnsNames': dnsNames,
+      if (error != null) 'error': error,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
+    };
+  }
+}
+
+/// Information on the error encountered by the resource.
+///
+/// @nodoc
+class SharedResourceError {
+  /// The error code associated with the error.
+  final SharedResourceErrorCode code;
+
+  /// The error message.
+  final String message;
+
+  SharedResourceError({
+    required this.code,
+    required this.message,
+  });
+
+  factory SharedResourceError.fromJson(Map<String, dynamic> json) {
+    return SharedResourceError(
+      code: SharedResourceErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'code': code.value,
+      'message': message,
+    };
+  }
+}
+
+/// The status of the shared resource.
+///
+/// @nodoc
+class SharedResourceStatus {
+  static const available = SharedResourceStatus._('AVAILABLE');
+  static const setupInProgress = SharedResourceStatus._('SETUP_IN_PROGRESS');
+  static const deletionInProgress =
+      SharedResourceStatus._('DELETION_IN_PROGRESS');
+  static const pendingCreate = SharedResourceStatus._('PENDING_CREATE');
+  static const pendingDelete = SharedResourceStatus._('PENDING_DELETE');
+  static const error = SharedResourceStatus._('ERROR');
+
+  final String value;
+
+  const SharedResourceStatus._(this.value);
+
+  static const values = [
+    available,
+    setupInProgress,
+    deletionInProgress,
+    pendingCreate,
+    pendingDelete,
+    error
+  ];
+
+  static SharedResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SharedResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharedResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The type of shared resource.
+///
+/// @nodoc
+class SharedResourceType {
+  static const resourceShare = SharedResourceType._('RESOURCE_SHARE');
+  static const resource = SharedResourceType._('RESOURCE');
+
+  final String value;
+
+  const SharedResourceType._(this.value);
+
+  static const values = [resourceShare, resource];
+
+  static SharedResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SharedResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharedResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The error code associated with the error.
+///
+/// @nodoc
+class SharedResourceErrorCode {
+  static const quotaExceeded = SharedResourceErrorCode._('QUOTA_EXCEEDED');
+  static const shareNotFound = SharedResourceErrorCode._('SHARE_NOT_FOUND');
+  static const inviteFailed = SharedResourceErrorCode._('INVITE_FAILED');
+  static const setupIncomplete = SharedResourceErrorCode._('SETUP_INCOMPLETE');
+  static const internalError = SharedResourceErrorCode._('INTERNAL_ERROR');
+  static const azMismatch = SharedResourceErrorCode._('AZ_MISMATCH');
+  static const resourceConfigurationNotFound =
+      SharedResourceErrorCode._('RESOURCE_CONFIGURATION_NOT_FOUND');
+
+  final String value;
+
+  const SharedResourceErrorCode._(this.value);
+
+  static const values = [
+    quotaExceeded,
+    shareNotFound,
+    inviteFailed,
+    setupIncomplete,
+    internalError,
+    azMismatch,
+    resourceConfigurationNotFound
+  ];
+
+  static SharedResourceErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SharedResourceErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharedResourceErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Option for host instance type.

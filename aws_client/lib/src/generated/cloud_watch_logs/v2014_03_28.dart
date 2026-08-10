@@ -28,6 +28,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// console. Alternatively, you can use CloudWatch Logs commands in the Amazon
 /// Web Services CLI, CloudWatch Logs API, or CloudWatch Logs SDK.
 ///
+/// For more information about CloudWatch Logs features, see the <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html">Amazon
+/// CloudWatch Logs User Guide</a>.
+///
 /// You can use CloudWatch Logs to:
 ///
 /// <ul>
@@ -58,7 +62,11 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// data off of a host and into the log service. You can then access the raw log
 /// data when you need it.
 /// </li>
-/// </ul>
+/// </ul> <note>
+/// CloudWatch Logs might log request contents for fields that aren't considered
+/// sensitive, such as API request parameters for CloudWatch Logs actions. This
+/// provides debugging information for failed API requests.
+/// </note>
 class CloudWatchLogs {
   final _s.JsonProtocol _protocol;
   factory CloudWatchLogs({
@@ -1016,13 +1024,15 @@ class CloudWatchLogs {
     );
   }
 
-  /// Creates a lookup table by uploading CSV data. You can use lookup tables to
-  /// enrich log data in CloudWatch Logs Insights queries with reference data
-  /// such as user details, application names, or error descriptions.
+  /// Creates a lookup table by uploading CSV data or from CloudWatch Logs query
+  /// results. You can use lookup tables to enrich log data in CloudWatch Logs
+  /// queries with reference data such as user details, application names, or
+  /// error descriptions.
   ///
-  /// The table name must be unique within your account and Region. The CSV
-  /// content must include a header row with column names, use UTF-8 encoding,
-  /// and not exceed 10 MB.
+  /// The table name must be unique within your account and Region. You must
+  /// specify either <code>tableBody</code> or <code>queryId</code>, but not
+  /// both. If you use <code>tableBody</code>, the CSV content must include a
+  /// header row with column names, use UTF-8 encoding, and not exceed 10 MB.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterException].
@@ -1036,11 +1046,6 @@ class CloudWatchLogs {
   /// and Region. The name can contain only alphanumeric characters and
   /// underscores, and can be up to 256 characters long.
   ///
-  /// Parameter [tableBody] :
-  /// The CSV content of the lookup table. The first row must be a header row
-  /// with column names. The content must use UTF-8 encoding and not exceed 10
-  /// MB.
-  ///
   /// Parameter [description] :
   /// A description of the lookup table. The description can be up to 1024
   /// characters long.
@@ -1050,15 +1055,32 @@ class CloudWatchLogs {
   /// don't specify a key, the data is encrypted with an Amazon Web
   /// Services-owned key.
   ///
+  /// Parameter [queryId] :
+  /// The ID of a completed or cancelled CloudWatch Logs query whose results
+  /// populate the lookup table. A cancelled query populates the table with the
+  /// partial results that were available when the query was stopped.
+  ///
+  /// You must specify either <code>tableBody</code> or <code>queryId</code>,
+  /// but not both.
+  ///
+  /// Parameter [tableBody] :
+  /// The CSV content of the lookup table. The first row must be a header row
+  /// with column names. The content must use UTF-8 encoding and not exceed 10
+  /// MB.
+  ///
+  /// You must specify either <code>tableBody</code> or <code>queryId</code>,
+  /// but not both.
+  ///
   /// Parameter [tags] :
   /// A list of key-value pairs to associate with the lookup table. You can
   /// associate as many as 50 tags with a lookup table. Tags can help you
   /// organize and categorize your resources.
   Future<CreateLookupTableResponse> createLookupTable({
     required String lookupTableName,
-    required String tableBody,
     String? description,
     String? kmsKeyId,
+    String? queryId,
+    String? tableBody,
     Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
@@ -1073,9 +1095,10 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'lookupTableName': lookupTableName,
-        'tableBody': tableBody,
         if (description != null) 'description': description,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (queryId != null) 'queryId': queryId,
+        if (tableBody != null) 'tableBody': tableBody,
         if (tags != null) 'tags': tags,
       },
     );
@@ -1105,8 +1128,7 @@ class CloudWatchLogs {
   ///
   /// Parameter [name] :
   /// The name of the scheduled query. The name must be unique within your
-  /// account and region. Valid characters are alphanumeric characters, hyphens,
-  /// underscores, and periods. Length must be between 1 and 255 characters.
+  /// account and region. Length must be between 1 and 300 characters.
   ///
   /// Parameter [queryLanguage] :
   /// The query language to use for the scheduled query. Valid values are
@@ -1126,8 +1148,15 @@ class CloudWatchLogs {
   /// purpose and functionality.
   ///
   /// Parameter [destinationConfiguration] :
-  /// Configuration for where to deliver query results. Currently supports
-  /// Amazon S3 destinations for storing query output.
+  /// Configuration for where to deliver query results. Supports Amazon S3
+  /// destinations for storing query output and lookup table destinations for
+  /// automatically refreshing lookup tables with query results. You can
+  /// configure one or both destination types.
+  ///
+  /// Parameter [endTimeOffset] :
+  /// The time offset in seconds that defines the end of the lookback period for
+  /// the query. Together with <code>startTimeOffset</code>, this determines the
+  /// time window relative to the execution time over which the query runs.
   ///
   /// Parameter [logGroupIdentifiers] :
   /// An array of log group names or ARNs to query. You can specify between 1
@@ -1166,6 +1195,7 @@ class CloudWatchLogs {
     required String scheduleExpression,
     String? description,
     DestinationConfiguration? destinationConfiguration,
+    int? endTimeOffset,
     List<String>? logGroupIdentifiers,
     int? scheduleEndTime,
     int? scheduleStartTime,
@@ -1205,6 +1235,7 @@ class CloudWatchLogs {
         if (description != null) 'description': description,
         if (destinationConfiguration != null)
           'destinationConfiguration': destinationConfiguration,
+        if (endTimeOffset != null) 'endTimeOffset': endTimeOffset,
         if (logGroupIdentifiers != null)
           'logGroupIdentifiers': logGroupIdentifiers,
         if (scheduleEndTime != null) 'scheduleEndTime': scheduleEndTime,
@@ -1929,6 +1960,44 @@ class CloudWatchLogs {
     );
   }
 
+  /// Deletes a syslog configuration for a log group. After deletion, syslog
+  /// data is no longer ingested through the specified VPC endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OperationAbortedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [logGroupIdentifier] :
+  /// The name or ARN of the log group to remove the syslog configuration from.
+  ///
+  /// Parameter [vpcEndpointId] :
+  /// The ID of the VPC endpoint associated with the syslog configuration to
+  /// delete.
+  Future<void> deleteSyslogConfiguration({
+    required String logGroupIdentifier,
+    String? vpcEndpointId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DeleteSyslogConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'logGroupIdentifier': logGroupIdentifier,
+        if (vpcEndpointId != null) 'vpcEndpointId': vpcEndpointId,
+      },
+    );
+  }
+
   /// Deletes the log transformer for the specified log group. As soon as you do
   /// this, the transformation of incoming log events according to that
   /// transformer stops. If this account has an account-level transformer that
@@ -2358,8 +2427,12 @@ class CloudWatchLogs {
     return DescribeExportTasksResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of custom and default field indexes which are discovered in
-  /// log data. For more information about field index policies, see <a
+  /// Returns a list of field indexes discovered in log data. By default, the
+  /// response includes the <code>DEFAULT</code>, <code>CUSTOM</code>, and
+  /// <code>INACTIVE</code> index categories. To return indexes from other
+  /// categories, use the <code>indexCategories</code> parameter.
+  ///
+  /// For more information about field index policies, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html">PutIndexPolicy</a>.
   ///
   /// May throw [InvalidParameterException].
@@ -2371,8 +2444,45 @@ class CloudWatchLogs {
   /// Parameter [logGroupIdentifiers] :
   /// An array containing the names or ARNs of the log groups that you want to
   /// retrieve field indexes for.
+  ///
+  /// Parameter [indexCategories] :
+  /// The index categories to return. The following values are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DEFAULT</code>: Fields that CloudWatch Logs indexes by default.
+  /// Examples include <code>@logStream</code> and <code>@data_format</code>.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM</code>: Fields that you added manually to the field index
+  /// policy. CloudWatch Logs always indexes these fields. These fields count
+  /// toward the quota of 20 fields for each log group.
+  /// </li>
+  /// <li>
+  /// <code>AUTO</code>: Fields that CloudWatch Logs indexes automatically based
+  /// on your query patterns and usage. These fields do not count toward the
+  /// field index quota. CloudWatch Logs might update these fields based on
+  /// changes in your query patterns. To keep a field indexed permanently, add
+  /// it to an account-level or log-group level field index policy.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code>: Fields that CloudWatch Logs indexed before but does
+  /// not index now. This happens if you remove a field from the field index
+  /// policy or if CloudWatch Logs automatically selects a different field based
+  /// on your queries.
+  /// </li>
+  /// </ul>
+  /// If you omit this parameter, the response includes the
+  /// <code>DEFAULT</code>, <code>CUSTOM</code>, and <code>INACTIVE</code>
+  /// categories.
+  ///
+  /// For more information about automatically indexed fields and using the
+  /// <code>AUTO</code> category, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Automatic.html">Automatically
+  /// indexed fields</a>.
   Future<DescribeFieldIndexesResponse> describeFieldIndexes({
     required List<String> logGroupIdentifiers,
+    List<IndexCategory>? indexCategories,
     String? nextToken,
   }) async {
     final headers = <String, String>{
@@ -2387,6 +2497,8 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'logGroupIdentifiers': logGroupIdentifiers,
+        if (indexCategories != null)
+          'indexCategories': indexCategories.map((e) => e.value).toList(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -3343,7 +3455,10 @@ class CloudWatchLogs {
   ///
   /// The returned log events are sorted by event timestamp, the timestamp when
   /// the event was ingested by CloudWatch Logs, and the ID of the
-  /// <code>PutLogEvents</code> request.
+  /// <code>PutLogEvents</code> request. By default, the events are returned in
+  /// ascending timestamp order (oldest first). To return events in descending
+  /// timestamp order (newest first), set the <code>startFromHead</code>
+  /// parameter to <code>false</code>.
   ///
   /// If you are using CloudWatch cross-account observability, you can use this
   /// operation in a monitoring account and view data from the linked source
@@ -3425,10 +3540,33 @@ class CloudWatchLogs {
   /// The token for the next set of events to return. (You received this token
   /// from a previous call.)
   ///
+  /// Parameter [startFromHead] :
+  /// If the value is true, the earliest log events are returned first. If the
+  /// value is false, the latest log events are returned first. The default
+  /// value is true.
+  ///
+  /// The <code>startFromHead</code> parameter sets the sort direction on the
+  /// first request. On subsequent requests, the <code>nextToken</code>
+  /// determines the sort direction. To continue paginating in the same
+  /// direction, provide the returned <code>nextToken</code>. If you provide
+  /// both <code>nextToken</code> and <code>startFromHead</code>, the direction
+  /// of the <code>nextToken</code> is used.
+  /// <note>
+  /// Setting <code>startFromHead</code> to <code>false</code> is supported only
+  /// when <code>startTime</code> is on or after <code>Jan 1, 2024 00:00:00
+  /// UTC</code>. A request with <code>startFromHead</code> set to
+  /// <code>false</code> and a <code>startTime</code> before this date returns
+  /// an <code>InvalidParameterException</code>.
+  /// </note>
+  ///
   /// Parameter [startTime] :
   /// The start of the time range, expressed as the number of milliseconds after
   /// <code>Jan 1, 1970 00:00:00 UTC</code>. Events with a timestamp before this
   /// time are not returned.
+  /// <note>
+  /// Set <code>startTime</code> explicitly to reduce the chances of empty pages
+  /// in the response.
+  /// </note>
   ///
   /// Parameter [unmask] :
   /// Specify <code>true</code> to display the log event fields with all
@@ -3446,6 +3584,7 @@ class CloudWatchLogs {
     String? logStreamNamePrefix,
     List<String>? logStreamNames,
     String? nextToken,
+    bool? startFromHead,
     int? startTime,
     bool? unmask,
   }) async {
@@ -3489,6 +3628,7 @@ class CloudWatchLogs {
           'logStreamNamePrefix': logStreamNamePrefix,
         if (logStreamNames != null) 'logStreamNames': logStreamNames,
         if (nextToken != null) 'nextToken': nextToken,
+        if (startFromHead != null) 'startFromHead': startFromHead,
         if (startTime != null) 'startTime': startTime,
         if (unmask != null) 'unmask': unmask,
       },
@@ -3834,6 +3974,10 @@ class CloudWatchLogs {
   /// <code>Jan 1, 1970 00:00:00 UTC</code>. Events with a timestamp equal to
   /// this time or later than this time are included. Events with a timestamp
   /// earlier than this time are not included.
+  /// <note>
+  /// Set <code>startTime</code> explicitly to reduce the chances of empty pages
+  /// in the response.
+  /// </note>
   ///
   /// Parameter [unmask] :
   /// Specify <code>true</code> to display the log event fields with all
@@ -4196,7 +4340,9 @@ class CloudWatchLogs {
   /// You can retrieve up to 100,000 log event results from a query, if
   /// available, by using pagination. Use the <code>nextToken</code> returned in
   /// the response to request additional pages of results, with each page
-  /// returning up to 10,000 log events.
+  /// returning up to 10,000 log events. This is only supported for Logs
+  /// Insights QL and is currently not supported for PPL and SQL query
+  /// languages.
   ///
   /// If you are using CloudWatch cross-account observability, you can use this
   /// operation in a monitoring account to start queries in linked source
@@ -4356,6 +4502,29 @@ class CloudWatchLogs {
     );
 
     return GetScheduledQueryHistoryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the storage tier policy for the account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OperationAbortedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  Future<GetStorageTierPolicyResponse> getStorageTierPolicy() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.GetStorageTierPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetStorageTierPolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the information about the log transformer associated with this log
@@ -4854,6 +5023,11 @@ class CloudWatchLogs {
   /// The maximum number of scheduled queries to return. Valid range is 1 to
   /// 1000.
   ///
+  /// Parameter [scheduleType] :
+  /// Filter scheduled queries by schedule type. Valid values are
+  /// <code>CUSTOMER_MANAGED</code> and <code>AWS_MANAGED</code>. If not
+  /// specified, scheduled queries of all schedule types are returned.
+  ///
   /// Parameter [state] :
   /// Filter scheduled queries by state. Valid values are <code>ENABLED</code>
   /// and <code>DISABLED</code>. If not specified, all scheduled queries are
@@ -4861,6 +5035,7 @@ class CloudWatchLogs {
   Future<ListScheduledQueriesResponse> listScheduledQueries({
     int? maxResults,
     String? nextToken,
+    ScheduleType? scheduleType,
     ScheduledQueryState? state,
   }) async {
     _s.validateNumRange(
@@ -4882,6 +5057,7 @@ class CloudWatchLogs {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
+        if (scheduleType != null) 'scheduleType': scheduleType.value,
         if (state != null) 'state': state.value,
       },
     );
@@ -4936,6 +5112,62 @@ class CloudWatchLogs {
     );
 
     return ListSourcesForS3TableIntegrationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of syslog configurations. You can optionally filter the
+  /// results by log group or VPC endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [logGroupIdentifier] :
+  /// The name or ARN of the log group to filter syslog configurations for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of syslog configurations to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of items to return. You received this token
+  /// from a previous call.
+  ///
+  /// Parameter [vpcEndpointId] :
+  /// The ID of the VPC endpoint to filter syslog configurations for.
+  Future<ListSyslogConfigurationsResponse> listSyslogConfigurations({
+    String? logGroupIdentifier,
+    int? maxResults,
+    String? nextToken,
+    String? vpcEndpointId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.ListSyslogConfigurations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (logGroupIdentifier != null)
+          'logGroupIdentifier': logGroupIdentifier,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (vpcEndpointId != null) 'vpcEndpointId': vpcEndpointId,
+      },
+    );
+
+    return ListSyslogConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Displays the tags associated with a CloudWatch Logs resource. Currently,
@@ -5018,7 +5250,51 @@ class CloudWatchLogs {
   /// policy, field index policy, transformer policy, or metric extraction
   /// policy that applies to all log groups, a subset of log groups, or a data
   /// source name and type combination in the account.
+  /// <important>
+  /// <code>PutAccountPolicy</code> is an account-wide administrative operation
+  /// intended for CloudWatch Logs administrators. Because it affects all log
+  /// groups (or a broad subset) in the account, you should grant
+  /// <code>logs:PutAccountPolicy</code> permissions only to administrators who
+  /// manage logging configuration across the account, not to application teams
+  /// or individual log group owners.
+  /// </important>
+  /// <b>Conflict resolution between account-level and log-group-level
+  /// policies</b>
   ///
+  /// When both an account-level policy and a log-group-level policy of the same
+  /// type apply to a log group, the resolution depends on the policy type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Data protection</i> — The two policies are cumulative. Any sensitive
+  /// term specified in either the account-level or the log-group-level policy
+  /// is masked.
+  /// </li>
+  /// <li>
+  /// <i>Subscription filters</i> — Account-level and log-group-level
+  /// subscription filters are additive. A log group can have up to 1
+  /// account-level and up to 2 log-group-level subscription filters.
+  /// </li>
+  /// <li>
+  /// <i>Transformers</i> — A log-group-level transformer overrides the
+  /// account-level transformer. If a log group has its own transformer, it
+  /// ignores the account-level transformer policy.
+  /// </li>
+  /// <li>
+  /// <i>Field index policies</i> — If a log group has its own field index
+  /// policy (created with <code>PutIndexPolicy</code>), any account-level
+  /// policy that uses <code>LogGroupNamePrefix</code> selection criteria or has
+  /// no selection criteria is ignored for that log group. However,
+  /// account-level policies that use <code>DataSourceName</code> and
+  /// <code>DataSourceType</code> selection criteria still apply alongside the
+  /// log-group-level policy.
+  /// </li>
+  /// <li>
+  /// <i>Metric extraction policies</i> — Metric extraction policies are
+  /// account-level only and have no log-group-level equivalent, so no conflict
+  /// resolution applies.
+  /// </li>
+  /// </ul>
   /// For field index policies, you can configure indexed fields as
   /// <i>facets</i> to enable interactive exploration of your logs. Facets
   /// provide value distributions and counts for indexed fields in the
@@ -6109,12 +6385,17 @@ class CloudWatchLogs {
   ///
   /// <ul>
   /// <li>
+  /// For Application Load Balancer, the valid values are
+  /// <code>ALB_ACCESS_LOGS</code>, <code>ALB_CONNECTION_LOGS</code>, and
+  /// <code>ALB_HEALTH_CHECK_LOGS</code>.
+  /// </li>
+  /// <li>
   /// For Amazon Bedrock Agents, the valid values are
   /// <code>APPLICATION_LOGS</code> and <code>EVENT_LOGS</code>.
   /// </li>
   /// <li>
-  /// For Amazon Bedrock Knowledge Bases, the valid value is
-  /// <code>APPLICATION_LOGS</code>.
+  /// For Amazon Bedrock Knowledge Bases, the valid values are
+  /// <code>APPLICATION_LOGS</code> and <code>TRACES</code>.
   /// </li>
   /// <li>
   /// For Amazon Bedrock AgentCore Runtime, the valid values are
@@ -6136,6 +6417,10 @@ class CloudWatchLogs {
   /// </li>
   /// <li>
   /// For Amazon Bedrock AgentCore Gateway, the valid values are
+  /// <code>APPLICATION_LOGS</code> and <code>TRACES</code>.
+  /// </li>
+  /// <li>
+  /// For Amazon Bedrock AgentCore Payments, the valid values are
   /// <code>APPLICATION_LOGS</code> and <code>TRACES</code>.
   /// </li>
   /// <li>
@@ -6163,6 +6448,16 @@ class CloudWatchLogs {
   /// <code>AUTO_MODE_LOAD_BALANCING_LOGS</code>.
   /// </li>
   /// <li>
+  /// For Amazon EKS Capability Logs, the valid values are
+  /// <code>EKS_CAPABILITY_ACK_LOGS</code>,
+  /// <code>EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS</code>,
+  /// <code>EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS</code>,
+  /// <code>EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS</code>,
+  /// <code>EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS</code>,
+  /// <code>EKS_CAPABILITY_ARGOCD_SERVER_LOGS</code>, and
+  /// <code>EKS_CAPABILITY_KRO_LOGS</code>.
+  /// </li>
+  /// <li>
   /// For Entity Resolution, the valid value is <code>WORKFLOW_LOGS</code>.
   /// </li>
   /// <li>
@@ -6181,8 +6476,9 @@ class CloudWatchLogs {
   /// <code>PCS_JOBCOMP_LOGS</code>, and <code>PCS_SCHEDULER_AUDIT_LOGS</code>.
   /// </li>
   /// <li>
-  /// For Quick, the valid values are <code>CHAT_LOGS</code> and
-  /// <code>FEEDBACK_LOGS</code>.
+  /// For Quick, the valid values are <code>AGENT_HOURS_LOGS</code>,
+  /// <code>CHAT_LOGS</code>, <code>FEEDBACK_LOGS</code>, and
+  /// <code>INDEX_USAGE_LOGS</code>.
   /// </li>
   /// <li>
   /// For Amazon Web Services RTB Fabric, the valid values is
@@ -6191,6 +6487,9 @@ class CloudWatchLogs {
   /// <li>
   /// For Amazon Q, the valid values are <code>EVENT_LOGS</code> and
   /// <code>SYNC_JOB_LOGS</code>.
+  /// </li>
+  /// <li>
+  /// For Amazon S3, the valid value is <code>S3_SERVER_ACCESS_LOGS</code>.
   /// </li>
   /// <li>
   /// For Amazon Web Services Security Hub CSPM, the valid value is
@@ -7131,6 +7430,42 @@ class CloudWatchLogs {
     );
   }
 
+  /// Sets the storage tier policy for the account. When you set the storage
+  /// tier to <code>INTELLIGENT_TIERING</code>, the service automatically moves
+  /// log data to the most cost-effective storage tier based on access
+  /// frequency.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OperationAbortedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [storageTier] :
+  /// The storage tier to set for the account. Use
+  /// <code>INTELLIGENT_TIERING</code> to automatically optimize storage costs
+  /// by moving log data to the appropriate tier based on access frequency.
+  Future<PutStorageTierPolicyResponse> putStorageTierPolicy({
+    required StorageTier storageTier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.PutStorageTierPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'storageTier': storageTier.value,
+      },
+    );
+
+    return PutStorageTierPolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates a subscription filter and associates it with the
   /// specified log group. With subscription filters, you can subscribe to a
   /// real-time stream of log events ingested through <a
@@ -7244,9 +7579,10 @@ class CloudWatchLogs {
   ///
   /// Parameter [emitSystemFields] :
   /// A list of system fields to include in the log events sent to the
-  /// subscription destination. Valid values are <code>@aws.account</code> and
-  /// <code>@aws.region</code>. These fields provide source information for
-  /// centralized log data in the forwarded payload.
+  /// subscription destination. Valid values are <code>@aws.account</code>,
+  /// <code>@aws.region</code>, and <code>@source.log</code>. These fields
+  /// provide source information for centralized log data in the forwarded
+  /// payload.
   ///
   /// Parameter [fieldSelectionCriteria] :
   /// A filter expression that specifies which log events should be processed by
@@ -7295,6 +7631,45 @@ class CloudWatchLogs {
         if (fieldSelectionCriteria != null)
           'fieldSelectionCriteria': fieldSelectionCriteria,
         if (roleArn != null) 'roleArn': roleArn,
+      },
+    );
+  }
+
+  /// Creates or updates a syslog configuration for a log group. This enables
+  /// ingestion of syslog data through the specified VPC endpoint into the log
+  /// group.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OperationAbortedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [logGroupIdentifier] :
+  /// The name or ARN of the log group to associate with the syslog
+  /// configuration.
+  ///
+  /// Parameter [vpcEndpointId] :
+  /// The ID of the VPC endpoint to use for syslog ingestion.
+  Future<void> putSyslogConfiguration({
+    required String logGroupIdentifier,
+    String? vpcEndpointId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.PutSyslogConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'logGroupIdentifier': logGroupIdentifier,
+        if (vpcEndpointId != null) 'vpcEndpointId': vpcEndpointId,
       },
     );
   }
@@ -7612,11 +7987,12 @@ class CloudWatchLogs {
   /// the number of seconds since <code>January 1, 1970, 00:00:00 UTC</code>.
   ///
   /// Parameter [limit] :
-  /// The maximum number of log events to return in the query. If the query
-  /// string uses the <code>fields</code> command, only the specified fields and
-  /// their values are returned. The default is 10,000.
-  ///
-  /// The maximum value is 100,000.
+  /// The maximum number of log events to return from the query. The maximum
+  /// limit is 100,000. The maximum events returned in a single GetQueryResults
+  /// API call is 10,000 log events per request. You can retrieve up to 100,000
+  /// log event results from a query by paginating with the
+  /// <code>nextToken</code>. 100,000 limit is only supported for Logs Insights
+  /// QL and is currently not supported for PPL and SQL query languages.
   ///
   /// Parameter [logGroupIdentifiers] :
   /// The list of log groups to query. You can include up to 50 log groups.
@@ -8235,12 +8611,13 @@ class CloudWatchLogs {
     );
   }
 
-  /// Updates an existing lookup table by replacing all of its CSV content.
-  /// After the update completes, queries that use this table will use the new
-  /// data.
+  /// Updates an existing lookup table by replacing all of its content with new
+  /// CSV data or CloudWatch Logs query results. After the update completes,
+  /// queries that use this table use the new data.
   ///
-  /// This is a full replacement operation. All existing content is replaced
-  /// with the new CSV data.
+  /// This is a full replacement operation. All existing content is replaced.
+  /// You must specify either <code>tableBody</code> or <code>queryId</code>,
+  /// but not both.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterException].
@@ -8251,11 +8628,6 @@ class CloudWatchLogs {
   /// Parameter [lookupTableArn] :
   /// The ARN of the lookup table to update.
   ///
-  /// Parameter [tableBody] :
-  /// The new CSV content to replace the existing data. The first row must be a
-  /// header row with column names. The content must use UTF-8 encoding and not
-  /// exceed 10 MB.
-  ///
   /// Parameter [description] :
   /// An updated description of the lookup table.
   ///
@@ -8264,11 +8636,28 @@ class CloudWatchLogs {
   /// use this parameter to add, update, or remove the KMS key. To remove the
   /// KMS key and use an Amazon Web Services-owned key instead, specify an empty
   /// string.
+  ///
+  /// Parameter [queryId] :
+  /// The ID of a completed or cancelled CloudWatch Logs query whose results
+  /// replace the lookup table content. A cancelled query replaces the content
+  /// with the partial results that were available when the query was stopped.
+  ///
+  /// You must specify either <code>tableBody</code> or <code>queryId</code>,
+  /// but not both.
+  ///
+  /// Parameter [tableBody] :
+  /// The new CSV content to replace the existing data. The first row must be a
+  /// header row with column names. The content must use UTF-8 encoding and not
+  /// exceed 10 MB.
+  ///
+  /// You must specify either <code>tableBody</code> or <code>queryId</code>,
+  /// but not both.
   Future<UpdateLookupTableResponse> updateLookupTable({
     required String lookupTableArn,
-    required String tableBody,
     String? description,
     String? kmsKeyId,
+    String? queryId,
+    String? tableBody,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8282,9 +8671,10 @@ class CloudWatchLogs {
       headers: headers,
       payload: {
         'lookupTableArn': lookupTableArn,
-        'tableBody': tableBody,
         if (description != null) 'description': description,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (queryId != null) 'queryId': queryId,
+        if (tableBody != null) 'tableBody': tableBody,
       },
     );
 
@@ -8296,6 +8686,7 @@ class CloudWatchLogs {
   /// and destinations.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -8323,6 +8714,10 @@ class CloudWatchLogs {
   /// Parameter [destinationConfiguration] :
   /// The updated configuration for where to deliver query results.
   ///
+  /// Parameter [endTimeOffset] :
+  /// The updated time offset in seconds that defines the end of the lookback
+  /// period for the query.
+  ///
   /// Parameter [logGroupIdentifiers] :
   /// The updated array of log group names or ARNs to query.
   ///
@@ -8349,6 +8744,7 @@ class CloudWatchLogs {
     required String scheduleExpression,
     String? description,
     DestinationConfiguration? destinationConfiguration,
+    int? endTimeOffset,
     List<String>? logGroupIdentifiers,
     int? scheduleEndTime,
     int? scheduleStartTime,
@@ -8387,6 +8783,7 @@ class CloudWatchLogs {
         if (description != null) 'description': description,
         if (destinationConfiguration != null)
           'destinationConfiguration': destinationConfiguration,
+        if (endTimeOffset != null) 'endTimeOffset': endTimeOffset,
         if (logGroupIdentifiers != null)
           'logGroupIdentifiers': logGroupIdentifiers,
         if (scheduleEndTime != null) 'scheduleEndTime': scheduleEndTime,
@@ -9380,8 +9777,9 @@ class FilterLogEventsResponse {
   /// The matched events.
   final List<FilteredLogEvent>? events;
 
-  /// The token to use when requesting the next set of items. The token expires
-  /// after 24 hours.
+  /// The token for the next set of items in the sorting direction specified by
+  /// the <code>startFromHead</code> parameter in the first request. The token
+  /// expires after 24 hours.
   ///
   /// If the results don't include a <code>nextToken</code>, then pagination is
   /// finished.
@@ -9949,7 +10347,8 @@ class GetQueryResultsResponse {
   /// a <code>nextToken</code>. You can use this token in a subsequent
   /// <code>GetQueryResults</code> request to get the next set of results. You can
   /// retrieve up to 100,000 log event results from a query by paginating with
-  /// this token.
+  /// this token. This is only supported for Logs Insights QL and is currently not
+  /// supported for PPL and SQL query languages.
   final String? nextToken;
 
   /// The query language used for this query. For more information about the query
@@ -10039,6 +10438,10 @@ class GetScheduledQueryResponse {
   /// Configuration for where query results are delivered.
   final DestinationConfiguration? destinationConfiguration;
 
+  /// The time offset in seconds that defines the end of the lookback period for
+  /// the query.
+  final int? endTimeOffset;
+
   /// The ARN of the IAM role used to execute the query and deliver results.
   final String? executionRoleArn;
 
@@ -10072,6 +10475,10 @@ class GetScheduledQueryResponse {
   /// The start time for the scheduled query in Unix epoch format.
   final int? scheduleStartTime;
 
+  /// The schedule type of the scheduled query. Valid values are
+  /// <code>CUSTOMER_MANAGED</code> and <code>AWS_MANAGED</code>.
+  final ScheduleType? scheduleType;
+
   /// The ARN of the scheduled query.
   final String? scheduledQueryArn;
 
@@ -10088,6 +10495,7 @@ class GetScheduledQueryResponse {
     this.creationTime,
     this.description,
     this.destinationConfiguration,
+    this.endTimeOffset,
     this.executionRoleArn,
     this.lastExecutionStatus,
     this.lastTriggeredTime,
@@ -10099,6 +10507,7 @@ class GetScheduledQueryResponse {
     this.scheduleEndTime,
     this.scheduleExpression,
     this.scheduleStartTime,
+    this.scheduleType,
     this.scheduledQueryArn,
     this.startTimeOffset,
     this.state,
@@ -10113,6 +10522,7 @@ class GetScheduledQueryResponse {
           ? DestinationConfiguration.fromJson(
               json['destinationConfiguration'] as Map<String, dynamic>)
           : null,
+      endTimeOffset: json['endTimeOffset'] as int?,
       executionRoleArn: json['executionRoleArn'] as String?,
       lastExecutionStatus: (json['lastExecutionStatus'] as String?)
           ?.let(ExecutionStatus.fromString),
@@ -10129,6 +10539,8 @@ class GetScheduledQueryResponse {
       scheduleEndTime: json['scheduleEndTime'] as int?,
       scheduleExpression: json['scheduleExpression'] as String?,
       scheduleStartTime: json['scheduleStartTime'] as int?,
+      scheduleType:
+          (json['scheduleType'] as String?)?.let(ScheduleType.fromString),
       scheduledQueryArn: json['scheduledQueryArn'] as String?,
       startTimeOffset: json['startTimeOffset'] as int?,
       state: (json['state'] as String?)?.let(ScheduledQueryState.fromString),
@@ -10140,6 +10552,7 @@ class GetScheduledQueryResponse {
     final creationTime = this.creationTime;
     final description = this.description;
     final destinationConfiguration = this.destinationConfiguration;
+    final endTimeOffset = this.endTimeOffset;
     final executionRoleArn = this.executionRoleArn;
     final lastExecutionStatus = this.lastExecutionStatus;
     final lastTriggeredTime = this.lastTriggeredTime;
@@ -10151,6 +10564,7 @@ class GetScheduledQueryResponse {
     final scheduleEndTime = this.scheduleEndTime;
     final scheduleExpression = this.scheduleExpression;
     final scheduleStartTime = this.scheduleStartTime;
+    final scheduleType = this.scheduleType;
     final scheduledQueryArn = this.scheduledQueryArn;
     final startTimeOffset = this.startTimeOffset;
     final state = this.state;
@@ -10160,6 +10574,7 @@ class GetScheduledQueryResponse {
       if (description != null) 'description': description,
       if (destinationConfiguration != null)
         'destinationConfiguration': destinationConfiguration,
+      if (endTimeOffset != null) 'endTimeOffset': endTimeOffset,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
       if (lastExecutionStatus != null)
         'lastExecutionStatus': lastExecutionStatus.value,
@@ -10173,6 +10588,7 @@ class GetScheduledQueryResponse {
       if (scheduleEndTime != null) 'scheduleEndTime': scheduleEndTime,
       if (scheduleExpression != null) 'scheduleExpression': scheduleExpression,
       if (scheduleStartTime != null) 'scheduleStartTime': scheduleStartTime,
+      if (scheduleType != null) 'scheduleType': scheduleType.value,
       if (scheduledQueryArn != null) 'scheduledQueryArn': scheduledQueryArn,
       if (startTimeOffset != null) 'startTimeOffset': startTimeOffset,
       if (state != null) 'state': state.value,
@@ -10222,6 +10638,38 @@ class GetScheduledQueryHistoryResponse {
       if (nextToken != null) 'nextToken': nextToken,
       if (scheduledQueryArn != null) 'scheduledQueryArn': scheduledQueryArn,
       if (triggerHistory != null) 'triggerHistory': triggerHistory,
+    };
+  }
+}
+
+/// @nodoc
+class GetStorageTierPolicyResponse {
+  /// The time when the storage tier policy was last updated, expressed as the
+  /// number of milliseconds after <code>January 1, 1970 00:00:00 UTC</code>.
+  final int? lastUpdatedTime;
+
+  /// The current storage tier for the account.
+  final StorageTier? storageTier;
+
+  GetStorageTierPolicyResponse({
+    this.lastUpdatedTime,
+    this.storageTier,
+  });
+
+  factory GetStorageTierPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetStorageTierPolicyResponse(
+      lastUpdatedTime: json['lastUpdatedTime'] as int?,
+      storageTier:
+          (json['storageTier'] as String?)?.let(StorageTier.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final storageTier = this.storageTier;
+    return {
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (storageTier != null) 'storageTier': storageTier.value,
     };
   }
 }
@@ -10529,6 +10977,41 @@ class ListSourcesForS3TableIntegrationResponse {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (sources != null) 'sources': sources,
+    };
+  }
+}
+
+/// @nodoc
+class ListSyslogConfigurationsResponse {
+  /// The token for the next set of items to return. The token expires after 24
+  /// hours.
+  final String? nextToken;
+
+  /// The list of syslog configurations.
+  final List<SyslogConfiguration>? syslogConfigurations;
+
+  ListSyslogConfigurationsResponse({
+    this.nextToken,
+    this.syslogConfigurations,
+  });
+
+  factory ListSyslogConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSyslogConfigurationsResponse(
+      nextToken: json['nextToken'] as String?,
+      syslogConfigurations: (json['syslogConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => SyslogConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final syslogConfigurations = this.syslogConfigurations;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (syslogConfigurations != null)
+        'syslogConfigurations': syslogConfigurations,
     };
   }
 }
@@ -10926,6 +11409,38 @@ class PutResourcePolicyResponse {
 }
 
 /// @nodoc
+class PutStorageTierPolicyResponse {
+  /// The time when the storage tier policy was last updated, expressed as the
+  /// number of milliseconds after <code>January 1, 1970 00:00:00 UTC</code>.
+  final int? lastUpdatedTime;
+
+  /// The storage tier for the account.
+  final StorageTier? storageTier;
+
+  PutStorageTierPolicyResponse({
+    this.lastUpdatedTime,
+    this.storageTier,
+  });
+
+  factory PutStorageTierPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutStorageTierPolicyResponse(
+      lastUpdatedTime: json['lastUpdatedTime'] as int?,
+      storageTier:
+          (json['storageTier'] as String?)?.let(StorageTier.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final storageTier = this.storageTier;
+    return {
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (storageTier != null) 'storageTier': storageTier.value,
+    };
+  }
+}
+
+/// @nodoc
 class StartLiveTailResponse {
   /// An object that includes the stream returned by your request. It can include
   /// both log events and exceptions.
@@ -11108,6 +11623,9 @@ class UpdateScheduledQueryResponse {
   /// The destination configuration of the updated scheduled query.
   final DestinationConfiguration? destinationConfiguration;
 
+  /// The end time offset in seconds of the updated scheduled query.
+  final int? endTimeOffset;
+
   /// The execution role ARN of the updated scheduled query.
   final String? executionRoleArn;
 
@@ -11141,6 +11659,9 @@ class UpdateScheduledQueryResponse {
   /// The start time of the updated scheduled query.
   final int? scheduleStartTime;
 
+  /// The schedule type of the updated scheduled query.
+  final ScheduleType? scheduleType;
+
   /// The ARN of the updated scheduled query.
   final String? scheduledQueryArn;
 
@@ -11157,6 +11678,7 @@ class UpdateScheduledQueryResponse {
     this.creationTime,
     this.description,
     this.destinationConfiguration,
+    this.endTimeOffset,
     this.executionRoleArn,
     this.lastExecutionStatus,
     this.lastTriggeredTime,
@@ -11168,6 +11690,7 @@ class UpdateScheduledQueryResponse {
     this.scheduleEndTime,
     this.scheduleExpression,
     this.scheduleStartTime,
+    this.scheduleType,
     this.scheduledQueryArn,
     this.startTimeOffset,
     this.state,
@@ -11182,6 +11705,7 @@ class UpdateScheduledQueryResponse {
           ? DestinationConfiguration.fromJson(
               json['destinationConfiguration'] as Map<String, dynamic>)
           : null,
+      endTimeOffset: json['endTimeOffset'] as int?,
       executionRoleArn: json['executionRoleArn'] as String?,
       lastExecutionStatus: (json['lastExecutionStatus'] as String?)
           ?.let(ExecutionStatus.fromString),
@@ -11198,6 +11722,8 @@ class UpdateScheduledQueryResponse {
       scheduleEndTime: json['scheduleEndTime'] as int?,
       scheduleExpression: json['scheduleExpression'] as String?,
       scheduleStartTime: json['scheduleStartTime'] as int?,
+      scheduleType:
+          (json['scheduleType'] as String?)?.let(ScheduleType.fromString),
       scheduledQueryArn: json['scheduledQueryArn'] as String?,
       startTimeOffset: json['startTimeOffset'] as int?,
       state: (json['state'] as String?)?.let(ScheduledQueryState.fromString),
@@ -11209,6 +11735,7 @@ class UpdateScheduledQueryResponse {
     final creationTime = this.creationTime;
     final description = this.description;
     final destinationConfiguration = this.destinationConfiguration;
+    final endTimeOffset = this.endTimeOffset;
     final executionRoleArn = this.executionRoleArn;
     final lastExecutionStatus = this.lastExecutionStatus;
     final lastTriggeredTime = this.lastTriggeredTime;
@@ -11220,6 +11747,7 @@ class UpdateScheduledQueryResponse {
     final scheduleEndTime = this.scheduleEndTime;
     final scheduleExpression = this.scheduleExpression;
     final scheduleStartTime = this.scheduleStartTime;
+    final scheduleType = this.scheduleType;
     final scheduledQueryArn = this.scheduledQueryArn;
     final startTimeOffset = this.startTimeOffset;
     final state = this.state;
@@ -11229,6 +11757,7 @@ class UpdateScheduledQueryResponse {
       if (description != null) 'description': description,
       if (destinationConfiguration != null)
         'destinationConfiguration': destinationConfiguration,
+      if (endTimeOffset != null) 'endTimeOffset': endTimeOffset,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
       if (lastExecutionStatus != null)
         'lastExecutionStatus': lastExecutionStatus.value,
@@ -11242,6 +11771,7 @@ class UpdateScheduledQueryResponse {
       if (scheduleEndTime != null) 'scheduleEndTime': scheduleEndTime,
       if (scheduleExpression != null) 'scheduleExpression': scheduleExpression,
       if (scheduleStartTime != null) 'scheduleStartTime': scheduleStartTime,
+      if (scheduleType != null) 'scheduleType': scheduleType.value,
       if (scheduledQueryArn != null) 'scheduledQueryArn': scheduledQueryArn,
       if (startTimeOffset != null) 'startTimeOffset': startTimeOffset,
       if (state != null) 'state': state.value,
@@ -11281,25 +11811,39 @@ class QueryLanguage {
 ///
 /// @nodoc
 class DestinationConfiguration {
+  /// Configuration for delivering query results to a lookup table. The query
+  /// results automatically populate or refresh the specified lookup table on each
+  /// scheduled execution.
+  final LookupTableConfiguration? lookupTableConfiguration;
+
   /// Configuration for delivering query results to Amazon S3.
-  final S3Configuration s3Configuration;
+  final S3Configuration? s3Configuration;
 
   DestinationConfiguration({
-    required this.s3Configuration,
+    this.lookupTableConfiguration,
+    this.s3Configuration,
   });
 
   factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return DestinationConfiguration(
-      s3Configuration: S3Configuration.fromJson(
-          (json['s3Configuration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+      lookupTableConfiguration: json['lookupTableConfiguration'] != null
+          ? LookupTableConfiguration.fromJson(
+              json['lookupTableConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3Configuration: json['s3Configuration'] != null
+          ? S3Configuration.fromJson(
+              json['s3Configuration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final lookupTableConfiguration = this.lookupTableConfiguration;
     final s3Configuration = this.s3Configuration;
     return {
-      's3Configuration': s3Configuration,
+      if (lookupTableConfiguration != null)
+        'lookupTableConfiguration': lookupTableConfiguration,
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
     };
   }
 }
@@ -11322,6 +11866,30 @@ class ScheduledQueryState {
   @override
   bool operator ==(other) =>
       other is ScheduledQueryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ScheduleType {
+  static const customerManaged = ScheduleType._('CUSTOMER_MANAGED');
+  static const awsManaged = ScheduleType._('AWS_MANAGED');
+
+  final String value;
+
+  const ScheduleType._(this.value);
+
+  static const values = [customerManaged, awsManaged];
+
+  static ScheduleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScheduleType._(value));
+
+  @override
+  bool operator ==(other) => other is ScheduleType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -11404,6 +11972,66 @@ class S3Configuration {
       'roleArn': roleArn,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (ownerAccountId != null) 'ownerAccountId': ownerAccountId,
+    };
+  }
+}
+
+/// Configuration for a lookup table destination. Use it to automatically
+/// refresh a lookup table with query results on a schedule.
+///
+/// @nodoc
+class LookupTableConfiguration {
+  /// The ARN of the IAM role that grants permissions to create or update the
+  /// lookup table with query results.
+  final String roleArn;
+
+  /// The name of the lookup table to create or update with query results. The
+  /// name can contain only alphanumeric characters and underscores.
+  final String tableName;
+
+  /// A description of the lookup table.
+  final String? description;
+
+  /// The ARN of the KMS key to use to encrypt the lookup table data. If you don't
+  /// specify a key, the data is encrypted with an Amazon Web Services-owned key.
+  final String? kmsKeyId;
+
+  /// Key-value pairs to associate with the lookup table for resource management
+  /// and cost allocation. The service applies tags only during initial table
+  /// creation.
+  final Map<String, String>? tags;
+
+  LookupTableConfiguration({
+    required this.roleArn,
+    required this.tableName,
+    this.description,
+    this.kmsKeyId,
+    this.tags,
+  });
+
+  factory LookupTableConfiguration.fromJson(Map<String, dynamic> json) {
+    return LookupTableConfiguration(
+      roleArn: (json['roleArn'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
+      description: json['description'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final tableName = this.tableName;
+    final description = this.description;
+    final kmsKeyId = this.kmsKeyId;
+    final tags = this.tags;
+    return {
+      'roleArn': roleArn,
+      'tableName': tableName,
+      if (description != null) 'description': description,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -13706,6 +14334,30 @@ class Distribution {
   String toString() => value;
 }
 
+/// @nodoc
+class StorageTier {
+  static const standard = StorageTier._('STANDARD');
+  static const intelligentTiering = StorageTier._('INTELLIGENT_TIERING');
+
+  final String value;
+
+  const StorageTier._(this.value);
+
+  static const values = [standard, intelligentTiering];
+
+  static StorageTier fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageTier._(value));
+
+  @override
+  bool operator ==(other) => other is StorageTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A policy enabling one or more entities to put logs to a log group in this
 /// account.
 ///
@@ -15006,6 +15658,79 @@ class Scope {
   String toString() => value;
 }
 
+/// Contains information about a syslog configuration associated with a log
+/// group.
+///
+/// @nodoc
+class SyslogConfiguration {
+  /// The time when the syslog configuration was created, expressed as the number
+  /// of milliseconds after <code>Jan 1, 1970 00:00:00 UTC</code>.
+  final int? createdAt;
+
+  /// The ARN of the log group associated with this syslog configuration.
+  final String? logGroupArn;
+
+  /// The source type for the syslog configuration.
+  final SyslogSourceType? sourceType;
+
+  /// The ID of the VPC endpoint used for syslog ingestion.
+  final String? vpcEndpointId;
+
+  SyslogConfiguration({
+    this.createdAt,
+    this.logGroupArn,
+    this.sourceType,
+    this.vpcEndpointId,
+  });
+
+  factory SyslogConfiguration.fromJson(Map<String, dynamic> json) {
+    return SyslogConfiguration(
+      createdAt: json['createdAt'] as int?,
+      logGroupArn: json['logGroupArn'] as String?,
+      sourceType:
+          (json['sourceType'] as String?)?.let(SyslogSourceType.fromString),
+      vpcEndpointId: json['vpcEndpointId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final logGroupArn = this.logGroupArn;
+    final sourceType = this.sourceType;
+    final vpcEndpointId = this.vpcEndpointId;
+    return {
+      if (createdAt != null) 'createdAt': createdAt,
+      if (logGroupArn != null) 'logGroupArn': logGroupArn,
+      if (sourceType != null) 'sourceType': sourceType.value,
+      if (vpcEndpointId != null) 'vpcEndpointId': vpcEndpointId,
+    };
+  }
+}
+
+/// @nodoc
+class SyslogSourceType {
+  static const vpce = SyslogSourceType._('VPCE');
+
+  final String value;
+
+  const SyslogSourceType._(this.value);
+
+  static const values = [vpce];
+
+  static SyslogSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyslogSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SyslogSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Represents a data source association with an S3 Table Integration, including
 /// its status and metadata.
 ///
@@ -15160,6 +15885,10 @@ class ScheduledQuerySummary {
   /// The cron expression that defines when the scheduled query runs.
   final String? scheduleExpression;
 
+  /// The schedule type of the scheduled query. Valid values are
+  /// <code>CUSTOMER_MANAGED</code> and <code>AWS_MANAGED</code>.
+  final ScheduleType? scheduleType;
+
   /// The ARN of the scheduled query.
   final String? scheduledQueryArn;
 
@@ -15177,6 +15906,7 @@ class ScheduledQuerySummary {
     this.lastUpdatedTime,
     this.name,
     this.scheduleExpression,
+    this.scheduleType,
     this.scheduledQueryArn,
     this.state,
     this.timezone,
@@ -15195,6 +15925,8 @@ class ScheduledQuerySummary {
       lastUpdatedTime: json['lastUpdatedTime'] as int?,
       name: json['name'] as String?,
       scheduleExpression: json['scheduleExpression'] as String?,
+      scheduleType:
+          (json['scheduleType'] as String?)?.let(ScheduleType.fromString),
       scheduledQueryArn: json['scheduledQueryArn'] as String?,
       state: (json['state'] as String?)?.let(ScheduledQueryState.fromString),
       timezone: json['timezone'] as String?,
@@ -15209,6 +15941,7 @@ class ScheduledQuerySummary {
     final lastUpdatedTime = this.lastUpdatedTime;
     final name = this.name;
     final scheduleExpression = this.scheduleExpression;
+    final scheduleType = this.scheduleType;
     final scheduledQueryArn = this.scheduledQueryArn;
     final state = this.state;
     final timezone = this.timezone;
@@ -15222,6 +15955,7 @@ class ScheduledQuerySummary {
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (name != null) 'name': name,
       if (scheduleExpression != null) 'scheduleExpression': scheduleExpression,
+      if (scheduleType != null) 'scheduleType': scheduleType.value,
       if (scheduledQueryArn != null) 'scheduledQueryArn': scheduledQueryArn,
       if (state != null) 'state': state.value,
       if (timezone != null) 'timezone': timezone,
@@ -16134,12 +16868,13 @@ class ScheduledQueryDestination {
 /// @nodoc
 class ScheduledQueryDestinationType {
   static const s3 = ScheduledQueryDestinationType._('S3');
+  static const lookupTable = ScheduledQueryDestinationType._('LOOKUP_TABLE');
 
   final String value;
 
   const ScheduledQueryDestinationType._(this.value);
 
-  static const values = [s3];
+  static const values = [s3, lookupTable];
 
   static ScheduledQueryDestinationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -18419,6 +19154,37 @@ class FieldIndex {
   /// after the index policy that contains it was created.
   final int? firstEventTime;
 
+  /// The category of the field index:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DEFAULT</code>: Fields that CloudWatch Logs indexes by default.
+  /// Examples include <code>@logStream</code> and <code>@data_format</code>.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM</code>: Fields that you added manually to the field index
+  /// policy. CloudWatch Logs always indexes these fields. These fields count
+  /// toward the quota of 20 fields for each log group.
+  /// </li>
+  /// <li>
+  /// <code>AUTO</code>: Fields that CloudWatch Logs indexes automatically based
+  /// on your query patterns and usage. These fields do not count toward the field
+  /// index quota. CloudWatch Logs might update these fields based on changes in
+  /// your query patterns. To keep a field indexed permanently, add it to an
+  /// account-level or log-group level field index policy.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code>: Fields that CloudWatch Logs indexed before but does
+  /// not index now. This happens if you remove a field from the field index
+  /// policy or if CloudWatch Logs automatically selects a different field based
+  /// on your queries.
+  /// </li>
+  /// </ul>
+  /// For more information about automatically indexed fields, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Automatic.html">Automatically
+  /// indexed fields</a>.
+  final IndexCategory? indexCategory;
+
   /// The time and date of the most recent log event that matches this field
   /// index.
   final int? lastEventTime;
@@ -18440,6 +19206,7 @@ class FieldIndex {
   FieldIndex({
     this.fieldIndexName,
     this.firstEventTime,
+    this.indexCategory,
     this.lastEventTime,
     this.lastScanTime,
     this.logGroupIdentifier,
@@ -18450,6 +19217,8 @@ class FieldIndex {
     return FieldIndex(
       fieldIndexName: json['fieldIndexName'] as String?,
       firstEventTime: json['firstEventTime'] as int?,
+      indexCategory:
+          (json['indexCategory'] as String?)?.let(IndexCategory.fromString),
       lastEventTime: json['lastEventTime'] as int?,
       lastScanTime: json['lastScanTime'] as int?,
       logGroupIdentifier: json['logGroupIdentifier'] as String?,
@@ -18460,6 +19229,7 @@ class FieldIndex {
   Map<String, dynamic> toJson() {
     final fieldIndexName = this.fieldIndexName;
     final firstEventTime = this.firstEventTime;
+    final indexCategory = this.indexCategory;
     final lastEventTime = this.lastEventTime;
     final lastScanTime = this.lastScanTime;
     final logGroupIdentifier = this.logGroupIdentifier;
@@ -18467,6 +19237,7 @@ class FieldIndex {
     return {
       if (fieldIndexName != null) 'fieldIndexName': fieldIndexName,
       if (firstEventTime != null) 'firstEventTime': firstEventTime,
+      if (indexCategory != null) 'indexCategory': indexCategory.value,
       if (lastEventTime != null) 'lastEventTime': lastEventTime,
       if (lastScanTime != null) 'lastScanTime': lastScanTime,
       if (logGroupIdentifier != null) 'logGroupIdentifier': logGroupIdentifier,
@@ -18491,6 +19262,33 @@ class IndexType {
 
   @override
   bool operator ==(other) => other is IndexType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class IndexCategory {
+  static const $default = IndexCategory._('DEFAULT');
+  static const custom = IndexCategory._('CUSTOM');
+  static const auto = IndexCategory._('AUTO');
+  static const inactive = IndexCategory._('INACTIVE');
+
+  final String value;
+
+  const IndexCategory._(this.value);
+
+  static const values = [$default, custom, auto, inactive];
+
+  static IndexCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IndexCategory._(value));
+
+  @override
+  bool operator ==(other) => other is IndexCategory && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

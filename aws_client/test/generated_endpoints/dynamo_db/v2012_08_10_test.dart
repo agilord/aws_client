@@ -5522,4 +5522,2796 @@ void main() {
           'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
     );
   });
+  test('{Endpoint=https://dynamodb.us-east-1.api.aws/, Region=us-east-1} [370]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpoint: 'https://dynamodb.us-east-1.api.aws/', region: 'us-east-1'),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [371]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'preferred',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [372]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'preferred',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [373]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'preferred',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [374]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [375]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [376]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'preferred',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [377]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'preferred',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [378]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'preferred',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [379]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [380]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [381]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [382]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [383]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [384]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'disabled',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [385]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'disabled',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [386]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'disabled',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [387]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [388]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [389]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'disabled',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [390]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'disabled',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [391]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'disabled',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [392]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [393]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [394]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [395]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [396]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [397]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [398]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [399]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [400]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [401]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [402]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [403]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [404]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          endpoint: 'https://example.com',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [405]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [406]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [407]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [408]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com, IsSearchOperation=true} [409]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        endpoint: 'https://example.com',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [410]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'preferred',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [411]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'preferred',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [412]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'preferred',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [413]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [414]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [415]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'preferred',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [416]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'preferred',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [417]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'preferred',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [418]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [419]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [420]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'preferred',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [421]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=local, IsSearchOperation=true} [422]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'preferred',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [423]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'disabled',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [424]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'disabled',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [425]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'disabled',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [426]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'disabled',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [427]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'disabled',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [428]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'disabled',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [429]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'disabled',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [430]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'disabled',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [431]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [432]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [433]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'disabled',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [434]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'disabled',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=local, IsSearchOperation=true} [435]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'disabled',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [436]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [437]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [438]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [439]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'required',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [440]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'required',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [441]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [442]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [443]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'local',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: Dualstack and local endpoint are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [444]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'required',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [445]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'required',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [446]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'required',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [447]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'required',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=local, IsSearchOperation=true} [448]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'required',
+        region: 'local',
+        isSearchOperation: true);
+    expect(resolved.url, 'http://localhost:8000');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'dynamodb');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [449]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb-fips.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [450]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb-fips.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [451]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://111111111111.search-ddb.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [452]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://111111111111.search-ddb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [453]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          accountId: '',
+          accountIdEndpointMode: 'preferred',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having((e) => e.message,
+          'message', 'Credentials-sourced account ID parameter is invalid')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [454]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb-fips.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [455]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb-fips.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [456]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://222222222222.search-ddb.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [457]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://222222222222.search-ddb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [458]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [459]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [460]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-east-1, IsSearchOperation=true} [461]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'preferred',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [462]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [463]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [464]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://111111111111.search-ddb.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [465]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://111111111111.search-ddb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [466]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          accountId: '',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having((e) => e.message,
+          'message', 'Credentials-sourced account ID parameter is invalid')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [467]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [468]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [469]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://222222222222.search-ddb.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [470]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'required',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://222222222222.search-ddb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [471]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'AccountIdEndpointMode is required but no AccountID was provided or able to be loaded')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [472]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'AccountIdEndpointMode is required but no AccountID was provided or able to be loaded')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [473]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          resourceArn: '',
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'AccountIdEndpointMode is required but no AccountID was provided or able to be loaded')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=us-east-1, IsSearchOperation=true} [474]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          accountIdEndpointMode: 'required',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'AccountIdEndpointMode is required but no AccountID was provided or able to be loaded')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [475]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [476]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [477]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [478]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          accountId: '111111111111',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [479]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          accountId: '',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [480]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [481]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: true,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [482]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: true,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [483]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [484]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          resourceArn:
+              'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [485]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [486]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          resourceArn: '',
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=cn-north-1, IsSearchOperation=true} [487]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          useFips: false,
+          useDualStack: false,
+          accountIdEndpointMode: 'required',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition')),
+    );
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [488]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb-fips.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [489]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb-fips.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [490]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [491]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [492]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [493]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb-fips.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [494]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb-fips.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [495]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [496]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [497]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [498]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [499]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=us-east-1, IsSearchOperation=true} [500]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'disabled',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [501]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb-fips.cn-north-1.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [502]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb-fips.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [503]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb.cn-north-1.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [504]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [505]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [506]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb-fips.cn-north-1.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [507]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb-fips.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [508]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb.cn-north-1.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [509]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [510]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [511]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [512]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=cn-north-1, IsSearchOperation=true} [513]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'preferred',
+        region: 'cn-north-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.cn-north-1.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [514]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb-fips.us-iso-east-1.api.aws.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [515]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb-fips.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [516]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb.us-iso-east-1.api.aws.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [517]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [518]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [519]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://search-dynamodb-fips.us-iso-east-1.api.aws.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [520]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb-fips.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [521]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(
+        resolved.url, 'https://search-dynamodb.us-iso-east-1.api.aws.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [522]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [523]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [524]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [525]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-iso-east-1, IsSearchOperation=true} [526]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'preferred',
+        region: 'us-iso-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-iso-east-1.c2s.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [527]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb-fips.us-gov-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [528]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [529]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [530]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '111111111111',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [531]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountId: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [532]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb-fips.us-gov-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [533]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: true,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [534]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: true,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [535]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-east-1:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [536]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:dynamodb:us-west-2:222222222222:table/table_name',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [537]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: 'arn:aws:s3:us-west-2:222222222222:stream/testStream',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [538]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        resourceArn: '',
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-gov-east-1, IsSearchOperation=true} [539]',
+      () {
+    final resolved = resolveEndpoint(
+        useFips: false,
+        useDualStack: false,
+        accountIdEndpointMode: 'preferred',
+        region: 'us-gov-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://search-dynamodb.us-gov-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{Endpoint=https://dynamodb.cn-north-1.api.amazonwebservices.com.cn, Region=cn-north-1, IsSearchOperation=true} [540]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpoint: 'https://dynamodb.cn-north-1.api.amazonwebservices.com.cn',
+          region: 'cn-north-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
+    );
+  });
+  test(
+      '{Endpoint=https://dynamodb.us-gov-east-1.api.aws, Region=us-gov-east-1, IsSearchOperation=true} [541]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpoint: 'https://dynamodb.us-gov-east-1.api.aws',
+          region: 'us-gov-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
+    );
+  });
+  test(
+      '{Endpoint=https://dynamodb.us-east-1.api.aws, Region=us-east-1, IsSearchOperation=true} [542]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpoint: 'https://dynamodb.us-east-1.api.aws',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
+    );
+  });
+  test(
+      '{Endpoint=https://111111111111.ddb.us-east-1.api.aws, Region=us-east-1, IsSearchOperation=true} [543]',
+      () {
+    final resolved = resolveEndpoint(
+        endpoint: 'https://111111111111.ddb.us-east-1.api.aws',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url, 'https://111111111111.ddb.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{Endpoint=https://vpce-1a2b3c4d-5e6f.dynamodb.us-east-1.vpce.api.aws, Region=us-east-1, IsSearchOperation=true} [544]',
+      () {
+    final resolved = resolveEndpoint(
+        endpoint: 'https://vpce-1a2b3c4d-5e6f.dynamodb.us-east-1.vpce.api.aws',
+        region: 'us-east-1',
+        isSearchOperation: true);
+    expect(resolved.url,
+        'https://vpce-1a2b3c4d-5e6f.dynamodb.us-east-1.vpce.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      '{Endpoint=https://dynamodb.eu-west-1.api.aws, Region=eu-west-1, IsSearchOperation=true} [545]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpoint: 'https://dynamodb.eu-west-1.api.aws',
+          region: 'eu-west-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
+    );
+  });
+  test(
+      '{Endpoint=https://dynamodb.us-west-2.api.aws, Region=us-west-2, IsSearchOperation=true} [546]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpoint: 'https://dynamodb.us-west-2.api.aws',
+          region: 'us-west-2',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
+    );
+  });
+  test(
+      '{Endpoint=https://dynamodb.us-east-1.api.aws/, Region=us-east-1, IsSearchOperation=true} [547]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpoint: 'https://dynamodb.us-east-1.api.aws/',
+          region: 'us-east-1',
+          isSearchOperation: true),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html')),
+    );
+  });
 }

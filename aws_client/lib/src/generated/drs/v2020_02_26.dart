@@ -540,6 +540,9 @@ class Drs {
   /// Parameter [postLaunchEnabled] :
   /// Whether we want to activate post-launch actions.
   ///
+  /// Parameter [recoveryMode] :
+  /// Recovery mode.
+  ///
   /// Parameter [tags] :
   /// Request to associate tags during creation of a Launch Configuration
   /// Template.
@@ -555,6 +558,7 @@ class Drs {
     bool? launchIntoSourceInstance,
     Licensing? licensing,
     bool? postLaunchEnabled,
+    RecoveryMode? recoveryMode,
     Map<String, String>? tags,
     TargetInstanceTypeRightSizingMethod? targetInstanceTypeRightSizingMethod,
   }) async {
@@ -568,6 +572,7 @@ class Drs {
         'launchIntoSourceInstance': launchIntoSourceInstance,
       if (licensing != null) 'licensing': licensing,
       if (postLaunchEnabled != null) 'postLaunchEnabled': postLaunchEnabled,
+      if (recoveryMode != null) 'recoveryMode': recoveryMode.value,
       if (tags != null) 'tags': tags,
       if (targetInstanceTypeRightSizingMethod != null)
         'targetInstanceTypeRightSizingMethod':
@@ -617,6 +622,9 @@ class Drs {
   /// Parameter [postLaunchEnabled] :
   /// Whether we want to activate post-launch actions.
   ///
+  /// Parameter [recoveryMode] :
+  /// Recovery mode.
+  ///
   /// Parameter [targetInstanceTypeRightSizingMethod] :
   /// Target instance type right-sizing method.
   Future<UpdateLaunchConfigurationTemplateResponse>
@@ -629,6 +637,7 @@ class Drs {
     bool? launchIntoSourceInstance,
     Licensing? licensing,
     bool? postLaunchEnabled,
+    RecoveryMode? recoveryMode,
     TargetInstanceTypeRightSizingMethod? targetInstanceTypeRightSizingMethod,
   }) async {
     final $payload = <String, dynamic>{
@@ -642,6 +651,7 @@ class Drs {
         'launchIntoSourceInstance': launchIntoSourceInstance,
       if (licensing != null) 'licensing': licensing,
       if (postLaunchEnabled != null) 'postLaunchEnabled': postLaunchEnabled,
+      if (recoveryMode != null) 'recoveryMode': recoveryMode.value,
       if (targetInstanceTypeRightSizingMethod != null)
         'targetInstanceTypeRightSizingMethod':
             targetInstanceTypeRightSizingMethod.value,
@@ -1932,6 +1942,9 @@ class Drs {
   /// Parameter [postLaunchEnabled] :
   /// Whether we want to enable post-launch actions for the Source Server.
   ///
+  /// Parameter [recoveryMode] :
+  /// Recovery mode.
+  ///
   /// Parameter [targetInstanceTypeRightSizingMethod] :
   /// Whether Elastic Disaster Recovery should try to automatically choose the
   /// instance type that best matches the OS, CPU, and RAM of your Source
@@ -1945,6 +1958,7 @@ class Drs {
     Licensing? licensing,
     String? name,
     bool? postLaunchEnabled,
+    RecoveryMode? recoveryMode,
     TargetInstanceTypeRightSizingMethod? targetInstanceTypeRightSizingMethod,
   }) async {
     final $payload = <String, dynamic>{
@@ -1958,6 +1972,7 @@ class Drs {
       if (licensing != null) 'licensing': licensing,
       if (name != null) 'name': name,
       if (postLaunchEnabled != null) 'postLaunchEnabled': postLaunchEnabled,
+      if (recoveryMode != null) 'recoveryMode': recoveryMode.value,
       if (targetInstanceTypeRightSizingMethod != null)
         'targetInstanceTypeRightSizingMethod':
             targetInstanceTypeRightSizingMethod.value,
@@ -3436,6 +3451,9 @@ class LaunchConfiguration {
   /// Whether we want to activate post-launch actions for the Source Server.
   final bool? postLaunchEnabled;
 
+  /// Recovery mode.
+  final RecoveryMode? recoveryMode;
+
   /// The ID of the Source Server for this launch configuration.
   final String? sourceServerID;
 
@@ -3453,6 +3471,7 @@ class LaunchConfiguration {
     this.licensing,
     this.name,
     this.postLaunchEnabled,
+    this.recoveryMode,
     this.sourceServerID,
     this.targetInstanceTypeRightSizingMethod,
   });
@@ -3473,6 +3492,8 @@ class LaunchConfiguration {
           : null,
       name: json['name'] as String?,
       postLaunchEnabled: json['postLaunchEnabled'] as bool?,
+      recoveryMode:
+          (json['recoveryMode'] as String?)?.let(RecoveryMode.fromString),
       sourceServerID: json['sourceServerID'] as String?,
       targetInstanceTypeRightSizingMethod:
           (json['targetInstanceTypeRightSizingMethod'] as String?)
@@ -3489,6 +3510,7 @@ class LaunchConfiguration {
     final licensing = this.licensing;
     final name = this.name;
     final postLaunchEnabled = this.postLaunchEnabled;
+    final recoveryMode = this.recoveryMode;
     final sourceServerID = this.sourceServerID;
     final targetInstanceTypeRightSizingMethod =
         this.targetInstanceTypeRightSizingMethod;
@@ -3504,6 +3526,7 @@ class LaunchConfiguration {
       if (licensing != null) 'licensing': licensing,
       if (name != null) 'name': name,
       if (postLaunchEnabled != null) 'postLaunchEnabled': postLaunchEnabled,
+      if (recoveryMode != null) 'recoveryMode': recoveryMode.value,
       if (sourceServerID != null) 'sourceServerID': sourceServerID,
       if (targetInstanceTypeRightSizingMethod != null)
         'targetInstanceTypeRightSizingMethod':
@@ -4849,6 +4872,34 @@ class LaunchIntoInstanceProperties {
         'launchIntoEC2InstanceID': launchIntoEC2InstanceID,
     };
   }
+}
+
+/// Recovery mode to use during launch. <code>FAST</code> skips conversion to
+/// reduce recovery time. <code>OPTIMAL</code> runs full conversion for maximum
+/// compatibility.
+///
+/// @nodoc
+class RecoveryMode {
+  static const fast = RecoveryMode._('FAST');
+  static const optimal = RecoveryMode._('OPTIMAL');
+
+  final String value;
+
+  const RecoveryMode._(this.value);
+
+  static const values = [fast, optimal];
+
+  static RecoveryMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecoveryMode._(value));
+
+  @override
+  bool operator ==(other) => other is RecoveryMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -7502,6 +7553,9 @@ class LaunchConfigurationTemplate {
   /// Post-launch actions activated.
   final bool? postLaunchEnabled;
 
+  /// Recovery mode.
+  final RecoveryMode? recoveryMode;
+
   /// Tags of the Launch Configuration Template.
   final Map<String, String>? tags;
 
@@ -7519,6 +7573,7 @@ class LaunchConfigurationTemplate {
     this.launchIntoSourceInstance,
     this.licensing,
     this.postLaunchEnabled,
+    this.recoveryMode,
     this.tags,
     this.targetInstanceTypeRightSizingMethod,
   });
@@ -7538,6 +7593,8 @@ class LaunchConfigurationTemplate {
           ? Licensing.fromJson(json['licensing'] as Map<String, dynamic>)
           : null,
       postLaunchEnabled: json['postLaunchEnabled'] as bool?,
+      recoveryMode:
+          (json['recoveryMode'] as String?)?.let(RecoveryMode.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       targetInstanceTypeRightSizingMethod:
@@ -7556,6 +7613,7 @@ class LaunchConfigurationTemplate {
     final launchIntoSourceInstance = this.launchIntoSourceInstance;
     final licensing = this.licensing;
     final postLaunchEnabled = this.postLaunchEnabled;
+    final recoveryMode = this.recoveryMode;
     final tags = this.tags;
     final targetInstanceTypeRightSizingMethod =
         this.targetInstanceTypeRightSizingMethod;
@@ -7572,6 +7630,7 @@ class LaunchConfigurationTemplate {
         'launchIntoSourceInstance': launchIntoSourceInstance,
       if (licensing != null) 'licensing': licensing,
       if (postLaunchEnabled != null) 'postLaunchEnabled': postLaunchEnabled,
+      if (recoveryMode != null) 'recoveryMode': recoveryMode.value,
       if (tags != null) 'tags': tags,
       if (targetInstanceTypeRightSizingMethod != null)
         'targetInstanceTypeRightSizingMethod':

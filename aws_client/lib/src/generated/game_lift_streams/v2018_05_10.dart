@@ -171,6 +171,67 @@ class GameLiftStreams {
     return AssociateApplicationsOutput.fromJson(response);
   }
 
+  /// Creates an administrative terminal session with full access to the live
+  /// runtime environment of the Amazon GameLift Streams stream session. Use the
+  /// returned credentials (<code>SessionId</code>, <code>StreamUrl</code> and
+  /// <code>TokenValue</code>) with the Amazon Web Services Systems Manager <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html">Session
+  /// Manager plugin</a> for the CLI to access the terminal session.
+  ///
+  /// The stream session must be in one of the following statuses:
+  /// <code>ACTIVE</code>, <code>CONNECTED</code>,
+  /// <code>PENDING_CLIENT_RECONNECTION</code>, or <code>RECONNECTING</code>.
+  ///
+  /// The <code>StreamUrl</code> is valid for 60 seconds. After it expires, call
+  /// this operation again to get a new URL.
+  /// <important>
+  /// The returned credentials grant full access to the live runtime environment
+  /// of the Amazon GameLift Streams stream session. The operator who connects
+  /// to the terminal session has the same level of access that your Amazon
+  /// GameLift Streams applications have, including potentially user input,
+  /// screen images, and application data files. Grant permissions to call this
+  /// operation only to trusted IAM identities that require live runtime
+  /// environment access.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [StreamSessionAccessNotReadyException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// The stream group that runs this stream session.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the stream group
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  /// Example ID: <code>sg-1AB2C3De4</code>.
+  ///
+  /// Parameter [streamSessionIdentifier] :
+  /// An <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the stream session
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567</code>.
+  /// Example ID: <code>ABC123def4567</code>.
+  Future<CreateStreamSessionAdminShellOutput> createStreamSessionAdminShell({
+    required String identifier,
+    required String streamSessionIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/streamgroups/${Uri.encodeComponent(identifier)}/streamsessions/${Uri.encodeComponent(streamSessionIdentifier)}/access',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateStreamSessionAdminShellOutput.fromJson(response);
+  }
+
   /// Enables clients to reconnect to a stream session while preserving all
   /// session state and data in the disconnected session. This reconnection
   /// process can be initiated when a stream session is in either
@@ -289,6 +350,191 @@ class GameLiftStreams {
       exceptionFnMap: _exceptionFns,
     );
     return CreateStreamSessionConnectionOutput.fromJson(response);
+  }
+
+  /// Creates a stream URL that grants temporary access to a stream session in a
+  /// web browser without requiring an Amazon Web Services account or client
+  /// integration.
+  ///
+  /// You can use the stream URL to start a stream session up to the number of
+  /// times set by <code>UsageLimit</code>, until it expires after
+  /// <code>UrlExpiresAfterMinutes</code>. Each successful use starts a new
+  /// stream session.
+  ///
+  /// To make the request idempotent, provide a <code>ClientToken</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationIdentifier] :
+  /// An <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the application
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>.
+  /// Example ID: <code>a-9ZY8X7Wv6</code>.
+  ///
+  /// This application must be associated with the stream group.
+  ///
+  /// Parameter [identifier] :
+  /// An <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the stream group
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  /// Example ID: <code>sg-1AB2C3De4</code>.
+  ///
+  /// The stream session runs in this stream group.
+  ///
+  /// Parameter [locations] :
+  /// A list of locations, in order of preference, where Amazon GameLift Streams
+  /// can place the stream session. Specify each location by its Amazon Web
+  /// Services Region code, for example <code>us-east-1</code>. For a complete
+  /// list of locations that Amazon GameLift Streams supports, refer to <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html">Regions,
+  /// quotas, and limitations</a> in the <i>Amazon GameLift Streams Developer
+  /// Guide</i>.
+  ///
+  /// Parameter [protocol] :
+  /// The data transport protocol for the stream session. Amazon GameLift
+  /// Streams supports <code>WebRTC</code>.
+  ///
+  /// Parameter [urlExpiresAfterMinutes] :
+  /// The number of minutes after creation that the stream URL remains valid.
+  /// After this period, the status of the stream URL changes to
+  /// <code>EXPIRED</code> and it can no longer start stream sessions. The
+  /// minimum is 1 minute. For the maximum, see <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html">Regions,
+  /// quotas, and limitations</a> in the <i>Amazon GameLift Streams Developer
+  /// Guide</i>.
+  ///
+  /// Parameter [additionalEnvironmentVariables] :
+  /// A set of options that you can use to control the stream session runtime
+  /// environment, expressed as a set of key-value pairs. You can use this to
+  /// configure the application or stream session details. You can also provide
+  /// custom environment variables that Amazon GameLift Streams passes to your
+  /// game client.
+  /// <note>
+  /// If you want to debug your application with environment variables, we
+  /// recommend that you do so in a local environment outside of Amazon GameLift
+  /// Streams. For more information, refer to the Compatibility Guidance in the
+  /// troubleshooting section of the Developer Guide.
+  /// </note>
+  /// <code>AdditionalEnvironmentVariables</code> and
+  /// <code>AdditionalLaunchArgs</code> have similar purposes.
+  /// <code>AdditionalEnvironmentVariables</code> passes data using environment
+  /// variables; while <code>AdditionalLaunchArgs</code> passes data using
+  /// command-line arguments.
+  ///
+  /// Parameter [additionalLaunchArgs] :
+  /// A list of CLI arguments that are sent to the streaming server when a
+  /// stream session launches. You can use this to configure the application or
+  /// stream session details. You can also provide custom arguments that Amazon
+  /// GameLift Streams passes to your game client.
+  ///
+  /// <code>AdditionalEnvironmentVariables</code> and
+  /// <code>AdditionalLaunchArgs</code> have similar purposes.
+  /// <code>AdditionalEnvironmentVariables</code> passes data using environment
+  /// variables; while <code>AdditionalLaunchArgs</code> passes data using
+  /// command-line arguments.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure this
+  /// request is idempotent. If you retry a request with the same
+  /// <code>ClientToken</code>, Amazon GameLift Streams returns the original
+  /// response without performing the operation again.
+  ///
+  /// Parameter [description] :
+  /// A descriptive label for the stream URL.
+  ///
+  /// Parameter [displayConfiguration] :
+  /// The display settings, such as resolution, for stream sessions started from
+  /// this stream URL.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift
+  /// Streams assumes during stream sessions started from this stream URL. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/session-credentials.html">Provide
+  /// AWS credentials to your streaming application</a> in the <i>Amazon
+  /// GameLift Streams Developer Guide</i>.
+  ///
+  /// Parameter [sessionLengthSeconds] :
+  /// The maximum length of time, in seconds, that a stream session started from
+  /// this stream URL can run. Valid values are 1-86400 seconds (1 second to 24
+  /// hours). The default is 43200 seconds (12 hours).
+  ///
+  /// Parameter [usageLimit] :
+  /// The maximum number of times the stream URL can start a stream session.
+  /// Each successful use reduces the remaining uses by one. The minimum is 1,
+  /// and the default is 1. For the maximum, see <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html">Regions,
+  /// quotas, and limitations</a> in the <i>Amazon GameLift Streams Developer
+  /// Guide</i>.
+  Future<CreateStreamUrlOutput> createStreamUrl({
+    required String applicationIdentifier,
+    required String identifier,
+    required List<String> locations,
+    required Protocol protocol,
+    required int urlExpiresAfterMinutes,
+    Map<String, String>? additionalEnvironmentVariables,
+    List<String>? additionalLaunchArgs,
+    String? clientToken,
+    String? description,
+    DisplayConfiguration? displayConfiguration,
+    String? roleArn,
+    int? sessionLengthSeconds,
+    int? usageLimit,
+  }) async {
+    _s.validateNumRange(
+      'urlExpiresAfterMinutes',
+      urlExpiresAfterMinutes,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'sessionLengthSeconds',
+      sessionLengthSeconds,
+      1,
+      86400,
+    );
+    _s.validateNumRange(
+      'usageLimit',
+      usageLimit,
+      1,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      'ApplicationIdentifier': applicationIdentifier,
+      'Locations': locations,
+      'Protocol': protocol.value,
+      'UrlExpiresAfterMinutes': urlExpiresAfterMinutes,
+      if (additionalEnvironmentVariables != null)
+        'AdditionalEnvironmentVariables': additionalEnvironmentVariables,
+      if (additionalLaunchArgs != null)
+        'AdditionalLaunchArgs': additionalLaunchArgs,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (displayConfiguration != null)
+        'DisplayConfiguration': displayConfiguration,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (sessionLengthSeconds != null)
+        'SessionLengthSeconds': sessionLengthSeconds,
+      if (usageLimit != null) 'UsageLimit': usageLimit,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/streamgroups/${Uri.encodeComponent(identifier)}/streamurls',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateStreamUrlOutput.fromJson(response);
   }
 
   /// When you disassociate, or unlink, an application from a stream group, you
@@ -485,6 +731,81 @@ class GameLiftStreams {
     return GetStreamSessionOutput.fromJson(response);
   }
 
+  /// Retrieves properties for a stream URL, including its current status,
+  /// usage, and the stream sessions started through it.
+  ///
+  /// If you delete the stream group or application that backs the stream URL,
+  /// this operation updates the status of the stream URL to
+  /// <code>REVOKED</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// An <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the stream group
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  /// Example ID: <code>sg-1AB2C3De4</code>.
+  ///
+  /// This is the stream group that owns the stream URL.
+  ///
+  /// Parameter [streamUrlIdentifier] :
+  /// The unique identifier of the stream URL. Specify a stream URL ID or Amazon
+  /// Resource Name (ARN). Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4</code>.
+  /// Example ID: <code>su-1AB2C3De4</code>.
+  Future<GetStreamUrlOutput> getStreamUrl({
+    required String identifier,
+    required String streamUrlIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/streamgroups/${Uri.encodeComponent(identifier)}/streamurls/${Uri.encodeComponent(streamUrlIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetStreamUrlOutput.fromJson(response);
+  }
+
+  /// Lists the shader caches associated with an Amazon GameLift Streams
+  /// application. Each shader cache entry includes its status, associated
+  /// stream groups, and size in bytes.
+  ///
+  /// Returns shader caches associated with the specified Amazon GameLift
+  /// Streams application in all statuses.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// An <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the application
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>.
+  /// Example ID: <code>a-9ZY8X7Wv6</code>.
+  Future<ListApplicationShaderCachesOutput> listApplicationShaderCaches({
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(identifier)}/shadercaches',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListApplicationShaderCachesOutput.fromJson(response);
+  }
+
   /// Retrieves a list of Amazon GameLift Streams stream sessions that a stream
   /// group is hosting.
   ///
@@ -641,6 +962,88 @@ class GameLiftStreams {
     return ListStreamSessionsByAccountOutput.fromJson(response);
   }
 
+  /// Retrieves a list of the stream URLs in the current Amazon Web Services
+  /// Region for your Amazon Web Services account. You can filter the results by
+  /// status or by stream group. Use the pagination parameters to retrieve
+  /// results as a set of sequential pages. If you delete the stream group or
+  /// application that backs a stream URL, this operation updates that stream
+  /// URL's status to <code>REVOKED</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page. Valid values are 1-100.
+  /// The default is 25.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that marks the start of the next set of results. Use this token
+  /// when you retrieve results as sequential pages. To get the first page of
+  /// results, omit a token value. To get the remaining pages, provide the token
+  /// returned with the previous result set.
+  ///
+  /// Parameter [status] :
+  /// Filters the list to stream URLs with the specified status.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>: The stream URL is valid and can start stream
+  /// sessions.
+  /// </li>
+  /// <li>
+  /// <code>EXPIRED</code>: The stream URL has passed its expiration time and
+  /// can no longer start stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>REVOKED</code>: The stream URL was revoked and can no longer start
+  /// stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>LIMIT_REACHED</code>: The stream URL has been used the maximum
+  /// number of times and can no longer start stream sessions.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [streamGroupIdentifier] :
+  /// Filters the list to stream URLs that belong to the specified stream group.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the stream group
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  /// Example ID: <code>sg-1AB2C3De4</code>.
+  Future<ListStreamUrlsOutput> listStreamUrls({
+    int? maxResults,
+    String? nextToken,
+    StreamUrlStatus? status,
+    String? streamGroupIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (status != null) 'Status': [status.value],
+      if (streamGroupIdentifier != null)
+        'StreamGroupIdentifier': [streamGroupIdentifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/streamurls',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListStreamUrlsOutput.fromJson(response);
+  }
+
   /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list
   /// tags for a resource, specify the ARN value for the resource.
   ///
@@ -728,6 +1131,68 @@ class GameLiftStreams {
       method: 'DELETE',
       requestUri: '/streamgroups/${Uri.encodeComponent(identifier)}/locations',
       queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Revokes a stream URL so that it can no longer start new stream sessions.
+  /// By default, stream sessions that are already running continue until they
+  /// end on their own. To also end running sessions, set
+  /// <code>RevocationMode</code> to <code>REVOKE_AND_TERMINATE_SESSIONS</code>.
+  ///
+  /// Revoking a stream URL is permanent. The status of the stream URL changes
+  /// to <code>REVOKED</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// An <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> or ID that uniquely identifies the stream group
+  /// resource. Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  /// Example ID: <code>sg-1AB2C3De4</code>.
+  ///
+  /// This is the stream group that owns the stream URL.
+  ///
+  /// Parameter [streamUrlIdentifier] :
+  /// The unique identifier of the stream URL to revoke. Specify a stream URL ID
+  /// or Amazon Resource Name (ARN). Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4</code>.
+  /// Example ID: <code>su-1AB2C3De4</code>.
+  ///
+  /// Parameter [revocationMode] :
+  /// Controls what happens to running stream sessions when you revoke the
+  /// stream URL. If you do not specify a value, the default is
+  /// <code>REVOKE_URL</code>. Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REVOKE_URL</code>: Stops the stream URL from starting new stream
+  /// sessions. Running sessions continue until they end.
+  /// </li>
+  /// <li>
+  /// <code>REVOKE_AND_TERMINATE_SESSIONS</code>: Stops new stream sessions and
+  /// ends any running stream sessions.
+  /// </li>
+  /// </ul>
+  Future<void> revokeStreamUrl({
+    required String identifier,
+    required String streamUrlIdentifier,
+    RevocationMode? revocationMode,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (revocationMode != null) 'RevocationMode': revocationMode.value,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/streamgroups/${Uri.encodeComponent(identifier)}/streamurls/${Uri.encodeComponent(streamUrlIdentifier)}/revoke',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -954,6 +1419,13 @@ class GameLiftStreams {
   /// A human-readable label for the stream session. You can update this value
   /// later.
   ///
+  /// Parameter [displayConfiguration] :
+  /// The configuration for the stream session's virtual monitor, including the
+  /// resolution settings.
+  ///
+  /// If not specified, Amazon GameLift Streams uses the default resolution of
+  /// 1920 × 1080.
+  ///
   /// Parameter [locations] :
   /// A list of locations, in order of priority, where you want Amazon GameLift
   /// Streams to start a stream from. For example, <code>us-east-1</code>.
@@ -971,6 +1443,14 @@ class GameLiftStreams {
   /// Parameter [performanceStatsConfiguration] :
   /// Configuration settings for sharing the stream session's performance stats
   /// with the client
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of an AWS Identity and Access Management (IAM) role that Amazon
+  /// GameLift Streams assumes on your behalf during the stream session. The
+  /// role grants Amazon GameLift Streams permission to obtain temporary
+  /// credentials for your application. The role's trust policy must allow the
+  /// <code>gameliftstreams.amazonaws.com</code> service principal to assume it.
+  /// The role name must start with <code>GameLiftStreams-</code>.
   ///
   /// Parameter [sessionLengthSeconds] :
   /// The maximum duration of a session. Amazon GameLift Streams will
@@ -990,8 +1470,10 @@ class GameLiftStreams {
     String? clientToken,
     int? connectionTimeoutSeconds,
     String? description,
+    DisplayConfiguration? displayConfiguration,
     List<String>? locations,
     PerformanceStatsConfiguration? performanceStatsConfiguration,
+    String? roleArn,
     int? sessionLengthSeconds,
     String? userId,
   }) async {
@@ -1019,9 +1501,12 @@ class GameLiftStreams {
       if (connectionTimeoutSeconds != null)
         'ConnectionTimeoutSeconds': connectionTimeoutSeconds,
       if (description != null) 'Description': description,
+      if (displayConfiguration != null)
+        'DisplayConfiguration': displayConfiguration,
       if (locations != null) 'Locations': locations,
       if (performanceStatsConfiguration != null)
         'PerformanceStatsConfiguration': performanceStatsConfiguration,
+      if (roleArn != null) 'RoleArn': roleArn,
       if (sessionLengthSeconds != null)
         'SessionLengthSeconds': sessionLengthSeconds,
       if (userId != null) 'UserId': userId,
@@ -1174,7 +1659,12 @@ class GameLiftStreams {
   /// Make sure that your files in the Amazon S3 bucket are the correct version
   /// you want to use. If you change the files at a later time, you will need to
   /// create a new Amazon GameLift Streams application.
-  /// </important>
+  /// </important> <note>
+  /// Creating an application is the only time Amazon GameLift Streams accesses
+  /// your Amazon S3 bucket. After the application reaches <code>READY</code>
+  /// status, you can delete the original files from your Amazon S3 bucket
+  /// without affecting the application.
+  /// </note>
   /// If the request is successful, Amazon GameLift Streams begins to create an
   /// application and sets the status to <code>INITIALIZED</code>. When an
   /// application reaches <code>READY</code> status, you can use the application
@@ -2365,6 +2855,51 @@ class AssociateApplicationsOutput {
 }
 
 /// @nodoc
+class CreateStreamSessionAdminShellOutput {
+  /// An Amazon Web Services Systems Manager session identifier that uniquely
+  /// identifies the requested terminal session. Use this value with the Amazon
+  /// Web Services Systems Manager Session Manager plugin.
+  final String? sessionId;
+
+  /// An Amazon Web Services Systems Manager WebSocket connection endpoint for the
+  /// requested terminal session.
+  final String? streamUrl;
+
+  /// An Amazon Web Services Systems Manager authentication token that
+  /// authenticates your access to the session ID and WebSocket URL. This token
+  /// must be treated with the same level of security as other user credentials.
+  /// The token value is only valid for establishing a new connection within 60
+  /// seconds of generation.
+  final String? tokenValue;
+
+  CreateStreamSessionAdminShellOutput({
+    this.sessionId,
+    this.streamUrl,
+    this.tokenValue,
+  });
+
+  factory CreateStreamSessionAdminShellOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateStreamSessionAdminShellOutput(
+      sessionId: json['SessionId'] as String?,
+      streamUrl: json['StreamUrl'] as String?,
+      tokenValue: json['TokenValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionId = this.sessionId;
+    final streamUrl = this.streamUrl;
+    final tokenValue = this.tokenValue;
+    return {
+      if (sessionId != null) 'SessionId': sessionId,
+      if (streamUrl != null) 'StreamUrl': streamUrl,
+      if (tokenValue != null) 'TokenValue': tokenValue,
+    };
+  }
+}
+
+/// @nodoc
 class CreateStreamSessionConnectionOutput {
   /// The WebRTC answer string that the stream server generates in response to the
   /// <code>SignalRequest</code>.
@@ -2385,6 +2920,255 @@ class CreateStreamSessionConnectionOutput {
     final signalResponse = this.signalResponse;
     return {
       if (signalResponse != null) 'SignalResponse': signalResponse,
+    };
+  }
+}
+
+/// @nodoc
+class CreateStreamUrlOutput {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the stream URL across all
+  /// Amazon Web Services Regions. Format is <code>arn:aws:gameliftstreams:\[AWS
+  /// Region\]:\[AWS account\]:streamurl/\[stream group resource ID\]/\[stream URL
+  /// resource ID\]</code>.
+  final String arn;
+
+  /// The environment variables made available to the application when a stream
+  /// session starts.
+  final Map<String, String>? additionalEnvironmentVariables;
+
+  /// The command-line arguments passed to the application when a stream session
+  /// starts.
+  final List<String>? additionalLaunchArgs;
+
+  /// The application that runs in the stream sessions.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the application resource.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>.
+  final String? applicationArn;
+
+  /// A timestamp that indicates when this resource was created. Timestamps are
+  /// expressed using in ISO8601 format, such as:
+  /// <code>2022-12-27T22:29:40+00:00</code> (UTC).
+  final DateTime? createdAt;
+
+  /// The descriptive label for the stream URL.
+  final String? description;
+
+  /// The display settings, such as resolution, for stream sessions started from
+  /// this stream URL.
+  final DisplayConfiguration? displayConfiguration;
+
+  /// The date and time when the stream URL expires and stops accepting new stream
+  /// sessions. Timestamps are expressed using in ISO8601 format, such as:
+  /// <code>2022-12-27T22:29:40+00:00</code> (UTC).
+  final DateTime? expiresAt;
+
+  /// The list of locations, in order of preference, where Amazon GameLift Streams
+  /// places the stream session. For a complete list of locations that Amazon
+  /// GameLift Streams supports, refer to <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html">Regions,
+  /// quotas, and limitations</a> in the <i>Amazon GameLift Streams Developer
+  /// Guide</i>.
+  final List<String>? locations;
+
+  /// The data transport protocol used for stream sessions started from this
+  /// stream URL.
+  final Protocol? protocol;
+
+  /// The number of times the stream URL can still be used to start a stream
+  /// session.
+  final int? remainingUses;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams
+  /// assumes during stream sessions started from this stream URL. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/session-credentials.html">Provide
+  /// AWS credentials to your streaming application</a> in the <i>Amazon GameLift
+  /// Streams Developer Guide</i>.
+  final String? roleArn;
+
+  /// The maximum length of time, in seconds, that a stream session started from
+  /// this stream URL can run.
+  final int? sessionLengthSeconds;
+
+  /// The current status of the stream URL. Possible statuses include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>: The stream URL is valid and can start stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>EXPIRED</code>: The stream URL has passed its expiration time and can
+  /// no longer start stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>REVOKED</code>: The stream URL was revoked and can no longer start
+  /// stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>LIMIT_REACHED</code>: The stream URL has been used the maximum number
+  /// of times and can no longer start stream sessions.
+  /// </li>
+  /// </ul>
+  final StreamUrlStatus? status;
+
+  /// Additional information about why the stream URL is in its current status.
+  /// Amazon GameLift Streams populates this value when the status is
+  /// <code>REVOKED</code>. Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>userRevoked</code>: You revoked the stream URL.
+  /// </li>
+  /// <li>
+  /// <code>revokedAndTerminatingSessions</code>: You revoked the stream URL and
+  /// Amazon GameLift Streams is ending its running stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>revokedAndSessionsTerminated</code>: You revoked the stream URL and
+  /// its running stream sessions have ended.
+  /// </li>
+  /// <li>
+  /// <code>streamGroupDeleted</code>: The stream group was deleted, which revoked
+  /// the stream URL.
+  /// </li>
+  /// <li>
+  /// <code>applicationDeleted</code>: The application was deleted, which revoked
+  /// the stream URL.
+  /// </li>
+  /// </ul>
+  final StreamUrlStatusReason? statusReason;
+
+  /// The stream group that runs the stream sessions.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the stream group resource.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  final String? streamGroupArn;
+
+  /// The shareable stream URL. Distribute this URL to end users so that they can
+  /// start and play a stream session in a hosted web player. Treat the stream URL
+  /// as a secret. Anyone who has it can start a stream session until the stream
+  /// URL expires, is revoked, or reaches its usage limit.
+  final String? streamUrl;
+
+  /// The unique identifier for the stream URL resource, for example
+  /// <code>su-1AB2C3De4</code>.
+  final String? streamUrlId;
+
+  /// The maximum number of times the stream URL can start a stream session.
+  final int? usageLimit;
+
+  CreateStreamUrlOutput({
+    required this.arn,
+    this.additionalEnvironmentVariables,
+    this.additionalLaunchArgs,
+    this.applicationArn,
+    this.createdAt,
+    this.description,
+    this.displayConfiguration,
+    this.expiresAt,
+    this.locations,
+    this.protocol,
+    this.remainingUses,
+    this.roleArn,
+    this.sessionLengthSeconds,
+    this.status,
+    this.statusReason,
+    this.streamGroupArn,
+    this.streamUrl,
+    this.streamUrlId,
+    this.usageLimit,
+  });
+
+  factory CreateStreamUrlOutput.fromJson(Map<String, dynamic> json) {
+    return CreateStreamUrlOutput(
+      arn: (json['Arn'] as String?) ?? '',
+      additionalEnvironmentVariables:
+          (json['AdditionalEnvironmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      additionalLaunchArgs: (json['AdditionalLaunchArgs'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      applicationArn: json['ApplicationArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayConfiguration: json['DisplayConfiguration'] != null
+          ? DisplayConfiguration.fromJson(
+              json['DisplayConfiguration'] as Map<String, dynamic>)
+          : null,
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+      locations: (json['Locations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
+      remainingUses: json['RemainingUses'] as int?,
+      roleArn: json['RoleArn'] as String?,
+      sessionLengthSeconds: json['SessionLengthSeconds'] as int?,
+      status: (json['Status'] as String?)?.let(StreamUrlStatus.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(StreamUrlStatusReason.fromString),
+      streamGroupArn: json['StreamGroupArn'] as String?,
+      streamUrl: json['StreamUrl'] as String?,
+      streamUrlId: json['StreamUrlId'] as String?,
+      usageLimit: json['UsageLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final additionalEnvironmentVariables = this.additionalEnvironmentVariables;
+    final additionalLaunchArgs = this.additionalLaunchArgs;
+    final applicationArn = this.applicationArn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayConfiguration = this.displayConfiguration;
+    final expiresAt = this.expiresAt;
+    final locations = this.locations;
+    final protocol = this.protocol;
+    final remainingUses = this.remainingUses;
+    final roleArn = this.roleArn;
+    final sessionLengthSeconds = this.sessionLengthSeconds;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final streamGroupArn = this.streamGroupArn;
+    final streamUrl = this.streamUrl;
+    final streamUrlId = this.streamUrlId;
+    final usageLimit = this.usageLimit;
+    return {
+      'Arn': arn,
+      if (additionalEnvironmentVariables != null)
+        'AdditionalEnvironmentVariables': additionalEnvironmentVariables,
+      if (additionalLaunchArgs != null)
+        'AdditionalLaunchArgs': additionalLaunchArgs,
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayConfiguration != null)
+        'DisplayConfiguration': displayConfiguration,
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+      if (locations != null) 'Locations': locations,
+      if (protocol != null) 'Protocol': protocol.value,
+      if (remainingUses != null) 'RemainingUses': remainingUses,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (sessionLengthSeconds != null)
+        'SessionLengthSeconds': sessionLengthSeconds,
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
+      if (streamGroupArn != null) 'StreamGroupArn': streamGroupArn,
+      if (streamUrl != null) 'StreamUrl': streamUrl,
+      if (streamUrlId != null) 'StreamUrlId': streamUrlId,
+      if (usageLimit != null) 'UsageLimit': usageLimit,
     };
   }
 }
@@ -2513,6 +3297,9 @@ class GetStreamSessionOutput {
   /// any time.
   final String? description;
 
+  /// The configuration for the stream session's virtual monitor.
+  final DisplayConfiguration? displayConfiguration;
+
   /// Provides details about the stream session's exported files.
   final ExportFilesMetadata? exportFilesMetadata;
 
@@ -2540,6 +3327,11 @@ class GetStreamSessionOutput {
 
   /// The data transfer protocol in use with the stream session.
   final Protocol? protocol;
+
+  /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon
+  /// GameLift Streams assumes on behalf of your application during the stream
+  /// session.
+  final String? roleArn;
 
   /// The maximum duration of a session. Amazon GameLift Streams will
   /// automatically terminate a session after this amount of time has elapsed,
@@ -2680,12 +3472,14 @@ class GetStreamSessionOutput {
     this.connectionTimeoutSeconds,
     this.createdAt,
     this.description,
+    this.displayConfiguration,
     this.exportFilesMetadata,
     this.lastUpdatedAt,
     this.location,
     this.logFileLocationUri,
     this.performanceStatsConfiguration,
     this.protocol,
+    this.roleArn,
     this.sessionLengthSeconds,
     this.signalRequest,
     this.signalResponse,
@@ -2710,6 +3504,10 @@ class GetStreamSessionOutput {
       connectionTimeoutSeconds: json['ConnectionTimeoutSeconds'] as int?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
+      displayConfiguration: json['DisplayConfiguration'] != null
+          ? DisplayConfiguration.fromJson(
+              json['DisplayConfiguration'] as Map<String, dynamic>)
+          : null,
       exportFilesMetadata: json['ExportFilesMetadata'] != null
           ? ExportFilesMetadata.fromJson(
               json['ExportFilesMetadata'] as Map<String, dynamic>)
@@ -2723,6 +3521,7 @@ class GetStreamSessionOutput {
                   json['PerformanceStatsConfiguration'] as Map<String, dynamic>)
               : null,
       protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
+      roleArn: json['RoleArn'] as String?,
       sessionLengthSeconds: json['SessionLengthSeconds'] as int?,
       signalRequest: json['SignalRequest'] as String?,
       signalResponse: json['SignalResponse'] as String?,
@@ -2743,12 +3542,14 @@ class GetStreamSessionOutput {
     final connectionTimeoutSeconds = this.connectionTimeoutSeconds;
     final createdAt = this.createdAt;
     final description = this.description;
+    final displayConfiguration = this.displayConfiguration;
     final exportFilesMetadata = this.exportFilesMetadata;
     final lastUpdatedAt = this.lastUpdatedAt;
     final location = this.location;
     final logFileLocationUri = this.logFileLocationUri;
     final performanceStatsConfiguration = this.performanceStatsConfiguration;
     final protocol = this.protocol;
+    final roleArn = this.roleArn;
     final sessionLengthSeconds = this.sessionLengthSeconds;
     final signalRequest = this.signalRequest;
     final signalResponse = this.signalResponse;
@@ -2768,6 +3569,8 @@ class GetStreamSessionOutput {
         'ConnectionTimeoutSeconds': connectionTimeoutSeconds,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
+      if (displayConfiguration != null)
+        'DisplayConfiguration': displayConfiguration,
       if (exportFilesMetadata != null)
         'ExportFilesMetadata': exportFilesMetadata,
       if (lastUpdatedAt != null)
@@ -2777,6 +3580,7 @@ class GetStreamSessionOutput {
       if (performanceStatsConfiguration != null)
         'PerformanceStatsConfiguration': performanceStatsConfiguration,
       if (protocol != null) 'Protocol': protocol.value,
+      if (roleArn != null) 'RoleArn': roleArn,
       if (sessionLengthSeconds != null)
         'SessionLengthSeconds': sessionLengthSeconds,
       if (signalRequest != null) 'SignalRequest': signalRequest,
@@ -2786,6 +3590,295 @@ class GetStreamSessionOutput {
       if (streamGroupId != null) 'StreamGroupId': streamGroupId,
       if (userId != null) 'UserId': userId,
       if (webSdkProtocolUrl != null) 'WebSdkProtocolUrl': webSdkProtocolUrl,
+    };
+  }
+}
+
+/// @nodoc
+class GetStreamUrlOutput {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the stream URL across all
+  /// Amazon Web Services Regions. Format is <code>arn:aws:gameliftstreams:\[AWS
+  /// Region\]:\[AWS account\]:streamurl/\[stream group resource ID\]/\[stream URL
+  /// resource ID\]</code>.
+  final String arn;
+
+  /// The environment variables made available to the application when a stream
+  /// session starts.
+  final Map<String, String>? additionalEnvironmentVariables;
+
+  /// The command-line arguments passed to the application when a stream session
+  /// starts.
+  final List<String>? additionalLaunchArgs;
+
+  /// The application that runs in the stream sessions.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the application resource.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>.
+  final String? applicationArn;
+
+  /// A timestamp that indicates when this resource was created. Timestamps are
+  /// expressed using in ISO8601 format, such as:
+  /// <code>2022-12-27T22:29:40+00:00</code> (UTC).
+  final DateTime? createdAt;
+
+  /// The descriptive label for the stream URL.
+  final String? description;
+
+  /// The display settings, such as resolution, for stream sessions started from
+  /// this stream URL.
+  final DisplayConfiguration? displayConfiguration;
+
+  /// The date and time when the stream URL expires and stops accepting new stream
+  /// sessions. Timestamps are expressed using in ISO8601 format, such as:
+  /// <code>2022-12-27T22:29:40+00:00</code> (UTC).
+  final DateTime? expiresAt;
+
+  /// The list of locations, in order of preference, where Amazon GameLift Streams
+  /// places the stream session. For a complete list of locations that Amazon
+  /// GameLift Streams supports, refer to <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html">Regions,
+  /// quotas, and limitations</a> in the <i>Amazon GameLift Streams Developer
+  /// Guide</i>.
+  final List<String>? locations;
+
+  /// The data transport protocol used for stream sessions started from this
+  /// stream URL.
+  final Protocol? protocol;
+
+  /// The number of times the stream URL can still be used to start a stream
+  /// session.
+  final int? remainingUses;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams
+  /// assumes during stream sessions started from this stream URL. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/session-credentials.html">Provide
+  /// AWS credentials to your streaming application</a> in the <i>Amazon GameLift
+  /// Streams Developer Guide</i>.
+  final String? roleArn;
+
+  /// The maximum length of time, in seconds, that a stream session started from
+  /// this stream URL can run.
+  final int? sessionLengthSeconds;
+
+  /// The current status of the stream URL. Possible statuses include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>: The stream URL is valid and can start stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>EXPIRED</code>: The stream URL has passed its expiration time and can
+  /// no longer start stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>REVOKED</code>: The stream URL was revoked and can no longer start
+  /// stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>LIMIT_REACHED</code>: The stream URL has been used the maximum number
+  /// of times and can no longer start stream sessions.
+  /// </li>
+  /// </ul>
+  final StreamUrlStatus? status;
+
+  /// Additional information about why the stream URL is in its current status.
+  /// Amazon GameLift Streams populates this value when the status is
+  /// <code>REVOKED</code>. Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>userRevoked</code>: You revoked the stream URL.
+  /// </li>
+  /// <li>
+  /// <code>revokedAndTerminatingSessions</code>: You revoked the stream URL and
+  /// Amazon GameLift Streams is ending its running stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>revokedAndSessionsTerminated</code>: You revoked the stream URL and
+  /// its running stream sessions have ended.
+  /// </li>
+  /// <li>
+  /// <code>streamGroupDeleted</code>: The stream group was deleted, which revoked
+  /// the stream URL.
+  /// </li>
+  /// <li>
+  /// <code>applicationDeleted</code>: The application was deleted, which revoked
+  /// the stream URL.
+  /// </li>
+  /// </ul>
+  final StreamUrlStatusReason? statusReason;
+
+  /// The stream group that runs the stream sessions.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the stream group resource.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  final String? streamGroupArn;
+
+  /// A list of the stream sessions that have been started through this stream
+  /// URL.
+  final List<StreamSessionSummary>? streamSessions;
+
+  /// The shareable stream URL. Distribute this URL to end users so that they can
+  /// start and play a stream session in a hosted web player. Treat the stream URL
+  /// as a secret. Anyone who has it can start a stream session until the stream
+  /// URL expires, is revoked, or reaches its usage limit.
+  final String? streamUrl;
+
+  /// The unique identifier for the stream URL resource, for example
+  /// <code>su-1AB2C3De4</code>.
+  final String? streamUrlId;
+
+  /// The maximum number of times the stream URL can start a stream session.
+  final int? usageLimit;
+
+  GetStreamUrlOutput({
+    required this.arn,
+    this.additionalEnvironmentVariables,
+    this.additionalLaunchArgs,
+    this.applicationArn,
+    this.createdAt,
+    this.description,
+    this.displayConfiguration,
+    this.expiresAt,
+    this.locations,
+    this.protocol,
+    this.remainingUses,
+    this.roleArn,
+    this.sessionLengthSeconds,
+    this.status,
+    this.statusReason,
+    this.streamGroupArn,
+    this.streamSessions,
+    this.streamUrl,
+    this.streamUrlId,
+    this.usageLimit,
+  });
+
+  factory GetStreamUrlOutput.fromJson(Map<String, dynamic> json) {
+    return GetStreamUrlOutput(
+      arn: (json['Arn'] as String?) ?? '',
+      additionalEnvironmentVariables:
+          (json['AdditionalEnvironmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      additionalLaunchArgs: (json['AdditionalLaunchArgs'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      applicationArn: json['ApplicationArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      displayConfiguration: json['DisplayConfiguration'] != null
+          ? DisplayConfiguration.fromJson(
+              json['DisplayConfiguration'] as Map<String, dynamic>)
+          : null,
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+      locations: (json['Locations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
+      remainingUses: json['RemainingUses'] as int?,
+      roleArn: json['RoleArn'] as String?,
+      sessionLengthSeconds: json['SessionLengthSeconds'] as int?,
+      status: (json['Status'] as String?)?.let(StreamUrlStatus.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(StreamUrlStatusReason.fromString),
+      streamGroupArn: json['StreamGroupArn'] as String?,
+      streamSessions: (json['StreamSessions'] as List?)
+          ?.nonNulls
+          .map((e) => StreamSessionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      streamUrl: json['StreamUrl'] as String?,
+      streamUrlId: json['StreamUrlId'] as String?,
+      usageLimit: json['UsageLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final additionalEnvironmentVariables = this.additionalEnvironmentVariables;
+    final additionalLaunchArgs = this.additionalLaunchArgs;
+    final applicationArn = this.applicationArn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final displayConfiguration = this.displayConfiguration;
+    final expiresAt = this.expiresAt;
+    final locations = this.locations;
+    final protocol = this.protocol;
+    final remainingUses = this.remainingUses;
+    final roleArn = this.roleArn;
+    final sessionLengthSeconds = this.sessionLengthSeconds;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final streamGroupArn = this.streamGroupArn;
+    final streamSessions = this.streamSessions;
+    final streamUrl = this.streamUrl;
+    final streamUrlId = this.streamUrlId;
+    final usageLimit = this.usageLimit;
+    return {
+      'Arn': arn,
+      if (additionalEnvironmentVariables != null)
+        'AdditionalEnvironmentVariables': additionalEnvironmentVariables,
+      if (additionalLaunchArgs != null)
+        'AdditionalLaunchArgs': additionalLaunchArgs,
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (displayConfiguration != null)
+        'DisplayConfiguration': displayConfiguration,
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+      if (locations != null) 'Locations': locations,
+      if (protocol != null) 'Protocol': protocol.value,
+      if (remainingUses != null) 'RemainingUses': remainingUses,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (sessionLengthSeconds != null)
+        'SessionLengthSeconds': sessionLengthSeconds,
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
+      if (streamGroupArn != null) 'StreamGroupArn': streamGroupArn,
+      if (streamSessions != null) 'StreamSessions': streamSessions,
+      if (streamUrl != null) 'StreamUrl': streamUrl,
+      if (streamUrlId != null) 'StreamUrlId': streamUrlId,
+      if (usageLimit != null) 'UsageLimit': usageLimit,
+    };
+  }
+}
+
+/// @nodoc
+class ListApplicationShaderCachesOutput {
+  /// A collection of shader cache metadata for the specified Amazon GameLift
+  /// Streams application. Each item includes the shader cache status, associated
+  /// stream groups, and storage size.
+  final List<ShaderCacheSummary>? items;
+
+  ListApplicationShaderCachesOutput({
+    this.items,
+  });
+
+  factory ListApplicationShaderCachesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListApplicationShaderCachesOutput(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => ShaderCacheSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    return {
+      if (items != null) 'Items': items,
     };
   }
 }
@@ -2848,6 +3941,41 @@ class ListStreamSessionsByAccountOutput {
       items: (json['Items'] as List?)
           ?.nonNulls
           .map((e) => StreamSessionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListStreamUrlsOutput {
+  /// A collection of stream URL summaries. Each summary includes the identity,
+  /// status, and usage of the stream URL, but not its full configuration.
+  final List<StreamUrlSummary>? items;
+
+  /// A token that marks the start of the next sequential page of results. If an
+  /// operation doesn't return a token, you've reached the end of the list.
+  final String? nextToken;
+
+  ListStreamUrlsOutput({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListStreamUrlsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStreamUrlsOutput(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => StreamUrlSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -2955,6 +4083,9 @@ class StartStreamSessionOutput {
   /// any time.
   final String? description;
 
+  /// The configuration for the stream session's virtual monitor.
+  final DisplayConfiguration? displayConfiguration;
+
   /// Provides details about the stream session's exported files.
   final ExportFilesMetadata? exportFilesMetadata;
 
@@ -2982,6 +4113,11 @@ class StartStreamSessionOutput {
 
   /// The data transfer protocol in use with the stream session.
   final Protocol? protocol;
+
+  /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon
+  /// GameLift Streams assumes on behalf of your application during the stream
+  /// session.
+  final String? roleArn;
 
   /// The maximum duration of a session. Amazon GameLift Streams will
   /// automatically terminate a session after this amount of time has elapsed,
@@ -3122,12 +4258,14 @@ class StartStreamSessionOutput {
     this.connectionTimeoutSeconds,
     this.createdAt,
     this.description,
+    this.displayConfiguration,
     this.exportFilesMetadata,
     this.lastUpdatedAt,
     this.location,
     this.logFileLocationUri,
     this.performanceStatsConfiguration,
     this.protocol,
+    this.roleArn,
     this.sessionLengthSeconds,
     this.signalRequest,
     this.signalResponse,
@@ -3152,6 +4290,10 @@ class StartStreamSessionOutput {
       connectionTimeoutSeconds: json['ConnectionTimeoutSeconds'] as int?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
+      displayConfiguration: json['DisplayConfiguration'] != null
+          ? DisplayConfiguration.fromJson(
+              json['DisplayConfiguration'] as Map<String, dynamic>)
+          : null,
       exportFilesMetadata: json['ExportFilesMetadata'] != null
           ? ExportFilesMetadata.fromJson(
               json['ExportFilesMetadata'] as Map<String, dynamic>)
@@ -3165,6 +4307,7 @@ class StartStreamSessionOutput {
                   json['PerformanceStatsConfiguration'] as Map<String, dynamic>)
               : null,
       protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
+      roleArn: json['RoleArn'] as String?,
       sessionLengthSeconds: json['SessionLengthSeconds'] as int?,
       signalRequest: json['SignalRequest'] as String?,
       signalResponse: json['SignalResponse'] as String?,
@@ -3185,12 +4328,14 @@ class StartStreamSessionOutput {
     final connectionTimeoutSeconds = this.connectionTimeoutSeconds;
     final createdAt = this.createdAt;
     final description = this.description;
+    final displayConfiguration = this.displayConfiguration;
     final exportFilesMetadata = this.exportFilesMetadata;
     final lastUpdatedAt = this.lastUpdatedAt;
     final location = this.location;
     final logFileLocationUri = this.logFileLocationUri;
     final performanceStatsConfiguration = this.performanceStatsConfiguration;
     final protocol = this.protocol;
+    final roleArn = this.roleArn;
     final sessionLengthSeconds = this.sessionLengthSeconds;
     final signalRequest = this.signalRequest;
     final signalResponse = this.signalResponse;
@@ -3210,6 +4355,8 @@ class StartStreamSessionOutput {
         'ConnectionTimeoutSeconds': connectionTimeoutSeconds,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
+      if (displayConfiguration != null)
+        'DisplayConfiguration': displayConfiguration,
       if (exportFilesMetadata != null)
         'ExportFilesMetadata': exportFilesMetadata,
       if (lastUpdatedAt != null)
@@ -3219,6 +4366,7 @@ class StartStreamSessionOutput {
       if (performanceStatsConfiguration != null)
         'PerformanceStatsConfiguration': performanceStatsConfiguration,
       if (protocol != null) 'Protocol': protocol.value,
+      if (roleArn != null) 'RoleArn': roleArn,
       if (sessionLengthSeconds != null)
         'SessionLengthSeconds': sessionLengthSeconds,
       if (signalRequest != null) 'SignalRequest': signalRequest,
@@ -7006,6 +8154,8 @@ class StreamSessionStatusReason {
       StreamSessionStatusReason._('placementTimeout');
   static const applicationLogS3DestinationError =
       StreamSessionStatusReason._('applicationLogS3DestinationError');
+  static const assumeRoleFailed =
+      StreamSessionStatusReason._('assumeRoleFailed');
   static const applicationExit = StreamSessionStatusReason._('applicationExit');
   static const connectionTimeout =
       StreamSessionStatusReason._('connectionTimeout');
@@ -7025,6 +8175,7 @@ class StreamSessionStatusReason {
     invalidSignalRequest,
     placementTimeout,
     applicationLogS3DestinationError,
+    assumeRoleFailed,
     applicationExit,
     connectionTimeout,
     reconnectionTimeout,
@@ -7154,6 +8305,73 @@ class ExportFilesMetadata {
   }
 }
 
+/// The virtual monitor settings for a stream session, including the resolution.
+/// If not specified, the stream session uses the default resolution of 1920 ×
+/// 1080.
+///
+/// @nodoc
+class DisplayConfiguration {
+  /// The resolution to apply to the stream session's virtual monitor. When
+  /// specified, this value overrides the default resolution of 1920 × 1080.
+  final Resolution? resolution;
+
+  DisplayConfiguration({
+    this.resolution,
+  });
+
+  factory DisplayConfiguration.fromJson(Map<String, dynamic> json) {
+    return DisplayConfiguration(
+      resolution: json['Resolution'] != null
+          ? Resolution.fromJson(json['Resolution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolution = this.resolution;
+    return {
+      if (resolution != null) 'Resolution': resolution,
+    };
+  }
+}
+
+/// Contains the width and height dimensions, in pixels, that define the
+/// resolution of the stream session's virtual monitor. The total number of
+/// pixels (width × height) must not exceed 2,073,600 (equivalent to 1920 ×
+/// 1080).
+///
+/// @nodoc
+class Resolution {
+  /// The height of the stream session's virtual monitor, in pixels. The value
+  /// must be an even number.
+  final int height;
+
+  /// The width of the stream session's virtual monitor, in pixels. The value must
+  /// be an even number.
+  final int width;
+
+  Resolution({
+    required this.height,
+    required this.width,
+  });
+
+  factory Resolution.fromJson(Map<String, dynamic> json) {
+    return Resolution(
+      height: (json['Height'] as int?) ?? 0,
+      width: (json['Width'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      'Height': height,
+      'Width': width,
+    };
+  }
+}
+
 /// @nodoc
 class ExportFilesStatus {
   static const succeeded = ExportFilesStatus._('SUCCEEDED');
@@ -7172,6 +8390,282 @@ class ExportFilesStatus {
 
   @override
   bool operator ==(other) => other is ExportFilesStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class RevocationMode {
+  static const revokeUrl = RevocationMode._('REVOKE_URL');
+  static const revokeAndTerminateSessions =
+      RevocationMode._('REVOKE_AND_TERMINATE_SESSIONS');
+
+  final String value;
+
+  const RevocationMode._(this.value);
+
+  static const values = [revokeUrl, revokeAndTerminateSessions];
+
+  static RevocationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RevocationMode._(value));
+
+  @override
+  bool operator ==(other) => other is RevocationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a stream URL. This is a summary view that omits the full
+/// configuration, such as launch arguments and display settings. To retrieve
+/// the complete configuration, call <a
+/// href="https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamUrl.html">GetStreamUrl</a>.
+///
+/// @nodoc
+class StreamUrlSummary {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the stream URL across all
+  /// Amazon Web Services Regions. Format is <code>arn:aws:gameliftstreams:\[AWS
+  /// Region\]:\[AWS account\]:streamurl/\[stream group resource ID\]/\[stream URL
+  /// resource ID\]</code>.
+  final String arn;
+
+  /// The application that runs in the stream sessions.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the application resource.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>.
+  final String? applicationArn;
+
+  /// A timestamp that indicates when this resource was created. Timestamps are
+  /// expressed using in ISO8601 format, such as:
+  /// <code>2022-12-27T22:29:40+00:00</code> (UTC).
+  final DateTime? createdAt;
+
+  /// The descriptive label for the stream URL.
+  final String? description;
+
+  /// The date and time when the stream URL expires and stops accepting new stream
+  /// sessions. Timestamps are expressed using in ISO8601 format, such as:
+  /// <code>2022-12-27T22:29:40+00:00</code> (UTC).
+  final DateTime? expiresAt;
+
+  /// The number of times the stream URL can still be used to start a stream
+  /// session.
+  final int? remainingUses;
+
+  /// The maximum length of time, in seconds, that a stream session started from
+  /// this stream URL can run.
+  final int? sessionLengthSeconds;
+
+  /// The current status of the stream URL. Possible statuses include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>: The stream URL is valid and can start stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>EXPIRED</code>: The stream URL has passed its expiration time and can
+  /// no longer start stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>REVOKED</code>: The stream URL was revoked and can no longer start
+  /// stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>LIMIT_REACHED</code>: The stream URL has been used the maximum number
+  /// of times and can no longer start stream sessions.
+  /// </li>
+  /// </ul>
+  final StreamUrlStatus? status;
+
+  /// Additional information about why the stream URL is in its current status.
+  /// Amazon GameLift Streams populates this value when the status is
+  /// <code>REVOKED</code>. Possible values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>userRevoked</code>: You revoked the stream URL.
+  /// </li>
+  /// <li>
+  /// <code>revokedAndTerminatingSessions</code>: You revoked the stream URL and
+  /// Amazon GameLift Streams is ending its running stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>revokedAndSessionsTerminated</code>: You revoked the stream URL and
+  /// its running stream sessions have ended.
+  /// </li>
+  /// <li>
+  /// <code>streamGroupDeleted</code>: The stream group was deleted, which revoked
+  /// the stream URL.
+  /// </li>
+  /// <li>
+  /// <code>applicationDeleted</code>: The application was deleted, which revoked
+  /// the stream URL.
+  /// </li>
+  /// </ul>
+  final StreamUrlStatusReason? statusReason;
+
+  /// The stream group that runs the stream sessions.
+  ///
+  /// This value is an <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the stream group resource.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  final String? streamGroupArn;
+
+  /// The shareable stream URL. Distribute this URL to end users so that they can
+  /// start and play a stream session in a hosted web player. Treat the stream URL
+  /// as a secret. Anyone who has it can start a stream session until the stream
+  /// URL expires, is revoked, or reaches its usage limit.
+  final String? streamUrl;
+
+  /// The unique identifier for the stream URL resource, for example
+  /// <code>su-1AB2C3De4</code>.
+  final String? streamUrlId;
+
+  /// The maximum number of times the stream URL can start a stream session.
+  final int? usageLimit;
+
+  StreamUrlSummary({
+    required this.arn,
+    this.applicationArn,
+    this.createdAt,
+    this.description,
+    this.expiresAt,
+    this.remainingUses,
+    this.sessionLengthSeconds,
+    this.status,
+    this.statusReason,
+    this.streamGroupArn,
+    this.streamUrl,
+    this.streamUrlId,
+    this.usageLimit,
+  });
+
+  factory StreamUrlSummary.fromJson(Map<String, dynamic> json) {
+    return StreamUrlSummary(
+      arn: (json['Arn'] as String?) ?? '',
+      applicationArn: json['ApplicationArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+      remainingUses: json['RemainingUses'] as int?,
+      sessionLengthSeconds: json['SessionLengthSeconds'] as int?,
+      status: (json['Status'] as String?)?.let(StreamUrlStatus.fromString),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(StreamUrlStatusReason.fromString),
+      streamGroupArn: json['StreamGroupArn'] as String?,
+      streamUrl: json['StreamUrl'] as String?,
+      streamUrlId: json['StreamUrlId'] as String?,
+      usageLimit: json['UsageLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final applicationArn = this.applicationArn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final expiresAt = this.expiresAt;
+    final remainingUses = this.remainingUses;
+    final sessionLengthSeconds = this.sessionLengthSeconds;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final streamGroupArn = this.streamGroupArn;
+    final streamUrl = this.streamUrl;
+    final streamUrlId = this.streamUrlId;
+    final usageLimit = this.usageLimit;
+    return {
+      'Arn': arn,
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+      if (remainingUses != null) 'RemainingUses': remainingUses,
+      if (sessionLengthSeconds != null)
+        'SessionLengthSeconds': sessionLengthSeconds,
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
+      if (streamGroupArn != null) 'StreamGroupArn': streamGroupArn,
+      if (streamUrl != null) 'StreamUrl': streamUrl,
+      if (streamUrlId != null) 'StreamUrlId': streamUrlId,
+      if (usageLimit != null) 'UsageLimit': usageLimit,
+    };
+  }
+}
+
+/// @nodoc
+class StreamUrlStatus {
+  static const active = StreamUrlStatus._('ACTIVE');
+  static const expired = StreamUrlStatus._('EXPIRED');
+  static const revoked = StreamUrlStatus._('REVOKED');
+  static const limitReached = StreamUrlStatus._('LIMIT_REACHED');
+
+  final String value;
+
+  const StreamUrlStatus._(this.value);
+
+  static const values = [active, expired, revoked, limitReached];
+
+  static StreamUrlStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamUrlStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StreamUrlStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class StreamUrlStatusReason {
+  static const userRevoked = StreamUrlStatusReason._('userRevoked');
+  static const revokedAndTerminatingSessions =
+      StreamUrlStatusReason._('revokedAndTerminatingSessions');
+  static const revokedAndSessionsTerminated =
+      StreamUrlStatusReason._('revokedAndSessionsTerminated');
+  static const streamGroupDeleted =
+      StreamUrlStatusReason._('streamGroupDeleted');
+  static const applicationDeleted =
+      StreamUrlStatusReason._('applicationDeleted');
+
+  final String value;
+
+  const StreamUrlStatusReason._(this.value);
+
+  static const values = [
+    userRevoked,
+    revokedAndTerminatingSessions,
+    revokedAndSessionsTerminated,
+    streamGroupDeleted,
+    applicationDeleted
+  ];
+
+  static StreamUrlStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StreamUrlStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StreamUrlStatusReason && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7223,6 +8717,11 @@ class StreamSessionSummary {
 
   /// The data transfer protocol in use with the stream session.
   final Protocol? protocol;
+
+  /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon
+  /// GameLift Streams assumes on behalf of your application during the stream
+  /// session.
+  final String? roleArn;
 
   /// The current status of the stream session resource.
   ///
@@ -7341,6 +8840,7 @@ class StreamSessionSummary {
     this.lastUpdatedAt,
     this.location,
     this.protocol,
+    this.roleArn,
     this.status,
     this.statusReason,
     this.userId,
@@ -7358,6 +8858,7 @@ class StreamSessionSummary {
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       location: json['Location'] as String?,
       protocol: (json['Protocol'] as String?)?.let(Protocol.fromString),
+      roleArn: json['RoleArn'] as String?,
       status: (json['Status'] as String?)?.let(StreamSessionStatus.fromString),
       statusReason: (json['StatusReason'] as String?)
           ?.let(StreamSessionStatusReason.fromString),
@@ -7373,6 +8874,7 @@ class StreamSessionSummary {
     final lastUpdatedAt = this.lastUpdatedAt;
     final location = this.location;
     final protocol = this.protocol;
+    final roleArn = this.roleArn;
     final status = this.status;
     final statusReason = this.statusReason;
     final userId = this.userId;
@@ -7386,11 +8888,147 @@ class StreamSessionSummary {
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (location != null) 'Location': location,
       if (protocol != null) 'Protocol': protocol.value,
+      if (roleArn != null) 'RoleArn': roleArn,
       if (status != null) 'Status': status.value,
       if (statusReason != null) 'StatusReason': statusReason.value,
       if (userId != null) 'UserId': userId,
     };
   }
+}
+
+/// Describes a shader cache associated with an Amazon GameLift Streams
+/// application.
+///
+/// @nodoc
+class ShaderCacheSummary {
+  /// An <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Name (ARN)</a> that uniquely identifies the application resource.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6</code>.
+  final String applicationArn;
+
+  /// A unique identifier for the shader cache, formatted as a 32-character
+  /// hexadecimal string. Format is <code>1271e693c50b940e228582f1ccdd4e27</code>.
+  final String identifier;
+
+  /// The stream groups compatible with this shader cache. Compatibility is based
+  /// on GPU type and GPU driver version. For more information on shader cache
+  /// compatibility, see <a
+  /// href="https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/shader-caches.html">Shader
+  /// caches</a> in the <i>Amazon GameLift Streams Developer Guide</i>.
+  ///
+  /// This value is a set of <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">Amazon
+  /// Resource Names (ARNs)</a> that uniquely identify stream group resources.
+  /// Example ARN:
+  /// <code>arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4</code>.
+  final List<String>? associatedStreamGroups;
+
+  /// A timestamp that indicates when this resource was last updated. Timestamps
+  /// are expressed using in ISO8601 format, such as:
+  /// <code>2022-12-27T22:29:40+00:00</code> (UTC).
+  final DateTime? lastUpdatedAt;
+
+  /// The current status of the shader cache. Possible statuses include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INITIALIZED</code>: Amazon GameLift Streams received the request and
+  /// is preparing the shader cache.
+  /// </li>
+  /// <li>
+  /// <code>PROCESSING</code>: Amazon GameLift Streams is replicating the shader
+  /// cache to the streaming locations in the associated stream groups.
+  /// </li>
+  /// <li>
+  /// <code>READY</code>: The shader cache is replicated and available for use in
+  /// stream sessions.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code>: Amazon GameLift Streams is deleting the shader cache.
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code>: An error occurred during shader cache processing. Create
+  /// a new shader cache to try again.
+  /// </li>
+  /// </ul>
+  final ShaderCacheStatus? status;
+
+  /// The total storage used by all compiled shader files in this shader cache, in
+  /// bytes.
+  final int? storageBytes;
+
+  ShaderCacheSummary({
+    required this.applicationArn,
+    required this.identifier,
+    this.associatedStreamGroups,
+    this.lastUpdatedAt,
+    this.status,
+    this.storageBytes,
+  });
+
+  factory ShaderCacheSummary.fromJson(Map<String, dynamic> json) {
+    return ShaderCacheSummary(
+      applicationArn: (json['ApplicationArn'] as String?) ?? '',
+      identifier: (json['Identifier'] as String?) ?? '',
+      associatedStreamGroups: (json['AssociatedStreamGroups'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      status: (json['Status'] as String?)?.let(ShaderCacheStatus.fromString),
+      storageBytes: json['StorageBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final identifier = this.identifier;
+    final associatedStreamGroups = this.associatedStreamGroups;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    final storageBytes = this.storageBytes;
+    return {
+      'ApplicationArn': applicationArn,
+      'Identifier': identifier,
+      if (associatedStreamGroups != null)
+        'AssociatedStreamGroups': associatedStreamGroups,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'Status': status.value,
+      if (storageBytes != null) 'StorageBytes': storageBytes,
+    };
+  }
+}
+
+/// @nodoc
+class ShaderCacheStatus {
+  static const initialized = ShaderCacheStatus._('INITIALIZED');
+  static const processing = ShaderCacheStatus._('PROCESSING');
+  static const ready = ShaderCacheStatus._('READY');
+  static const deleting = ShaderCacheStatus._('DELETING');
+  static const error = ShaderCacheStatus._('ERROR');
+
+  final String value;
+
+  const ShaderCacheStatus._(this.value);
+
+  static const values = [initialized, processing, ready, deleting, error];
+
+  static ShaderCacheStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShaderCacheStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ShaderCacheStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -7427,6 +9065,15 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class StreamSessionAccessNotReadyException extends _s.GenericAwsException {
+  StreamSessionAccessNotReadyException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'StreamSessionAccessNotReadyException',
+            message: message);
+}
+
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -7449,6 +9096,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'StreamSessionAccessNotReadyException': (type, message) =>
+      StreamSessionAccessNotReadyException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>

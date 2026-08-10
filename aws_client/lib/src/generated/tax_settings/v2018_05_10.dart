@@ -216,8 +216,8 @@ class TaxSettings {
   /// <code>07</code>, or <code>08</code>.
   /// </li>
   /// <li>
-  /// If <code>ppnExceptionDesignationCode</code> is <code>07</code>, you must
-  /// specify the <code>decisionNumber</code> in the
+  /// If <code>ppnExceptionDesignationCode</code> is <code>07</code> or
+  /// <code>08</code>, you must specify the <code>decisionNumber</code> in the
   /// <code>indonesiaAdditionalInfo</code> field of the
   /// <code>additionalTaxInformation</code> object.
   /// </li>
@@ -293,6 +293,18 @@ class TaxSettings {
   /// IT service - 9907101676
   ///
   /// Digital services and electronic medium - 9907121690
+  /// </li>
+  /// </ul>
+  /// <b>Mexico</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You must provide a Constancia de Situación fiscal (CSF) document in the
+  /// <b>verificationDetails</b> field.
+  /// </li>
+  /// <li>
+  /// You do not need to provide address and legal name. These will be populated
+  /// based on your tax registration number.
   /// </li>
   /// </ul>
   /// <b>Nepal</b>
@@ -391,6 +403,55 @@ class TaxSettings {
   /// <li>
   /// The sector valid values are <code>Business</code> and
   /// <code>Individual</code>.
+  /// </li>
+  /// </ul>
+  /// <b>Philippines</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>isVatRegistered</code> in the
+  /// <code>philippinesAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object to indicate your VAT
+  /// registration status with the Bureau of Internal Revenue (BIR).
+  /// </li>
+  /// </ul>
+  /// <b>Belgium</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>peppolId</code> in the
+  /// <code>belgiumAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object.
+  /// </li>
+  /// </ul>
+  /// <b>Chile</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>documentType</code> and
+  /// <code>businessActivity</code> in the <code>chileAdditionalInfo</code>
+  /// field of the <code>additionalTaxInformation</code> object.
+  /// </li>
+  /// </ul>
+  /// <b>France</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You must specify the <code>sirenNumber</code> in the
+  /// <code>franceAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object.
+  /// </li>
+  /// </ul>
+  /// <b>Poland</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>taxRegistrationNumberType</code> in
+  /// the <code>polandAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object. Valid values are
+  /// <code>EUTaxRegistrationNumber</code>,
+  /// <code>LocalTaxRegistrationNumber</code>, or
+  /// <code>LocalRegistrationNumber</code>.
   /// </li>
   /// </ul>
   ///
@@ -831,8 +892,8 @@ class TaxSettings {
   /// <code>07</code>, or <code>08</code>.
   /// </li>
   /// <li>
-  /// If <code>ppnExceptionDesignationCode</code> is <code>07</code>, you must
-  /// specify the <code>decisionNumber</code> in the
+  /// If <code>ppnExceptionDesignationCode</code> is <code>07</code> or
+  /// <code>08</code>, you must specify the <code>decisionNumber</code> in the
   /// <code>indonesiaAdditionalInfo</code> field of the
   /// <code>additionalTaxInformation</code> object.
   /// </li>
@@ -908,6 +969,18 @@ class TaxSettings {
   /// IT service - 9907101676
   ///
   /// Digital services and electronic medium - 9907121690
+  /// </li>
+  /// </ul>
+  /// <b>Mexico</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You must provide a Constancia de Situación fiscal (CSF) document in the
+  /// <b>verificationDetails</b> field.
+  /// </li>
+  /// <li>
+  /// You do not need to provide address and legal name. These will be populated
+  /// based on your tax registration number.
   /// </li>
   /// </ul>
   /// <b>Nepal</b>
@@ -1006,6 +1079,55 @@ class TaxSettings {
   /// <li>
   /// The sector valid values are <code>Business</code> and
   /// <code>Individual</code>.
+  /// </li>
+  /// </ul>
+  /// <b>Philippines</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>isVatRegistered</code> in the
+  /// <code>philippinesAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object to indicate your VAT
+  /// registration status with the Bureau of Internal Revenue (BIR).
+  /// </li>
+  /// </ul>
+  /// <b>Belgium</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>peppolId</code> in the
+  /// <code>belgiumAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object.
+  /// </li>
+  /// </ul>
+  /// <b>Chile</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>documentType</code> and
+  /// <code>businessActivity</code> in the <code>chileAdditionalInfo</code>
+  /// field of the <code>additionalTaxInformation</code> object.
+  /// </li>
+  /// </ul>
+  /// <b>France</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You must specify the <code>sirenNumber</code> in the
+  /// <code>franceAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object.
+  /// </li>
+  /// </ul>
+  /// <b>Poland</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can optionally specify the <code>taxRegistrationNumberType</code> in
+  /// the <code>polandAdditionalInfo</code> field of the
+  /// <code>additionalTaxInformation</code> object. Valid values are
+  /// <code>EUTaxRegistrationNumber</code>,
+  /// <code>LocalTaxRegistrationNumber</code>, or
+  /// <code>LocalRegistrationNumber</code>.
   /// </li>
   /// </ul>
   ///
@@ -1602,12 +1724,14 @@ class TaxRegistrationType {
   static const sst = TaxRegistrationType._('SST');
   static const tin = TaxRegistrationType._('TIN');
   static const nric = TaxRegistrationType._('NRIC');
+  static const pan = TaxRegistrationType._('PAN');
+  static const nip = TaxRegistrationType._('NIP');
 
   final String value;
 
   const TaxRegistrationType._(this.value);
 
-  static const values = [vat, gst, cpf, cnpj, sst, tin, nric];
+  static const values = [vat, gst, cpf, cnpj, sst, tin, nric, pan, nip];
 
   static TaxRegistrationType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -1628,17 +1752,14 @@ class TaxRegistrationType {
 ///
 /// @nodoc
 class Address {
-  /// The first line of the address.
-  final String addressLine1;
-
-  /// The city that the address is in.
-  final String city;
-
   /// The country code for the country that the address is in.
   final String countryCode;
 
   /// The postal code associated with the address.
   final String postalCode;
+
+  /// The first line of the address.
+  final String? addressLine1;
 
   /// The second line of the address, if applicable.
   final String? addressLine2;
@@ -1649,6 +1770,9 @@ class Address {
   /// <code>addressLine3</code> and specify the building number for the address.
   /// For example, you might enter <code>1234</code>.
   final String? addressLine3;
+
+  /// The city that the address is in.
+  final String? city;
 
   /// The district or county the address is located.
   /// <note>
@@ -1667,45 +1791,45 @@ class Address {
   final String? stateOrRegion;
 
   Address({
-    required this.addressLine1,
-    required this.city,
     required this.countryCode,
     required this.postalCode,
+    this.addressLine1,
     this.addressLine2,
     this.addressLine3,
+    this.city,
     this.districtOrCounty,
     this.stateOrRegion,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      addressLine1: (json['addressLine1'] as String?) ?? '',
-      city: (json['city'] as String?) ?? '',
       countryCode: (json['countryCode'] as String?) ?? '',
       postalCode: (json['postalCode'] as String?) ?? '',
+      addressLine1: json['addressLine1'] as String?,
       addressLine2: json['addressLine2'] as String?,
       addressLine3: json['addressLine3'] as String?,
+      city: json['city'] as String?,
       districtOrCounty: json['districtOrCounty'] as String?,
       stateOrRegion: json['stateOrRegion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final addressLine1 = this.addressLine1;
-    final city = this.city;
     final countryCode = this.countryCode;
     final postalCode = this.postalCode;
+    final addressLine1 = this.addressLine1;
     final addressLine2 = this.addressLine2;
     final addressLine3 = this.addressLine3;
+    final city = this.city;
     final districtOrCounty = this.districtOrCounty;
     final stateOrRegion = this.stateOrRegion;
     return {
-      'addressLine1': addressLine1,
-      'city': city,
       'countryCode': countryCode,
       'postalCode': postalCode,
+      if (addressLine1 != null) 'addressLine1': addressLine1,
       if (addressLine2 != null) 'addressLine2': addressLine2,
       if (addressLine3 != null) 'addressLine3': addressLine3,
+      if (city != null) 'city': city,
       if (districtOrCounty != null) 'districtOrCounty': districtOrCounty,
       if (stateOrRegion != null) 'stateOrRegion': stateOrRegion,
     };
@@ -1751,14 +1875,23 @@ class Sector {
 ///
 /// @nodoc
 class AdditionalInfoRequest {
+  /// Additional tax information to specify for a TRN in Belgium.
+  final BelgiumAdditionalInfo? belgiumAdditionalInfo;
+
   /// Additional tax information associated with your TRN in Canada.
   final CanadaAdditionalInfo? canadaAdditionalInfo;
+
+  /// Additional tax information to specify for a TRN in Chile.
+  final ChileAdditionalInfo? chileAdditionalInfo;
 
   /// Additional tax information to specify for a TRN in Egypt.
   final EgyptAdditionalInfo? egyptAdditionalInfo;
 
   /// Additional tax information to specify for a TRN in Estonia.
   final EstoniaAdditionalInfo? estoniaAdditionalInfo;
+
+  /// Additional tax information to specify for a TRN in France.
+  final FranceAdditionalInfo? franceAdditionalInfo;
 
   /// Additional tax information to specify for a TRN in Georgia.
   final GeorgiaAdditionalInfo? georgiaAdditionalInfo;
@@ -1780,6 +1913,9 @@ class AdditionalInfoRequest {
 
   /// Additional tax information to specify for a TRN in Malaysia.
   final MalaysiaAdditionalInfo? malaysiaAdditionalInfo;
+
+  /// Additional tax information to specify for a TRN in the Philippines.
+  final PhilippinesAdditionalInfo? philippinesAdditionalInfo;
 
   /// Additional tax information associated with your TRN in Poland.
   final PolandAdditionalInfo? polandAdditionalInfo;
@@ -1809,9 +1945,12 @@ class AdditionalInfoRequest {
   final VietnamAdditionalInfo? vietnamAdditionalInfo;
 
   AdditionalInfoRequest({
+    this.belgiumAdditionalInfo,
     this.canadaAdditionalInfo,
+    this.chileAdditionalInfo,
     this.egyptAdditionalInfo,
     this.estoniaAdditionalInfo,
+    this.franceAdditionalInfo,
     this.georgiaAdditionalInfo,
     this.greeceAdditionalInfo,
     this.indonesiaAdditionalInfo,
@@ -1819,6 +1958,7 @@ class AdditionalInfoRequest {
     this.italyAdditionalInfo,
     this.kenyaAdditionalInfo,
     this.malaysiaAdditionalInfo,
+    this.philippinesAdditionalInfo,
     this.polandAdditionalInfo,
     this.romaniaAdditionalInfo,
     this.saudiArabiaAdditionalInfo,
@@ -1831,9 +1971,12 @@ class AdditionalInfoRequest {
   });
 
   Map<String, dynamic> toJson() {
+    final belgiumAdditionalInfo = this.belgiumAdditionalInfo;
     final canadaAdditionalInfo = this.canadaAdditionalInfo;
+    final chileAdditionalInfo = this.chileAdditionalInfo;
     final egyptAdditionalInfo = this.egyptAdditionalInfo;
     final estoniaAdditionalInfo = this.estoniaAdditionalInfo;
+    final franceAdditionalInfo = this.franceAdditionalInfo;
     final georgiaAdditionalInfo = this.georgiaAdditionalInfo;
     final greeceAdditionalInfo = this.greeceAdditionalInfo;
     final indonesiaAdditionalInfo = this.indonesiaAdditionalInfo;
@@ -1841,6 +1984,7 @@ class AdditionalInfoRequest {
     final italyAdditionalInfo = this.italyAdditionalInfo;
     final kenyaAdditionalInfo = this.kenyaAdditionalInfo;
     final malaysiaAdditionalInfo = this.malaysiaAdditionalInfo;
+    final philippinesAdditionalInfo = this.philippinesAdditionalInfo;
     final polandAdditionalInfo = this.polandAdditionalInfo;
     final romaniaAdditionalInfo = this.romaniaAdditionalInfo;
     final saudiArabiaAdditionalInfo = this.saudiArabiaAdditionalInfo;
@@ -1851,12 +1995,18 @@ class AdditionalInfoRequest {
     final uzbekistanAdditionalInfo = this.uzbekistanAdditionalInfo;
     final vietnamAdditionalInfo = this.vietnamAdditionalInfo;
     return {
+      if (belgiumAdditionalInfo != null)
+        'belgiumAdditionalInfo': belgiumAdditionalInfo,
       if (canadaAdditionalInfo != null)
         'canadaAdditionalInfo': canadaAdditionalInfo,
+      if (chileAdditionalInfo != null)
+        'chileAdditionalInfo': chileAdditionalInfo,
       if (egyptAdditionalInfo != null)
         'egyptAdditionalInfo': egyptAdditionalInfo,
       if (estoniaAdditionalInfo != null)
         'estoniaAdditionalInfo': estoniaAdditionalInfo,
+      if (franceAdditionalInfo != null)
+        'franceAdditionalInfo': franceAdditionalInfo,
       if (georgiaAdditionalInfo != null)
         'georgiaAdditionalInfo': georgiaAdditionalInfo,
       if (greeceAdditionalInfo != null)
@@ -1871,6 +2021,8 @@ class AdditionalInfoRequest {
         'kenyaAdditionalInfo': kenyaAdditionalInfo,
       if (malaysiaAdditionalInfo != null)
         'malaysiaAdditionalInfo': malaysiaAdditionalInfo,
+      if (philippinesAdditionalInfo != null)
+        'philippinesAdditionalInfo': philippinesAdditionalInfo,
       if (polandAdditionalInfo != null)
         'polandAdditionalInfo': polandAdditionalInfo,
       if (romaniaAdditionalInfo != null)
@@ -2406,6 +2558,10 @@ class ItalyAdditionalInfo {
   /// characterizes every public investment project (Individual Project Code).
   final String? cupNumber;
 
+  /// The customer type for tax registration in Italy. Valid values are
+  /// <code>Business</code> or <code>Individual</code>.
+  final CustomerType? customerType;
+
   /// Additional tax information to specify for a TRN in Italy. Use
   /// CodiceDestinatario to receive your invoices via web service (API) or FTP.
   final String? sdiAccountId;
@@ -2417,6 +2573,7 @@ class ItalyAdditionalInfo {
   ItalyAdditionalInfo({
     this.cigNumber,
     this.cupNumber,
+    this.customerType,
     this.sdiAccountId,
     this.taxCode,
   });
@@ -2425,6 +2582,8 @@ class ItalyAdditionalInfo {
     return ItalyAdditionalInfo(
       cigNumber: json['cigNumber'] as String?,
       cupNumber: json['cupNumber'] as String?,
+      customerType:
+          (json['customerType'] as String?)?.let(CustomerType.fromString),
       sdiAccountId: json['sdiAccountId'] as String?,
       taxCode: json['taxCode'] as String?,
     );
@@ -2433,11 +2592,13 @@ class ItalyAdditionalInfo {
   Map<String, dynamic> toJson() {
     final cigNumber = this.cigNumber;
     final cupNumber = this.cupNumber;
+    final customerType = this.customerType;
     final sdiAccountId = this.sdiAccountId;
     final taxCode = this.taxCode;
     return {
       if (cigNumber != null) 'cigNumber': cigNumber,
       if (cupNumber != null) 'cupNumber': cupNumber,
+      if (customerType != null) 'customerType': customerType.value,
       if (sdiAccountId != null) 'sdiAccountId': sdiAccountId,
       if (taxCode != null) 'taxCode': taxCode,
     };
@@ -2509,9 +2670,16 @@ class PolandAdditionalInfo {
   /// purposes. Otherwise, this is false.
   final bool? isGroupVatEnabled;
 
+  /// The tax registration number type. Valid values are
+  /// <code>EUTaxRegistrationNumber</code>,
+  /// <code>LocalTaxRegistrationNumber</code>, or
+  /// <code>LocalRegistrationNumber</code>.
+  final PolandTaxRegistrationNumberType? taxRegistrationNumberType;
+
   PolandAdditionalInfo({
     this.individualRegistrationNumber,
     this.isGroupVatEnabled,
+    this.taxRegistrationNumberType,
   });
 
   factory PolandAdditionalInfo.fromJson(Map<String, dynamic> json) {
@@ -2519,16 +2687,21 @@ class PolandAdditionalInfo {
       individualRegistrationNumber:
           json['individualRegistrationNumber'] as String?,
       isGroupVatEnabled: json['isGroupVatEnabled'] as bool?,
+      taxRegistrationNumberType: (json['taxRegistrationNumberType'] as String?)
+          ?.let(PolandTaxRegistrationNumberType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final individualRegistrationNumber = this.individualRegistrationNumber;
     final isGroupVatEnabled = this.isGroupVatEnabled;
+    final taxRegistrationNumberType = this.taxRegistrationNumberType;
     return {
       if (individualRegistrationNumber != null)
         'individualRegistrationNumber': individualRegistrationNumber,
       if (isGroupVatEnabled != null) 'isGroupVatEnabled': isGroupVatEnabled,
+      if (taxRegistrationNumberType != null)
+        'taxRegistrationNumberType': taxRegistrationNumberType.value,
     };
   }
 }
@@ -2765,6 +2938,152 @@ class UzbekistanAdditionalInfo {
   }
 }
 
+/// Additional tax information associated with your TRN in the Philippines.
+///
+/// @nodoc
+class PhilippinesAdditionalInfo {
+  /// Indicates whether the account is VAT-registered with the Philippines Bureau
+  /// of Internal Revenue (BIR).
+  final bool? isVatRegistered;
+
+  PhilippinesAdditionalInfo({
+    this.isVatRegistered,
+  });
+
+  factory PhilippinesAdditionalInfo.fromJson(Map<String, dynamic> json) {
+    return PhilippinesAdditionalInfo(
+      isVatRegistered: json['isVatRegistered'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isVatRegistered = this.isVatRegistered;
+    return {
+      if (isVatRegistered != null) 'isVatRegistered': isVatRegistered,
+    };
+  }
+}
+
+/// Additional tax information associated with your TRN in Belgium.
+///
+/// @nodoc
+class BelgiumAdditionalInfo {
+  /// Indicates whether the Mercurius e-invoicing box is enabled for
+  /// business-to-government (B2G) invoicing in Belgium.
+  final bool? isMercuriusBoxEnabled;
+
+  /// The Peppol ID for electronic invoicing in Belgium.
+  final String? peppolId;
+
+  BelgiumAdditionalInfo({
+    this.isMercuriusBoxEnabled,
+    this.peppolId,
+  });
+
+  factory BelgiumAdditionalInfo.fromJson(Map<String, dynamic> json) {
+    return BelgiumAdditionalInfo(
+      isMercuriusBoxEnabled: json['isMercuriusBoxEnabled'] as bool?,
+      peppolId: json['peppolId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isMercuriusBoxEnabled = this.isMercuriusBoxEnabled;
+    final peppolId = this.peppolId;
+    return {
+      if (isMercuriusBoxEnabled != null)
+        'isMercuriusBoxEnabled': isMercuriusBoxEnabled,
+      if (peppolId != null) 'peppolId': peppolId,
+    };
+  }
+}
+
+/// Additional tax information associated with your TRN in Chile.
+///
+/// @nodoc
+class ChileAdditionalInfo {
+  /// The business activity of the taxpayer in Chile.
+  final String? businessActivity;
+
+  /// The type of tax document. For Chile, this can be <code>Invoice</code> or
+  /// <code>Receipt</code>.
+  final ChileDocumentType? documentType;
+
+  ChileAdditionalInfo({
+    this.businessActivity,
+    this.documentType,
+  });
+
+  factory ChileAdditionalInfo.fromJson(Map<String, dynamic> json) {
+    return ChileAdditionalInfo(
+      businessActivity: json['businessActivity'] as String?,
+      documentType:
+          (json['documentType'] as String?)?.let(ChileDocumentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final businessActivity = this.businessActivity;
+    final documentType = this.documentType;
+    return {
+      if (businessActivity != null) 'businessActivity': businessActivity,
+      if (documentType != null) 'documentType': documentType.value,
+    };
+  }
+}
+
+/// Additional tax information associated with your TRN in France.
+///
+/// @nodoc
+class FranceAdditionalInfo {
+  /// The SIREN number for the company in France. Must be a 9-digit number.
+  final String sirenNumber;
+
+  FranceAdditionalInfo({
+    required this.sirenNumber,
+  });
+
+  factory FranceAdditionalInfo.fromJson(Map<String, dynamic> json) {
+    return FranceAdditionalInfo(
+      sirenNumber: (json['sirenNumber'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sirenNumber = this.sirenNumber;
+    return {
+      'sirenNumber': sirenNumber,
+    };
+  }
+}
+
+/// The type of tax document for Chile.
+///
+/// @nodoc
+class ChileDocumentType {
+  static const invoice = ChileDocumentType._('Invoice');
+  static const receipt = ChileDocumentType._('Receipt');
+
+  final String value;
+
+  const ChileDocumentType._(this.value);
+
+  static const values = [invoice, receipt];
+
+  static ChileDocumentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChileDocumentType._(value));
+
+  @override
+  bool operator ==(other) => other is ChileDocumentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class UzbekistanTaxRegistrationNumberType {
   static const business = UzbekistanTaxRegistrationNumberType._('Business');
@@ -2855,6 +3174,40 @@ class SaudiArabiaTaxRegistrationNumberType {
 }
 
 /// @nodoc
+class PolandTaxRegistrationNumberType {
+  static const eUTaxRegistrationNumber =
+      PolandTaxRegistrationNumberType._('EUTaxRegistrationNumber');
+  static const localTaxRegistrationNumber =
+      PolandTaxRegistrationNumberType._('LocalTaxRegistrationNumber');
+  static const localRegistrationNumber =
+      PolandTaxRegistrationNumberType._('LocalRegistrationNumber');
+
+  final String value;
+
+  const PolandTaxRegistrationNumberType._(this.value);
+
+  static const values = [
+    eUTaxRegistrationNumber,
+    localTaxRegistrationNumber,
+    localRegistrationNumber
+  ];
+
+  static PolandTaxRegistrationNumberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolandTaxRegistrationNumberType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolandTaxRegistrationNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class UkraineTrnType {
   static const business = UkraineTrnType._('Business');
   static const individual = UkraineTrnType._('Individual');
@@ -2899,6 +3252,30 @@ class TaxRegistrationNumberType {
   @override
   bool operator ==(other) =>
       other is TaxRegistrationNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class CustomerType {
+  static const business = CustomerType._('Business');
+  static const individual = CustomerType._('Individual');
+
+  final String value;
+
+  const CustomerType._(this.value);
+
+  static const values = [business, individual];
+
+  static CustomerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CustomerType._(value));
+
+  @override
+  bool operator ==(other) => other is CustomerType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3538,6 +3915,9 @@ class Jurisdiction {
 ///
 /// @nodoc
 class AdditionalInfoResponse {
+  /// Additional tax information associated with your TRN in Belgium.
+  final BelgiumAdditionalInfo? belgiumAdditionalInfo;
+
   /// Additional tax information associated with your TRN in Brazil. The Tax
   /// Settings API returns this information in your response when any additional
   /// information is present with your TRN in Brazil.
@@ -3546,11 +3926,17 @@ class AdditionalInfoResponse {
   /// Additional tax information associated with your TRN in Canada.
   final CanadaAdditionalInfo? canadaAdditionalInfo;
 
+  /// Additional tax information associated with your TRN in Chile.
+  final ChileAdditionalInfo? chileAdditionalInfo;
+
   /// Additional tax information to specify for a TRN in Egypt.
   final EgyptAdditionalInfo? egyptAdditionalInfo;
 
   /// Additional tax information associated with your TRN in Estonia.
   final EstoniaAdditionalInfo? estoniaAdditionalInfo;
+
+  /// Additional tax information associated with your TRN in France.
+  final FranceAdditionalInfo? franceAdditionalInfo;
 
   /// Additional tax information associated with your TRN in Georgia.
   final GeorgiaAdditionalInfo? georgiaAdditionalInfo;
@@ -3575,6 +3961,9 @@ class AdditionalInfoResponse {
 
   /// Additional tax information associated with your TRN in Malaysia.
   final MalaysiaAdditionalInfo? malaysiaAdditionalInfo;
+
+  /// Additional tax information associated with your TRN in the Philippines.
+  final PhilippinesAdditionalInfo? philippinesAdditionalInfo;
 
   /// Additional tax information associated with your TRN in Poland.
   final PolandAdditionalInfo? polandAdditionalInfo;
@@ -3604,10 +3993,13 @@ class AdditionalInfoResponse {
   final VietnamAdditionalInfo? vietnamAdditionalInfo;
 
   AdditionalInfoResponse({
+    this.belgiumAdditionalInfo,
     this.brazilAdditionalInfo,
     this.canadaAdditionalInfo,
+    this.chileAdditionalInfo,
     this.egyptAdditionalInfo,
     this.estoniaAdditionalInfo,
+    this.franceAdditionalInfo,
     this.georgiaAdditionalInfo,
     this.greeceAdditionalInfo,
     this.indiaAdditionalInfo,
@@ -3616,6 +4008,7 @@ class AdditionalInfoResponse {
     this.italyAdditionalInfo,
     this.kenyaAdditionalInfo,
     this.malaysiaAdditionalInfo,
+    this.philippinesAdditionalInfo,
     this.polandAdditionalInfo,
     this.romaniaAdditionalInfo,
     this.saudiArabiaAdditionalInfo,
@@ -3629,6 +4022,10 @@ class AdditionalInfoResponse {
 
   factory AdditionalInfoResponse.fromJson(Map<String, dynamic> json) {
     return AdditionalInfoResponse(
+      belgiumAdditionalInfo: json['belgiumAdditionalInfo'] != null
+          ? BelgiumAdditionalInfo.fromJson(
+              json['belgiumAdditionalInfo'] as Map<String, dynamic>)
+          : null,
       brazilAdditionalInfo: json['brazilAdditionalInfo'] != null
           ? BrazilAdditionalInfo.fromJson(
               json['brazilAdditionalInfo'] as Map<String, dynamic>)
@@ -3637,6 +4034,10 @@ class AdditionalInfoResponse {
           ? CanadaAdditionalInfo.fromJson(
               json['canadaAdditionalInfo'] as Map<String, dynamic>)
           : null,
+      chileAdditionalInfo: json['chileAdditionalInfo'] != null
+          ? ChileAdditionalInfo.fromJson(
+              json['chileAdditionalInfo'] as Map<String, dynamic>)
+          : null,
       egyptAdditionalInfo: json['egyptAdditionalInfo'] != null
           ? EgyptAdditionalInfo.fromJson(
               json['egyptAdditionalInfo'] as Map<String, dynamic>)
@@ -3644,6 +4045,10 @@ class AdditionalInfoResponse {
       estoniaAdditionalInfo: json['estoniaAdditionalInfo'] != null
           ? EstoniaAdditionalInfo.fromJson(
               json['estoniaAdditionalInfo'] as Map<String, dynamic>)
+          : null,
+      franceAdditionalInfo: json['franceAdditionalInfo'] != null
+          ? FranceAdditionalInfo.fromJson(
+              json['franceAdditionalInfo'] as Map<String, dynamic>)
           : null,
       georgiaAdditionalInfo: json['georgiaAdditionalInfo'] != null
           ? GeorgiaAdditionalInfo.fromJson(
@@ -3676,6 +4081,10 @@ class AdditionalInfoResponse {
       malaysiaAdditionalInfo: json['malaysiaAdditionalInfo'] != null
           ? MalaysiaAdditionalInfo.fromJson(
               json['malaysiaAdditionalInfo'] as Map<String, dynamic>)
+          : null,
+      philippinesAdditionalInfo: json['philippinesAdditionalInfo'] != null
+          ? PhilippinesAdditionalInfo.fromJson(
+              json['philippinesAdditionalInfo'] as Map<String, dynamic>)
           : null,
       polandAdditionalInfo: json['polandAdditionalInfo'] != null
           ? PolandAdditionalInfo.fromJson(
@@ -3717,10 +4126,13 @@ class AdditionalInfoResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final belgiumAdditionalInfo = this.belgiumAdditionalInfo;
     final brazilAdditionalInfo = this.brazilAdditionalInfo;
     final canadaAdditionalInfo = this.canadaAdditionalInfo;
+    final chileAdditionalInfo = this.chileAdditionalInfo;
     final egyptAdditionalInfo = this.egyptAdditionalInfo;
     final estoniaAdditionalInfo = this.estoniaAdditionalInfo;
+    final franceAdditionalInfo = this.franceAdditionalInfo;
     final georgiaAdditionalInfo = this.georgiaAdditionalInfo;
     final greeceAdditionalInfo = this.greeceAdditionalInfo;
     final indiaAdditionalInfo = this.indiaAdditionalInfo;
@@ -3729,6 +4141,7 @@ class AdditionalInfoResponse {
     final italyAdditionalInfo = this.italyAdditionalInfo;
     final kenyaAdditionalInfo = this.kenyaAdditionalInfo;
     final malaysiaAdditionalInfo = this.malaysiaAdditionalInfo;
+    final philippinesAdditionalInfo = this.philippinesAdditionalInfo;
     final polandAdditionalInfo = this.polandAdditionalInfo;
     final romaniaAdditionalInfo = this.romaniaAdditionalInfo;
     final saudiArabiaAdditionalInfo = this.saudiArabiaAdditionalInfo;
@@ -3739,14 +4152,20 @@ class AdditionalInfoResponse {
     final uzbekistanAdditionalInfo = this.uzbekistanAdditionalInfo;
     final vietnamAdditionalInfo = this.vietnamAdditionalInfo;
     return {
+      if (belgiumAdditionalInfo != null)
+        'belgiumAdditionalInfo': belgiumAdditionalInfo,
       if (brazilAdditionalInfo != null)
         'brazilAdditionalInfo': brazilAdditionalInfo,
       if (canadaAdditionalInfo != null)
         'canadaAdditionalInfo': canadaAdditionalInfo,
+      if (chileAdditionalInfo != null)
+        'chileAdditionalInfo': chileAdditionalInfo,
       if (egyptAdditionalInfo != null)
         'egyptAdditionalInfo': egyptAdditionalInfo,
       if (estoniaAdditionalInfo != null)
         'estoniaAdditionalInfo': estoniaAdditionalInfo,
+      if (franceAdditionalInfo != null)
+        'franceAdditionalInfo': franceAdditionalInfo,
       if (georgiaAdditionalInfo != null)
         'georgiaAdditionalInfo': georgiaAdditionalInfo,
       if (greeceAdditionalInfo != null)
@@ -3763,6 +4182,8 @@ class AdditionalInfoResponse {
         'kenyaAdditionalInfo': kenyaAdditionalInfo,
       if (malaysiaAdditionalInfo != null)
         'malaysiaAdditionalInfo': malaysiaAdditionalInfo,
+      if (philippinesAdditionalInfo != null)
+        'philippinesAdditionalInfo': philippinesAdditionalInfo,
       if (polandAdditionalInfo != null)
         'polandAdditionalInfo': polandAdditionalInfo,
       if (romaniaAdditionalInfo != null)

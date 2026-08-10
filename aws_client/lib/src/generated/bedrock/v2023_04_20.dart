@@ -2310,6 +2310,46 @@ class Bedrock {
     return ListCustomModelsResponse.fromJson(response);
   }
 
+  /// Returns the account-wide data retention mode for Amazon Bedrock.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  Future<GetAccountDataRetentionResponse> getAccountDataRetention() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/data-retention',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccountDataRetentionResponse.fromJson(response);
+  }
+
+  /// Sets the account-wide data retention mode for Amazon Bedrock.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [mode] :
+  /// The data retention mode to set for the account.
+  Future<PutAccountDataRetentionResponse> putAccountDataRetention({
+    required DataRetentionMode mode,
+  }) async {
+    final $payload = <String, dynamic>{
+      'mode': mode.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/data-retention',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAccountDataRetentionResponse.fromJson(response);
+  }
+
   /// Deletes the account-level enforced guardrail configuration.
   ///
   /// May throw [AccessDeniedException].
@@ -7066,6 +7106,66 @@ class ListCustomModelsResponse {
     return {
       if (modelSummaries != null) 'modelSummaries': modelSummaries,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class GetAccountDataRetentionResponse {
+  /// The data retention mode configured for the account.
+  final DataRetentionMode mode;
+
+  /// The time at which the data retention mode was last updated.
+  final DateTime? updatedAt;
+
+  GetAccountDataRetentionResponse({
+    required this.mode,
+    this.updatedAt,
+  });
+
+  factory GetAccountDataRetentionResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountDataRetentionResponse(
+      mode: DataRetentionMode.fromString((json['mode'] as String?) ?? ''),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final updatedAt = this.updatedAt;
+    return {
+      'mode': mode.value,
+      if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class PutAccountDataRetentionResponse {
+  /// The data retention mode set for the account.
+  final DataRetentionMode mode;
+
+  /// The time at which the data retention mode was last updated.
+  final DateTime? updatedAt;
+
+  PutAccountDataRetentionResponse({
+    required this.mode,
+    this.updatedAt,
+  });
+
+  factory PutAccountDataRetentionResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountDataRetentionResponse(
+      mode: DataRetentionMode.fromString((json['mode'] as String?) ?? ''),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final updatedAt = this.updatedAt;
+    return {
+      'mode': mode.value,
+      if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
     };
   }
 }
@@ -19671,6 +19771,51 @@ class ConfigurationOwner {
   @override
   bool operator ==(other) =>
       other is ConfigurationOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The data retention mode for the account. Valid values are:
+///
+/// <ul>
+/// <li>
+/// <code>default</code> – The standard data handling for the model applies.
+/// </li>
+/// <li>
+/// <code>none</code> – Zero data retention.
+/// </li>
+/// <li>
+/// <code>provider_data_share</code> – Data may be shared with the model
+/// provider.
+/// </li>
+/// <li>
+/// <code>inherit</code> – No data retention mode is set at this scope.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class DataRetentionMode {
+  static const $default = DataRetentionMode._('default');
+  static const none = DataRetentionMode._('none');
+  static const providerDataShare = DataRetentionMode._('provider_data_share');
+  static const inherit = DataRetentionMode._('inherit');
+
+  final String value;
+
+  const DataRetentionMode._(this.value);
+
+  static const values = [$default, none, providerDataShare, inherit];
+
+  static DataRetentionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataRetentionMode._(value));
+
+  @override
+  bool operator ==(other) => other is DataRetentionMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

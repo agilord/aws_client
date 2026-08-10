@@ -22,9 +22,10 @@ import '../../shared/shared.dart'
 import 'v2018_11_09.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// DataSync is an online data movement service that simplifies data migration
-/// and helps you quickly, easily, and securely transfer your file or object
-/// data to, from, and between Amazon Web Services storage services.
+/// In addition to the Amazon Web Services Management Console and Amazon Web
+/// Services Command Line Interface, you can use the DataSync API to configure
+/// and manage DataSync with the <a
+/// href="http://aws.amazon.com/developer/tools/">Amazon Web Services SDKs</a>.
 class DataSync {
   final _s.JsonProtocol _protocol;
   factory DataSync({
@@ -807,7 +808,19 @@ class DataSync {
   /// The NameNode that manages the HDFS namespace. The NameNode performs
   /// operations such as opening, closing, and renaming files and directories.
   /// The NameNode contains the information to map blocks of data to the
-  /// DataNodes. You can use only one NameNode.
+  /// DataNodes.
+  ///
+  /// The number of NameNodes you can specify depends on the task mode:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Enhanced mode</b> – You can specify multiple NameNodes for HDFS High
+  /// Availability (HA) configurations.
+  /// </li>
+  /// <li>
+  /// <b>Basic mode</b> – You can specify only one NameNode.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [blockSize] :
   /// The size of data blocks to write into the HDFS cluster. The block size
@@ -3154,7 +3167,19 @@ class DataSync {
   /// The NameNode that manages the HDFS namespace. The NameNode performs
   /// operations such as opening, closing, and renaming files and directories.
   /// The NameNode contains the information to map blocks of data to the
-  /// DataNodes. You can use only one NameNode.
+  /// DataNodes.
+  ///
+  /// The number of NameNodes you can specify depends on the task mode:
+  ///
+  /// <ul>
+  /// <li>
+  /// Enhanced mode – You can specify multiple NameNodes for HDFS High
+  /// Availability (HA) configurations.
+  /// </li>
+  /// <li>
+  /// Basic mode – You can specify only one NameNode.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [qopConfiguration] :
   /// The Quality of Protection (QOP) configuration specifies the Remote
@@ -6605,11 +6630,16 @@ class Options {
   /// <code>NONE</code> - Ignores <code>Atime</code>.
   /// </li>
   /// </ul> <note>
+  /// The following applies only to Basic mode tasks:
+  ///
   /// If <code>Atime</code> is set to <code>BEST_EFFORT</code>, <code>Mtime</code>
   /// must be set to <code>PRESERVE</code>.
   ///
   /// If <code>Atime</code> is set to <code>NONE</code>, <code>Mtime</code> must
   /// also be <code>NONE</code>.
+  ///
+  /// Enhanced mode tasks support configuring <code>Atime</code> independently of
+  /// <code>Mtime</code>.
   /// </note>
   final Atime? atime;
 
@@ -6667,11 +6697,16 @@ class Options {
   /// <code>NONE</code> - Ignores <code>Mtime</code>.
   /// </li>
   /// </ul> <note>
+  /// The following applies only to Basic mode tasks:
+  ///
   /// If <code>Mtime</code> is set to <code>PRESERVE</code>, <code>Atime</code>
   /// must be set to <code>BEST_EFFORT</code>.
   ///
   /// If <code>Mtime</code> is set to <code>NONE</code>, <code>Atime</code> must
   /// also be set to <code>NONE</code>.
+  ///
+  /// Enhanced mode tasks don't support <code>Mtime</code> set to
+  /// <code>NONE</code>.
   /// </note>
   final Mtime? mtime;
 

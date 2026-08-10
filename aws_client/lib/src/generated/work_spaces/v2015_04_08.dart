@@ -842,6 +842,14 @@ class WorkSpaces {
     return CreateWorkspacesResult.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Creates a pool of WorkSpaces.
   ///
   /// May throw [AccessDeniedException].
@@ -2237,6 +2245,14 @@ class WorkSpaces {
     return DescribeWorkspaceSnapshotsResult.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Describes the specified WorkSpaces Pools.
   ///
   /// May throw [AccessDeniedException].
@@ -2288,6 +2304,14 @@ class WorkSpaces {
     return DescribeWorkspacesPoolsResult.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Retrieves a list that describes the streaming sessions for a specified
   /// pool.
   ///
@@ -3674,6 +3698,14 @@ class WorkSpaces {
     return StartWorkspacesResult.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Starts the specified pool.
   ///
   /// You cannot start a pool unless it has a running mode of
@@ -3738,6 +3770,14 @@ class WorkSpaces {
     return StopWorkspacesResult.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Stops the specified pool.
   ///
   /// You cannot stop a WorkSpace pool unless it has a running mode of
@@ -3828,6 +3868,14 @@ class WorkSpaces {
     return TerminateWorkspacesResult.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Terminates the specified pool.
   ///
   /// May throw [AccessDeniedException].
@@ -3857,6 +3905,14 @@ class WorkSpaces {
     );
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Terminates the pool session.
   ///
   /// May throw [AccessDeniedException].
@@ -4144,6 +4200,14 @@ class WorkSpaces {
     );
   }
 
+  /// <note>
+  /// End of support notice: On December 31, 2027, Amazon Web Services will end
+  /// support for Amazon WorkSpaces Pools. After December 31, 2027, you will no
+  /// longer be able to access the Amazon WorkSpaces Pools console or Amazon
+  /// WorkSpaces Pools resources. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html">Amazon
+  /// WorkSpaces Pools end of support</a>.
+  /// </note>
   /// Updates the specified pool.
   ///
   /// May throw [AccessDeniedException].
@@ -7783,7 +7847,7 @@ class WorkspaceProperties {
   /// </li>
   /// <li>
   /// Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles
-  /// (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
+  /// (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, and Graphics.g6).
   /// </li>
   /// </ul> </note>
   final List<Protocol>? protocols;
@@ -9126,6 +9190,13 @@ class EndpointEncryptionMode {
 ///
 /// @nodoc
 class ClientProperties {
+  /// The client experience policy that determines which client experience the
+  /// user sees. Administrators can set this policy to control the client
+  /// experience for users in a directory. Valid values include
+  /// <code>FORCE_CLASSIC</code>, <code>FORCE_UI_2026</code>, and
+  /// <code>USER_CHOICE</code>.
+  final String? clientExperiencePolicy;
+
   /// Specifies whether users can upload diagnostic log files of Amazon WorkSpaces
   /// client directly to WorkSpaces to troubleshoot issues when using the
   /// WorkSpaces client. When enabled, the log files will be sent to WorkSpaces
@@ -9138,12 +9209,14 @@ class ClientProperties {
   final ReconnectEnum? reconnectEnabled;
 
   ClientProperties({
+    this.clientExperiencePolicy,
     this.logUploadEnabled,
     this.reconnectEnabled,
   });
 
   factory ClientProperties.fromJson(Map<String, dynamic> json) {
     return ClientProperties(
+      clientExperiencePolicy: json['ClientExperiencePolicy'] as String?,
       logUploadEnabled:
           (json['LogUploadEnabled'] as String?)?.let(LogUploadEnum.fromString),
       reconnectEnabled:
@@ -9152,9 +9225,12 @@ class ClientProperties {
   }
 
   Map<String, dynamic> toJson() {
+    final clientExperiencePolicy = this.clientExperiencePolicy;
     final logUploadEnabled = this.logUploadEnabled;
     final reconnectEnabled = this.reconnectEnabled;
     return {
+      if (clientExperiencePolicy != null)
+        'ClientExperiencePolicy': clientExperiencePolicy,
       if (logUploadEnabled != null) 'LogUploadEnabled': logUploadEnabled.value,
       if (reconnectEnabled != null) 'ReconnectEnabled': reconnectEnabled.value,
     };

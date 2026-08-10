@@ -488,4 +488,168 @@ void main() {
           'Invalid Configuration: FIPS is not supported with multi-region endpoints')),
     );
   });
+  test('Gov IPv4 only: us-gov-west-1 primary, dualstack and FIPS disabled [52]',
+      () {
+    final resolved = resolveEndpoint(
+        endpointId: 'abc123.456def',
+        useDualStack: false,
+        useFips: false,
+        region: 'us-gov-west-1');
+    expect(resolved.url,
+        'https://abc123.456def.endpoints.email.us-gov.amazonaws.com');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4a');
+    expect(resolved.authSchemes[0].signingName, 'ses');
+    expect(resolved.authSchemes[0].signingRegion, isNull);
+    expect(resolved.authSchemes[0].signingRegionSet, ['*']);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'Gov IPv4 only: us-gov-east-1, dualstack and FIPS disabled (proves both gov regions resolve identically) [53]',
+      () {
+    final resolved = resolveEndpoint(
+        endpointId: 'abc123.456def',
+        useDualStack: false,
+        useFips: false,
+        region: 'us-gov-east-1');
+    expect(resolved.url,
+        'https://abc123.456def.endpoints.email.us-gov.amazonaws.com');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4a');
+    expect(resolved.authSchemes[0].signingName, 'ses');
+    expect(resolved.authSchemes[0].signingRegion, isNull);
+    expect(resolved.authSchemes[0].signingRegionSet, ['*']);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'Gov dualstack: us-gov-west-1, dualstack enabled, FIPS disabled (no global. prefix; api.aws not global.api.aws) [54]',
+      () {
+    final resolved = resolveEndpoint(
+        endpointId: 'abc123.456def',
+        useDualStack: true,
+        useFips: false,
+        region: 'us-gov-west-1');
+    expect(
+        resolved.url, 'https://abc123.456def.endpoints.email.us-gov.api.aws');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4a');
+    expect(resolved.authSchemes[0].signingName, 'ses');
+    expect(resolved.authSchemes[0].signingRegion, isNull);
+    expect(resolved.authSchemes[0].signingRegionSet, ['*']);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'Gov FIPS: us-gov-west-1, FIPS enabled, dualstack disabled — FIPS not supported with multi-region endpoints [55]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpointId: 'abc123.456def',
+          useDualStack: false,
+          useFips: true,
+          region: 'us-gov-west-1'),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS is not supported with multi-region endpoints')),
+    );
+  });
+  test(
+      'Gov FIPS+dualstack: us-gov-west-1, both FIPS and dualstack enabled — FIPS check precedes dualstack branch selection [56]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpointId: 'abc123.456def',
+          useDualStack: true,
+          useFips: true,
+          region: 'us-gov-west-1'),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS is not supported with multi-region endpoints')),
+    );
+  });
+  test(
+      'Gov custom SDK endpoint: us-gov-west-1, EndpointId set, custom Endpoint — passes through unchanged with SigV4a [57]',
+      () {
+    final resolved = resolveEndpoint(
+        endpointId: 'abc123.456def',
+        useDualStack: false,
+        useFips: false,
+        region: 'us-gov-west-1',
+        endpoint: 'https://example.com');
+    expect(resolved.url, 'https://example.com');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4a');
+    expect(resolved.authSchemes[0].signingName, 'ses');
+    expect(resolved.authSchemes[0].signingRegion, isNull);
+    expect(resolved.authSchemes[0].signingRegionSet, ['*']);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'China IPv4 regression: cn-north-1, dualstack disabled — endpoint uses aws-cn dnsSuffix (amazonaws.com.cn) [58]',
+      () {
+    final resolved = resolveEndpoint(
+        endpointId: 'abc123.456def',
+        useDualStack: false,
+        useFips: false,
+        region: 'cn-north-1');
+    expect(
+        resolved.url, 'https://abc123.456def.endpoints.email.amazonaws.com.cn');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4a');
+    expect(resolved.authSchemes[0].signingName, 'ses');
+    expect(resolved.authSchemes[0].signingRegion, isNull);
+    expect(resolved.authSchemes[0].signingRegionSet, ['*']);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'China dualstack regression: cn-north-1, dualstack enabled — uses global. prefix with aws-cn dualStackDnsSuffix (api.amazonwebservices.com.cn) [59]',
+      () {
+    final resolved = resolveEndpoint(
+        endpointId: 'abc123.456def',
+        useDualStack: true,
+        useFips: false,
+        region: 'cn-north-1');
+    expect(resolved.url,
+        'https://abc123.456def.endpoints.email.global.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4a');
+    expect(resolved.authSchemes[0].signingName, 'ses');
+    expect(resolved.authSchemes[0].signingRegion, isNull);
+    expect(resolved.authSchemes[0].signingRegionSet, ['*']);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'Gov custom SDK endpoint with FIPS: FIPS guard sits above the SDK passthrough, so error wins [60]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          endpointId: 'abc123.456def',
+          useDualStack: false,
+          useFips: true,
+          region: 'us-gov-west-1',
+          endpoint: 'https://example.com'),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'Invalid Configuration: FIPS is not supported with multi-region endpoints')),
+    );
+  });
+  test(
+      'Gov dualstack OSU (us-gov-east-1) matches PDT dualstack output (us-gov.api.aws, no global. prefix) [61]',
+      () {
+    final resolved = resolveEndpoint(
+        endpointId: 'abc123.456def',
+        useDualStack: true,
+        useFips: false,
+        region: 'us-gov-east-1');
+    expect(
+        resolved.url, 'https://abc123.456def.endpoints.email.us-gov.api.aws');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4a');
+    expect(resolved.authSchemes[0].signingName, 'ses');
+    expect(resolved.authSchemes[0].signingRegion, isNull);
+    expect(resolved.authSchemes[0].signingRegionSet, ['*']);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
 }

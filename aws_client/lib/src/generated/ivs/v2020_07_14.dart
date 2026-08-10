@@ -371,6 +371,11 @@ class Ivs {
   /// Parameter [name] :
   /// Ad configuration name. Defaults to “”.
   ///
+  /// Parameter [postRollConfiguration] :
+  /// Configuration for the post-roll ad break to use for this ad configuration.
+  /// Default: disabled (<code>enabled</code> set to false,
+  /// <code>durationSeconds</code> set to 15).
+  ///
   /// Parameter [tags] :
   /// Array of 1-50 maps, each of the form <code>string:string
   /// (key:value)</code>. See <a
@@ -383,11 +388,14 @@ class Ivs {
     required List<MediaTailorPlaybackConfiguration>
         mediaTailorPlaybackConfigurations,
     String? name,
+    PostRollConfiguration? postRollConfiguration,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'mediaTailorPlaybackConfigurations': mediaTailorPlaybackConfigurations,
       if (name != null) 'name': name,
+      if (postRollConfiguration != null)
+        'postRollConfiguration': postRollConfiguration,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1721,16 +1729,22 @@ class Ivs {
   ///
   /// Parameter [name] :
   /// Ad configuration name. The value does not need to be unique.
+  ///
+  /// Parameter [postRollConfiguration] :
+  /// Configuration for the post-roll ad break to use for this ad configuration.
   Future<UpdateAdConfigurationResponse> updateAdConfiguration({
     required String arn,
     List<MediaTailorPlaybackConfiguration>? mediaTailorPlaybackConfigurations,
     String? name,
+    PostRollConfiguration? postRollConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'arn': arn,
       if (mediaTailorPlaybackConfigurations != null)
         'mediaTailorPlaybackConfigurations': mediaTailorPlaybackConfigurations,
       if (name != null) 'name': name,
+      if (postRollConfiguration != null)
+        'postRollConfiguration': postRollConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3473,6 +3487,9 @@ class AdConfiguration {
   /// Ad configuration name. Defaults to “”.
   final String? name;
 
+  /// Configuration for the post-roll ad break to use for this ad configuration.
+  final PostRollConfiguration? postRollConfiguration;
+
   /// Tags attached to the resource. Array of 1-50 maps, each of the form
   /// <code>string:string (key:value)</code>. See <a
   /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
@@ -3486,6 +3503,7 @@ class AdConfiguration {
     required this.arn,
     required this.mediaTailorPlaybackConfigurations,
     this.name,
+    this.postRollConfiguration,
     this.tags,
   });
 
@@ -3499,6 +3517,10 @@ class AdConfiguration {
                   e as Map<String, dynamic>))
               .toList(),
       name: json['name'] as String?,
+      postRollConfiguration: json['postRollConfiguration'] != null
+          ? PostRollConfiguration.fromJson(
+              json['postRollConfiguration'] as Map<String, dynamic>)
+          : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3509,12 +3531,47 @@ class AdConfiguration {
     final mediaTailorPlaybackConfigurations =
         this.mediaTailorPlaybackConfigurations;
     final name = this.name;
+    final postRollConfiguration = this.postRollConfiguration;
     final tags = this.tags;
     return {
       'arn': arn,
       'mediaTailorPlaybackConfigurations': mediaTailorPlaybackConfigurations,
       if (name != null) 'name': name,
+      if (postRollConfiguration != null)
+        'postRollConfiguration': postRollConfiguration,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Configuration for the post-roll ad break to use for this ad configuration.
+///
+/// @nodoc
+class PostRollConfiguration {
+  /// Duration of the post-roll ad break, in seconds.
+  final int durationSeconds;
+
+  /// Whether the post-roll ad configuration is enabled.
+  final bool enabled;
+
+  PostRollConfiguration({
+    required this.durationSeconds,
+    required this.enabled,
+  });
+
+  factory PostRollConfiguration.fromJson(Map<String, dynamic> json) {
+    return PostRollConfiguration(
+      durationSeconds: (json['durationSeconds'] as int?) ?? 0,
+      enabled: (json['enabled'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationSeconds = this.durationSeconds;
+    final enabled = this.enabled;
+    return {
+      'durationSeconds': durationSeconds,
+      'enabled': enabled,
     };
   }
 }
@@ -4198,6 +4255,9 @@ class AdConfigurationSummary {
   /// Ad configuration name. Defaults to “”.
   final String? name;
 
+  /// Configuration for the post-roll ad break to use for this ad configuration.
+  final PostRollConfiguration? postRollConfiguration;
+
   /// Tags attached to the resource. Array of 1-50 maps, each of the form
   /// <code>string:string (key:value)</code>. See <a
   /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
@@ -4211,6 +4271,7 @@ class AdConfigurationSummary {
     required this.arn,
     required this.mediaTailorPlaybackConfigurations,
     this.name,
+    this.postRollConfiguration,
     this.tags,
   });
 
@@ -4224,6 +4285,10 @@ class AdConfigurationSummary {
                   e as Map<String, dynamic>))
               .toList(),
       name: json['name'] as String?,
+      postRollConfiguration: json['postRollConfiguration'] != null
+          ? PostRollConfiguration.fromJson(
+              json['postRollConfiguration'] as Map<String, dynamic>)
+          : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4234,11 +4299,14 @@ class AdConfigurationSummary {
     final mediaTailorPlaybackConfigurations =
         this.mediaTailorPlaybackConfigurations;
     final name = this.name;
+    final postRollConfiguration = this.postRollConfiguration;
     final tags = this.tags;
     return {
       'arn': arn,
       'mediaTailorPlaybackConfigurations': mediaTailorPlaybackConfigurations,
       if (name != null) 'name': name,
+      if (postRollConfiguration != null)
+        'postRollConfiguration': postRollConfiguration,
       if (tags != null) 'tags': tags,
     };
   }

@@ -640,7 +640,12 @@ class Imagebuilder {
   /// The image test configuration of the image pipeline.
   ///
   /// Parameter [loggingConfiguration] :
-  /// Define logging configuration for the image build process.
+  /// Specifies the logging configuration for the image pipeline. Use this to
+  /// define custom CloudWatch Logs log groups for your pipeline execution logs
+  /// and image build logs. The service manages log groups with names starting
+  /// with <code>/aws/imagebuilder/</code> using the service-linked role. For
+  /// custom log group names outside of this prefix, you must also provide an
+  /// <code>executionRole</code>.
   ///
   /// Parameter [schedule] :
   /// The schedule of the image pipeline.
@@ -770,6 +775,16 @@ class Imagebuilder {
   /// Tags that are applied to the AMI that Image Builder creates during the
   /// Build phase prior to image distribution.
   ///
+  /// Parameter [amiWatermarks] :
+  /// The AMI watermark names to attach to the output AMI from this recipe. AMI
+  /// watermarks are lineage markers. They automatically propagate to derivative
+  /// AMIs when the source AMI is copied or distributed across Regions or
+  /// accounts.
+  /// <note>
+  /// AMI watermarks are supported only for image recipes. AMIs with watermarks
+  /// cannot be made public.
+  /// </note>
+  ///
   /// Parameter [blockDeviceMappings] :
   /// The block device mappings of the image recipe.
   ///
@@ -796,6 +811,7 @@ class Imagebuilder {
     required String semanticVersion,
     AdditionalInstanceConfiguration? additionalInstanceConfiguration,
     Map<String, String>? amiTags,
+    List<String>? amiWatermarks,
     List<InstanceBlockDeviceMapping>? blockDeviceMappings,
     String? clientToken,
     List<ComponentConfiguration>? components,
@@ -810,6 +826,7 @@ class Imagebuilder {
       if (additionalInstanceConfiguration != null)
         'additionalInstanceConfiguration': additionalInstanceConfiguration,
       if (amiTags != null) 'amiTags': amiTags,
+      if (amiWatermarks != null) 'amiWatermarks': amiWatermarks,
       if (blockDeviceMappings != null)
         'blockDeviceMappings': blockDeviceMappings,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -1426,8 +1443,9 @@ class Imagebuilder {
     return DeleteWorkflowResponse.fromJson(response);
   }
 
-  /// DistributeImage distributes existing AMIs to additional regions and
-  /// accounts without rebuilding the image.
+  /// Distributes an existing AMI to target Regions and accounts without running
+  /// the full image build process. This operation only runs the distribution
+  /// phase on an image that has already been built.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [CallRateLimitExceededException].
@@ -1443,13 +1461,19 @@ class Imagebuilder {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [distributionConfigurationArn] :
-  /// The Amazon Resource Name (ARN) of the distribution configuration to use.
+  /// The Amazon Resource Name (ARN) of the distribution configuration. The
+  /// configuration defines target Regions, accounts, and AMI settings. The
+  /// distribution configuration must be in the same Region as this operation.
   ///
   /// Parameter [executionRole] :
-  /// The IAM role to use for the distribution.
+  /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder
+  /// assumes to distribute the image.
   ///
   /// Parameter [sourceImage] :
-  /// The source image Amazon Resource Name (ARN) to distribute.
+  /// The source image to distribute. Specify an AMI identifier, SSM parameter
+  /// path, or Image Builder image Amazon Resource Name (ARN). When you specify
+  /// an Image Builder image Amazon Resource Name (ARN), the image must be in
+  /// the <code>AVAILABLE</code> state.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier you provide to ensure idempotency of the
@@ -3703,13 +3727,15 @@ class Imagebuilder {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [action] :
-  /// The action for the image creation process to take while a workflow
-  /// <code>WaitForAction</code> step waits for an asynchronous action to
-  /// complete.
+  /// The action to perform on the paused workflow step. The workflow step must
+  /// be in a waiting state to accept an action. The request fails if the step
+  /// has already timed out or been actioned.
   ///
   /// Parameter [imageBuildVersionArn] :
-  /// The Amazon Resource Name (ARN) of the image build version to send action
-  /// for.
+  /// The Amazon Resource Name (ARN) of the image build version associated with
+  /// the workflow step execution. This value must match the image that owns the
+  /// waiting step. If the ARN does not correspond to the image running the
+  /// workflow, then the request fails with a validation error.
   ///
   /// Parameter [stepExecutionId] :
   /// Uniquely identifies the workflow step that sent the step action.
@@ -3721,7 +3747,9 @@ class Imagebuilder {
   /// idempotency</a> in the <i>Amazon EC2 API Reference</i>.
   ///
   /// Parameter [reason] :
-  /// The reason why this action is sent.
+  /// The reason for the action. This value is stored with the step execution
+  /// record and is accessible in subsequent workflow steps via step output
+  /// references.
   Future<SendWorkflowStepActionResponse> sendWorkflowStepAction({
     required WorkflowStepActionType action,
     required String imageBuildVersionArn,
@@ -3803,11 +3831,17 @@ class Imagebuilder {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the Image Builder resource that is
-  /// updated. The state update might also impact associated resources.
+  /// The Amazon Resource Name (ARN) of the image build version to update. The
+  /// image must be in one of these terminal states: <code>AVAILABLE</code>,
+  /// <code>DEPRECATED</code>, <code>DISABLED</code>, <code>FAILED</code>, or
+  /// <code>CANCELLED</code>. Images with <code>FAILED</code> or
+  /// <code>CANCELLED</code> status can transition only to <code>DELETED</code>.
   ///
   /// Parameter [state] :
-  /// Indicates the lifecycle action to take for this request.
+  /// Specifies the lifecycle action to take for this request. For AMI-based
+  /// images, valid values are <code>AVAILABLE</code>, <code>DEPRECATED</code>,
+  /// <code>DISABLED</code>, and <code>DELETED</code>. For container-based
+  /// images, only <code>DELETED</code> is supported.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier you provide to ensure idempotency of the
@@ -3824,11 +3858,19 @@ class Imagebuilder {
   /// update image state.
   ///
   /// Parameter [includeResources] :
-  /// A list of image resources to update state for.
+  /// Specifies which image resources to include in the state update. When
+  /// specified, the lifecycle action applies to underlying resources. These
+  /// resources include AMIs, snapshots, and containers in addition to the Image
+  /// Builder image resource. Requires <code>executionRole</code> to also be
+  /// specified. To delete an image and its underlying resources, you must
+  /// specify <code>includeResources</code>. To delete only the Image Builder
+  /// image record without affecting underlying resources, use the
+  /// <code>DeleteImage</code> API instead.
   ///
   /// Parameter [updateAt] :
-  /// The timestamp that indicates when resources are updated by a lifecycle
-  /// action.
+  /// Specifies the timestamp when the state transition takes effect. Use this
+  /// parameter only when the target status is <code>DEPRECATED</code>. The
+  /// value must be a future time.
   Future<StartResourceStateUpdateResponse> startResourceStateUpdate({
     required String resourceArn,
     required ResourceState state,
@@ -8369,14 +8411,21 @@ class ImageScanningConfiguration {
 ///
 /// @nodoc
 class PipelineLoggingConfiguration {
-  /// The log group name that Image Builder uses for image creation. If not
-  /// specified, the log group name defaults to
-  /// <code>/aws/imagebuilder/image-name</code>.
+  /// Specifies the CloudWatch Logs log group name for image build logs. The log
+  /// group name can contain alphanumeric characters, hyphens, underscores,
+  /// forward slashes, and periods, up to 512 characters. Log group names not
+  /// starting with <code>/aws/imagebuilder/</code> require an
+  /// <code>executionRole</code> with CloudWatch Logs write permissions. If not
+  /// specified, defaults to <code>/aws/imagebuilder/image-name</code>.
   final String? imageLogGroupName;
 
-  /// The log group name that Image Builder uses for the log output during
-  /// creation of a new pipeline. If not specified, the pipeline log group name
-  /// defaults to <code>/aws/imagebuilder/pipeline/pipeline-name</code>.
+  /// Specifies the CloudWatch Logs log group name for pipeline execution logs.
+  /// The log group name can contain alphanumeric characters, hyphens,
+  /// underscores, forward slashes, and periods, up to 512 characters. Log group
+  /// names not starting with <code>/aws/imagebuilder/</code> require an
+  /// <code>executionRole</code> with CloudWatch Logs write permissions. If not
+  /// specified, defaults to
+  /// <code>/aws/imagebuilder/pipeline/pipeline-name</code>.
   final String? pipelineLogGroupName;
 
   PipelineLoggingConfiguration({
@@ -13891,6 +13940,11 @@ class ImageRecipe {
   /// phase prior to image distribution.
   final Map<String, String>? amiTags;
 
+  /// The AMI watermark names attached to the output AMI from this recipe. AMI
+  /// watermarks are lineage markers that automatically propagate to derivative
+  /// AMIs when the source AMI is copied or distributed.
+  final List<String>? amiWatermarks;
+
   /// The Amazon Resource Name (ARN) of the image recipe.
   final String? arn;
 
@@ -13953,6 +14007,7 @@ class ImageRecipe {
   ImageRecipe({
     this.additionalInstanceConfiguration,
     this.amiTags,
+    this.amiWatermarks,
     this.arn,
     this.blockDeviceMappings,
     this.components,
@@ -13978,6 +14033,10 @@ class ImageRecipe {
               : null,
       amiTags: (json['amiTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      amiWatermarks: (json['amiWatermarks'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       arn: json['arn'] as String?,
       blockDeviceMappings: (json['blockDeviceMappings'] as List?)
           ?.nonNulls
@@ -14007,6 +14066,7 @@ class ImageRecipe {
     final additionalInstanceConfiguration =
         this.additionalInstanceConfiguration;
     final amiTags = this.amiTags;
+    final amiWatermarks = this.amiWatermarks;
     final arn = this.arn;
     final blockDeviceMappings = this.blockDeviceMappings;
     final components = this.components;
@@ -14024,6 +14084,7 @@ class ImageRecipe {
       if (additionalInstanceConfiguration != null)
         'additionalInstanceConfiguration': additionalInstanceConfiguration,
       if (amiTags != null) 'amiTags': amiTags,
+      if (amiWatermarks != null) 'amiWatermarks': amiWatermarks,
       if (arn != null) 'arn': arn,
       if (blockDeviceMappings != null)
         'blockDeviceMappings': blockDeviceMappings,

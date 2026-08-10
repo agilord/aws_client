@@ -22,7 +22,17 @@ import '../../shared/shared.dart'
 import 'v2025_01_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Health Agent for healthcare providers and patient engagement
+/// Amazon Connect Health is an AI-powered healthcare service built on Amazon
+/// Connect. It provides pre-built agents that automate patient engagement
+/// workflows and support clinical documentation at the point of care.
+///
+/// You can use the Amazon Connect Health API to programmatically manage
+/// domains, configure patient engagement agents, run patient insights jobs, and
+/// stream ambient documentation sessions. This API reference describes the
+/// available API operations and data types for Amazon Connect Health.
+///
+/// We recommend that you use the AWS SDKs to make programmatic API calls to
+/// Amazon Connect Health.
 class ConnectHealth {
   final _s.RestJsonProtocol _protocol;
   factory ConnectHealth({
@@ -1871,6 +1881,10 @@ class MedicalScribeInputStream {
   /// <p/>
   final MedicalScribeAudioEvent? audioEvent;
 
+  /// An event containing raw binary audio data for the Medical Scribe stream. The
+  /// audio is sent as a raw binary payload rather than as a base64-encoded value.
+  final MedicalScribeBinaryAudioEvent? binaryAudioEvent;
+
   /// <p/>
   final MedicalScribeConfigurationEvent? configurationEvent;
 
@@ -1879,16 +1893,19 @@ class MedicalScribeInputStream {
 
   MedicalScribeInputStream({
     this.audioEvent,
+    this.binaryAudioEvent,
     this.configurationEvent,
     this.sessionControlEvent,
   });
 
   Map<String, dynamic> toJson() {
     final audioEvent = this.audioEvent;
+    final binaryAudioEvent = this.binaryAudioEvent;
     final configurationEvent = this.configurationEvent;
     final sessionControlEvent = this.sessionControlEvent;
     return {
       if (audioEvent != null) 'audioEvent': audioEvent,
+      if (binaryAudioEvent != null) 'binaryAudioEvent': binaryAudioEvent,
       if (configurationEvent != null) 'configurationEvent': configurationEvent,
       if (sessionControlEvent != null)
         'sessionControlEvent': sessionControlEvent,
@@ -1904,6 +1921,26 @@ class MedicalScribeAudioEvent {
   final Uint8List audioChunk;
 
   MedicalScribeAudioEvent({
+    required this.audioChunk,
+  });
+
+  Map<String, dynamic> toJson() {
+    final audioChunk = this.audioChunk;
+    return {
+      'audioChunk': base64Encode(audioChunk),
+    };
+  }
+}
+
+/// An event containing raw binary audio data for the Medical Scribe stream. The
+/// audio is sent as a raw binary payload rather than as a base64-encoded value.
+///
+/// @nodoc
+class MedicalScribeBinaryAudioEvent {
+  /// The raw binary audio data chunk
+  final Uint8List audioChunk;
+
+  MedicalScribeBinaryAudioEvent({
     required this.audioChunk,
   });
 

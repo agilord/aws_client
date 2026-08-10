@@ -332,9 +332,8 @@ class EntityResolution {
   /// processing job. The workflow name must be unique. To modify an existing
   /// workflow, use <code>UpdateMatchingWorkflow</code>.
   /// <important>
-  /// For workflows where <code>resolutionType</code> is
-  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
-  /// is not supported.
+  /// For workflows where <code>resolutionType</code> is <code>PROVIDER</code>,
+  /// incremental processing is not supported.
   /// </important>
   ///
   /// May throw [AccessDeniedException].
@@ -374,9 +373,8 @@ class EntityResolution {
   /// contains only the <code>incrementalRunType</code> field, which appears as
   /// "Automatic" in the console.
   /// <important>
-  /// For workflows where <code>resolutionType</code> is
-  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
-  /// is not supported.
+  /// For workflows where <code>resolutionType</code> is <code>PROVIDER</code>,
+  /// incremental processing is not supported.
   /// </important>
   ///
   /// Parameter [tags] :
@@ -628,6 +626,10 @@ class EntityResolution {
   /// the console): Generates new match IDs without checking existing matches,
   /// with updates processed asynchronously. Provides fastest response time but
   /// should only be used for records known to be unique.
+  /// <note>
+  /// Advanced matching workflows don't support the <code>processingType</code>
+  /// field.
+  /// </note>
   Future<GenerateMatchIdOutput> generateMatchId({
     required List<Record> records,
     required String workflowName,
@@ -1445,9 +1447,8 @@ class EntityResolution {
   /// Updates an existing matching workflow. The workflow must already exist for
   /// this operation to succeed.
   /// <important>
-  /// For workflows where <code>resolutionType</code> is
-  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
-  /// is not supported.
+  /// For workflows where <code>resolutionType</code> is <code>PROVIDER</code>,
+  /// incremental processing is not supported.
   /// </important>
   ///
   /// May throw [AccessDeniedException].
@@ -1485,9 +1486,8 @@ class EntityResolution {
   /// contains only the <code>incrementalRunType</code> field, which appears as
   /// "Automatic" in the console.
   /// <important>
-  /// For workflows where <code>resolutionType</code> is
-  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
-  /// is not supported.
+  /// For workflows where <code>resolutionType</code> is <code>PROVIDER</code>,
+  /// incremental processing is not supported.
   /// </important>
   Future<UpdateMatchingWorkflowOutput> updateMatchingWorkflow({
     required List<InputSource> inputSourceConfig,
@@ -3898,6 +3898,11 @@ class ResolutionTechniques {
   /// </ul>
   final ResolutionType resolutionType;
 
+  /// Specifies whether real-time matching is enabled for the rule-based matching
+  /// workflow. When you enable real-time matching, you can use the
+  /// <code>GenerateMatchId</code> operation with the workflow.
+  final bool? enableRealTimeMatching;
+
   /// The properties of the provider service.
   final ProviderProperties? providerProperties;
 
@@ -3910,6 +3915,7 @@ class ResolutionTechniques {
 
   ResolutionTechniques({
     required this.resolutionType,
+    this.enableRealTimeMatching,
     this.providerProperties,
     this.ruleBasedProperties,
     this.ruleConditionProperties,
@@ -3919,6 +3925,7 @@ class ResolutionTechniques {
     return ResolutionTechniques(
       resolutionType:
           ResolutionType.fromString((json['resolutionType'] as String?) ?? ''),
+      enableRealTimeMatching: json['enableRealTimeMatching'] as bool?,
       providerProperties: json['providerProperties'] != null
           ? ProviderProperties.fromJson(
               json['providerProperties'] as Map<String, dynamic>)
@@ -3936,11 +3943,14 @@ class ResolutionTechniques {
 
   Map<String, dynamic> toJson() {
     final resolutionType = this.resolutionType;
+    final enableRealTimeMatching = this.enableRealTimeMatching;
     final providerProperties = this.providerProperties;
     final ruleBasedProperties = this.ruleBasedProperties;
     final ruleConditionProperties = this.ruleConditionProperties;
     return {
       'resolutionType': resolutionType.value,
+      if (enableRealTimeMatching != null)
+        'enableRealTimeMatching': enableRealTimeMatching,
       if (providerProperties != null) 'providerProperties': providerProperties,
       if (ruleBasedProperties != null)
         'ruleBasedProperties': ruleBasedProperties,
@@ -3954,8 +3964,8 @@ class ResolutionTechniques {
 /// contains only the <code>incrementalRunType</code> field, which appears as
 /// "Automatic" in the console.
 /// <important>
-/// For workflows where <code>resolutionType</code> is <code>ML_MATCHING</code>
-/// or <code>PROVIDER</code>, incremental processing is not supported.
+/// For workflows where <code>resolutionType</code> is <code>PROVIDER</code>,
+/// incremental processing is not supported.
 /// </important>
 ///
 /// @nodoc
@@ -3963,8 +3973,8 @@ class IncrementalRunConfig {
   /// The type of incremental run. The only valid value is <code>IMMEDIATE</code>.
   /// This appears as "Automatic" in the console.
   /// <important>
-  /// For workflows where <code>resolutionType</code> is <code>ML_MATCHING</code>
-  /// or <code>PROVIDER</code>, incremental processing is not supported.
+  /// For workflows where <code>resolutionType</code> is <code>PROVIDER</code>,
+  /// incremental processing is not supported.
   /// </important>
   final IncrementalRunType? incrementalRunType;
 

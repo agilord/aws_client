@@ -29,6 +29,12 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// User Guide</a>.
 class Acm {
   final _s.JsonProtocol _protocol;
+  final _s.ServiceMetadata _service;
+  final String? _region;
+  final String? _endpointUrl;
+  final bool _useFipsEndpoint;
+  final bool _useDualStackEndpoint;
+  final String? _serviceType;
   factory Acm({
     required String region,
     _s.AwsClientCredentials? credentials,
@@ -37,6 +43,7 @@ class Acm {
     String? endpointUrl,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
+    String? serviceType,
   }) {
     final service = _s.ServiceMetadata(
       endpointPrefix: 'acm',
@@ -49,17 +56,51 @@ class Acm {
                 region: region,
                 endpoint: endpointUrl,
                 useFips: useFipsEndpoint,
-                useDualStack: useDualStackEndpoint),
+                useDualStack: useDualStackEndpoint,
+                serviceType: serviceType),
             service: service,
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
       ),
+      service: service,
+      region: region,
+      endpointUrl: endpointUrl,
+      useFipsEndpoint: useFipsEndpoint,
+      useDualStackEndpoint: useDualStackEndpoint,
+      serviceType: serviceType,
     );
   }
   Acm._({
     required _s.JsonProtocol protocol,
-  }) : _protocol = protocol;
+    required _s.ServiceMetadata service,
+    required String? region,
+    required String? endpointUrl,
+    required bool useFipsEndpoint,
+    required bool useDualStackEndpoint,
+    required String? serviceType,
+  })  : _protocol = protocol,
+        _service = service,
+        _region = region,
+        _endpointUrl = endpointUrl,
+        _useFipsEndpoint = useFipsEndpoint,
+        _useDualStackEndpoint = useDualStackEndpoint,
+        _serviceType = serviceType;
+  _s.Endpoint _resolveEndpoint({
+    String? serviceType,
+  }) {
+    return _s.Endpoint.fromResolved(
+      _endpoints.resolveEndpoint(
+        region: _region,
+        endpoint: _endpointUrl,
+        useFips: _useFipsEndpoint,
+        useDualStack: _useDualStackEndpoint,
+        serviceType: serviceType ?? _serviceType,
+      ),
+      service: _service,
+      region: _region,
+    );
+  }
 
   /// Closes the internal HTTP client if none was provided at creation.
   /// If a client was passed as a constructor argument, this becomes a noop.
@@ -75,7 +116,10 @@ class Acm {
   /// consists of a <code>key</code> and an optional <code>value</code>. You
   /// specify the certificate on input by its Amazon Resource Name (ARN). You
   /// specify the tag by using a key-value pair.
-  ///
+  /// <note>
+  /// This action applies only to the <code>certificate</code> resource type.
+  /// For all other ACM resource types, use <a>TagResource</a> instead.
+  /// </note>
   /// You can apply a tag to just one certificate if you want to identify a
   /// specific characteristic of that certificate, or you can apply the same tag
   /// to multiple certificates if you want to filter for a common relationship
@@ -98,6 +142,7 @@ class Acm {
   /// May throw [TagPolicyException].
   /// May throw [ThrottlingException].
   /// May throw [TooManyTagsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// String that contains the ARN of the ACM certificate to which the tag is to
@@ -129,6 +174,294 @@ class Acm {
         'CertificateArn': certificateArn,
         'Tags': tags,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
+    );
+  }
+
+  /// Creates a domain validation for an ACME endpoint. Domain validations
+  /// authorize the endpoint to issue certificates for specified domain names.
+  /// You configure prevalidation to prove domain ownership.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  ///
+  /// Parameter [domainName] :
+  /// The domain name to validate.
+  ///
+  /// Parameter [prevalidationOptions] :
+  /// The prevalidation options for the domain.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to associate with the domain validation.
+  Future<CreateAcmeDomainValidationResponse> createAcmeDomainValidation({
+    required String acmeEndpointArn,
+    required String domainName,
+    required PrevalidationOptions prevalidationOptions,
+    String? idempotencyToken,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.CreateAcmeDomainValidation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+        'DomainName': domainName,
+        'PrevalidationOptions': prevalidationOptions,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        if (tags != null) 'Tags': tags,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return CreateAcmeDomainValidationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an ACME endpoint, which is a managed ACME server with a unique
+  /// endpoint URL. After creation, ACME clients can use the endpoint URL to
+  /// automate certificate issuance using the ACME protocol.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [authorizationBehavior] :
+  /// The authorization behavior for the ACME endpoint.
+  ///
+  /// Parameter [certificateAuthority] :
+  /// The type of certificate authority to use for issuing certificates through
+  /// this ACME endpoint.
+  ///
+  /// Parameter [certificateTags] :
+  /// Tags to apply to certificates issued through this ACME endpoint.
+  ///
+  /// Parameter [contact] :
+  /// Specifies whether ACME clients must provide contact information during
+  /// account registration.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to associate with the ACME endpoint.
+  Future<CreateAcmeEndpointResponse> createAcmeEndpoint({
+    required AcmeAuthorizationBehavior authorizationBehavior,
+    required CertificateAuthority certificateAuthority,
+    List<Tag>? certificateTags,
+    AcmeContact? contact,
+    String? idempotencyToken,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.CreateAcmeEndpoint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AuthorizationBehavior': authorizationBehavior.value,
+        'CertificateAuthority': certificateAuthority,
+        if (certificateTags != null) 'CertificateTags': certificateTags,
+        if (contact != null) 'Contact': contact.value,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        if (tags != null) 'Tags': tags,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return CreateAcmeEndpointResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an external account binding (EAB) for an ACME endpoint. An EAB
+  /// provides credentials that authorize an ACME client to register an account
+  /// with the endpoint. Each EAB is associated with an IAM role that controls
+  /// what certificate operations the ACME client can perform.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role to associate with the
+  /// external account binding.
+  ///
+  /// Parameter [expiration] :
+  /// The expiration configuration for the external account binding.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to associate with the external account binding.
+  Future<CreateAcmeExternalAccountBindingResponse>
+      createAcmeExternalAccountBinding({
+    required String acmeEndpointArn,
+    required String roleArn,
+    Expiration? expiration,
+    String? idempotencyToken,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.CreateAcmeExternalAccountBinding'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+        'RoleArn': roleArn,
+        if (expiration != null) 'Expiration': expiration,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        if (tags != null) 'Tags': tags,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return CreateAcmeExternalAccountBindingResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a domain validation. After deletion, the ACME endpoint can no
+  /// longer issue certificates for the associated domain.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeDomainValidationArn] :
+  /// The Amazon Resource Name (ARN) of the ACME domain validation to delete.
+  Future<void> deleteAcmeDomainValidation({
+    required String acmeDomainValidationArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.DeleteAcmeDomainValidation'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeDomainValidationArn': acmeDomainValidationArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+  }
+
+  /// Deletes an ACME endpoint. After deletion, the endpoint URL is no longer
+  /// accessible and ACME clients cannot issue certificates through it. Any
+  /// existing external account bindings and domain validations associated with
+  /// the endpoint are also deleted.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint to delete.
+  Future<void> deleteAcmeEndpoint({
+    required String acmeEndpointArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.DeleteAcmeEndpoint'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+  }
+
+  /// Deletes an external account binding. Previously fetched credentials for
+  /// this binding will no longer be usable for account registration. A deleted
+  /// binding cannot be recovered.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeExternalAccountBindingArn] :
+  /// The Amazon Resource Name (ARN) of the ACME external account binding to
+  /// delete.
+  Future<void> deleteAcmeExternalAccountBinding({
+    required String acmeExternalAccountBindingArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.DeleteAcmeExternalAccountBinding'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
     );
   }
 
@@ -151,6 +484,10 @@ class Acm {
   /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PCADeleteCA.html">
   /// Deleting Your Private CA</a> in the <i>Private Certificate Authority User
   /// Guide</i>.
+  ///
+  /// You cannot delete a certificate with a
+  /// <code>CertificateKeyPairOrigin</code> of <code>ACME</code>. ACM
+  /// automatically deletes these certificates 1 year after they expire.
   /// </note>
   /// Deleting a certificate issued by a private certificate authority (CA) has
   /// no effect on the CA. You will continue to be charged for the CA until it
@@ -165,6 +502,7 @@ class Acm {
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// String that contains the ARN of the ACM certificate to be deleted. This
@@ -191,7 +529,159 @@ class Acm {
       payload: {
         'CertificateArn': certificateArn,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
+  }
+
+  /// Returns detailed metadata about the specified ACME account, including its
+  /// status, public key thumbprint, and associated external account binding.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountUrl] :
+  /// The URL of the ACME account.
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  Future<DescribeAcmeAccountResponse> describeAcmeAccount({
+    required String accountUrl,
+    required String acmeEndpointArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.DescribeAcmeAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountUrl': accountUrl,
+        'AcmeEndpointArn': acmeEndpointArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return DescribeAcmeAccountResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns detailed metadata about the specified domain validation, including
+  /// its status, domain scope, and DNS resource records required for
+  /// validation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeDomainValidationArn] :
+  /// The Amazon Resource Name (ARN) of the ACME domain validation.
+  Future<DescribeAcmeDomainValidationResponse> describeAcmeDomainValidation({
+    required String acmeDomainValidationArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.DescribeAcmeDomainValidation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeDomainValidationArn': acmeDomainValidationArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return DescribeAcmeDomainValidationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns detailed metadata about the specified ACME endpoint, including its
+  /// status, URL, authorization behavior, and certificate authority
+  /// configuration.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  Future<DescribeAcmeEndpointResponse> describeAcmeEndpoint({
+    required String acmeEndpointArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.DescribeAcmeEndpoint'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return DescribeAcmeEndpointResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns detailed metadata about the specified external account binding,
+  /// including the associated IAM role, expiration time, and usage history.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeExternalAccountBindingArn] :
+  /// The Amazon Resource Name (ARN) of the ACME external account binding.
+  Future<DescribeAcmeExternalAccountBindingResponse>
+      describeAcmeExternalAccountBinding({
+    required String acmeExternalAccountBindingArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.DescribeAcmeExternalAccountBinding'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return DescribeAcmeExternalAccountBindingResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns detailed metadata about the specified ACM certificate.
@@ -202,6 +692,7 @@ class Acm {
   ///
   /// May throw [InvalidArnException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have
@@ -228,6 +719,9 @@ class Acm {
       payload: {
         'CertificateArn': certificateArn,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return DescribeCertificateResponse.fromJson(jsonResponse.body);
@@ -254,6 +748,7 @@ class Acm {
   /// May throw [RequestInProgressException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// An Amazon Resource Name (ARN) of the issued certificate. This must be of
@@ -290,6 +785,9 @@ class Acm {
         'CertificateArn': certificateArn,
         'Passphrase': base64Encode(passphrase),
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return ExportCertificateResponse.fromJson(jsonResponse.body);
@@ -311,9 +809,52 @@ class Acm {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return GetAccountConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the key ID and MAC key credentials for an external account
+  /// binding. These credentials are used by ACME clients during account
+  /// registration to bind to the endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeExternalAccountBindingArn] :
+  /// The Amazon Resource Name (ARN) of the ACME external account binding.
+  Future<GetAcmeExternalAccountBindingCredentialsResponse>
+      getAcmeExternalAccountBindingCredentials({
+    required String acmeExternalAccountBindingArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'CertificateManager.GetAcmeExternalAccountBindingCredentials'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return GetAcmeExternalAccountBindingCredentialsResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Retrieves a certificate and its certificate chain. The certificate may be
@@ -329,6 +870,7 @@ class Acm {
   /// May throw [InvalidArnException].
   /// May throw [RequestInProgressException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// String that contains a certificate ARN in the following format:
@@ -354,6 +896,9 @@ class Acm {
       payload: {
         'CertificateArn': certificateArn,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return GetCertificateResponse.fromJson(jsonResponse.body);
@@ -437,6 +982,7 @@ class Acm {
   /// May throw [ResourceNotFoundException].
   /// May throw [TagPolicyException].
   /// May throw [TooManyTagsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificate] :
   /// The certificate to import.
@@ -482,9 +1028,187 @@ class Acm {
           'CertificateChain': base64Encode(certificateChain),
         if (tags != null) 'Tags': tags,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return ImportCertificateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of ACME accounts registered with the specified ACME
+  /// endpoint. ACME accounts are created when clients use external account
+  /// binding credentials to register.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token for pagination.
+  Future<ListAcmeAccountsResponse> listAcmeAccounts({
+    required String acmeEndpointArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.ListAcmeAccounts'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return ListAcmeAccountsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of domain validations for the specified ACME endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token for pagination.
+  Future<ListAcmeDomainValidationsResponse> listAcmeDomainValidations({
+    required String acmeEndpointArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.ListAcmeDomainValidations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return ListAcmeDomainValidationsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of ACME endpoints in your account. Use this operation to
+  /// view all configured ACME endpoints and their current status.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token for pagination.
+  Future<ListAcmeEndpointsResponse> listAcmeEndpoints({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.ListAcmeEndpoints'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return ListAcmeEndpointsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of external account bindings for the specified ACME
+  /// endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token for pagination.
+  Future<ListAcmeExternalAccountBindingsResponse>
+      listAcmeExternalAccountBindings({
+    required String acmeEndpointArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.ListAcmeExternalAccountBindings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+
+    return ListAcmeExternalAccountBindingsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list of certificate ARNs and domain names. You can request
@@ -492,9 +1216,21 @@ class Acm {
   /// also filter by specific attributes of the certificate. Default filtering
   /// returns only <code>RSA_2048</code> certificates. For more information, see
   /// <a>Filters</a>.
+  /// <note>
+  /// By default, this action does not return certificates with a
+  /// <code>CertificateKeyPairOrigin</code> of <code>ACME</code>. To include
+  /// ACME certificates, specify <code>ACME</code> in the
+  /// <code>CertificateKeyPairOrigins</code> filter.
+  /// </note>
   ///
   /// May throw [InvalidArgsException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [certificateKeyPairOrigins] :
+  /// Filter the certificate list by certificate key pair origin. Specify one or
+  /// more <code>CertificateKeyPairOrigin</code> values. Default filtering
+  /// returns only certificates with key pair origin of <code>AWS_MANAGED</code>
+  /// and <code>CUSTOMER_PROVIDED</code>.
   ///
   /// Parameter [certificateStatuses] :
   /// Filter the certificate list by status value.
@@ -523,6 +1259,7 @@ class Acm {
   /// Specifies the order of sorted results. If you specify
   /// <code>SortOrder</code>, you must also specify <code>SortBy</code>.
   Future<ListCertificatesResponse> listCertificates({
+    List<CertificateKeyPairOrigin>? certificateKeyPairOrigins,
     List<CertificateStatus>? certificateStatuses,
     Filters? includes,
     int? maxItems,
@@ -547,6 +1284,9 @@ class Acm {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (certificateKeyPairOrigins != null)
+          'CertificateKeyPairOrigins':
+              certificateKeyPairOrigins.map((e) => e.value).toList(),
         if (certificateStatuses != null)
           'CertificateStatuses':
               certificateStatuses.map((e) => e.value).toList(),
@@ -556,6 +1296,9 @@ class Acm {
         if (sortBy != null) 'SortBy': sortBy.value,
         if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return ListCertificatesResponse.fromJson(jsonResponse.body);
@@ -565,9 +1308,14 @@ class Acm {
   /// certificate's Amazon Resource Name (ARN) to specify the certificate. To
   /// add a tag to an ACM certificate, use the <a>AddTagsToCertificate</a>
   /// action. To delete a tag, use the <a>RemoveTagsFromCertificate</a> action.
+  /// <note>
+  /// This action applies only to the <code>certificate</code> resource type.
+  /// For all other ACM resource types, use <a>ListTagsForResource</a> instead.
+  /// </note>
   ///
   /// May throw [InvalidArnException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// String that contains the ARN of the ACM certificate for which you want to
@@ -594,9 +1342,50 @@ class Acm {
       payload: {
         'CertificateArn': certificateArn,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return ListTagsForCertificateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the tags associated with an ACM resource.
+  /// <note>
+  /// Use this action for all ACM resource types except the
+  /// <code>certificate</code> resource type. For certificate resources, use
+  /// <a>ListTagsForCertificate</a> instead.
+  /// </note>
+  /// To add one or more tags, use the <a>TagResource</a> action. To remove one
+  /// or more tags, use the <a>UntagResource</a> action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the ACM resource for which to list tags.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds or modifies account-level configurations in ACM.
@@ -640,6 +1429,9 @@ class Acm {
         'IdempotencyToken': idempotencyToken,
         if (expiryEvents != null) 'ExpiryEvents': expiryEvents,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
   }
 
@@ -648,7 +1440,10 @@ class Acm {
   /// calling this function, the tag will be removed regardless of value. If you
   /// specify a value, the tag is removed only if it is associated with the
   /// specified value.
-  ///
+  /// <note>
+  /// This action applies only to the <code>certificate</code> resource type.
+  /// For all other ACM resource types, use <a>UntagResource</a> instead.
+  /// </note>
   /// To add tags to a certificate, use the <a>AddTagsToCertificate</a> action.
   /// To view all of the tags that have been applied to a specific ACM
   /// certificate, use the <a>ListTagsForCertificate</a> action.
@@ -659,6 +1454,7 @@ class Acm {
   /// May throw [ResourceNotFoundException].
   /// May throw [TagPolicyException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// String that contains the ARN of the ACM Certificate with one or more tags
@@ -690,6 +1486,9 @@ class Acm {
         'CertificateArn': certificateArn,
         'Tags': tags,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
   }
 
@@ -706,6 +1505,7 @@ class Acm {
   /// May throw [InvalidArnException].
   /// May throw [RequestInProgressException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// String that contains the ARN of the ACM certificate to be renewed. This
@@ -732,6 +1532,9 @@ class Acm {
       payload: {
         'CertificateArn': certificateArn,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
   }
 
@@ -848,15 +1651,13 @@ class Acm {
   /// issued by ACM.
   ///
   /// Parameter [options] :
-  /// You can use this parameter to specify whether to add the certificate to a
-  /// certificate transparency log and export your certificate.
+  /// You can use this parameter to specify whether to export your certificate.
   ///
-  /// Certificate transparency makes it possible to detect SSL/TLS certificates
-  /// that have been mistakenly or maliciously issued. Certificates that have
-  /// not been logged typically produce an error message in a browser. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency">Opting
-  /// Out of Certificate Transparency Logging</a>.
+  /// Certificate transparency logging opt-out is no longer available. All
+  /// public certificates are recorded in a certificate transparency log. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency">Certificate
+  /// Transparency Logging</a>.
   ///
   /// You can export public ACM certificates to use with Amazon Web Services
   /// services as well as outside the Amazon Web Services Cloud. For more
@@ -944,6 +1745,9 @@ class Acm {
         if (validationMethod != null)
           'ValidationMethod': validationMethod.value,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return RequestCertificateResponse.fromJson(jsonResponse.body);
@@ -967,6 +1771,7 @@ class Acm {
   /// May throw [InvalidDomainValidationOptionsException].
   /// May throw [InvalidStateException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// String that contains the ARN of the requested certificate. The certificate
@@ -1027,6 +1832,85 @@ class Acm {
         'Domain': domain,
         'ValidationDomain': validationDomain,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
+    );
+  }
+
+  /// Revokes an ACME account, preventing it from requesting or revoking
+  /// certificates. This operation is irreversible.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountUrl] :
+  /// The URL of the ACME account to revoke.
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  Future<void> revokeAcmeAccount({
+    required String accountUrl,
+    required String acmeEndpointArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.RevokeAcmeAccount'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountUrl': accountUrl,
+        'AcmeEndpointArn': acmeEndpointArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+  }
+
+  /// Revokes an external account binding, preventing new ACME accounts from
+  /// being registered using this binding. Existing ACME accounts that were
+  /// previously registered using the binding are not affected and must be
+  /// revoked separately.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeExternalAccountBindingArn] :
+  /// The Amazon Resource Name (ARN) of the ACME external account binding to
+  /// revoke.
+  Future<void> revokeAcmeExternalAccountBinding({
+    required String acmeExternalAccountBindingArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.RevokeAcmeExternalAccountBinding'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
     );
   }
 
@@ -1043,6 +1927,7 @@ class Acm {
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) of the public or private certificate that
@@ -1070,6 +1955,9 @@ class Acm {
         'CertificateArn': certificateArn,
         'RevocationReason': revocationReason.value,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return RevokeCertificateResponse.fromJson(jsonResponse.body);
@@ -1138,16 +2026,197 @@ class Acm {
         if (sortBy != null) 'SortBy': sortBy.value,
         if (sortOrder != null) 'SortOrder': sortOrder.value,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
 
     return SearchCertificatesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates a certificate. You can use this function to specify whether to opt
-  /// in to or out of recording your certificate in a certificate transparency
-  /// log and exporting. For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency">
-  /// Opting Out of Certificate Transparency Logging</a> and <a
+  /// Adds one or more tags to an ACM resource. Tags are labels that you can use
+  /// to identify and organize your Amazon Web Services resources. Each tag
+  /// consists of a <code>key</code> and an optional <code>value</code>.
+  /// <note>
+  /// Use this action for all ACM resource types except the
+  /// <code>certificate</code> resource type. For certificate resources, use
+  /// <a>AddTagsToCertificate</a> instead.
+  /// </note>
+  /// To remove one or more tags, use the <a>UntagResource</a> action. To view
+  /// all of the tags that have been applied to a resource, use the
+  /// <a>ListTagsForResource</a> action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the ACM resource to which the tag is to be applied.
+  ///
+  /// Parameter [tags] :
+  /// The key-value pair that defines the tag to apply.
+  Future<void> tagResource({
+    required String resourceArn,
+    required List<Tag> tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'Tags': tags,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
+    );
+  }
+
+  /// Removes one or more tags from an ACM resource.
+  /// <note>
+  /// Use this action for all ACM resource types except the
+  /// <code>certificate</code> resource type. For certificate resources, use
+  /// <a>RemoveTagsFromCertificate</a> instead.
+  /// </note>
+  /// To add one or more tags, use the <a>TagResource</a> action. To view all of
+  /// the tags that have been applied to a resource, use the
+  /// <a>ListTagsForResource</a> action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the ACM resource from which the tag is to be removed.
+  ///
+  /// Parameter [tagKeys] :
+  /// The key of each tag to remove.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'TagKeys': tagKeys,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
+    );
+  }
+
+  /// Updates the prevalidation configuration of an existing domain validation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeDomainValidationArn] :
+  /// The Amazon Resource Name (ARN) of the ACME domain validation to update.
+  ///
+  /// Parameter [prevalidationOptions] :
+  /// The updated prevalidation options.
+  Future<void> updateAcmeDomainValidation({
+    required String acmeDomainValidationArn,
+    PrevalidationOptions? prevalidationOptions,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.UpdateAcmeDomainValidation'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeDomainValidationArn': acmeDomainValidationArn,
+        if (prevalidationOptions != null)
+          'PrevalidationOptions': prevalidationOptions,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+  }
+
+  /// Updates the configuration of an existing ACME endpoint. You can change the
+  /// authorization behavior, contact requirement, or certificate authority
+  /// settings.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [acmeEndpointArn] :
+  /// The Amazon Resource Name (ARN) of the ACME endpoint to update.
+  ///
+  /// Parameter [authorizationBehavior] :
+  /// The updated authorization behavior.
+  ///
+  /// Parameter [certificateAuthority] :
+  /// The updated certificate authority configuration.
+  ///
+  /// Parameter [contact] :
+  /// The updated contact requirement.
+  Future<void> updateAcmeEndpoint({
+    required String acmeEndpointArn,
+    AcmeAuthorizationBehavior? authorizationBehavior,
+    CertificateAuthority? certificateAuthority,
+    AcmeContact? contact,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CertificateManager.UpdateAcmeEndpoint'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcmeEndpointArn': acmeEndpointArn,
+        if (authorizationBehavior != null)
+          'AuthorizationBehavior': authorizationBehavior.value,
+        if (certificateAuthority != null)
+          'CertificateAuthority': certificateAuthority,
+        if (contact != null) 'Contact': contact.value,
+      },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM-ACME',
+      ),
+    );
+  }
+
+  /// Updates a certificate. You can use this function to specify whether to
+  /// export your certificate. Certificate transparency logging opt-out is no
+  /// longer available. For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency">Certificate
+  /// Transparency Logging</a> and <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html">Certificate
   /// Manager Exportable Managed Certificates</a>.
   ///
@@ -1155,6 +2224,7 @@ class Acm {
   /// May throw [InvalidStateException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateArn] :
   /// ARN of the requested certificate to update. This must be of the form:
@@ -1164,10 +2234,11 @@ class Acm {
   ///
   /// Parameter [options] :
   /// Use to update the options for your certificate. Currently, you can specify
-  /// whether to add your certificate to a transparency log or export your
-  /// certificate. Certificate transparency makes it possible to detect SSL/TLS
-  /// certificates that have been mistakenly or maliciously issued. Certificates
-  /// that have not been logged typically produce an error message in a browser.
+  /// whether to export your certificate. Certificate transparency logging
+  /// opt-out is no longer available. All public certificates are recorded in a
+  /// certificate transparency log. For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency">Certificate
+  /// Transparency Logging</a>.
   Future<void> updateCertificateOptions({
     required String certificateArn,
     required CertificateOptions options,
@@ -1186,7 +2257,192 @@ class Acm {
         'CertificateArn': certificateArn,
         'Options': options,
       },
+      endpoint: _resolveEndpoint(
+        serviceType: 'ACM',
+      ),
     );
+  }
+}
+
+/// @nodoc
+class CreateAcmeDomainValidationResponse {
+  /// The Amazon Resource Name (ARN) of the created domain validation.
+  final String acmeDomainValidationArn;
+
+  CreateAcmeDomainValidationResponse({
+    required this.acmeDomainValidationArn,
+  });
+
+  factory CreateAcmeDomainValidationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAcmeDomainValidationResponse(
+      acmeDomainValidationArn:
+          (json['AcmeDomainValidationArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeDomainValidationArn = this.acmeDomainValidationArn;
+    return {
+      'AcmeDomainValidationArn': acmeDomainValidationArn,
+    };
+  }
+}
+
+/// @nodoc
+class CreateAcmeEndpointResponse {
+  /// The Amazon Resource Name (ARN) of the created ACME endpoint.
+  final String? acmeEndpointArn;
+
+  CreateAcmeEndpointResponse({
+    this.acmeEndpointArn,
+  });
+
+  factory CreateAcmeEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAcmeEndpointResponse(
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeEndpointArn = this.acmeEndpointArn;
+    return {
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+    };
+  }
+}
+
+/// @nodoc
+class CreateAcmeExternalAccountBindingResponse {
+  /// The created external account binding.
+  final AcmeExternalAccountBinding? externalAccountBinding;
+
+  CreateAcmeExternalAccountBindingResponse({
+    this.externalAccountBinding,
+  });
+
+  factory CreateAcmeExternalAccountBindingResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAcmeExternalAccountBindingResponse(
+      externalAccountBinding: json['ExternalAccountBinding'] != null
+          ? AcmeExternalAccountBinding.fromJson(
+              json['ExternalAccountBinding'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalAccountBinding = this.externalAccountBinding;
+    return {
+      if (externalAccountBinding != null)
+        'ExternalAccountBinding': externalAccountBinding,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeAcmeAccountResponse {
+  /// The ACME account details.
+  final AcmeAccount? acmeAccount;
+
+  DescribeAcmeAccountResponse({
+    this.acmeAccount,
+  });
+
+  factory DescribeAcmeAccountResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAcmeAccountResponse(
+      acmeAccount: json['AcmeAccount'] != null
+          ? AcmeAccount.fromJson(json['AcmeAccount'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeAccount = this.acmeAccount;
+    return {
+      if (acmeAccount != null) 'AcmeAccount': acmeAccount,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeAcmeDomainValidationResponse {
+  /// The ACME domain validation details.
+  final AcmeDomainValidation? acmeDomainValidation;
+
+  DescribeAcmeDomainValidationResponse({
+    this.acmeDomainValidation,
+  });
+
+  factory DescribeAcmeDomainValidationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAcmeDomainValidationResponse(
+      acmeDomainValidation: json['AcmeDomainValidation'] != null
+          ? AcmeDomainValidation.fromJson(
+              json['AcmeDomainValidation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeDomainValidation = this.acmeDomainValidation;
+    return {
+      if (acmeDomainValidation != null)
+        'AcmeDomainValidation': acmeDomainValidation,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeAcmeEndpointResponse {
+  /// The ACME endpoint details.
+  final AcmeEndpoint? acmeEndpoint;
+
+  DescribeAcmeEndpointResponse({
+    this.acmeEndpoint,
+  });
+
+  factory DescribeAcmeEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAcmeEndpointResponse(
+      acmeEndpoint: json['AcmeEndpoint'] != null
+          ? AcmeEndpoint.fromJson(json['AcmeEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeEndpoint = this.acmeEndpoint;
+    return {
+      if (acmeEndpoint != null) 'AcmeEndpoint': acmeEndpoint,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeAcmeExternalAccountBindingResponse {
+  /// The external account binding details.
+  final AcmeExternalAccountBinding? externalAccountBinding;
+
+  DescribeAcmeExternalAccountBindingResponse({
+    this.externalAccountBinding,
+  });
+
+  factory DescribeAcmeExternalAccountBindingResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAcmeExternalAccountBindingResponse(
+      externalAccountBinding: json['ExternalAccountBinding'] != null
+          ? AcmeExternalAccountBinding.fromJson(
+              json['ExternalAccountBinding'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalAccountBinding = this.externalAccountBinding;
+    return {
+      if (externalAccountBinding != null)
+        'ExternalAccountBinding': externalAccountBinding,
+    };
   }
 }
 
@@ -1283,6 +2539,37 @@ class GetAccountConfigurationResponse {
 }
 
 /// @nodoc
+class GetAcmeExternalAccountBindingCredentialsResponse {
+  /// The key identifier for the external account binding credentials.
+  final String? keyId;
+
+  /// The MAC key for the external account binding credentials.
+  final String? macKey;
+
+  GetAcmeExternalAccountBindingCredentialsResponse({
+    this.keyId,
+    this.macKey,
+  });
+
+  factory GetAcmeExternalAccountBindingCredentialsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetAcmeExternalAccountBindingCredentialsResponse(
+      keyId: json['KeyId'] as String?,
+      macKey: json['MacKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyId = this.keyId;
+    final macKey = this.macKey;
+    return {
+      if (keyId != null) 'KeyId': keyId,
+      if (macKey != null) 'MacKey': macKey,
+    };
+  }
+}
+
+/// @nodoc
 class GetCertificateResponse {
   /// The ACM-issued certificate corresponding to the ARN specified as input.
   final String? certificate;
@@ -1340,6 +2627,144 @@ class ImportCertificateResponse {
 }
 
 /// @nodoc
+class ListAcmeAccountsResponse {
+  /// The list of ACME accounts.
+  final List<AcmeAccountSummary>? acmeAccounts;
+
+  /// A token for pagination.
+  final String? nextToken;
+
+  ListAcmeAccountsResponse({
+    this.acmeAccounts,
+    this.nextToken,
+  });
+
+  factory ListAcmeAccountsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAcmeAccountsResponse(
+      acmeAccounts: (json['AcmeAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => AcmeAccountSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeAccounts = this.acmeAccounts;
+    final nextToken = this.nextToken;
+    return {
+      if (acmeAccounts != null) 'AcmeAccounts': acmeAccounts,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListAcmeDomainValidationsResponse {
+  /// The list of domain validations.
+  final List<AcmeDomainValidationSummary>? acmeDomainValidations;
+
+  /// A token for pagination.
+  final String? nextToken;
+
+  ListAcmeDomainValidationsResponse({
+    this.acmeDomainValidations,
+    this.nextToken,
+  });
+
+  factory ListAcmeDomainValidationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAcmeDomainValidationsResponse(
+      acmeDomainValidations: (json['AcmeDomainValidations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AcmeDomainValidationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeDomainValidations = this.acmeDomainValidations;
+    final nextToken = this.nextToken;
+    return {
+      if (acmeDomainValidations != null)
+        'AcmeDomainValidations': acmeDomainValidations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListAcmeEndpointsResponse {
+  /// The list of ACME endpoints.
+  final List<AcmeEndpointSummary>? acmeEndpoints;
+
+  /// A token for pagination.
+  final String? nextToken;
+
+  ListAcmeEndpointsResponse({
+    this.acmeEndpoints,
+    this.nextToken,
+  });
+
+  factory ListAcmeEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAcmeEndpointsResponse(
+      acmeEndpoints: (json['AcmeEndpoints'] as List?)
+          ?.nonNulls
+          .map((e) => AcmeEndpointSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeEndpoints = this.acmeEndpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (acmeEndpoints != null) 'AcmeEndpoints': acmeEndpoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListAcmeExternalAccountBindingsResponse {
+  /// The list of external account bindings.
+  final List<AcmeExternalAccountBindingSummary>? externalAccountBindings;
+
+  /// A token for pagination.
+  final String? nextToken;
+
+  ListAcmeExternalAccountBindingsResponse({
+    this.externalAccountBindings,
+    this.nextToken,
+  });
+
+  factory ListAcmeExternalAccountBindingsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAcmeExternalAccountBindingsResponse(
+      externalAccountBindings: (json['ExternalAccountBindings'] as List?)
+          ?.nonNulls
+          .map((e) => AcmeExternalAccountBindingSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalAccountBindings = this.externalAccountBindings;
+    final nextToken = this.nextToken;
+    return {
+      if (externalAccountBindings != null)
+        'ExternalAccountBindings': externalAccountBindings,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListCertificatesResponse {
   /// A list of ACM certificates.
   final List<CertificateSummary>? certificateSummaryList;
@@ -1386,6 +2811,32 @@ class ListTagsForCertificateResponse {
 
   factory ListTagsForCertificateResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForCertificateResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class ListTagsForResourceResponse {
+  /// The tags associated with the resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -1489,14 +2940,11 @@ class SearchCertificatesResponse {
 }
 
 /// Structure that contains options for your certificate. You can use this
-/// structure to specify whether to opt in to or out of certificate transparency
-/// logging and export your certificate.
+/// structure to specify whether to export your certificate.
 ///
-/// Some browsers require that public certificates issued for your domain be
-/// recorded in a log. Certificates that are not logged typically generate a
-/// browser error. Transparency makes it possible for you to detect SSL/TLS
-/// certificates that have been mistakenly or maliciously issued for your
-/// domain. For general information, see <a
+/// Certificate transparency logging opt-out is no longer available. All public
+/// certificates are recorded in a certificate transparency log. For general
+/// information, see <a
 /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency">Certificate
 /// Transparency Logging</a>.
 ///
@@ -1508,8 +2956,9 @@ class SearchCertificatesResponse {
 ///
 /// @nodoc
 class CertificateOptions {
-  /// You can opt out of certificate transparency logging by specifying the
-  /// <code>DISABLED</code> option. Opt in by specifying <code>ENABLED</code>.
+  /// This parameter has been deprecated. Certificate transparency logging opt-out
+  /// is no longer available. All public certificates are recorded in a
+  /// certificate transparency log.
   final CertificateTransparencyLoggingPreference?
       certificateTransparencyLoggingPreference;
 
@@ -1595,6 +3044,286 @@ class CertificateExport {
 
   @override
   String toString() => value;
+}
+
+/// @nodoc
+class AcmeAuthorizationBehavior {
+  static const preApproved = AcmeAuthorizationBehavior._('PRE_APPROVED');
+
+  final String value;
+
+  const AcmeAuthorizationBehavior._(this.value);
+
+  static const values = [preApproved];
+
+  static AcmeAuthorizationBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcmeAuthorizationBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcmeAuthorizationBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class AcmeContact {
+  static const required = AcmeContact._('REQUIRED');
+  static const notRequired = AcmeContact._('NOT_REQUIRED');
+
+  final String value;
+
+  const AcmeContact._(this.value);
+
+  static const values = [required, notRequired];
+
+  static AcmeContact fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AcmeContact._(value));
+
+  @override
+  bool operator ==(other) => other is AcmeContact && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the certificate authority to use for an ACME endpoint.
+///
+/// @nodoc
+class CertificateAuthority {
+  /// Configuration for using a public certificate authority.
+  final PublicCertificateAuthority? publicCertificateAuthority;
+
+  CertificateAuthority({
+    this.publicCertificateAuthority,
+  });
+
+  factory CertificateAuthority.fromJson(Map<String, dynamic> json) {
+    return CertificateAuthority(
+      publicCertificateAuthority: json['PublicCertificateAuthority'] != null
+          ? PublicCertificateAuthority.fromJson(
+              json['PublicCertificateAuthority'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publicCertificateAuthority = this.publicCertificateAuthority;
+    return {
+      if (publicCertificateAuthority != null)
+        'PublicCertificateAuthority': publicCertificateAuthority,
+    };
+  }
+}
+
+/// Configuration for a public certificate authority.
+///
+/// @nodoc
+class PublicCertificateAuthority {
+  /// The key algorithms allowed for certificates issued by this certificate
+  /// authority.
+  final List<PublicKeyAlgorithm>? allowedKeyAlgorithms;
+
+  PublicCertificateAuthority({
+    this.allowedKeyAlgorithms,
+  });
+
+  factory PublicCertificateAuthority.fromJson(Map<String, dynamic> json) {
+    return PublicCertificateAuthority(
+      allowedKeyAlgorithms: (json['AllowedKeyAlgorithms'] as List?)
+          ?.nonNulls
+          .map((e) => PublicKeyAlgorithm.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedKeyAlgorithms = this.allowedKeyAlgorithms;
+    return {
+      if (allowedKeyAlgorithms != null)
+        'AllowedKeyAlgorithms':
+            allowedKeyAlgorithms.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// @nodoc
+class PublicKeyAlgorithm {
+  static const rsa_2048 = PublicKeyAlgorithm._('RSA_2048');
+  static const ecPrime256v1 = PublicKeyAlgorithm._('EC_prime256v1');
+  static const ecSecp384r1 = PublicKeyAlgorithm._('EC_secp384r1');
+
+  final String value;
+
+  const PublicKeyAlgorithm._(this.value);
+
+  static const values = [rsa_2048, ecPrime256v1, ecSecp384r1];
+
+  static PublicKeyAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PublicKeyAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PublicKeyAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies prevalidation options for domain validation.
+///
+/// @nodoc
+class PrevalidationOptions {
+  /// DNS-based prevalidation options.
+  final DnsPrevalidationOptions? dnsPrevalidation;
+
+  PrevalidationOptions({
+    this.dnsPrevalidation,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dnsPrevalidation = this.dnsPrevalidation;
+    return {
+      if (dnsPrevalidation != null) 'DnsPrevalidation': dnsPrevalidation,
+    };
+  }
+}
+
+/// DNS prevalidation options for domain validation.
+///
+/// @nodoc
+class DnsPrevalidationOptions {
+  /// The scope of domains covered by this prevalidation.
+  final DomainScope? domainScope;
+
+  /// The Route 53 hosted zone ID for DNS validation.
+  final String? hostedZoneId;
+
+  DnsPrevalidationOptions({
+    this.domainScope,
+    this.hostedZoneId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final domainScope = this.domainScope;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      if (domainScope != null) 'DomainScope': domainScope,
+      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+    };
+  }
+}
+
+/// Specifies the scope of domain validation.
+///
+/// @nodoc
+class DomainScope {
+  /// Whether validation applies to the exact domain.
+  final DomainScopeOption? exactDomain;
+
+  /// Whether validation applies to subdomains.
+  final DomainScopeOption? subdomains;
+
+  /// Whether validation applies to wildcard domains.
+  final DomainScopeOption? wildcards;
+
+  DomainScope({
+    this.exactDomain,
+    this.subdomains,
+    this.wildcards,
+  });
+
+  factory DomainScope.fromJson(Map<String, dynamic> json) {
+    return DomainScope(
+      exactDomain:
+          (json['ExactDomain'] as String?)?.let(DomainScopeOption.fromString),
+      subdomains:
+          (json['Subdomains'] as String?)?.let(DomainScopeOption.fromString),
+      wildcards:
+          (json['Wildcards'] as String?)?.let(DomainScopeOption.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exactDomain = this.exactDomain;
+    final subdomains = this.subdomains;
+    final wildcards = this.wildcards;
+    return {
+      if (exactDomain != null) 'ExactDomain': exactDomain.value,
+      if (subdomains != null) 'Subdomains': subdomains.value,
+      if (wildcards != null) 'Wildcards': wildcards.value,
+    };
+  }
+}
+
+/// @nodoc
+class DomainScopeOption {
+  static const enabled = DomainScopeOption._('ENABLED');
+  static const disabled = DomainScopeOption._('DISABLED');
+
+  final String value;
+
+  const DomainScopeOption._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static DomainScopeOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainScopeOption._(value));
+
+  @override
+  bool operator ==(other) => other is DomainScopeOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key-value pair that identifies or specifies metadata about an ACM
+/// resource.
+///
+/// @nodoc
+class Tag {
+  /// The key of the tag.
+  final String key;
+
+  /// The value of the tag.
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Contains information about a certificate returned by the
@@ -1786,6 +3515,15 @@ class CertificateMetadata {
 ///
 /// @nodoc
 class AcmCertificateMetadata {
+  /// The ACME account identifier associated with the certificate.
+  final String? acmeAccountId;
+
+  /// The ARN of the ACME endpoint used to issue the certificate.
+  final String? acmeEndpointArn;
+
+  /// The origin of the certificate's key pair.
+  final CertificateKeyPairOrigin? certificateKeyPairOrigin;
+
   /// The time at which the certificate was requested.
   final DateTime? createdAt;
 
@@ -1854,6 +3592,9 @@ class AcmCertificateMetadata {
   final ValidationMethod? validationMethod;
 
   AcmCertificateMetadata({
+    this.acmeAccountId,
+    this.acmeEndpointArn,
+    this.certificateKeyPairOrigin,
     this.createdAt,
     this.exportOption,
     this.exported,
@@ -1871,6 +3612,10 @@ class AcmCertificateMetadata {
 
   factory AcmCertificateMetadata.fromJson(Map<String, dynamic> json) {
     return AcmCertificateMetadata(
+      acmeAccountId: json['AcmeAccountId'] as String?,
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+      certificateKeyPairOrigin: (json['CertificateKeyPairOrigin'] as String?)
+          ?.let(CertificateKeyPairOrigin.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       exportOption:
           (json['ExportOption'] as String?)?.let(CertificateExport.fromString),
@@ -1893,6 +3638,9 @@ class AcmCertificateMetadata {
   }
 
   Map<String, dynamic> toJson() {
+    final acmeAccountId = this.acmeAccountId;
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final certificateKeyPairOrigin = this.certificateKeyPairOrigin;
     final createdAt = this.createdAt;
     final exportOption = this.exportOption;
     final exported = this.exported;
@@ -1907,6 +3655,10 @@ class AcmCertificateMetadata {
     final type = this.type;
     final validationMethod = this.validationMethod;
     return {
+      if (acmeAccountId != null) 'AcmeAccountId': acmeAccountId,
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (certificateKeyPairOrigin != null)
+        'CertificateKeyPairOrigin': certificateKeyPairOrigin.value,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (exportOption != null) 'ExportOption': exportOption.value,
       if (exported != null) 'Exported': exported,
@@ -2090,6 +3842,36 @@ class ValidationMethod {
 
   @override
   bool operator ==(other) => other is ValidationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The origin of the certificate's key pair.
+///
+/// @nodoc
+class CertificateKeyPairOrigin {
+  static const awsManaged = CertificateKeyPairOrigin._('AWS_MANAGED');
+  static const acme = CertificateKeyPairOrigin._('ACME');
+  static const customerProvided =
+      CertificateKeyPairOrigin._('CUSTOMER_PROVIDED');
+
+  final String value;
+
+  const CertificateKeyPairOrigin._(this.value);
+
+  static const values = [awsManaged, acme, customerProvided];
+
+  static CertificateKeyPairOrigin fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateKeyPairOrigin._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateKeyPairOrigin && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2582,6 +4364,11 @@ class SearchCertificatesSortBy {
   static const validationMethod =
       SearchCertificatesSortBy._('VALIDATION_METHOD');
   static const importedAt = SearchCertificatesSortBy._('IMPORTED_AT');
+  static const acmeEndpointArn =
+      SearchCertificatesSortBy._('ACME_ENDPOINT_ARN');
+  static const acmeAccountId = SearchCertificatesSortBy._('ACME_ACCOUNT_ID');
+  static const certificateKeyPairOrigin =
+      SearchCertificatesSortBy._('CERTIFICATE_KEY_PAIR_ORIGIN');
 
   final String value;
 
@@ -2605,7 +4392,10 @@ class SearchCertificatesSortBy {
     managedBy,
     exportOption,
     validationMethod,
-    importedAt
+    importedAt,
+    acmeEndpointArn,
+    acmeAccountId,
+    certificateKeyPairOrigin
   ];
 
   static SearchCertificatesSortBy fromString(String value) =>
@@ -2751,6 +4541,15 @@ class X509AttributeFilter {
 ///
 /// @nodoc
 class AcmCertificateMetadataFilter {
+  /// Filter by ACME account identifier.
+  final String? acmeAccountId;
+
+  /// Filter by ACME endpoint ARN.
+  final String? acmeEndpointArn;
+
+  /// Filter by certificate key pair origin.
+  final CertificateKeyPairOrigin? certificateKeyPairOrigin;
+
   /// Filter by certificate export option.
   final CertificateExport? exportOption;
 
@@ -2776,6 +4575,9 @@ class AcmCertificateMetadataFilter {
   final ValidationMethod? validationMethod;
 
   AcmCertificateMetadataFilter({
+    this.acmeAccountId,
+    this.acmeEndpointArn,
+    this.certificateKeyPairOrigin,
     this.exportOption,
     this.exported,
     this.inUse,
@@ -2787,6 +4589,9 @@ class AcmCertificateMetadataFilter {
   });
 
   Map<String, dynamic> toJson() {
+    final acmeAccountId = this.acmeAccountId;
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final certificateKeyPairOrigin = this.certificateKeyPairOrigin;
     final exportOption = this.exportOption;
     final exported = this.exported;
     final inUse = this.inUse;
@@ -2796,6 +4601,10 @@ class AcmCertificateMetadataFilter {
     final type = this.type;
     final validationMethod = this.validationMethod;
     return {
+      if (acmeAccountId != null) 'AcmeAccountId': acmeAccountId,
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (certificateKeyPairOrigin != null)
+        'CertificateKeyPairOrigin': certificateKeyPairOrigin.value,
       if (exportOption != null) 'ExportOption': exportOption.value,
       if (exported != null) 'Exported': exported,
       if (inUse != null) 'InUse': inUse,
@@ -2997,39 +4806,6 @@ class RevocationReason {
   String toString() => value;
 }
 
-/// A key-value pair that identifies or specifies metadata about an ACM
-/// resource.
-///
-/// @nodoc
-class Tag {
-  /// The key of the tag.
-  final String key;
-
-  /// The value of the tag.
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
 /// Contains information about the domain names that you want ACM to use to send
 /// you emails that enable you to validate domain ownership.
 ///
@@ -3123,6 +4899,9 @@ class CertificateSummary {
   /// Resource Names (ARNs)</a>.
   final String? certificateArn;
 
+  /// The origin of the certificate's key pair.
+  final CertificateKeyPairOrigin? certificateKeyPairOrigin;
+
   /// The time at which the certificate was requested.
   final DateTime? createdAt;
 
@@ -3133,8 +4912,7 @@ class CertificateSummary {
   /// Indicates if export is enabled for the certificate.
   final CertificateExport? exportOption;
 
-  /// Indicates whether the certificate has been exported. This value exists only
-  /// when the certificate type is <code>PRIVATE</code>.
+  /// Indicates whether the certificate has been exported.
   final bool? exported;
 
   /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each
@@ -3235,6 +5013,7 @@ class CertificateSummary {
 
   CertificateSummary({
     this.certificateArn,
+    this.certificateKeyPairOrigin,
     this.createdAt,
     this.domainName,
     this.exportOption,
@@ -3259,6 +5038,8 @@ class CertificateSummary {
   factory CertificateSummary.fromJson(Map<String, dynamic> json) {
     return CertificateSummary(
       certificateArn: json['CertificateArn'] as String?,
+      certificateKeyPairOrigin: (json['CertificateKeyPairOrigin'] as String?)
+          ?.let(CertificateKeyPairOrigin.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       domainName: json['DomainName'] as String?,
       exportOption:
@@ -3298,6 +5079,7 @@ class CertificateSummary {
 
   Map<String, dynamic> toJson() {
     final certificateArn = this.certificateArn;
+    final certificateKeyPairOrigin = this.certificateKeyPairOrigin;
     final createdAt = this.createdAt;
     final domainName = this.domainName;
     final exportOption = this.exportOption;
@@ -3321,6 +5103,8 @@ class CertificateSummary {
     final type = this.type;
     return {
       if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (certificateKeyPairOrigin != null)
+        'CertificateKeyPairOrigin': certificateKeyPairOrigin.value,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (domainName != null) 'DomainName': domainName,
       if (exportOption != null) 'ExportOption': exportOption.value,
@@ -3451,11 +5235,679 @@ class SortOrder {
   String toString() => value;
 }
 
+/// Contains summary information about an ACME external account binding.
+///
+/// @nodoc
+class AcmeExternalAccountBindingSummary {
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  final String? acmeEndpointArn;
+
+  /// The Amazon Resource Name (ARN) of the ACME external account binding.
+  final String? acmeExternalAccountBindingArn;
+
+  /// The time at which the external account binding was created.
+  final DateTime? createdAt;
+
+  /// The time at which the external account binding expires.
+  final DateTime? expiresAt;
+
+  /// The time at which the external account binding was last used.
+  final DateTime? lastUsedAt;
+
+  /// The time at which the external account binding was revoked.
+  final DateTime? revokedAt;
+
+  /// The Amazon Resource Name (ARN) of the IAM role associated with the external
+  /// account binding.
+  final String? roleArn;
+
+  /// The time at which the external account binding was last updated.
+  final DateTime? updatedAt;
+
+  AcmeExternalAccountBindingSummary({
+    this.acmeEndpointArn,
+    this.acmeExternalAccountBindingArn,
+    this.createdAt,
+    this.expiresAt,
+    this.lastUsedAt,
+    this.revokedAt,
+    this.roleArn,
+    this.updatedAt,
+  });
+
+  factory AcmeExternalAccountBindingSummary.fromJson(
+      Map<String, dynamic> json) {
+    return AcmeExternalAccountBindingSummary(
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+      acmeExternalAccountBindingArn:
+          json['AcmeExternalAccountBindingArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+      lastUsedAt: timeStampFromJson(json['LastUsedAt']),
+      revokedAt: timeStampFromJson(json['RevokedAt']),
+      roleArn: json['RoleArn'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final acmeExternalAccountBindingArn = this.acmeExternalAccountBindingArn;
+    final createdAt = this.createdAt;
+    final expiresAt = this.expiresAt;
+    final lastUsedAt = this.lastUsedAt;
+    final revokedAt = this.revokedAt;
+    final roleArn = this.roleArn;
+    final updatedAt = this.updatedAt;
+    return {
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (acmeExternalAccountBindingArn != null)
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+      if (lastUsedAt != null) 'LastUsedAt': unixTimestampToJson(lastUsedAt),
+      if (revokedAt != null) 'RevokedAt': unixTimestampToJson(revokedAt),
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains summary information about an ACME endpoint.
+///
+/// @nodoc
+class AcmeEndpointSummary {
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  final String? acmeEndpointArn;
+
+  /// The authorization behavior of the ACME endpoint.
+  final AcmeAuthorizationBehavior? authorizationBehavior;
+
+  /// The certificate authority configuration for the ACME endpoint.
+  final CertificateAuthority? certificateAuthority;
+
+  /// Tags applied to certificates issued through this ACME endpoint.
+  final List<Tag>? certificateTags;
+
+  /// Whether ACME clients must provide contact information during account
+  /// registration.
+  final AcmeContact? contact;
+
+  /// The time at which the ACME endpoint was created.
+  final DateTime? createdAt;
+
+  /// The URL of the ACME endpoint.
+  final String? endpointUrl;
+
+  /// The reason the ACME endpoint failed, if applicable.
+  final String? failureReason;
+
+  /// The status of the ACME endpoint.
+  final AcmeEndpointStatus? status;
+
+  /// The time at which the ACME endpoint was last updated.
+  final DateTime? updatedAt;
+
+  AcmeEndpointSummary({
+    this.acmeEndpointArn,
+    this.authorizationBehavior,
+    this.certificateAuthority,
+    this.certificateTags,
+    this.contact,
+    this.createdAt,
+    this.endpointUrl,
+    this.failureReason,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory AcmeEndpointSummary.fromJson(Map<String, dynamic> json) {
+    return AcmeEndpointSummary(
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+      authorizationBehavior: (json['AuthorizationBehavior'] as String?)
+          ?.let(AcmeAuthorizationBehavior.fromString),
+      certificateAuthority: json['CertificateAuthority'] != null
+          ? CertificateAuthority.fromJson(
+              json['CertificateAuthority'] as Map<String, dynamic>)
+          : null,
+      certificateTags: (json['CertificateTags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      contact: (json['Contact'] as String?)?.let(AcmeContact.fromString),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      endpointUrl: json['EndpointUrl'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      status: (json['Status'] as String?)?.let(AcmeEndpointStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final authorizationBehavior = this.authorizationBehavior;
+    final certificateAuthority = this.certificateAuthority;
+    final certificateTags = this.certificateTags;
+    final contact = this.contact;
+    final createdAt = this.createdAt;
+    final endpointUrl = this.endpointUrl;
+    final failureReason = this.failureReason;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (authorizationBehavior != null)
+        'AuthorizationBehavior': authorizationBehavior.value,
+      if (certificateAuthority != null)
+        'CertificateAuthority': certificateAuthority,
+      if (certificateTags != null) 'CertificateTags': certificateTags,
+      if (contact != null) 'Contact': contact.value,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (endpointUrl != null) 'EndpointUrl': endpointUrl,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class AcmeEndpointStatus {
+  static const creating = AcmeEndpointStatus._('CREATING');
+  static const active = AcmeEndpointStatus._('ACTIVE');
+  static const deleting = AcmeEndpointStatus._('DELETING');
+  static const failed = AcmeEndpointStatus._('FAILED');
+
+  final String value;
+
+  const AcmeEndpointStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed];
+
+  static AcmeEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcmeEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcmeEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about an ACME domain validation.
+///
+/// @nodoc
+class AcmeDomainValidationSummary {
+  /// The Amazon Resource Name (ARN) of the ACME domain validation.
+  final String? acmeDomainValidationArn;
+
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  final String? acmeEndpointArn;
+
+  /// The time at which the domain validation was created.
+  final DateTime? createdAt;
+
+  /// The domain name being validated.
+  final String? domainName;
+
+  /// Details about the failure, if the validation failed.
+  final FailureDetails? failureDetails;
+
+  /// Details about the prevalidation configuration.
+  final PrevalidationDetails? prevalidationDetails;
+
+  /// The type of prevalidation used.
+  final PrevalidationType? prevalidationType;
+
+  /// The status of the domain validation.
+  final AcmeDomainValidationStatus? status;
+
+  /// The time at which the domain validation was last updated.
+  final DateTime? updatedAt;
+
+  AcmeDomainValidationSummary({
+    this.acmeDomainValidationArn,
+    this.acmeEndpointArn,
+    this.createdAt,
+    this.domainName,
+    this.failureDetails,
+    this.prevalidationDetails,
+    this.prevalidationType,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory AcmeDomainValidationSummary.fromJson(Map<String, dynamic> json) {
+    return AcmeDomainValidationSummary(
+      acmeDomainValidationArn: json['AcmeDomainValidationArn'] as String?,
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      domainName: json['DomainName'] as String?,
+      failureDetails: json['FailureDetails'] != null
+          ? FailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      prevalidationDetails: json['PrevalidationDetails'] != null
+          ? PrevalidationDetails.fromJson(
+              json['PrevalidationDetails'] as Map<String, dynamic>)
+          : null,
+      prevalidationType: (json['PrevalidationType'] as String?)
+          ?.let(PrevalidationType.fromString),
+      status: (json['Status'] as String?)
+          ?.let(AcmeDomainValidationStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeDomainValidationArn = this.acmeDomainValidationArn;
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final createdAt = this.createdAt;
+    final domainName = this.domainName;
+    final failureDetails = this.failureDetails;
+    final prevalidationDetails = this.prevalidationDetails;
+    final prevalidationType = this.prevalidationType;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (acmeDomainValidationArn != null)
+        'AcmeDomainValidationArn': acmeDomainValidationArn,
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (domainName != null) 'DomainName': domainName,
+      if (failureDetails != null) 'FailureDetails': failureDetails,
+      if (prevalidationDetails != null)
+        'PrevalidationDetails': prevalidationDetails,
+      if (prevalidationType != null)
+        'PrevalidationType': prevalidationType.value,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class PrevalidationType {
+  static const dnsPrevalidation = PrevalidationType._('DNS_PREVALIDATION');
+
+  final String value;
+
+  const PrevalidationType._(this.value);
+
+  static const values = [dnsPrevalidation];
+
+  static PrevalidationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrevalidationType._(value));
+
+  @override
+  bool operator ==(other) => other is PrevalidationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about the prevalidation configuration.
+///
+/// @nodoc
+class PrevalidationDetails {
+  /// DNS-based prevalidation details.
+  final DnsPrevalidationDetails? dnsPrevalidation;
+
+  PrevalidationDetails({
+    this.dnsPrevalidation,
+  });
+
+  factory PrevalidationDetails.fromJson(Map<String, dynamic> json) {
+    return PrevalidationDetails(
+      dnsPrevalidation: json['DnsPrevalidation'] != null
+          ? DnsPrevalidationDetails.fromJson(
+              json['DnsPrevalidation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dnsPrevalidation = this.dnsPrevalidation;
+    return {
+      if (dnsPrevalidation != null) 'DnsPrevalidation': dnsPrevalidation,
+    };
+  }
+}
+
+/// @nodoc
+class AcmeDomainValidationStatus {
+  static const validating = AcmeDomainValidationStatus._('VALIDATING');
+  static const valid = AcmeDomainValidationStatus._('VALID');
+  static const invalid = AcmeDomainValidationStatus._('INVALID');
+  static const deleting = AcmeDomainValidationStatus._('DELETING');
+
+  final String value;
+
+  const AcmeDomainValidationStatus._(this.value);
+
+  static const values = [validating, valid, invalid, deleting];
+
+  static AcmeDomainValidationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcmeDomainValidationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcmeDomainValidationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about a failure.
+///
+/// @nodoc
+class FailureDetails {
+  /// A message describing the failure.
+  final String? message;
+
+  /// The reason for the failure.
+  final AcmeDomainValidationFailureReason? reason;
+
+  FailureDetails({
+    this.message,
+    this.reason,
+  });
+
+  factory FailureDetails.fromJson(Map<String, dynamic> json) {
+    return FailureDetails(
+      message: json['Message'] as String?,
+      reason: (json['Reason'] as String?)
+          ?.let(AcmeDomainValidationFailureReason.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final reason = this.reason;
+    return {
+      if (message != null) 'Message': message,
+      if (reason != null) 'Reason': reason.value,
+    };
+  }
+}
+
+/// @nodoc
+class AcmeDomainValidationFailureReason {
+  static const accessDenied =
+      AcmeDomainValidationFailureReason._('ACCESS_DENIED');
+  static const domainMismatch =
+      AcmeDomainValidationFailureReason._('DOMAIN_MISMATCH');
+  static const domainNotAllowed =
+      AcmeDomainValidationFailureReason._('DOMAIN_NOT_ALLOWED');
+  static const endpointNotActive =
+      AcmeDomainValidationFailureReason._('ENDPOINT_NOT_ACTIVE');
+  static const hostedZoneNotFound =
+      AcmeDomainValidationFailureReason._('HOSTED_ZONE_NOT_FOUND');
+  static const internalFailure =
+      AcmeDomainValidationFailureReason._('INTERNAL_FAILURE');
+  static const invalidChangeBatch =
+      AcmeDomainValidationFailureReason._('INVALID_CHANGE_BATCH');
+  static const invalidPublicDomain =
+      AcmeDomainValidationFailureReason._('INVALID_PUBLIC_DOMAIN');
+  static const timedOut = AcmeDomainValidationFailureReason._('TIMED_OUT');
+
+  final String value;
+
+  const AcmeDomainValidationFailureReason._(this.value);
+
+  static const values = [
+    accessDenied,
+    domainMismatch,
+    domainNotAllowed,
+    endpointNotActive,
+    hostedZoneNotFound,
+    internalFailure,
+    invalidChangeBatch,
+    invalidPublicDomain,
+    timedOut
+  ];
+
+  static AcmeDomainValidationFailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcmeDomainValidationFailureReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcmeDomainValidationFailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// DNS prevalidation details including the resource record for validation.
+///
+/// @nodoc
+class DnsPrevalidationDetails {
+  /// The scope of domains covered by this prevalidation.
+  final DomainScope? domainScope;
+
+  /// The Route 53 hosted zone ID for DNS validation.
+  final String? hostedZoneId;
+
+  /// The DNS resource record to create for domain validation.
+  final ResourceRecord? resourceRecord;
+
+  DnsPrevalidationDetails({
+    this.domainScope,
+    this.hostedZoneId,
+    this.resourceRecord,
+  });
+
+  factory DnsPrevalidationDetails.fromJson(Map<String, dynamic> json) {
+    return DnsPrevalidationDetails(
+      domainScope: json['DomainScope'] != null
+          ? DomainScope.fromJson(json['DomainScope'] as Map<String, dynamic>)
+          : null,
+      hostedZoneId: json['HostedZoneId'] as String?,
+      resourceRecord: json['ResourceRecord'] != null
+          ? ResourceRecord.fromJson(
+              json['ResourceRecord'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainScope = this.domainScope;
+    final hostedZoneId = this.hostedZoneId;
+    final resourceRecord = this.resourceRecord;
+    return {
+      if (domainScope != null) 'DomainScope': domainScope,
+      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+      if (resourceRecord != null) 'ResourceRecord': resourceRecord,
+    };
+  }
+}
+
+/// Contains a DNS record value that you can use to validate ownership or
+/// control of a domain. This is used by the <a>DescribeCertificate</a> action.
+///
+/// @nodoc
+class ResourceRecord {
+  /// The name of the DNS record to create in your domain. This is supplied by
+  /// ACM.
+  final String name;
+
+  /// The type of DNS record. Currently this can be <code>CNAME</code>.
+  final RecordType type;
+
+  /// The value of the CNAME record to add to your DNS database. This is supplied
+  /// by ACM.
+  final String value;
+
+  ResourceRecord({
+    required this.name,
+    required this.type,
+    required this.value,
+  });
+
+  factory ResourceRecord.fromJson(Map<String, dynamic> json) {
+    return ResourceRecord(
+      name: (json['Name'] as String?) ?? '',
+      type: RecordType.fromString((json['Type'] as String?) ?? ''),
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Type': type.value,
+      'Value': value,
+    };
+  }
+}
+
+/// @nodoc
+class RecordType {
+  static const cname = RecordType._('CNAME');
+
+  final String value;
+
+  const RecordType._(this.value);
+
+  static const values = [cname];
+
+  static RecordType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecordType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about an ACME account.
+///
+/// @nodoc
+class AcmeAccountSummary {
+  /// The URL of the ACME account.
+  final String? accountUrl;
+
+  /// The Amazon Resource Name (ARN) of the external account binding associated
+  /// with this ACME account.
+  final String? acmeExternalAccountBindingArn;
+
+  /// The contact information for the ACME account.
+  final List<String>? contacts;
+
+  /// The time at which the ACME account was created.
+  final DateTime? createdAt;
+
+  /// The thumbprint of the public key associated with the ACME account.
+  final String? publicKeyThumbprint;
+
+  /// The status of the ACME account.
+  final AcmeAccountStatus? status;
+
+  AcmeAccountSummary({
+    this.accountUrl,
+    this.acmeExternalAccountBindingArn,
+    this.contacts,
+    this.createdAt,
+    this.publicKeyThumbprint,
+    this.status,
+  });
+
+  factory AcmeAccountSummary.fromJson(Map<String, dynamic> json) {
+    return AcmeAccountSummary(
+      accountUrl: json['AccountUrl'] as String?,
+      acmeExternalAccountBindingArn:
+          json['AcmeExternalAccountBindingArn'] as String?,
+      contacts: (json['Contacts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      publicKeyThumbprint: json['PublicKeyThumbprint'] as String?,
+      status: (json['Status'] as String?)?.let(AcmeAccountStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountUrl = this.accountUrl;
+    final acmeExternalAccountBindingArn = this.acmeExternalAccountBindingArn;
+    final contacts = this.contacts;
+    final createdAt = this.createdAt;
+    final publicKeyThumbprint = this.publicKeyThumbprint;
+    final status = this.status;
+    return {
+      if (accountUrl != null) 'AccountUrl': accountUrl,
+      if (acmeExternalAccountBindingArn != null)
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      if (contacts != null) 'Contacts': contacts,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (publicKeyThumbprint != null)
+        'PublicKeyThumbprint': publicKeyThumbprint,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class AcmeAccountStatus {
+  static const valid = AcmeAccountStatus._('VALID');
+  static const deactivated = AcmeAccountStatus._('DEACTIVATED');
+  static const revoked = AcmeAccountStatus._('REVOKED');
+
+  final String value;
+
+  const AcmeAccountStatus._(this.value);
+
+  static const values = [valid, deactivated, revoked];
+
+  static AcmeAccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcmeAccountStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AcmeAccountStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains metadata about an ACM certificate. This structure is returned in
 /// the response to a <a>DescribeCertificate</a> request.
 ///
 /// @nodoc
 class CertificateDetail {
+  /// The ACME account identifier associated with the certificate.
+  final String? acmeAccountId;
+
+  /// The ARN of the ACME endpoint used to issue the certificate.
+  final String? acmeEndpointArn;
+
   /// The Amazon Resource Name (ARN) of the certificate. For more information
   /// about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -3468,6 +5920,9 @@ class CertificateDetail {
   ///
   /// <code>arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012</code>
   final String? certificateAuthorityArn;
+
+  /// The origin of the certificate's key pair.
+  final CertificateKeyPairOrigin? certificateKeyPairOrigin;
 
   /// The time at which the certificate was requested.
   final DateTime? createdAt;
@@ -3528,11 +5983,9 @@ class CertificateDetail {
   /// The time before which the certificate is not valid.
   final DateTime? notBefore;
 
-  /// Value that specifies whether to add the certificate to a transparency log.
-  /// Certificate transparency makes it possible to detect SSL certificates that
-  /// have been mistakenly or maliciously issued. A browser might respond to
-  /// certificate that has not been logged by showing an error message. The logs
-  /// are cryptographically secure.
+  /// Contains the certificate options. Certificate transparency logging opt-out
+  /// is no longer available. All public certificates are recorded in a
+  /// certificate transparency log.
   final CertificateOptions? options;
 
   /// Specifies whether the certificate is eligible for renewal. At this time,
@@ -3599,8 +6052,11 @@ class CertificateDetail {
   final CertificateType? type;
 
   CertificateDetail({
+    this.acmeAccountId,
+    this.acmeEndpointArn,
     this.certificateArn,
     this.certificateAuthorityArn,
+    this.certificateKeyPairOrigin,
     this.createdAt,
     this.domainName,
     this.domainValidationOptions,
@@ -3630,8 +6086,12 @@ class CertificateDetail {
 
   factory CertificateDetail.fromJson(Map<String, dynamic> json) {
     return CertificateDetail(
+      acmeAccountId: json['AcmeAccountId'] as String?,
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
       certificateArn: json['CertificateArn'] as String?,
       certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      certificateKeyPairOrigin: (json['CertificateKeyPairOrigin'] as String?)
+          ?.let(CertificateKeyPairOrigin.fromString),
       createdAt: timeStampFromJson(json['CreatedAt']),
       domainName: json['DomainName'] as String?,
       domainValidationOptions: (json['DomainValidationOptions'] as List?)
@@ -3684,8 +6144,11 @@ class CertificateDetail {
   }
 
   Map<String, dynamic> toJson() {
+    final acmeAccountId = this.acmeAccountId;
+    final acmeEndpointArn = this.acmeEndpointArn;
     final certificateArn = this.certificateArn;
     final certificateAuthorityArn = this.certificateAuthorityArn;
+    final certificateKeyPairOrigin = this.certificateKeyPairOrigin;
     final createdAt = this.createdAt;
     final domainName = this.domainName;
     final domainValidationOptions = this.domainValidationOptions;
@@ -3712,9 +6175,13 @@ class CertificateDetail {
     final subjectAlternativeNames = this.subjectAlternativeNames;
     final type = this.type;
     return {
+      if (acmeAccountId != null) 'AcmeAccountId': acmeAccountId,
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
       if (certificateArn != null) 'CertificateArn': certificateArn,
       if (certificateAuthorityArn != null)
         'CertificateAuthorityArn': certificateAuthorityArn,
+      if (certificateKeyPairOrigin != null)
+        'CertificateKeyPairOrigin': certificateKeyPairOrigin.value,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (domainName != null) 'DomainName': domainName,
       if (domainValidationOptions != null)
@@ -4093,48 +6560,6 @@ class DomainStatus {
   String toString() => value;
 }
 
-/// Contains a DNS record value that you can use to validate ownership or
-/// control of a domain. This is used by the <a>DescribeCertificate</a> action.
-///
-/// @nodoc
-class ResourceRecord {
-  /// The name of the DNS record to create in your domain. This is supplied by
-  /// ACM.
-  final String name;
-
-  /// The type of DNS record. Currently this can be <code>CNAME</code>.
-  final RecordType type;
-
-  /// The value of the CNAME record to add to your DNS database. This is supplied
-  /// by ACM.
-  final String value;
-
-  ResourceRecord({
-    required this.name,
-    required this.type,
-    required this.value,
-  });
-
-  factory ResourceRecord.fromJson(Map<String, dynamic> json) {
-    return ResourceRecord(
-      name: (json['Name'] as String?) ?? '',
-      type: RecordType.fromString((json['Type'] as String?) ?? ''),
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Type': type.value,
-      'Value': value,
-    };
-  }
-}
-
 /// Contains information for HTTP-based domain validation of certificates
 /// requested through Amazon CloudFront and issued by ACM. This field exists
 /// only when the certificate type is <code>AMAZON_ISSUED</code> and the
@@ -4172,21 +6597,382 @@ class HttpRedirect {
   }
 }
 
+/// Contains detailed information about an ACME external account binding.
+///
 /// @nodoc
-class RecordType {
-  static const cname = RecordType._('CNAME');
+class AcmeExternalAccountBinding {
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  final String? acmeEndpointArn;
+
+  /// The Amazon Resource Name (ARN) of the ACME external account binding.
+  final String? acmeExternalAccountBindingArn;
+
+  /// The time at which the external account binding was created.
+  final DateTime? createdAt;
+
+  /// The time at which the external account binding expires.
+  final DateTime? expiresAt;
+
+  /// The time at which the external account binding was last used.
+  final DateTime? lastUsedAt;
+
+  /// The time at which the external account binding was revoked.
+  final DateTime? revokedAt;
+
+  /// The Amazon Resource Name (ARN) of the IAM role associated with the external
+  /// account binding.
+  final String? roleArn;
+
+  /// The time at which the external account binding was last updated.
+  final DateTime? updatedAt;
+
+  AcmeExternalAccountBinding({
+    this.acmeEndpointArn,
+    this.acmeExternalAccountBindingArn,
+    this.createdAt,
+    this.expiresAt,
+    this.lastUsedAt,
+    this.revokedAt,
+    this.roleArn,
+    this.updatedAt,
+  });
+
+  factory AcmeExternalAccountBinding.fromJson(Map<String, dynamic> json) {
+    return AcmeExternalAccountBinding(
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+      acmeExternalAccountBindingArn:
+          json['AcmeExternalAccountBindingArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      expiresAt: timeStampFromJson(json['ExpiresAt']),
+      lastUsedAt: timeStampFromJson(json['LastUsedAt']),
+      revokedAt: timeStampFromJson(json['RevokedAt']),
+      roleArn: json['RoleArn'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final acmeExternalAccountBindingArn = this.acmeExternalAccountBindingArn;
+    final createdAt = this.createdAt;
+    final expiresAt = this.expiresAt;
+    final lastUsedAt = this.lastUsedAt;
+    final revokedAt = this.revokedAt;
+    final roleArn = this.roleArn;
+    final updatedAt = this.updatedAt;
+    return {
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (acmeExternalAccountBindingArn != null)
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (expiresAt != null) 'ExpiresAt': unixTimestampToJson(expiresAt),
+      if (lastUsedAt != null) 'LastUsedAt': unixTimestampToJson(lastUsedAt),
+      if (revokedAt != null) 'RevokedAt': unixTimestampToJson(revokedAt),
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains detailed information about an ACME endpoint.
+///
+/// @nodoc
+class AcmeEndpoint {
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  final String? acmeEndpointArn;
+
+  /// The authorization behavior of the ACME endpoint.
+  final AcmeAuthorizationBehavior? authorizationBehavior;
+
+  /// The certificate authority configuration for the ACME endpoint.
+  final CertificateAuthority? certificateAuthority;
+
+  /// Tags applied to certificates issued through this ACME endpoint.
+  final List<Tag>? certificateTags;
+
+  /// Whether ACME clients must provide contact information during account
+  /// registration.
+  final AcmeContact? contact;
+
+  /// The time at which the ACME endpoint was created.
+  final DateTime? createdAt;
+
+  /// The URL of the ACME endpoint.
+  final String? endpointUrl;
+
+  /// The reason the ACME endpoint failed, if applicable.
+  final String? failureReason;
+
+  /// The status of the ACME endpoint.
+  final AcmeEndpointStatus? status;
+
+  /// The time at which the ACME endpoint was last updated.
+  final DateTime? updatedAt;
+
+  AcmeEndpoint({
+    this.acmeEndpointArn,
+    this.authorizationBehavior,
+    this.certificateAuthority,
+    this.certificateTags,
+    this.contact,
+    this.createdAt,
+    this.endpointUrl,
+    this.failureReason,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory AcmeEndpoint.fromJson(Map<String, dynamic> json) {
+    return AcmeEndpoint(
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+      authorizationBehavior: (json['AuthorizationBehavior'] as String?)
+          ?.let(AcmeAuthorizationBehavior.fromString),
+      certificateAuthority: json['CertificateAuthority'] != null
+          ? CertificateAuthority.fromJson(
+              json['CertificateAuthority'] as Map<String, dynamic>)
+          : null,
+      certificateTags: (json['CertificateTags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      contact: (json['Contact'] as String?)?.let(AcmeContact.fromString),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      endpointUrl: json['EndpointUrl'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      status: (json['Status'] as String?)?.let(AcmeEndpointStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final authorizationBehavior = this.authorizationBehavior;
+    final certificateAuthority = this.certificateAuthority;
+    final certificateTags = this.certificateTags;
+    final contact = this.contact;
+    final createdAt = this.createdAt;
+    final endpointUrl = this.endpointUrl;
+    final failureReason = this.failureReason;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (authorizationBehavior != null)
+        'AuthorizationBehavior': authorizationBehavior.value,
+      if (certificateAuthority != null)
+        'CertificateAuthority': certificateAuthority,
+      if (certificateTags != null) 'CertificateTags': certificateTags,
+      if (contact != null) 'Contact': contact.value,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (endpointUrl != null) 'EndpointUrl': endpointUrl,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains detailed information about an ACME domain validation.
+///
+/// @nodoc
+class AcmeDomainValidation {
+  /// The Amazon Resource Name (ARN) of the ACME domain validation.
+  final String? acmeDomainValidationArn;
+
+  /// The Amazon Resource Name (ARN) of the ACME endpoint.
+  final String? acmeEndpointArn;
+
+  /// The time at which the domain validation was created.
+  final DateTime? createdAt;
+
+  /// The domain name being validated.
+  final String? domainName;
+
+  /// Details about the failure, if the validation failed.
+  final FailureDetails? failureDetails;
+
+  /// Details about the prevalidation configuration.
+  final PrevalidationDetails? prevalidationDetails;
+
+  /// The type of prevalidation used.
+  final PrevalidationType? prevalidationType;
+
+  /// The status of the domain validation.
+  final AcmeDomainValidationStatus? status;
+
+  /// The time at which the domain validation was last updated.
+  final DateTime? updatedAt;
+
+  AcmeDomainValidation({
+    this.acmeDomainValidationArn,
+    this.acmeEndpointArn,
+    this.createdAt,
+    this.domainName,
+    this.failureDetails,
+    this.prevalidationDetails,
+    this.prevalidationType,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory AcmeDomainValidation.fromJson(Map<String, dynamic> json) {
+    return AcmeDomainValidation(
+      acmeDomainValidationArn: json['AcmeDomainValidationArn'] as String?,
+      acmeEndpointArn: json['AcmeEndpointArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      domainName: json['DomainName'] as String?,
+      failureDetails: json['FailureDetails'] != null
+          ? FailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      prevalidationDetails: json['PrevalidationDetails'] != null
+          ? PrevalidationDetails.fromJson(
+              json['PrevalidationDetails'] as Map<String, dynamic>)
+          : null,
+      prevalidationType: (json['PrevalidationType'] as String?)
+          ?.let(PrevalidationType.fromString),
+      status: (json['Status'] as String?)
+          ?.let(AcmeDomainValidationStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acmeDomainValidationArn = this.acmeDomainValidationArn;
+    final acmeEndpointArn = this.acmeEndpointArn;
+    final createdAt = this.createdAt;
+    final domainName = this.domainName;
+    final failureDetails = this.failureDetails;
+    final prevalidationDetails = this.prevalidationDetails;
+    final prevalidationType = this.prevalidationType;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (acmeDomainValidationArn != null)
+        'AcmeDomainValidationArn': acmeDomainValidationArn,
+      if (acmeEndpointArn != null) 'AcmeEndpointArn': acmeEndpointArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (domainName != null) 'DomainName': domainName,
+      if (failureDetails != null) 'FailureDetails': failureDetails,
+      if (prevalidationDetails != null)
+        'PrevalidationDetails': prevalidationDetails,
+      if (prevalidationType != null)
+        'PrevalidationType': prevalidationType.value,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains detailed information about an ACME account.
+///
+/// @nodoc
+class AcmeAccount {
+  /// The URL of the ACME account.
+  final String? accountUrl;
+
+  /// The Amazon Resource Name (ARN) of the external account binding associated
+  /// with this ACME account.
+  final String? acmeExternalAccountBindingArn;
+
+  /// The contact information for the ACME account.
+  final List<String>? contacts;
+
+  /// The time at which the ACME account was created.
+  final DateTime? createdAt;
+
+  /// The thumbprint of the public key associated with the ACME account.
+  final String? publicKeyThumbprint;
+
+  /// The status of the ACME account.
+  final AcmeAccountStatus? status;
+
+  AcmeAccount({
+    this.accountUrl,
+    this.acmeExternalAccountBindingArn,
+    this.contacts,
+    this.createdAt,
+    this.publicKeyThumbprint,
+    this.status,
+  });
+
+  factory AcmeAccount.fromJson(Map<String, dynamic> json) {
+    return AcmeAccount(
+      accountUrl: json['AccountUrl'] as String?,
+      acmeExternalAccountBindingArn:
+          json['AcmeExternalAccountBindingArn'] as String?,
+      contacts: (json['Contacts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      publicKeyThumbprint: json['PublicKeyThumbprint'] as String?,
+      status: (json['Status'] as String?)?.let(AcmeAccountStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountUrl = this.accountUrl;
+    final acmeExternalAccountBindingArn = this.acmeExternalAccountBindingArn;
+    final contacts = this.contacts;
+    final createdAt = this.createdAt;
+    final publicKeyThumbprint = this.publicKeyThumbprint;
+    final status = this.status;
+    return {
+      if (accountUrl != null) 'AccountUrl': accountUrl,
+      if (acmeExternalAccountBindingArn != null)
+        'AcmeExternalAccountBindingArn': acmeExternalAccountBindingArn,
+      if (contacts != null) 'Contacts': contacts,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (publicKeyThumbprint != null)
+        'PublicKeyThumbprint': publicKeyThumbprint,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Specifies an expiration configuration.
+///
+/// @nodoc
+class Expiration {
+  /// The time unit for the expiration value.
+  final TimeType type;
+
+  /// The numeric value of the expiration.
+  final int value;
+
+  Expiration({
+    required this.type,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.value,
+      'Value': value,
+    };
+  }
+}
+
+/// @nodoc
+class TimeType {
+  static const minutes = TimeType._('MINUTES');
+  static const hours = TimeType._('HOURS');
+  static const days = TimeType._('DAYS');
 
   final String value;
 
-  const RecordType._(this.value);
+  const TimeType._(this.value);
 
-  static const values = [cname];
+  static const values = [minutes, hours, days];
 
-  static RecordType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RecordType._(value));
+  static TimeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeType._(value));
 
   @override
-  bool operator ==(other) => other is RecordType && other.value == value;
+  bool operator ==(other) => other is TimeType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4205,6 +6991,12 @@ class AccessDeniedException extends _s.GenericAwsException {
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
+}
+
+/// @nodoc
+class InternalServerException extends _s.GenericAwsException {
+  InternalServerException({String? type, String? message})
+      : super(type: type, code: 'InternalServerException', message: message);
 }
 
 /// @nodoc
@@ -4271,6 +7063,15 @@ class ResourceNotFoundException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
+/// @nodoc
 class TagPolicyException extends _s.GenericAwsException {
   TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
@@ -4299,6 +7100,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'InternalServerException': (type, message) =>
+      InternalServerException(type: type, message: message),
   'InvalidArgsException': (type, message) =>
       InvalidArgsException(type: type, message: message),
   'InvalidArnException': (type, message) =>
@@ -4319,6 +7122,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceInUseException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'TagPolicyException': (type, message) =>
       TagPolicyException(type: type, message: message),
   'ThrottlingException': (type, message) =>

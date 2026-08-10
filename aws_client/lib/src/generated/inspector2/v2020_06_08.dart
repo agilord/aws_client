@@ -514,6 +514,61 @@ class Inspector2 {
     return CreateCodeSecurityScanConfigurationResponse.fromJson(response);
   }
 
+  /// Creates a connector that links an external cloud provider to Amazon
+  /// Inspector for vulnerability scanning.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the connector.
+  ///
+  /// Parameter [provider] :
+  /// The cloud provider for the connector.
+  ///
+  /// Parameter [providerDetail] :
+  /// The provider-specific configuration details for the connector.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure that the
+  /// operation completes no more than one time. If this token matches a
+  /// previous request, the service ignores the request but does not return an
+  /// error.
+  ///
+  /// Parameter [description] :
+  /// A description of the connector.
+  ///
+  /// Parameter [tags] :
+  /// The tags to apply to the connector.
+  Future<CreateConnectorResponse> createConnector({
+    required String name,
+    required ConnectorCloudProvider provider,
+    required ProviderDetailCreate providerDetail,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'provider': provider.value,
+      'providerDetail': providerDetail,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connector/create',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateConnectorResponse.fromJson(response);
+  }
+
   /// Creates a filter resource using specified filter criteria. When the filter
   /// action is set to <code>SUPPRESS</code> this action creates a suppression
   /// rule.
@@ -720,6 +775,31 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteCodeSecurityScanConfigurationResponse.fromJson(response);
+  }
+
+  /// Deletes a connector from your account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorArn] :
+  /// The Amazon Resource Name (ARN) of the connector to delete.
+  Future<void> deleteConnector({
+    required String connectorArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'connectorArn': connectorArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connector/delete',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Deletes a filter resource.
@@ -1147,14 +1227,32 @@ class Inspector2 {
     return GetCodeSecurityScanConfigurationResponse.fromJson(response);
   }
 
-  /// Retrieves setting configurations for Inspector scans.
+  /// Retrieves setting configurations for Amazon Inspector scans. If you
+  /// specify an <code>accountId</code>, this operation returns the scan
+  /// configuration for that member account. You must be the delegated
+  /// administrator for the specified member account. If you do not specify an
+  /// <code>accountId</code>, this operation returns your own scan
+  /// configuration.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  Future<GetConfigurationResponse> getConfiguration() async {
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// The 12-digit Amazon Web Services account ID of the member account whose
+  /// scan configuration you want to retrieve. When specified, you must be the
+  /// delegated administrator for this member account. If not specified, the
+  /// operation returns your own configuration.
+  Future<GetConfigurationResponse> getConfiguration({
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accountId != null) 'accountId': accountId,
+    };
     final response = await _protocol.send(
-      payload: null,
+      payload: $payload,
       method: 'POST',
       requestUri: '/configuration/get',
       exceptionFnMap: _exceptionFns,
@@ -1695,6 +1793,93 @@ class Inspector2 {
       exceptionFnMap: _exceptionFns,
     );
     return ListCodeSecurityScanConfigurationsResponse.fromJson(response);
+  }
+
+  /// Lists connectors in your account. Results are paginated. Use the
+  /// <code>nextToken</code> parameter to retrieve the next page of results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filterCriteria] :
+  /// The filter criteria to apply to the list of connectors.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another request with the <code>nextToken</code>
+  /// value returned from this request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to use for paginating results. Set this value to null for the
+  /// first request. For subsequent calls, use the <code>nextToken</code> value
+  /// returned from the previous request.
+  Future<ListConnectorsResponse> listConnectors({
+    ConnectorFilterCriteria? filterCriteria,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (filterCriteria != null) 'filterCriteria': filterCriteria,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connector/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConnectorsResponse.fromJson(response);
+  }
+
+  /// Lists scan configurations for Amazon Web Services Config connectors.
+  /// Results are paginated. Use the <code>nextToken</code> parameter to
+  /// retrieve the next page of results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [awsConfigConnectorArns] :
+  /// The list of Amazon Web Services Config connector ARNs to filter results.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Valid range is 1
+  /// to 50. To retrieve the remaining results, make another request with the
+  /// <code>nextToken</code> value returned from this request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to use for paginating results. Set this value to null for the
+  /// first request. For subsequent calls, use the <code>nextToken</code> value
+  /// returned from the previous request.
+  Future<ListConnectorScanConfigurationsResponse>
+      listConnectorScanConfigurations({
+    List<String>? awsConfigConnectorArns,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      if (awsConfigConnectorArns != null)
+        'awsConfigConnectorArns': awsConfigConnectorArns,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connectorscanconfigurations/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConnectorScanConfigurationsResponse.fromJson(response);
   }
 
   /// Lists coverage details for your environment.
@@ -2515,15 +2700,25 @@ class Inspector2 {
     return UpdateCodeSecurityScanConfigurationResponse.fromJson(response);
   }
 
-  /// Updates setting configurations for your Amazon Inspector account. When you
-  /// use this API as an Amazon Inspector delegated administrator this updates
-  /// the setting for all accounts you manage. Member accounts in an
-  /// organization cannot update this setting.
+  /// Updates the scan configuration for your Amazon Inspector account. If you
+  /// don't specify an <code>accountId</code>, this operation updates the
+  /// delegated administrator's configuration and propagates it to member
+  /// accounts that have not been individually configured. If you specify an
+  /// <code>accountId</code>, this operation updates that member account's
+  /// configuration. Only the delegated administrator can specify an
+  /// <code>accountId</code>; member accounts cannot call this operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// The 12-digit Amazon Web Services account ID of the member account whose
+  /// scan configuration you want to update. When specified, you must be the
+  /// delegated administrator for this member account. If not specified, the
+  /// operation updates your own configuration and propagates changes to any
+  /// member accounts that have not been individually configured.
   ///
   /// Parameter [ec2Configuration] :
   /// Specifies how the Amazon EC2 automated scan will be updated for your
@@ -2532,18 +2727,101 @@ class Inspector2 {
   /// Parameter [ecrConfiguration] :
   /// Specifies how the ECR automated re-scan will be updated for your
   /// environment.
+  ///
+  /// Parameter [updateConfigurationInheritance] :
+  /// Specifies which scan-type configurations to reset to the delegated
+  /// administrator's inherited values for the targeted member account. Each
+  /// member of this structure is independently optional. When specified,
+  /// <code>ec2Configuration</code> and <code>ecrConfiguration</code> must be
+  /// absent, and <code>accountId</code> must also be present. Only
+  /// <code>INHERIT_FROM_ADMIN</code> is valid for each member. If not
+  /// specified, the operation uses the <code>ec2Configuration</code> and
+  /// <code>ecrConfiguration</code> parameters instead.
   Future<void> updateConfiguration({
+    String? accountId,
     Ec2Configuration? ec2Configuration,
     EcrConfiguration? ecrConfiguration,
+    UpdateConfigurationInheritance? updateConfigurationInheritance,
   }) async {
     final $payload = <String, dynamic>{
+      if (accountId != null) 'accountId': accountId,
       if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
       if (ecrConfiguration != null) 'ecrConfiguration': ecrConfiguration,
+      if (updateConfigurationInheritance != null)
+        'updateConfigurationInheritance': updateConfigurationInheritance,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri: '/configuration/update',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the description or provider-specific configuration details of an
+  /// existing connector.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorArn] :
+  /// The Amazon Resource Name (ARN) of the connector to update.
+  ///
+  /// Parameter [description] :
+  /// The updated description of the connector.
+  ///
+  /// Parameter [providerDetail] :
+  /// The updated provider-specific configuration details for the connector.
+  Future<UpdateConnectorResponse> updateConnector({
+    required String connectorArn,
+    String? description,
+    ProviderDetailUpdate? providerDetail,
+  }) async {
+    final $payload = <String, dynamic>{
+      'connectorArn': connectorArn,
+      if (description != null) 'description': description,
+      if (providerDetail != null) 'providerDetail': providerDetail,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connector/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateConnectorResponse.fromJson(response);
+  }
+
+  /// Updates scan configuration settings for resources associated with an
+  /// Amazon Web Services Config connector.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [awsConfigConnectorArn] :
+  /// The ARN of the Amazon Web Services Config connector.
+  ///
+  /// Parameter [scanConfiguration] :
+  /// The scan configuration settings to apply.
+  Future<void> updateConnectorScanConfiguration({
+    required String awsConfigConnectorArn,
+    required ConnectorScanConfiguration scanConfiguration,
+  }) async {
+    final $payload = <String, dynamic>{
+      'awsConfigConnectorArn': awsConfigConnectorArn,
+      'scanConfiguration': scanConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connectorscanconfiguration/update',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3200,6 +3478,29 @@ class CreateCodeSecurityScanConfigurationResponse {
 }
 
 /// @nodoc
+class CreateConnectorResponse {
+  /// The Amazon Resource Name (ARN) of the created connector.
+  final String connectorArn;
+
+  CreateConnectorResponse({
+    required this.connectorArn,
+  });
+
+  factory CreateConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConnectorResponse(
+      connectorArn: (json['connectorArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    return {
+      'connectorArn': connectorArn,
+    };
+  }
+}
+
+/// @nodoc
 class CreateFilterResponse {
   /// The Amazon Resource Number (ARN) of the successfully created filter.
   final String arn;
@@ -3338,6 +3639,19 @@ class DeleteCodeSecurityScanConfigurationResponse {
       if (scanConfigurationArn != null)
         'scanConfigurationArn': scanConfigurationArn,
     };
+  }
+}
+
+/// @nodoc
+class DeleteConnectorResponse {
+  DeleteConnectorResponse();
+
+  factory DeleteConnectorResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConnectorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -4489,6 +4803,78 @@ class ListCodeSecurityScanConfigurationsResponse {
 }
 
 /// @nodoc
+class ListConnectorsResponse {
+  /// A list of connectors.
+  final List<Connector> items;
+
+  /// A pagination token. If this value is not null, there are additional results
+  /// available. Use this token in the <code>nextToken</code> parameter of a
+  /// subsequent request to retrieve the next page of results.
+  final String? nextToken;
+
+  ListConnectorsResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorsResponse(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Connector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListConnectorScanConfigurationsResponse {
+  /// A list of scan configuration items.
+  final List<ConnectorScanConfigurationItem> scanConfigurations;
+
+  /// A pagination token. If this value is not null, there are additional results
+  /// available. Use this token in the <code>nextToken</code> parameter of a
+  /// subsequent request to retrieve the next page of results.
+  final String? nextToken;
+
+  ListConnectorScanConfigurationsResponse({
+    required this.scanConfigurations,
+    this.nextToken,
+  });
+
+  factory ListConnectorScanConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListConnectorScanConfigurationsResponse(
+      scanConfigurations: ((json['scanConfigurations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ConnectorScanConfigurationItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanConfigurations = this.scanConfigurations;
+    final nextToken = this.nextToken;
+    return {
+      'scanConfigurations': scanConfigurations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListCoverageResponse {
   /// An object that contains details on the covered resources in your
   /// environment.
@@ -5064,6 +5450,43 @@ class UpdateConfigurationResponse {
 }
 
 /// @nodoc
+class UpdateConnectorResponse {
+  /// The Amazon Resource Name (ARN) of the updated connector.
+  final String? connectorArn;
+
+  UpdateConnectorResponse({
+    this.connectorArn,
+  });
+
+  factory UpdateConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectorResponse(
+      connectorArn: json['connectorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    return {
+      if (connectorArn != null) 'connectorArn': connectorArn,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateConnectorScanConfigurationResponse {
+  UpdateConnectorScanConfigurationResponse();
+
+  factory UpdateConnectorScanConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateConnectorScanConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class UpdateEc2DeepInspectionConfigurationResponse {
   /// An error message explaining why new Amazon Inspector deep inspection custom
   /// paths could not be added.
@@ -5284,6 +5707,63 @@ class FilterCriteria {
   /// Details of the Amazon Web Services account IDs used to filter findings.
   final List<StringFilter>? awsAccountId;
 
+  /// Filter criteria for the architecture of a container image.
+  final List<StringFilter>? cloudImageArchitecture;
+
+  /// Filter criteria for the digest of a container image.
+  final List<StringFilter>? cloudImageDigest;
+
+  /// Filter criteria for the in-use count of a container image.
+  final List<NumberFilter>? cloudImageInUseCount;
+
+  /// Filter criteria for the last time a container image was in use.
+  final List<DateFilter>? cloudImageLastInUseAt;
+
+  /// Filter criteria for when a container image was pushed.
+  final List<DateFilter>? cloudImagePushedAt;
+
+  /// Filter criteria for the registry of a container image.
+  final List<StringFilter>? cloudImageRegistry;
+
+  /// Filter criteria for the repository name of a container image.
+  final List<StringFilter>? cloudImageRepositoryName;
+
+  /// Filter criteria for the tags of a container image.
+  final List<StringFilter>? cloudImageTags;
+
+  /// Filter criteria for the cloud provider.
+  final List<StringFilter>? cloudProvider;
+
+  /// Filter criteria for the cloud provider account ID.
+  final List<StringFilter>? cloudProviderAccountId;
+
+  /// Filter criteria for the cloud provider organization ID.
+  final List<StringFilter>? cloudProviderOrgId;
+
+  /// Filter criteria for the cloud provider region.
+  final List<StringFilter>? cloudProviderRegion;
+
+  /// Filter criteria for the execution role of a serverless function.
+  final List<StringFilter>? cloudServerlessFunctionExecutionRole;
+
+  /// Filter criteria for when a serverless function was last modified.
+  final List<DateFilter>? cloudServerlessFunctionLastModifiedAt;
+
+  /// Filter criteria for the name of a serverless function.
+  final List<StringFilter>? cloudServerlessFunctionName;
+
+  /// Filter criteria for the runtime of a serverless function.
+  final List<StringFilter>? cloudServerlessFunctionRuntime;
+
+  /// Filter criteria for the image reference of a VM instance.
+  final List<StringFilter>? cloudVmImageReference;
+
+  /// Filter criteria for the network ID of a VM instance.
+  final List<StringFilter>? cloudVmNetworkId;
+
+  /// Filter criteria for the subnet IDs of a VM instance.
+  final List<StringFilter>? cloudVmSubnetIds;
+
   /// Filter criteria for findings based on the project name in a code repository.
   final List<StringFilter>? codeRepositoryProjectName;
 
@@ -5447,6 +5927,25 @@ class FilterCriteria {
 
   FilterCriteria({
     this.awsAccountId,
+    this.cloudImageArchitecture,
+    this.cloudImageDigest,
+    this.cloudImageInUseCount,
+    this.cloudImageLastInUseAt,
+    this.cloudImagePushedAt,
+    this.cloudImageRegistry,
+    this.cloudImageRepositoryName,
+    this.cloudImageTags,
+    this.cloudProvider,
+    this.cloudProviderAccountId,
+    this.cloudProviderOrgId,
+    this.cloudProviderRegion,
+    this.cloudServerlessFunctionExecutionRole,
+    this.cloudServerlessFunctionLastModifiedAt,
+    this.cloudServerlessFunctionName,
+    this.cloudServerlessFunctionRuntime,
+    this.cloudVmImageReference,
+    this.cloudVmNetworkId,
+    this.cloudVmSubnetIds,
     this.codeRepositoryProjectName,
     this.codeRepositoryProviderType,
     this.codeVulnerabilityDetectorName,
@@ -5497,6 +5996,86 @@ class FilterCriteria {
   factory FilterCriteria.fromJson(Map<String, dynamic> json) {
     return FilterCriteria(
       awsAccountId: (json['awsAccountId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImageArchitecture: (json['cloudImageArchitecture'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImageDigest: (json['cloudImageDigest'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImageInUseCount: (json['cloudImageInUseCount'] as List?)
+          ?.nonNulls
+          .map((e) => NumberFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImageLastInUseAt: (json['cloudImageLastInUseAt'] as List?)
+          ?.nonNulls
+          .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImagePushedAt: (json['cloudImagePushedAt'] as List?)
+          ?.nonNulls
+          .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImageRegistry: (json['cloudImageRegistry'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImageRepositoryName: (json['cloudImageRepositoryName'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudImageTags: (json['cloudImageTags'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProvider: (json['cloudProvider'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProviderAccountId: (json['cloudProviderAccountId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProviderOrgId: (json['cloudProviderOrgId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProviderRegion: (json['cloudProviderRegion'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudServerlessFunctionExecutionRole:
+          (json['cloudServerlessFunctionExecutionRole'] as List?)
+              ?.nonNulls
+              .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      cloudServerlessFunctionLastModifiedAt:
+          (json['cloudServerlessFunctionLastModifiedAt'] as List?)
+              ?.nonNulls
+              .map((e) => DateFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      cloudServerlessFunctionName:
+          (json['cloudServerlessFunctionName'] as List?)
+              ?.nonNulls
+              .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      cloudServerlessFunctionRuntime:
+          (json['cloudServerlessFunctionRuntime'] as List?)
+              ?.nonNulls
+              .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      cloudVmImageReference: (json['cloudVmImageReference'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudVmNetworkId: (json['cloudVmNetworkId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudVmSubnetIds: (json['cloudVmSubnetIds'] as List?)
           ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5689,6 +6268,27 @@ class FilterCriteria {
 
   Map<String, dynamic> toJson() {
     final awsAccountId = this.awsAccountId;
+    final cloudImageArchitecture = this.cloudImageArchitecture;
+    final cloudImageDigest = this.cloudImageDigest;
+    final cloudImageInUseCount = this.cloudImageInUseCount;
+    final cloudImageLastInUseAt = this.cloudImageLastInUseAt;
+    final cloudImagePushedAt = this.cloudImagePushedAt;
+    final cloudImageRegistry = this.cloudImageRegistry;
+    final cloudImageRepositoryName = this.cloudImageRepositoryName;
+    final cloudImageTags = this.cloudImageTags;
+    final cloudProvider = this.cloudProvider;
+    final cloudProviderAccountId = this.cloudProviderAccountId;
+    final cloudProviderOrgId = this.cloudProviderOrgId;
+    final cloudProviderRegion = this.cloudProviderRegion;
+    final cloudServerlessFunctionExecutionRole =
+        this.cloudServerlessFunctionExecutionRole;
+    final cloudServerlessFunctionLastModifiedAt =
+        this.cloudServerlessFunctionLastModifiedAt;
+    final cloudServerlessFunctionName = this.cloudServerlessFunctionName;
+    final cloudServerlessFunctionRuntime = this.cloudServerlessFunctionRuntime;
+    final cloudVmImageReference = this.cloudVmImageReference;
+    final cloudVmNetworkId = this.cloudVmNetworkId;
+    final cloudVmSubnetIds = this.cloudVmSubnetIds;
     final codeRepositoryProjectName = this.codeRepositoryProjectName;
     final codeRepositoryProviderType = this.codeRepositoryProviderType;
     final codeVulnerabilityDetectorName = this.codeVulnerabilityDetectorName;
@@ -5736,6 +6336,38 @@ class FilterCriteria {
     final vulnerablePackages = this.vulnerablePackages;
     return {
       if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (cloudImageArchitecture != null)
+        'cloudImageArchitecture': cloudImageArchitecture,
+      if (cloudImageDigest != null) 'cloudImageDigest': cloudImageDigest,
+      if (cloudImageInUseCount != null)
+        'cloudImageInUseCount': cloudImageInUseCount,
+      if (cloudImageLastInUseAt != null)
+        'cloudImageLastInUseAt': cloudImageLastInUseAt,
+      if (cloudImagePushedAt != null) 'cloudImagePushedAt': cloudImagePushedAt,
+      if (cloudImageRegistry != null) 'cloudImageRegistry': cloudImageRegistry,
+      if (cloudImageRepositoryName != null)
+        'cloudImageRepositoryName': cloudImageRepositoryName,
+      if (cloudImageTags != null) 'cloudImageTags': cloudImageTags,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider,
+      if (cloudProviderAccountId != null)
+        'cloudProviderAccountId': cloudProviderAccountId,
+      if (cloudProviderOrgId != null) 'cloudProviderOrgId': cloudProviderOrgId,
+      if (cloudProviderRegion != null)
+        'cloudProviderRegion': cloudProviderRegion,
+      if (cloudServerlessFunctionExecutionRole != null)
+        'cloudServerlessFunctionExecutionRole':
+            cloudServerlessFunctionExecutionRole,
+      if (cloudServerlessFunctionLastModifiedAt != null)
+        'cloudServerlessFunctionLastModifiedAt':
+            cloudServerlessFunctionLastModifiedAt,
+      if (cloudServerlessFunctionName != null)
+        'cloudServerlessFunctionName': cloudServerlessFunctionName,
+      if (cloudServerlessFunctionRuntime != null)
+        'cloudServerlessFunctionRuntime': cloudServerlessFunctionRuntime,
+      if (cloudVmImageReference != null)
+        'cloudVmImageReference': cloudVmImageReference,
+      if (cloudVmNetworkId != null) 'cloudVmNetworkId': cloudVmNetworkId,
+      if (cloudVmSubnetIds != null) 'cloudVmSubnetIds': cloudVmSubnetIds,
       if (codeRepositoryProjectName != null)
         'codeRepositoryProjectName': codeRepositoryProjectName,
       if (codeRepositoryProviderType != null)
@@ -6149,6 +6781,11 @@ class ResourceType {
   static const awsEcrRepository = ResourceType._('AWS_ECR_REPOSITORY');
   static const awsLambdaFunction = ResourceType._('AWS_LAMBDA_FUNCTION');
   static const codeRepository = ResourceType._('CODE_REPOSITORY');
+  static const microsoftComputeVirtualMachines =
+      ResourceType._('Microsoft.Compute/virtualMachines');
+  static const microsoftContainerRegistryRegistryContainerImage =
+      ResourceType._('Microsoft.ContainerRegistry/registry/containerImage');
+  static const microsoftWebSites = ResourceType._('Microsoft.Web/sites');
 
   final String value;
 
@@ -6159,7 +6796,10 @@ class ResourceType {
     awsEcrContainerImage,
     awsEcrRepository,
     awsLambdaFunction,
-    codeRepository
+    codeRepository,
+    microsoftComputeVirtualMachines,
+    microsoftContainerRegistryRegistryContainerImage,
+    microsoftWebSites
   ];
 
   static ResourceType fromString(String value) => values
@@ -6195,6 +6835,302 @@ class Ec2DeepInspectionStatus {
   @override
   bool operator ==(other) =>
       other is Ec2DeepInspectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The scan settings that Amazon Inspector applies to resources discovered
+/// through a connector.
+///
+/// @nodoc
+class ConnectorScanConfiguration {
+  /// The container image scanning configuration, including push and pull duration
+  /// settings.
+  final ConnectorContainerImageScanConfiguration? containerImageScanning;
+
+  ConnectorScanConfiguration({
+    this.containerImageScanning,
+  });
+
+  factory ConnectorScanConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectorScanConfiguration(
+      containerImageScanning: json['containerImageScanning'] != null
+          ? ConnectorContainerImageScanConfiguration.fromJson(
+              json['containerImageScanning'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerImageScanning = this.containerImageScanning;
+    return {
+      if (containerImageScanning != null)
+        'containerImageScanning': containerImageScanning,
+    };
+  }
+}
+
+/// The container image scanning settings for a connector, including how long
+/// pushed and pulled images continue to be rescanned for vulnerabilities.
+///
+/// @nodoc
+class ConnectorContainerImageScanConfiguration {
+  /// The amount of time after a container image is last pulled from a repository
+  /// during which Amazon Inspector continues to rescan the image for
+  /// vulnerabilities. Valid values are <code>DAYS_3</code>, <code>DAYS_7</code>,
+  /// <code>DAYS_14</code>, <code>DAYS_30</code>, <code>DAYS_60</code>,
+  /// <code>DAYS_90</code>, and <code>DAYS_180</code>.
+  final ContainerImagePullDateRescanDuration? pullDuration;
+
+  /// The amount of time after a container image is pushed to a repository during
+  /// which Amazon Inspector continues to rescan the image for vulnerabilities.
+  /// Valid values are <code>LIFETIME</code>, <code>DAYS_3</code>,
+  /// <code>DAYS_7</code>, <code>DAYS_14</code>, <code>DAYS_30</code>,
+  /// <code>DAYS_60</code>, <code>DAYS_90</code>, and <code>DAYS_180</code>.
+  final ContainerImageRescanDuration? pushDuration;
+
+  ConnectorContainerImageScanConfiguration({
+    this.pullDuration,
+    this.pushDuration,
+  });
+
+  factory ConnectorContainerImageScanConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ConnectorContainerImageScanConfiguration(
+      pullDuration: (json['pullDuration'] as String?)
+          ?.let(ContainerImagePullDateRescanDuration.fromString),
+      pushDuration: (json['pushDuration'] as String?)
+          ?.let(ContainerImageRescanDuration.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullDuration = this.pullDuration;
+    final pushDuration = this.pushDuration;
+    return {
+      if (pullDuration != null) 'pullDuration': pullDuration.value,
+      if (pushDuration != null) 'pushDuration': pushDuration.value,
+    };
+  }
+}
+
+/// @nodoc
+class ContainerImageRescanDuration {
+  static const lifetime = ContainerImageRescanDuration._('LIFETIME');
+  static const days_3 = ContainerImageRescanDuration._('DAYS_3');
+  static const days_7 = ContainerImageRescanDuration._('DAYS_7');
+  static const days_30 = ContainerImageRescanDuration._('DAYS_30');
+  static const days_180 = ContainerImageRescanDuration._('DAYS_180');
+  static const days_14 = ContainerImageRescanDuration._('DAYS_14');
+  static const days_60 = ContainerImageRescanDuration._('DAYS_60');
+  static const days_90 = ContainerImageRescanDuration._('DAYS_90');
+
+  final String value;
+
+  const ContainerImageRescanDuration._(this.value);
+
+  static const values = [
+    lifetime,
+    days_3,
+    days_7,
+    days_30,
+    days_180,
+    days_14,
+    days_60,
+    days_90
+  ];
+
+  static ContainerImageRescanDuration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerImageRescanDuration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerImageRescanDuration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ContainerImagePullDateRescanDuration {
+  static const days_3 = ContainerImagePullDateRescanDuration._('DAYS_3');
+  static const days_7 = ContainerImagePullDateRescanDuration._('DAYS_7');
+  static const days_14 = ContainerImagePullDateRescanDuration._('DAYS_14');
+  static const days_30 = ContainerImagePullDateRescanDuration._('DAYS_30');
+  static const days_60 = ContainerImagePullDateRescanDuration._('DAYS_60');
+  static const days_90 = ContainerImagePullDateRescanDuration._('DAYS_90');
+  static const days_180 = ContainerImagePullDateRescanDuration._('DAYS_180');
+
+  final String value;
+
+  const ContainerImagePullDateRescanDuration._(this.value);
+
+  static const values = [
+    days_3,
+    days_7,
+    days_14,
+    days_30,
+    days_60,
+    days_90,
+    days_180
+  ];
+
+  static ContainerImagePullDateRescanDuration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerImagePullDateRescanDuration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerImagePullDateRescanDuration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The provider-specific configuration details for updating a connector.
+///
+/// @nodoc
+class ProviderDetailUpdate {
+  /// The Azure-specific details for updating a connector.
+  final AzureProviderDetailUpdate? azure;
+
+  ProviderDetailUpdate({
+    this.azure,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azure = this.azure;
+    return {
+      if (azure != null) 'azure': azure,
+    };
+  }
+}
+
+/// The Azure-specific configuration details for updating a connector, including
+/// the scan scope and regions to scan.
+///
+/// @nodoc
+class AzureProviderDetailUpdate {
+  /// Specifies whether to automatically install the VM scanner on connected Azure
+  /// resources.
+  final bool? autoInstallVMScanner;
+
+  /// The updated Azure regions to scan.
+  final List<String>? azureRegions;
+
+  /// The updated scope configuration that defines which Azure resources to scan.
+  final AzureScopeConfigurationInput? scopeConfiguration;
+
+  AzureProviderDetailUpdate({
+    this.autoInstallVMScanner,
+    this.azureRegions,
+    this.scopeConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final autoInstallVMScanner = this.autoInstallVMScanner;
+    final azureRegions = this.azureRegions;
+    final scopeConfiguration = this.scopeConfiguration;
+    return {
+      if (autoInstallVMScanner != null)
+        'autoInstallVMScanner': autoInstallVMScanner,
+      if (azureRegions != null) 'azureRegions': azureRegions,
+      if (scopeConfiguration != null) 'scopeConfiguration': scopeConfiguration,
+    };
+  }
+}
+
+/// The scope of Azure resources to scan, defined separately for VM, container
+/// image, and serverless scanning. Provide this when you create or update an
+/// Azure connector.
+///
+/// @nodoc
+class AzureScopeConfigurationInput {
+  /// The scope configuration input for container image scanning.
+  final ScopeConfigurationInput? containerImageScanning;
+
+  /// The scope configuration input for serverless scanning.
+  final ScopeConfigurationInput? serverlessScanning;
+
+  /// The scope configuration input for VM scanning.
+  final ScopeConfigurationInput? vmScanning;
+
+  AzureScopeConfigurationInput({
+    this.containerImageScanning,
+    this.serverlessScanning,
+    this.vmScanning,
+  });
+
+  Map<String, dynamic> toJson() {
+    final containerImageScanning = this.containerImageScanning;
+    final serverlessScanning = this.serverlessScanning;
+    final vmScanning = this.vmScanning;
+    return {
+      if (containerImageScanning != null)
+        'containerImageScanning': containerImageScanning,
+      if (serverlessScanning != null) 'serverlessScanning': serverlessScanning,
+      if (vmScanning != null) 'vmScanning': vmScanning,
+    };
+  }
+}
+
+/// The scope of resources to scan for a single scanning type. Provide this as
+/// part of an <code>AzureScopeConfigurationInput</code> when you create or
+/// update a connector.
+///
+/// @nodoc
+class ScopeConfigurationInput {
+  /// The type of scope. Valid values are <code>TENANT</code>, which scans all
+  /// resources in the Azure tenant, and <code>SUBSCRIPTION</code>, which scans
+  /// only the resources in the specified Azure subscriptions.
+  final ScopeType scopeType;
+
+  /// The list of scope values. For subscription-level scope, these are Azure
+  /// subscription IDs.
+  final List<String>? scopeValues;
+
+  ScopeConfigurationInput({
+    required this.scopeType,
+    this.scopeValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final scopeType = this.scopeType;
+    final scopeValues = this.scopeValues;
+    return {
+      'scopeType': scopeType.value,
+      if (scopeValues != null) 'scopeValues': scopeValues,
+    };
+  }
+}
+
+/// @nodoc
+class ScopeType {
+  static const tenant = ScopeType._('TENANT');
+  static const subscription = ScopeType._('SUBSCRIPTION');
+
+  final String value;
+
+  const ScopeType._(this.value);
+
+  static const values = [tenant, subscription];
+
+  static ScopeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is ScopeType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6263,6 +7199,71 @@ class Ec2Configuration {
   }
 }
 
+/// The per-scan-type inheritance reset settings for the
+/// <code>UpdateConfiguration</code> operation. Each member is independently
+/// optional. Including a member in this structure resets that scan type's
+/// configuration to inherit from the delegated administrator.
+///
+/// @nodoc
+class UpdateConfigurationInheritance {
+  /// The inheritance mode for Amazon EC2 scan configuration. Set to
+  /// <code>INHERIT_FROM_ADMIN</code> to reset the member account's Amazon EC2
+  /// scan configuration to inherit from the delegated administrator. If omitted,
+  /// the member account's existing Amazon EC2 scan configuration is not changed.
+  final InheritanceMode? ec2Configuration;
+
+  /// The inheritance mode for Amazon ECR scan configuration. Set to
+  /// <code>INHERIT_FROM_ADMIN</code> to reset the member account's Amazon ECR
+  /// scan configuration to inherit from the delegated administrator. If omitted,
+  /// the member account's existing Amazon ECR scan configuration is not changed.
+  final InheritanceMode? ecrConfiguration;
+
+  UpdateConfigurationInheritance({
+    this.ec2Configuration,
+    this.ecrConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final ec2Configuration = this.ec2Configuration;
+    final ecrConfiguration = this.ecrConfiguration;
+    return {
+      if (ec2Configuration != null) 'ec2Configuration': ec2Configuration.value,
+      if (ecrConfiguration != null) 'ecrConfiguration': ecrConfiguration.value,
+    };
+  }
+}
+
+/// The inheritance behavior for a scan-type configuration. Used with
+/// <code>UpdateConfigurationInheritance</code> to reset a member account's
+/// configuration to inherit from the delegated administrator. The only valid
+/// value is <code>INHERIT_FROM_ADMIN</code>, which resets the member account's
+/// configuration so that it inherits scan settings from the delegated
+/// administrator.
+///
+/// @nodoc
+class InheritanceMode {
+  static const inheritFromAdmin = InheritanceMode._('INHERIT_FROM_ADMIN');
+
+  final String value;
+
+  const InheritanceMode._(this.value);
+
+  static const values = [inheritFromAdmin];
+
+  static InheritanceMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InheritanceMode._(value));
+
+  @override
+  bool operator ==(other) => other is InheritanceMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class Ec2ScanMode {
   static const ec2SsmAgentBased = Ec2ScanMode._('EC2_SSM_AGENT_BASED');
@@ -6295,6 +7296,8 @@ class EcrRescanDuration {
   static const days_14 = EcrRescanDuration._('DAYS_14');
   static const days_60 = EcrRescanDuration._('DAYS_60');
   static const days_90 = EcrRescanDuration._('DAYS_90');
+  static const days_3 = EcrRescanDuration._('DAYS_3');
+  static const days_7 = EcrRescanDuration._('DAYS_7');
 
   final String value;
 
@@ -6306,7 +7309,9 @@ class EcrRescanDuration {
     days_180,
     days_14,
     days_60,
-    days_90
+    days_90,
+    days_3,
+    days_7
   ];
 
   static EcrRescanDuration fromString(String value) =>
@@ -6330,12 +7335,22 @@ class EcrPullDateRescanDuration {
   static const days_60 = EcrPullDateRescanDuration._('DAYS_60');
   static const days_90 = EcrPullDateRescanDuration._('DAYS_90');
   static const days_180 = EcrPullDateRescanDuration._('DAYS_180');
+  static const days_3 = EcrPullDateRescanDuration._('DAYS_3');
+  static const days_7 = EcrPullDateRescanDuration._('DAYS_7');
 
   final String value;
 
   const EcrPullDateRescanDuration._(this.value);
 
-  static const values = [days_14, days_30, days_60, days_90, days_180];
+  static const values = [
+    days_14,
+    days_30,
+    days_60,
+    days_90,
+    days_180,
+    days_3,
+    days_7
+  ];
 
   static EcrPullDateRescanDuration fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -7781,6 +8796,9 @@ class UsageTotal {
 ///
 /// @nodoc
 class Usage {
+  /// The cloud provider associated with the usage information.
+  final CloudProvider? cloudProvider;
+
   /// The currency type used when calculating usage data.
   final Currency? currency;
 
@@ -7794,6 +8812,7 @@ class Usage {
   final UsageType? type;
 
   Usage({
+    this.cloudProvider,
     this.currency,
     this.estimatedMonthlyCost,
     this.total,
@@ -7802,6 +8821,8 @@ class Usage {
 
   factory Usage.fromJson(Map<String, dynamic> json) {
     return Usage(
+      cloudProvider:
+          (json['cloudProvider'] as String?)?.let(CloudProvider.fromString),
       currency: (json['currency'] as String?)?.let(Currency.fromString),
       estimatedMonthlyCost: _s.parseJsonDouble(json['estimatedMonthlyCost']),
       total: _s.parseJsonDouble(json['total']),
@@ -7810,11 +8831,13 @@ class Usage {
   }
 
   Map<String, dynamic> toJson() {
+    final cloudProvider = this.cloudProvider;
     final currency = this.currency;
     final estimatedMonthlyCost = this.estimatedMonthlyCost;
     final total = this.total;
     final type = this.type;
     return {
+      if (cloudProvider != null) 'cloudProvider': cloudProvider.value,
       if (currency != null) 'currency': currency.value,
       if (estimatedMonthlyCost != null)
         'estimatedMonthlyCost': _s.encodeJsonDouble(estimatedMonthlyCost),
@@ -7837,6 +8860,14 @@ class UsageType {
   static const codeRepositorySca = UsageType._('CODE_REPOSITORY_SCA');
   static const ec2AgentlessInstanceHours =
       UsageType._('EC2_AGENTLESS_INSTANCE_HOURS');
+  static const azureContainerImageInitialScan =
+      UsageType._('AZURE_CONTAINER_IMAGE_INITIAL_SCAN');
+  static const azureContainerImageRescan =
+      UsageType._('AZURE_CONTAINER_IMAGE_RESCAN');
+  static const azureVmAgentBasedInstanceHours =
+      UsageType._('AZURE_VM_AGENT_BASED_INSTANCE_HOURS');
+  static const azureServerlessFunctionHours =
+      UsageType._('AZURE_SERVERLESS_FUNCTION_HOURS');
 
   final String value;
 
@@ -7851,7 +8882,11 @@ class UsageType {
     codeRepositorySast,
     codeRepositoryIac,
     codeRepositorySca,
-    ec2AgentlessInstanceHours
+    ec2AgentlessInstanceHours,
+    azureContainerImageInitialScan,
+    azureContainerImageRescan,
+    azureVmAgentBasedInstanceHours,
+    azureServerlessFunctionHours
   ];
 
   static UsageType fromString(String value) => values
@@ -7882,6 +8917,32 @@ class Currency {
 
   @override
   bool operator ==(other) => other is Currency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class CloudProvider {
+  static const aws = CloudProvider._('AWS');
+  static const azure = CloudProvider._('AZURE');
+  static const notApplicable = CloudProvider._('NOT_APPLICABLE');
+
+  final String value;
+
+  const CloudProvider._(this.value);
+
+  static const values = [aws, azure, notApplicable];
+
+  static CloudProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudProvider._(value));
+
+  @override
+  bool operator ==(other) => other is CloudProvider && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9192,6 +10253,15 @@ class Resource {
   /// The partition of the resource.
   final String? partition;
 
+  /// The cloud provider of the resource.
+  final Provider? provider;
+
+  /// The cloud provider account ID of the resource.
+  final String? providerAccountId;
+
+  /// The cloud provider organization ID of the resource.
+  final String? providerOrgId;
+
   /// The Amazon Web Services Region the impacted resource is located in.
   final String? region;
 
@@ -9203,6 +10273,9 @@ class Resource {
     required this.type,
     this.details,
     this.partition,
+    this.provider,
+    this.providerAccountId,
+    this.providerOrgId,
     this.region,
     this.tags,
   });
@@ -9215,6 +10288,9 @@ class Resource {
           ? ResourceDetails.fromJson(json['details'] as Map<String, dynamic>)
           : null,
       partition: json['partition'] as String?,
+      provider: (json['provider'] as String?)?.let(Provider.fromString),
+      providerAccountId: json['providerAccountId'] as String?,
+      providerOrgId: json['providerOrgId'] as String?,
       region: json['region'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -9226,6 +10302,9 @@ class Resource {
     final type = this.type;
     final details = this.details;
     final partition = this.partition;
+    final provider = this.provider;
+    final providerAccountId = this.providerAccountId;
+    final providerOrgId = this.providerOrgId;
     final region = this.region;
     final tags = this.tags;
     return {
@@ -9233,6 +10312,9 @@ class Resource {
       'type': type.value,
       if (details != null) 'details': details,
       if (partition != null) 'partition': partition,
+      if (provider != null) 'provider': provider.value,
+      if (providerAccountId != null) 'providerAccountId': providerAccountId,
+      if (providerOrgId != null) 'providerOrgId': providerOrgId,
       if (region != null) 'region': region,
       if (tags != null) 'tags': tags,
     };
@@ -9258,11 +10340,25 @@ class ResourceDetails {
   /// Contains details about a code repository resource associated with a finding.
   final CodeRepositoryDetails? codeRepository;
 
+  /// An object that contains details about a container image involved in the
+  /// finding.
+  final Image? image;
+
+  /// An object that contains details about a serverless function involved in the
+  /// finding.
+  final ServerlessFunction? serverlessFunction;
+
+  /// An object that contains details about a VM instance involved in the finding.
+  final Vm? vm;
+
   ResourceDetails({
     this.awsEc2Instance,
     this.awsEcrContainerImage,
     this.awsLambdaFunction,
     this.codeRepository,
+    this.image,
+    this.serverlessFunction,
+    this.vm,
   });
 
   factory ResourceDetails.fromJson(Map<String, dynamic> json) {
@@ -9283,6 +10379,16 @@ class ResourceDetails {
           ? CodeRepositoryDetails.fromJson(
               json['codeRepository'] as Map<String, dynamic>)
           : null,
+      image: json['image'] != null
+          ? Image.fromJson(json['image'] as Map<String, dynamic>)
+          : null,
+      serverlessFunction: json['serverlessFunction'] != null
+          ? ServerlessFunction.fromJson(
+              json['serverlessFunction'] as Map<String, dynamic>)
+          : null,
+      vm: json['vm'] != null
+          ? Vm.fromJson(json['vm'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -9291,14 +10397,44 @@ class ResourceDetails {
     final awsEcrContainerImage = this.awsEcrContainerImage;
     final awsLambdaFunction = this.awsLambdaFunction;
     final codeRepository = this.codeRepository;
+    final image = this.image;
+    final serverlessFunction = this.serverlessFunction;
+    final vm = this.vm;
     return {
       if (awsEc2Instance != null) 'awsEc2Instance': awsEc2Instance,
       if (awsEcrContainerImage != null)
         'awsEcrContainerImage': awsEcrContainerImage,
       if (awsLambdaFunction != null) 'awsLambdaFunction': awsLambdaFunction,
       if (codeRepository != null) 'codeRepository': codeRepository,
+      if (image != null) 'image': image,
+      if (serverlessFunction != null) 'serverlessFunction': serverlessFunction,
+      if (vm != null) 'vm': vm,
     };
   }
+}
+
+/// @nodoc
+class Provider {
+  static const aws = Provider._('AWS');
+  static const azure = Provider._('AZURE');
+
+  final String value;
+
+  const Provider._(this.value);
+
+  static const values = [aws, azure];
+
+  static Provider fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Provider._(value));
+
+  @override
+  bool operator ==(other) => other is Provider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Details of the Amazon EC2 instance involved in a finding.
@@ -9635,6 +10771,375 @@ class CodeRepositoryDetails {
   }
 }
 
+/// Contains details about a VM instance involved in a finding.
+///
+/// @nodoc
+class Vm {
+  /// The execution role of the VM instance.
+  final String? executionRole;
+
+  /// The IPv4 addresses of the VM instance.
+  final List<String>? ipV4Addresses;
+
+  /// The IPv6 addresses of the VM instance.
+  final List<String>? ipV6Addresses;
+
+  /// The key name associated with the VM instance.
+  final String? keyName;
+
+  /// The date and time the VM instance was launched.
+  final DateTime? launchedAt;
+
+  /// The network ID associated with the VM instance.
+  final String? networkId;
+
+  /// The platform of the VM instance.
+  final String? platform;
+
+  /// The security group IDs associated with the VM instance.
+  final List<String>? securityGroupIds;
+
+  /// The subnet IDs of the VM instance.
+  final List<String>? subnetIds;
+
+  /// The type of the VM instance.
+  final String? type;
+
+  /// The image reference of the VM instance.
+  final String? vmImageReference;
+
+  /// The name of the VM instance.
+  final String? vmName;
+
+  Vm({
+    this.executionRole,
+    this.ipV4Addresses,
+    this.ipV6Addresses,
+    this.keyName,
+    this.launchedAt,
+    this.networkId,
+    this.platform,
+    this.securityGroupIds,
+    this.subnetIds,
+    this.type,
+    this.vmImageReference,
+    this.vmName,
+  });
+
+  factory Vm.fromJson(Map<String, dynamic> json) {
+    return Vm(
+      executionRole: json['executionRole'] as String?,
+      ipV4Addresses: (json['ipV4Addresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ipV6Addresses: (json['ipV6Addresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      keyName: json['keyName'] as String?,
+      launchedAt: timeStampFromJson(json['launchedAt']),
+      networkId: json['networkId'] as String?,
+      platform: json['platform'] as String?,
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      type: json['type'] as String?,
+      vmImageReference: json['vmImageReference'] as String?,
+      vmName: json['vmName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRole = this.executionRole;
+    final ipV4Addresses = this.ipV4Addresses;
+    final ipV6Addresses = this.ipV6Addresses;
+    final keyName = this.keyName;
+    final launchedAt = this.launchedAt;
+    final networkId = this.networkId;
+    final platform = this.platform;
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    final type = this.type;
+    final vmImageReference = this.vmImageReference;
+    final vmName = this.vmName;
+    return {
+      if (executionRole != null) 'executionRole': executionRole,
+      if (ipV4Addresses != null) 'ipV4Addresses': ipV4Addresses,
+      if (ipV6Addresses != null) 'ipV6Addresses': ipV6Addresses,
+      if (keyName != null) 'keyName': keyName,
+      if (launchedAt != null) 'launchedAt': unixTimestampToJson(launchedAt),
+      if (networkId != null) 'networkId': networkId,
+      if (platform != null) 'platform': platform,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'subnetIds': subnetIds,
+      if (type != null) 'type': type,
+      if (vmImageReference != null) 'vmImageReference': vmImageReference,
+      if (vmName != null) 'vmName': vmName,
+    };
+  }
+}
+
+/// Contains details about a container image involved in a finding.
+///
+/// @nodoc
+class Image {
+  /// The architecture of the container image.
+  final String? architecture;
+
+  /// The author of the container image.
+  final String? author;
+
+  /// The image digest of the container image.
+  final String? imageDigest;
+
+  /// The image tags attached to the container image.
+  final List<String>? imageTags;
+
+  /// The number of times the container image is in use.
+  final int? inUseCount;
+
+  /// The last time the container image was in use.
+  final DateTime? lastInUseAt;
+
+  /// The platform of the container image.
+  final String? platform;
+
+  /// The date and time the container image was pushed.
+  final DateTime? pushedAt;
+
+  /// The registry for the container image.
+  final String? registry;
+
+  /// The name of the repository the container image resides in.
+  final String? repositoryName;
+
+  Image({
+    this.architecture,
+    this.author,
+    this.imageDigest,
+    this.imageTags,
+    this.inUseCount,
+    this.lastInUseAt,
+    this.platform,
+    this.pushedAt,
+    this.registry,
+    this.repositoryName,
+  });
+
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      architecture: json['architecture'] as String?,
+      author: json['author'] as String?,
+      imageDigest: json['imageDigest'] as String?,
+      imageTags: (json['imageTags'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inUseCount: json['inUseCount'] as int?,
+      lastInUseAt: timeStampFromJson(json['lastInUseAt']),
+      platform: json['platform'] as String?,
+      pushedAt: timeStampFromJson(json['pushedAt']),
+      registry: json['registry'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final architecture = this.architecture;
+    final author = this.author;
+    final imageDigest = this.imageDigest;
+    final imageTags = this.imageTags;
+    final inUseCount = this.inUseCount;
+    final lastInUseAt = this.lastInUseAt;
+    final platform = this.platform;
+    final pushedAt = this.pushedAt;
+    final registry = this.registry;
+    final repositoryName = this.repositoryName;
+    return {
+      if (architecture != null) 'architecture': architecture,
+      if (author != null) 'author': author,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imageTags != null) 'imageTags': imageTags,
+      if (inUseCount != null) 'inUseCount': inUseCount,
+      if (lastInUseAt != null) 'lastInUseAt': unixTimestampToJson(lastInUseAt),
+      if (platform != null) 'platform': platform,
+      if (pushedAt != null) 'pushedAt': unixTimestampToJson(pushedAt),
+      if (registry != null) 'registry': registry,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Contains details about a serverless function involved in a finding.
+///
+/// @nodoc
+class ServerlessFunction {
+  /// The architectures of the serverless function.
+  final List<Architecture>? architectures;
+
+  /// The code digest of the serverless function.
+  final String? codeDigest;
+
+  /// The execution role of the serverless function.
+  final String? executionRole;
+
+  /// The date and time the serverless function was last modified.
+  final DateTime? lastModifiedAt;
+
+  /// The layers of the serverless function.
+  final List<String>? layers;
+
+  /// The network ID associated with the serverless function.
+  final String? networkId;
+
+  /// The package type of the serverless function.
+  final PackageType? packageType;
+
+  /// The runtime of the serverless function.
+  final String? runtime;
+
+  /// The security group IDs associated with the serverless function.
+  final List<String>? securityGroupIds;
+
+  /// The name of the serverless function.
+  final String? serverlessFunctionName;
+
+  /// The subnet IDs associated with the serverless function.
+  final List<String>? subnetIds;
+
+  /// The version of the serverless function.
+  final String? version;
+
+  ServerlessFunction({
+    this.architectures,
+    this.codeDigest,
+    this.executionRole,
+    this.lastModifiedAt,
+    this.layers,
+    this.networkId,
+    this.packageType,
+    this.runtime,
+    this.securityGroupIds,
+    this.serverlessFunctionName,
+    this.subnetIds,
+    this.version,
+  });
+
+  factory ServerlessFunction.fromJson(Map<String, dynamic> json) {
+    return ServerlessFunction(
+      architectures: (json['architectures'] as List?)
+          ?.nonNulls
+          .map((e) => Architecture.fromString((e as String)))
+          .toList(),
+      codeDigest: json['codeDigest'] as String?,
+      executionRole: json['executionRole'] as String?,
+      lastModifiedAt: timeStampFromJson(json['lastModifiedAt']),
+      layers:
+          (json['layers'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      networkId: json['networkId'] as String?,
+      packageType:
+          (json['packageType'] as String?)?.let(PackageType.fromString),
+      runtime: json['runtime'] as String?,
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      serverlessFunctionName: json['serverlessFunctionName'] as String?,
+      subnetIds: (json['subnetIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final architectures = this.architectures;
+    final codeDigest = this.codeDigest;
+    final executionRole = this.executionRole;
+    final lastModifiedAt = this.lastModifiedAt;
+    final layers = this.layers;
+    final networkId = this.networkId;
+    final packageType = this.packageType;
+    final runtime = this.runtime;
+    final securityGroupIds = this.securityGroupIds;
+    final serverlessFunctionName = this.serverlessFunctionName;
+    final subnetIds = this.subnetIds;
+    final version = this.version;
+    return {
+      if (architectures != null)
+        'architectures': architectures.map((e) => e.value).toList(),
+      if (codeDigest != null) 'codeDigest': codeDigest,
+      if (executionRole != null) 'executionRole': executionRole,
+      if (lastModifiedAt != null)
+        'lastModifiedAt': unixTimestampToJson(lastModifiedAt),
+      if (layers != null) 'layers': layers,
+      if (networkId != null) 'networkId': networkId,
+      if (packageType != null) 'packageType': packageType.value,
+      if (runtime != null) 'runtime': runtime,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (serverlessFunctionName != null)
+        'serverlessFunctionName': serverlessFunctionName,
+      if (subnetIds != null) 'subnetIds': subnetIds,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// @nodoc
+class PackageType {
+  static const image = PackageType._('IMAGE');
+  static const zip = PackageType._('ZIP');
+
+  final String value;
+
+  const PackageType._(this.value);
+
+  static const values = [image, zip];
+
+  static PackageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PackageType._(value));
+
+  @override
+  bool operator ==(other) => other is PackageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class Architecture {
+  static const x86_64 = Architecture._('X86_64');
+  static const arm64 = Architecture._('ARM64');
+
+  final String value;
+
+  const Architecture._(this.value);
+
+  static const values = [x86_64, arm64];
+
+  static Architecture fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Architecture._(value));
+
+  @override
+  bool operator ==(other) => other is Architecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class CodeRepositoryProviderType {
   static const github = CodeRepositoryProviderType._('GITHUB');
@@ -9687,6 +11192,9 @@ class Runtime {
   static const ruby_3_2 = Runtime._('RUBY_3_2');
   static const dotnet_10 = Runtime._('DOTNET_10');
   static const nodejs_24X = Runtime._('NODEJS_24_X');
+  static const nodejs_22X = Runtime._('NODEJS_22_X');
+  static const java_21 = Runtime._('JAVA_21');
+  static const java_25 = Runtime._('JAVA_25');
 
   final String value;
 
@@ -9715,7 +11223,10 @@ class Runtime {
     ruby_2_7,
     ruby_3_2,
     dotnet_10,
-    nodejs_24X
+    nodejs_24X,
+    nodejs_22X,
+    java_21,
+    java_25
   ];
 
   static Runtime fromString(String value) => values
@@ -9780,54 +11291,6 @@ class LambdaVpcConfig {
       if (vpcId != null) 'vpcId': vpcId,
     };
   }
-}
-
-/// @nodoc
-class PackageType {
-  static const image = PackageType._('IMAGE');
-  static const zip = PackageType._('ZIP');
-
-  final String value;
-
-  const PackageType._(this.value);
-
-  static const values = [image, zip];
-
-  static PackageType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PackageType._(value));
-
-  @override
-  bool operator ==(other) => other is PackageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class Architecture {
-  static const x86_64 = Architecture._('X86_64');
-  static const arm64 = Architecture._('ARM64');
-
-  final String value;
-
-  const Architecture._(this.value);
-
-  static const values = [x86_64, arm64];
-
-  static Architecture fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Architecture._(value));
-
-  @override
-  bool operator ==(other) => other is Architecture && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Details about the recommended course of action to remediate the finding.
@@ -9983,6 +11446,9 @@ class AggregationType {
   static const awsLambdaFunction = AggregationType._('AWS_LAMBDA_FUNCTION');
   static const lambdaLayer = AggregationType._('LAMBDA_LAYER');
   static const codeRepository = AggregationType._('CODE_REPOSITORY');
+  static const vmInstance = AggregationType._('VM_INSTANCE');
+  static const containerImage = AggregationType._('CONTAINER_IMAGE');
+  static const serverlessFunction = AggregationType._('SERVERLESS_FUNCTION');
 
   final String value;
 
@@ -10000,7 +11466,10 @@ class AggregationType {
     account,
     awsLambdaFunction,
     lambdaLayer,
-    codeRepository
+    codeRepository,
+    vmInstance,
+    containerImage,
+    serverlessFunction
   ];
 
   static AggregationType fromString(String value) =>
@@ -10038,6 +11507,10 @@ class AggregationResponse {
   final CodeRepositoryAggregationResponse? codeRepositoryAggregation;
 
   /// An object that contains details about an aggregation response based on
+  /// container images.
+  final ContainerImageAggregationResponse? containerImageAggregation;
+
+  /// An object that contains details about an aggregation response based on
   /// Amazon EC2 instances.
   final Ec2InstanceAggregationResponse? ec2InstanceAggregation;
 
@@ -10064,14 +11537,23 @@ class AggregationResponse {
   final RepositoryAggregationResponse? repositoryAggregation;
 
   /// An object that contains details about an aggregation response based on
+  /// serverless functions.
+  final ServerlessFunctionAggregationResponse? serverlessFunctionAggregation;
+
+  /// An object that contains details about an aggregation response based on
   /// finding title.
   final TitleAggregationResponse? titleAggregation;
+
+  /// An object that contains details about an aggregation response based on VM
+  /// instances.
+  final VmInstanceAggregationResponse? vmInstanceAggregation;
 
   AggregationResponse({
     this.accountAggregation,
     this.amiAggregation,
     this.awsEcrContainerAggregation,
     this.codeRepositoryAggregation,
+    this.containerImageAggregation,
     this.ec2InstanceAggregation,
     this.findingTypeAggregation,
     this.imageLayerAggregation,
@@ -10079,7 +11561,9 @@ class AggregationResponse {
     this.lambdaLayerAggregation,
     this.packageAggregation,
     this.repositoryAggregation,
+    this.serverlessFunctionAggregation,
     this.titleAggregation,
+    this.vmInstanceAggregation,
   });
 
   factory AggregationResponse.fromJson(Map<String, dynamic> json) {
@@ -10099,6 +11583,10 @@ class AggregationResponse {
       codeRepositoryAggregation: json['codeRepositoryAggregation'] != null
           ? CodeRepositoryAggregationResponse.fromJson(
               json['codeRepositoryAggregation'] as Map<String, dynamic>)
+          : null,
+      containerImageAggregation: json['containerImageAggregation'] != null
+          ? ContainerImageAggregationResponse.fromJson(
+              json['containerImageAggregation'] as Map<String, dynamic>)
           : null,
       ec2InstanceAggregation: json['ec2InstanceAggregation'] != null
           ? Ec2InstanceAggregationResponse.fromJson(
@@ -10128,9 +11616,18 @@ class AggregationResponse {
           ? RepositoryAggregationResponse.fromJson(
               json['repositoryAggregation'] as Map<String, dynamic>)
           : null,
+      serverlessFunctionAggregation:
+          json['serverlessFunctionAggregation'] != null
+              ? ServerlessFunctionAggregationResponse.fromJson(
+                  json['serverlessFunctionAggregation'] as Map<String, dynamic>)
+              : null,
       titleAggregation: json['titleAggregation'] != null
           ? TitleAggregationResponse.fromJson(
               json['titleAggregation'] as Map<String, dynamic>)
+          : null,
+      vmInstanceAggregation: json['vmInstanceAggregation'] != null
+          ? VmInstanceAggregationResponse.fromJson(
+              json['vmInstanceAggregation'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -10140,6 +11637,7 @@ class AggregationResponse {
     final amiAggregation = this.amiAggregation;
     final awsEcrContainerAggregation = this.awsEcrContainerAggregation;
     final codeRepositoryAggregation = this.codeRepositoryAggregation;
+    final containerImageAggregation = this.containerImageAggregation;
     final ec2InstanceAggregation = this.ec2InstanceAggregation;
     final findingTypeAggregation = this.findingTypeAggregation;
     final imageLayerAggregation = this.imageLayerAggregation;
@@ -10147,7 +11645,9 @@ class AggregationResponse {
     final lambdaLayerAggregation = this.lambdaLayerAggregation;
     final packageAggregation = this.packageAggregation;
     final repositoryAggregation = this.repositoryAggregation;
+    final serverlessFunctionAggregation = this.serverlessFunctionAggregation;
     final titleAggregation = this.titleAggregation;
+    final vmInstanceAggregation = this.vmInstanceAggregation;
     return {
       if (accountAggregation != null) 'accountAggregation': accountAggregation,
       if (amiAggregation != null) 'amiAggregation': amiAggregation,
@@ -10155,6 +11655,8 @@ class AggregationResponse {
         'awsEcrContainerAggregation': awsEcrContainerAggregation,
       if (codeRepositoryAggregation != null)
         'codeRepositoryAggregation': codeRepositoryAggregation,
+      if (containerImageAggregation != null)
+        'containerImageAggregation': containerImageAggregation,
       if (ec2InstanceAggregation != null)
         'ec2InstanceAggregation': ec2InstanceAggregation,
       if (findingTypeAggregation != null)
@@ -10168,7 +11670,11 @@ class AggregationResponse {
       if (packageAggregation != null) 'packageAggregation': packageAggregation,
       if (repositoryAggregation != null)
         'repositoryAggregation': repositoryAggregation,
+      if (serverlessFunctionAggregation != null)
+        'serverlessFunctionAggregation': serverlessFunctionAggregation,
       if (titleAggregation != null) 'titleAggregation': titleAggregation,
+      if (vmInstanceAggregation != null)
+        'vmInstanceAggregation': vmInstanceAggregation,
     };
   }
 }
@@ -10236,6 +11742,57 @@ class AmiAggregationResponse {
   /// The IDs of Amazon EC2 instances using this AMI.
   final int? affectedInstances;
 
+  /// The cloud account ID for the AMI aggregation.
+  final String? cloudAccountId;
+
+  /// The cloud organization ID for the AMI aggregation.
+  final String? cloudOrgId;
+
+  /// The cloud infrastructure partition associated with this AMI aggregation.
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final String? cloudPartition;
+
+  /// The cloud service provider associated with this Amazon Machine Image (AMI)
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final Provider? cloudProvider;
+
+  /// The cloud Region associated with this AMI aggregation. The value format
+  /// depends on the cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final String? cloudRegion;
+
   /// An object that contains the count of matched findings per severity.
   final SeverityCounts? severityCounts;
 
@@ -10243,6 +11800,11 @@ class AmiAggregationResponse {
     required this.ami,
     this.accountId,
     this.affectedInstances,
+    this.cloudAccountId,
+    this.cloudOrgId,
+    this.cloudPartition,
+    this.cloudProvider,
+    this.cloudRegion,
     this.severityCounts,
   });
 
@@ -10251,6 +11813,12 @@ class AmiAggregationResponse {
       ami: (json['ami'] as String?) ?? '',
       accountId: json['accountId'] as String?,
       affectedInstances: json['affectedInstances'] as int?,
+      cloudAccountId: json['cloudAccountId'] as String?,
+      cloudOrgId: json['cloudOrgId'] as String?,
+      cloudPartition: json['cloudPartition'] as String?,
+      cloudProvider:
+          (json['cloudProvider'] as String?)?.let(Provider.fromString),
+      cloudRegion: json['cloudRegion'] as String?,
       severityCounts: json['severityCounts'] != null
           ? SeverityCounts.fromJson(
               json['severityCounts'] as Map<String, dynamic>)
@@ -10262,11 +11830,21 @@ class AmiAggregationResponse {
     final ami = this.ami;
     final accountId = this.accountId;
     final affectedInstances = this.affectedInstances;
+    final cloudAccountId = this.cloudAccountId;
+    final cloudOrgId = this.cloudOrgId;
+    final cloudPartition = this.cloudPartition;
+    final cloudProvider = this.cloudProvider;
+    final cloudRegion = this.cloudRegion;
     final severityCounts = this.severityCounts;
     return {
       'ami': ami,
       if (accountId != null) 'accountId': accountId,
       if (affectedInstances != null) 'affectedInstances': affectedInstances,
+      if (cloudAccountId != null) 'cloudAccountId': cloudAccountId,
+      if (cloudOrgId != null) 'cloudOrgId': cloudOrgId,
+      if (cloudPartition != null) 'cloudPartition': cloudPartition,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider.value,
+      if (cloudRegion != null) 'cloudRegion': cloudRegion,
       if (severityCounts != null) 'severityCounts': severityCounts,
     };
   }
@@ -10441,6 +12019,57 @@ class FindingTypeAggregationResponse {
   /// The ID of the Amazon Web Services account associated with the findings.
   final String? accountId;
 
+  /// The cloud account ID for the finding type aggregation.
+  final String? cloudAccountId;
+
+  /// The cloud organization ID for the finding type aggregation.
+  final String? cloudOrgId;
+
+  /// The cloud infrastructure partition associated with this finding type
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final String? cloudPartition;
+
+  /// The cloud service provider associated with this finding type aggregation.
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final String? cloudProvider;
+
+  /// The cloud Region associated with this finding type aggregation. The value
+  /// format depends on the cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final String? cloudRegion;
+
   /// The number of findings that have an exploit available.
   final int? exploitAvailableCount;
 
@@ -10452,6 +12081,11 @@ class FindingTypeAggregationResponse {
 
   FindingTypeAggregationResponse({
     this.accountId,
+    this.cloudAccountId,
+    this.cloudOrgId,
+    this.cloudPartition,
+    this.cloudProvider,
+    this.cloudRegion,
     this.exploitAvailableCount,
     this.fixAvailableCount,
     this.severityCounts,
@@ -10460,6 +12094,11 @@ class FindingTypeAggregationResponse {
   factory FindingTypeAggregationResponse.fromJson(Map<String, dynamic> json) {
     return FindingTypeAggregationResponse(
       accountId: json['accountId'] as String?,
+      cloudAccountId: json['cloudAccountId'] as String?,
+      cloudOrgId: json['cloudOrgId'] as String?,
+      cloudPartition: json['cloudPartition'] as String?,
+      cloudProvider: json['cloudProvider'] as String?,
+      cloudRegion: json['cloudRegion'] as String?,
       exploitAvailableCount: json['exploitAvailableCount'] as int?,
       fixAvailableCount: json['fixAvailableCount'] as int?,
       severityCounts: json['severityCounts'] != null
@@ -10471,11 +12110,21 @@ class FindingTypeAggregationResponse {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
+    final cloudAccountId = this.cloudAccountId;
+    final cloudOrgId = this.cloudOrgId;
+    final cloudPartition = this.cloudPartition;
+    final cloudProvider = this.cloudProvider;
+    final cloudRegion = this.cloudRegion;
     final exploitAvailableCount = this.exploitAvailableCount;
     final fixAvailableCount = this.fixAvailableCount;
     final severityCounts = this.severityCounts;
     return {
       if (accountId != null) 'accountId': accountId,
+      if (cloudAccountId != null) 'cloudAccountId': cloudAccountId,
+      if (cloudOrgId != null) 'cloudOrgId': cloudOrgId,
+      if (cloudPartition != null) 'cloudPartition': cloudPartition,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider,
+      if (cloudRegion != null) 'cloudRegion': cloudRegion,
       if (exploitAvailableCount != null)
         'exploitAvailableCount': exploitAvailableCount,
       if (fixAvailableCount != null) 'fixAvailableCount': fixAvailableCount,
@@ -10502,6 +12151,57 @@ class ImageLayerAggregationResponse {
   /// The resource ID of the container image layer.
   final String resourceId;
 
+  /// The cloud account ID for the image layer aggregation.
+  final String? cloudAccountId;
+
+  /// The cloud organization ID for the image layer aggregation.
+  final String? cloudOrgId;
+
+  /// The cloud infrastructure partition associated with this image layer
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final String? cloudPartition;
+
+  /// The cloud service provider associated with this image layer aggregation.
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final String? cloudProvider;
+
+  /// The cloud Region associated with this image layer aggregation. The value
+  /// format depends on the cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final String? cloudRegion;
+
   /// An object that represents the count of matched findings per severity.
   final SeverityCounts? severityCounts;
 
@@ -10510,6 +12210,11 @@ class ImageLayerAggregationResponse {
     required this.layerHash,
     required this.repository,
     required this.resourceId,
+    this.cloudAccountId,
+    this.cloudOrgId,
+    this.cloudPartition,
+    this.cloudProvider,
+    this.cloudRegion,
     this.severityCounts,
   });
 
@@ -10519,6 +12224,11 @@ class ImageLayerAggregationResponse {
       layerHash: (json['layerHash'] as String?) ?? '',
       repository: (json['repository'] as String?) ?? '',
       resourceId: (json['resourceId'] as String?) ?? '',
+      cloudAccountId: json['cloudAccountId'] as String?,
+      cloudOrgId: json['cloudOrgId'] as String?,
+      cloudPartition: json['cloudPartition'] as String?,
+      cloudProvider: json['cloudProvider'] as String?,
+      cloudRegion: json['cloudRegion'] as String?,
       severityCounts: json['severityCounts'] != null
           ? SeverityCounts.fromJson(
               json['severityCounts'] as Map<String, dynamic>)
@@ -10531,12 +12241,22 @@ class ImageLayerAggregationResponse {
     final layerHash = this.layerHash;
     final repository = this.repository;
     final resourceId = this.resourceId;
+    final cloudAccountId = this.cloudAccountId;
+    final cloudOrgId = this.cloudOrgId;
+    final cloudPartition = this.cloudPartition;
+    final cloudProvider = this.cloudProvider;
+    final cloudRegion = this.cloudRegion;
     final severityCounts = this.severityCounts;
     return {
       'accountId': accountId,
       'layerHash': layerHash,
       'repository': repository,
       'resourceId': resourceId,
+      if (cloudAccountId != null) 'cloudAccountId': cloudAccountId,
+      if (cloudOrgId != null) 'cloudOrgId': cloudOrgId,
+      if (cloudPartition != null) 'cloudPartition': cloudPartition,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider,
+      if (cloudRegion != null) 'cloudRegion': cloudRegion,
       if (severityCounts != null) 'severityCounts': severityCounts,
     };
   }
@@ -10599,6 +12319,57 @@ class RepositoryAggregationResponse {
   /// The number of container images impacted by the findings.
   final int? affectedImages;
 
+  /// The cloud account ID for the repository aggregation.
+  final String? cloudAccountId;
+
+  /// The cloud organization ID for the repository aggregation.
+  final String? cloudOrgId;
+
+  /// The cloud infrastructure partition associated with this repository
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final String? cloudPartition;
+
+  /// The cloud service provider associated with this repository aggregation.
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final Provider? cloudProvider;
+
+  /// The cloud Region associated with this repository aggregation. The value
+  /// format depends on the cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final String? cloudRegion;
+
   /// An object that represent the count of matched findings per severity.
   final SeverityCounts? severityCounts;
 
@@ -10606,6 +12377,11 @@ class RepositoryAggregationResponse {
     required this.repository,
     this.accountId,
     this.affectedImages,
+    this.cloudAccountId,
+    this.cloudOrgId,
+    this.cloudPartition,
+    this.cloudProvider,
+    this.cloudRegion,
     this.severityCounts,
   });
 
@@ -10614,6 +12390,12 @@ class RepositoryAggregationResponse {
       repository: (json['repository'] as String?) ?? '',
       accountId: json['accountId'] as String?,
       affectedImages: json['affectedImages'] as int?,
+      cloudAccountId: json['cloudAccountId'] as String?,
+      cloudOrgId: json['cloudOrgId'] as String?,
+      cloudPartition: json['cloudPartition'] as String?,
+      cloudProvider:
+          (json['cloudProvider'] as String?)?.let(Provider.fromString),
+      cloudRegion: json['cloudRegion'] as String?,
       severityCounts: json['severityCounts'] != null
           ? SeverityCounts.fromJson(
               json['severityCounts'] as Map<String, dynamic>)
@@ -10625,11 +12407,21 @@ class RepositoryAggregationResponse {
     final repository = this.repository;
     final accountId = this.accountId;
     final affectedImages = this.affectedImages;
+    final cloudAccountId = this.cloudAccountId;
+    final cloudOrgId = this.cloudOrgId;
+    final cloudPartition = this.cloudPartition;
+    final cloudProvider = this.cloudProvider;
+    final cloudRegion = this.cloudRegion;
     final severityCounts = this.severityCounts;
     return {
       'repository': repository,
       if (accountId != null) 'accountId': accountId,
       if (affectedImages != null) 'affectedImages': affectedImages,
+      if (cloudAccountId != null) 'cloudAccountId': cloudAccountId,
+      if (cloudOrgId != null) 'cloudOrgId': cloudOrgId,
+      if (cloudPartition != null) 'cloudPartition': cloudPartition,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider.value,
+      if (cloudRegion != null) 'cloudRegion': cloudRegion,
       if (severityCounts != null) 'severityCounts': severityCounts,
     };
   }
@@ -10900,6 +12692,522 @@ class CodeRepositoryAggregationResponse {
   }
 }
 
+/// A response that contains the results of a VM instance aggregation.
+///
+/// @nodoc
+class VmInstanceAggregationResponse {
+  /// The resource ID for the VM instance.
+  final String resourceId;
+
+  /// The account ID associated with the VM instance.
+  final String? accountId;
+
+  /// The cloud account ID for the VM instance aggregation.
+  final String? cloudAccountId;
+
+  /// The cloud organization ID for the VM instance aggregation.
+  final String? cloudOrgId;
+
+  /// The cloud infrastructure partition associated with this VM instance
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final String? cloudPartition;
+
+  /// The cloud service provider associated with this VM instance aggregation.
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final Provider? cloudProvider;
+
+  /// The cloud Region associated with this VM instance aggregation. The value
+  /// format depends on the cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final String? cloudRegion;
+
+  /// The number of active findings with an exploit available for the VM instance.
+  final int? exploitAvailableActiveFindingsCount;
+
+  /// The number of active findings with a fix available for the VM instance.
+  final int? fixAvailableActiveFindingsCount;
+
+  /// The number of network findings for the VM instance. This field applies only
+  /// to Amazon Web Services resources.
+  final int? networkFindings;
+
+  /// The operating system of the VM instance.
+  final String? operatingSystem;
+  final SeverityCounts? severityCounts;
+
+  /// The tags attached to the VM instance.
+  final Map<String, String>? tags;
+
+  /// The VM image reference for the VM instance.
+  final String? vmImageReference;
+
+  VmInstanceAggregationResponse({
+    required this.resourceId,
+    this.accountId,
+    this.cloudAccountId,
+    this.cloudOrgId,
+    this.cloudPartition,
+    this.cloudProvider,
+    this.cloudRegion,
+    this.exploitAvailableActiveFindingsCount,
+    this.fixAvailableActiveFindingsCount,
+    this.networkFindings,
+    this.operatingSystem,
+    this.severityCounts,
+    this.tags,
+    this.vmImageReference,
+  });
+
+  factory VmInstanceAggregationResponse.fromJson(Map<String, dynamic> json) {
+    return VmInstanceAggregationResponse(
+      resourceId: (json['resourceId'] as String?) ?? '',
+      accountId: json['accountId'] as String?,
+      cloudAccountId: json['cloudAccountId'] as String?,
+      cloudOrgId: json['cloudOrgId'] as String?,
+      cloudPartition: json['cloudPartition'] as String?,
+      cloudProvider:
+          (json['cloudProvider'] as String?)?.let(Provider.fromString),
+      cloudRegion: json['cloudRegion'] as String?,
+      exploitAvailableActiveFindingsCount:
+          json['exploitAvailableActiveFindingsCount'] as int?,
+      fixAvailableActiveFindingsCount:
+          json['fixAvailableActiveFindingsCount'] as int?,
+      networkFindings: json['networkFindings'] as int?,
+      operatingSystem: json['operatingSystem'] as String?,
+      severityCounts: json['severityCounts'] != null
+          ? SeverityCounts.fromJson(
+              json['severityCounts'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      vmImageReference: json['vmImageReference'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final accountId = this.accountId;
+    final cloudAccountId = this.cloudAccountId;
+    final cloudOrgId = this.cloudOrgId;
+    final cloudPartition = this.cloudPartition;
+    final cloudProvider = this.cloudProvider;
+    final cloudRegion = this.cloudRegion;
+    final exploitAvailableActiveFindingsCount =
+        this.exploitAvailableActiveFindingsCount;
+    final fixAvailableActiveFindingsCount =
+        this.fixAvailableActiveFindingsCount;
+    final networkFindings = this.networkFindings;
+    final operatingSystem = this.operatingSystem;
+    final severityCounts = this.severityCounts;
+    final tags = this.tags;
+    final vmImageReference = this.vmImageReference;
+    return {
+      'resourceId': resourceId,
+      if (accountId != null) 'accountId': accountId,
+      if (cloudAccountId != null) 'cloudAccountId': cloudAccountId,
+      if (cloudOrgId != null) 'cloudOrgId': cloudOrgId,
+      if (cloudPartition != null) 'cloudPartition': cloudPartition,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider.value,
+      if (cloudRegion != null) 'cloudRegion': cloudRegion,
+      if (exploitAvailableActiveFindingsCount != null)
+        'exploitAvailableActiveFindingsCount':
+            exploitAvailableActiveFindingsCount,
+      if (fixAvailableActiveFindingsCount != null)
+        'fixAvailableActiveFindingsCount': fixAvailableActiveFindingsCount,
+      if (networkFindings != null) 'networkFindings': networkFindings,
+      if (operatingSystem != null) 'operatingSystem': operatingSystem,
+      if (severityCounts != null) 'severityCounts': severityCounts,
+      if (tags != null) 'tags': tags,
+      if (vmImageReference != null) 'vmImageReference': vmImageReference,
+    };
+  }
+}
+
+/// A response that contains the results of a container image aggregation.
+///
+/// @nodoc
+class ContainerImageAggregationResponse {
+  /// The resource ID for the container image.
+  final String resourceId;
+
+  /// The account ID associated with the container image.
+  final String? accountId;
+
+  /// The architecture of the container image.
+  final String? architecture;
+
+  /// The cloud account ID for the container image aggregation.
+  final String? cloudAccountId;
+
+  /// The cloud organization ID for the container image aggregation.
+  final String? cloudOrgId;
+
+  /// The cloud infrastructure partition associated with this container image
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final String? cloudPartition;
+
+  /// The cloud service provider associated with this container image aggregation.
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final Provider? cloudProvider;
+
+  /// The cloud Region associated with this container image aggregation. The value
+  /// format depends on the cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final String? cloudRegion;
+
+  /// The number of active findings with an exploit available for the container
+  /// image.
+  final int? exploitAvailableActiveFindingsCount;
+
+  /// The number of active findings with a fix available for the container image.
+  final int? fixAvailableActiveFindingsCount;
+
+  /// The image digest for the container image.
+  final String? imageDigest;
+
+  /// The image tags attached to the container image.
+  final List<String>? imageTags;
+
+  /// The number of times the container image is in use.
+  final int? inUseCount;
+
+  /// The last time the container image was in use.
+  final DateTime? lastInUseAt;
+
+  /// The registry for the container image.
+  final String? registry;
+
+  /// The repository for the container image.
+  final String? repository;
+  final SeverityCounts? severityCounts;
+
+  ContainerImageAggregationResponse({
+    required this.resourceId,
+    this.accountId,
+    this.architecture,
+    this.cloudAccountId,
+    this.cloudOrgId,
+    this.cloudPartition,
+    this.cloudProvider,
+    this.cloudRegion,
+    this.exploitAvailableActiveFindingsCount,
+    this.fixAvailableActiveFindingsCount,
+    this.imageDigest,
+    this.imageTags,
+    this.inUseCount,
+    this.lastInUseAt,
+    this.registry,
+    this.repository,
+    this.severityCounts,
+  });
+
+  factory ContainerImageAggregationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ContainerImageAggregationResponse(
+      resourceId: (json['resourceId'] as String?) ?? '',
+      accountId: json['accountId'] as String?,
+      architecture: json['architecture'] as String?,
+      cloudAccountId: json['cloudAccountId'] as String?,
+      cloudOrgId: json['cloudOrgId'] as String?,
+      cloudPartition: json['cloudPartition'] as String?,
+      cloudProvider:
+          (json['cloudProvider'] as String?)?.let(Provider.fromString),
+      cloudRegion: json['cloudRegion'] as String?,
+      exploitAvailableActiveFindingsCount:
+          json['exploitAvailableActiveFindingsCount'] as int?,
+      fixAvailableActiveFindingsCount:
+          json['fixAvailableActiveFindingsCount'] as int?,
+      imageDigest: json['imageDigest'] as String?,
+      imageTags: (json['imageTags'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inUseCount: json['inUseCount'] as int?,
+      lastInUseAt: timeStampFromJson(json['lastInUseAt']),
+      registry: json['registry'] as String?,
+      repository: json['repository'] as String?,
+      severityCounts: json['severityCounts'] != null
+          ? SeverityCounts.fromJson(
+              json['severityCounts'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final accountId = this.accountId;
+    final architecture = this.architecture;
+    final cloudAccountId = this.cloudAccountId;
+    final cloudOrgId = this.cloudOrgId;
+    final cloudPartition = this.cloudPartition;
+    final cloudProvider = this.cloudProvider;
+    final cloudRegion = this.cloudRegion;
+    final exploitAvailableActiveFindingsCount =
+        this.exploitAvailableActiveFindingsCount;
+    final fixAvailableActiveFindingsCount =
+        this.fixAvailableActiveFindingsCount;
+    final imageDigest = this.imageDigest;
+    final imageTags = this.imageTags;
+    final inUseCount = this.inUseCount;
+    final lastInUseAt = this.lastInUseAt;
+    final registry = this.registry;
+    final repository = this.repository;
+    final severityCounts = this.severityCounts;
+    return {
+      'resourceId': resourceId,
+      if (accountId != null) 'accountId': accountId,
+      if (architecture != null) 'architecture': architecture,
+      if (cloudAccountId != null) 'cloudAccountId': cloudAccountId,
+      if (cloudOrgId != null) 'cloudOrgId': cloudOrgId,
+      if (cloudPartition != null) 'cloudPartition': cloudPartition,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider.value,
+      if (cloudRegion != null) 'cloudRegion': cloudRegion,
+      if (exploitAvailableActiveFindingsCount != null)
+        'exploitAvailableActiveFindingsCount':
+            exploitAvailableActiveFindingsCount,
+      if (fixAvailableActiveFindingsCount != null)
+        'fixAvailableActiveFindingsCount': fixAvailableActiveFindingsCount,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imageTags != null) 'imageTags': imageTags,
+      if (inUseCount != null) 'inUseCount': inUseCount,
+      if (lastInUseAt != null) 'lastInUseAt': unixTimestampToJson(lastInUseAt),
+      if (registry != null) 'registry': registry,
+      if (repository != null) 'repository': repository,
+      if (severityCounts != null) 'severityCounts': severityCounts,
+    };
+  }
+}
+
+/// A response that contains the results of a serverless function aggregation.
+///
+/// @nodoc
+class ServerlessFunctionAggregationResponse {
+  /// The resource ID for the serverless function.
+  final String resourceId;
+
+  /// The account ID associated with the serverless function.
+  final String? accountId;
+
+  /// The cloud account ID for the serverless function aggregation.
+  final String? cloudAccountId;
+
+  /// The cloud organization ID for the serverless function aggregation.
+  final String? cloudOrgId;
+
+  /// The cloud infrastructure partition associated with this serverless function
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final String? cloudPartition;
+
+  /// The cloud service provider associated with this serverless function
+  /// aggregation. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final Provider? cloudProvider;
+
+  /// The cloud Region associated with this serverless function aggregation. The
+  /// value format depends on the cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final String? cloudRegion;
+
+  /// The number of active findings with an exploit available for the serverless
+  /// function.
+  final int? exploitAvailableActiveFindingsCount;
+
+  /// The number of active findings with a fix available for the serverless
+  /// function.
+  final int? fixAvailableActiveFindingsCount;
+
+  /// The name of the serverless function.
+  final String? functionName;
+
+  /// The date and time the serverless function was last modified.
+  final DateTime? lastModifiedAt;
+
+  /// The runtime of the serverless function.
+  final String? runtime;
+  final SeverityCounts? severityCounts;
+
+  /// The tags attached to the serverless function.
+  final Map<String, String>? tags;
+
+  ServerlessFunctionAggregationResponse({
+    required this.resourceId,
+    this.accountId,
+    this.cloudAccountId,
+    this.cloudOrgId,
+    this.cloudPartition,
+    this.cloudProvider,
+    this.cloudRegion,
+    this.exploitAvailableActiveFindingsCount,
+    this.fixAvailableActiveFindingsCount,
+    this.functionName,
+    this.lastModifiedAt,
+    this.runtime,
+    this.severityCounts,
+    this.tags,
+  });
+
+  factory ServerlessFunctionAggregationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ServerlessFunctionAggregationResponse(
+      resourceId: (json['resourceId'] as String?) ?? '',
+      accountId: json['accountId'] as String?,
+      cloudAccountId: json['cloudAccountId'] as String?,
+      cloudOrgId: json['cloudOrgId'] as String?,
+      cloudPartition: json['cloudPartition'] as String?,
+      cloudProvider:
+          (json['cloudProvider'] as String?)?.let(Provider.fromString),
+      cloudRegion: json['cloudRegion'] as String?,
+      exploitAvailableActiveFindingsCount:
+          json['exploitAvailableActiveFindingsCount'] as int?,
+      fixAvailableActiveFindingsCount:
+          json['fixAvailableActiveFindingsCount'] as int?,
+      functionName: json['functionName'] as String?,
+      lastModifiedAt: timeStampFromJson(json['lastModifiedAt']),
+      runtime: json['runtime'] as String?,
+      severityCounts: json['severityCounts'] != null
+          ? SeverityCounts.fromJson(
+              json['severityCounts'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final accountId = this.accountId;
+    final cloudAccountId = this.cloudAccountId;
+    final cloudOrgId = this.cloudOrgId;
+    final cloudPartition = this.cloudPartition;
+    final cloudProvider = this.cloudProvider;
+    final cloudRegion = this.cloudRegion;
+    final exploitAvailableActiveFindingsCount =
+        this.exploitAvailableActiveFindingsCount;
+    final fixAvailableActiveFindingsCount =
+        this.fixAvailableActiveFindingsCount;
+    final functionName = this.functionName;
+    final lastModifiedAt = this.lastModifiedAt;
+    final runtime = this.runtime;
+    final severityCounts = this.severityCounts;
+    final tags = this.tags;
+    return {
+      'resourceId': resourceId,
+      if (accountId != null) 'accountId': accountId,
+      if (cloudAccountId != null) 'cloudAccountId': cloudAccountId,
+      if (cloudOrgId != null) 'cloudOrgId': cloudOrgId,
+      if (cloudPartition != null) 'cloudPartition': cloudPartition,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider.value,
+      if (cloudRegion != null) 'cloudRegion': cloudRegion,
+      if (exploitAvailableActiveFindingsCount != null)
+        'exploitAvailableActiveFindingsCount':
+            exploitAvailableActiveFindingsCount,
+      if (fixAvailableActiveFindingsCount != null)
+        'fixAvailableActiveFindingsCount': fixAvailableActiveFindingsCount,
+      if (functionName != null) 'functionName': functionName,
+      if (lastModifiedAt != null)
+        'lastModifiedAt': unixTimestampToJson(lastModifiedAt),
+      if (runtime != null) 'runtime': runtime,
+      if (severityCounts != null) 'severityCounts': severityCounts,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
 /// An object that contains the counts of aggregated finding per severity.
 ///
 /// @nodoc
@@ -10966,6 +13274,10 @@ class AggregationRequest {
   /// repositories.
   final CodeRepositoryAggregation? codeRepositoryAggregation;
 
+  /// An object that contains details about an aggregation request based on
+  /// container images.
+  final ContainerImageAggregation? containerImageAggregation;
+
   /// An object that contains details about an aggregation request based on Amazon
   /// EC2 instances.
   final Ec2InstanceAggregation? ec2InstanceAggregation;
@@ -10995,14 +13307,23 @@ class AggregationRequest {
   final RepositoryAggregation? repositoryAggregation;
 
   /// An object that contains details about an aggregation request based on
+  /// serverless functions.
+  final ServerlessFunctionAggregation? serverlessFunctionAggregation;
+
+  /// An object that contains details about an aggregation request based on
   /// finding title.
   final TitleAggregation? titleAggregation;
+
+  /// An object that contains details about an aggregation request based on
+  /// virtual machine (VM) instances.
+  final VmInstanceAggregation? vmInstanceAggregation;
 
   AggregationRequest({
     this.accountAggregation,
     this.amiAggregation,
     this.awsEcrContainerAggregation,
     this.codeRepositoryAggregation,
+    this.containerImageAggregation,
     this.ec2InstanceAggregation,
     this.findingTypeAggregation,
     this.imageLayerAggregation,
@@ -11010,7 +13331,9 @@ class AggregationRequest {
     this.lambdaLayerAggregation,
     this.packageAggregation,
     this.repositoryAggregation,
+    this.serverlessFunctionAggregation,
     this.titleAggregation,
+    this.vmInstanceAggregation,
   });
 
   Map<String, dynamic> toJson() {
@@ -11018,6 +13341,7 @@ class AggregationRequest {
     final amiAggregation = this.amiAggregation;
     final awsEcrContainerAggregation = this.awsEcrContainerAggregation;
     final codeRepositoryAggregation = this.codeRepositoryAggregation;
+    final containerImageAggregation = this.containerImageAggregation;
     final ec2InstanceAggregation = this.ec2InstanceAggregation;
     final findingTypeAggregation = this.findingTypeAggregation;
     final imageLayerAggregation = this.imageLayerAggregation;
@@ -11025,7 +13349,9 @@ class AggregationRequest {
     final lambdaLayerAggregation = this.lambdaLayerAggregation;
     final packageAggregation = this.packageAggregation;
     final repositoryAggregation = this.repositoryAggregation;
+    final serverlessFunctionAggregation = this.serverlessFunctionAggregation;
     final titleAggregation = this.titleAggregation;
+    final vmInstanceAggregation = this.vmInstanceAggregation;
     return {
       if (accountAggregation != null) 'accountAggregation': accountAggregation,
       if (amiAggregation != null) 'amiAggregation': amiAggregation,
@@ -11033,6 +13359,8 @@ class AggregationRequest {
         'awsEcrContainerAggregation': awsEcrContainerAggregation,
       if (codeRepositoryAggregation != null)
         'codeRepositoryAggregation': codeRepositoryAggregation,
+      if (containerImageAggregation != null)
+        'containerImageAggregation': containerImageAggregation,
       if (ec2InstanceAggregation != null)
         'ec2InstanceAggregation': ec2InstanceAggregation,
       if (findingTypeAggregation != null)
@@ -11046,7 +13374,11 @@ class AggregationRequest {
       if (packageAggregation != null) 'packageAggregation': packageAggregation,
       if (repositoryAggregation != null)
         'repositoryAggregation': repositoryAggregation,
+      if (serverlessFunctionAggregation != null)
+        'serverlessFunctionAggregation': serverlessFunctionAggregation,
       if (titleAggregation != null) 'titleAggregation': titleAggregation,
+      if (vmInstanceAggregation != null)
+        'vmInstanceAggregation': vmInstanceAggregation,
     };
   }
 }
@@ -11283,6 +13615,55 @@ class FindingTypeAggregation {
 ///
 /// @nodoc
 class ImageLayerAggregation {
+  /// The cloud account IDs to aggregate findings for.
+  final List<StringFilter>? cloudAccountIds;
+
+  /// The cloud organization IDs to aggregate findings for.
+  final List<StringFilter>? cloudOrgIds;
+
+  /// The cloud partitions to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudPartitions;
+
+  /// The cloud providers to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudProviders;
+
+  /// The cloud regions to aggregate findings for. The value format depends on the
+  /// cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudRegions;
+
   /// The hashes associated with the layers.
   final List<StringFilter>? layerHashes;
 
@@ -11299,6 +13680,11 @@ class ImageLayerAggregation {
   final SortOrder? sortOrder;
 
   ImageLayerAggregation({
+    this.cloudAccountIds,
+    this.cloudOrgIds,
+    this.cloudPartitions,
+    this.cloudProviders,
+    this.cloudRegions,
     this.layerHashes,
     this.repositories,
     this.resourceIds,
@@ -11307,12 +13693,22 @@ class ImageLayerAggregation {
   });
 
   Map<String, dynamic> toJson() {
+    final cloudAccountIds = this.cloudAccountIds;
+    final cloudOrgIds = this.cloudOrgIds;
+    final cloudPartitions = this.cloudPartitions;
+    final cloudProviders = this.cloudProviders;
+    final cloudRegions = this.cloudRegions;
     final layerHashes = this.layerHashes;
     final repositories = this.repositories;
     final resourceIds = this.resourceIds;
     final sortBy = this.sortBy;
     final sortOrder = this.sortOrder;
     return {
+      if (cloudAccountIds != null) 'cloudAccountIds': cloudAccountIds,
+      if (cloudOrgIds != null) 'cloudOrgIds': cloudOrgIds,
+      if (cloudPartitions != null) 'cloudPartitions': cloudPartitions,
+      if (cloudProviders != null) 'cloudProviders': cloudProviders,
+      if (cloudRegions != null) 'cloudRegions': cloudRegions,
       if (layerHashes != null) 'layerHashes': layerHashes,
       if (repositories != null) 'repositories': repositories,
       if (resourceIds != null) 'resourceIds': resourceIds,
@@ -11576,6 +13972,459 @@ class CodeRepositoryAggregation {
   }
 }
 
+/// An aggregation of information about VM instances.
+///
+/// @nodoc
+class VmInstanceAggregation {
+  /// The cloud account IDs to aggregate findings for.
+  final List<StringFilter>? cloudAccountIds;
+
+  /// The cloud organization IDs to aggregate findings for.
+  final List<StringFilter>? cloudOrgIds;
+
+  /// The cloud partitions to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudPartitions;
+
+  /// The cloud providers to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudProviders;
+
+  /// The cloud regions to aggregate findings for. The value format depends on the
+  /// cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudRegions;
+
+  /// The instance tags to aggregate findings for.
+  final List<MapFilter>? instanceTags;
+
+  /// The operating systems to aggregate findings for.
+  final List<StringFilter>? operatingSystems;
+
+  /// The resource IDs to aggregate findings for.
+  final List<StringFilter>? resourceIds;
+
+  /// The value to sort results by. Specify a field name from the aggregation
+  /// response, such as <code>CRITICAL</code>, <code>HIGH</code>,
+  /// <code>ALL</code>, or <code>NETWORK_FINDINGS</code>.
+  final VmInstanceSortBy? sortBy;
+
+  /// The order to sort results by. Valid values are <code>ASC</code> and
+  /// <code>DESC</code>.
+  final SortOrder? sortOrder;
+
+  /// The VM image references to aggregate findings for.
+  final List<StringFilter>? vmImageReferences;
+
+  VmInstanceAggregation({
+    this.cloudAccountIds,
+    this.cloudOrgIds,
+    this.cloudPartitions,
+    this.cloudProviders,
+    this.cloudRegions,
+    this.instanceTags,
+    this.operatingSystems,
+    this.resourceIds,
+    this.sortBy,
+    this.sortOrder,
+    this.vmImageReferences,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudAccountIds = this.cloudAccountIds;
+    final cloudOrgIds = this.cloudOrgIds;
+    final cloudPartitions = this.cloudPartitions;
+    final cloudProviders = this.cloudProviders;
+    final cloudRegions = this.cloudRegions;
+    final instanceTags = this.instanceTags;
+    final operatingSystems = this.operatingSystems;
+    final resourceIds = this.resourceIds;
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    final vmImageReferences = this.vmImageReferences;
+    return {
+      if (cloudAccountIds != null) 'cloudAccountIds': cloudAccountIds,
+      if (cloudOrgIds != null) 'cloudOrgIds': cloudOrgIds,
+      if (cloudPartitions != null) 'cloudPartitions': cloudPartitions,
+      if (cloudProviders != null) 'cloudProviders': cloudProviders,
+      if (cloudRegions != null) 'cloudRegions': cloudRegions,
+      if (instanceTags != null) 'instanceTags': instanceTags,
+      if (operatingSystems != null) 'operatingSystems': operatingSystems,
+      if (resourceIds != null) 'resourceIds': resourceIds,
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
+      if (vmImageReferences != null) 'vmImageReferences': vmImageReferences,
+    };
+  }
+}
+
+/// An aggregation of information about container images.
+///
+/// @nodoc
+class ContainerImageAggregation {
+  /// The image architectures to aggregate findings for.
+  final List<StringFilter>? architectures;
+
+  /// The cloud account IDs to aggregate findings for.
+  final List<StringFilter>? cloudAccountIds;
+
+  /// The cloud organization IDs to aggregate findings for.
+  final List<StringFilter>? cloudOrgIds;
+
+  /// The cloud partitions to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudPartitions;
+
+  /// The cloud providers to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudProviders;
+
+  /// The cloud regions to aggregate findings for. The value format depends on the
+  /// cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudRegions;
+
+  /// The image digests to aggregate findings for.
+  final List<StringFilter>? imageDigests;
+
+  /// The image tags to aggregate findings for.
+  final List<StringFilter>? imageTags;
+
+  /// The in-use counts to aggregate findings for.
+  final List<NumberFilter>? inUseCount;
+
+  /// The last in-use timestamps to aggregate findings for.
+  final List<DateFilter>? lastInUseAt;
+
+  /// The image registries to aggregate findings for.
+  final List<StringFilter>? registries;
+
+  /// The image repositories to aggregate findings for.
+  final List<StringFilter>? repositories;
+
+  /// The resource IDs to aggregate findings for.
+  final List<StringFilter>? resourceIds;
+
+  /// The value to sort results by. Specify a field name from the aggregation
+  /// response, such as <code>CRITICAL</code>, <code>HIGH</code>, or
+  /// <code>ALL</code>.
+  final ContainerImageSortBy? sortBy;
+
+  /// The order to sort results by. Valid values are <code>ASC</code> and
+  /// <code>DESC</code>.
+  final SortOrder? sortOrder;
+
+  ContainerImageAggregation({
+    this.architectures,
+    this.cloudAccountIds,
+    this.cloudOrgIds,
+    this.cloudPartitions,
+    this.cloudProviders,
+    this.cloudRegions,
+    this.imageDigests,
+    this.imageTags,
+    this.inUseCount,
+    this.lastInUseAt,
+    this.registries,
+    this.repositories,
+    this.resourceIds,
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final architectures = this.architectures;
+    final cloudAccountIds = this.cloudAccountIds;
+    final cloudOrgIds = this.cloudOrgIds;
+    final cloudPartitions = this.cloudPartitions;
+    final cloudProviders = this.cloudProviders;
+    final cloudRegions = this.cloudRegions;
+    final imageDigests = this.imageDigests;
+    final imageTags = this.imageTags;
+    final inUseCount = this.inUseCount;
+    final lastInUseAt = this.lastInUseAt;
+    final registries = this.registries;
+    final repositories = this.repositories;
+    final resourceIds = this.resourceIds;
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (architectures != null) 'architectures': architectures,
+      if (cloudAccountIds != null) 'cloudAccountIds': cloudAccountIds,
+      if (cloudOrgIds != null) 'cloudOrgIds': cloudOrgIds,
+      if (cloudPartitions != null) 'cloudPartitions': cloudPartitions,
+      if (cloudProviders != null) 'cloudProviders': cloudProviders,
+      if (cloudRegions != null) 'cloudRegions': cloudRegions,
+      if (imageDigests != null) 'imageDigests': imageDigests,
+      if (imageTags != null) 'imageTags': imageTags,
+      if (inUseCount != null) 'inUseCount': inUseCount,
+      if (lastInUseAt != null) 'lastInUseAt': lastInUseAt,
+      if (registries != null) 'registries': registries,
+      if (repositories != null) 'repositories': repositories,
+      if (resourceIds != null) 'resourceIds': resourceIds,
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// An aggregation of information about serverless functions.
+///
+/// @nodoc
+class ServerlessFunctionAggregation {
+  /// The cloud account IDs to aggregate findings for.
+  final List<StringFilter>? cloudAccountIds;
+
+  /// The cloud organization IDs to aggregate findings for.
+  final List<StringFilter>? cloudOrgIds;
+
+  /// The cloud partitions to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> – Amazon Web Services commercial Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> – Amazon Web Services China Regions.
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> – Amazon Web Services GovCloud (US) Regions.
+  /// </li>
+  /// <li>
+  /// <code>AzureCloud</code> – Azure commercial Regions.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudPartitions;
+
+  /// The cloud providers to aggregate findings for. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS</code> – Findings from Amazon Web Services resources.
+  /// </li>
+  /// <li>
+  /// <code>AZURE</code> – Findings from Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudProviders;
+
+  /// The cloud regions to aggregate findings for. The value format depends on the
+  /// cloud provider:
+  ///
+  /// <ul>
+  /// <li>
+  /// An Amazon Web Services Region, such as <code>us-east-1</code>.
+  /// </li>
+  /// <li>
+  /// An Azure region, such as <code>eastus</code>.
+  /// </li>
+  /// </ul>
+  final List<StringFilter>? cloudRegions;
+
+  /// The function names to aggregate findings for.
+  final List<StringFilter>? functionNames;
+
+  /// The function tags to aggregate findings for.
+  final List<MapFilter>? functionTags;
+
+  /// The resource IDs to aggregate findings for.
+  final List<StringFilter>? resourceIds;
+
+  /// The runtimes to aggregate findings for.
+  final List<StringFilter>? runtimes;
+
+  /// The value to sort results by. Specify a field name from the aggregation
+  /// response, such as <code>CRITICAL</code>, <code>HIGH</code>, or
+  /// <code>ALL</code>.
+  final ServerlessFunctionSortBy? sortBy;
+
+  /// The order to sort results by. Valid values are <code>ASC</code> and
+  /// <code>DESC</code>.
+  final SortOrder? sortOrder;
+
+  ServerlessFunctionAggregation({
+    this.cloudAccountIds,
+    this.cloudOrgIds,
+    this.cloudPartitions,
+    this.cloudProviders,
+    this.cloudRegions,
+    this.functionNames,
+    this.functionTags,
+    this.resourceIds,
+    this.runtimes,
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudAccountIds = this.cloudAccountIds;
+    final cloudOrgIds = this.cloudOrgIds;
+    final cloudPartitions = this.cloudPartitions;
+    final cloudProviders = this.cloudProviders;
+    final cloudRegions = this.cloudRegions;
+    final functionNames = this.functionNames;
+    final functionTags = this.functionTags;
+    final resourceIds = this.resourceIds;
+    final runtimes = this.runtimes;
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (cloudAccountIds != null) 'cloudAccountIds': cloudAccountIds,
+      if (cloudOrgIds != null) 'cloudOrgIds': cloudOrgIds,
+      if (cloudPartitions != null) 'cloudPartitions': cloudPartitions,
+      if (cloudProviders != null) 'cloudProviders': cloudProviders,
+      if (cloudRegions != null) 'cloudRegions': cloudRegions,
+      if (functionNames != null) 'functionNames': functionNames,
+      if (functionTags != null) 'functionTags': functionTags,
+      if (resourceIds != null) 'resourceIds': resourceIds,
+      if (runtimes != null) 'runtimes': runtimes,
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// @nodoc
+class ServerlessFunctionSortBy {
+  static const critical = ServerlessFunctionSortBy._('CRITICAL');
+  static const high = ServerlessFunctionSortBy._('HIGH');
+  static const all = ServerlessFunctionSortBy._('ALL');
+
+  final String value;
+
+  const ServerlessFunctionSortBy._(this.value);
+
+  static const values = [critical, high, all];
+
+  static ServerlessFunctionSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServerlessFunctionSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerlessFunctionSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ContainerImageSortBy {
+  static const critical = ContainerImageSortBy._('CRITICAL');
+  static const high = ContainerImageSortBy._('HIGH');
+  static const all = ContainerImageSortBy._('ALL');
+
+  final String value;
+
+  const ContainerImageSortBy._(this.value);
+
+  static const values = [critical, high, all];
+
+  static ContainerImageSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerImageSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerImageSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class VmInstanceSortBy {
+  static const critical = VmInstanceSortBy._('CRITICAL');
+  static const high = VmInstanceSortBy._('HIGH');
+  static const all = VmInstanceSortBy._('ALL');
+  static const networkFindings = VmInstanceSortBy._('NETWORK_FINDINGS');
+
+  final String value;
+
+  const VmInstanceSortBy._(this.value);
+
+  static const values = [critical, high, all, networkFindings];
+
+  static VmInstanceSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VmInstanceSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is VmInstanceSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class CodeRepositorySortBy {
   static const critical = CodeRepositorySortBy._('CRITICAL');
@@ -11664,6 +14513,13 @@ class AggregationResourceType {
   static const awsLambdaFunction =
       AggregationResourceType._('AWS_LAMBDA_FUNCTION');
   static const codeRepository = AggregationResourceType._('CODE_REPOSITORY');
+  static const microsoftComputeVirtualMachines =
+      AggregationResourceType._('Microsoft.Compute/virtualMachines');
+  static const microsoftContainerRegistryRegistryContainerImage =
+      AggregationResourceType._(
+          'Microsoft.ContainerRegistry/registry/containerImage');
+  static const microsoftWebSites =
+      AggregationResourceType._('Microsoft.Web/sites');
 
   final String value;
 
@@ -11673,7 +14529,10 @@ class AggregationResourceType {
     awsEc2Instance,
     awsEcrContainerImage,
     awsLambdaFunction,
-    codeRepository
+    codeRepository,
+    microsoftComputeVirtualMachines,
+    microsoftContainerRegistryRegistryContainerImage,
+    microsoftWebSites
   ];
 
   static AggregationResourceType fromString(String value) =>
@@ -11683,31 +14542,6 @@ class AggregationResourceType {
   @override
   bool operator ==(other) =>
       other is AggregationResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class TitleSortBy {
-  static const critical = TitleSortBy._('CRITICAL');
-  static const high = TitleSortBy._('HIGH');
-  static const all = TitleSortBy._('ALL');
-
-  final String value;
-
-  const TitleSortBy._(this.value);
-
-  static const values = [critical, high, all];
-
-  static TitleSortBy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TitleSortBy._(value));
-
-  @override
-  bool operator ==(other) => other is TitleSortBy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -11742,6 +14576,31 @@ class AggregationFindingType {
   @override
   bool operator ==(other) =>
       other is AggregationFindingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class TitleSortBy {
+  static const critical = TitleSortBy._('CRITICAL');
+  static const high = TitleSortBy._('HIGH');
+  static const all = TitleSortBy._('ALL');
+
+  final String value;
+
+  const TitleSortBy._(this.value);
+
+  static const values = [critical, high, all];
+
+  static TitleSortBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TitleSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is TitleSortBy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -12153,6 +15012,10 @@ class GroupKey {
   static const accountId = GroupKey._('ACCOUNT_ID');
   static const resourceType = GroupKey._('RESOURCE_TYPE');
   static const ecrRepositoryName = GroupKey._('ECR_REPOSITORY_NAME');
+  static const provider = GroupKey._('PROVIDER');
+  static const providerAccountId = GroupKey._('PROVIDER_ACCOUNT_ID');
+  static const providerRegion = GroupKey._('PROVIDER_REGION');
+  static const providerOrgId = GroupKey._('PROVIDER_ORG_ID');
 
   final String value;
 
@@ -12163,7 +15026,11 @@ class GroupKey {
     scanStatusReason,
     accountId,
     resourceType,
-    ecrRepositoryName
+    ecrRepositoryName,
+    provider,
+    providerAccountId,
+    providerRegion,
+    providerOrgId
   ];
 
   static GroupKey fromString(String value) => values
@@ -12187,6 +15054,39 @@ class CoverageFilterCriteria {
   /// An array of Amazon Web Services account IDs to return coverage statistics
   /// for.
   final List<CoverageStringFilter>? accountId;
+
+  /// The cloud container image tags to filter coverage results by.
+  final List<CoverageStringFilter>? cloudContainerImageTags;
+
+  /// The cloud container registry name to filter coverage results by.
+  final List<CoverageStringFilter>? cloudContainerRegistryName;
+
+  /// The cloud container repository name to filter coverage results by.
+  final List<CoverageStringFilter>? cloudContainerRepositoryName;
+
+  /// The cloud provider to filter coverage results by.
+  final List<CoverageStringFilter>? cloudProvider;
+
+  /// The cloud provider account ID to filter coverage results by.
+  final List<CoverageStringFilter>? cloudProviderAccountId;
+
+  /// The cloud provider organization ID to filter coverage results by.
+  final List<CoverageStringFilter>? cloudProviderOrgId;
+
+  /// The cloud provider region to filter coverage results by.
+  final List<CoverageStringFilter>? cloudProviderRegion;
+
+  /// The cloud serverless function name to filter coverage results by.
+  final List<CoverageStringFilter>? cloudServerlessFunctionName;
+
+  /// The cloud serverless function runtime to filter coverage results by.
+  final List<CoverageStringFilter>? cloudServerlessFunctionRuntime;
+
+  /// The cloud serverless function tags to filter coverage results by.
+  final List<CoverageMapFilter>? cloudServerlessFunctionTags;
+
+  /// The cloud VM instance tags to filter coverage results by.
+  final List<CoverageMapFilter>? cloudVmInstanceTags;
 
   /// Filter criteria for code repositories based on project name.
   final List<CoverageStringFilter>? codeRepositoryProjectName;
@@ -12266,6 +15166,17 @@ class CoverageFilterCriteria {
 
   CoverageFilterCriteria({
     this.accountId,
+    this.cloudContainerImageTags,
+    this.cloudContainerRegistryName,
+    this.cloudContainerRepositoryName,
+    this.cloudProvider,
+    this.cloudProviderAccountId,
+    this.cloudProviderOrgId,
+    this.cloudProviderRegion,
+    this.cloudServerlessFunctionName,
+    this.cloudServerlessFunctionRuntime,
+    this.cloudServerlessFunctionTags,
+    this.cloudVmInstanceTags,
     this.codeRepositoryProjectName,
     this.codeRepositoryProviderType,
     this.codeRepositoryProviderTypeVisibility,
@@ -12290,6 +15201,17 @@ class CoverageFilterCriteria {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
+    final cloudContainerImageTags = this.cloudContainerImageTags;
+    final cloudContainerRegistryName = this.cloudContainerRegistryName;
+    final cloudContainerRepositoryName = this.cloudContainerRepositoryName;
+    final cloudProvider = this.cloudProvider;
+    final cloudProviderAccountId = this.cloudProviderAccountId;
+    final cloudProviderOrgId = this.cloudProviderOrgId;
+    final cloudProviderRegion = this.cloudProviderRegion;
+    final cloudServerlessFunctionName = this.cloudServerlessFunctionName;
+    final cloudServerlessFunctionRuntime = this.cloudServerlessFunctionRuntime;
+    final cloudServerlessFunctionTags = this.cloudServerlessFunctionTags;
+    final cloudVmInstanceTags = this.cloudVmInstanceTags;
     final codeRepositoryProjectName = this.codeRepositoryProjectName;
     final codeRepositoryProviderType = this.codeRepositoryProviderType;
     final codeRepositoryProviderTypeVisibility =
@@ -12313,6 +15235,26 @@ class CoverageFilterCriteria {
     final scanType = this.scanType;
     return {
       if (accountId != null) 'accountId': accountId,
+      if (cloudContainerImageTags != null)
+        'cloudContainerImageTags': cloudContainerImageTags,
+      if (cloudContainerRegistryName != null)
+        'cloudContainerRegistryName': cloudContainerRegistryName,
+      if (cloudContainerRepositoryName != null)
+        'cloudContainerRepositoryName': cloudContainerRepositoryName,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider,
+      if (cloudProviderAccountId != null)
+        'cloudProviderAccountId': cloudProviderAccountId,
+      if (cloudProviderOrgId != null) 'cloudProviderOrgId': cloudProviderOrgId,
+      if (cloudProviderRegion != null)
+        'cloudProviderRegion': cloudProviderRegion,
+      if (cloudServerlessFunctionName != null)
+        'cloudServerlessFunctionName': cloudServerlessFunctionName,
+      if (cloudServerlessFunctionRuntime != null)
+        'cloudServerlessFunctionRuntime': cloudServerlessFunctionRuntime,
+      if (cloudServerlessFunctionTags != null)
+        'cloudServerlessFunctionTags': cloudServerlessFunctionTags,
+      if (cloudVmInstanceTags != null)
+        'cloudVmInstanceTags': cloudVmInstanceTags,
       if (codeRepositoryProjectName != null)
         'codeRepositoryProjectName': codeRepositoryProjectName,
       if (codeRepositoryProviderType != null)
@@ -12523,6 +15465,21 @@ class CoveredResource {
   /// The date and time the resource was last checked for vulnerabilities.
   final DateTime? lastScannedAt;
 
+  /// The cloud provider of the covered resource.
+  final Provider? provider;
+
+  /// The cloud provider account ID of the covered resource.
+  final String? providerAccountId;
+
+  /// The cloud provider organization ID of the covered resource.
+  final String? providerOrgId;
+
+  /// The cloud provider partition of the covered resource.
+  final String? providerPartition;
+
+  /// The cloud provider region of the covered resource.
+  final String? providerRegion;
+
   /// An object that contains details about the metadata.
   final ResourceScanMetadata? resourceMetadata;
 
@@ -12538,6 +15495,11 @@ class CoveredResource {
     required this.resourceType,
     required this.scanType,
     this.lastScannedAt,
+    this.provider,
+    this.providerAccountId,
+    this.providerOrgId,
+    this.providerPartition,
+    this.providerRegion,
     this.resourceMetadata,
     this.scanMode,
     this.scanStatus,
@@ -12551,6 +15513,11 @@ class CoveredResource {
           (json['resourceType'] as String?) ?? ''),
       scanType: ScanType.fromString((json['scanType'] as String?) ?? ''),
       lastScannedAt: timeStampFromJson(json['lastScannedAt']),
+      provider: (json['provider'] as String?)?.let(Provider.fromString),
+      providerAccountId: json['providerAccountId'] as String?,
+      providerOrgId: json['providerOrgId'] as String?,
+      providerPartition: json['providerPartition'] as String?,
+      providerRegion: json['providerRegion'] as String?,
       resourceMetadata: json['resourceMetadata'] != null
           ? ResourceScanMetadata.fromJson(
               json['resourceMetadata'] as Map<String, dynamic>)
@@ -12568,6 +15535,11 @@ class CoveredResource {
     final resourceType = this.resourceType;
     final scanType = this.scanType;
     final lastScannedAt = this.lastScannedAt;
+    final provider = this.provider;
+    final providerAccountId = this.providerAccountId;
+    final providerOrgId = this.providerOrgId;
+    final providerPartition = this.providerPartition;
+    final providerRegion = this.providerRegion;
     final resourceMetadata = this.resourceMetadata;
     final scanMode = this.scanMode;
     final scanStatus = this.scanStatus;
@@ -12578,6 +15550,11 @@ class CoveredResource {
       'scanType': scanType.value,
       if (lastScannedAt != null)
         'lastScannedAt': unixTimestampToJson(lastScannedAt),
+      if (provider != null) 'provider': provider.value,
+      if (providerAccountId != null) 'providerAccountId': providerAccountId,
+      if (providerOrgId != null) 'providerOrgId': providerOrgId,
+      if (providerPartition != null) 'providerPartition': providerPartition,
+      if (providerRegion != null) 'providerRegion': providerRegion,
       if (resourceMetadata != null) 'resourceMetadata': resourceMetadata,
       if (scanMode != null) 'scanMode': scanMode.value,
       if (scanStatus != null) 'scanStatus': scanStatus,
@@ -12594,6 +15571,18 @@ class CoverageResourceType {
   static const awsLambdaFunction =
       CoverageResourceType._('AWS_LAMBDA_FUNCTION');
   static const codeRepository = CoverageResourceType._('CODE_REPOSITORY');
+  static const microsoftComputeVirtualMachines =
+      CoverageResourceType._('Microsoft.Compute/virtualMachines');
+  static const microsoftContainerRegistryRegistryContainerImage =
+      CoverageResourceType._(
+          'Microsoft.ContainerRegistry/registry/containerImage');
+  static const microsoftContainerRegistryRegistryContainerRepository =
+      CoverageResourceType._(
+          'Microsoft.ContainerRegistry/registry/containerRepository');
+  static const microsoftWebSites =
+      CoverageResourceType._('Microsoft.Web/sites');
+  static const microsoftContainerRegistryRegistries =
+      CoverageResourceType._('Microsoft.ContainerRegistry/registries');
 
   final String value;
 
@@ -12604,7 +15593,12 @@ class CoverageResourceType {
     awsEcrContainerImage,
     awsEcrRepository,
     awsLambdaFunction,
-    codeRepository
+    codeRepository,
+    microsoftComputeVirtualMachines,
+    microsoftContainerRegistryRegistryContainerImage,
+    microsoftContainerRegistryRegistryContainerRepository,
+    microsoftWebSites,
+    microsoftContainerRegistryRegistries
   ];
 
   static CoverageResourceType fromString(String value) =>
@@ -12780,6 +15774,15 @@ class ResourceScanMetadata {
   /// Contains metadata about scan coverage for a code repository resource.
   final CodeRepositoryMetadata? codeRepository;
 
+  /// The container image metadata associated with a covered resource.
+  final ContainerImageMetadata? containerImage;
+
+  /// The container registry metadata associated with a covered resource.
+  final ContainerRegistryMetadata? containerRegistry;
+
+  /// The container repository metadata associated with a covered resource.
+  final ContainerRepositoryMetadata? containerRepository;
+
   /// An object that contains metadata details for an Amazon EC2 instance.
   final Ec2Metadata? ec2;
 
@@ -12795,12 +15798,23 @@ class ResourceScanMetadata {
   /// function.
   final LambdaFunctionMetadata? lambdaFunction;
 
+  /// The serverless function metadata associated with a covered resource.
+  final ServerlessFunctionMetadata? serverlessFunction;
+
+  /// The VM instance metadata associated with a covered resource.
+  final VmInstanceMetadata? vmInstance;
+
   ResourceScanMetadata({
     this.codeRepository,
+    this.containerImage,
+    this.containerRegistry,
+    this.containerRepository,
     this.ec2,
     this.ecrImage,
     this.ecrRepository,
     this.lambdaFunction,
+    this.serverlessFunction,
+    this.vmInstance,
   });
 
   factory ResourceScanMetadata.fromJson(Map<String, dynamic> json) {
@@ -12808,6 +15822,18 @@ class ResourceScanMetadata {
       codeRepository: json['codeRepository'] != null
           ? CodeRepositoryMetadata.fromJson(
               json['codeRepository'] as Map<String, dynamic>)
+          : null,
+      containerImage: json['containerImage'] != null
+          ? ContainerImageMetadata.fromJson(
+              json['containerImage'] as Map<String, dynamic>)
+          : null,
+      containerRegistry: json['containerRegistry'] != null
+          ? ContainerRegistryMetadata.fromJson(
+              json['containerRegistry'] as Map<String, dynamic>)
+          : null,
+      containerRepository: json['containerRepository'] != null
+          ? ContainerRepositoryMetadata.fromJson(
+              json['containerRepository'] as Map<String, dynamic>)
           : null,
       ec2: json['ec2'] != null
           ? Ec2Metadata.fromJson(json['ec2'] as Map<String, dynamic>)
@@ -12824,21 +15850,40 @@ class ResourceScanMetadata {
           ? LambdaFunctionMetadata.fromJson(
               json['lambdaFunction'] as Map<String, dynamic>)
           : null,
+      serverlessFunction: json['serverlessFunction'] != null
+          ? ServerlessFunctionMetadata.fromJson(
+              json['serverlessFunction'] as Map<String, dynamic>)
+          : null,
+      vmInstance: json['vmInstance'] != null
+          ? VmInstanceMetadata.fromJson(
+              json['vmInstance'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final codeRepository = this.codeRepository;
+    final containerImage = this.containerImage;
+    final containerRegistry = this.containerRegistry;
+    final containerRepository = this.containerRepository;
     final ec2 = this.ec2;
     final ecrImage = this.ecrImage;
     final ecrRepository = this.ecrRepository;
     final lambdaFunction = this.lambdaFunction;
+    final serverlessFunction = this.serverlessFunction;
+    final vmInstance = this.vmInstance;
     return {
       if (codeRepository != null) 'codeRepository': codeRepository,
+      if (containerImage != null) 'containerImage': containerImage,
+      if (containerRegistry != null) 'containerRegistry': containerRegistry,
+      if (containerRepository != null)
+        'containerRepository': containerRepository,
       if (ec2 != null) 'ec2': ec2,
       if (ecrImage != null) 'ecrImage': ecrImage,
       if (ecrRepository != null) 'ecrRepository': ecrRepository,
       if (lambdaFunction != null) 'lambdaFunction': lambdaFunction,
+      if (serverlessFunction != null) 'serverlessFunction': serverlessFunction,
+      if (vmInstance != null) 'vmInstance': vmInstance,
     };
   }
 }
@@ -12848,6 +15893,7 @@ class ScanMode {
   static const ec2SsmAgentBased = ScanMode._('EC2_SSM_AGENT_BASED');
   static const ec2Agentless = ScanMode._('EC2_AGENTLESS');
   static const ec2InspectorAgentBased = ScanMode._('EC2_INSPECTOR_AGENT_BASED');
+  static const vmInspectorAgentBased = ScanMode._('VM_INSPECTOR_AGENT_BASED');
 
   final String value;
 
@@ -12856,7 +15902,8 @@ class ScanMode {
   static const values = [
     ec2SsmAgentBased,
     ec2Agentless,
-    ec2InspectorAgentBased
+    ec2InspectorAgentBased,
+    vmInspectorAgentBased
   ];
 
   static ScanMode fromString(String value) => values
@@ -13117,6 +16164,231 @@ class CodeRepositoryMetadata {
       if (scanConfiguration != null) 'scanConfiguration': scanConfiguration,
     };
   }
+}
+
+/// Contains metadata about a virtual machine (VM) instance associated with a
+/// covered resource.
+///
+/// @nodoc
+class VmInstanceMetadata {
+  /// The inventory hash of the VM instance.
+  final String? inventoryHash;
+
+  /// The platform of the VM instance.
+  final VmPlatform? platform;
+
+  /// The tags associated with the VM instance.
+  final Map<String, String>? tags;
+
+  /// The image reference of the VM instance.
+  final String? vmImageReference;
+
+  VmInstanceMetadata({
+    this.inventoryHash,
+    this.platform,
+    this.tags,
+    this.vmImageReference,
+  });
+
+  factory VmInstanceMetadata.fromJson(Map<String, dynamic> json) {
+    return VmInstanceMetadata(
+      inventoryHash: json['inventoryHash'] as String?,
+      platform: (json['platform'] as String?)?.let(VmPlatform.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      vmImageReference: json['vmImageReference'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inventoryHash = this.inventoryHash;
+    final platform = this.platform;
+    final tags = this.tags;
+    final vmImageReference = this.vmImageReference;
+    return {
+      if (inventoryHash != null) 'inventoryHash': inventoryHash,
+      if (platform != null) 'platform': platform.value,
+      if (tags != null) 'tags': tags,
+      if (vmImageReference != null) 'vmImageReference': vmImageReference,
+    };
+  }
+}
+
+/// Contains metadata about a container image associated with a covered
+/// resource.
+///
+/// @nodoc
+class ContainerImageMetadata {
+  /// The date and time the container image was pulled.
+  final DateTime? imagePulledAt;
+
+  /// The tags attached to the container image.
+  final List<String>? imageTags;
+
+  /// The number of times the container image is in use.
+  final int? inUseCount;
+
+  /// The last time the container image was in use.
+  final DateTime? lastInUseAt;
+
+  ContainerImageMetadata({
+    this.imagePulledAt,
+    this.imageTags,
+    this.inUseCount,
+    this.lastInUseAt,
+  });
+
+  factory ContainerImageMetadata.fromJson(Map<String, dynamic> json) {
+    return ContainerImageMetadata(
+      imagePulledAt: timeStampFromJson(json['imagePulledAt']),
+      imageTags: (json['imageTags'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inUseCount: json['inUseCount'] as int?,
+      lastInUseAt: timeStampFromJson(json['lastInUseAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imagePulledAt = this.imagePulledAt;
+    final imageTags = this.imageTags;
+    final inUseCount = this.inUseCount;
+    final lastInUseAt = this.lastInUseAt;
+    return {
+      if (imagePulledAt != null)
+        'imagePulledAt': unixTimestampToJson(imagePulledAt),
+      if (imageTags != null) 'imageTags': imageTags,
+      if (inUseCount != null) 'inUseCount': inUseCount,
+      if (lastInUseAt != null) 'lastInUseAt': unixTimestampToJson(lastInUseAt),
+    };
+  }
+}
+
+/// Contains metadata about a container repository associated with a covered
+/// resource.
+///
+/// @nodoc
+class ContainerRepositoryMetadata {
+  /// The name of the container repository.
+  final String? name;
+
+  /// The scan frequency for the container repository.
+  final String? scanFrequency;
+
+  ContainerRepositoryMetadata({
+    this.name,
+    this.scanFrequency,
+  });
+
+  factory ContainerRepositoryMetadata.fromJson(Map<String, dynamic> json) {
+    return ContainerRepositoryMetadata(
+      name: json['name'] as String?,
+      scanFrequency: json['scanFrequency'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final scanFrequency = this.scanFrequency;
+    return {
+      if (name != null) 'name': name,
+      if (scanFrequency != null) 'scanFrequency': scanFrequency,
+    };
+  }
+}
+
+/// Contains metadata about a container registry associated with a covered
+/// resource.
+///
+/// @nodoc
+class ContainerRegistryMetadata {
+  /// The name of the container registry.
+  final String? name;
+
+  ContainerRegistryMetadata({
+    this.name,
+  });
+
+  factory ContainerRegistryMetadata.fromJson(Map<String, dynamic> json) {
+    return ContainerRegistryMetadata(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains metadata about a serverless function associated with a covered
+/// resource.
+///
+/// @nodoc
+class ServerlessFunctionMetadata {
+  /// The tags associated with the serverless function.
+  final Map<String, String>? functionTags;
+
+  /// The runtime of the serverless function.
+  final String? runtime;
+
+  /// The name of the serverless function.
+  final String? serverlessFunctionName;
+
+  ServerlessFunctionMetadata({
+    this.functionTags,
+    this.runtime,
+    this.serverlessFunctionName,
+  });
+
+  factory ServerlessFunctionMetadata.fromJson(Map<String, dynamic> json) {
+    return ServerlessFunctionMetadata(
+      functionTags: (json['functionTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      runtime: json['runtime'] as String?,
+      serverlessFunctionName: json['serverlessFunctionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionTags = this.functionTags;
+    final runtime = this.runtime;
+    final serverlessFunctionName = this.serverlessFunctionName;
+    return {
+      if (functionTags != null) 'functionTags': functionTags,
+      if (runtime != null) 'runtime': runtime,
+      if (serverlessFunctionName != null)
+        'serverlessFunctionName': serverlessFunctionName,
+    };
+  }
+}
+
+/// @nodoc
+class VmPlatform {
+  static const windows = VmPlatform._('WINDOWS');
+  static const linux = VmPlatform._('LINUX');
+  static const unknown = VmPlatform._('UNKNOWN');
+
+  final String value;
+
+  const VmPlatform._(this.value);
+
+  static const values = [windows, linux, unknown];
+
+  static VmPlatform fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VmPlatform._(value));
+
+  @override
+  bool operator ==(other) => other is VmPlatform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains the scan configuration settings applied to a specific project in a
@@ -13418,6 +16690,8 @@ class ScanStatusReason {
   static const imageArchived = ScanStatusReason._('IMAGE_ARCHIVED');
   static const unsupportedCodeArtifacts =
       ScanStatusReason._('UNSUPPORTED_CODE_ARTIFACTS');
+  static const resourceUnmanaged = ScanStatusReason._('RESOURCE_UNMANAGED');
+  static const resourceStopped = ScanStatusReason._('RESOURCE_STOPPED');
 
   final String value;
 
@@ -13457,7 +16731,9 @@ class ScanStatusReason {
     noScanConfigurationAssociated,
     scanInProgress,
     imageArchived,
-    unsupportedCodeArtifacts
+    unsupportedCodeArtifacts,
+    resourceUnmanaged,
+    resourceStopped
   ];
 
   static ScanStatusReason fromString(String value) =>
@@ -13466,6 +16742,738 @@ class ScanStatusReason {
 
   @override
   bool operator ==(other) => other is ScanStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a scan configuration and the connectors it applies to. Returned
+/// in the results of a <code>ListConnectorScanConfigurations</code> request.
+///
+/// @nodoc
+class ConnectorScanConfigurationItem {
+  /// The ARN of the Amazon Web Services Config connector.
+  final String awsConfigConnectorArn;
+
+  /// The list of connector ARNs associated with this Amazon Web Services Config
+  /// connector.
+  final List<String> connectorArns;
+
+  /// The scan configuration settings.
+  final ConnectorScanConfiguration scanConfiguration;
+
+  ConnectorScanConfigurationItem({
+    required this.awsConfigConnectorArn,
+    required this.connectorArns,
+    required this.scanConfiguration,
+  });
+
+  factory ConnectorScanConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return ConnectorScanConfigurationItem(
+      awsConfigConnectorArn: (json['awsConfigConnectorArn'] as String?) ?? '',
+      connectorArns: ((json['connectorArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      scanConfiguration: ConnectorScanConfiguration.fromJson(
+          (json['scanConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsConfigConnectorArn = this.awsConfigConnectorArn;
+    final connectorArns = this.connectorArns;
+    final scanConfiguration = this.scanConfiguration;
+    return {
+      'awsConfigConnectorArn': awsConfigConnectorArn,
+      'connectorArns': connectorArns,
+      'scanConfiguration': scanConfiguration,
+    };
+  }
+}
+
+/// Describes a connector that links an external cloud provider to Amazon
+/// Inspector for vulnerability scanning.
+///
+/// @nodoc
+class Connector {
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String connectorArn;
+
+  /// The date and time when the connector was created.
+  final DateTime createdAt;
+
+  /// The cloud provider for the connector.
+  final ConnectorCloudProvider provider;
+
+  /// The date and time when the connector was last updated.
+  final DateTime updatedAt;
+
+  /// Specifies whether the VM scanner is automatically installed on connected
+  /// resources.
+  final bool? autoInstallVMScanner;
+
+  /// The ARN of the Amazon Web Services Config connector associated with this
+  /// connector.
+  final String? awsConfigConnectorArn;
+
+  /// The Azure regions configured for the connector.
+  final List<String>? azureRegions;
+
+  /// A description of the connector.
+  final String? description;
+
+  /// The enablement status of the connector, which indicates whether the
+  /// connector is active and scanning resources.
+  final EnablementStatus? enablementStatus;
+
+  /// Additional information about the current enablement status of the connector.
+  final String? enablementStatusReason;
+
+  /// The health of the connector, which indicates whether Amazon Inspector can
+  /// reach and scan the connected resources.
+  final ConnectorHealth? health;
+
+  /// The name of the connector.
+  final String? name;
+
+  /// The Azure scope configuration for the connector.
+  final AzureScopeConfiguration? scopeConfiguration;
+
+  /// The tags associated with the connector.
+  final Map<String, String>? tags;
+
+  Connector({
+    required this.connectorArn,
+    required this.createdAt,
+    required this.provider,
+    required this.updatedAt,
+    this.autoInstallVMScanner,
+    this.awsConfigConnectorArn,
+    this.azureRegions,
+    this.description,
+    this.enablementStatus,
+    this.enablementStatusReason,
+    this.health,
+    this.name,
+    this.scopeConfiguration,
+    this.tags,
+  });
+
+  factory Connector.fromJson(Map<String, dynamic> json) {
+    return Connector(
+      connectorArn: (json['connectorArn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      provider: ConnectorCloudProvider.fromString(
+          (json['provider'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      autoInstallVMScanner: json['autoInstallVMScanner'] as bool?,
+      awsConfigConnectorArn: json['awsConfigConnectorArn'] as String?,
+      azureRegions: (json['azureRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      enablementStatus: (json['enablementStatus'] as String?)
+          ?.let(EnablementStatus.fromString),
+      enablementStatusReason: json['enablementStatusReason'] as String?,
+      health: json['health'] != null
+          ? ConnectorHealth.fromJson(json['health'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      scopeConfiguration: json['scopeConfiguration'] != null
+          ? AzureScopeConfiguration.fromJson(
+              json['scopeConfiguration'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    final createdAt = this.createdAt;
+    final provider = this.provider;
+    final updatedAt = this.updatedAt;
+    final autoInstallVMScanner = this.autoInstallVMScanner;
+    final awsConfigConnectorArn = this.awsConfigConnectorArn;
+    final azureRegions = this.azureRegions;
+    final description = this.description;
+    final enablementStatus = this.enablementStatus;
+    final enablementStatusReason = this.enablementStatusReason;
+    final health = this.health;
+    final name = this.name;
+    final scopeConfiguration = this.scopeConfiguration;
+    final tags = this.tags;
+    return {
+      'connectorArn': connectorArn,
+      'createdAt': iso8601ToJson(createdAt),
+      'provider': provider.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (autoInstallVMScanner != null)
+        'autoInstallVMScanner': autoInstallVMScanner,
+      if (awsConfigConnectorArn != null)
+        'awsConfigConnectorArn': awsConfigConnectorArn,
+      if (azureRegions != null) 'azureRegions': azureRegions,
+      if (description != null) 'description': description,
+      if (enablementStatus != null) 'enablementStatus': enablementStatus.value,
+      if (enablementStatusReason != null)
+        'enablementStatusReason': enablementStatusReason,
+      if (health != null) 'health': health,
+      if (name != null) 'name': name,
+      if (scopeConfiguration != null) 'scopeConfiguration': scopeConfiguration,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class ConnectorCloudProvider {
+  static const azure = ConnectorCloudProvider._('AZURE');
+
+  final String value;
+
+  const ConnectorCloudProvider._(this.value);
+
+  static const values = [azure];
+
+  static ConnectorCloudProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorCloudProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorCloudProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class EnablementStatus {
+  static const enabled = EnablementStatus._('ENABLED');
+  static const pendingEnablement = EnablementStatus._('PENDING_ENABLEMENT');
+  static const failedToEnable = EnablementStatus._('FAILED_TO_ENABLE');
+  static const pendingUpdate = EnablementStatus._('PENDING_UPDATE');
+  static const failedToUpdate = EnablementStatus._('FAILED_TO_UPDATE');
+  static const pendingDeletion = EnablementStatus._('PENDING_DELETION');
+  static const deleted = EnablementStatus._('DELETED');
+  static const failedToDelete = EnablementStatus._('FAILED_TO_DELETE');
+
+  final String value;
+
+  const EnablementStatus._(this.value);
+
+  static const values = [
+    enabled,
+    pendingEnablement,
+    failedToEnable,
+    pendingUpdate,
+    failedToUpdate,
+    pendingDeletion,
+    deleted,
+    failedToDelete
+  ];
+
+  static EnablementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnablementStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnablementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The health and connectivity status of a connector, including the last time
+/// the status was checked and any diagnostic message. Returned as part of the
+/// <code>Connector</code> structure.
+///
+/// @nodoc
+class ConnectorHealth {
+  /// The health status of the connector.
+  final ConnectorHealthStatus connectorStatus;
+
+  /// The date and time when the connector health was last checked.
+  final DateTime lastCheckedAt;
+
+  /// A message providing additional details about the connector health status.
+  final String? message;
+
+  ConnectorHealth({
+    required this.connectorStatus,
+    required this.lastCheckedAt,
+    this.message,
+  });
+
+  factory ConnectorHealth.fromJson(Map<String, dynamic> json) {
+    return ConnectorHealth(
+      connectorStatus: ConnectorHealthStatus.fromString(
+          (json['connectorStatus'] as String?) ?? ''),
+      lastCheckedAt: nonNullableTimeStampFromJson(json['lastCheckedAt'] ?? 0),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorStatus = this.connectorStatus;
+    final lastCheckedAt = this.lastCheckedAt;
+    final message = this.message;
+    return {
+      'connectorStatus': connectorStatus.value,
+      'lastCheckedAt': iso8601ToJson(lastCheckedAt),
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The scope of Azure resources that Amazon Inspector scans, defined separately
+/// for VM, container image, and serverless scanning. Returned as part of a
+/// connector's configuration.
+///
+/// @nodoc
+class AzureScopeConfiguration {
+  /// The scope configuration for container image scanning.
+  final ScopeConfiguration? containerImageScanning;
+
+  /// The scope configuration for serverless scanning.
+  final ScopeConfiguration? serverlessScanning;
+
+  /// The scope configuration for VM scanning.
+  final ScopeConfiguration? vmScanning;
+
+  AzureScopeConfiguration({
+    this.containerImageScanning,
+    this.serverlessScanning,
+    this.vmScanning,
+  });
+
+  factory AzureScopeConfiguration.fromJson(Map<String, dynamic> json) {
+    return AzureScopeConfiguration(
+      containerImageScanning: json['containerImageScanning'] != null
+          ? ScopeConfiguration.fromJson(
+              json['containerImageScanning'] as Map<String, dynamic>)
+          : null,
+      serverlessScanning: json['serverlessScanning'] != null
+          ? ScopeConfiguration.fromJson(
+              json['serverlessScanning'] as Map<String, dynamic>)
+          : null,
+      vmScanning: json['vmScanning'] != null
+          ? ScopeConfiguration.fromJson(
+              json['vmScanning'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerImageScanning = this.containerImageScanning;
+    final serverlessScanning = this.serverlessScanning;
+    final vmScanning = this.vmScanning;
+    return {
+      if (containerImageScanning != null)
+        'containerImageScanning': containerImageScanning,
+      if (serverlessScanning != null) 'serverlessScanning': serverlessScanning,
+      if (vmScanning != null) 'vmScanning': vmScanning,
+    };
+  }
+}
+
+/// The scope of resources that Amazon Inspector scans for a single scanning
+/// type, including the scope level, the targeted resources, and the current
+/// state.
+///
+/// @nodoc
+class ScopeConfiguration {
+  /// The type of scope. Valid values are <code>TENANT</code>, which scans all
+  /// resources in the Azure tenant, and <code>SUBSCRIPTION</code>, which scans
+  /// only the resources in the specified Azure subscriptions.
+  final ScopeType scopeType;
+
+  /// The list of scope values. For subscription-level scope, these are Azure
+  /// subscription IDs.
+  final List<String>? scopeValues;
+
+  /// The current state of the scope configuration.
+  final ScopeState? state;
+
+  /// The reason for the current state of the scope configuration.
+  final String? stateReason;
+
+  ScopeConfiguration({
+    required this.scopeType,
+    this.scopeValues,
+    this.state,
+    this.stateReason,
+  });
+
+  factory ScopeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ScopeConfiguration(
+      scopeType: ScopeType.fromString((json['scopeType'] as String?) ?? ''),
+      scopeValues: (json['scopeValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      state: (json['state'] as String?)?.let(ScopeState.fromString),
+      stateReason: json['stateReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scopeType = this.scopeType;
+    final scopeValues = this.scopeValues;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    return {
+      'scopeType': scopeType.value,
+      if (scopeValues != null) 'scopeValues': scopeValues,
+      if (state != null) 'state': state.value,
+      if (stateReason != null) 'stateReason': stateReason,
+    };
+  }
+}
+
+/// @nodoc
+class ScopeState {
+  static const active = ScopeState._('ACTIVE');
+  static const pending = ScopeState._('PENDING');
+  static const error = ScopeState._('ERROR');
+  static const disabled = ScopeState._('DISABLED');
+
+  final String value;
+
+  const ScopeState._(this.value);
+
+  static const values = [active, pending, error, disabled];
+
+  static ScopeState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScopeState._(value));
+
+  @override
+  bool operator ==(other) => other is ScopeState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ConnectorHealthStatus {
+  static const connected = ConnectorHealthStatus._('CONNECTED');
+  static const degraded = ConnectorHealthStatus._('DEGRADED');
+  static const failedToConnect = ConnectorHealthStatus._('FAILED_TO_CONNECT');
+  static const pendingAuthorization =
+      ConnectorHealthStatus._('PENDING_AUTHORIZATION');
+  static const pendingConfiguration =
+      ConnectorHealthStatus._('PENDING_CONFIGURATION');
+  static const unknown = ConnectorHealthStatus._('UNKNOWN');
+
+  final String value;
+
+  const ConnectorHealthStatus._(this.value);
+
+  static const values = [
+    connected,
+    degraded,
+    failedToConnect,
+    pendingAuthorization,
+    pendingConfiguration,
+    unknown
+  ];
+
+  static ConnectorHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the filter criteria for narrowing the results returned by a
+/// <code>ListConnectors</code> request. You can filter by connector ARN, Amazon
+/// Web Services account ID, Amazon Web Services Config connector ARN, connector
+/// type, or cloud provider.
+///
+/// @nodoc
+class ConnectorFilterCriteria {
+  /// Filter by Amazon Web Services account IDs.
+  final List<StringFilter>? accounts;
+
+  /// Filter by Amazon Web Services Config connector ARNs.
+  final List<AwsConfigConnectorArnFilter>? awsConfigConnectorArns;
+
+  /// Filter by connector ARNs.
+  final List<ConnectorArnFilter>? connectorArns;
+
+  /// Filter by connector type.
+  final List<ConnectorTypeFilter>? connectorType;
+
+  /// Filter by cloud provider.
+  final List<ProviderFilter>? provider;
+
+  ConnectorFilterCriteria({
+    this.accounts,
+    this.awsConfigConnectorArns,
+    this.connectorArns,
+    this.connectorType,
+    this.provider,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final awsConfigConnectorArns = this.awsConfigConnectorArns;
+    final connectorArns = this.connectorArns;
+    final connectorType = this.connectorType;
+    final provider = this.provider;
+    return {
+      if (accounts != null) 'accounts': accounts,
+      if (awsConfigConnectorArns != null)
+        'awsConfigConnectorArns': awsConfigConnectorArns,
+      if (connectorArns != null) 'connectorArns': connectorArns,
+      if (connectorType != null) 'connectorType': connectorType,
+      if (provider != null) 'provider': provider,
+    };
+  }
+}
+
+/// A filter that matches connectors by cloud provider.
+///
+/// @nodoc
+class ProviderFilter {
+  /// The comparison operator for the provider filter.
+  final ProviderComparison comparison;
+
+  /// The cloud provider value to filter by.
+  final ConnectorCloudProvider value;
+
+  ProviderFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.value,
+      'value': value.value,
+    };
+  }
+}
+
+/// @nodoc
+class ProviderComparison {
+  static const equals = ProviderComparison._('EQUALS');
+
+  final String value;
+
+  const ProviderComparison._(this.value);
+
+  static const values = [equals];
+
+  static ProviderComparison fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProviderComparison._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProviderComparison && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter that matches connectors by connector type.
+///
+/// @nodoc
+class ConnectorTypeFilter {
+  /// The comparison operator for the connector type filter.
+  final ConnectorTypeComparison comparison;
+
+  /// The connector type value to filter by.
+  final ConnectorType value;
+
+  ConnectorTypeFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.value,
+      'value': value.value,
+    };
+  }
+}
+
+/// @nodoc
+class ConnectorTypeComparison {
+  static const equals = ConnectorTypeComparison._('EQUALS');
+
+  final String value;
+
+  const ConnectorTypeComparison._(this.value);
+
+  static const values = [equals];
+
+  static ConnectorTypeComparison fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorTypeComparison._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorTypeComparison && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ConnectorType {
+  static const customerManaged = ConnectorType._('CUSTOMER_MANAGED');
+  static const serviceLinked = ConnectorType._('SERVICE_LINKED');
+
+  final String value;
+
+  const ConnectorType._(this.value);
+
+  static const values = [customerManaged, serviceLinked];
+
+  static ConnectorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter that matches connectors by the ARN of the associated Amazon Web
+/// Services Config connector.
+///
+/// @nodoc
+class AwsConfigConnectorArnFilter {
+  /// The comparison operator for the Amazon Web Services Config connector ARN
+  /// filter.
+  final AwsConfigConnectorArnComparison comparison;
+
+  /// The Amazon Web Services Config connector ARN value to filter by.
+  final String value;
+
+  AwsConfigConnectorArnFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.value,
+      'value': value,
+    };
+  }
+}
+
+/// @nodoc
+class AwsConfigConnectorArnComparison {
+  static const equals = AwsConfigConnectorArnComparison._('EQUALS');
+
+  final String value;
+
+  const AwsConfigConnectorArnComparison._(this.value);
+
+  static const values = [equals];
+
+  static AwsConfigConnectorArnComparison fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AwsConfigConnectorArnComparison._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AwsConfigConnectorArnComparison && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter that matches connectors by connector ARN.
+///
+/// @nodoc
+class ConnectorArnFilter {
+  /// The comparison operator for the connector ARN filter.
+  final ConnectorArnComparison comparison;
+
+  /// The connector ARN value to filter by.
+  final String value;
+
+  ConnectorArnFilter({
+    required this.comparison,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final value = this.value;
+    return {
+      'comparison': comparison.value,
+      'value': value,
+    };
+  }
+}
+
+/// @nodoc
+class ConnectorArnComparison {
+  static const equals = ConnectorArnComparison._('EQUALS');
+
+  final String value;
+
+  const ConnectorArnComparison._(this.value);
+
+  static const values = [equals];
+
+  static ConnectorArnComparison fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorArnComparison._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorArnComparison && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13506,9 +17514,6 @@ class CodeSecurityScanConfigurationSummary {
   /// Amazon Inspector.
   final ScopeSettings? scopeSettings;
 
-  /// The tags associated with the scan configuration.
-  final Map<String, String>? tags;
-
   CodeSecurityScanConfigurationSummary({
     required this.name,
     required this.ownerAccountId,
@@ -13518,7 +17523,6 @@ class CodeSecurityScanConfigurationSummary {
     this.frequencyExpression,
     this.periodicScanFrequency,
     this.scopeSettings,
-    this.tags,
   });
 
   factory CodeSecurityScanConfigurationSummary.fromJson(
@@ -13543,8 +17547,6 @@ class CodeSecurityScanConfigurationSummary {
           ? ScopeSettings.fromJson(
               json['scopeSettings'] as Map<String, dynamic>)
           : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -13558,7 +17560,6 @@ class CodeSecurityScanConfigurationSummary {
     final frequencyExpression = this.frequencyExpression;
     final periodicScanFrequency = this.periodicScanFrequency;
     final scopeSettings = this.scopeSettings;
-    final tags = this.tags;
     return {
       'name': name,
       'ownerAccountId': ownerAccountId,
@@ -13574,7 +17575,6 @@ class CodeSecurityScanConfigurationSummary {
       if (periodicScanFrequency != null)
         'periodicScanFrequency': periodicScanFrequency.value,
       if (scopeSettings != null) 'scopeSettings': scopeSettings,
-      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -13687,9 +17687,6 @@ class CodeSecurityIntegrationSummary {
   /// The type of repository provider for the integration.
   final IntegrationType type;
 
-  /// The tags associated with the code security integration.
-  final Map<String, String>? tags;
-
   CodeSecurityIntegrationSummary({
     required this.createdOn,
     required this.integrationArn,
@@ -13698,7 +17695,6 @@ class CodeSecurityIntegrationSummary {
     required this.status,
     required this.statusReason,
     required this.type,
-    this.tags,
   });
 
   factory CodeSecurityIntegrationSummary.fromJson(Map<String, dynamic> json) {
@@ -13710,8 +17706,6 @@ class CodeSecurityIntegrationSummary {
       status: IntegrationStatus.fromString((json['status'] as String?) ?? ''),
       statusReason: (json['statusReason'] as String?) ?? '',
       type: IntegrationType.fromString((json['type'] as String?) ?? ''),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -13723,7 +17717,6 @@ class CodeSecurityIntegrationSummary {
     final status = this.status;
     final statusReason = this.statusReason;
     final type = this.type;
-    final tags = this.tags;
     return {
       'createdOn': unixTimestampToJson(createdOn),
       'integrationArn': integrationArn,
@@ -13732,7 +17725,6 @@ class CodeSecurityIntegrationSummary {
       'status': status.value,
       'statusReason': statusReason,
       'type': type.value,
-      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -15295,6 +19287,39 @@ class ResourceFilterCriteria {
   /// The account IDs used as resource filter criteria.
   final List<ResourceStringFilter>? accountId;
 
+  /// The cloud container image tags used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudContainerImageTags;
+
+  /// The cloud container registry names used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudContainerRegistryName;
+
+  /// The cloud container repository names used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudContainerRepositoryName;
+
+  /// The cloud providers used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudProvider;
+
+  /// The cloud provider account IDs used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudProviderAccountId;
+
+  /// The cloud provider organization IDs used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudProviderOrgId;
+
+  /// The cloud provider regions used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudProviderRegion;
+
+  /// The cloud serverless function names used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudServerlessFunctionName;
+
+  /// The cloud serverless function runtimes used as resource filter criteria.
+  final List<ResourceStringFilter>? cloudServerlessFunctionRuntime;
+
+  /// The cloud serverless function tags used as resource filter criteria.
+  final List<ResourceMapFilter>? cloudServerlessFunctionTags;
+
+  /// The cloud VM instance tags used as resource filter criteria.
+  final List<ResourceMapFilter>? cloudVmInstanceTags;
+
   /// The EC2 instance tags used as resource filter criteria.
   final List<ResourceMapFilter>? ec2InstanceTags;
 
@@ -15320,6 +19345,17 @@ class ResourceFilterCriteria {
 
   ResourceFilterCriteria({
     this.accountId,
+    this.cloudContainerImageTags,
+    this.cloudContainerRegistryName,
+    this.cloudContainerRepositoryName,
+    this.cloudProvider,
+    this.cloudProviderAccountId,
+    this.cloudProviderOrgId,
+    this.cloudProviderRegion,
+    this.cloudServerlessFunctionName,
+    this.cloudServerlessFunctionRuntime,
+    this.cloudServerlessFunctionTags,
+    this.cloudVmInstanceTags,
     this.ec2InstanceTags,
     this.ecrImageTags,
     this.ecrRepositoryName,
@@ -15334,6 +19370,54 @@ class ResourceFilterCriteria {
       accountId: (json['accountId'] as List?)
           ?.nonNulls
           .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudContainerImageTags: (json['cloudContainerImageTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudContainerRegistryName: (json['cloudContainerRegistryName'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudContainerRepositoryName: (json['cloudContainerRepositoryName']
+              as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProvider: (json['cloudProvider'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProviderAccountId: (json['cloudProviderAccountId'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProviderOrgId: (json['cloudProviderOrgId'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudProviderRegion: (json['cloudProviderRegion'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudServerlessFunctionName: (json['cloudServerlessFunctionName']
+              as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudServerlessFunctionRuntime: (json['cloudServerlessFunctionRuntime']
+              as List?)
+          ?.nonNulls
+          .map((e) => ResourceStringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cloudServerlessFunctionTags:
+          (json['cloudServerlessFunctionTags'] as List?)
+              ?.nonNulls
+              .map((e) => ResourceMapFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      cloudVmInstanceTags: (json['cloudVmInstanceTags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceMapFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
       ec2InstanceTags: (json['ec2InstanceTags'] as List?)
           ?.nonNulls
@@ -15368,6 +19452,17 @@ class ResourceFilterCriteria {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
+    final cloudContainerImageTags = this.cloudContainerImageTags;
+    final cloudContainerRegistryName = this.cloudContainerRegistryName;
+    final cloudContainerRepositoryName = this.cloudContainerRepositoryName;
+    final cloudProvider = this.cloudProvider;
+    final cloudProviderAccountId = this.cloudProviderAccountId;
+    final cloudProviderOrgId = this.cloudProviderOrgId;
+    final cloudProviderRegion = this.cloudProviderRegion;
+    final cloudServerlessFunctionName = this.cloudServerlessFunctionName;
+    final cloudServerlessFunctionRuntime = this.cloudServerlessFunctionRuntime;
+    final cloudServerlessFunctionTags = this.cloudServerlessFunctionTags;
+    final cloudVmInstanceTags = this.cloudVmInstanceTags;
     final ec2InstanceTags = this.ec2InstanceTags;
     final ecrImageTags = this.ecrImageTags;
     final ecrRepositoryName = this.ecrRepositoryName;
@@ -15377,6 +19472,26 @@ class ResourceFilterCriteria {
     final resourceType = this.resourceType;
     return {
       if (accountId != null) 'accountId': accountId,
+      if (cloudContainerImageTags != null)
+        'cloudContainerImageTags': cloudContainerImageTags,
+      if (cloudContainerRegistryName != null)
+        'cloudContainerRegistryName': cloudContainerRegistryName,
+      if (cloudContainerRepositoryName != null)
+        'cloudContainerRepositoryName': cloudContainerRepositoryName,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider,
+      if (cloudProviderAccountId != null)
+        'cloudProviderAccountId': cloudProviderAccountId,
+      if (cloudProviderOrgId != null) 'cloudProviderOrgId': cloudProviderOrgId,
+      if (cloudProviderRegion != null)
+        'cloudProviderRegion': cloudProviderRegion,
+      if (cloudServerlessFunctionName != null)
+        'cloudServerlessFunctionName': cloudServerlessFunctionName,
+      if (cloudServerlessFunctionRuntime != null)
+        'cloudServerlessFunctionRuntime': cloudServerlessFunctionRuntime,
+      if (cloudServerlessFunctionTags != null)
+        'cloudServerlessFunctionTags': cloudServerlessFunctionTags,
+      if (cloudVmInstanceTags != null)
+        'cloudVmInstanceTags': cloudVmInstanceTags,
       if (ec2InstanceTags != null) 'ec2InstanceTags': ec2InstanceTags,
       if (ecrImageTags != null) 'ecrImageTags': ecrImageTags,
       if (ecrRepositoryName != null) 'ecrRepositoryName': ecrRepositoryName,
@@ -16705,6 +20820,67 @@ class ReportFormat {
   String toString() => value;
 }
 
+/// The provider-specific configuration details for creating a connector.
+///
+/// @nodoc
+class ProviderDetailCreate {
+  /// The Azure-specific details for creating a connector.
+  final AzureProviderDetailCreate? azure;
+
+  ProviderDetailCreate({
+    this.azure,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azure = this.azure;
+    return {
+      if (azure != null) 'azure': azure,
+    };
+  }
+}
+
+/// The Azure-specific configuration details for creating a connector, including
+/// the Amazon Web Services Config connector association, scan scope, and
+/// regions to scan.
+///
+/// @nodoc
+class AzureProviderDetailCreate {
+  /// The ARN of the Amazon Web Services Config connector to associate with this
+  /// connector.
+  final String awsConfigConnectorArn;
+
+  /// The Azure regions to scan.
+  final List<String> azureRegions;
+
+  /// The scope configuration that defines which Azure resources to scan.
+  final AzureScopeConfigurationInput scopeConfiguration;
+
+  /// Specifies whether to automatically install the VM scanner on connected Azure
+  /// resources. Defaults to <code>true</code>.
+  final bool? autoInstallVMScanner;
+
+  AzureProviderDetailCreate({
+    required this.awsConfigConnectorArn,
+    required this.azureRegions,
+    required this.scopeConfiguration,
+    this.autoInstallVMScanner,
+  });
+
+  Map<String, dynamic> toJson() {
+    final awsConfigConnectorArn = this.awsConfigConnectorArn;
+    final azureRegions = this.azureRegions;
+    final scopeConfiguration = this.scopeConfiguration;
+    final autoInstallVMScanner = this.autoInstallVMScanner;
+    return {
+      'awsConfigConnectorArn': awsConfigConnectorArn,
+      'azureRegions': azureRegions,
+      'scopeConfiguration': scopeConfiguration,
+      if (autoInstallVMScanner != null)
+        'autoInstallVMScanner': autoInstallVMScanner,
+    };
+  }
+}
+
 /// Contains details required to create a code security integration with a
 /// specific repository provider.
 ///
@@ -17016,11 +21192,15 @@ class FreeTrialInfo {
   /// The type of scan covered by the Amazon Inspector free trail.
   final FreeTrialType type;
 
+  /// The cloud provider associated with the free trial information.
+  final CloudProvider? cloudProvider;
+
   FreeTrialInfo({
     required this.end,
     required this.start,
     required this.status,
     required this.type,
+    this.cloudProvider,
   });
 
   factory FreeTrialInfo.fromJson(Map<String, dynamic> json) {
@@ -17029,6 +21209,8 @@ class FreeTrialInfo {
       start: nonNullableTimeStampFromJson(json['start'] ?? 0),
       status: FreeTrialStatus.fromString((json['status'] as String?) ?? ''),
       type: FreeTrialType.fromString((json['type'] as String?) ?? ''),
+      cloudProvider:
+          (json['cloudProvider'] as String?)?.let(CloudProvider.fromString),
     );
   }
 
@@ -17037,11 +21219,13 @@ class FreeTrialInfo {
     final start = this.start;
     final status = this.status;
     final type = this.type;
+    final cloudProvider = this.cloudProvider;
     return {
       'end': unixTimestampToJson(end),
       'start': unixTimestampToJson(start),
       'status': status.value,
       'type': type.value,
+      if (cloudProvider != null) 'cloudProvider': cloudProvider.value,
     };
   }
 }
@@ -17053,12 +21237,24 @@ class FreeTrialType {
   static const lambda = FreeTrialType._('LAMBDA');
   static const lambdaCode = FreeTrialType._('LAMBDA_CODE');
   static const codeRepository = FreeTrialType._('CODE_REPOSITORY');
+  static const vm = FreeTrialType._('VM');
+  static const containerImage = FreeTrialType._('CONTAINER_IMAGE');
+  static const serverlessFunction = FreeTrialType._('SERVERLESS_FUNCTION');
 
   final String value;
 
   const FreeTrialType._(this.value);
 
-  static const values = [ec2, ecr, lambda, lambdaCode, codeRepository];
+  static const values = [
+    ec2,
+    ecr,
+    lambda,
+    lambdaCode,
+    codeRepository,
+    vm,
+    containerImage,
+    serverlessFunction
+  ];
 
   static FreeTrialType fromString(String value) =>
       values.firstWhere((e) => e.value == value,

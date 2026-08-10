@@ -13,53 +13,50 @@ ResolvedEndpoint resolveEndpoint({
   String? endpoint,
   bool useFips = false,
   bool useDualStack = false,
+  String? serviceType,
 }) {
   if (endpoint != null) {
-    if (useFips == true) {
-      throw EndpointResolutionException(
-          'Invalid Configuration: FIPS and custom endpoint are not supported');
-    }
-    if (useDualStack == true) {
-      throw EndpointResolutionException(
-          'Invalid Configuration: Dualstack and custom endpoint are not supported');
-    }
     return ResolvedEndpoint(url: endpoint);
   }
-  if (region != null) {
-    {
-      final partitionResult = fn.awsPartition(region);
-      if ((useFips == true) && (useDualStack == true)) {
-        if ((true == partitionResult.supportsFips) &&
-            (true == partitionResult.supportsDualStack)) {
-          return ResolvedEndpoint(
-              url:
-                  'https://acm-fips.$region.${partitionResult.dualStackDnsSuffix}');
+  {
+    final partitionResult = fn.awsPartition(region);
+    if (region != null) {
+      if (serviceType == 'ACM-ACME') {
+        if (endpoint != null) {
+          return ResolvedEndpoint(url: endpoint);
         }
-        throw EndpointResolutionException(
-            'FIPS and DualStack are enabled, but this partition does not support one or both');
-      }
-      if (useFips == true) {
-        if (partitionResult.supportsFips == true) {
-          if (partitionResult.name == 'aws-us-gov') {
-            return ResolvedEndpoint(url: 'https://acm.$region.amazonaws.com');
+        if (partitionResult.name == 'aws') {
+          if (useFips == true) {
+            throw EndpointResolutionException(
+                'FIPS endpoints are not available for ACME operations');
           }
           return ResolvedEndpoint(
-              url: 'https://acm-fips.$region.${partitionResult.dnsSuffix}');
+              url:
+                  'https://acm-acme.$region.${partitionResult.dualStackDnsSuffix}');
         }
         throw EndpointResolutionException(
-            'FIPS is enabled but this partition does not support FIPS');
+            'ACME operations are only available in commercial AWS partitions');
+      }
+      if ((useFips == true) && (useDualStack == true)) {
+        return ResolvedEndpoint(
+            url:
+                'https://acm-fips.$region.${partitionResult.dualStackDnsSuffix}');
+      }
+      if (useFips == true) {
+        if (partitionResult.name == 'aws-us-gov') {
+          return ResolvedEndpoint(url: 'https://acm.$region.amazonaws.com');
+        }
+        return ResolvedEndpoint(
+            url: 'https://acm-fips.$region.${partitionResult.dnsSuffix}');
       }
       if (useDualStack == true) {
-        if (true == partitionResult.supportsDualStack) {
-          return ResolvedEndpoint(
-              url: 'https://acm.$region.${partitionResult.dualStackDnsSuffix}');
-        }
-        throw EndpointResolutionException(
-            'DualStack is enabled but this partition does not support DualStack');
+        return ResolvedEndpoint(
+            url: 'https://acm.$region.${partitionResult.dualStackDnsSuffix}');
       }
       return ResolvedEndpoint(
           url: 'https://acm.$region.${partitionResult.dnsSuffix}');
     }
   }
-  throw EndpointResolutionException('Invalid Configuration: Missing Region');
+  throw EndpointResolutionException(
+      'Region must be set to resolve an endpoint.');
 }

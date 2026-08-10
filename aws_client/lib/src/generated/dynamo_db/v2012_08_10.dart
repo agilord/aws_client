@@ -81,6 +81,7 @@ class DynamoDB {
         _useFipsEndpoint = useFipsEndpoint,
         _useDualStackEndpoint = useDualStackEndpoint;
   _s.Endpoint _resolveEndpoint({
+    bool? isSearchOperation,
     String? resourceArn,
   }) {
     return _s.Endpoint.fromResolved(
@@ -89,6 +90,7 @@ class DynamoDB {
         endpoint: _endpointUrl,
         useFips: _useFipsEndpoint,
         useDualStack: _useDualStackEndpoint,
+        isSearchOperation: isSearchOperation,
         resourceArn: resourceArn,
       ),
       service: _service,
@@ -373,13 +375,13 @@ class DynamoDB {
   /// unprocessed items and submit a new <code>BatchWriteItem</code> request
   /// with those unprocessed items until all items have been processed.
   ///
-  /// For tables and indexes with provisioned capacity, if none of the items can
-  /// be processed due to insufficient provisioned throughput on all of the
-  /// tables in the request, then <code>BatchWriteItem</code> returns a
-  /// <code>ProvisionedThroughputExceededException</code>. For all tables and
-  /// indexes, if none of the items can be processed due to other throttling
-  /// scenarios (such as exceeding partition level limits), then
-  /// <code>BatchWriteItem</code> returns a <code>ThrottlingException</code>.
+  /// If <code>BatchWriteItem</code> cannot process any items due to throttling
+  /// (for example, insufficient provisioned throughput on the tables in the
+  /// request, or partition-level or account-level limits), it returns a
+  /// <code>ProvisionedThroughputExceededException</code> or a
+  /// <code>ThrottlingException</code>. Both indicate that the request was
+  /// throttled; check the <code>ThrottlingReason</code> field in the returned
+  /// exception for details.
   /// <important>
   /// If DynamoDB returns any unprocessed items, you should retry the batch
   /// operation on those items. However, <i>we strongly recommend that you use
@@ -1049,6 +1051,43 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
   /// for DynamoDB</a>.
   ///
+  /// Parameter [vectorIndexes] :
+  /// One or more vector indexes to be created on the table. Each vector index
+  /// enables similarity search on a vector attribute. Each element in the list
+  /// consists of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IndexName</code> - The name of the vector index. Must be unique
+  /// within the table.
+  /// </li>
+  /// <li>
+  /// <code>VectorAttribute</code> - The attribute that contains vector
+  /// embeddings. If multiple vector indexes reference the same attribute, they
+  /// must all use the same number of dimensions.
+  /// </li>
+  /// <li>
+  /// <code>Dimensions</code> - The number of dimensions in each vector.
+  /// </li>
+  /// <li>
+  /// <code>DistanceFunction</code> - The distance function used to calculate
+  /// similarity. Valid values: <code>COSINE</code>, <code>EUCLIDEAN</code>,
+  /// <code>DOT_PRODUCT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Projection</code> - Specifies attributes that are copied (projected)
+  /// from the table into the vector index. The total number of projected
+  /// non-key attributes is shared across the vector attribute (counts as 1) and
+  /// <code>INLINE_FILTER</code> search schema elements (each counts as 1).
+  /// <code>HASH</code> search schema elements do not count toward this limit.
+  /// </li>
+  /// <li>
+  /// <code>SearchSchema</code> - (Optional) Defines the partition key
+  /// (<code>HASH</code>) and inline filter (<code>INLINE_FILTER</code>)
+  /// attributes for the vector index.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [warmThroughput] :
   /// Represents the warm throughput (in read units per second and write units
   /// per second) for creating a table.
@@ -1069,6 +1108,7 @@ class DynamoDB {
     StreamSpecification? streamSpecification,
     TableClass? tableClass,
     List<Tag>? tags,
+    List<VectorIndex>? vectorIndexes,
     WarmThroughput? warmThroughput,
   }) async {
     final headers = <String, String>{
@@ -1108,6 +1148,7 @@ class DynamoDB {
           'StreamSpecification': streamSpecification,
         if (tableClass != null) 'TableClass': tableClass.value,
         if (tags != null) 'Tags': tags,
+        if (vectorIndexes != null) 'VectorIndexes': vectorIndexes,
         if (warmThroughput != null) 'WarmThroughput': warmThroughput,
       },
       endpoint: _resolveEndpoint(
@@ -3215,6 +3256,23 @@ class DynamoDB {
   /// types for those attributes must match those of the schema in the table's
   /// attribute definition.
   ///
+  /// If the table has vector indexes, the following validations apply to write
+  /// operations. A violation of any of these constraints results in a
+  /// <code>ValidationException</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// The vector attribute must be a list of numbers with dimensions matching
+  /// the index configuration.
+  /// </li>
+  /// <li>
+  /// Vector values must fit in 32-bit IEEE-754 floating point format (f32).
+  /// </li>
+  /// <li>
+  /// Partition key and inline filter attributes defined in the search schema
+  /// must have data types matching the index schema definition.
+  /// </li>
+  /// </ul>
   /// Empty String and Binary attribute values are allowed. Attribute values of
   /// type String and Binary must have a length greater than zero if the
   /// attribute is used as a key attribute for a table or index.
@@ -4090,6 +4148,12 @@ class DynamoDB {
   ///
   /// Parameter [sSESpecificationOverride] :
   /// The new server-side encryption settings for the restored table.
+  ///
+  /// Parameter [vectorIndexOverride] :
+  /// The vector indexes for the restored table. If not specified, all vector
+  /// indexes from the backup are restored. The indexes provided must match
+  /// existing vector indexes from the backup. You can choose to exclude some or
+  /// all of the vector indexes at the time of restore.
   Future<RestoreTableFromBackupOutput> restoreTableFromBackup({
     required String backupArn,
     required String targetTableName,
@@ -4099,6 +4163,7 @@ class DynamoDB {
     OnDemandThroughput? onDemandThroughputOverride,
     ProvisionedThroughput? provisionedThroughputOverride,
     SSESpecification? sSESpecificationOverride,
+    List<VectorIndex>? vectorIndexOverride,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4125,6 +4190,8 @@ class DynamoDB {
           'ProvisionedThroughputOverride': provisionedThroughputOverride,
         if (sSESpecificationOverride != null)
           'SSESpecificationOverride': sSESpecificationOverride,
+        if (vectorIndexOverride != null)
+          'VectorIndexOverride': vectorIndexOverride,
       },
       endpoint: _resolveEndpoint(
         resourceArn: targetTableName,
@@ -4211,6 +4278,12 @@ class DynamoDB {
   /// provided should match existing secondary indexes. You can choose to
   /// exclude some or all of the indexes at the time of restore.
   ///
+  /// The <code>WarmThroughput</code> setting is not supported on global
+  /// secondary indexes when you use <code>RestoreTableToPointInTime</code>.
+  /// Although <code>WarmThroughput</code> appears in the shared index
+  /// definition, including it in a <code>GlobalSecondaryIndexOverride</code>
+  /// entry causes the request to fail with a validation error.
+  ///
   /// Parameter [localSecondaryIndexOverride] :
   /// List of local secondary indexes for the restored table. The indexes
   /// provided should match existing secondary indexes. You can choose to
@@ -4236,6 +4309,12 @@ class DynamoDB {
   /// Restore the table to the latest possible time.
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
   /// current time.
+  ///
+  /// Parameter [vectorIndexOverride] :
+  /// The vector indexes for the restored table. If not specified, all vector
+  /// indexes from the source table are restored. The indexes provided must
+  /// match existing vector indexes from the source table. You can choose to
+  /// exclude some or all of the vector indexes at the time of restore.
   Future<RestoreTableToPointInTimeOutput> restoreTableToPointInTime({
     required String targetTableName,
     BillingMode? billingModeOverride,
@@ -4248,6 +4327,7 @@ class DynamoDB {
     String? sourceTableArn,
     String? sourceTableName,
     bool? useLatestRestorableTime,
+    List<VectorIndex>? vectorIndexOverride,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4279,6 +4359,8 @@ class DynamoDB {
         if (sourceTableName != null) 'SourceTableName': sourceTableName,
         if (useLatestRestorableTime != null)
           'UseLatestRestorableTime': useLatestRestorableTime,
+        if (vectorIndexOverride != null)
+          'VectorIndexOverride': vectorIndexOverride,
       },
       endpoint: _resolveEndpoint(
         resourceArn: targetTableName,
@@ -4702,6 +4784,132 @@ class DynamoDB {
     );
 
     return ScanOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Performs a vector similarity search on a vector index associated with an
+  /// Amazon DynamoDB table, and returns the most similar items sorted by
+  /// similarity score based on the distance function configured for the index.
+  ///
+  /// Score interpretation depends on the distance function:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COSINE</code> - Returns the items with the <i>k smallest</i> scores.
+  /// Scores range from 0 (identical) to 2 (opposite). Lower scores indicate
+  /// higher similarity.
+  /// </li>
+  /// <li>
+  /// <code>EUCLIDEAN</code> - Returns the items with the <i>k smallest</i>
+  /// scores. Scores represent the Euclidean distance between vectors. Lower
+  /// scores indicate higher similarity.
+  /// </li>
+  /// <li>
+  /// <code>DOT_PRODUCT</code> - Returns the items with the <i>k highest</i>
+  /// scores. Higher scores indicate higher similarity.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [indexName] :
+  /// The name of the vector index to search. The index must be in the
+  /// <code>ACTIVE</code> state.
+  ///
+  /// Parameter [searchVector] :
+  /// The search vector to compare against the indexed vectors. Each element is
+  /// a 32-bit IEEE-754 floating point number, provided in DynamoDB list format.
+  ///
+  /// The number of dimensions must match the number of dimensions configured
+  /// for the vector index.
+  ///
+  /// Parameter [tableName] :
+  /// The name or Amazon Resource Name (ARN) of the table containing the vector
+  /// index.
+  ///
+  /// Parameter [topK] :
+  /// The number of most similar results to return.
+  ///
+  /// Parameter [expressionAttributeNames] :
+  /// One or more substitution tokens for attribute names in an expression. Use
+  /// the <code>#</code> character in an expression to dereference an attribute
+  /// name.
+  ///
+  /// Parameter [expressionAttributeValues] :
+  /// One or more values that can be substituted in an expression. Use the
+  /// <code>:</code> character in an expression to dereference an attribute
+  /// value.
+  ///
+  /// Parameter [projectionExpression] :
+  /// A string that identifies one or more attributes to retrieve from the
+  /// index. Separate attribute names with commas. If not specified, the
+  /// operation returns all attributes projected into the vector index.
+  ///
+  /// Only attributes projected into the vector index can be retrieved.
+  ///
+  /// Parameter [searchConditionExpression] :
+  /// A condition expression used to filter the vector search results. The
+  /// expression can reference attributes defined in the vector index search
+  /// schema, including <code>HASH</code> and <code>INLINE_FILTER</code> key
+  /// elements.
+  ///
+  /// Only the equality operator (<code>=</code>) is supported for
+  /// <code>HASH</code> attributes. Comparison and range operators are supported
+  /// for <code>INLINE_FILTER</code> attributes. Only top-level attributes from
+  /// the search schema can be referenced.
+  Future<SearchVectorsOutput> searchVectors({
+    required String indexName,
+    required List<AttributeValue> searchVector,
+    required String tableName,
+    required int topK,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, AttributeValue>? expressionAttributeValues,
+    String? projectionExpression,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    String? searchConditionExpression,
+  }) async {
+    _s.validateNumRange(
+      'topK',
+      topK,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.SearchVectors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IndexName': indexName,
+        'SearchVector': searchVector,
+        'TableName': tableName,
+        'TopK': topK,
+        if (expressionAttributeNames != null)
+          'ExpressionAttributeNames': expressionAttributeNames,
+        if (expressionAttributeValues != null)
+          'ExpressionAttributeValues': expressionAttributeValues,
+        if (projectionExpression != null)
+          'ProjectionExpression': projectionExpression,
+        if (returnConsumedCapacity != null)
+          'ReturnConsumedCapacity': returnConsumedCapacity.value,
+        if (searchConditionExpression != null)
+          'SearchConditionExpression': searchConditionExpression,
+      },
+      endpoint: _resolveEndpoint(
+        isSearchOperation: true,
+        resourceArn: tableName,
+      ),
+    );
+
+    return SearchVectorsOutput.fromJson(jsonResponse.body);
   }
 
   /// Associate a set of tags with an Amazon DynamoDB resource. You can then
@@ -5956,6 +6164,16 @@ class DynamoDB {
   /// The table class of the table to be updated. Valid values are
   /// <code>STANDARD</code> and <code>STANDARD_INFREQUENT_ACCESS</code>.
   ///
+  /// Parameter [vectorIndexUpdates] :
+  /// A list of vector indexes to be added to or removed from the table. You can
+  /// add or remove one vector index for each <code>UpdateTable</code>
+  /// operation.
+  ///
+  /// To add a vector index, specify <code>IndexName</code>,
+  /// <code>VectorAttribute</code>, <code>Dimensions</code>,
+  /// <code>DistanceFunction</code>, and <code>Projection</code>. To remove a
+  /// vector index, specify only the <code>IndexName</code>.
+  ///
   /// Parameter [warmThroughput] :
   /// Represents the warm throughput (in read units per second and write units
   /// per second) for updating a table.
@@ -5974,6 +6192,7 @@ class DynamoDB {
     SSESpecification? sSESpecification,
     StreamSpecification? streamSpecification,
     TableClass? tableClass,
+    List<VectorIndexUpdate>? vectorIndexUpdates,
     WarmThroughput? warmThroughput,
   }) async {
     final headers = <String, String>{
@@ -6011,6 +6230,8 @@ class DynamoDB {
         if (streamSpecification != null)
           'StreamSpecification': streamSpecification,
         if (tableClass != null) 'TableClass': tableClass.value,
+        if (vectorIndexUpdates != null)
+          'VectorIndexUpdates': vectorIndexUpdates,
         if (warmThroughput != null) 'WarmThroughput': warmThroughput,
       },
       endpoint: _resolveEndpoint(
@@ -6290,6 +6511,9 @@ class BatchWriteItemOutput {
   /// <code>CapacityUnits</code> - The total number of capacity units consumed.
   /// </li>
   /// </ul>
+  /// If the table has vector indexes, each element also includes a
+  /// <code>VectorIndexes</code> field with <code>VectorWriteRequestBytes</code>
+  /// consumed for each affected vector index.
   final List<ConsumedCapacity>? consumedCapacity;
 
   /// A list of tables that were processed by <code>BatchWriteItem</code> and, for
@@ -6534,6 +6758,10 @@ class DeleteItemOutput {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
   /// capacity mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+  ///
+  /// If the table has vector indexes, the response includes a
+  /// <code>VectorIndexes</code> field with <code>VectorWriteRequestBytes</code>
+  /// consumed for each affected vector index.
   final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
@@ -7700,6 +7928,10 @@ class PutItemOutput {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption">Capacity
   /// unity consumption for write operations</a> in the <i>Amazon DynamoDB
   /// Developer Guide</i>.
+  ///
+  /// If the table has vector indexes, the response includes a
+  /// <code>VectorIndexes</code> field with <code>VectorWriteRequestBytes</code>
+  /// consumed for each affected vector index.
   final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
@@ -8034,6 +8266,46 @@ class ScanOutput {
 }
 
 /// @nodoc
+class SearchVectorsOutput {
+  /// The capacity units consumed by the <code>SearchVectors</code> operation.
+  /// Contains <code>VectorSearchRequestBytes</code>, which represents the vector
+  /// search capacity consumed.
+  final VectorCapacity? consumedCapacity;
+
+  /// A list of items returned by the vector similarity search, sorted by
+  /// similarity with the most similar item first. Each item contains the
+  /// projected attributes and a similarity score.
+  final List<SearchResultItem>? searchResults;
+
+  SearchVectorsOutput({
+    this.consumedCapacity,
+    this.searchResults,
+  });
+
+  factory SearchVectorsOutput.fromJson(Map<String, dynamic> json) {
+    return SearchVectorsOutput(
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? VectorCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      searchResults: (json['SearchResults'] as List?)
+          ?.nonNulls
+          .map((e) => SearchResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final searchResults = this.searchResults;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (searchResults != null) 'SearchResults': searchResults,
+    };
+  }
+}
+
+/// @nodoc
 class TransactGetItemsOutput {
   /// If the <i>ReturnConsumedCapacity</i> value was <code>TOTAL</code>, this is
   /// an array of <code>ConsumedCapacity</code> objects, one for each table
@@ -8088,6 +8360,10 @@ class TransactWriteItemsOutput {
   /// The capacity units consumed by the entire <code>TransactWriteItems</code>
   /// operation. The values of the list are ordered according to the ordering of
   /// the <code>TransactItems</code> request parameter.
+  ///
+  /// If the table has vector indexes, each element also includes a
+  /// <code>VectorIndexes</code> field with <code>VectorWriteRequestBytes</code>
+  /// consumed for each affected vector index.
   final List<ConsumedCapacity>? consumedCapacity;
 
   /// A list of tables that were processed by <code>TransactWriteItems</code> and,
@@ -8291,6 +8567,10 @@ class UpdateItemOutput {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption">Capacity
   /// unity consumption for write operations</a> in the <i>Amazon DynamoDB
   /// Developer Guide</i>.
+  ///
+  /// If the table has vector indexes, the response includes a
+  /// <code>VectorIndexes</code> field with <code>VectorWriteRequestBytes</code>
+  /// consumed for each affected vector index.
   final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
@@ -9598,7 +9878,8 @@ class TableDescription {
   /// Contains details of the table class.
   final TableClassSummary? tableClassSummary;
 
-  /// Unique identifier for the table for which the backup was created.
+  /// A unique identifier for the table, in UUID format, generated by DynamoDB
+  /// when the table is created.
   final String? tableId;
 
   /// The name of the table.
@@ -9643,6 +9924,58 @@ class TableDescription {
   /// </ul>
   final TableStatus? tableStatus;
 
+  /// The vector indexes, if any, on the table. Each element is composed of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IndexName</code> - The name of the vector index.
+  /// </li>
+  /// <li>
+  /// <code>IndexStatus</code> - The current status of the vector index:
+  /// <code>CREATING</code>, <code>ACTIVE</code>, or <code>DELETING</code>.
+  /// </li>
+  /// <li>
+  /// <code>Backfilling</code> - Specifies whether the index is currently
+  /// backfilling. During backfill, <code>SearchVectors</code> operations might
+  /// return incomplete results.
+  /// </li>
+  /// <li>
+  /// <code>VectorAttribute</code> - The attribute that contains vector
+  /// embeddings.
+  /// </li>
+  /// <li>
+  /// <code>Dimensions</code> - The number of dimensions in each vector.
+  /// </li>
+  /// <li>
+  /// <code>DistanceFunction</code> - The distance function used to calculate
+  /// similarity (<code>COSINE</code>, <code>EUCLIDEAN</code>, or
+  /// <code>DOT_PRODUCT</code>).
+  /// </li>
+  /// <li>
+  /// <code>SearchSchema</code> - The partition key and inline filter attributes
+  /// for the vector index.
+  /// </li>
+  /// <li>
+  /// <code>Projection</code> - Specifies attributes that are copied (projected)
+  /// from the table into the vector index.
+  /// </li>
+  /// <li>
+  /// <code>IndexArn</code> - The Amazon Resource Name (ARN) that uniquely
+  /// identifies the index.
+  /// </li>
+  /// <li>
+  /// <code>IndexSizeBytes</code> - The total size of the vector index, in bytes.
+  /// Amazon DynamoDB updates this value approximately every six hours. Recent
+  /// changes might not be reflected in this value.
+  /// </li>
+  /// <li>
+  /// <code>ItemCount</code> - The number of items indexed in the vector index.
+  /// Amazon DynamoDB updates this value approximately every six hours. Recent
+  /// changes might not be reflected in this value.
+  /// </li>
+  /// </ul>
+  final List<VectorIndexDescription>? vectorIndexes;
+
   /// Describes the warm throughput value of the base table.
   final TableWarmThroughputDescription? warmThroughput;
 
@@ -9674,6 +10007,7 @@ class TableDescription {
     this.tableName,
     this.tableSizeBytes,
     this.tableStatus,
+    this.vectorIndexes,
     this.warmThroughput,
   });
 
@@ -9755,6 +10089,11 @@ class TableDescription {
       tableSizeBytes: json['TableSizeBytes'] as int?,
       tableStatus:
           (json['TableStatus'] as String?)?.let(TableStatus.fromString),
+      vectorIndexes: (json['VectorIndexes'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => VectorIndexDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
       warmThroughput: json['WarmThroughput'] != null
           ? TableWarmThroughputDescription.fromJson(
               json['WarmThroughput'] as Map<String, dynamic>)
@@ -9791,6 +10130,7 @@ class TableDescription {
     final tableName = this.tableName;
     final tableSizeBytes = this.tableSizeBytes;
     final tableStatus = this.tableStatus;
+    final vectorIndexes = this.vectorIndexes;
     final warmThroughput = this.warmThroughput;
     return {
       if (archivalSummary != null) 'ArchivalSummary': archivalSummary,
@@ -9831,6 +10171,7 @@ class TableDescription {
       if (tableName != null) 'TableName': tableName,
       if (tableSizeBytes != null) 'TableSizeBytes': tableSizeBytes,
       if (tableStatus != null) 'TableStatus': tableStatus.value,
+      if (vectorIndexes != null) 'VectorIndexes': vectorIndexes,
       if (warmThroughput != null) 'WarmThroughput': warmThroughput,
     };
   }
@@ -9862,10 +10203,18 @@ class ProvisionedThroughputDescription {
   /// reads require less effort than strongly consistent reads, so a setting of 50
   /// <code>ReadCapacityUnits</code> per second provides 100 eventually consistent
   /// <code>ReadCapacityUnits</code> per second.
+  ///
+  /// For a table or global secondary index that uses on-demand capacity mode
+  /// (<code>PAY_PER_REQUEST</code>), this value is <code>0</code>, because
+  /// on-demand mode does not use provisioned throughput.
   final int? readCapacityUnits;
 
   /// The maximum number of writes consumed per second before DynamoDB returns a
   /// <code>ThrottlingException</code>.
+  ///
+  /// For a table or global secondary index that uses on-demand capacity mode
+  /// (<code>PAY_PER_REQUEST</code>), this value is <code>0</code>, because
+  /// on-demand mode does not use provisioned throughput.
   final int? writeCapacityUnits;
 
   ProvisionedThroughputDescription({
@@ -10360,6 +10709,346 @@ class MultiRegionConsistency {
   @override
   bool operator ==(other) =>
       other is MultiRegionConsistency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the current state and configuration of a vector index, including
+/// its status, size, item count, and the settings specified when the index was
+/// created.
+///
+/// @nodoc
+class VectorIndexDescription {
+  /// Specifies whether the index is currently backfilling. During backfill,
+  /// <code>SearchVectors</code> operations might return incomplete results.
+  final bool? backfilling;
+
+  /// The number of dimensions in each vector.
+  final int? dimensions;
+
+  /// The distance function used to calculate similarity between vectors.
+  final VectorDistanceFunction? distanceFunction;
+
+  /// The Amazon Resource Name (ARN) that uniquely identifies the vector index.
+  final String? indexArn;
+
+  /// The name of the vector index.
+  final String? indexName;
+
+  /// The total size of the vector index, in bytes. Amazon DynamoDB updates this
+  /// value approximately every six hours. Recent changes might not be reflected
+  /// in this value.
+  final int? indexSizeBytes;
+
+  /// The current state of the vector index:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The index is being created.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The index is ready for use.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The index is being deleted.
+  /// </li>
+  /// </ul>
+  final IndexStatus? indexStatus;
+
+  /// The number of items indexed in the vector index. Amazon DynamoDB updates
+  /// this value approximately every six hours. Recent changes might not be
+  /// reflected in this value.
+  final int? itemCount;
+
+  /// Specifies attributes that are copied (projected) from the table into the
+  /// vector index.
+  final Projection? projection;
+
+  /// The search schema that defines partition key and inline filter attributes
+  /// for the vector index.
+  final List<SearchSchemaElement>? searchSchema;
+
+  /// The vector attribute configuration for the index.
+  final VectorAttributeDefinition? vectorAttribute;
+
+  VectorIndexDescription({
+    this.backfilling,
+    this.dimensions,
+    this.distanceFunction,
+    this.indexArn,
+    this.indexName,
+    this.indexSizeBytes,
+    this.indexStatus,
+    this.itemCount,
+    this.projection,
+    this.searchSchema,
+    this.vectorAttribute,
+  });
+
+  factory VectorIndexDescription.fromJson(Map<String, dynamic> json) {
+    return VectorIndexDescription(
+      backfilling: json['Backfilling'] as bool?,
+      dimensions: json['Dimensions'] as int?,
+      distanceFunction: (json['DistanceFunction'] as String?)
+          ?.let(VectorDistanceFunction.fromString),
+      indexArn: json['IndexArn'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexSizeBytes: json['IndexSizeBytes'] as int?,
+      indexStatus:
+          (json['IndexStatus'] as String?)?.let(IndexStatus.fromString),
+      itemCount: json['ItemCount'] as int?,
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+      searchSchema: (json['SearchSchema'] as List?)
+          ?.nonNulls
+          .map((e) => SearchSchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vectorAttribute: json['VectorAttribute'] != null
+          ? VectorAttributeDefinition.fromJson(
+              json['VectorAttribute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backfilling = this.backfilling;
+    final dimensions = this.dimensions;
+    final distanceFunction = this.distanceFunction;
+    final indexArn = this.indexArn;
+    final indexName = this.indexName;
+    final indexSizeBytes = this.indexSizeBytes;
+    final indexStatus = this.indexStatus;
+    final itemCount = this.itemCount;
+    final projection = this.projection;
+    final searchSchema = this.searchSchema;
+    final vectorAttribute = this.vectorAttribute;
+    return {
+      if (backfilling != null) 'Backfilling': backfilling,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (distanceFunction != null) 'DistanceFunction': distanceFunction.value,
+      if (indexArn != null) 'IndexArn': indexArn,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexSizeBytes != null) 'IndexSizeBytes': indexSizeBytes,
+      if (indexStatus != null) 'IndexStatus': indexStatus.value,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (projection != null) 'Projection': projection,
+      if (searchSchema != null) 'SearchSchema': searchSchema,
+      if (vectorAttribute != null) 'VectorAttribute': vectorAttribute,
+    };
+  }
+}
+
+/// Represents attributes that are copied (projected) from the table into an
+/// index. These are in addition to the primary key attributes and index key
+/// attributes, which are automatically projected.
+///
+/// @nodoc
+class Projection {
+  /// Represents the non-key attribute names which will be projected into the
+  /// index.
+  ///
+  /// For global and local secondary indexes, the total count of
+  /// <code>NonKeyAttributes</code> summed across all of the secondary indexes,
+  /// must not exceed 100. If you project the same attribute into two different
+  /// indexes, this counts as two distinct attributes when determining the total.
+  /// This limit only applies when you specify the ProjectionType of
+  /// <code>INCLUDE</code>. You still can specify the ProjectionType of
+  /// <code>ALL</code> to project all attributes from the source table, even if
+  /// the table has more than 100 attributes.
+  final List<String>? nonKeyAttributes;
+
+  /// The set of attributes that are projected into the index:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
+  /// the index.
+  /// </li>
+  /// <li>
+  /// <code>INCLUDE</code> - In addition to the attributes described in
+  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
+  /// attributes that you specify.
+  /// </li>
+  /// <li>
+  /// <code>ALL</code> - All of the table attributes are projected into the index.
+  /// </li>
+  /// </ul>
+  /// When using the DynamoDB console, <code>ALL</code> is selected by default.
+  final ProjectionType? projectionType;
+
+  Projection({
+    this.nonKeyAttributes,
+    this.projectionType,
+  });
+
+  factory Projection.fromJson(Map<String, dynamic> json) {
+    return Projection(
+      nonKeyAttributes: (json['NonKeyAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      projectionType:
+          (json['ProjectionType'] as String?)?.let(ProjectionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nonKeyAttributes = this.nonKeyAttributes;
+    final projectionType = this.projectionType;
+    return {
+      if (nonKeyAttributes != null) 'NonKeyAttributes': nonKeyAttributes,
+      if (projectionType != null) 'ProjectionType': projectionType.value,
+    };
+  }
+}
+
+/// The definition of a vector attribute for a vector index.
+///
+/// @nodoc
+class VectorAttributeDefinition {
+  /// The name of the vector attribute.
+  final String attributeName;
+
+  VectorAttributeDefinition({
+    required this.attributeName,
+  });
+
+  factory VectorAttributeDefinition.fromJson(Map<String, dynamic> json) {
+    return VectorAttributeDefinition(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    return {
+      'AttributeName': attributeName,
+    };
+  }
+}
+
+/// @nodoc
+class VectorDistanceFunction {
+  static const cosine = VectorDistanceFunction._('COSINE');
+  static const dotProduct = VectorDistanceFunction._('DOT_PRODUCT');
+  static const euclidean = VectorDistanceFunction._('EUCLIDEAN');
+
+  final String value;
+
+  const VectorDistanceFunction._(this.value);
+
+  static const values = [cosine, dotProduct, euclidean];
+
+  static VectorDistanceFunction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VectorDistanceFunction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VectorDistanceFunction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ProjectionType {
+  static const all = ProjectionType._('ALL');
+  static const keysOnly = ProjectionType._('KEYS_ONLY');
+  static const include = ProjectionType._('INCLUDE');
+
+  final String value;
+
+  const ProjectionType._(this.value);
+
+  static const values = [all, keysOnly, include];
+
+  static ProjectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProjectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ProjectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An element in the search schema of a vector index.
+///
+/// @nodoc
+class SearchSchemaElement {
+  /// The name of the attribute.
+  final String attributeName;
+
+  /// The role of the attribute in the search schema. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - A partition key that partitions the vector index for
+  /// independent scaling. When specified, you must provide this attribute's value
+  /// in the <code>SearchConditionExpression</code>.
+  /// </li>
+  /// <li>
+  /// <code>INLINE_FILTER</code> - An attribute projected into the vector index
+  /// for filtering at the storage layer during search. Inline filters are
+  /// optional in the <code>SearchConditionExpression</code>.
+  /// </li>
+  /// </ul>
+  final SearchSchemaElementType searchSchemaElementType;
+
+  SearchSchemaElement({
+    required this.attributeName,
+    required this.searchSchemaElementType,
+  });
+
+  factory SearchSchemaElement.fromJson(Map<String, dynamic> json) {
+    return SearchSchemaElement(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      searchSchemaElementType: SearchSchemaElementType.fromString(
+          (json['SearchSchemaElementType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final searchSchemaElementType = this.searchSchemaElementType;
+    return {
+      'AttributeName': attributeName,
+      'SearchSchemaElementType': searchSchemaElementType.value,
+    };
+  }
+}
+
+/// @nodoc
+class SearchSchemaElementType {
+  static const hash = SearchSchemaElementType._('HASH');
+  static const inlineFilter = SearchSchemaElementType._('INLINE_FILTER');
+
+  final String value;
+
+  const SearchSchemaElementType._(this.value);
+
+  static const values = [hash, inlineFilter];
+
+  static SearchSchemaElementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchSchemaElementType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchSchemaElementType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -11063,96 +11752,6 @@ class GlobalSecondaryIndexDescription {
   }
 }
 
-/// Represents attributes that are copied (projected) from the table into an
-/// index. These are in addition to the primary key attributes and index key
-/// attributes, which are automatically projected.
-///
-/// @nodoc
-class Projection {
-  /// Represents the non-key attribute names which will be projected into the
-  /// index.
-  ///
-  /// For global and local secondary indexes, the total count of
-  /// <code>NonKeyAttributes</code> summed across all of the secondary indexes,
-  /// must not exceed 100. If you project the same attribute into two different
-  /// indexes, this counts as two distinct attributes when determining the total.
-  /// This limit only applies when you specify the ProjectionType of
-  /// <code>INCLUDE</code>. You still can specify the ProjectionType of
-  /// <code>ALL</code> to project all attributes from the source table, even if
-  /// the table has more than 100 attributes.
-  final List<String>? nonKeyAttributes;
-
-  /// The set of attributes that are projected into the index:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KEYS_ONLY</code> - Only the index and primary keys are projected into
-  /// the index.
-  /// </li>
-  /// <li>
-  /// <code>INCLUDE</code> - In addition to the attributes described in
-  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
-  /// attributes that you specify.
-  /// </li>
-  /// <li>
-  /// <code>ALL</code> - All of the table attributes are projected into the index.
-  /// </li>
-  /// </ul>
-  /// When using the DynamoDB console, <code>ALL</code> is selected by default.
-  final ProjectionType? projectionType;
-
-  Projection({
-    this.nonKeyAttributes,
-    this.projectionType,
-  });
-
-  factory Projection.fromJson(Map<String, dynamic> json) {
-    return Projection(
-      nonKeyAttributes: (json['NonKeyAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      projectionType:
-          (json['ProjectionType'] as String?)?.let(ProjectionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nonKeyAttributes = this.nonKeyAttributes;
-    final projectionType = this.projectionType;
-    return {
-      if (nonKeyAttributes != null) 'NonKeyAttributes': nonKeyAttributes,
-      if (projectionType != null) 'ProjectionType': projectionType.value,
-    };
-  }
-}
-
-/// @nodoc
-class ProjectionType {
-  static const all = ProjectionType._('ALL');
-  static const keysOnly = ProjectionType._('KEYS_ONLY');
-  static const include = ProjectionType._('INCLUDE');
-
-  final String value;
-
-  const ProjectionType._(this.value);
-
-  static const values = [all, keysOnly, include];
-
-  static ProjectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProjectionType._(value));
-
-  @override
-  bool operator ==(other) => other is ProjectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Represents the properties of a local secondary index.
 ///
 /// @nodoc
@@ -11567,6 +12166,104 @@ class WarmThroughput {
       if (readUnitsPerSecond != null) 'ReadUnitsPerSecond': readUnitsPerSecond,
       if (writeUnitsPerSecond != null)
         'WriteUnitsPerSecond': writeUnitsPerSecond,
+    };
+  }
+}
+
+/// A vector index to be added to or removed from a table.
+///
+/// @nodoc
+class VectorIndexUpdate {
+  /// The configuration for creating a new vector index on the table.
+  final CreateVectorIndexAction? create;
+
+  /// The configuration for deleting an existing vector index from the table.
+  final DeleteVectorIndexAction? delete;
+
+  VectorIndexUpdate({
+    this.create,
+    this.delete,
+  });
+
+  Map<String, dynamic> toJson() {
+    final create = this.create;
+    final delete = this.delete;
+    return {
+      if (create != null) 'Create': create,
+      if (delete != null) 'Delete': delete,
+    };
+  }
+}
+
+/// A new vector index to be added to a table.
+///
+/// @nodoc
+class CreateVectorIndexAction {
+  /// The number of dimensions in each vector.
+  final int dimensions;
+
+  /// The distance function used to calculate similarity. Valid values:
+  /// <code>COSINE</code>, <code>EUCLIDEAN</code>, <code>DOT_PRODUCT</code>.
+  final VectorDistanceFunction distanceFunction;
+
+  /// The name of the vector index. Must be unique within the table.
+  final String indexName;
+
+  /// Specifies attributes that are copied (projected) from the table into the
+  /// vector index.
+  final Projection projection;
+
+  /// The attribute that contains vector embeddings. If multiple vector indexes
+  /// reference the same attribute, they must all use the same number of
+  /// dimensions.
+  final VectorAttributeDefinition vectorAttribute;
+
+  /// The partition key and inline filter attribute definitions for the vector
+  /// index.
+  final List<SearchSchemaElement>? searchSchema;
+
+  CreateVectorIndexAction({
+    required this.dimensions,
+    required this.distanceFunction,
+    required this.indexName,
+    required this.projection,
+    required this.vectorAttribute,
+    this.searchSchema,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final distanceFunction = this.distanceFunction;
+    final indexName = this.indexName;
+    final projection = this.projection;
+    final vectorAttribute = this.vectorAttribute;
+    final searchSchema = this.searchSchema;
+    return {
+      'Dimensions': dimensions,
+      'DistanceFunction': distanceFunction.value,
+      'IndexName': indexName,
+      'Projection': projection,
+      'VectorAttribute': vectorAttribute,
+      if (searchSchema != null) 'SearchSchema': searchSchema,
+    };
+  }
+}
+
+/// A vector index to be removed from a table.
+///
+/// @nodoc
+class DeleteVectorIndexAction {
+  /// The name of the vector index to delete.
+  final String indexName;
+
+  DeleteVectorIndexAction({
+    required this.indexName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    return {
+      'IndexName': indexName,
     };
   }
 }
@@ -12216,6 +12913,12 @@ class ConsumedCapacity {
   /// the table ARN in the response.
   final String? tableName;
 
+  /// The amount of throughput consumed on each vector index affected by the
+  /// operation. Each entry contains <code>VectorWriteRequestBytes</code> (for
+  /// write operations) or <code>VectorSearchRequestBytes</code> (for search
+  /// operations).
+  final Map<String, VectorCapacity>? vectorIndexes;
+
   /// The total number of write capacity units consumed by the operation.
   final double? writeCapacityUnits;
 
@@ -12226,6 +12929,7 @@ class ConsumedCapacity {
     this.readCapacityUnits,
     this.table,
     this.tableName,
+    this.vectorIndexes,
     this.writeCapacityUnits,
   });
 
@@ -12245,6 +12949,9 @@ class ConsumedCapacity {
           ? Capacity.fromJson(json['Table'] as Map<String, dynamic>)
           : null,
       tableName: json['TableName'] as String?,
+      vectorIndexes: (json['VectorIndexes'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, VectorCapacity.fromJson(e as Map<String, dynamic>))),
       writeCapacityUnits: _s.parseJsonDouble(json['WriteCapacityUnits']),
     );
   }
@@ -12256,6 +12963,7 @@ class ConsumedCapacity {
     final readCapacityUnits = this.readCapacityUnits;
     final table = this.table;
     final tableName = this.tableName;
+    final vectorIndexes = this.vectorIndexes;
     final writeCapacityUnits = this.writeCapacityUnits;
     return {
       if (capacityUnits != null)
@@ -12268,6 +12976,7 @@ class ConsumedCapacity {
         'ReadCapacityUnits': _s.encodeJsonDouble(readCapacityUnits),
       if (table != null) 'Table': table,
       if (tableName != null) 'TableName': tableName,
+      if (vectorIndexes != null) 'VectorIndexes': vectorIndexes,
       if (writeCapacityUnits != null)
         'WriteCapacityUnits': _s.encodeJsonDouble(writeCapacityUnits),
     };
@@ -12494,6 +13203,47 @@ class Capacity {
         'ReadCapacityUnits': _s.encodeJsonDouble(readCapacityUnits),
       if (writeCapacityUnits != null)
         'WriteCapacityUnits': _s.encodeJsonDouble(writeCapacityUnits),
+    };
+  }
+}
+
+/// The consumed capacity for vector index operations, including vector search
+/// request bytes and vector write request bytes.
+///
+/// @nodoc
+class VectorCapacity {
+  /// The number of vector search request bytes consumed by a
+  /// <code>SearchVectors</code> operation.
+  final double? vectorSearchRequestBytes;
+
+  /// The number of vector write request bytes consumed when writing to a vector
+  /// index. Reported for write operations that modify attributes indexed by a
+  /// vector index.
+  final double? vectorWriteRequestBytes;
+
+  VectorCapacity({
+    this.vectorSearchRequestBytes,
+    this.vectorWriteRequestBytes,
+  });
+
+  factory VectorCapacity.fromJson(Map<String, dynamic> json) {
+    return VectorCapacity(
+      vectorSearchRequestBytes:
+          _s.parseJsonDouble(json['VectorSearchRequestBytes']),
+      vectorWriteRequestBytes:
+          _s.parseJsonDouble(json['VectorWriteRequestBytes']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vectorSearchRequestBytes = this.vectorSearchRequestBytes;
+    final vectorWriteRequestBytes = this.vectorWriteRequestBytes;
+    return {
+      if (vectorSearchRequestBytes != null)
+        'VectorSearchRequestBytes':
+            _s.encodeJsonDouble(vectorSearchRequestBytes),
+      if (vectorWriteRequestBytes != null)
+        'VectorWriteRequestBytes': _s.encodeJsonDouble(vectorWriteRequestBytes),
     };
   }
 }
@@ -14449,6 +15199,43 @@ class Tag {
   }
 }
 
+/// A single result from a <code>SearchVectors</code> operation.
+///
+/// @nodoc
+class SearchResultItem {
+  /// A map of attribute names to <code>AttributeValue</code> objects,
+  /// representing the projected attributes of the item returned by the vector
+  /// search.
+  final Map<String, AttributeValue>? item;
+
+  /// The similarity score for this item relative to the search vector. The
+  /// interpretation depends on the distance function configured for the vector
+  /// index.
+  final double? score;
+
+  SearchResultItem({
+    this.item,
+    this.score,
+  });
+
+  factory SearchResultItem.fromJson(Map<String, dynamic> json) {
+    return SearchResultItem(
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      score: _s.parseJsonDouble(json['Score']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final item = this.item;
+    final score = this.score;
+    return {
+      if (item != null) 'Item': item,
+      if (score != null) 'Score': _s.encodeJsonDouble(score),
+    };
+  }
+}
+
 /// @nodoc
 class Select {
   static const allAttributes = Select._('ALL_ATTRIBUTES');
@@ -14721,6 +15508,80 @@ class Condition {
   }
 }
 
+/// Contains the configuration settings for a vector index, including the index
+/// name, vector attribute, dimensions, distance function, search schema, and
+/// projection.
+///
+/// @nodoc
+class VectorIndex {
+  /// The number of dimensions in each vector.
+  final int dimensions;
+
+  /// The distance function used to calculate similarity between vectors. Valid
+  /// values: <code>COSINE</code>, <code>EUCLIDEAN</code>,
+  /// <code>DOT_PRODUCT</code>.
+  final VectorDistanceFunction distanceFunction;
+
+  /// The name of the vector index.
+  final String indexName;
+
+  /// Specifies attributes that are copied (projected) from the table into the
+  /// vector index.
+  final Projection projection;
+
+  /// The vector attribute configuration for the index.
+  final VectorAttributeDefinition vectorAttribute;
+
+  /// The search schema that defines partition key and inline filter attributes
+  /// for the vector index.
+  final List<SearchSchemaElement>? searchSchema;
+
+  VectorIndex({
+    required this.dimensions,
+    required this.distanceFunction,
+    required this.indexName,
+    required this.projection,
+    required this.vectorAttribute,
+    this.searchSchema,
+  });
+
+  factory VectorIndex.fromJson(Map<String, dynamic> json) {
+    return VectorIndex(
+      dimensions: (json['Dimensions'] as int?) ?? 0,
+      distanceFunction: VectorDistanceFunction.fromString(
+          (json['DistanceFunction'] as String?) ?? ''),
+      indexName: (json['IndexName'] as String?) ?? '',
+      projection: Projection.fromJson(
+          (json['Projection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vectorAttribute: VectorAttributeDefinition.fromJson(
+          (json['VectorAttribute'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      searchSchema: (json['SearchSchema'] as List?)
+          ?.nonNulls
+          .map((e) => SearchSchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final distanceFunction = this.distanceFunction;
+    final indexName = this.indexName;
+    final projection = this.projection;
+    final vectorAttribute = this.vectorAttribute;
+    final searchSchema = this.searchSchema;
+    return {
+      'Dimensions': dimensions,
+      'DistanceFunction': distanceFunction.value,
+      'IndexName': indexName,
+      'Projection': projection,
+      'VectorAttribute': vectorAttribute,
+      if (searchSchema != null) 'SearchSchema': searchSchema,
+    };
+  }
+}
+
 /// Represents the properties of a local secondary index.
 ///
 /// @nodoc
@@ -14894,8 +15755,7 @@ class ImportSummary {
   /// this import task.
   final String? cloudWatchLogGroupArn;
 
-  /// The time at which this import task ended. (Does this include the successful
-  /// complete creation of the table it was imported to?)
+  /// The time at which this import task ended.
   final DateTime? endTime;
 
   /// The Amazon Resource Number (ARN) corresponding to the import request.
@@ -15712,6 +16572,10 @@ class TableCreationParameters {
   final ProvisionedThroughput? provisionedThroughput;
   final SSESpecification? sSESpecification;
 
+  /// The vector indexes of the table to be created as part of the import
+  /// operation.
+  final List<VectorIndex>? vectorIndexes;
+
   TableCreationParameters({
     required this.attributeDefinitions,
     required this.keySchema,
@@ -15721,6 +16585,7 @@ class TableCreationParameters {
     this.onDemandThroughput,
     this.provisionedThroughput,
     this.sSESpecification,
+    this.vectorIndexes,
   });
 
   factory TableCreationParameters.fromJson(Map<String, dynamic> json) {
@@ -15753,6 +16618,10 @@ class TableCreationParameters {
           ? SSESpecification.fromJson(
               json['SSESpecification'] as Map<String, dynamic>)
           : null,
+      vectorIndexes: (json['VectorIndexes'] as List?)
+          ?.nonNulls
+          .map((e) => VectorIndex.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -15765,6 +16634,7 @@ class TableCreationParameters {
     final onDemandThroughput = this.onDemandThroughput;
     final provisionedThroughput = this.provisionedThroughput;
     final sSESpecification = this.sSESpecification;
+    final vectorIndexes = this.vectorIndexes;
     return {
       'AttributeDefinitions': attributeDefinitions,
       'KeySchema': keySchema,
@@ -15776,6 +16646,7 @@ class TableCreationParameters {
       if (provisionedThroughput != null)
         'ProvisionedThroughput': provisionedThroughput,
       if (sSESpecification != null) 'SSESpecification': sSESpecification,
+      if (vectorIndexes != null) 'VectorIndexes': vectorIndexes,
     };
   }
 }
@@ -16078,6 +16949,16 @@ class IncrementalExportSpecification {
   /// The view type that was chosen for the export. Valid values are
   /// <code>NEW_AND_OLD_IMAGES</code> and <code>NEW_IMAGES</code>. The default
   /// value is <code>NEW_AND_OLD_IMAGES</code>.
+  ///
+  /// <code>NEW_AND_OLD_IMAGES</code> exports both the new and old images of each
+  /// changed item, while <code>NEW_IMAGES</code> exports only the new (latest)
+  /// image. The view type you choose determines the structure of each item in the
+  /// output for <code>insert</code>, <code>update</code>, and <code>delete</code>
+  /// operations. For details and examples of how each view type shapes the export
+  /// output, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/S3DataExport.Output.html">DynamoDB
+  /// table export output format</a> in the <i>Amazon DynamoDB Developer
+  /// Guide</i>.
   final ExportViewType? exportViewType;
 
   IncrementalExportSpecification({
@@ -16666,12 +17547,18 @@ class SourceTableFeatureDetails {
   /// Time to Live settings on the table when the backup was created.
   final TimeToLiveDescription? timeToLiveDescription;
 
+  /// The vector index properties for the table at the time the backup was
+  /// created, including the index name, vector attribute, dimensions, distance
+  /// function, search schema, and projection.
+  final List<VectorIndexInfo>? vectorIndexes;
+
   SourceTableFeatureDetails({
     this.globalSecondaryIndexes,
     this.localSecondaryIndexes,
     this.sSEDescription,
     this.streamDescription,
     this.timeToLiveDescription,
+    this.vectorIndexes,
   });
 
   factory SourceTableFeatureDetails.fromJson(Map<String, dynamic> json) {
@@ -16698,6 +17585,10 @@ class SourceTableFeatureDetails {
           ? TimeToLiveDescription.fromJson(
               json['TimeToLiveDescription'] as Map<String, dynamic>)
           : null,
+      vectorIndexes: (json['VectorIndexes'] as List?)
+          ?.nonNulls
+          .map((e) => VectorIndexInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -16707,6 +17598,7 @@ class SourceTableFeatureDetails {
     final sSEDescription = this.sSEDescription;
     final streamDescription = this.streamDescription;
     final timeToLiveDescription = this.timeToLiveDescription;
+    final vectorIndexes = this.vectorIndexes;
     return {
       if (globalSecondaryIndexes != null)
         'GlobalSecondaryIndexes': globalSecondaryIndexes,
@@ -16716,6 +17608,79 @@ class SourceTableFeatureDetails {
       if (streamDescription != null) 'StreamDescription': streamDescription,
       if (timeToLiveDescription != null)
         'TimeToLiveDescription': timeToLiveDescription,
+      if (vectorIndexes != null) 'VectorIndexes': vectorIndexes,
+    };
+  }
+}
+
+/// Contains the configuration of a vector index as it existed at the time a
+/// backup was created.
+///
+/// @nodoc
+class VectorIndexInfo {
+  /// The number of dimensions in each vector.
+  final int? dimensions;
+
+  /// The distance function used to calculate similarity between vectors.
+  final VectorDistanceFunction? distanceFunction;
+
+  /// The name of the vector index.
+  final String? indexName;
+
+  /// Specifies attributes that are copied (projected) from the table into the
+  /// vector index.
+  final Projection? projection;
+
+  /// The search schema that defines partition key and inline filter attributes
+  /// for the vector index.
+  final List<SearchSchemaElement>? searchSchema;
+
+  /// The vector attribute configuration for the index.
+  final VectorAttributeDefinition? vectorAttribute;
+
+  VectorIndexInfo({
+    this.dimensions,
+    this.distanceFunction,
+    this.indexName,
+    this.projection,
+    this.searchSchema,
+    this.vectorAttribute,
+  });
+
+  factory VectorIndexInfo.fromJson(Map<String, dynamic> json) {
+    return VectorIndexInfo(
+      dimensions: json['Dimensions'] as int?,
+      distanceFunction: (json['DistanceFunction'] as String?)
+          ?.let(VectorDistanceFunction.fromString),
+      indexName: json['IndexName'] as String?,
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+      searchSchema: (json['SearchSchema'] as List?)
+          ?.nonNulls
+          .map((e) => SearchSchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vectorAttribute: json['VectorAttribute'] != null
+          ? VectorAttributeDefinition.fromJson(
+              json['VectorAttribute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final distanceFunction = this.distanceFunction;
+    final indexName = this.indexName;
+    final projection = this.projection;
+    final searchSchema = this.searchSchema;
+    final vectorAttribute = this.vectorAttribute;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (distanceFunction != null) 'DistanceFunction': distanceFunction.value,
+      if (indexName != null) 'IndexName': indexName,
+      if (projection != null) 'Projection': projection,
+      if (searchSchema != null) 'SearchSchema': searchSchema,
+      if (vectorAttribute != null) 'VectorAttribute': vectorAttribute,
     };
   }
 }

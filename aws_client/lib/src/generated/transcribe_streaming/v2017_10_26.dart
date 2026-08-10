@@ -1173,6 +1173,25 @@ class TranscribeStreaming {
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html">Partitioning
   /// speakers (diarization)</a>.
   ///
+  /// Parameter [transcriptFormat] :
+  /// Specify how numbers, dates, and other alphanumeric entities are rendered
+  /// in your transcription results.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>WRITTEN</code> renders these entities in their standard written form
+  /// (for example, <code>$50</code>, <code>10:30 AM</code>, and
+  /// <code>101</code>).
+  /// </li>
+  /// <li>
+  /// <code>SPOKEN</code> renders these entities as words, exactly as they were
+  /// spoken (for example, <code>fifty dollars</code>, <code>ten thirty a
+  /// m</code>, and <code>one oh one</code>).
+  /// </li>
+  /// </ul>
+  /// If you don't specify a value, Amazon Transcribe uses <code>WRITTEN</code>
+  /// by default.
+  ///
   /// Parameter [vocabularyFilterMethod] :
   /// Specify how you want your vocabulary filter applied to your transcript.
   ///
@@ -1275,6 +1294,7 @@ class TranscribeStreaming {
     String? sessionId,
     int? sessionResumeWindow,
     bool? showSpeakerLabel,
+    TranscriptFormat? transcriptFormat,
     VocabularyFilterMethod? vocabularyFilterMethod,
     String? vocabularyFilterName,
     String? vocabularyFilterNames,
@@ -1341,6 +1361,8 @@ class TranscribeStreaming {
             sessionResumeWindow.toString(),
       if (showSpeakerLabel != null)
         'x-amzn-transcribe-show-speaker-label': showSpeakerLabel.toString(),
+      if (transcriptFormat != null)
+        'x-amzn-transcribe-transcript-format': transcriptFormat.value,
       if (vocabularyFilterMethod != null)
         'x-amzn-transcribe-vocabulary-filter-method':
             vocabularyFilterMethod.value,
@@ -1416,6 +1438,10 @@ class TranscribeStreaming {
           response.headers, 'x-amzn-transcribe-session-resume-window'),
       showSpeakerLabel: _s.extractHeaderBoolValue(
           response.headers, 'x-amzn-transcribe-show-speaker-label'),
+      transcriptFormat: _s
+          .extractHeaderStringValue(
+              response.headers, 'x-amzn-transcribe-transcript-format')
+          ?.let(TranscriptFormat.fromString),
       vocabularyFilterMethod: _s
           .extractHeaderStringValue(
               response.headers, 'x-amzn-transcribe-vocabulary-filter-method')
@@ -1513,9 +1539,12 @@ class InternalFailureException implements _s.AwsException {
   }
 }
 
-/// Your client has exceeded one of the Amazon Transcribe limits. This is
-/// typically the audio length limit. Break your audio stream into smaller
-/// chunks and try your request again.
+/// Your client has exceeded one of the Amazon Transcribe limits, typically the
+/// concurrent stream service quota. This error can also occur if a stream
+/// exceeds the maximum session duration. In rare cases, this error can also
+/// occur if you increase your number of concurrent streams too quickly. Reduce
+/// your number of concurrent streams and try your request again using an
+/// exponential backoff strategy.
 ///
 /// @nodoc
 class LimitExceededException implements _s.AwsException {
@@ -1910,6 +1939,9 @@ class StartStreamTranscriptionResponse {
   /// Shows whether speaker partitioning was enabled for your transcription.
   final bool? showSpeakerLabel;
 
+  /// Provides the transcript format that you specified in your request.
+  final TranscriptFormat? transcriptFormat;
+
   /// Provides detailed information about your streaming session.
   final TranscriptResultStream? transcriptResultStream;
 
@@ -1952,6 +1984,7 @@ class StartStreamTranscriptionResponse {
     this.sessionId,
     this.sessionResumeWindow,
     this.showSpeakerLabel,
+    this.transcriptFormat,
     this.transcriptResultStream,
     this.vocabularyFilterMethod,
     this.vocabularyFilterName,
@@ -1981,6 +2014,7 @@ class StartStreamTranscriptionResponse {
     final sessionId = this.sessionId;
     final sessionResumeWindow = this.sessionResumeWindow;
     final showSpeakerLabel = this.showSpeakerLabel;
+    final transcriptFormat = this.transcriptFormat;
     final transcriptResultStream = this.transcriptResultStream;
     final vocabularyFilterMethod = this.vocabularyFilterMethod;
     final vocabularyFilterName = this.vocabularyFilterName;
@@ -2220,12 +2254,15 @@ class MediaEncoding {
   static const pcm = MediaEncoding._('pcm');
   static const oggOpus = MediaEncoding._('ogg-opus');
   static const flac = MediaEncoding._('flac');
+  static const g711Alaw = MediaEncoding._('g711-alaw');
+  static const g711Ulaw = MediaEncoding._('g711-ulaw');
+  static const g729 = MediaEncoding._('g729');
 
   final String value;
 
   const MediaEncoding._(this.value);
 
-  static const values = [pcm, oggOpus, flac];
+  static const values = [pcm, oggOpus, flac, g711Alaw, g711Ulaw, g729];
 
   static MediaEncoding fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -2257,9 +2294,12 @@ class TranscriptResultStream {
   /// processing.
   final InternalFailureException? internalFailureException;
 
-  /// Your client has exceeded one of the Amazon Transcribe limits. This is
-  /// typically the audio length limit. Break your audio stream into smaller
-  /// chunks and try your request again.
+  /// Your client has exceeded one of the Amazon Transcribe limits, typically the
+  /// concurrent stream service quota. This error can also occur if a stream
+  /// exceeds the maximum session duration. In rare cases, this error can also
+  /// occur if you increase your number of concurrent streams too quickly. Reduce
+  /// your number of concurrent streams and try your request again using an
+  /// exponential backoff strategy.
   final LimitExceededException? limitExceededException;
 
   /// The service is currently unavailable. Try your request later.
@@ -2427,6 +2467,31 @@ class ContentRedactionType {
   @override
   bool operator ==(other) =>
       other is ContentRedactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class TranscriptFormat {
+  static const spoken = TranscriptFormat._('spoken');
+  static const written = TranscriptFormat._('written');
+
+  final String value;
+
+  const TranscriptFormat._(this.value);
+
+  static const values = [spoken, written];
+
+  static TranscriptFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TranscriptFormat._(value));
+
+  @override
+  bool operator ==(other) => other is TranscriptFormat && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

@@ -1229,6 +1229,138 @@ class PartnerCentralAccount {
     return GetProfileVisibilityResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns your current qualifications association status, the primary
+  /// partner, and the full list of partners associated under the primary
+  /// partner.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [catalog] :
+  /// The catalog in which to look up the qualifications association. Valid
+  /// values: <code>AWS</code>, <code>Sandbox</code>.
+  ///
+  /// Parameter [identifier] :
+  /// Your partner identifier. You can provide either a partner ID (for example,
+  /// <code>partner-abc123</code>) or a partner ARN. You must own this
+  /// identifier.
+  Future<GetQualificationsAssociationDetailsResponse>
+      getQualificationsAssociationDetails({
+    required String catalog,
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'PartnerCentralAccount.GetQualificationsAssociationDetails'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Catalog': catalog,
+        'Identifier': identifier,
+      },
+    );
+
+    return GetQualificationsAssociationDetailsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves the status and details of the most recent qualifications
+  /// association task for your partner account. Use this operation to poll the
+  /// progress of an association task initiated by
+  /// <code>StartQualificationsAssociationTask</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [catalog] :
+  /// The catalog in which to look up the qualifications association task. Valid
+  /// values: <code>AWS</code>, <code>Sandbox</code>.
+  ///
+  /// Parameter [identifier] :
+  /// Your partner identifier. You can provide either a partner ID (for example,
+  /// <code>partner-abc123</code>) or a partner ARN. You must own this
+  /// identifier.
+  Future<GetQualificationsAssociationTaskResponse>
+      getQualificationsAssociationTask({
+    required String catalog,
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'PartnerCentralAccount.GetQualificationsAssociationTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Catalog': catalog,
+        'Identifier': identifier,
+      },
+    );
+
+    return GetQualificationsAssociationTaskResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the status and details of the most recent qualifications
+  /// disassociation task for your partner account. Use this operation to poll
+  /// the progress of a disassociation task initiated by
+  /// <code>StartQualificationsDisassociationTask</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [catalog] :
+  /// The catalog in which to look up the qualifications disassociation task.
+  /// Valid values: <code>AWS</code>, <code>Sandbox</code>.
+  ///
+  /// Parameter [identifier] :
+  /// Your partner identifier. You can provide either a partner ID (for example,
+  /// <code>partner-abc123</code>) or a partner ARN. You must own this
+  /// identifier.
+  Future<GetQualificationsDisassociationTaskResponse>
+      getQualificationsDisassociationTask({
+    required String catalog,
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'PartnerCentralAccount.GetQualificationsDisassociationTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Catalog': catalog,
+        'Identifier': identifier,
+      },
+    );
+
+    return GetQualificationsDisassociationTaskResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Creates or updates the alliance lead contact information for a partner
   /// account.
   ///
@@ -1369,6 +1501,125 @@ class PartnerCentralAccount {
     );
 
     return StartProfileUpdateTaskResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Initiates an asynchronous task to associate your partner qualifications
+  /// with a primary account. You must be a subsidiary of the primary account
+  /// with an active subsidiary connection. Use
+  /// <code>GetQualificationsAssociationTask</code> to monitor task progress.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [catalog] :
+  /// The catalog in which to perform the qualifications association. Valid
+  /// values: <code>AWS</code>, <code>Sandbox</code>.
+  ///
+  /// Parameter [identifier] :
+  /// Your partner identifier. You can provide either a partner ID (for example,
+  /// <code>partner-abc123</code>) or a partner ARN. You must own this
+  /// identifier.
+  ///
+  /// Parameter [primaryPartner] :
+  /// The primary (acquiring) partner's profile and account identifier to
+  /// associate qualifications with. You must provide at least one of
+  /// <code>ProfileId</code> or <code>AccountId</code>. You cannot specify
+  /// yourself as the primary partner.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<StartQualificationsAssociationTaskResponse>
+      startQualificationsAssociationTask({
+    required String catalog,
+    required String identifier,
+    required QualificationsAssociationPartner primaryPartner,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'PartnerCentralAccount.StartQualificationsAssociationTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Catalog': catalog,
+        'Identifier': identifier,
+        'PrimaryPartner': primaryPartner,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return StartQualificationsAssociationTaskResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Initiates an asynchronous task to disassociate your partner qualifications
+  /// from a primary account. You must currently be associated and cannot
+  /// disassociate if you are the primary partner. Use
+  /// <code>GetQualificationsDisassociationTask</code> to monitor task progress.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [associatedPartner] :
+  /// The primary partner's profile and account identifier that you are
+  /// currently associated with and will disassociate from. You must provide at
+  /// least one of <code>ProfileId</code> or <code>AccountId</code>. The
+  /// specified partner must match your current primary association.
+  ///
+  /// Parameter [catalog] :
+  /// The catalog in which to perform the qualifications disassociation. Valid
+  /// values: <code>AWS</code>, <code>Sandbox</code>.
+  ///
+  /// Parameter [identifier] :
+  /// Your partner identifier. You can provide either a partner ID (for example,
+  /// <code>partner-abc123</code>) or a partner ARN. You must own this
+  /// identifier.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<StartQualificationsDisassociationTaskResponse>
+      startQualificationsDisassociationTask({
+    required QualificationsAssociationPartner associatedPartner,
+    required String catalog,
+    required String identifier,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'PartnerCentralAccount.StartQualificationsDisassociationTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssociatedPartner': associatedPartner,
+        'Catalog': catalog,
+        'Identifier': identifier,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return StartQualificationsDisassociationTaskResponse.fromJson(
+        jsonResponse.body);
   }
 }
 
@@ -2903,6 +3154,254 @@ class GetProfileVisibilityResponse {
 }
 
 /// @nodoc
+class GetQualificationsAssociationDetailsResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies your partner
+  /// resource.
+  final String arn;
+
+  /// The catalog identifier echoed from the request.
+  final String catalog;
+
+  /// Your unique partner identifier in the AWS Partner Network.
+  final String id;
+
+  /// The current qualifications association status. Valid values:
+  /// <code>ASSOCIATED</code> (the partner is associated with a primary),
+  /// <code>NOT_ASSOCIATED</code> (the partner has no active association).
+  final QualificationsAssociationStatus status;
+
+  /// The list of all partner profile and account identifiers currently associated
+  /// under the primary partner. This field is null when the status is
+  /// <code>NOT_ASSOCIATED</code>.
+  final List<QualificationsAssociationPartner>? associatedPartners;
+
+  /// The primary partner's profile and account identifiers. This field is null
+  /// when the status is <code>NOT_ASSOCIATED</code>.
+  final QualificationsAssociationPartner? primaryPartner;
+
+  /// The timestamp when the qualifications association was last updated, in ISO
+  /// 8601 format. This field is null when the status is
+  /// <code>NOT_ASSOCIATED</code>.
+  final DateTime? updatedAt;
+
+  GetQualificationsAssociationDetailsResponse({
+    required this.arn,
+    required this.catalog,
+    required this.id,
+    required this.status,
+    this.associatedPartners,
+    this.primaryPartner,
+    this.updatedAt,
+  });
+
+  factory GetQualificationsAssociationDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetQualificationsAssociationDetailsResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      catalog: (json['Catalog'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      status: QualificationsAssociationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      associatedPartners: (json['AssociatedPartners'] as List?)
+          ?.nonNulls
+          .map((e) => QualificationsAssociationPartner.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      primaryPartner: json['PrimaryPartner'] != null
+          ? QualificationsAssociationPartner.fromJson(
+              json['PrimaryPartner'] as Map<String, dynamic>)
+          : null,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final catalog = this.catalog;
+    final id = this.id;
+    final status = this.status;
+    final associatedPartners = this.associatedPartners;
+    final primaryPartner = this.primaryPartner;
+    final updatedAt = this.updatedAt;
+    return {
+      'Arn': arn,
+      'Catalog': catalog,
+      'Id': id,
+      'Status': status.value,
+      if (associatedPartners != null) 'AssociatedPartners': associatedPartners,
+      if (primaryPartner != null) 'PrimaryPartner': primaryPartner,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class GetQualificationsAssociationTaskResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies your partner
+  /// resource.
+  final String arn;
+
+  /// The catalog identifier echoed from the request.
+  final String catalog;
+
+  /// Your unique partner identifier in the AWS Partner Network.
+  final String id;
+
+  /// The primary partner's profile and account identifiers that the task is
+  /// associating qualifications with.
+  final QualificationsAssociationPartner primaryPartner;
+
+  /// The timestamp when the qualifications association task started, in ISO 8601
+  /// format.
+  final DateTime startedAt;
+
+  /// The current status of the qualifications association task. Valid values:
+  /// <code>IN_PROGRESS</code>, <code>SUCCEEDED</code>.
+  final QualificationsAssociationTaskStatus status;
+
+  /// The unique identifier of the qualifications association task, in the format
+  /// <code>pqatask-\[a-z2-7\]{13}</code>.
+  final String taskId;
+
+  /// The timestamp when the qualifications association task ended, in ISO 8601
+  /// format. This field is present only when the status is
+  /// <code>SUCCEEDED</code>.
+  final DateTime? endedAt;
+
+  GetQualificationsAssociationTaskResponse({
+    required this.arn,
+    required this.catalog,
+    required this.id,
+    required this.primaryPartner,
+    required this.startedAt,
+    required this.status,
+    required this.taskId,
+    this.endedAt,
+  });
+
+  factory GetQualificationsAssociationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetQualificationsAssociationTaskResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      catalog: (json['Catalog'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      primaryPartner: QualificationsAssociationPartner.fromJson(
+          (json['PrimaryPartner'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
+      status: QualificationsAssociationTaskStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      taskId: (json['TaskId'] as String?) ?? '',
+      endedAt: timeStampFromJson(json['EndedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final catalog = this.catalog;
+    final id = this.id;
+    final primaryPartner = this.primaryPartner;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final taskId = this.taskId;
+    final endedAt = this.endedAt;
+    return {
+      'Arn': arn,
+      'Catalog': catalog,
+      'Id': id,
+      'PrimaryPartner': primaryPartner,
+      'StartedAt': iso8601ToJson(startedAt),
+      'Status': status.value,
+      'TaskId': taskId,
+      if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
+    };
+  }
+}
+
+/// @nodoc
+class GetQualificationsDisassociationTaskResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies your partner
+  /// resource.
+  final String arn;
+
+  /// The primary partner's profile and account identifiers that the task is
+  /// disassociating qualifications from.
+  final QualificationsAssociationPartner associatedPartner;
+
+  /// The catalog identifier echoed from the request.
+  final String catalog;
+
+  /// Your unique partner identifier in the AWS Partner Network.
+  final String id;
+
+  /// The timestamp when the qualifications disassociation task started, in ISO
+  /// 8601 format.
+  final DateTime startedAt;
+
+  /// The current status of the qualifications disassociation task. Valid values:
+  /// <code>IN_PROGRESS</code>, <code>SUCCEEDED</code>.
+  final QualificationsDisassociationTaskStatus status;
+
+  /// The unique identifier of the qualifications disassociation task, in the
+  /// format <code>pqdtask-\[a-z2-7\]{13}</code>.
+  final String taskId;
+
+  /// The timestamp when the qualifications disassociation task ended, in ISO 8601
+  /// format. This field is present only when the status is
+  /// <code>SUCCEEDED</code>.
+  final DateTime? endedAt;
+
+  GetQualificationsDisassociationTaskResponse({
+    required this.arn,
+    required this.associatedPartner,
+    required this.catalog,
+    required this.id,
+    required this.startedAt,
+    required this.status,
+    required this.taskId,
+    this.endedAt,
+  });
+
+  factory GetQualificationsDisassociationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetQualificationsDisassociationTaskResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      associatedPartner: QualificationsAssociationPartner.fromJson(
+          (json['AssociatedPartner'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      catalog: (json['Catalog'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
+      status: QualificationsDisassociationTaskStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      taskId: (json['TaskId'] as String?) ?? '',
+      endedAt: timeStampFromJson(json['EndedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final associatedPartner = this.associatedPartner;
+    final catalog = this.catalog;
+    final id = this.id;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final taskId = this.taskId;
+    final endedAt = this.endedAt;
+    return {
+      'Arn': arn,
+      'AssociatedPartner': associatedPartner,
+      'Catalog': catalog,
+      'Id': id,
+      'StartedAt': iso8601ToJson(startedAt),
+      'Status': status.value,
+      'TaskId': taskId,
+      if (endedAt != null) 'EndedAt': iso8601ToJson(endedAt),
+    };
+  }
+}
+
+/// @nodoc
 class PutAllianceLeadContactResponse {
   /// The updated alliance lead contact information.
   final AllianceLeadContact allianceLeadContact;
@@ -3086,6 +3585,255 @@ class StartProfileUpdateTaskResponse {
   }
 }
 
+/// @nodoc
+class StartQualificationsAssociationTaskResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies your partner
+  /// resource.
+  final String arn;
+
+  /// The catalog identifier echoed from the request.
+  final String catalog;
+
+  /// Your unique partner identifier in the AWS Partner Network.
+  final String id;
+
+  /// The resolved primary partner's profile and account identifiers, including
+  /// both <code>ProfileId</code> and <code>AccountId</code>.
+  final QualificationsAssociationPartner primaryPartner;
+
+  /// The timestamp when the qualifications association task started, in ISO 8601
+  /// format.
+  final DateTime startedAt;
+
+  /// The current status of the qualifications association task. The initial value
+  /// is <code>IN_PROGRESS</code>.
+  final QualificationsAssociationTaskStatus status;
+
+  /// The unique identifier of the started qualifications association task, in the
+  /// format <code>pqatask-\[a-z2-7\]{13}</code>.
+  final String taskId;
+
+  StartQualificationsAssociationTaskResponse({
+    required this.arn,
+    required this.catalog,
+    required this.id,
+    required this.primaryPartner,
+    required this.startedAt,
+    required this.status,
+    required this.taskId,
+  });
+
+  factory StartQualificationsAssociationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartQualificationsAssociationTaskResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      catalog: (json['Catalog'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      primaryPartner: QualificationsAssociationPartner.fromJson(
+          (json['PrimaryPartner'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
+      status: QualificationsAssociationTaskStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      taskId: (json['TaskId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final catalog = this.catalog;
+    final id = this.id;
+    final primaryPartner = this.primaryPartner;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final taskId = this.taskId;
+    return {
+      'Arn': arn,
+      'Catalog': catalog,
+      'Id': id,
+      'PrimaryPartner': primaryPartner,
+      'StartedAt': iso8601ToJson(startedAt),
+      'Status': status.value,
+      'TaskId': taskId,
+    };
+  }
+}
+
+/// @nodoc
+class StartQualificationsDisassociationTaskResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies your partner
+  /// resource.
+  final String arn;
+
+  /// The resolved primary partner's profile and account identifiers that the task
+  /// is disassociating qualifications from.
+  final QualificationsAssociationPartner associatedPartner;
+
+  /// The catalog identifier echoed from the request.
+  final String catalog;
+
+  /// Your unique partner identifier in the AWS Partner Network.
+  final String id;
+
+  /// The timestamp when the qualifications disassociation task started, in ISO
+  /// 8601 format.
+  final DateTime startedAt;
+
+  /// The current status of the qualifications disassociation task. The initial
+  /// value is <code>IN_PROGRESS</code>.
+  final QualificationsDisassociationTaskStatus status;
+
+  /// The unique identifier of the started qualifications disassociation task, in
+  /// the format <code>pqdtask-\[a-z2-7\]{13}</code>.
+  final String taskId;
+
+  StartQualificationsDisassociationTaskResponse({
+    required this.arn,
+    required this.associatedPartner,
+    required this.catalog,
+    required this.id,
+    required this.startedAt,
+    required this.status,
+    required this.taskId,
+  });
+
+  factory StartQualificationsDisassociationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartQualificationsDisassociationTaskResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      associatedPartner: QualificationsAssociationPartner.fromJson(
+          (json['AssociatedPartner'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      catalog: (json['Catalog'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
+      status: QualificationsDisassociationTaskStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      taskId: (json['TaskId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final associatedPartner = this.associatedPartner;
+    final catalog = this.catalog;
+    final id = this.id;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final taskId = this.taskId;
+    return {
+      'Arn': arn,
+      'AssociatedPartner': associatedPartner,
+      'Catalog': catalog,
+      'Id': id,
+      'StartedAt': iso8601ToJson(startedAt),
+      'Status': status.value,
+      'TaskId': taskId,
+    };
+  }
+}
+
+/// The current status of a qualifications disassociation task. Valid values:
+/// <code>IN_PROGRESS</code> (task is running), <code>SUCCEEDED</code> (task
+/// completed successfully).
+///
+/// @nodoc
+class QualificationsDisassociationTaskStatus {
+  static const inProgress =
+      QualificationsDisassociationTaskStatus._('IN_PROGRESS');
+  static const succeeded =
+      QualificationsDisassociationTaskStatus._('SUCCEEDED');
+
+  final String value;
+
+  const QualificationsDisassociationTaskStatus._(this.value);
+
+  static const values = [inProgress, succeeded];
+
+  static QualificationsDisassociationTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QualificationsDisassociationTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QualificationsDisassociationTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies a partner in a qualifications association group. Contains the
+/// partner's profile identifier and AWS account identifier. In requests,
+/// provide at least one of <code>ProfileId</code> or <code>AccountId</code>. In
+/// responses, both fields are populated.
+///
+/// @nodoc
+class QualificationsAssociationPartner {
+  /// The 12-digit AWS account ID linked to the partner profile. Required in
+  /// requests if <code>ProfileId</code> is not provided.
+  final String? accountId;
+
+  /// The unique identifier for the partner profile, in the format
+  /// <code>pprofile-*</code>. Required in requests if <code>AccountId</code> is
+  /// not provided.
+  final String? profileId;
+
+  QualificationsAssociationPartner({
+    this.accountId,
+    this.profileId,
+  });
+
+  factory QualificationsAssociationPartner.fromJson(Map<String, dynamic> json) {
+    return QualificationsAssociationPartner(
+      accountId: json['AccountId'] as String?,
+      profileId: json['ProfileId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final profileId = this.profileId;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (profileId != null) 'ProfileId': profileId,
+    };
+  }
+}
+
+/// The current status of a qualifications association task. Valid values:
+/// <code>IN_PROGRESS</code> (task is running), <code>SUCCEEDED</code> (task
+/// completed successfully).
+///
+/// @nodoc
+class QualificationsAssociationTaskStatus {
+  static const inProgress =
+      QualificationsAssociationTaskStatus._('IN_PROGRESS');
+  static const succeeded = QualificationsAssociationTaskStatus._('SUCCEEDED');
+
+  final String value;
+
+  const QualificationsAssociationTaskStatus._(this.value);
+
+  static const values = [inProgress, succeeded];
+
+  static QualificationsAssociationTaskStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QualificationsAssociationTaskStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QualificationsAssociationTaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains detailed information about a profile update task including the
 /// changes to be made.
 ///
@@ -3112,6 +3860,11 @@ class TaskDetails {
   /// The updated website URL for the partner profile.
   final String websiteUrl;
 
+  /// The ISO 3166 country and subdivision codes for the partner's headquarters
+  /// location. If you omit this field, the service retains the existing
+  /// headquarters value.
+  final Headquarters? headquarters;
+
   /// The updated localized content for the partner profile.
   final List<LocalizedContent>? localizedContents;
 
@@ -3123,6 +3876,7 @@ class TaskDetails {
     required this.primarySolutionType,
     required this.translationSourceLocale,
     required this.websiteUrl,
+    this.headquarters,
     this.localizedContents,
   });
 
@@ -3140,6 +3894,9 @@ class TaskDetails {
       translationSourceLocale:
           (json['TranslationSourceLocale'] as String?) ?? '',
       websiteUrl: (json['WebsiteUrl'] as String?) ?? '',
+      headquarters: json['Headquarters'] != null
+          ? Headquarters.fromJson(json['Headquarters'] as Map<String, dynamic>)
+          : null,
       localizedContents: (json['LocalizedContents'] as List?)
           ?.nonNulls
           .map((e) => LocalizedContent.fromJson(e as Map<String, dynamic>))
@@ -3155,6 +3912,7 @@ class TaskDetails {
     final primarySolutionType = this.primarySolutionType;
     final translationSourceLocale = this.translationSourceLocale;
     final websiteUrl = this.websiteUrl;
+    final headquarters = this.headquarters;
     final localizedContents = this.localizedContents;
     return {
       'Description': description,
@@ -3164,6 +3922,7 @@ class TaskDetails {
       'PrimarySolutionType': primarySolutionType.value,
       'TranslationSourceLocale': translationSourceLocale,
       'WebsiteUrl': websiteUrl,
+      if (headquarters != null) 'Headquarters': headquarters,
       if (localizedContents != null) 'LocalizedContents': localizedContents,
     };
   }
@@ -3325,6 +4084,43 @@ class PrimarySolutionType {
 
   @override
   String toString() => value;
+}
+
+/// Contains the partner's headquarters location using International
+/// Organization for Standardization (ISO) 3166 country and subdivision codes.
+///
+/// @nodoc
+class Headquarters {
+  /// The ISO 3166-1 alpha-2 country code of the partner's headquarters. For
+  /// example, <code>US</code>, <code>BR</code>, or <code>DE</code>.
+  final String countryCode;
+
+  /// The subdivision portion of the ISO 3166-2 code for the partner's
+  /// headquarters (for example, <code>SP</code> from <code>BR-SP</code>,
+  /// <code>NSW</code> from <code>AU-NSW</code>, or <code>13</code> from
+  /// <code>JP-13</code>).
+  final String subdivisionCode;
+
+  Headquarters({
+    required this.countryCode,
+    required this.subdivisionCode,
+  });
+
+  factory Headquarters.fromJson(Map<String, dynamic> json) {
+    return Headquarters(
+      countryCode: (json['CountryCode'] as String?) ?? '',
+      subdivisionCode: (json['SubdivisionCode'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countryCode = this.countryCode;
+    final subdivisionCode = this.subdivisionCode;
+    return {
+      'CountryCode': countryCode,
+      'SubdivisionCode': subdivisionCode,
+    };
+  }
 }
 
 /// Contains localized content for a partner profile in a specific language or
@@ -3562,6 +4358,37 @@ class AllianceLeadContact {
   }
 }
 
+/// The current state of a partner qualifications association. Valid values:
+/// <code>ASSOCIATED</code> (the partner is associated with a primary),
+/// <code>NOT_ASSOCIATED</code> (the partner has no active association).
+///
+/// @nodoc
+class QualificationsAssociationStatus {
+  static const associated = QualificationsAssociationStatus._('ASSOCIATED');
+  static const notAssociated =
+      QualificationsAssociationStatus._('NOT_ASSOCIATED');
+
+  final String value;
+
+  const QualificationsAssociationStatus._(this.value);
+
+  static const values = [associated, notAssociated];
+
+  static QualificationsAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QualificationsAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QualificationsAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A summary view of a partner account containing basic information for listing
 /// purposes.
 ///
@@ -3642,6 +4469,11 @@ class PartnerProfile {
   /// The partner's primary website URL.
   final String websiteUrl;
 
+  /// The ISO 3166 country and subdivision codes for the partner's headquarters
+  /// location. If no headquarters location is set, this field is not included in
+  /// the response.
+  final Headquarters? headquarters;
+
   /// A list of localized content versions for different languages and regions.
   final List<LocalizedContent>? localizedContents;
 
@@ -3656,6 +4488,7 @@ class PartnerProfile {
     required this.primarySolutionType,
     required this.translationSourceLocale,
     required this.websiteUrl,
+    this.headquarters,
     this.localizedContents,
     this.profileId,
   });
@@ -3674,6 +4507,9 @@ class PartnerProfile {
       translationSourceLocale:
           (json['TranslationSourceLocale'] as String?) ?? '',
       websiteUrl: (json['WebsiteUrl'] as String?) ?? '',
+      headquarters: json['Headquarters'] != null
+          ? Headquarters.fromJson(json['Headquarters'] as Map<String, dynamic>)
+          : null,
       localizedContents: (json['LocalizedContents'] as List?)
           ?.nonNulls
           .map((e) => LocalizedContent.fromJson(e as Map<String, dynamic>))
@@ -3690,6 +4526,7 @@ class PartnerProfile {
     final primarySolutionType = this.primarySolutionType;
     final translationSourceLocale = this.translationSourceLocale;
     final websiteUrl = this.websiteUrl;
+    final headquarters = this.headquarters;
     final localizedContents = this.localizedContents;
     final profileId = this.profileId;
     return {
@@ -3700,6 +4537,7 @@ class PartnerProfile {
       'PrimarySolutionType': primarySolutionType.value,
       'TranslationSourceLocale': translationSourceLocale,
       'WebsiteUrl': websiteUrl,
+      if (headquarters != null) 'Headquarters': headquarters,
       if (localizedContents != null) 'LocalizedContents': localizedContents,
       if (profileId != null) 'ProfileId': profileId,
     };

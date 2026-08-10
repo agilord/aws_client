@@ -2353,6 +2353,12 @@ class Omics {
   /// Parameter [runId] :
   /// The ID of a run to duplicate.
   ///
+  /// Parameter [scratchStorageMode] :
+  /// Optional configuration for enabling scratch ephemeral storage mounted at
+  /// /tmp. If not specified, this will default to SHARED. This configuration is
+  /// applicable only for CPU tasks. For tasks using GPUs, scratch storage is
+  /// always LOCAL.
+  ///
   /// Parameter [storageCapacity] :
   /// The <code>STATIC</code> storage capacity (in gibibytes, GiB) for this run.
   /// The default run storage capacity is 1200 GiB. If your requested storage
@@ -2417,6 +2423,7 @@ class Omics {
     RunRetentionMode? retentionMode,
     String? runGroupId,
     String? runId,
+    ScratchStorageMode? scratchStorageMode,
     int? storageCapacity,
     StorageType? storageType,
     Map<String, String>? tags,
@@ -2441,6 +2448,8 @@ class Omics {
       if (retentionMode != null) 'retentionMode': retentionMode.value,
       if (runGroupId != null) 'runGroupId': runGroupId,
       if (runId != null) 'runId': runId,
+      if (scratchStorageMode != null)
+        'scratchStorageMode': scratchStorageMode.value,
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
       if (storageType != null) 'storageType': storageType.value,
       if (tags != null) 'tags': tags,
@@ -7859,6 +7868,12 @@ class GetRunResponse {
   /// The destination for workflow outputs.
   final String? runOutputUri;
 
+  /// Optional configuration for enabling scratch ephemeral storage mounted at
+  /// /tmp. If absent, this will default to SHARED. This configuration is
+  /// applicable only for CPU tasks. For tasks using GPUs, scratch storage is
+  /// always LOCAL.
+  final ScratchStorageMode? scratchStorageMode;
+
   /// When the run started.
   final DateTime? startTime;
 
@@ -7933,6 +7948,7 @@ class GetRunResponse {
     this.runGroupId,
     this.runId,
     this.runOutputUri,
+    this.scratchStorageMode,
     this.startTime,
     this.startedBy,
     this.status,
@@ -7988,6 +8004,8 @@ class GetRunResponse {
       runGroupId: json['runGroupId'] as String?,
       runId: json['runId'] as String?,
       runOutputUri: json['runOutputUri'] as String?,
+      scratchStorageMode: (json['scratchStorageMode'] as String?)
+          ?.let(ScratchStorageMode.fromString),
       startTime: timeStampFromJson(json['startTime']),
       startedBy: json['startedBy'] as String?,
       status: (json['status'] as String?)?.let(RunStatus.fromString),
@@ -8039,6 +8057,7 @@ class GetRunResponse {
     final runGroupId = this.runGroupId;
     final runId = this.runId;
     final runOutputUri = this.runOutputUri;
+    final scratchStorageMode = this.scratchStorageMode;
     final startTime = this.startTime;
     final startedBy = this.startedBy;
     final status = this.status;
@@ -8081,6 +8100,8 @@ class GetRunResponse {
       if (runGroupId != null) 'runGroupId': runGroupId,
       if (runId != null) 'runId': runId,
       if (runOutputUri != null) 'runOutputUri': runOutputUri,
+      if (scratchStorageMode != null)
+        'scratchStorageMode': scratchStorageMode.value,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
       if (startedBy != null) 'startedBy': startedBy,
       if (status != null) 'status': status.value,
@@ -8185,6 +8206,9 @@ class GetRunTaskResponse {
   /// The task's ID.
   final String? taskId;
 
+  /// The universally unique identifier (UUID) for the workflow task.
+  final String? uuid;
+
   GetRunTaskResponse({
     this.cacheHit,
     this.cacheS3Uri,
@@ -8202,6 +8226,7 @@ class GetRunTaskResponse {
     this.statusMessage,
     this.stopTime,
     this.taskId,
+    this.uuid,
   });
 
   factory GetRunTaskResponse.fromJson(Map<String, dynamic> json) {
@@ -8224,6 +8249,7 @@ class GetRunTaskResponse {
       statusMessage: json['statusMessage'] as String?,
       stopTime: timeStampFromJson(json['stopTime']),
       taskId: json['taskId'] as String?,
+      uuid: json['uuid'] as String?,
     );
   }
 
@@ -8244,6 +8270,7 @@ class GetRunTaskResponse {
     final statusMessage = this.statusMessage;
     final stopTime = this.stopTime;
     final taskId = this.taskId;
+    final uuid = this.uuid;
     return {
       if (cacheHit != null) 'cacheHit': cacheHit,
       if (cacheS3Uri != null) 'cacheS3Uri': cacheS3Uri,
@@ -8261,6 +8288,7 @@ class GetRunTaskResponse {
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (taskId != null) 'taskId': taskId,
+      if (uuid != null) 'uuid': uuid,
     };
   }
 }
@@ -14113,6 +14141,9 @@ class TaskListItem {
   /// The task's ID.
   final String? taskId;
 
+  /// The universally unique identifier (UUID) for the workflow task.
+  final String? uuid;
+
   TaskListItem({
     this.cacheHit,
     this.cacheS3Uri,
@@ -14126,6 +14157,7 @@ class TaskListItem {
     this.status,
     this.stopTime,
     this.taskId,
+    this.uuid,
   });
 
   factory TaskListItem.fromJson(Map<String, dynamic> json) {
@@ -14142,6 +14174,7 @@ class TaskListItem {
       status: (json['status'] as String?)?.let(TaskStatus.fromString),
       stopTime: timeStampFromJson(json['stopTime']),
       taskId: json['taskId'] as String?,
+      uuid: json['uuid'] as String?,
     );
   }
 
@@ -14158,6 +14191,7 @@ class TaskListItem {
     final status = this.status;
     final stopTime = this.stopTime;
     final taskId = this.taskId;
+    final uuid = this.uuid;
     return {
       if (cacheHit != null) 'cacheHit': cacheHit,
       if (cacheS3Uri != null) 'cacheS3Uri': cacheS3Uri,
@@ -14171,6 +14205,7 @@ class TaskListItem {
       if (status != null) 'status': status.value,
       if (stopTime != null) 'stopTime': iso8601ToJson(stopTime),
       if (taskId != null) 'taskId': taskId,
+      if (uuid != null) 'uuid': uuid,
     };
   }
 }
@@ -14296,6 +14331,9 @@ class RunListItem {
   /// The run's workflow ID.
   final String? workflowId;
 
+  /// The name of the workflow.
+  final String? workflowName;
+
   /// The name of the workflow version.
   final String? workflowVersionName;
 
@@ -14312,6 +14350,7 @@ class RunListItem {
     this.storageCapacity,
     this.storageType,
     this.workflowId,
+    this.workflowName,
     this.workflowVersionName,
   });
 
@@ -14330,6 +14369,7 @@ class RunListItem {
       storageType:
           (json['storageType'] as String?)?.let(StorageType.fromString),
       workflowId: json['workflowId'] as String?,
+      workflowName: json['workflowName'] as String?,
       workflowVersionName: json['workflowVersionName'] as String?,
     );
   }
@@ -14347,6 +14387,7 @@ class RunListItem {
     final storageCapacity = this.storageCapacity;
     final storageType = this.storageType;
     final workflowId = this.workflowId;
+    final workflowName = this.workflowName;
     final workflowVersionName = this.workflowVersionName;
     return {
       if (arn != null) 'arn': arn,
@@ -14361,6 +14402,7 @@ class RunListItem {
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
       if (storageType != null) 'storageType': storageType.value,
       if (workflowId != null) 'workflowId': workflowId,
+      if (workflowName != null) 'workflowName': workflowName,
       if (workflowVersionName != null)
         'workflowVersionName': workflowVersionName,
     };
@@ -14531,6 +14573,32 @@ class NetworkingMode {
 
   @override
   bool operator ==(other) => other is NetworkingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ScratchStorageMode {
+  static const local = ScratchStorageMode._('LOCAL');
+  static const shared = ScratchStorageMode._('SHARED');
+
+  final String value;
+
+  const ScratchStorageMode._(this.value);
+
+  static const values = [local, shared];
+
+  static ScratchStorageMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScratchStorageMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScratchStorageMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15052,6 +15120,11 @@ class DefaultRunSetting {
   /// Optional configuration name to use for the workflow run.
   final String? configurationName;
 
+  /// Engine-specific settings for the workflow run. Use this field to specify
+  /// configuration options that are specific to the workflow engine (for example,
+  /// Nextflow profiles).
+  final Object? engineSettings;
+
   /// The verbosity level for CloudWatch Logs emitted during each run.
   final RunLogLevel? logLevel;
 
@@ -15092,6 +15165,12 @@ class DefaultRunSetting {
   /// <code>runTags</code>; run-specific values take precedence when keys overlap.
   final Map<String, String>? runTags;
 
+  /// Optional configuration for enabling scratch ephemeral storage mounted at
+  /// /tmp. If not specified, this will default to SHARED. This configuration is
+  /// applicable only for CPU tasks. For tasks using GPUs, scratch storage is
+  /// always LOCAL.
+  final ScratchStorageMode? scratchStorageMode;
+
   /// The filesystem size in gibibytes (GiB) provisioned for each workflow run and
   /// shared by all tasks in that run. Defaults to 1200 GiB if not specified.
   final int? storageCapacity;
@@ -15116,6 +15195,7 @@ class DefaultRunSetting {
     this.cacheBehavior,
     this.cacheId,
     this.configurationName,
+    this.engineSettings,
     this.logLevel,
     this.name,
     this.networkingMode,
@@ -15126,6 +15206,7 @@ class DefaultRunSetting {
     this.retentionMode,
     this.runGroupId,
     this.runTags,
+    this.scratchStorageMode,
     this.storageCapacity,
     this.storageType,
     this.workflowOwnerId,
@@ -15141,6 +15222,7 @@ class DefaultRunSetting {
           (json['cacheBehavior'] as String?)?.let(CacheBehavior.fromString),
       cacheId: json['cacheId'] as String?,
       configurationName: json['configurationName'] as String?,
+      engineSettings: json['engineSettings'],
       logLevel: (json['logLevel'] as String?)?.let(RunLogLevel.fromString),
       name: json['name'] as String?,
       networkingMode:
@@ -15154,6 +15236,8 @@ class DefaultRunSetting {
       runGroupId: json['runGroupId'] as String?,
       runTags: (json['runTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      scratchStorageMode: (json['scratchStorageMode'] as String?)
+          ?.let(ScratchStorageMode.fromString),
       storageCapacity: json['storageCapacity'] as int?,
       storageType:
           (json['storageType'] as String?)?.let(StorageType.fromString),
@@ -15170,6 +15254,7 @@ class DefaultRunSetting {
     final cacheBehavior = this.cacheBehavior;
     final cacheId = this.cacheId;
     final configurationName = this.configurationName;
+    final engineSettings = this.engineSettings;
     final logLevel = this.logLevel;
     final name = this.name;
     final networkingMode = this.networkingMode;
@@ -15180,6 +15265,7 @@ class DefaultRunSetting {
     final retentionMode = this.retentionMode;
     final runGroupId = this.runGroupId;
     final runTags = this.runTags;
+    final scratchStorageMode = this.scratchStorageMode;
     final storageCapacity = this.storageCapacity;
     final storageType = this.storageType;
     final workflowOwnerId = this.workflowOwnerId;
@@ -15191,6 +15277,7 @@ class DefaultRunSetting {
       if (cacheBehavior != null) 'cacheBehavior': cacheBehavior.value,
       if (cacheId != null) 'cacheId': cacheId,
       if (configurationName != null) 'configurationName': configurationName,
+      if (engineSettings != null) 'engineSettings': engineSettings,
       if (logLevel != null) 'logLevel': logLevel.value,
       if (name != null) 'name': name,
       if (networkingMode != null) 'networkingMode': networkingMode.value,
@@ -15202,6 +15289,8 @@ class DefaultRunSetting {
       if (retentionMode != null) 'retentionMode': retentionMode.value,
       if (runGroupId != null) 'runGroupId': runGroupId,
       if (runTags != null) 'runTags': runTags,
+      if (scratchStorageMode != null)
+        'scratchStorageMode': scratchStorageMode.value,
       if (storageCapacity != null) 'storageCapacity': storageCapacity,
       if (storageType != null) 'storageType': storageType.value,
       if (workflowOwnerId != null) 'workflowOwnerId': workflowOwnerId,
@@ -15411,6 +15500,12 @@ class InlineSetting {
   /// <code>runSettingId</code> to the HealthOmics-generated <code>runId</code>.
   final String runSettingId;
 
+  /// Per-run engine-specific settings. Use this field to specify configuration
+  /// options that are specific to the workflow engine (for example, Nextflow
+  /// profiles). Overrides <code>defaultRunSetting.engineSettings</code> for this
+  /// run.
+  final Object? engineSettings;
+
   /// An optional user-friendly name for this run.
   final String? name;
 
@@ -15435,6 +15530,7 @@ class InlineSetting {
 
   InlineSetting({
     required this.runSettingId,
+    this.engineSettings,
     this.name,
     this.outputBucketOwnerId,
     this.outputUri,
@@ -15445,6 +15541,7 @@ class InlineSetting {
 
   Map<String, dynamic> toJson() {
     final runSettingId = this.runSettingId;
+    final engineSettings = this.engineSettings;
     final name = this.name;
     final outputBucketOwnerId = this.outputBucketOwnerId;
     final outputUri = this.outputUri;
@@ -15453,6 +15550,7 @@ class InlineSetting {
     final runTags = this.runTags;
     return {
       'runSettingId': runSettingId,
+      if (engineSettings != null) 'engineSettings': engineSettings,
       if (name != null) 'name': name,
       if (outputBucketOwnerId != null)
         'outputBucketOwnerId': outputBucketOwnerId,

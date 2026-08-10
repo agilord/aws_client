@@ -3944,6 +3944,12 @@ class VideoPreprocessor {
   /// Enable Dolby Vision feature to produce Dolby Vision compatible video output.
   final DolbyVision? dolbyVision;
 
+  /// Enable integer-second duration normalization. When enabled, the output
+  /// duration is adjusted to land on an exact integer-second boundary. The
+  /// adjustment method (trim, compress, or pad) is chosen automatically based on
+  /// how far the input duration is from the nearest integer second.
+  final DurationControl? durationControl;
+
   /// Enable HDR10+ analysis and metadata injection. Compatible with HEVC only.
   final Hdr10Plus? hdr10Plus;
 
@@ -3972,6 +3978,7 @@ class VideoPreprocessor {
     this.colorCorrector,
     this.deinterlacer,
     this.dolbyVision,
+    this.durationControl,
     this.hdr10Plus,
     this.imageInserter,
     this.noiseReducer,
@@ -3990,6 +3997,10 @@ class VideoPreprocessor {
           : null,
       dolbyVision: json['dolbyVision'] != null
           ? DolbyVision.fromJson(json['dolbyVision'] as Map<String, dynamic>)
+          : null,
+      durationControl: json['durationControl'] != null
+          ? DurationControl.fromJson(
+              json['durationControl'] as Map<String, dynamic>)
           : null,
       hdr10Plus: json['hdr10Plus'] != null
           ? Hdr10Plus.fromJson(json['hdr10Plus'] as Map<String, dynamic>)
@@ -4016,6 +4027,7 @@ class VideoPreprocessor {
     final colorCorrector = this.colorCorrector;
     final deinterlacer = this.deinterlacer;
     final dolbyVision = this.dolbyVision;
+    final durationControl = this.durationControl;
     final hdr10Plus = this.hdr10Plus;
     final imageInserter = this.imageInserter;
     final noiseReducer = this.noiseReducer;
@@ -4025,6 +4037,7 @@ class VideoPreprocessor {
       if (colorCorrector != null) 'colorCorrector': colorCorrector,
       if (deinterlacer != null) 'deinterlacer': deinterlacer,
       if (dolbyVision != null) 'dolbyVision': dolbyVision,
+      if (durationControl != null) 'durationControl': durationControl,
       if (hdr10Plus != null) 'hdr10Plus': hdr10Plus,
       if (imageInserter != null) 'imageInserter': imageInserter,
       if (noiseReducer != null) 'noiseReducer': noiseReducer,
@@ -4329,6 +4342,67 @@ class DolbyVision {
       if (l6Mode != null) 'l6Mode': l6Mode.value,
       if (mapping != null) 'mapping': mapping.value,
       if (profile != null) 'profile': profile.value,
+    };
+  }
+}
+
+/// Settings for integer-second duration normalization. When this preprocessor
+/// is present, the output duration will be adjusted to an exact integer-second
+/// boundary. If the input is within the trim threshold of an integer second,
+/// trailing frames are dropped. If within the compression threshold and less
+/// than 500ms over the previous integer second, the output is sped up slightly.
+/// Otherwise, black frames are padded to the next integer second.
+///
+/// @nodoc
+class DurationControl {
+  /// Required. Denominator of the maximum allowed compression ratio.
+  final int? integerDurationMaximumCompressionDenominator;
+
+  /// Required. Numerator of the maximum allowed compression ratio, defined as
+  /// overrun divided by target duration. For example, numerator 5 with
+  /// denominator 100 means max 5% compression. Set to 0 to disable compression
+  /// entirely (only trim or pad will be used).
+  final int? integerDurationMaximumCompressionNumerator;
+
+  /// Maximum number of fractional milliseconds past an integer second that
+  /// qualify for the trim path (frame dropping). Default is 0 (trimming
+  /// disabled).
+  final int? integerDurationTrimThresholdMilliseconds;
+
+  DurationControl({
+    this.integerDurationMaximumCompressionDenominator,
+    this.integerDurationMaximumCompressionNumerator,
+    this.integerDurationTrimThresholdMilliseconds,
+  });
+
+  factory DurationControl.fromJson(Map<String, dynamic> json) {
+    return DurationControl(
+      integerDurationMaximumCompressionDenominator:
+          json['integerDurationMaximumCompressionDenominator'] as int?,
+      integerDurationMaximumCompressionNumerator:
+          json['integerDurationMaximumCompressionNumerator'] as int?,
+      integerDurationTrimThresholdMilliseconds:
+          json['integerDurationTrimThresholdMilliseconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final integerDurationMaximumCompressionDenominator =
+        this.integerDurationMaximumCompressionDenominator;
+    final integerDurationMaximumCompressionNumerator =
+        this.integerDurationMaximumCompressionNumerator;
+    final integerDurationTrimThresholdMilliseconds =
+        this.integerDurationTrimThresholdMilliseconds;
+    return {
+      if (integerDurationMaximumCompressionDenominator != null)
+        'integerDurationMaximumCompressionDenominator':
+            integerDurationMaximumCompressionDenominator,
+      if (integerDurationMaximumCompressionNumerator != null)
+        'integerDurationMaximumCompressionNumerator':
+            integerDurationMaximumCompressionNumerator,
+      if (integerDurationTrimThresholdMilliseconds != null)
+        'integerDurationTrimThresholdMilliseconds':
+            integerDurationTrimThresholdMilliseconds,
     };
   }
 }
@@ -6386,6 +6460,11 @@ class H264Settings {
   /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
   final H264EntropyEncoding? entropyEncoding;
 
+  /// Enable or disable explicit weighted prediction for the H.264 encoder.
+  /// Weighted prediction improves compression efficiency for content with fading
+  /// or brightness changes between frames.
+  final H264ExplicitWeightedPrediction? explicitWeightedPrediction;
+
   /// The video encoding method for your MPEG-4 AVC output. Keep the default
   /// value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs.
   /// Choose Force field to disable PAFF encoding and create separate interlaced
@@ -6755,6 +6834,7 @@ class H264Settings {
     this.dynamicSubGop,
     this.endOfStreamMarkers,
     this.entropyEncoding,
+    this.explicitWeightedPrediction,
     this.fieldEncoding,
     this.flickerAdaptiveQuantization,
     this.framerateControl,
@@ -6814,6 +6894,9 @@ class H264Settings {
           ?.let(H264EndOfStreamMarkers.fromString),
       entropyEncoding: (json['entropyEncoding'] as String?)
           ?.let(H264EntropyEncoding.fromString),
+      explicitWeightedPrediction:
+          (json['explicitWeightedPrediction'] as String?)
+              ?.let(H264ExplicitWeightedPrediction.fromString),
       fieldEncoding:
           (json['fieldEncoding'] as String?)?.let(H264FieldEncoding.fromString),
       flickerAdaptiveQuantization:
@@ -6894,6 +6977,7 @@ class H264Settings {
     final dynamicSubGop = this.dynamicSubGop;
     final endOfStreamMarkers = this.endOfStreamMarkers;
     final entropyEncoding = this.entropyEncoding;
+    final explicitWeightedPrediction = this.explicitWeightedPrediction;
     final fieldEncoding = this.fieldEncoding;
     final flickerAdaptiveQuantization = this.flickerAdaptiveQuantization;
     final framerateControl = this.framerateControl;
@@ -6945,6 +7029,8 @@ class H264Settings {
       if (endOfStreamMarkers != null)
         'endOfStreamMarkers': endOfStreamMarkers.value,
       if (entropyEncoding != null) 'entropyEncoding': entropyEncoding.value,
+      if (explicitWeightedPrediction != null)
+        'explicitWeightedPrediction': explicitWeightedPrediction.value,
       if (fieldEncoding != null) 'fieldEncoding': fieldEncoding.value,
       if (flickerAdaptiveQuantization != null)
         'flickerAdaptiveQuantization': flickerAdaptiveQuantization.value,
@@ -13897,6 +13983,36 @@ class H264EntropyEncoding {
   String toString() => value;
 }
 
+/// Enable or disable explicit weighted prediction for the H.264 encoder.
+/// Weighted prediction improves compression efficiency for content with fading
+/// or brightness changes between frames.
+///
+/// @nodoc
+class H264ExplicitWeightedPrediction {
+  static const disabled = H264ExplicitWeightedPrediction._('DISABLED');
+  static const enabled = H264ExplicitWeightedPrediction._('ENABLED');
+
+  final String value;
+
+  const H264ExplicitWeightedPrediction._(this.value);
+
+  static const values = [disabled, enabled];
+
+  static H264ExplicitWeightedPrediction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => H264ExplicitWeightedPrediction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is H264ExplicitWeightedPrediction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The video encoding method for your MPEG-4 AVC output. Keep the default
 /// value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs.
 /// Choose Force field to disable PAFF encoding and create separate interlaced
@@ -16490,6 +16606,21 @@ class M3u8Settings {
 ///
 /// @nodoc
 class MovSettings {
+  /// Specify this setting only when your output will be consumed by a downstream
+  /// repackaging workflow that is sensitive to very small duration differences
+  /// between video and audio. For this situation, choose Match video duration. In
+  /// all other cases, keep the default value, Default codec duration. When you
+  /// choose Match video duration, MediaConvert pads the output audio streams with
+  /// silence or trims them to ensure that the total duration of each audio stream
+  /// is at least as long as the total duration of the video stream. After padding
+  /// or trimming, the audio stream duration is no more than one frame longer than
+  /// the video stream. MediaConvert applies audio padding or trimming only to the
+  /// end of the last segment of the output. For unsegmented outputs, MediaConvert
+  /// adds padding only to the end of the file. When you keep the default value,
+  /// any minor discrepancies between audio and video duration will depend on your
+  /// output audio codec.
+  final CmfcAudioDuration? audioDuration;
+
   /// When enabled, include 'clap' atom if appropriate for the video output
   /// settings.
   final MovClapAtom? clapAtom;
@@ -16518,6 +16649,7 @@ class MovSettings {
   final MovReference? reference;
 
   MovSettings({
+    this.audioDuration,
     this.clapAtom,
     this.cslgAtom,
     this.mpeg2FourCCControl,
@@ -16527,6 +16659,8 @@ class MovSettings {
 
   factory MovSettings.fromJson(Map<String, dynamic> json) {
     return MovSettings(
+      audioDuration:
+          (json['audioDuration'] as String?)?.let(CmfcAudioDuration.fromString),
       clapAtom: (json['clapAtom'] as String?)?.let(MovClapAtom.fromString),
       cslgAtom: (json['cslgAtom'] as String?)?.let(MovCslgAtom.fromString),
       mpeg2FourCCControl: (json['mpeg2FourCCControl'] as String?)
@@ -16538,12 +16672,14 @@ class MovSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final audioDuration = this.audioDuration;
     final clapAtom = this.clapAtom;
     final cslgAtom = this.cslgAtom;
     final mpeg2FourCCControl = this.mpeg2FourCCControl;
     final paddingControl = this.paddingControl;
     final reference = this.reference;
     return {
+      if (audioDuration != null) 'audioDuration': audioDuration.value,
       if (clapAtom != null) 'clapAtom': clapAtom.value,
       if (cslgAtom != null) 'cslgAtom': cslgAtom.value,
       if (mpeg2FourCCControl != null)
@@ -29591,6 +29727,7 @@ class S3StorageClass {
   static const intelligentTiering = S3StorageClass._('INTELLIGENT_TIERING');
   static const glacier = S3StorageClass._('GLACIER');
   static const deepArchive = S3StorageClass._('DEEP_ARCHIVE');
+  static const glacierIr = S3StorageClass._('GLACIER_IR');
 
   final String value;
 
@@ -29603,7 +29740,8 @@ class S3StorageClass {
     onezoneIa,
     intelligentTiering,
     glacier,
-    deepArchive
+    deepArchive,
+    glacierIr
   ];
 
   static S3StorageClass fromString(String value) =>
@@ -38986,13 +39124,18 @@ class ProbeResult {
 ///
 /// @nodoc
 class Container {
+  /// The overall bit rate of your media file, in bits per second. This is derived
+  /// from the file size and duration as (file size in bytes * 8) / duration in
+  /// seconds.
+  final int? bitRate;
+
   /// The total duration of your media file, in seconds.
   final double? duration;
 
   /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska
-  /// (MKV), WebM, MXF, Wave, AVI, MPEG-TS, or MPEG-PS. Note that this will be
-  /// blank if your media file has a format that the MediaConvert Probe operation
-  /// does not recognize.
+  /// (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, or MP3. Note that this will
+  /// be blank if your media file has a format that the MediaConvert Probe
+  /// operation does not recognize.
   final Format? format;
 
   /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF
@@ -39004,6 +39147,7 @@ class Container {
   final List<Track>? tracks;
 
   Container({
+    this.bitRate,
     this.duration,
     this.format,
     this.startTimecode,
@@ -39012,6 +39156,7 @@ class Container {
 
   factory Container.fromJson(Map<String, dynamic> json) {
     return Container(
+      bitRate: json['bitRate'] as int?,
       duration: _s.parseJsonDouble(json['duration']),
       format: (json['format'] as String?)?.let(Format.fromString),
       startTimecode: json['startTimecode'] as String?,
@@ -39023,11 +39168,13 @@ class Container {
   }
 
   Map<String, dynamic> toJson() {
+    final bitRate = this.bitRate;
     final duration = this.duration;
     final format = this.format;
     final startTimecode = this.startTimecode;
     final tracks = this.tracks;
     return {
+      if (bitRate != null) 'bitRate': bitRate,
       if (duration != null) 'duration': _s.encodeJsonDouble(duration),
       if (format != null) 'format': format.value,
       if (startTimecode != null) 'startTimecode': startTimecode,
@@ -39142,6 +39289,7 @@ class Format {
   static const avi = Format._('avi');
   static const mpegts = Format._('mpegts');
   static const mpegps = Format._('mpegps');
+  static const mp3 = Format._('mp3');
 
   final String value;
 
@@ -39156,7 +39304,8 @@ class Format {
     wave,
     avi,
     mpegts,
-    mpegps
+    mpegps,
+    mp3
   ];
 
   static Format fromString(String value) =>
@@ -39609,6 +39758,13 @@ class CodecMetadata {
   /// characteristics of the content.
   final ContentLightLevel? contentLightLevel;
 
+  /// The field order of interlaced video, which indicates whether the top or
+  /// bottom field is displayed first. Use this to select the correct
+  /// deinterlacing behavior. One of "TopFieldFirst" or "BottomFieldFirst". This
+  /// field is present only for interlaced video; it is omitted for progressive
+  /// video and when the field order is not indicated by the source.
+  final String? fieldOrder;
+
   /// The height in pixels as coded by the codec. This represents the actual
   /// encoded video height as specified in the video stream headers.
   final int? height;
@@ -39654,6 +39810,7 @@ class CodecMetadata {
     this.codedFrameRate,
     this.colorPrimaries,
     this.contentLightLevel,
+    this.fieldOrder,
     this.height,
     this.level,
     this.matrixCoefficients,
@@ -39677,6 +39834,7 @@ class CodecMetadata {
           ? ContentLightLevel.fromJson(
               json['contentLightLevel'] as Map<String, dynamic>)
           : null,
+      fieldOrder: json['fieldOrder'] as String?,
       height: json['height'] as int?,
       level: json['level'] as String?,
       matrixCoefficients: (json['matrixCoefficients'] as String?)
@@ -39696,6 +39854,7 @@ class CodecMetadata {
     final codedFrameRate = this.codedFrameRate;
     final colorPrimaries = this.colorPrimaries;
     final contentLightLevel = this.contentLightLevel;
+    final fieldOrder = this.fieldOrder;
     final height = this.height;
     final level = this.level;
     final matrixCoefficients = this.matrixCoefficients;
@@ -39710,6 +39869,7 @@ class CodecMetadata {
       if (codedFrameRate != null) 'codedFrameRate': codedFrameRate,
       if (colorPrimaries != null) 'colorPrimaries': colorPrimaries.value,
       if (contentLightLevel != null) 'contentLightLevel': contentLightLevel,
+      if (fieldOrder != null) 'fieldOrder': fieldOrder,
       if (height != null) 'height': height,
       if (level != null) 'level': level,
       if (matrixCoefficients != null)

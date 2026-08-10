@@ -1508,10 +1508,19 @@ class RedshiftServerless {
   ///
   /// Parameter [workgroupName] :
   /// The name of the workgroup used to restore data.
+  ///
+  /// Parameter [maintainIntegration] :
+  /// If <code>true</code>, maintain existing data sharing, zero-ETL and S3
+  /// event integrations when restoring. Otherwise, integrations will not be
+  /// maintained after the restore operation. Integrations are only maintained
+  /// when restored to the same serverless namespace.
+  ///
+  /// Default: true
   Future<RestoreFromRecoveryPointResponse> restoreFromRecoveryPoint({
     required String namespaceName,
     required String recoveryPointId,
     required String workgroupName,
+    bool? maintainIntegration,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1527,6 +1536,8 @@ class RedshiftServerless {
         'namespaceName': namespaceName,
         'recoveryPointId': recoveryPointId,
         'workgroupName': workgroupName,
+        if (maintainIntegration != null)
+          'maintainIntegration': maintainIntegration,
       },
     );
 
@@ -2511,6 +2522,14 @@ class RedshiftServerless {
   /// The ID of the Key Management Service (KMS) key used to encrypt and store
   /// the namespace's admin credentials secret.
   ///
+  /// Parameter [maintainIntegration] :
+  /// If <code>true</code>, maintain existing data sharing, zero-ETL and S3
+  /// event integrations when restoring. Otherwise, integrations will not be
+  /// maintained after the restore operation. Integrations are only maintained
+  /// when restored to the same serverless namespace.
+  ///
+  /// Default: true
+  ///
   /// Parameter [manageAdminPassword] :
   /// If <code>true</code>, Amazon Redshift uses Secrets Manager to manage the
   /// restored snapshot's admin credentials. If
@@ -2536,6 +2555,7 @@ class RedshiftServerless {
     required String namespaceName,
     required String workgroupName,
     String? adminPasswordSecretKmsKeyId,
+    bool? maintainIntegration,
     bool? manageAdminPassword,
     String? ownerAccount,
     String? snapshotArn,
@@ -2556,6 +2576,8 @@ class RedshiftServerless {
         'workgroupName': workgroupName,
         if (adminPasswordSecretKmsKeyId != null)
           'adminPasswordSecretKmsKeyId': adminPasswordSecretKmsKeyId,
+        if (maintainIntegration != null)
+          'maintainIntegration': maintainIntegration,
         if (manageAdminPassword != null)
           'manageAdminPassword': manageAdminPassword,
         if (ownerAccount != null) 'ownerAccount': ownerAccount,
@@ -5765,8 +5787,9 @@ class ConfigParameter {
   /// either specify individual query monitoring metrics (such as
   /// <code>max_scan_row_count</code>, <code>max_query_execution_time</code>) or
   /// use <code>wlm_json_configuration</code> to define query queues with rules,
-  /// but not both. For more information about query monitoring rules and
-  /// available metrics, see <a
+  /// but not both. If you're using <code>wlm_json_configuration</code>, the
+  /// maximum size of <code>parameterValue</code> is 8000 characters. For more
+  /// information about query monitoring rules and available metrics, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">Query
   /// monitoring metrics for Amazon Redshift Serverless</a>.
   final String? parameterKey;

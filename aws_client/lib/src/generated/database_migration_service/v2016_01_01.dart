@@ -222,6 +222,12 @@ class DatabaseMigration {
   /// Cancels a single metadata model conversion operation that was started with
   /// <code>StartMetadataModelConversion</code>.
   ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:CancelMetadataModelConversion</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
@@ -257,6 +263,11 @@ class DatabaseMigration {
 
   /// Cancels a single metadata model creation operation that was started with
   /// <code>StartMetadataModelCreation</code>.
+  ///
+  /// <b>Required permissions:</b> <code>dms:CancelMetadataModelCreation</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
@@ -427,19 +438,25 @@ class DatabaseMigration {
   /// Creates a data provider using the provided settings. A data provider
   /// stores a data store type and location information about your database.
   ///
+  /// <b>Required permissions:</b> <code>dms:CreateDataProvider</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [FailedDependencyFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [engine] :
-  /// The type of database engine for the data provider. Valid values include
-  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
-  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
-  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
-  /// <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>,
-  /// <code>docdb</code>, and <code>sybase</code>. A value of
-  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
+  /// The type of database engine for the data provider.
+  ///
+  /// Valid values: <code>aurora</code>, <code>aurora-postgresql</code>,
+  /// <code>db2</code>, <code>db2-zos</code>, <code>docdb</code>,
+  /// <code>mariadb</code>, <code>mongodb</code>, <code>mysql</code>,
+  /// <code>oracle</code>, <code>postgres</code>, <code>redshift</code>,
+  /// <code>sqlserver</code>, and <code>sybase</code>. A value of
+  /// <code>aurora</code> represents Amazon Aurora MySQL-Compatible Edition.
   ///
   /// Parameter [settings] :
   /// The settings in JSON format for a data provider.
@@ -992,6 +1009,11 @@ class DatabaseMigration {
 
   /// Creates the instance profile using the specified parameters.
   ///
+  /// <b>Required permissions:</b> <code>dms:CreateInstanceProfile</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [FailedDependencyFault].
   /// May throw [InvalidResourceStateFault].
@@ -1094,6 +1116,11 @@ class DatabaseMigration {
   /// and <a
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html">CreateDataProvider</a>.
   ///
+  /// <b>Required permissions:</b> <code>dms:CreateMigrationProject</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [FailedDependencyFault].
   /// May throw [ResourceAlreadyExistsFault].
@@ -1129,10 +1156,16 @@ class DatabaseMigration {
   /// One or more tags to be assigned to the migration project.
   ///
   /// Parameter [transformationRules] :
-  /// The settings in JSON format for migration rules. Migration rules make it
-  /// possible for you to change the object names according to the rules that
-  /// you specify. For example, you can change an object name to lowercase or
-  /// uppercase, add or remove a prefix or suffix, or rename objects.
+  /// A JSON string that specifies the transformation rules for the migration
+  /// project. Transformation rules let you customize how DMS Schema Conversion
+  /// converts your source database objects, including renaming, adding prefixes
+  /// or suffixes, and changing data types. For the transformation rule format
+  /// and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html">Transformation
+  /// rules in DMS Schema Conversion</a>.
+  /// <note>
+  /// Homogeneous data migrations do not support transformation rules.
+  /// </note>
   Future<CreateMigrationProjectResponse> createMigrationProject({
     required String instanceProfileIdentifier,
     required List<DataProviderDescriptorDefinition>
@@ -1845,6 +1878,11 @@ class DatabaseMigration {
   }
 
   /// Deletes the specified data provider.
+  ///
+  /// <b>Required permissions:</b> <code>dms:DeleteDataProvider</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   /// <note>
   /// All migration projects associated with the data provider must be deleted
   /// or modified before you can delete the data provider.
@@ -2016,6 +2054,11 @@ class DatabaseMigration {
   }
 
   /// Deletes the specified instance profile.
+  ///
+  /// <b>Required permissions:</b> <code>dms:DeleteInstanceProfile</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   /// <note>
   /// All migration projects associated with the instance profile must be
   /// deleted or modified before you can delete the instance profile.
@@ -2050,6 +2093,11 @@ class DatabaseMigration {
   }
 
   /// Deletes the specified migration project.
+  ///
+  /// <b>Required permissions:</b> <code>dms:DeleteMigrationProject</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   /// <note>
   /// The migration project must be closed before you can delete it.
   /// </note>
@@ -2465,6 +2513,12 @@ class DatabaseMigration {
 
   /// Returns configuration parameters for a schema conversion project.
   ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:DescribeConversionConfiguration</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
@@ -2555,16 +2609,25 @@ class DatabaseMigration {
   /// Returns a paginated list of data providers for your account in the current
   /// region.
   ///
+  /// <b>Required permissions:</b> <code>dms:ListDataProviders</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [FailedDependencyFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the data providers described in the form of key-value
-  /// pairs.
+  /// The filters to apply to the data providers.
   ///
-  /// Valid filter names and values: data-provider-identifier, data provider arn
-  /// or name
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>data-provider-identifier</code> – The data provider name or ARN.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -2959,17 +3022,33 @@ class DatabaseMigration {
     return DescribeEventSubscriptionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a paginated list of extension pack associations for the specified
-  /// migration project. An extension pack is an add-on module that emulates
-  /// functions present in a source database that are required when converting
-  /// objects to the target database.
+  /// Returns a paginated list of extension pack installation requests for a
+  /// migration project, initiated by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartExtensionPackAssociation.html">StartExtensionPackAssociation</a>.
+  ///
+  /// <b>Required permissions:</b> <code>dms:ListExtensionPacks</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// Parameter [migrationProjectIdentifier] :
-  /// The name or Amazon Resource Name (ARN) for the migration project.
+  /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [filters] :
-  /// Filters applied to the extension pack associations described in the form
-  /// of key-value pairs.
+  /// The filters to apply to the extension pack installation requests.
+  ///
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>request-id</code> – The request identifier.
+  /// </li>
+  /// <li>
+  /// <code>status</code> – The request status. Valid values:
+  /// <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>,
+  /// <code>FAILED</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3362,16 +3441,26 @@ class DatabaseMigration {
   /// Returns a paginated list of instance profiles for your account in the
   /// current region.
   ///
+  /// <b>Required permissions:</b> <code>dms:ListInstanceProfiles</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [FailedDependencyFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the instance profiles described in the form of
-  /// key-value pairs.
+  /// The filters to apply to the instance profiles.
   ///
-  /// Valid filter names and values: instance-profile-identifier, instance
-  /// profile arn or name
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>instance-profile-identifier</code> – The instance profile name or
+  /// ARN.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3418,6 +3507,11 @@ class DatabaseMigration {
   /// its definition and corresponding converted objects in the target database
   /// if applicable.
   ///
+  /// <b>Required permissions:</b> <code>dms:DescribeMetadataModel</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [ResourceNotFoundFault].
   ///
@@ -3429,11 +3523,26 @@ class DatabaseMigration {
   /// Valid values: SOURCE | TARGET
   ///
   /// Parameter [selectionRules] :
-  /// The JSON string that specifies which metadata model to retrieve. Only one
-  /// selection rule with "rule-action": "explicit" can be provided. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html">Selection
-  /// Rules</a> in the DMS User Guide.
+  /// A JSON string that identifies the metadata model to retrieve. For the
+  /// selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts source or target selection rules depending on the
+  /// <code>Origin</code> parameter. The <code>server-name</code> in the object
+  /// locator must match the corresponding data provider.
+  /// </li>
+  /// <li>
+  /// Supports only <code>explicit</code> rule actions.
+  /// </li>
+  /// <li>
+  /// Exactly one rule is allowed.
+  /// </li>
+  /// </ul>
   Future<DescribeMetadataModelResponse> describeMetadataModel({
     required String migrationProjectIdentifier,
     required OriginTypeValue origin,
@@ -3459,17 +3568,36 @@ class DatabaseMigration {
     return DescribeMetadataModelResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a paginated list of metadata model assessments for your account in
-  /// the current region.
+  /// Returns a paginated list of metadata model assessment requests for a
+  /// migration project, initiated by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelAssessment.html">StartMetadataModelAssessment</a>.
+  ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:ListMetadataModelAssessments</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
-  /// The name or Amazon Resource Name (ARN) of the migration project.
+  /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [filters] :
-  /// Filters applied to the metadata model assessments described in the form of
-  /// key-value pairs.
+  /// The filters to apply to the metadata model assessment requests.
+  ///
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>request-id</code> – The request identifier.
+  /// </li>
+  /// <li>
+  /// <code>status</code> – The request status. Valid values:
+  /// <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>,
+  /// <code>FAILED</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3518,6 +3646,12 @@ class DatabaseMigration {
   /// Gets a list of child metadata models for the specified metadata model in
   /// the database hierarchy.
   ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:DescribeMetadataModelChildren</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [ResourceNotFoundFault].
   ///
@@ -3529,11 +3663,26 @@ class DatabaseMigration {
   /// Valid values: SOURCE | TARGET
   ///
   /// Parameter [selectionRules] :
-  /// The JSON string that specifies which metadata model's children to
-  /// retrieve. Only one selection rule with "rule-action": "explicit" can be
-  /// provided. For more information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html">Selection
-  /// Rules</a> in the DMS User Guide.
+  /// A JSON string that identifies the metadata model whose children to
+  /// retrieve. For the selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts source or target selection rules depending on the
+  /// <code>Origin</code> parameter. The <code>server-name</code> in the object
+  /// locator must match the corresponding data provider.
+  /// </li>
+  /// <li>
+  /// Supports only <code>explicit</code> rule actions.
+  /// </li>
+  /// <li>
+  /// Exactly one rule is allowed.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that indicates where the next page
@@ -3573,8 +3722,18 @@ class DatabaseMigration {
     return DescribeMetadataModelChildrenResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a paginated list of metadata model conversions for a migration
-  /// project.
+  /// Returns a paginated list of metadata model conversion requests for a
+  /// migration project, initiated by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelConversion.html">StartMetadataModelConversion</a>.
+  ///
+  /// To cancel a queued or in-progress request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelConversion.html">CancelMetadataModelConversion</a>.
+  ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:ListMetadataModelConversions</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
@@ -3582,8 +3741,20 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [filters] :
-  /// Filters applied to the metadata model conversions described in the form of
-  /// key-value pairs.
+  /// The filters to apply to the metadata model conversion requests.
+  ///
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>request-id</code> – The request identifier.
+  /// </li>
+  /// <li>
+  /// <code>status</code> – The request status. Valid values:
+  /// <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>,
+  /// <code>FAILED</code>, <code>CANCELING</code>, <code>CANCELED</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3630,7 +3801,17 @@ class DatabaseMigration {
   }
 
   /// Returns a paginated list of metadata model creation requests for a
-  /// migration project.
+  /// migration project, initiated by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelCreation.html">StartMetadataModelCreation</a>.
+  ///
+  /// To cancel a queued or in-progress request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelCreation.html">CancelMetadataModelCreation</a>.
+  ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:DescribeMetadataModelCreations</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [ResourceNotFoundFault].
@@ -3639,20 +3820,37 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [filters] :
-  /// Filters applied to the metadata model creation requests described in the
-  /// form of key-value pairs. The supported filters are request-id and status.
+  /// The filters to apply to the metadata model creation requests.
+  ///
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>request-id</code> – The request identifier.
+  /// </li>
+  /// <li>
+  /// <code>status</code> – The request status. Valid values:
+  /// <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>,
+  /// <code>FAILED</code>, <code>CANCELING</code>, <code>CANCELED</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
-  /// the next page of metadata model creation requests. If Marker is returned
-  /// by a previous response, there are more metadata model creation requests
-  /// available.
+  /// the next page of results. If this parameter is specified, the response
+  /// includes only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
   ///
   /// Parameter [maxRecords] :
-  /// The maximum number of metadata model creation requests to include in the
-  /// response. If more requests exist than the specified MaxRecords value, a
-  /// pagination token is provided in the response so that you can retrieve the
-  /// remaining results.
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
   Future<DescribeMetadataModelCreationsResponse>
       describeMetadataModelCreations({
     required String migrationProjectIdentifier,
@@ -3681,7 +3879,14 @@ class DatabaseMigration {
     return DescribeMetadataModelCreationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a paginated list of metadata model exports.
+  /// Returns a paginated list of metadata model export requests for a migration
+  /// project, initiated by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportAsScript.html">StartMetadataModelExportAsScript</a>.
+  ///
+  /// <b>Required permissions:</b> <code>dms:ListMetadataModelExports</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
@@ -3689,8 +3894,20 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [filters] :
-  /// Filters applied to the metadata model exports described in the form of
-  /// key-value pairs.
+  /// The filters to apply to the metadata model export requests.
+  ///
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>request-id</code> – The request identifier.
+  /// </li>
+  /// <li>
+  /// <code>status</code> – The request status. Valid values:
+  /// <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>,
+  /// <code>FAILED</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3737,7 +3954,14 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
-  /// Returns a paginated list of metadata model exports.
+  /// Returns a paginated list of metadata model export requests for a migration
+  /// project, initiated by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportToTarget.html">StartMetadataModelExportToTarget</a>.
+  ///
+  /// <b>Required permissions:</b> <code>dms:ListMetadataModelExports</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
@@ -3745,8 +3969,20 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [filters] :
-  /// Filters applied to the metadata model exports described in the form of
-  /// key-value pairs.
+  /// The filters to apply to the metadata model export requests.
+  ///
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>request-id</code> – The request identifier.
+  /// </li>
+  /// <li>
+  /// <code>status</code> – The request status. Valid values:
+  /// <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>,
+  /// <code>FAILED</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3793,7 +4029,15 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
-  /// Returns a paginated list of metadata model imports.
+  /// Returns a paginated list of metadata model import requests for a migration
+  /// project, initiated by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html">StartMetadataModelImport</a>.
+  ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:DescribeMetadataModelImports</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
@@ -3801,8 +4045,20 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [filters] :
-  /// Filters applied to the metadata model imports described in the form of
-  /// key-value pairs.
+  /// The filters to apply to the metadata model import requests.
+  ///
+  /// The following filter names are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>request-id</code> – The request identifier.
+  /// </li>
+  /// <li>
+  /// <code>status</code> – The request status. Valid values:
+  /// <code>RECEIVED</code>, <code>IN_PROGRESS</code>, <code>SUCCESS</code>,
+  /// <code>FAILED</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3816,7 +4072,10 @@ class DatabaseMigration {
   /// the returned token and keeping all other arguments unchanged.
   ///
   /// Parameter [maxRecords] :
-  /// A paginated list of metadata model imports.
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, DMS includes a
+  /// pagination token in the response so that you can retrieve the remaining
+  /// results.
   Future<DescribeMetadataModelImportsResponse> describeMetadataModelImports({
     required String migrationProjectIdentifier,
     List<Filter>? filters,
@@ -3847,25 +4106,40 @@ class DatabaseMigration {
   /// Returns a paginated list of migration projects for your account in the
   /// current region.
   ///
+  /// <b>Required permissions:</b> <code>dms:ListMigrationProjects</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [FailedDependencyFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the migration projects described in the form of
-  /// key-value pairs.
+  /// The filters to apply to the migration projects.
   ///
-  /// Valid filter names and values:
+  /// The following filter names are supported:
   ///
   /// <ul>
   /// <li>
-  /// instance-profile-identifier, instance profile arn or name
+  /// <code>migration-project-identifier</code> – The migration project name or
+  /// ARN.
   /// </li>
   /// <li>
-  /// data-provider-identifier, data provider arn or name
+  /// <code>instance-profile-identifier</code> – The instance profile name or
+  /// ARN.
   /// </li>
   /// <li>
-  /// migration-project-identifier, migration project arn or name
+  /// <code>data-provider-identifier</code> – The source or target data provider
+  /// name or ARN.
+  /// </li>
+  /// <li>
+  /// <code>source-data-provider-identifier</code> – The source data provider
+  /// name or ARN.
+  /// </li>
+  /// <li>
+  /// <code>target-data-provider-identifier</code> – The target data provider
+  /// name or ARN.
   /// </li>
   /// </ul>
   ///
@@ -4797,13 +5071,34 @@ class DatabaseMigration {
   /// bucket. DMS can save your assessment report as a comma-separated value
   /// (CSV) or a PDF file.
   ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:ExportMetadataModelAssessment</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [selectionRules] :
-  /// A value that specifies the database objects to assess.
+  /// A JSON string that identifies the metadata models to export a conversion
+  /// assessment report for. For the selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts only source selection rules, where <code>server-name</code> in the
+  /// object locator matches the source data provider.
+  /// </li>
+  /// <li>
+  /// Supports only <code>explicit</code> rule actions.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [assessmentReportTypes] :
   /// The file format of the assessment file.
@@ -4842,6 +5137,11 @@ class DatabaseMigration {
   /// Converts source selection rules into their target counterparts for schema
   /// conversion operations.
   ///
+  /// <b>Required permissions:</b> <code>dms:GetTargetSelectionRules</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
@@ -4850,9 +5150,29 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [selectionRules] :
-  /// The JSON string representing the source selection rules for conversion.
-  /// Selection rules must contain only supported metadata model types. For more
-  /// information, see Selection Rules in the DMS User Guide.
+  /// A JSON string that contains the source selection rules to convert into
+  /// their target counterparts. For the selection rule format and examples, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts only source selection rules, where <code>server-name</code> in the
+  /// object locator matches the source data provider.
+  /// </li>
+  /// <li>
+  /// Supports only <code>explicit</code> rule actions.
+  /// </li>
+  /// <li>
+  /// Does not support <code>category-name</code> in the object locator.
+  /// </li>
+  /// <li>
+  /// Up to 10 rules are allowed.
+  /// </li>
+  /// </ul>
   Future<GetTargetSelectionRulesResponse> getTargetSelectionRules({
     required String migrationProjectIdentifier,
     required String selectionRules,
@@ -4987,11 +5307,29 @@ class DatabaseMigration {
   /// Modifies the specified schema conversion configuration using the provided
   /// parameters.
   ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:UpdateConversionConfiguration</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
+  ///
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [conversionConfiguration] :
-  /// The new conversion configuration.
+  /// A JSON string that contains the schema conversion settings to update. For
+  /// the format and available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/schema-conversion-settings.html">Specifying
+  /// schema conversion settings for migration projects</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Include only the sections and keys to change. The operation merges
+  /// supplied values with the existing configuration.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
@@ -5095,6 +5433,11 @@ class DatabaseMigration {
   }
 
   /// Modifies the specified data provider using the provided settings.
+  ///
+  /// <b>Required permissions:</b> <code>dms:UpdateDataProvider</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   /// <note>
   /// You must remove the data provider from all migration projects before you
   /// can modify it.
@@ -5117,13 +5460,14 @@ class DatabaseMigration {
   /// A user-friendly description of the data provider.
   ///
   /// Parameter [engine] :
-  /// The type of database engine for the data provider. Valid values include
-  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
-  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
-  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
-  /// <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>,
-  /// <code>docdb</code>, and <code>sybase</code>. A value of
-  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
+  /// The type of database engine for the data provider.
+  ///
+  /// Valid values: <code>aurora</code>, <code>aurora-postgresql</code>,
+  /// <code>db2</code>, <code>db2-zos</code>, <code>docdb</code>,
+  /// <code>mariadb</code>, <code>mongodb</code>, <code>mysql</code>,
+  /// <code>oracle</code>, <code>postgres</code>, <code>redshift</code>,
+  /// <code>sqlserver</code>, and <code>sybase</code>. A value of
+  /// <code>aurora</code> represents Amazon Aurora MySQL-Compatible Edition.
   ///
   /// Parameter [exactSettings] :
   /// If this attribute is Y, the current call to
@@ -5582,6 +5926,11 @@ class DatabaseMigration {
   }
 
   /// Modifies the specified instance profile using the provided parameters.
+  ///
+  /// <b>Required permissions:</b> <code>dms:UpdateInstanceProfile</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   /// <note>
   /// All migration projects associated with the instance profile must be
   /// deleted or modified before you can modify the instance profile.
@@ -5679,6 +6028,11 @@ class DatabaseMigration {
   }
 
   /// Modifies the specified migration project using the provided parameters.
+  ///
+  /// <b>Required permissions:</b> <code>dms:UpdateMigrationProject</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   /// <note>
   /// The migration project must be closed before you can modify it.
   /// </note>
@@ -5717,10 +6071,16 @@ class DatabaseMigration {
   /// Amazon Web Services Secrets Manager parameters.
   ///
   /// Parameter [transformationRules] :
-  /// The settings in JSON format for migration rules. Migration rules make it
-  /// possible for you to change the object names according to the rules that
-  /// you specify. For example, you can change an object name to lowercase or
-  /// uppercase, add or remove a prefix or suffix, or rename objects.
+  /// A JSON string that specifies the transformation rules for the migration
+  /// project. Transformation rules let you customize how DMS Schema Conversion
+  /// converts your source database objects, including renaming, adding prefixes
+  /// or suffixes, and changing data types. For the transformation rule format
+  /// and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html">Transformation
+  /// rules in DMS Schema Conversion</a>.
+  /// <note>
+  /// Homogeneous data migrations do not support transformation rules.
+  /// </note>
   Future<ModifyMigrationProjectResponse> modifyMigrationProject({
     required String migrationProjectIdentifier,
     String? description,
@@ -6517,9 +6877,27 @@ class DatabaseMigration {
     return StartDataMigrationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Applies the extension pack to your target database. An extension pack is
-  /// an add-on module that emulates functions present in a source database that
-  /// are required when converting objects to the target database.
+  /// Queues the installation of the extension pack on your target database. If
+  /// other requests created by <code>Start*</code> operations are already in
+  /// the migration project's queue, the installation begins after they
+  /// complete.
+  ///
+  /// This operation requires a non-virtual target data provider.
+  ///
+  /// If the extension pack already exists, the operation reinstalls it. To
+  /// ensure compatibility, reconvert your database objects if the version has
+  /// changed since your last conversion. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/extension-pack.html">Using
+  /// extension packs in DMS Schema Conversion</a>.
+  ///
+  /// To check the status of the request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeExtensionPackAssociations.html">DescribeExtensionPackAssociations</a>
+  /// using the returned <code>RequestIdentifier</code> as a filter.
+  ///
+  /// <b>Required permissions:</b> <code>dms:AssociateExtensionPack</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
@@ -6553,11 +6931,32 @@ class DatabaseMigration {
     return StartExtensionPackAssociationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a database migration assessment report by assessing the migration
-  /// complexity for your source database. A database migration assessment
-  /// report summarizes all of the schema conversion tasks. It also details the
-  /// action items for database objects that can't be converted to the database
-  /// engine of your target database instance.
+  /// Queues an assessment of the selected source metadata models (database
+  /// objects such as tables, views, and procedures) to evaluate conversion
+  /// complexity to the target database format. If other requests created by
+  /// <code>Start*</code> operations are already in the migration project's
+  /// queue, the assessment begins after they complete.
+  ///
+  /// The assessment request loads metadata models that are not yet in the
+  /// metadata tree, but does not reload metadata models that are already
+  /// present. If your source database has changed since the metadata was
+  /// loaded, refresh the affected metadata models with <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html">StartMetadataModelImport</a>
+  /// before calling this operation.
+  ///
+  /// To check the status of the assessment request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelAssessments.html">DescribeMetadataModelAssessments</a>
+  /// using the returned <code>RequestIdentifier</code> as a filter.
+  ///
+  /// To export the conversion assessment report after the request completes
+  /// successfully, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ExportMetadataModelAssessment.html">ExportMetadataModelAssessment</a>.
+  ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:StartMetadataModelAssessment</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
@@ -6572,7 +6971,23 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [selectionRules] :
-  /// A value that specifies the database objects to assess.
+  /// A JSON string that identifies the metadata models to assess. For the
+  /// selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts only source selection rules, where <code>server-name</code> in the
+  /// object locator matches the source data provider.
+  /// </li>
+  /// <li>
+  /// Supports <code>explicit</code>, <code>include</code>, and
+  /// <code>exclude</code> rule actions.
+  /// </li>
+  /// </ul>
   Future<StartMetadataModelAssessmentResponse> startMetadataModelAssessment({
     required String migrationProjectIdentifier,
     required String selectionRules,
@@ -6596,8 +7011,66 @@ class DatabaseMigration {
     return StartMetadataModelAssessmentResponse.fromJson(jsonResponse.body);
   }
 
-  /// Converts your source database objects to a format compatible with the
-  /// target database.
+  /// Queues a conversion of the selected source metadata models (database
+  /// objects such as tables, views, and procedures) to the target database
+  /// format. If other requests created by <code>Start*</code> operations are
+  /// already in the migration project's queue, the conversion begins after they
+  /// complete.
+  ///
+  /// The conversion request loads metadata models that are not yet in the
+  /// metadata tree, but does not reload metadata models that are already
+  /// present. If your source database has changed since the metadata was
+  /// loaded, refresh the affected metadata models with <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html">StartMetadataModelImport</a>
+  /// before calling this operation.
+  /// <note>
+  /// If converted objects already exist in the target metadata tree, the
+  /// conversion overwrites them, including any manual edits.
+  /// </note>
+  /// To check the status of the conversion request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelConversions.html">DescribeMetadataModelConversions</a>
+  /// using the returned <code>RequestIdentifier</code> as a filter.
+  ///
+  /// To cancel a queued or in-progress request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelConversion.html">CancelMetadataModelConversion</a>
+  /// with the returned <code>RequestIdentifier</code>.
+  ///
+  /// After the conversion completes successfully:
+  ///
+  /// <ul>
+  /// <li>
+  /// To export a post-conversion assessment report, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ExportMetadataModelAssessment.html">ExportMetadataModelAssessment</a>.
+  /// </li>
+  /// <li>
+  /// To retrieve converted code, use any of the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModel.html">DescribeMetadataModel</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelChildren.html">DescribeMetadataModelChildren</a>
+  /// – navigate the target metadata tree and retrieve converted definitions.
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportAsScript.html">StartMetadataModelExportAsScript</a>
+  /// – export as data definition language (DDL) scripts to your Amazon S3
+  /// bucket.
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportToTarget.html">StartMetadataModelExportToTarget</a>
+  /// – apply directly to your target database.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// <b>Required permissions:</b>
+  /// <code>dms:StartMetadataModelConversion</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
@@ -6612,7 +7085,23 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [selectionRules] :
-  /// A value that specifies the database objects to convert.
+  /// A JSON string that identifies the metadata models to convert. For the
+  /// selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts only source selection rules, where <code>server-name</code> in the
+  /// object locator matches the source data provider.
+  /// </li>
+  /// <li>
+  /// Supports <code>explicit</code>, <code>include</code>, and
+  /// <code>exclude</code> rule actions.
+  /// </li>
+  /// </ul>
   Future<StartMetadataModelConversionResponse> startMetadataModelConversion({
     required String migrationProjectIdentifier,
     required String selectionRules,
@@ -6636,12 +7125,42 @@ class DatabaseMigration {
     return StartMetadataModelConversionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates source metadata model of the given type with the specified
-  /// properties for schema conversion operations.
+  /// Queues the creation of a metadata model in the source metadata tree. If
+  /// other requests created by <code>Start*</code> operations are already in
+  /// the migration project's queue, the creation begins after they complete.
   /// <note>
-  /// This action supports only these directions: from SQL Server to Aurora
-  /// PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+  /// This operation supports only Microsoft SQL Server to Aurora PostgreSQL and
+  /// Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths.
   /// </note>
+  /// To check the status of the creation request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelCreations.html">DescribeMetadataModelCreations</a>
+  /// using the returned <code>RequestIdentifier</code> as a filter.
+  ///
+  /// To cancel a queued or in-progress request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelCreation.html">CancelMetadataModelCreation</a>
+  /// with the returned <code>RequestIdentifier</code>.
+  /// <important>
+  /// Calling <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html">StartMetadataModelImport</a>
+  /// with <code>Refresh</code> deletes metadata models created by this
+  /// operation.
+  /// </important>
+  /// After the creation completes successfully:
+  ///
+  /// <ul>
+  /// <li>
+  /// To evaluate conversion complexity, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelAssessment.html">StartMetadataModelAssessment</a>.
+  /// </li>
+  /// <li>
+  /// To convert to the target database format, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelConversion.html">StartMetadataModelConversion</a>.
+  /// </li>
+  /// </ul>
+  /// <b>Required permissions:</b> <code>dms:StartMetadataModelCreation</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [ResourceAlreadyExistsFault].
@@ -6649,19 +7168,34 @@ class DatabaseMigration {
   /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [metadataModelName] :
-  /// The name of the metadata model.
+  /// The name for the metadata model to use in subsequent operations.
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [properties] :
-  /// The properties of metadata model in JSON format. This object is a Union.
-  /// Only one member of this object can be specified or returned.
+  /// The properties of the metadata model.
   ///
   /// Parameter [selectionRules] :
-  /// The JSON string that specifies the location where the metadata model will
-  /// be created. Selection rules must specify a single schema. For more
-  /// information, see Selection Rules in the DMS User Guide.
+  /// A JSON string that identifies the source schema for the metadata model.
+  /// For the selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts only source selection rules, where <code>server-name</code> in the
+  /// object locator matches the source data provider.
+  /// </li>
+  /// <li>
+  /// Supports only <code>explicit</code> rule actions.
+  /// </li>
+  /// <li>
+  /// Exactly one rule is allowed.
+  /// </li>
+  /// </ul>
   Future<StartMetadataModelCreationResponse> startMetadataModelCreation({
     required String metadataModelName,
     required String migrationProjectIdentifier,
@@ -6689,8 +7223,26 @@ class DatabaseMigration {
     return StartMetadataModelCreationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Saves your converted code to a file as a SQL script, and stores this file
-  /// on your Amazon S3 bucket.
+  /// Queues an export of metadata models (database objects such as tables,
+  /// views, and procedures) as a data definition language (DDL) script. The
+  /// script is stored as a ZIP archive in the Amazon S3 bucket associated with
+  /// the migration project. If other requests created by <code>Start*</code>
+  /// operations are already in the migration project's queue, the export begins
+  /// after they complete.
+  ///
+  /// When exporting from the target metadata tree, the export applies only to
+  /// metadata models created by conversion. Metadata models imported from the
+  /// database are skipped.
+  ///
+  /// To check the status of the export request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelExportsAsScript.html">DescribeMetadataModelExportsAsScript</a>
+  /// using the returned <code>RequestIdentifier</code> as a filter.
+  ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:StartMetadataModelExportAsScripts</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
@@ -6705,13 +7257,32 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [origin] :
-  /// Whether to export the metadata model from the source or the target.
+  /// Specifies the metadata tree to export from.
   ///
   /// Parameter [selectionRules] :
-  /// A value that specifies the database objects to export.
+  /// A JSON string that identifies the metadata models to export as a SQL
+  /// script. For the selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts source or target selection rules depending on the
+  /// <code>Origin</code> parameter. The <code>server-name</code> in the object
+  /// locator must match the corresponding data provider.
+  /// </li>
+  /// <li>
+  /// Supports <code>explicit</code>, <code>include</code>, and
+  /// <code>exclude</code> rule actions.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [fileName] :
-  /// The name of the model file to create in the Amazon S3 bucket.
+  /// The name for the exported file. When you omit this parameter, the service
+  /// generates a name from the data provider engine name and an export
+  /// timestamp.
   Future<StartMetadataModelExportAsScriptResponse>
       startMetadataModelExportAsScript({
     required String migrationProjectIdentifier,
@@ -6740,7 +7311,33 @@ class DatabaseMigration {
     return StartMetadataModelExportAsScriptResponse.fromJson(jsonResponse.body);
   }
 
-  /// Applies converted database objects to your target database.
+  /// Queues an export of the selected converted metadata models (database
+  /// objects such as tables, views, and procedures) to your target database. If
+  /// other requests created by <code>Start*</code> operations are already in
+  /// the migration project's queue, the export begins after they complete.
+  ///
+  /// This operation requires a non-virtual target data provider.
+  ///
+  /// The export applies only metadata models created by conversion. Metadata
+  /// models imported from the database are skipped.
+  /// <note>
+  /// If objects with the same name already exist on the target database, the
+  /// export overwrites them.
+  /// </note>
+  /// The operation installs the extension pack on the target database. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/extension-pack.html">Using
+  /// extension packs in DMS Schema Conversion</a>.
+  ///
+  /// To check the status of the export request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelExportsToTarget.html">DescribeMetadataModelExportsToTarget</a>
+  /// using the returned <code>RequestIdentifier</code> as a filter.
+  ///
+  /// <b>Required permissions:</b>
+  /// <code>dms:StartMetadataModelExportToTarget</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
@@ -6755,12 +7352,27 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [selectionRules] :
-  /// A value that specifies the database objects to export.
+  /// A JSON string that identifies the metadata models to export to the target
+  /// database. For the selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts only target selection rules, where <code>server-name</code> in the
+  /// object locator matches the target data provider.
+  /// </li>
+  /// <li>
+  /// Supports <code>explicit</code>, <code>include</code>, and
+  /// <code>exclude</code> rule actions.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [overwriteExtensionPack] :
-  /// Whether to overwrite the migration project extension pack. An extension
-  /// pack is an add-on module that emulates functions present in a source
-  /// database that are required when converting objects to the target database.
+  /// Specifies whether to overwrite the extension pack if one already exists on
+  /// the target database. The default value is <code>true</code>.
   Future<StartMetadataModelExportToTargetResponse>
       startMetadataModelExportToTarget({
     required String migrationProjectIdentifier,
@@ -6788,11 +7400,19 @@ class DatabaseMigration {
     return StartMetadataModelExportToTargetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Loads the metadata for all the dependent database objects of the parent
-  /// object.
+  /// Queues an import of metadata models (database objects such as tables,
+  /// views, and procedures) from your data provider into the metadata tree. If
+  /// other requests created by <code>Start*</code> operations are already in
+  /// the migration project's queue, the import begins after they complete.
   ///
-  /// This operation uses your project's Amazon S3 bucket as a metadata cache to
-  /// improve performance.
+  /// To check the status of the import request, call <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelImports.html">DescribeMetadataModelImports</a>
+  /// using the returned <code>RequestIdentifier</code> as a filter.
+  ///
+  /// <b>Required permissions:</b> <code>dms:StartMetadataModelImport</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html">Actions,
+  /// resources, and condition keys for Database Migration Service</a>.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
@@ -6807,14 +7427,40 @@ class DatabaseMigration {
   /// The migration project name or Amazon Resource Name (ARN).
   ///
   /// Parameter [origin] :
-  /// Whether to load metadata to the source or target database.
+  /// Specifies the metadata tree to import into.
+  /// <note>
+  /// You cannot import from a virtual target data provider.
+  /// </note>
   ///
   /// Parameter [selectionRules] :
-  /// A value that specifies the database objects to import.
+  /// A JSON string that identifies the metadata models to import from the data
+  /// provider. For the selection rule format and examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// Accepts source or target selection rules depending on the
+  /// <code>Origin</code> parameter. The <code>server-name</code> in the object
+  /// locator must match the corresponding data provider.
+  /// </li>
+  /// <li>
+  /// Supports <code>explicit</code>, <code>include</code>, and
+  /// <code>exclude</code> rule actions.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [refresh] :
-  /// If <code>true</code>, DMS loads metadata for the specified objects from
-  /// the source database.
+  /// Specifies whether to refresh the selected metadata models from the data
+  /// provider.
+  ///
+  /// When <code>true</code>, the import reloads the selected metadata models
+  /// with current definitions and removes their existing subtree.
+  ///
+  /// When <code>false</code> (default), the import loads the full subtree that
+  /// has not yet been loaded into the metadata tree.
   Future<StartMetadataModelImportResponse> startMetadataModelImport({
     required String migrationProjectIdentifier,
     required OriginTypeValue origin,
@@ -7575,6 +8221,11 @@ class BatchStartRecommendationsResponse {
 
 /// @nodoc
 class CancelMetadataModelConversionResponse {
+  /// The metadata model conversion request.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final SchemaConversionRequest? request;
 
   CancelMetadataModelConversionResponse({
@@ -7601,6 +8252,11 @@ class CancelMetadataModelConversionResponse {
 
 /// @nodoc
 class CancelMetadataModelCreationResponse {
+  /// The metadata model creation request.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final SchemaConversionRequest? request;
 
   CancelMetadataModelCreationResponse({
@@ -8526,7 +9182,10 @@ class DescribeConnectionsResponse {
 
 /// @nodoc
 class DescribeConversionConfigurationResponse {
-  /// The configuration parameters for the schema conversion project.
+  /// A JSON string that contains the schema conversion settings for the migration
+  /// project. For the format and available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/schema-conversion-settings.html">Specifying
+  /// schema conversion settings for migration projects</a>.
   final String? conversionConfiguration;
 
   /// The name or Amazon Resource Name (ARN) for the schema conversion project.
@@ -8898,8 +9557,11 @@ class DescribeExtensionPackAssociationsResponse {
   /// the returned token and keeping all other arguments unchanged.
   final String? marker;
 
-  /// A paginated list of extension pack associations for the specified migration
-  /// project.
+  /// A paginated list of extension pack installation requests.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final List<SchemaConversionRequest>? requests;
 
   DescribeExtensionPackAssociationsResponse({
@@ -9226,8 +9888,11 @@ class DescribeMetadataModelAssessmentsResponse {
   /// the returned token and keeping all other arguments unchanged.
   final String? marker;
 
-  /// A paginated list of metadata model assessments for the specified migration
-  /// project.
+  /// A paginated list of metadata model assessment requests.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final List<SchemaConversionRequest>? requests;
 
   DescribeMetadataModelAssessmentsResponse({
@@ -9308,7 +9973,11 @@ class DescribeMetadataModelConversionsResponse {
   /// the returned token and keeping all other arguments unchanged.
   final String? marker;
 
-  /// A paginated list of metadata model conversions.
+  /// A paginated list of metadata model conversion requests.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final List<SchemaConversionRequest>? requests;
 
   DescribeMetadataModelConversionsResponse({
@@ -9341,12 +10010,21 @@ class DescribeMetadataModelConversionsResponse {
 /// @nodoc
 class DescribeMetadataModelCreationsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
-  /// next page of metadata model creation requests. If Marker is returned, there
-  /// are more metadata model creation requests available.
+  /// next page of results. If this parameter is specified, the response includes
+  /// only records beyond the marker, up to the value specified by
+  /// <code>MaxRecords</code>.
+  ///
+  /// If <code>Marker</code> is returned by a previous response, there are more
+  /// results available. The value of <code>Marker</code> is a unique pagination
+  /// token for each page. To retrieve the next page, make the call again using
+  /// the returned token and keeping all other arguments unchanged.
   final String? marker;
 
-  /// A list of metadata model creation requests. The ExportSqlDetails field will
-  /// never be populated for the DescribeMetadataModelCreations operation.
+  /// A paginated list of metadata model creation requests.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final List<SchemaConversionRequest>? requests;
 
   DescribeMetadataModelCreationsResponse({
@@ -9389,7 +10067,7 @@ class DescribeMetadataModelExportsAsScriptResponse {
   /// the returned token and keeping all other arguments unchanged.
   final String? marker;
 
-  /// A paginated list of metadata model exports.
+  /// A paginated list of metadata model export requests.
   final List<SchemaConversionRequest>? requests;
 
   DescribeMetadataModelExportsAsScriptResponse({
@@ -9432,7 +10110,11 @@ class DescribeMetadataModelExportsToTargetResponse {
   /// the returned token and keeping all other arguments unchanged.
   final String? marker;
 
-  /// A paginated list of metadata model exports.
+  /// A paginated list of metadata model export requests.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final List<SchemaConversionRequest>? requests;
 
   DescribeMetadataModelExportsToTargetResponse({
@@ -9475,7 +10157,11 @@ class DescribeMetadataModelImportsResponse {
   /// the returned token and keeping all other arguments unchanged.
   final String? marker;
 
-  /// A paginated list of metadata model imports.
+  /// A paginated list of metadata model import requests.
+  /// <note>
+  /// DMS never populates the <code>ExportSqlDetails</code> field for this
+  /// operation.
+  /// </note>
   final List<SchemaConversionRequest>? requests;
 
   DescribeMetadataModelImportsResponse({
@@ -10859,7 +11545,7 @@ class StartDataMigrationResponse {
 
 /// @nodoc
 class StartExtensionPackAssociationResponse {
-  /// The identifier for the request operation.
+  /// The identifier for the installation request.
   final String? requestIdentifier;
 
   StartExtensionPackAssociationResponse({
@@ -10883,7 +11569,7 @@ class StartExtensionPackAssociationResponse {
 
 /// @nodoc
 class StartMetadataModelAssessmentResponse {
-  /// The identifier for the assessment operation.
+  /// The identifier for the assessment request.
   final String? requestIdentifier;
 
   StartMetadataModelAssessmentResponse({
@@ -10907,7 +11593,7 @@ class StartMetadataModelAssessmentResponse {
 
 /// @nodoc
 class StartMetadataModelConversionResponse {
-  /// The identifier for the conversion operation.
+  /// The identifier for the conversion request.
   final String? requestIdentifier;
 
   StartMetadataModelConversionResponse({
@@ -10931,7 +11617,7 @@ class StartMetadataModelConversionResponse {
 
 /// @nodoc
 class StartMetadataModelCreationResponse {
-  /// The identifier for the metadata model creation operation.
+  /// The identifier for the creation request.
   final String? requestIdentifier;
 
   StartMetadataModelCreationResponse({
@@ -10955,7 +11641,7 @@ class StartMetadataModelCreationResponse {
 
 /// @nodoc
 class StartMetadataModelExportAsScriptResponse {
-  /// The identifier for the export operation.
+  /// The identifier for the export request.
   final String? requestIdentifier;
 
   StartMetadataModelExportAsScriptResponse({
@@ -10979,7 +11665,7 @@ class StartMetadataModelExportAsScriptResponse {
 
 /// @nodoc
 class StartMetadataModelExportToTargetResponse {
-  /// The identifier for the export operation.
+  /// The identifier for the export request.
   final String? requestIdentifier;
 
   StartMetadataModelExportToTargetResponse({
@@ -11003,7 +11689,7 @@ class StartMetadataModelExportToTargetResponse {
 
 /// @nodoc
 class StartMetadataModelImportResponse {
-  /// The identifier for the import operation.
+  /// The identifier for the import request.
   final String? requestIdentifier;
 
   StartMetadataModelImportResponse({
@@ -13298,12 +13984,11 @@ class OriginTypeValue {
   String toString() => value;
 }
 
-/// The properties of metadata model in JSON format. This object is a Union.
-/// Only one member of this object can be specified or returned.
+/// The properties of the metadata model.
 ///
 /// @nodoc
 class MetadataModelProperties {
-  /// The properties of the statement.
+  /// The properties of the SQL statement.
   final StatementProperties? statementProperties;
 
   MetadataModelProperties({
@@ -13319,7 +14004,7 @@ class MetadataModelProperties {
   }
 }
 
-/// The properties of the statement for metadata model creation.
+/// The properties of the SQL statement.
 ///
 /// @nodoc
 class StatementProperties {
@@ -14450,10 +15135,16 @@ class MigrationProject {
   /// Secrets Manager parameters.
   final List<DataProviderDescriptor>? targetDataProviderDescriptors;
 
-  /// The settings in JSON format for migration rules. Migration rules make it
-  /// possible for you to change the object names according to the rules that you
-  /// specify. For example, you can change an object name to lowercase or
-  /// uppercase, add or remove a prefix or suffix, or rename objects.
+  /// The transformation rules for the migration project in JSON format.
+  /// Transformation rules let you customize how DMS Schema Conversion converts
+  /// your source database objects, including renaming, adding prefixes or
+  /// suffixes, and changing data types. For the transformation rule format and
+  /// examples, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html">Transformation
+  /// rules in DMS Schema Conversion</a>.
+  /// <note>
+  /// Homogeneous data migrations do not support transformation rules.
+  /// </note>
   final String? transformationRules;
 
   MigrationProject({
@@ -16158,8 +16849,12 @@ class MongoDbSettings {
   /// <code>1000</code>.
   final String? docsToInvestigate;
 
-  /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
-  /// is set to <code>"none"</code>.
+  /// Specifies whether the document ID is added to the target table. Use this
+  /// setting when <code>NestingLevel</code> is set to <code>"none"</code>.
+  ///
+  /// Set <code>ExtractDocId</code> to <code>"true"</code> when using <a
+  /// href="https://www.mongodb.com/docs/manual/reference/method/Session.startTransaction/#mongodb-method-Session.startTransaction">multi-document
+  /// transactions</a> with CDC.
   ///
   /// Default value is <code>"false"</code>.
   final String? extractDocId;
@@ -18010,12 +18705,12 @@ class OracleSettings {
   final String? secretsManagerSecretId;
 
   /// For an Oracle source endpoint, the transparent data encryption (TDE)
-  /// password required by AWM DMS to access Oracle redo logs encrypted by TDE
-  /// using Binary Reader. It is also the <code> <i>TDE_Password</i> </code> part
-  /// of the comma-separated value you set to the <code>Password</code> request
-  /// parameter when you create the endpoint. The
-  /// <code>SecurityDbEncryptian</code> setting is related to this
-  /// <code>SecurityDbEncryptionName</code> setting. For more information, see <a
+  /// password required by DMS to access Oracle redo logs encrypted by TDE using
+  /// Binary Reader. It is also the <code> <i>TDE_Password</i> </code> part of the
+  /// comma-separated value you set to the <code>Password</code> request parameter
+  /// when you create the endpoint. The <code>SecurityDbEncryption</code> setting
+  /// is related to this <code>SecurityDbEncryptionName</code> setting. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
   /// Supported encryption methods for using Oracle as a source for DMS </a> in
   /// the <i>Database Migration Service User Guide</i>.
@@ -18798,10 +19493,14 @@ class DocDbSettings {
   /// <code>1000</code>.
   final int? docsToInvestigate;
 
-  /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
-  /// is set to <code>"none"</code>.
+  /// Specifies whether the document ID is added to the target table. Use this
+  /// setting when <code>NestingLevel</code> is set to <code>"none"</code>.
   ///
-  /// Default value is <code>"false"</code>.
+  /// Set <code>ExtractDocId</code> to <code>true</code> when using <a
+  /// href="https://www.mongodb.com/docs/manual/reference/method/Session.startTransaction/#mongodb-method-Session.startTransaction">multi-document
+  /// transactions</a> with CDC.
+  ///
+  /// Default value is <code>false</code>.
   final bool? extractDocId;
 
   /// The KMS key identifier that is used to encrypt the content on the
@@ -20101,13 +20800,14 @@ class DataProvider {
   /// hyphens, and can only begin with a letter.
   final String? description;
 
-  /// The type of database engine for the data provider. Valid values include
-  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
-  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
-  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
-  /// <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>,
-  /// <code>docdb</code>, and <code>sybase</code>. A value of
-  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
+  /// The type of database engine for the data provider.
+  ///
+  /// Valid values: <code>aurora</code>, <code>aurora-postgresql</code>,
+  /// <code>db2</code>, <code>db2-zos</code>, <code>docdb</code>,
+  /// <code>mariadb</code>, <code>mongodb</code>, <code>mysql</code>,
+  /// <code>oracle</code>, <code>postgres</code>, <code>redshift</code>,
+  /// <code>sqlserver</code>, and <code>sybase</code>. A value of
+  /// <code>aurora</code> represents Amazon Aurora MySQL-Compatible Edition.
   final String? engine;
 
   /// The settings in JSON format for a data provider.
@@ -22487,6 +23187,13 @@ class ReleaseStatusValues {
 /// @nodoc
 class SchemaConversionRequest {
   final ErrorDetails? error;
+
+  /// The Amazon S3 location of the ZIP archive that contains the exported data
+  /// definition language (DDL) scripts.
+  /// <note>
+  /// DMS populates this field only for the
+  /// <code>DescribeMetadataModelExportsAsScript</code> operation.
+  /// </note>
   final ExportSqlDetails? exportSqlDetails;
 
   /// The migration project ARN.
@@ -22496,7 +23203,30 @@ class SchemaConversionRequest {
   /// The identifier for the schema conversion action.
   final String? requestIdentifier;
 
-  /// The schema conversion action status.
+  /// The schema conversion operation status. Possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RECEIVED</code> – The operation is received but not yet queued for
+  /// processing.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> – The operation is queued or actively running.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – The operation completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – The operation did not complete.
+  /// </li>
+  /// <li>
+  /// <code>CANCELING</code> – The operation is being canceled. The operation
+  /// might still succeed or fail before cancellation takes effect.
+  /// </li>
+  /// <li>
+  /// <code>CANCELED</code> – The operation was canceled before completion.
+  /// </li>
+  /// </ul>
   final String? status;
 
   SchemaConversionRequest({
@@ -22574,15 +23304,17 @@ class ErrorDetails {
   }
 }
 
-/// Provides information about a metadata model assessment exported to SQL.
+/// The Amazon S3 location of the ZIP archive that contains the exported data
+/// definition language (DDL) scripts.
 ///
 /// @nodoc
 class ExportSqlDetails {
-  /// The URL for the object containing the exported metadata model assessment.
+  /// The URL of the Amazon S3 object that contains the ZIP archive with exported
+  /// DDL scripts.
   final String? objectURL;
 
-  /// The Amazon S3 object key for the object containing the exported metadata
-  /// model assessment.
+  /// The Amazon S3 URI of the object that contains the ZIP archive with exported
+  /// DDL scripts.
   final String? s3ObjectKey;
 
   ExportSqlDetails({
@@ -22760,7 +23492,21 @@ class MetadataModelReference {
   /// The name of the metadata model.
   final String? metadataModelName;
 
-  /// The JSON string representing metadata model location.
+  /// A JSON string that identifies this metadata model in the metadata tree. For
+  /// the selection rule format, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html">Selection
+  /// rules in DMS Schema Conversion</a>.
+  ///
+  /// Usage:
+  ///
+  /// <ul>
+  /// <li>
+  /// You can pass this value as the <code>SelectionRules</code> parameter to any
+  /// operation that accepts selection rules, such as
+  /// <code>DescribeMetadataModel</code>,
+  /// <code>StartMetadataModelConversion</code>, and others.
+  /// </li>
+  /// </ul>
   final String? selectionRules;
 
   MetadataModelReference({

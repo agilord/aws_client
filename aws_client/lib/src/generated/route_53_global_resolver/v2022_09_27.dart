@@ -115,6 +115,46 @@ class Route53GlobalResolver {
     return DisassociateHostedZoneOutput.fromJson(response);
   }
 
+  /// Lists the DNS views that have been shared with your Amazon Web Services
+  /// account through Amazon Web Services Resource Access Manager (Amazon Web
+  /// Services RAM), with pagination support.
+  /// <important>
+  /// Route 53 Global Resolver is a global service that supports resolvers in
+  /// multiple Amazon Web Services Regions but you must specify the US East
+  /// (Ohio) Region to create, update, or otherwise work with Route 53 Global
+  /// Resolver resources. That is, for example, specify <code>--region
+  /// us-east-2</code> on Amazon Web Services CLI commands.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to retrieve in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token used for large sets of results that can't be returned
+  /// in a single response.
+  Future<ListSharedDNSViewsOutput> listSharedDNSViews({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/shared-dns-views',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSharedDNSViewsOutput.fromJson(response);
+  }
+
   /// Lists the tags associated with a Route 53 Global Resolver resource.
   /// <important>
   /// Route 53 Global Resolver is a global service that supports resolvers in
@@ -2092,8 +2132,10 @@ class Route53GlobalResolver {
     return UpdateHostedZoneAssociationOutput.fromJson(response);
   }
 
-  /// Lists all hosted zone associations for a Route 53 Global Resolver resource
-  /// with pagination support.
+  /// Lists hosted zone associations with pagination support. Specify a DNS view
+  /// through the <code>resourceArn</code> parameter to list the hosted zone
+  /// associations for that DNS view, or omit it to list all hosted zone
+  /// associations in your Amazon Web Services account.
   /// <important>
   /// Route 53 Global Resolver is a global service that supports resolvers in
   /// multiple Amazon Web Services Regions but you must specify the US East
@@ -2108,29 +2150,31 @@ class Route53GlobalResolver {
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
-  /// Parameter [resourceArn] :
-  /// Amazon Resource Name (ARN) of the DNS view.
-  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to retrieve in a single call.
   ///
   /// Parameter [nextToken] :
   /// A pagination token used for large sets of results that can't be returned
   /// in a single response.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the DNS view to list hosted zone
+  /// associations for. This parameter is optional; if you omit it, all hosted
+  /// zone associations in your Amazon Web Services account are returned.
   Future<ListHostedZoneAssociationsOutput> listHostedZoneAssociations({
-    required String resourceArn,
     int? maxResults,
     String? nextToken,
+    String? resourceArn,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
+      if (resourceArn != null) 'resourceArn': [resourceArn],
     };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/hosted-zone-associations/resource-arn/${resourceArn.split('/').map(Uri.encodeComponent).join('/')}',
+      requestUri: '/hosted-zone-associations',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -2287,6 +2331,43 @@ class DisassociateHostedZoneOutput {
       'resourceArn': resourceArn,
       'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class ListSharedDNSViewsOutput {
+  /// An array of information about the DNS views shared with your Amazon Web
+  /// Services account, including the Amazon Web Services account that owns each
+  /// DNS view.
+  final List<SharedDNSViewSummary> dnsViews;
+
+  /// A pagination token used for large sets of results that can't be returned in
+  /// a single response. Provide this token in the next call to get the results
+  /// not returned in this call.
+  final String? nextToken;
+
+  ListSharedDNSViewsOutput({
+    required this.dnsViews,
+    this.nextToken,
+  });
+
+  factory ListSharedDNSViewsOutput.fromJson(Map<String, dynamic> json) {
+    return ListSharedDNSViewsOutput(
+      dnsViews: ((json['dnsViews'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SharedDNSViewSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dnsViews = this.dnsViews;
+    final nextToken = this.nextToken;
+    return {
+      'dnsViews': dnsViews,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -7570,6 +7651,121 @@ class DnsProtocol {
 
   @override
   String toString() => value;
+}
+
+/// Summary information about a DNS view that has been shared with your Amazon
+/// Web Services account through Amazon Web Services RAM.
+///
+/// @nodoc
+class SharedDNSViewSummary {
+  /// The Amazon Resource Name (ARN) of the DNS view.
+  final String arn;
+
+  /// The unique string that identifies the request and ensures idempotency.
+  final String clientToken;
+
+  /// The date and time when the DNS view was created.
+  final DateTime createdAt;
+
+  /// Whether DNSSEC validation is enabled for the DNS view.
+  final DnsSecValidationType dnssecValidation;
+
+  /// Whether EDNS Client Subnet injection is enabled for the DNS view.
+  final EdnsClientSubnetType ednsClientSubnet;
+
+  /// Whether firewall rules fail open when they cannot be evaluated.
+  final FirewallRulesFailOpenType firewallRulesFailOpen;
+
+  /// The ID of the global resolver that the DNS view is associated with.
+  final String globalResolverId;
+
+  /// The unique identifier of the DNS view.
+  final String id;
+
+  /// The name of the DNS view.
+  final String name;
+
+  /// The ID of the Amazon Web Services account that owns the DNS view and shared
+  /// it with your Amazon Web Services account.
+  final String ownerAccountId;
+
+  /// The current status of the DNS view.
+  final ProfileResourceStatus status;
+
+  /// The date and time when the DNS view was last updated.
+  final DateTime updatedAt;
+
+  /// A description of the DNS view.
+  final String? description;
+
+  SharedDNSViewSummary({
+    required this.arn,
+    required this.clientToken,
+    required this.createdAt,
+    required this.dnssecValidation,
+    required this.ednsClientSubnet,
+    required this.firewallRulesFailOpen,
+    required this.globalResolverId,
+    required this.id,
+    required this.name,
+    required this.ownerAccountId,
+    required this.status,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory SharedDNSViewSummary.fromJson(Map<String, dynamic> json) {
+    return SharedDNSViewSummary(
+      arn: (json['arn'] as String?) ?? '',
+      clientToken: (json['clientToken'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dnssecValidation: DnsSecValidationType.fromString(
+          (json['dnssecValidation'] as String?) ?? ''),
+      ednsClientSubnet: EdnsClientSubnetType.fromString(
+          (json['ednsClientSubnet'] as String?) ?? ''),
+      firewallRulesFailOpen: FirewallRulesFailOpenType.fromString(
+          (json['firewallRulesFailOpen'] as String?) ?? ''),
+      globalResolverId: (json['globalResolverId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      ownerAccountId: (json['ownerAccountId'] as String?) ?? '',
+      status:
+          ProfileResourceStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clientToken = this.clientToken;
+    final createdAt = this.createdAt;
+    final dnssecValidation = this.dnssecValidation;
+    final ednsClientSubnet = this.ednsClientSubnet;
+    final firewallRulesFailOpen = this.firewallRulesFailOpen;
+    final globalResolverId = this.globalResolverId;
+    final id = this.id;
+    final name = this.name;
+    final ownerAccountId = this.ownerAccountId;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'clientToken': clientToken,
+      'createdAt': iso8601ToJson(createdAt),
+      'dnssecValidation': dnssecValidation.value,
+      'ednsClientSubnet': ednsClientSubnet.value,
+      'firewallRulesFailOpen': firewallRulesFailOpen.value,
+      'globalResolverId': globalResolverId,
+      'id': id,
+      'name': name,
+      'ownerAccountId': ownerAccountId,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
 }
 
 /// @nodoc

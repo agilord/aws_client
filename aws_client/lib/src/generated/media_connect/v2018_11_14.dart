@@ -2498,6 +2498,9 @@ class MediaConnect {
   /// Parameter [clientToken] :
   /// A unique identifier for the request to ensure idempotency.
   ///
+  /// Parameter [contentQualityAnalysisConfiguration] :
+  /// The content quality analysis configuration for the router input.
+  ///
   /// Parameter [maintenanceConfiguration] :
   /// The maintenance configuration settings for the router input, including
   /// preferred maintenance windows and schedules.
@@ -2519,6 +2522,8 @@ class MediaConnect {
     required RouterInputTier tier,
     String? availabilityZone,
     String? clientToken,
+    RouterContentQualityAnalysisConfiguration?
+        contentQualityAnalysisConfiguration,
     MaintenanceConfiguration? maintenanceConfiguration,
     String? regionName,
     Map<String, String>? tags,
@@ -2532,6 +2537,9 @@ class MediaConnect {
       'tier': tier.value,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (contentQualityAnalysisConfiguration != null)
+        'contentQualityAnalysisConfiguration':
+            contentQualityAnalysisConfiguration,
       if (maintenanceConfiguration != null)
         'maintenanceConfiguration': maintenanceConfiguration,
       if (regionName != null) 'regionName': regionName,
@@ -2592,6 +2600,9 @@ class MediaConnect {
   /// The updated configuration settings for the router input. Changing the type
   /// of the configuration is not supported.
   ///
+  /// Parameter [contentQualityAnalysisConfiguration] :
+  /// The content quality analysis configuration for the router input.
+  ///
   /// Parameter [maintenanceConfiguration] :
   /// The updated maintenance configuration settings for the router input,
   /// including any changes to preferred maintenance windows and schedules.
@@ -2615,6 +2626,8 @@ class MediaConnect {
   Future<UpdateRouterInputResponse> updateRouterInput({
     required String arn,
     RouterInputConfiguration? configuration,
+    RouterContentQualityAnalysisConfiguration?
+        contentQualityAnalysisConfiguration,
     MaintenanceConfiguration? maintenanceConfiguration,
     int? maximumBitrate,
     String? name,
@@ -2624,6 +2637,9 @@ class MediaConnect {
   }) async {
     final $payload = <String, dynamic>{
       if (configuration != null) 'configuration': configuration,
+      if (contentQualityAnalysisConfiguration != null)
+        'contentQualityAnalysisConfiguration':
+            contentQualityAnalysisConfiguration,
       if (maintenanceConfiguration != null)
         'maintenanceConfiguration': maintenanceConfiguration,
       if (maximumBitrate != null) 'maximumBitrate': maximumBitrate,
@@ -8297,6 +8313,13 @@ class RouterInput {
   final String availabilityZone;
   final RouterInputConfiguration configuration;
 
+  /// The content quality analysis configuration for the router input.
+  final RouterContentQualityAnalysisConfiguration
+      contentQualityAnalysisConfiguration;
+
+  /// The type of content quality analysis applied to the router input.
+  final RouterContentQualityAnalysisType contentQualityAnalysisType;
+
   /// The timestamp when the router input was created.
   final DateTime createdAt;
 
@@ -8362,6 +8385,8 @@ class RouterInput {
     required this.arn,
     required this.availabilityZone,
     required this.configuration,
+    required this.contentQualityAnalysisConfiguration,
+    required this.contentQualityAnalysisType,
     required this.createdAt,
     required this.id,
     required this.inputType,
@@ -8392,6 +8417,13 @@ class RouterInput {
       configuration: RouterInputConfiguration.fromJson(
           (json['configuration'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      contentQualityAnalysisConfiguration:
+          RouterContentQualityAnalysisConfiguration.fromJson(
+              (json['contentQualityAnalysisConfiguration']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      contentQualityAnalysisType: RouterContentQualityAnalysisType.fromString(
+          (json['contentQualityAnalysisType'] as String?) ?? ''),
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       id: (json['id'] as String?) ?? '',
       inputType:
@@ -8438,6 +8470,9 @@ class RouterInput {
     final arn = this.arn;
     final availabilityZone = this.availabilityZone;
     final configuration = this.configuration;
+    final contentQualityAnalysisConfiguration =
+        this.contentQualityAnalysisConfiguration;
+    final contentQualityAnalysisType = this.contentQualityAnalysisType;
     final createdAt = this.createdAt;
     final id = this.id;
     final inputType = this.inputType;
@@ -8463,6 +8498,9 @@ class RouterInput {
       'arn': arn,
       'availabilityZone': availabilityZone,
       'configuration': configuration,
+      'contentQualityAnalysisConfiguration':
+          contentQualityAnalysisConfiguration,
+      'contentQualityAnalysisType': contentQualityAnalysisType.value,
       'createdAt': iso8601ToJson(createdAt),
       'id': id,
       'inputType': inputType.value,
@@ -8749,6 +8787,248 @@ class RouterInputStreamDetails {
       if (standard != null) 'standard': standard,
     };
   }
+}
+
+/// @nodoc
+class RouterContentQualityAnalysisType {
+  static const contentLevel =
+      RouterContentQualityAnalysisType._('CONTENT_LEVEL');
+
+  final String value;
+
+  const RouterContentQualityAnalysisType._(this.value);
+
+  static const values = [contentLevel];
+
+  static RouterContentQualityAnalysisType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouterContentQualityAnalysisType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouterContentQualityAnalysisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The content quality analysis configuration for the router input.
+/// <important>
+/// The content quality analysis feature only monitors the first video stream
+/// and the first audio stream it encounters within the router input source.
+/// </important>
+///
+/// @nodoc
+class RouterContentQualityAnalysisConfiguration {
+  /// The content quality analysis configuration.
+  final ContentQualityAnalysisFeatureConfiguration? contentLevel;
+
+  RouterContentQualityAnalysisConfiguration({
+    this.contentLevel,
+  });
+
+  factory RouterContentQualityAnalysisConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RouterContentQualityAnalysisConfiguration(
+      contentLevel: json['contentLevel'] != null
+          ? ContentQualityAnalysisFeatureConfiguration.fromJson(
+              json['contentLevel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentLevel = this.contentLevel;
+    return {
+      if (contentLevel != null) 'contentLevel': contentLevel,
+    };
+  }
+}
+
+/// Configures the content quality analysis features for the router input.
+///
+/// @nodoc
+class ContentQualityAnalysisFeatureConfiguration {
+  /// Settings for black frames detection.
+  final BlackFramesConfiguration? blackFrames;
+
+  /// Settings for frozen frames detection.
+  final FrozenFramesConfiguration? frozenFrames;
+
+  /// Settings for silent audio detection.
+  final SilentAudioConfiguration? silentAudio;
+
+  ContentQualityAnalysisFeatureConfiguration({
+    this.blackFrames,
+    this.frozenFrames,
+    this.silentAudio,
+  });
+
+  factory ContentQualityAnalysisFeatureConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ContentQualityAnalysisFeatureConfiguration(
+      blackFrames: json['blackFrames'] != null
+          ? BlackFramesConfiguration.fromJson(
+              json['blackFrames'] as Map<String, dynamic>)
+          : null,
+      frozenFrames: json['frozenFrames'] != null
+          ? FrozenFramesConfiguration.fromJson(
+              json['frozenFrames'] as Map<String, dynamic>)
+          : null,
+      silentAudio: json['silentAudio'] != null
+          ? SilentAudioConfiguration.fromJson(
+              json['silentAudio'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blackFrames = this.blackFrames;
+    final frozenFrames = this.frozenFrames;
+    final silentAudio = this.silentAudio;
+    return {
+      if (blackFrames != null) 'blackFrames': blackFrames,
+      if (frozenFrames != null) 'frozenFrames': frozenFrames,
+      if (silentAudio != null) 'silentAudio': silentAudio,
+    };
+  }
+}
+
+/// Detects black frames in the router input's source content and reports them
+/// through a CloudWatch metric, an EventBridge event, and a router input
+/// message.
+///
+/// @nodoc
+class BlackFramesConfiguration {
+  /// Indicates whether black frames detection is enabled or disabled.
+  final ContentQualityAnalysisState state;
+
+  /// The number of consecutive seconds of black frames that MediaConnect must
+  /// detect before it reports an issue.
+  final int thresholdSeconds;
+
+  BlackFramesConfiguration({
+    required this.state,
+    required this.thresholdSeconds,
+  });
+
+  factory BlackFramesConfiguration.fromJson(Map<String, dynamic> json) {
+    return BlackFramesConfiguration(
+      state: ContentQualityAnalysisState.fromString(
+          (json['state'] as String?) ?? ''),
+      thresholdSeconds: (json['thresholdSeconds'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final thresholdSeconds = this.thresholdSeconds;
+    return {
+      'state': state.value,
+      'thresholdSeconds': thresholdSeconds,
+    };
+  }
+}
+
+/// Detects frozen video frames in the router input's source content and reports
+/// them through a CloudWatch metric, an EventBridge event, and a router input
+/// message.
+///
+/// @nodoc
+class FrozenFramesConfiguration {
+  /// Indicates whether frozen frames detection is enabled or disabled.
+  final ContentQualityAnalysisState state;
+
+  /// The number of consecutive seconds of a frozen frame that MediaConnect must
+  /// detect before it reports an issue.
+  final int thresholdSeconds;
+
+  FrozenFramesConfiguration({
+    required this.state,
+    required this.thresholdSeconds,
+  });
+
+  factory FrozenFramesConfiguration.fromJson(Map<String, dynamic> json) {
+    return FrozenFramesConfiguration(
+      state: ContentQualityAnalysisState.fromString(
+          (json['state'] as String?) ?? ''),
+      thresholdSeconds: (json['thresholdSeconds'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final thresholdSeconds = this.thresholdSeconds;
+    return {
+      'state': state.value,
+      'thresholdSeconds': thresholdSeconds,
+    };
+  }
+}
+
+/// Detects silent audio in the router input's source content and reports it
+/// through a CloudWatch metric, an EventBridge event, and a router input
+/// message.
+///
+/// @nodoc
+class SilentAudioConfiguration {
+  /// Indicates whether silent audio detection is enabled or disabled.
+  final ContentQualityAnalysisState state;
+
+  /// The number of consecutive seconds of silence that MediaConnect must detect
+  /// before it reports an issue.
+  final int thresholdSeconds;
+
+  SilentAudioConfiguration({
+    required this.state,
+    required this.thresholdSeconds,
+  });
+
+  factory SilentAudioConfiguration.fromJson(Map<String, dynamic> json) {
+    return SilentAudioConfiguration(
+      state: ContentQualityAnalysisState.fromString(
+          (json['state'] as String?) ?? ''),
+      thresholdSeconds: (json['thresholdSeconds'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final thresholdSeconds = this.thresholdSeconds;
+    return {
+      'state': state.value,
+      'thresholdSeconds': thresholdSeconds,
+    };
+  }
+}
+
+/// @nodoc
+class ContentQualityAnalysisState {
+  static const enabled = ContentQualityAnalysisState._('ENABLED');
+  static const disabled = ContentQualityAnalysisState._('DISABLED');
+
+  final String value;
+
+  const ContentQualityAnalysisState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ContentQualityAnalysisState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentQualityAnalysisState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentQualityAnalysisState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration details for a standard router input stream type.
@@ -11101,12 +11381,12 @@ class Source {
   /// enabled.
   final FlowTransitEncryption? routerIntegrationTransitDecryption;
 
-  /// The IP address that the flow communicates with to initiate connection with
-  /// the sender.
-  final int? senderControlPort;
-
   /// The port that the flow uses to send outbound requests to initiate connection
   /// with the sender.
+  final int? senderControlPort;
+
+  /// The IP address that the flow communicates with to initiate connection with
+  /// the sender.
   final String? senderIpAddress;
 
   /// Attributes related to the transport stream that are used in the source.
@@ -14850,32 +15130,6 @@ class ThumbnailState {
   String toString() => value;
 }
 
-/// @nodoc
-class ContentQualityAnalysisState {
-  static const enabled = ContentQualityAnalysisState._('ENABLED');
-  static const disabled = ContentQualityAnalysisState._('DISABLED');
-
-  final String value;
-
-  const ContentQualityAnalysisState._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ContentQualityAnalysisState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentQualityAnalysisState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContentQualityAnalysisState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Specifies the configuration for video stream metrics monitoring.
 ///
 /// @nodoc
@@ -14917,7 +15171,7 @@ class VideoMonitoringSetting {
 /// @nodoc
 class BlackFrames {
   /// Indicates whether the <code>BlackFrames</code> metric is enabled or
-  /// disabled..
+  /// disabled.
   final State? state;
 
   /// Specifies the number of consecutive seconds of black frames that triggers an
