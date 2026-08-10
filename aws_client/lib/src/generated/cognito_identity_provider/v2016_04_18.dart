@@ -1252,6 +1252,77 @@ class CognitoIdentityProvider {
     return AdminGetUserResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the authentication options for a user in a user pool. Returns the
+  /// following:
+  /// <ol>
+  /// <li>
+  /// The user's multi-factor authentication (MFA) preferences.
+  /// </li>
+  /// <li>
+  /// The user's options for choice-based authentication with the
+  /// <code>USER_AUTH</code> flow.
+  /// </li> </ol> <note>
+  /// Amazon Cognito evaluates Identity and Access Management (IAM) policies in
+  /// requests for this API operation. For this operation, you must use IAM
+  /// credentials to authorize requests, and you must grant yourself the
+  /// corresponding IAM permission in a policy.
+  /// <p class="title"> <b>Learn more</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html">Signing
+  /// Amazon Web Services API Requests</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html">Using
+  /// the Amazon Cognito user pools API and user pool endpoints</a>
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [OperationNotEnabledException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UserNotFoundException].
+  ///
+  /// Parameter [userPoolId] :
+  /// The ID of the user pool where you want to get information about the user's
+  /// authentication factors.
+  ///
+  /// Parameter [username] :
+  /// The name of the user that you want to query or modify. The value of this
+  /// parameter is typically your user's username, but it can be any of their
+  /// alias attributes. If <code>username</code> isn't an alias attribute in
+  /// your user pool, this value must be the <code>sub</code> of a local user or
+  /// the username of a user from a third-party IdP.
+  Future<AdminGetUserAuthFactorsResponse> adminGetUserAuthFactors({
+    required String userPoolId,
+    required String username,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSCognitoIdentityProviderService.AdminGetUserAuthFactors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'UserPoolId': userPoolId,
+        'Username': username,
+      },
+    );
+
+    return AdminGetUserAuthFactorsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts sign-in for applications with a server-side component, for example
   /// a traditional web application. This operation specifies the authentication
   /// flow that you'd like to begin. The authentication flow that you specify
@@ -4545,10 +4616,18 @@ class CognitoIdentityProvider {
   ///
   /// Parameter [userPoolId] :
   /// The ID of the user pool that you want to import users into.
+  ///
+  /// Parameter [passwordHashingAlgorithm] :
+  /// The password hashing algorithm used to generate the hashes in the CSV file
+  /// for this import job.
+  ///
+  /// Valid values: <code>BCRYPT</code> | <code>SCRYPT</code> |
+  /// <code>ARGON2ID</code> | <code>PBKDF2_SHA256</code>
   Future<CreateUserImportJobResponse> createUserImportJob({
     required String cloudWatchLogsRoleArn,
     required String jobName,
     required String userPoolId,
+    PasswordHashingAlgorithmType? passwordHashingAlgorithm,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4564,6 +4643,8 @@ class CognitoIdentityProvider {
         'CloudWatchLogsRoleArn': cloudWatchLogsRoleArn,
         'JobName': jobName,
         'UserPoolId': userPoolId,
+        if (passwordHashingAlgorithm != null)
+          'PasswordHashingAlgorithm': passwordHashingAlgorithm.value,
       },
     );
 
@@ -4726,6 +4807,25 @@ class CognitoIdentityProvider {
   /// doesn't automatically prompt users to set up MFA. Amazon Cognito generates
   /// MFA prompts in API responses and in managed login for users who have
   /// chosen and configured a preferred MFA factor.
+  ///
+  /// The <code>CreateUserPool</code> operation supports only SMS MFA
+  /// configuration. If you set <code>MfaConfiguration</code> to either of these
+  /// values, include an <code>SmsConfiguration</code> in the same request:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ON</code> – Requires MFA for all users
+  /// </li>
+  /// <li>
+  /// <code>OPTIONAL</code> – Makes MFA optional for each user
+  /// </li>
+  /// </ul>
+  /// If you omit <code>SmsConfiguration</code>, the operation returns an
+  /// <code>InvalidParameterException</code>. To configure TOTP or email MFA,
+  /// use the <a
+  /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserPoolMfaConfig.html">SetUserPoolMfaConfig</a>
+  /// operation. You can also use <code>SetUserPoolMfaConfig</code> to add MFA
+  /// factors later.
   ///
   /// Parameter [policies] :
   /// The password policy and sign-in policy in the user pool. The password
@@ -5507,6 +5607,15 @@ class CognitoIdentityProvider {
   /// Managed login requires that your user pool be configured for any <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html">feature
   /// plan</a> other than <code>Lite</code>.
+  ///
+  /// A <code>ManagedLoginVersion</code> value of <code>2</code> does not
+  /// activate managed login pages for your app client. When you create an app
+  /// client programmatically, your app client has no branding style. To use
+  /// managed login, create a branding style using the <a
+  /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateManagedLoginBranding.html">CreateManagedLoginBranding</a>
+  /// operation. When you use the console, Amazon Cognito assigns a default
+  /// branding style automatically. When you use the API or an SDK, you must
+  /// create a branding style yourself.
   ///
   /// Parameter [routing] :
   /// The configuration of routing for requests to the domain for replicas of a
@@ -7303,6 +7412,57 @@ class CognitoIdentityProvider {
     );
 
     return GetLogDeliveryConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the current provisioned limit for a specific API category.
+  /// <note>
+  /// Amazon Cognito evaluates Identity and Access Management (IAM) policies in
+  /// requests for this API operation. For this operation, you must use IAM
+  /// credentials to authorize requests, and you must grant yourself the
+  /// corresponding IAM permission in a policy.
+  /// <p class="title"> <b>Learn more</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html">Signing
+  /// Amazon Web Services API Requests</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html">Using
+  /// the Amazon Cognito user pools API and user pool endpoints</a>
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [limitDefinition] :
+  /// The limit to retrieve. Specify the limit class and the attributes that
+  /// identify the limit.
+  Future<GetProvisionedLimitResponse> getProvisionedLimit({
+    required LimitDefinitionType limitDefinition,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCognitoIdentityProviderService.GetProvisionedLimit'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LimitDefinition': limitDefinition,
+      },
+    );
+
+    return GetProvisionedLimitResponse.fromJson(jsonResponse.body);
   }
 
   /// Given a user pool ID, returns the signing certificate for SAML 2.0
@@ -11397,6 +11557,69 @@ class CognitoIdentityProvider {
     return UpdateManagedLoginBrandingResponse.fromJson(jsonResponse.body);
   }
 
+  /// Sets the provisioned limit for a specific API category. The value must be
+  /// between the default limit and your account-level maximum limit in Service
+  /// Quotas.
+  ///
+  /// Managed login user pools don't support adjustments to the
+  /// <code>UserAuthentication</code> or <code>UserFederation</code> categories.
+  /// To increase these limits, submit a Service Quotas increase request.
+  /// <note>
+  /// Amazon Cognito evaluates Identity and Access Management (IAM) policies in
+  /// requests for this API operation. For this operation, you must use IAM
+  /// credentials to authorize requests, and you must grant yourself the
+  /// corresponding IAM permission in a policy.
+  /// <p class="title"> <b>Learn more</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html">Signing
+  /// Amazon Web Services API Requests</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html">Using
+  /// the Amazon Cognito user pools API and user pool endpoints</a>
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [limitDefinition] :
+  /// The limit to update. Specify the limit class and the attributes that
+  /// identify the limit.
+  ///
+  /// Parameter [requestedLimitValue] :
+  /// The provisioned rate to set, in requests per second (RPS).
+  Future<UpdateProvisionedLimitResponse> updateProvisionedLimit({
+    required LimitDefinitionType limitDefinition,
+    required int requestedLimitValue,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateProvisionedLimit'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LimitDefinition': limitDefinition,
+        'RequestedLimitValue': requestedLimitValue,
+      },
+    );
+
+    return UpdateProvisionedLimitResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates the name and scopes of a resource server. All other fields are
   /// read-only. For more information about resource servers, see <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html">Access
@@ -13162,6 +13385,72 @@ class AdminGetUserResponse {
   }
 }
 
+/// @nodoc
+class AdminGetUserAuthFactorsResponse {
+  /// The name of the user who is eligible for the authentication factors in the
+  /// response.
+  final String username;
+
+  /// The authentication types that are available to the user with
+  /// <code>USER_AUTH</code> sign-in, for example <code>\["PASSWORD",
+  /// "WEB_AUTHN"\]</code>.
+  ///
+  /// <code>PASSWORD</code> can only be used as a first authentication factor.
+  /// <code>SOFTWARE_TOKEN</code> can only be used as an MFA factor.
+  /// <code>EMAIL_OTP</code>, <code>SMS_OTP</code>, and <code>WEB_AUTHN</code> can
+  /// be used as either a first authentication factor or an MFA factor.
+  /// <code>WEB_AUTHN</code> is available as an MFA factor only when passkey MFA
+  /// is enabled at the user pool level.
+  final List<AuthFactorType>? configuredUserAuthFactors;
+
+  /// The challenge method that Amazon Cognito returns to the user in response to
+  /// sign-in requests. Users can prefer SMS message, email message, or TOTP MFA.
+  final String? preferredMfaSetting;
+
+  /// The MFA options that are activated for the user. The possible values in this
+  /// list are <code>SMS_MFA</code>, <code>EMAIL_OTP</code>, and
+  /// <code>SOFTWARE_TOKEN_MFA</code>.
+  final List<String>? userMFASettingList;
+
+  AdminGetUserAuthFactorsResponse({
+    required this.username,
+    this.configuredUserAuthFactors,
+    this.preferredMfaSetting,
+    this.userMFASettingList,
+  });
+
+  factory AdminGetUserAuthFactorsResponse.fromJson(Map<String, dynamic> json) {
+    return AdminGetUserAuthFactorsResponse(
+      username: (json['Username'] as String?) ?? '',
+      configuredUserAuthFactors: (json['ConfiguredUserAuthFactors'] as List?)
+          ?.nonNulls
+          .map((e) => AuthFactorType.fromString((e as String)))
+          .toList(),
+      preferredMfaSetting: json['PreferredMfaSetting'] as String?,
+      userMFASettingList: (json['UserMFASettingList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final username = this.username;
+    final configuredUserAuthFactors = this.configuredUserAuthFactors;
+    final preferredMfaSetting = this.preferredMfaSetting;
+    final userMFASettingList = this.userMFASettingList;
+    return {
+      'Username': username,
+      if (configuredUserAuthFactors != null)
+        'ConfiguredUserAuthFactors':
+            configuredUserAuthFactors.map((e) => e.value).toList(),
+      if (preferredMfaSetting != null)
+        'PreferredMfaSetting': preferredMfaSetting,
+      if (userMFASettingList != null) 'UserMFASettingList': userMFASettingList,
+    };
+  }
+}
+
 /// Initiates the authentication response, as an administrator.
 ///
 /// @nodoc
@@ -14750,6 +15039,30 @@ class GetLogDeliveryConfigurationResponse {
   }
 }
 
+/// @nodoc
+class GetProvisionedLimitResponse {
+  /// The provisioned and default limit values for the requested limit.
+  final LimitType limit;
+
+  GetProvisionedLimitResponse({
+    required this.limit,
+  });
+
+  factory GetProvisionedLimitResponse.fromJson(Map<String, dynamic> json) {
+    return GetProvisionedLimitResponse(
+      limit: LimitType.fromJson((json['Limit'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final limit = this.limit;
+    return {
+      'Limit': limit,
+    };
+  }
+}
+
 /// Response from Amazon Cognito for a signing certificate request.
 ///
 /// @nodoc
@@ -14943,6 +15256,13 @@ class GetUserAuthFactorsResponse {
   /// The authentication types that are available to the user with
   /// <code>USER_AUTH</code> sign-in, for example <code>\["PASSWORD",
   /// "WEB_AUTHN"\]</code>.
+  ///
+  /// <code>PASSWORD</code> can only be used as a first authentication factor.
+  /// <code>SOFTWARE_TOKEN</code> can only be used as an MFA factor.
+  /// <code>EMAIL_OTP</code>, <code>SMS_OTP</code>, and <code>WEB_AUTHN</code> can
+  /// be used as either a first authentication factor or an MFA factor.
+  /// <code>WEB_AUTHN</code> is available as an MFA factor only when passkey MFA
+  /// is enabled at the user pool level.
   final List<AuthFactorType>? configuredUserAuthFactors;
 
   /// The challenge method that Amazon Cognito returns to the user in response to
@@ -16508,6 +16828,30 @@ class UpdateManagedLoginBrandingResponse {
 }
 
 /// @nodoc
+class UpdateProvisionedLimitResponse {
+  /// The updated provisioned and default limit values.
+  final LimitType limit;
+
+  UpdateProvisionedLimitResponse({
+    required this.limit,
+  });
+
+  factory UpdateProvisionedLimitResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateProvisionedLimitResponse(
+      limit: LimitType.fromJson((json['Limit'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final limit = this.limit;
+    return {
+      'Limit': limit,
+    };
+  }
+}
+
+/// @nodoc
 class UpdateResourceServerResponse {
   /// The updated details of the requested resource server.
   final ResourceServerType resourceServer;
@@ -17006,7 +17350,8 @@ class FailoverType {
   }
 }
 
-/// The configuration for a hosted UI custom domain.
+/// The configuration for a custom domain, including the SSL certificate and TLS
+/// security policy.
 ///
 /// @nodoc
 class CustomDomainConfigType {
@@ -17014,22 +17359,90 @@ class CustomDomainConfigType {
   /// You use this certificate for the subdomain of your custom domain.
   final String certificateArn;
 
+  /// The security policy for the custom domain. Defines the minimum TLS version
+  /// and cipher suites that Amazon CloudFront supports when communicating with
+  /// clients. For specific guidance, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html">Supported
+  /// protocols and ciphers between viewers and CloudFront</a>. Valid values are
+  /// as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TLS_V1_3_2025</code> (strictest): A post-quantum-ready policy
+  /// requiring TLS 1.3. It provides the strongest security posture and is ideal
+  /// for workloads where all clients and browsers are updated to the latest
+  /// versions. <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html">Supported
+  /// protocols and ciphers for TLSv1.3_2025</a>.
+  /// </li>
+  /// <li>
+  /// <code>TLS_V1_2_2021</code> (recommended): A post-quantum-ready policy which
+  /// prefers TLS 1.3 but allows fallback to TLS 1.2 to accommodate older clients.
+  /// It is the recommended minimum for typical commercial-grade consumer
+  /// applications. <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html">Supported
+  /// protocols and ciphers for TLSv1.2_2021</a>.
+  /// </li>
+  /// <li>
+  /// <code>TLS_V1</code> (strongly discouraged): Permits fallback to TLS 1.0. It
+  /// offers the broadest compatibility, including support for legacy clients that
+  /// are more than a decade old. This compatibility comes at the expense of
+  /// allowing TLS versions and cryptographic algorithms that are no longer
+  /// considered safe for commercial use. <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html">Supported
+  /// protocols and ciphers for TLSv1</a>.
+  /// </li>
+  /// </ul>
+  final SecurityPolicyType? securityPolicy;
+
   CustomDomainConfigType({
     required this.certificateArn,
+    this.securityPolicy,
   });
 
   factory CustomDomainConfigType.fromJson(Map<String, dynamic> json) {
     return CustomDomainConfigType(
       certificateArn: (json['CertificateArn'] as String?) ?? '',
+      securityPolicy: (json['SecurityPolicy'] as String?)
+          ?.let(SecurityPolicyType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final certificateArn = this.certificateArn;
+    final securityPolicy = this.securityPolicy;
     return {
       'CertificateArn': certificateArn,
+      if (securityPolicy != null) 'SecurityPolicy': securityPolicy.value,
     };
   }
+}
+
+/// @nodoc
+class SecurityPolicyType {
+  static const tlsV1 = SecurityPolicyType._('TLS_V1');
+  static const tlsV1_2_2021 = SecurityPolicyType._('TLS_V1_2_2021');
+  static const tlsV1_3_2025 = SecurityPolicyType._('TLS_V1_3_2025');
+
+  final String value;
+
+  const SecurityPolicyType._(this.value);
+
+  static const values = [tlsV1, tlsV1_2_2021, tlsV1_3_2025];
+
+  static SecurityPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SecurityPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The configuration of a user pool client.
@@ -18541,12 +18954,12 @@ class EmailConfigurationType {
 ///
 /// @nodoc
 class SmsConfigurationType {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS caller. This is the ARN of
-  /// the IAM role in your Amazon Web Services account that Amazon Cognito will
-  /// use to send SMS messages. SMS messages are subject to a <a
-  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html">spending
-  /// limit</a>.
-  final String snsCallerArn;
+  /// The configuration for sending SMS messages through Amazon Web Services End
+  /// User Messaging SMS, as an alternative to Amazon SNS. In a user pool, provide
+  /// either the Amazon SNS configuration (<code>SnsCallerArn</code>) or this
+  /// configuration, but not both. In Amazon Web Services Regions where Amazon SNS
+  /// is not available, this configuration is required.
+  final EumsSmsConfigurationType? eumsSms;
 
   /// The external ID provides additional security for your IAM role. You can use
   /// an <code>ExternalId</code> with the IAM role that you use with Amazon SNS to
@@ -18565,6 +18978,13 @@ class SmsConfigurationType {
   /// resources to a third party</a>.
   final String? externalId;
 
+  /// The Amazon Resource Name (ARN) of the Amazon SNS caller. This is the ARN of
+  /// the IAM role in your Amazon Web Services account that Amazon Cognito will
+  /// use to send SMS messages. SMS messages are subject to a <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html">spending
+  /// limit</a>.
+  final String? snsCallerArn;
+
   /// The Amazon Web Services Region to use with Amazon SNS integration. You can
   /// choose the same Region as your user pool, or a supported <b>Legacy Amazon
   /// SNS alternate Region</b>.
@@ -18577,26 +18997,33 @@ class SmsConfigurationType {
   final String? snsRegion;
 
   SmsConfigurationType({
-    required this.snsCallerArn,
+    this.eumsSms,
     this.externalId,
+    this.snsCallerArn,
     this.snsRegion,
   });
 
   factory SmsConfigurationType.fromJson(Map<String, dynamic> json) {
     return SmsConfigurationType(
-      snsCallerArn: (json['SnsCallerArn'] as String?) ?? '',
+      eumsSms: json['EumsSms'] != null
+          ? EumsSmsConfigurationType.fromJson(
+              json['EumsSms'] as Map<String, dynamic>)
+          : null,
       externalId: json['ExternalId'] as String?,
+      snsCallerArn: json['SnsCallerArn'] as String?,
       snsRegion: json['SnsRegion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final snsCallerArn = this.snsCallerArn;
+    final eumsSms = this.eumsSms;
     final externalId = this.externalId;
+    final snsCallerArn = this.snsCallerArn;
     final snsRegion = this.snsRegion;
     return {
-      'SnsCallerArn': snsCallerArn,
+      if (eumsSms != null) 'EumsSms': eumsSms,
       if (externalId != null) 'ExternalId': externalId,
+      if (snsCallerArn != null) 'SnsCallerArn': snsCallerArn,
       if (snsRegion != null) 'SnsRegion': snsRegion,
     };
   }
@@ -19108,6 +19535,123 @@ class MessageTemplateType {
   }
 }
 
+/// The configuration that Amazon Cognito uses to send SMS messages through
+/// Amazon Web Services End User Messaging SMS. Provide this structure in the
+/// <code>EumsSms</code> member of <code>SmsConfigurationType</code> to use
+/// Amazon Web Services End User Messaging SMS instead of Amazon SNS.
+///
+/// @nodoc
+class EumsSmsConfigurationType {
+  /// The ARN of the IAM role that Amazon Cognito assumes to send SMS messages
+  /// through Amazon Web Services End User Messaging SMS. The role must grant
+  /// permission to call the <code>sms-voice:SendTextMessage</code> operation.
+  final String callerArn;
+
+  /// The name of the Amazon Web Services End User Messaging SMS configuration set
+  /// that Amazon Cognito applies to messages, for logging and event destinations.
+  /// If you omit this member, Amazon Cognito sends messages without applying a
+  /// configuration set.
+  final String? configurationSetName;
+
+  /// The external ID that Amazon Cognito includes when it assumes the
+  /// <code>CallerArn</code> role. Use this value as a condition in the role trust
+  /// policy to prevent the confused deputy problem.
+  final String? externalId;
+
+  /// The principal entity ID required by India's Distributed Ledger Technology
+  /// (DLT) regulations for SMS messages.
+  final String? inEntityId;
+
+  /// The registered template ID for the message template required by India's DLT
+  /// regulations for SMS messages.
+  final String? inTemplateId;
+
+  /// The origination identity that Amazon Web Services End User Messaging SMS
+  /// uses to send messages to your users. This value can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// A phone number – A long code, toll-free number, or short code that is
+  /// assigned to your account.
+  /// </li>
+  /// <li>
+  /// A sender ID – An alphabetic name that identifies the message sender in
+  /// supported countries.
+  /// </li>
+  /// <li>
+  /// A phone pool – A group of phone numbers that Amazon Web Services End User
+  /// Messaging SMS selects from when it sends messages.
+  /// </li>
+  /// </ul>
+  /// You can provide an E.164 phone number or the ARN of the phone number, sender
+  /// ID, or phone pool. Amazon Web Services End User Messaging SMS evaluates IAM
+  /// authorization with the value that you provide. If the permissions policy of
+  /// your <code>CallerArn</code> role scopes the
+  /// <code>sms-voice:SendTextMessage</code> resource to a specific ARN, provide
+  /// that same ARN. If the formats do not match, requests fail with an
+  /// <code>InvalidSmsRoleAccessPolicyException</code>.
+  ///
+  /// Depending on the destination country, you must provide an origination
+  /// identity. For country-specific requirements, see <a
+  /// href="https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html">Supported
+  /// countries and regions for SMS messaging</a> in the Amazon Web Services End
+  /// User Messaging SMS User Guide.
+  final String? originationIdentity;
+
+  /// The Amazon Web Services Region of the Amazon Web Services End User Messaging
+  /// SMS resources that Amazon Cognito uses to send messages. Amazon Web Services
+  /// End User Messaging SMS must be available in your user pool's Region.
+  ///
+  /// If you omit this parameter, Amazon Cognito uses the same Region as your user
+  /// pool. You can also set this parameter to your user pool's Region explicitly.
+  /// Amazon Cognito rejects any other value with an
+  /// <code>InvalidParameterException</code>.
+  final String? region;
+
+  EumsSmsConfigurationType({
+    required this.callerArn,
+    this.configurationSetName,
+    this.externalId,
+    this.inEntityId,
+    this.inTemplateId,
+    this.originationIdentity,
+    this.region,
+  });
+
+  factory EumsSmsConfigurationType.fromJson(Map<String, dynamic> json) {
+    return EumsSmsConfigurationType(
+      callerArn: (json['CallerArn'] as String?) ?? '',
+      configurationSetName: json['ConfigurationSetName'] as String?,
+      externalId: json['ExternalId'] as String?,
+      inEntityId: json['InEntityId'] as String?,
+      inTemplateId: json['InTemplateId'] as String?,
+      originationIdentity: json['OriginationIdentity'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerArn = this.callerArn;
+    final configurationSetName = this.configurationSetName;
+    final externalId = this.externalId;
+    final inEntityId = this.inEntityId;
+    final inTemplateId = this.inTemplateId;
+    final originationIdentity = this.originationIdentity;
+    final region = this.region;
+    return {
+      'CallerArn': callerArn,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (externalId != null) 'ExternalId': externalId,
+      if (inEntityId != null) 'InEntityId': inEntityId,
+      if (inTemplateId != null) 'InTemplateId': inTemplateId,
+      if (originationIdentity != null)
+        'OriginationIdentity': originationIdentity,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
 /// @nodoc
 class EmailSendingAccountType {
   static const cognitoDefault = EmailSendingAccountType._('COGNITO_DEFAULT');
@@ -19545,6 +20089,10 @@ class SignInPolicyType {
   /// The sign-in methods that a user pool supports as the first factor. You can
   /// permit users to start authentication with a standard username and password,
   /// or with other one-time password and hardware factors.
+  /// <note>
+  /// <code>SOFTWARE_TOKEN</code> is not currently supported as a first auth
+  /// factor. Do not include this value in <code>AllowedFirstAuthFactors</code>.
+  /// </note>
   final List<AuthFactorType>? allowedFirstAuthFactors;
 
   SignInPolicyType({
@@ -19576,12 +20124,13 @@ class AuthFactorType {
   static const emailOtp = AuthFactorType._('EMAIL_OTP');
   static const smsOtp = AuthFactorType._('SMS_OTP');
   static const webAuthn = AuthFactorType._('WEB_AUTHN');
+  static const softwareToken = AuthFactorType._('SOFTWARE_TOKEN');
 
   final String value;
 
   const AuthFactorType._(this.value);
 
-  static const values = [password, emailOtp, smsOtp, webAuthn];
+  static const values = [password, emailOtp, smsOtp, webAuthn, softwareToken];
 
   static AuthFactorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -19951,6 +20500,111 @@ class ResourceServerScopeType {
       'ScopeName': scopeName,
     };
   }
+}
+
+/// The limit definition and current limit values for a provisioned limit.
+///
+/// @nodoc
+class LimitType {
+  /// The default (free) limit value, in requests per second (RPS). This is the
+  /// rate included at no additional cost.
+  final int freeLimitValue;
+
+  /// The definition that identifies this limit, including the class and
+  /// attributes.
+  final LimitDefinitionType limitDefinition;
+
+  /// The provisioned limit value, in requests per second (RPS). This is the rate
+  /// that Amazon Cognito currently enforces for your account.
+  final int provisionedLimitValue;
+
+  LimitType({
+    required this.freeLimitValue,
+    required this.limitDefinition,
+    required this.provisionedLimitValue,
+  });
+
+  factory LimitType.fromJson(Map<String, dynamic> json) {
+    return LimitType(
+      freeLimitValue: (json['FreeLimitValue'] as int?) ?? 0,
+      limitDefinition: LimitDefinitionType.fromJson(
+          (json['LimitDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      provisionedLimitValue: (json['ProvisionedLimitValue'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final freeLimitValue = this.freeLimitValue;
+    final limitDefinition = this.limitDefinition;
+    final provisionedLimitValue = this.provisionedLimitValue;
+    return {
+      'FreeLimitValue': freeLimitValue,
+      'LimitDefinition': limitDefinition,
+      'ProvisionedLimitValue': provisionedLimitValue,
+    };
+  }
+}
+
+/// The class and attributes that identify a specific limit at the account
+/// level.
+///
+/// @nodoc
+class LimitDefinitionType {
+  /// The attributes that identify the specific limit. For API rate limits,
+  /// specify the <code>Category</code> key with a value like
+  /// <code>UserAuthentication</code> or <code>UserCreation</code>.
+  final Map<String, String> attributes;
+
+  /// The class of the limit. For API rate limits, this is
+  /// <code>API_CATEGORY</code>.
+  final LimitClass limitClass;
+
+  LimitDefinitionType({
+    required this.attributes,
+    required this.limitClass,
+  });
+
+  factory LimitDefinitionType.fromJson(Map<String, dynamic> json) {
+    return LimitDefinitionType(
+      attributes: ((json['Attributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+      limitClass: LimitClass.fromString((json['LimitClass'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final limitClass = this.limitClass;
+    return {
+      'Attributes': attributes,
+      'LimitClass': limitClass.value,
+    };
+  }
+}
+
+/// @nodoc
+class LimitClass {
+  static const apiCategory = LimitClass._('API_CATEGORY');
+
+  final String value;
+
+  const LimitClass._(this.value);
+
+  static const values = [apiCategory];
+
+  static LimitClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LimitClass._(value));
+
+  @override
+  bool operator ==(other) => other is LimitClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A managed login branding style that's assigned to a user pool app client.
@@ -20643,6 +21297,13 @@ class UserImportJobType {
   /// The friendly name of the user import job.
   final String? jobName;
 
+  /// The password hashing algorithm used to generate the hashes in the CSV file
+  /// for this import job.
+  ///
+  /// Valid values: <code>BCRYPT</code> | <code>SCRYPT</code> |
+  /// <code>ARGON2ID</code> | <code>PBKDF2_SHA256</code>
+  final PasswordHashingAlgorithmType? passwordHashingAlgorithm;
+
   /// The pre-signed URL target for uploading the CSV file.
   final String? preSignedUrl;
 
@@ -20699,6 +21360,7 @@ class UserImportJobType {
     this.importedUsers,
     this.jobId,
     this.jobName,
+    this.passwordHashingAlgorithm,
     this.preSignedUrl,
     this.skippedUsers,
     this.startDate,
@@ -20716,6 +21378,8 @@ class UserImportJobType {
       importedUsers: json['ImportedUsers'] as int?,
       jobId: json['JobId'] as String?,
       jobName: json['JobName'] as String?,
+      passwordHashingAlgorithm: (json['PasswordHashingAlgorithm'] as String?)
+          ?.let(PasswordHashingAlgorithmType.fromString),
       preSignedUrl: json['PreSignedUrl'] as String?,
       skippedUsers: json['SkippedUsers'] as int?,
       startDate: timeStampFromJson(json['StartDate']),
@@ -20734,6 +21398,7 @@ class UserImportJobType {
     final importedUsers = this.importedUsers;
     final jobId = this.jobId;
     final jobName = this.jobName;
+    final passwordHashingAlgorithm = this.passwordHashingAlgorithm;
     final preSignedUrl = this.preSignedUrl;
     final skippedUsers = this.skippedUsers;
     final startDate = this.startDate;
@@ -20751,6 +21416,8 @@ class UserImportJobType {
       if (importedUsers != null) 'ImportedUsers': importedUsers,
       if (jobId != null) 'JobId': jobId,
       if (jobName != null) 'JobName': jobName,
+      if (passwordHashingAlgorithm != null)
+        'PasswordHashingAlgorithm': passwordHashingAlgorithm.value,
       if (preSignedUrl != null) 'PreSignedUrl': preSignedUrl,
       if (skippedUsers != null) 'SkippedUsers': skippedUsers,
       if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
@@ -20793,6 +21460,34 @@ class UserImportJobStatusType {
   @override
   bool operator ==(other) =>
       other is UserImportJobStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class PasswordHashingAlgorithmType {
+  static const bcrypt = PasswordHashingAlgorithmType._('BCRYPT');
+  static const scrypt = PasswordHashingAlgorithmType._('SCRYPT');
+  static const argon2id = PasswordHashingAlgorithmType._('ARGON2ID');
+  static const pbkdf2Sha256 = PasswordHashingAlgorithmType._('PBKDF2_SHA256');
+
+  final String value;
+
+  const PasswordHashingAlgorithmType._(this.value);
+
+  static const values = [bcrypt, scrypt, argon2id, pbkdf2Sha256];
+
+  static PasswordHashingAlgorithmType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PasswordHashingAlgorithmType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PasswordHashingAlgorithmType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -24867,6 +25562,15 @@ class ScopeDoesNotExistException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
+/// @nodoc
 class SoftwareTokenMFANotFoundException extends _s.GenericAwsException {
   SoftwareTokenMFANotFoundException({String? type, String? message})
       : super(
@@ -25132,6 +25836,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ScopeDoesNotExistException': (type, message) =>
       ScopeDoesNotExistException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'SoftwareTokenMFANotFoundException': (type, message) =>
       SoftwareTokenMFANotFoundException(type: type, message: message),
   'TermsExistsException': (type, message) =>

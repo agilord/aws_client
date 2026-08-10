@@ -622,6 +622,10 @@ class CloudFormation {
   /// might retry <code>CreateChangeSet</code> requests to ensure that
   /// CloudFormation successfully received them.
   ///
+  /// Parameter [deploymentConfig] :
+  /// The deployment configuration for this stack operation, including the
+  /// deployment mode.
+  ///
   /// Parameter [deploymentMode] :
   /// Determines how CloudFormation handles configuration drift during
   /// deployment.
@@ -640,6 +644,12 @@ class CloudFormation {
   ///
   /// Parameter [description] :
   /// A description to help you identify this change set.
+  ///
+  /// Parameter [disableValidation] :
+  /// Set to <code>true</code> to disable pre-deployment validations in
+  /// changeset or stack operations.
+  ///
+  /// Default: <code>false</code>
   ///
   /// Parameter [importExistingResources] :
   /// Indicates if the change set auto-imports resources that already exist. For
@@ -790,8 +800,10 @@ class CloudFormation {
     List<Capability>? capabilities,
     ChangeSetType? changeSetType,
     String? clientToken,
+    DeploymentConfig? deploymentConfig,
     DeploymentMode? deploymentMode,
     String? description,
+    bool? disableValidation,
     bool? importExistingResources,
     bool? includeNestedStacks,
     List<String>? notificationARNs,
@@ -817,8 +829,13 @@ class CloudFormation {
             'Capabilities.member.${i1 + 1}': capabilities[i1].value,
       if (changeSetType != null) 'ChangeSetType': changeSetType.value,
       if (clientToken != null) 'ClientToken': clientToken,
+      if (deploymentConfig != null)
+        for (var e1 in deploymentConfig.toQueryMap().entries)
+          'DeploymentConfig.${e1.key}': e1.value,
       if (deploymentMode != null) 'DeploymentMode': deploymentMode.value,
       if (description != null) 'Description': description,
+      if (disableValidation != null)
+        'DisableValidation': disableValidation.toString(),
       if (importExistingResources != null)
         'ImportExistingResources': importExistingResources.toString(),
       if (includeNestedStacks != null)
@@ -1092,10 +1109,20 @@ class CloudFormation {
   /// following format:
   /// <code>Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002</code>.
   ///
+  /// Parameter [deploymentConfig] :
+  /// The deployment configuration for this stack operation, including the
+  /// deployment mode.
+  ///
   /// Parameter [disableRollback] :
   /// Set to <code>true</code> to disable rollback of the stack if stack
   /// creation failed. You can specify either <code>DisableRollback</code> or
   /// <code>OnFailure</code>, but not both.
+  ///
+  /// Default: <code>false</code>
+  ///
+  /// Parameter [disableValidation] :
+  /// Set to <code>true</code> to disable pre-deployment validations in
+  /// changeset or stack operations.
   ///
   /// Default: <code>false</code>
   ///
@@ -1226,7 +1253,9 @@ class CloudFormation {
     required String stackName,
     List<Capability>? capabilities,
     String? clientRequestToken,
+    DeploymentConfig? deploymentConfig,
     bool? disableRollback,
+    bool? disableValidation,
     bool? enableTerminationProtection,
     List<String>? notificationARNs,
     OnFailure? onFailure,
@@ -1257,8 +1286,13 @@ class CloudFormation {
           for (var i1 = 0; i1 < capabilities.length; i1++)
             'Capabilities.member.${i1 + 1}': capabilities[i1].value,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (deploymentConfig != null)
+        for (var e1 in deploymentConfig.toQueryMap().entries)
+          'DeploymentConfig.${e1.key}': e1.value,
       if (disableRollback != null)
         'DisableRollback': disableRollback.toString(),
+      if (disableValidation != null)
+        'DisableValidation': disableValidation.toString(),
       if (enableTerminationProtection != null)
         'EnableTerminationProtection': enableTerminationProtection.toString(),
       if (notificationARNs != null)
@@ -2046,6 +2080,10 @@ class CloudFormation {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [deploymentConfig] :
+  /// The deployment configuration for this stack operation, including the
+  /// deployment mode.
+  ///
   /// Parameter [retainResources] :
   /// For stacks in the <code>DELETE_FAILED</code> state, a list of resource
   /// logical IDs that are associated with the resources you want to retain.
@@ -2068,6 +2106,7 @@ class CloudFormation {
     required String stackName,
     String? clientRequestToken,
     DeletionMode? deletionMode,
+    DeploymentConfig? deploymentConfig,
     List<String>? retainResources,
     String? roleARN,
   }) async {
@@ -2075,6 +2114,9 @@ class CloudFormation {
       'StackName': stackName,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
       if (deletionMode != null) 'DeletionMode': deletionMode.value,
+      if (deploymentConfig != null)
+        for (var e1 in deploymentConfig.toQueryMap().entries)
+          'DeploymentConfig.${e1.key}': e1.value,
       if (retainResources != null)
         if (retainResources.isEmpty)
           'RetainResources': ''
@@ -2523,7 +2565,9 @@ class CloudFormation {
   /// events.
   ///
   /// Parameter [stackName] :
-  /// The name or unique stack ID for which you want to retrieve events.
+  /// The name or unique stack ID for which you want to retrieve events. If you
+  /// specified the name of a change set, specify the stack name or ID (ARN) of
+  /// the change set you want to describe.
   Future<DescribeEventsOutput> describeEvents({
     String? changeSetName,
     EventFilter? filters,
@@ -5961,6 +6005,10 @@ class CloudFormation {
   /// Parameter [clientRequestToken] :
   /// A unique identifier for this <code>RollbackStack</code> request.
   ///
+  /// Parameter [deploymentConfig] :
+  /// The deployment configuration for this stack operation, including the
+  /// deployment mode.
+  ///
   /// Parameter [retainExceptOnCreate] :
   /// When set to <code>true</code>, newly created resources are deleted when
   /// the operation rolls back. This includes newly created resources marked
@@ -5974,12 +6022,16 @@ class CloudFormation {
   Future<RollbackStackOutput> rollbackStack({
     required String stackName,
     String? clientRequestToken,
+    DeploymentConfig? deploymentConfig,
     bool? retainExceptOnCreate,
     String? roleARN,
   }) async {
     final $request = <String, String>{
       'StackName': stackName,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (deploymentConfig != null)
+        for (var e1 in deploymentConfig.toQueryMap().entries)
+          'DeploymentConfig.${e1.key}': e1.value,
       if (retainExceptOnCreate != null)
         'RetainExceptOnCreate': retainExceptOnCreate.toString(),
       if (roleARN != null) 'RoleARN': roleARN,
@@ -6681,11 +6733,21 @@ class CloudFormation {
   /// following format:
   /// <code>Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002</code>.
   ///
+  /// Parameter [deploymentConfig] :
+  /// The deployment configuration for this stack operation, including the
+  /// deployment mode.
+  ///
   /// Parameter [disableRollback] :
   /// Preserve the state of previously provisioned resources when an operation
   /// fails.
   ///
   /// Default: <code>False</code>
+  ///
+  /// Parameter [disableValidation] :
+  /// Set to <code>true</code> to disable pre-deployment validations in
+  /// changeset or stack operations.
+  ///
+  /// Default: <code>false</code>
   ///
   /// Parameter [notificationARNs] :
   /// Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that
@@ -6832,7 +6894,9 @@ class CloudFormation {
     required String stackName,
     List<Capability>? capabilities,
     String? clientRequestToken,
+    DeploymentConfig? deploymentConfig,
     bool? disableRollback,
+    bool? disableValidation,
     List<String>? notificationARNs,
     List<Parameter>? parameters,
     List<String>? resourceTypes,
@@ -6857,8 +6921,13 @@ class CloudFormation {
           for (var i1 = 0; i1 < capabilities.length; i1++)
             'Capabilities.member.${i1 + 1}': capabilities[i1].value,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      if (deploymentConfig != null)
+        for (var e1 in deploymentConfig.toQueryMap().entries)
+          'DeploymentConfig.${e1.key}': e1.value,
       if (disableRollback != null)
         'DisableRollback': disableRollback.toString(),
+      if (disableValidation != null)
+        'DisableValidation': disableValidation.toString(),
       if (notificationARNs != null)
         if (notificationARNs.isEmpty)
           'NotificationARNs': ''
@@ -8056,6 +8125,9 @@ class DescribeChangeSetOutput {
   /// The start time when the change set was created, in UTC.
   final DateTime? creationTime;
 
+  /// The deployment configuration specified when the change set was created.
+  final DeploymentConfig? deploymentConfig;
+
   /// The deployment mode specified when the change set was created. Valid value
   /// is <code>REVERT_DRIFT</code>. Only present for drift-aware change sets.
   final DeploymentMode? deploymentMode;
@@ -8185,6 +8257,7 @@ class DescribeChangeSetOutput {
     this.changeSetName,
     this.changes,
     this.creationTime,
+    this.deploymentConfig,
     this.deploymentMode,
     this.description,
     this.executionStatus,
@@ -8215,6 +8288,9 @@ class DescribeChangeSetOutput {
       changes: _s.extractXmlChild(elem, 'Changes')?.let(
           (elem) => elem.findElements('member').map(Change.fromXml).toList()),
       creationTime: _s.extractXmlDateTimeValue(elem, 'CreationTime'),
+      deploymentConfig: _s
+          .extractXmlChild(elem, 'DeploymentConfig')
+          ?.let(DeploymentConfig.fromXml),
       deploymentMode: _s
           .extractXmlStringValue(elem, 'DeploymentMode')
           ?.let(DeploymentMode.fromString),
@@ -8259,6 +8335,7 @@ class DescribeChangeSetOutput {
     final changeSetName = this.changeSetName;
     final changes = this.changes;
     final creationTime = this.creationTime;
+    final deploymentConfig = this.deploymentConfig;
     final deploymentMode = this.deploymentMode;
     final description = this.description;
     final executionStatus = this.executionStatus;
@@ -8284,6 +8361,7 @@ class DescribeChangeSetOutput {
       if (changeSetName != null) 'ChangeSetName': changeSetName,
       if (changes != null) 'Changes': changes,
       if (creationTime != null) 'CreationTime': iso8601ToJson(creationTime),
+      if (deploymentConfig != null) 'DeploymentConfig': deploymentConfig,
       if (deploymentMode != null) 'DeploymentMode': deploymentMode.value,
       if (description != null) 'Description': description,
       if (executionStatus != null) 'ExecutionStatus': executionStatus.value,
@@ -12233,6 +12311,92 @@ class RollbackConfiguration {
               'RollbackTriggers.member.${i1 + 1}.${e3.key}': e3.value,
     };
   }
+}
+
+/// The deployment configuration for a stack operation, including the deployment
+/// mode.
+///
+/// @nodoc
+class DeploymentConfig {
+  /// Specifies whether to disable rollback of the stack if the stack operation
+  /// fails.
+  ///
+  /// Default: <code>false</code>
+  final bool? disableRollback;
+
+  /// Specifies the deployment mode for the stack operation. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STANDARD</code> - Use the standard deployment behavior, ensuring
+  /// resources are ready to serve traffic before completing the operation. This
+  /// is the default. You do not need to specify this value explicitly.
+  /// </li>
+  /// <li>
+  /// <code>EXPRESS</code> - Complete the stack operation when resource
+  /// configuration is applied, without waiting for resources to become ready to
+  /// serve traffic. Resources continue becoming ready in the background.
+  /// </li>
+  /// </ul>
+  final DeploymentConfigMode? mode;
+
+  DeploymentConfig({
+    this.disableRollback,
+    this.mode,
+  });
+  factory DeploymentConfig.fromXml(_s.XmlElement elem) {
+    return DeploymentConfig(
+      disableRollback: _s.extractXmlBoolValue(elem, 'DisableRollback'),
+      mode: _s
+          .extractXmlStringValue(elem, 'Mode')
+          ?.let(DeploymentConfigMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disableRollback = this.disableRollback;
+    final mode = this.mode;
+    return {
+      if (disableRollback != null) 'DisableRollback': disableRollback,
+      if (mode != null) 'Mode': mode.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final disableRollback = this.disableRollback;
+    final mode = this.mode;
+    return {
+      if (disableRollback != null)
+        'DisableRollback': disableRollback.toString(),
+      if (mode != null) 'Mode': mode.value,
+    };
+  }
+}
+
+/// @nodoc
+class DeploymentConfigMode {
+  static const standard = DeploymentConfigMode._('STANDARD');
+  static const express = DeploymentConfigMode._('EXPRESS');
+
+  final String value;
+
+  const DeploymentConfigMode._(this.value);
+
+  static const values = [standard, express];
+
+  static DeploymentConfigMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentConfigMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeploymentConfigMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A rollback trigger CloudFormation monitors during creation and updating of
@@ -18027,6 +18191,10 @@ class Stack {
   /// The time the stack was deleted.
   final DateTime? deletionTime;
 
+  /// The deployment configuration for the stack, including the deployment mode
+  /// used for stack operations.
+  final DeploymentConfig? deploymentConfig;
+
   /// A user-defined description associated with the stack.
   final String? description;
 
@@ -18142,6 +18310,7 @@ class Stack {
     this.changeSetId,
     this.deletionMode,
     this.deletionTime,
+    this.deploymentConfig,
     this.description,
     this.detailedStatus,
     this.disableRollback,
@@ -18178,6 +18347,9 @@ class Stack {
           .extractXmlStringValue(elem, 'DeletionMode')
           ?.let(DeletionMode.fromString),
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
+      deploymentConfig: _s
+          .extractXmlChild(elem, 'DeploymentConfig')
+          ?.let(DeploymentConfig.fromXml),
       description: _s.extractXmlStringValue(elem, 'Description'),
       detailedStatus: _s
           .extractXmlStringValue(elem, 'DetailedStatus')
@@ -18222,6 +18394,7 @@ class Stack {
     final changeSetId = this.changeSetId;
     final deletionMode = this.deletionMode;
     final deletionTime = this.deletionTime;
+    final deploymentConfig = this.deploymentConfig;
     final description = this.description;
     final detailedStatus = this.detailedStatus;
     final disableRollback = this.disableRollback;
@@ -18250,6 +18423,7 @@ class Stack {
       if (changeSetId != null) 'ChangeSetId': changeSetId,
       if (deletionMode != null) 'DeletionMode': deletionMode.value,
       if (deletionTime != null) 'DeletionTime': iso8601ToJson(deletionTime),
+      if (deploymentConfig != null) 'DeploymentConfig': deploymentConfig,
       if (description != null) 'Description': description,
       if (detailedStatus != null) 'DetailedStatus': detailedStatus.value,
       if (disableRollback != null) 'DisableRollback': disableRollback,
@@ -21020,16 +21194,20 @@ class ResourceDriftIgnoredAttribute {
   /// Path of the resource attribute for which drift was ignored.
   final String? path;
 
-  /// Reason why drift was ignored for the attribute, can have 2 possible values:
+  /// Reason why drift was ignored for the attribute, can have 3 possible values:
   ///
   /// <ul>
   /// <li>
-  /// <code>WRITE_ONLY_PROPERTY</code> - Property is not included in read response
+  /// <code>WRITE_ONLY_PROPERTY</code> – Property is not included in read response
   /// for the resource’s live state.
   /// </li>
   /// <li>
-  /// <code>MANAGED_BY_AWS</code> - Property is managed by an Amazon Web Services
+  /// <code>MANAGED_BY_AWS</code> – Property is managed by an Amazon Web Services
   /// service and is expected to be dynamically modified.
+  /// </li>
+  /// <li>
+  /// <code>SENSITIVE_PROPERTY</code> – Property has a sensitive value, such as an
+  /// Amazon Web Services Secrets Manager value.
   /// </li>
   /// </ul>
   final DriftIgnoredReason? reason;
@@ -21061,12 +21239,13 @@ class ResourceDriftIgnoredAttribute {
 class DriftIgnoredReason {
   static const managedByAws = DriftIgnoredReason._('MANAGED_BY_AWS');
   static const writeOnlyProperty = DriftIgnoredReason._('WRITE_ONLY_PROPERTY');
+  static const sensitiveProperty = DriftIgnoredReason._('SENSITIVE_PROPERTY');
 
   final String value;
 
   const DriftIgnoredReason._(this.value);
 
-  static const values = [managedByAws, writeOnlyProperty];
+  static const values = [managedByAws, writeOnlyProperty, sensitiveProperty];
 
   static DriftIgnoredReason fromString(String value) =>
       values.firstWhere((e) => e.value == value,

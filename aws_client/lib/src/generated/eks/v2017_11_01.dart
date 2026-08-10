@@ -223,6 +223,52 @@ class Eks {
     return AssociateIdentityProviderConfigResponse.fromJson(response);
   }
 
+  /// Cancels an in-progress update to an Amazon EKS cluster on a best-effort
+  /// basis. Cancellation is only performed if the update can be cancelled.
+  /// Currently, this is supported for <code>VersionRollback</code> update types
+  /// on EKS Auto Mode clusters when nodes are rolling back.
+  ///
+  /// A successful cancellation stops the node rollback. After cancellation,
+  /// nodes converge to the current cluster version honoring configured
+  /// disruption controls. If the control plane rollback has already begun, the
+  /// cancellation request fails.
+  ///
+  /// May throw [ClientException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidStateException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [name] :
+  /// The name of the Amazon EKS cluster associated with the update.
+  ///
+  /// Parameter [updateId] :
+  /// The ID of the update to cancel.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<CancelUpdateResponse> cancelUpdate({
+    required String name,
+    required String updateId,
+    String? clientRequestToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/clusters/${Uri.encodeComponent(name)}/updates/${Uri.encodeComponent(updateId)}/cancel-update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelUpdateResponse.fromJson(response);
+  }
+
   /// Creates an access entry.
   ///
   /// An access entry allows an IAM principal to access your cluster. Access
@@ -3702,6 +3748,12 @@ class Eks {
   /// href="http://aws.amazon.com/cloudwatch/pricing/">CloudWatch Pricing</a>.
   /// </note>
   ///
+  /// Parameter [resourcesVpcConfig] :
+  /// An object representing the VPC configuration to use for the cluster
+  /// update. You can use this parameter to update the control plane egress
+  /// mode, the subnets used by the cluster, the security groups, and the
+  /// endpoint access settings.
+  ///
   /// Parameter [storageConfig] :
   /// Update the configuration of the block storage capability of your EKS Auto
   /// Mode cluster. For example, enable the capability.
@@ -3809,18 +3861,23 @@ class Eks {
   /// idempotency of the request.
   ///
   /// Parameter [force] :
-  /// Set this value to <code>true</code> to override upgrade-blocking readiness
-  /// checks when updating a cluster.
+  /// Set this value to <code>true</code> to override upgrade-blocking or
+  /// rollback-blocking readiness checks when updating a cluster.
+  ///
+  /// Parameter [rollbackConfig] :
+  /// The rollback configuration for the cluster version rollback.
   Future<UpdateClusterVersionResponse> updateClusterVersion({
     required String name,
     required String version,
     String? clientRequestToken,
     bool? force,
+    RollbackConfig? rollbackConfig,
   }) async {
     final $payload = <String, dynamic>{
       'version': version,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (force != null) 'force': force,
+      if (rollbackConfig != null) 'rollbackConfig': rollbackConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4299,6 +4356,31 @@ class AssociateIdentityProviderConfigResponse {
     final update = this.update;
     return {
       if (tags != null) 'tags': tags,
+      if (update != null) 'update': update,
+    };
+  }
+}
+
+/// @nodoc
+class CancelUpdateResponse {
+  /// The full description of the specified update.
+  final Update? update;
+
+  CancelUpdateResponse({
+    this.update,
+  });
+
+  factory CancelUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return CancelUpdateResponse(
+      update: json['update'] != null
+          ? Update.fromJson(json['update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final update = this.update;
+    return {
       if (update != null) 'update': update,
     };
   }
@@ -6327,6 +6409,10 @@ class PodIdentityAssociation {
 ///
 /// @nodoc
 class Update {
+  /// The latest cancellation information for the update. This field is present
+  /// only if any cancellation is attempted for the update.
+  final Cancellation? cancellation;
+
   /// The Unix epoch timestamp at object creation.
   final DateTime? createdAt;
 
@@ -6346,6 +6432,7 @@ class Update {
   final UpdateType? type;
 
   Update({
+    this.cancellation,
     this.createdAt,
     this.errors,
     this.id,
@@ -6356,6 +6443,9 @@ class Update {
 
   factory Update.fromJson(Map<String, dynamic> json) {
     return Update(
+      cancellation: json['cancellation'] != null
+          ? Cancellation.fromJson(json['cancellation'] as Map<String, dynamic>)
+          : null,
       createdAt: timeStampFromJson(json['createdAt']),
       errors: (json['errors'] as List?)
           ?.nonNulls
@@ -6372,6 +6462,7 @@ class Update {
   }
 
   Map<String, dynamic> toJson() {
+    final cancellation = this.cancellation;
     final createdAt = this.createdAt;
     final errors = this.errors;
     final id = this.id;
@@ -6379,6 +6470,7 @@ class Update {
     final status = this.status;
     final type = this.type;
     return {
+      if (cancellation != null) 'cancellation': cancellation,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (errors != null) 'errors': errors,
       if (id != null) 'id': id,
@@ -6437,9 +6529,13 @@ class UpdateType {
       UpdateType._('RemoteNetworkConfigUpdate');
   static const deletionProtectionUpdate =
       UpdateType._('DeletionProtectionUpdate');
+  static const capabilityUpdate = UpdateType._('CapabilityUpdate');
   static const controlPlaneScalingConfigUpdate =
       UpdateType._('ControlPlaneScalingConfigUpdate');
   static const vendedLogsUpdate = UpdateType._('VendedLogsUpdate');
+  static const controlPlaneEgressUpdate =
+      UpdateType._('ControlPlaneEgressUpdate');
+  static const versionRollback = UpdateType._('VersionRollback');
 
   final String value;
 
@@ -6461,8 +6557,11 @@ class UpdateType {
     autoModeUpdate,
     remoteNetworkConfigUpdate,
     deletionProtectionUpdate,
+    capabilityUpdate,
     controlPlaneScalingConfigUpdate,
-    vendedLogsUpdate
+    vendedLogsUpdate,
+    controlPlaneEgressUpdate,
+    versionRollback
   ];
 
   static UpdateType fromString(String value) => values
@@ -6470,6 +6569,68 @@ class UpdateType {
 
   @override
   bool operator ==(other) => other is UpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the latest cancellation of an update to an Amazon
+/// EKS cluster.
+///
+/// @nodoc
+class Cancellation {
+  /// A message providing additional details about the cancellation, such as the
+  /// reason for the cancellation or failure details.
+  final String? reason;
+
+  /// The current status of the cancellation. Valid values are
+  /// <code>InProgress</code>, <code>Failed</code>, and <code>Successful</code>.
+  final CancellationStatus? status;
+
+  Cancellation({
+    this.reason,
+    this.status,
+  });
+
+  factory Cancellation.fromJson(Map<String, dynamic> json) {
+    return Cancellation(
+      reason: json['reason'] as String?,
+      status: (json['status'] as String?)?.let(CancellationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class CancellationStatus {
+  static const inProgress = CancellationStatus._('InProgress');
+  static const failed = CancellationStatus._('Failed');
+  static const successful = CancellationStatus._('Successful');
+
+  final String value;
+
+  const CancellationStatus._(this.value);
+
+  static const values = [inProgress, failed, successful];
+
+  static CancellationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CancellationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancellationStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -6689,6 +6850,11 @@ class UpdateParamType {
   static const remoteNetworkConfig = UpdateParamType._('RemoteNetworkConfig');
   static const deletionProtection = UpdateParamType._('DeletionProtection');
   static const nodeRepairConfig = UpdateParamType._('NodeRepairConfig');
+  static const roleArn = UpdateParamType._('RoleArn');
+  static const roleMappingsToAddOrUpdate =
+      UpdateParamType._('RoleMappingsToAddOrUpdate');
+  static const roleMappingsToRemove = UpdateParamType._('RoleMappingsToRemove');
+  static const networkAccess = UpdateParamType._('NetworkAccess');
   static const vendedLogs = UpdateParamType._('VendedLogs');
   static const updatedTier = UpdateParamType._('UpdatedTier');
   static const previousTier = UpdateParamType._('PreviousTier');
@@ -6699,6 +6865,8 @@ class UpdateParamType {
   static const warmPoolState = UpdateParamType._('WarmPoolState');
   static const warmPoolReuseOnScaleIn =
       UpdateParamType._('WarmPoolReuseOnScaleIn');
+  static const controlPlaneEgressMode =
+      UpdateParamType._('ControlPlaneEgressMode');
 
   final String value;
 
@@ -6743,6 +6911,10 @@ class UpdateParamType {
     remoteNetworkConfig,
     deletionProtection,
     nodeRepairConfig,
+    roleArn,
+    roleMappingsToAddOrUpdate,
+    roleMappingsToRemove,
+    networkAccess,
     vendedLogs,
     updatedTier,
     previousTier,
@@ -6750,7 +6922,8 @@ class UpdateParamType {
     warmPoolMaxGroupPreparedCapacity,
     warmPoolMinSize,
     warmPoolState,
-    warmPoolReuseOnScaleIn
+    warmPoolReuseOnScaleIn,
+    controlPlaneEgressMode
   ];
 
   static UpdateParamType fromString(String value) =>
@@ -7639,11 +7812,51 @@ class EksAnywhereSubscriptionTermUnit {
   String toString() => value;
 }
 
+/// The rollback configuration for the cluster version rollback.
+///
+/// @nodoc
+class RollbackConfig {
+  /// The length of time in minutes to wait before cancelling the update. Timeout
+  /// is a minimum-bound property, meaning the timeout occurs no sooner than the
+  /// time you specify, but can occur shortly thereafter. This value can be
+  /// between 120 (2 hours) and 10080 (7 days). Default: <code>720</code> (12
+  /// hours) if not specified.
+  final int? timeoutMinutes;
+
+  RollbackConfig({
+    this.timeoutMinutes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final timeoutMinutes = this.timeoutMinutes;
+    return {
+      if (timeoutMinutes != null) 'timeoutMinutes': timeoutMinutes,
+    };
+  }
+}
+
 /// An object representing the VPC configuration to use for an Amazon EKS
 /// cluster.
 ///
 /// @nodoc
 class VpcConfigRequest {
+  /// Specifies the control plane egress routing mode for the cluster. If the
+  /// cluster is set to <code>AWS_MANAGED</code>, Amazon EKS manages the egress
+  /// path from the control plane and you don't need to configure NAT gateways or
+  /// other routing infrastructure for control plane traffic. If the cluster is
+  /// set to <code>CUSTOMER_ROUTED</code>, you manage the egress path from the
+  /// control plane in your VPC subnets. You are responsible for ensuring that the
+  /// control plane can reach required endpoints such as webhook servers and OIDC
+  /// providers. The default value is <code>AWS_MANAGED</code>. Once set to
+  /// <code>CUSTOMER_ROUTED</code>, this setting cannot be changed back to
+  /// <code>AWS_MANAGED</code> on the same cluster.
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html">Learn
+  /// more about control plane egress routing in the <i>Amazon EKS User
+  /// Guide</i>.</a>
+  final ControlPlaneEgressModeType? controlPlaneEgressMode;
+
   /// Set this value to <code>true</code> to enable private access for your
   /// cluster's Kubernetes API server endpoint. If you enable private access,
   /// Kubernetes API requests from within your cluster's VPC use the private VPC
@@ -7701,6 +7914,7 @@ class VpcConfigRequest {
   final List<String>? subnetIds;
 
   VpcConfigRequest({
+    this.controlPlaneEgressMode,
     this.endpointPrivateAccess,
     this.endpointPublicAccess,
     this.publicAccessCidrs,
@@ -7709,12 +7923,15 @@ class VpcConfigRequest {
   });
 
   Map<String, dynamic> toJson() {
+    final controlPlaneEgressMode = this.controlPlaneEgressMode;
     final endpointPrivateAccess = this.endpointPrivateAccess;
     final endpointPublicAccess = this.endpointPublicAccess;
     final publicAccessCidrs = this.publicAccessCidrs;
     final securityGroupIds = this.securityGroupIds;
     final subnetIds = this.subnetIds;
     return {
+      if (controlPlaneEgressMode != null)
+        'controlPlaneEgressMode': controlPlaneEgressMode.value,
       if (endpointPrivateAccess != null)
         'endpointPrivateAccess': endpointPrivateAccess,
       if (endpointPublicAccess != null)
@@ -8498,6 +8715,34 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
+class ControlPlaneEgressModeType {
+  static const awsManaged = ControlPlaneEgressModeType._('AWS_MANAGED');
+  static const customerRouted = ControlPlaneEgressModeType._('CUSTOMER_ROUTED');
+  static const customerIsolated =
+      ControlPlaneEgressModeType._('CUSTOMER_ISOLATED');
+
+  final String value;
+
+  const ControlPlaneEgressModeType._(this.value);
+
+  static const values = [awsManaged, customerRouted, customerIsolated];
+
+  static ControlPlaneEgressModeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlPlaneEgressModeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ControlPlaneEgressModeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Configuration updates for a capability. The structure varies depending on
 /// the capability type.
 ///
@@ -9270,6 +9515,18 @@ class VpcConfigResponse {
   /// communication.
   final String? clusterSecurityGroupId;
 
+  /// The current control plane egress routing mode for the cluster. If the
+  /// cluster is set to <code>AWS_MANAGED</code>, Amazon EKS manages the egress
+  /// path from the control plane. If the cluster is set to
+  /// <code>CUSTOMER_ROUTED</code>, you manage the egress path from the control
+  /// plane in your VPC subnets.
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html">Learn
+  /// more about control plane egress routing in the <i>Amazon EKS User
+  /// Guide</i>.</a>
+  final ControlPlaneEgressModeType? controlPlaneEgressMode;
+
   /// This parameter indicates whether the Amazon EKS private API server endpoint
   /// is enabled. If the Amazon EKS private API server endpoint is enabled,
   /// Kubernetes API requests that originate from within your cluster's VPC use
@@ -9313,6 +9570,7 @@ class VpcConfigResponse {
 
   VpcConfigResponse({
     this.clusterSecurityGroupId,
+    this.controlPlaneEgressMode,
     this.endpointPrivateAccess,
     this.endpointPublicAccess,
     this.publicAccessCidrs,
@@ -9324,6 +9582,8 @@ class VpcConfigResponse {
   factory VpcConfigResponse.fromJson(Map<String, dynamic> json) {
     return VpcConfigResponse(
       clusterSecurityGroupId: json['clusterSecurityGroupId'] as String?,
+      controlPlaneEgressMode: (json['controlPlaneEgressMode'] as String?)
+          ?.let(ControlPlaneEgressModeType.fromString),
       endpointPrivateAccess: json['endpointPrivateAccess'] as bool?,
       endpointPublicAccess: json['endpointPublicAccess'] as bool?,
       publicAccessCidrs: (json['publicAccessCidrs'] as List?)
@@ -9344,6 +9604,7 @@ class VpcConfigResponse {
 
   Map<String, dynamic> toJson() {
     final clusterSecurityGroupId = this.clusterSecurityGroupId;
+    final controlPlaneEgressMode = this.controlPlaneEgressMode;
     final endpointPrivateAccess = this.endpointPrivateAccess;
     final endpointPublicAccess = this.endpointPublicAccess;
     final publicAccessCidrs = this.publicAccessCidrs;
@@ -9353,6 +9614,8 @@ class VpcConfigResponse {
     return {
       if (clusterSecurityGroupId != null)
         'clusterSecurityGroupId': clusterSecurityGroupId,
+      if (controlPlaneEgressMode != null)
+        'controlPlaneEgressMode': controlPlaneEgressMode.value,
       if (endpointPrivateAccess != null)
         'endpointPrivateAccess': endpointPrivateAccess,
       if (endpointPublicAccess != null)
@@ -9609,8 +9872,9 @@ class ClusterHealth {
 ///
 /// @nodoc
 class OutpostConfigResponse {
-  /// The Amazon EC2 instance type used for the control plane. The instance type
-  /// is the same for all control plane instances.
+  /// The Amazon EC2 instance type for the Kubernetes control plane instances of
+  /// your local Amazon EKS cluster on Amazon Web Services Outposts. The instance
+  /// type is the same for all control plane instances.
   final String controlPlaneInstanceType;
 
   /// The ARN of the Outpost that you specified for use with your local Amazon EKS
@@ -9624,10 +9888,24 @@ class OutpostConfigResponse {
   /// considerations</a> in the <i>Amazon EKS User Guide</i>.
   final ControlPlanePlacementResponse? controlPlanePlacement;
 
+  /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS
+  /// cluster on Amazon Web Services Outposts. The instance type is the same for
+  /// all etcd instances.
+  final String? etcdInstanceType;
+
+  /// An object representing the placement configuration for the etcd instances of
+  /// your local Amazon EKS cluster on an Amazon Web Services Outpost. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html">Capacity
+  /// considerations</a> in the <i>Amazon EKS User Guide</i>.
+  final EtcdPlacementResponse? etcdPlacement;
+
   OutpostConfigResponse({
     required this.controlPlaneInstanceType,
     required this.outpostArns,
     this.controlPlanePlacement,
+    this.etcdInstanceType,
+    this.etcdPlacement,
   });
 
   factory OutpostConfigResponse.fromJson(Map<String, dynamic> json) {
@@ -9642,6 +9920,11 @@ class OutpostConfigResponse {
           ? ControlPlanePlacementResponse.fromJson(
               json['controlPlanePlacement'] as Map<String, dynamic>)
           : null,
+      etcdInstanceType: json['etcdInstanceType'] as String?,
+      etcdPlacement: json['etcdPlacement'] != null
+          ? EtcdPlacementResponse.fromJson(
+              json['etcdPlacement'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -9649,11 +9932,15 @@ class OutpostConfigResponse {
     final controlPlaneInstanceType = this.controlPlaneInstanceType;
     final outpostArns = this.outpostArns;
     final controlPlanePlacement = this.controlPlanePlacement;
+    final etcdInstanceType = this.etcdInstanceType;
+    final etcdPlacement = this.etcdPlacement;
     return {
       'controlPlaneInstanceType': controlPlaneInstanceType,
       'outpostArns': outpostArns,
       if (controlPlanePlacement != null)
         'controlPlanePlacement': controlPlanePlacement,
+      if (etcdInstanceType != null) 'etcdInstanceType': etcdInstanceType,
+      if (etcdPlacement != null) 'etcdPlacement': etcdPlacement,
     };
   }
 }
@@ -9889,22 +10176,85 @@ class ControlPlanePlacementResponse {
   /// The name of the placement group for the Kubernetes control plane instances.
   final String? groupName;
 
+  /// The spread level used with the placement group for control plane instances
+  /// on your local Amazon EKS cluster on Amazon Web Services Outposts.
+  final SpreadLevel? spreadLevel;
+
   ControlPlanePlacementResponse({
     this.groupName,
+    this.spreadLevel,
   });
 
   factory ControlPlanePlacementResponse.fromJson(Map<String, dynamic> json) {
     return ControlPlanePlacementResponse(
       groupName: json['groupName'] as String?,
+      spreadLevel:
+          (json['spreadLevel'] as String?)?.let(SpreadLevel.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final groupName = this.groupName;
+    final spreadLevel = this.spreadLevel;
     return {
       if (groupName != null) 'groupName': groupName,
+      if (spreadLevel != null) 'spreadLevel': spreadLevel.value,
     };
   }
+}
+
+/// The placement configuration for the etcd instances of your local Amazon EKS
+/// cluster on an Amazon Web Services Outpost. For more information, see <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html">Capacity
+/// considerations</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
+class EtcdPlacementResponse {
+  /// The spread level used with the placement group for etcd instances on your
+  /// local Amazon EKS cluster on Amazon Web Services Outposts.
+  final SpreadLevel? spreadLevel;
+
+  EtcdPlacementResponse({
+    this.spreadLevel,
+  });
+
+  factory EtcdPlacementResponse.fromJson(Map<String, dynamic> json) {
+    return EtcdPlacementResponse(
+      spreadLevel:
+          (json['spreadLevel'] as String?)?.let(SpreadLevel.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final spreadLevel = this.spreadLevel;
+    return {
+      if (spreadLevel != null) 'spreadLevel': spreadLevel.value,
+    };
+  }
+}
+
+/// @nodoc
+class SpreadLevel {
+  static const host = SpreadLevel._('host');
+  static const rack = SpreadLevel._('rack');
+
+  final String value;
+
+  const SpreadLevel._(this.value);
+
+  static const values = [host, rack];
+
+  static SpreadLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpreadLevel._(value));
+
+  @override
+  bool operator ==(other) => other is SpreadLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An issue with your Amazon EKS cluster.
@@ -10351,12 +10701,13 @@ class InsightSummary {
 class Category {
   static const upgradeReadiness = Category._('UPGRADE_READINESS');
   static const misconfiguration = Category._('MISCONFIGURATION');
+  static const rollbackReadiness = Category._('ROLLBACK_READINESS');
 
   final String value;
 
   const Category._(this.value);
 
-  static const values = [upgradeReadiness, misconfiguration];
+  static const values = [upgradeReadiness, misconfiguration, rollbackReadiness];
 
   static Category fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => Category._(value));
@@ -13618,15 +13969,14 @@ class AddonIssueCode {
 ///
 /// @nodoc
 class OutpostConfigRequest {
-  /// The Amazon EC2 instance type that you want to use for your local Amazon EKS
-  /// cluster on Outposts. Choose an instance type based on the number of nodes
-  /// that your cluster will have. For more information, see <a
+  /// The Amazon EC2 instance type for the Kubernetes control plane instances of
+  /// your local Amazon EKS cluster on Amazon Web Services Outposts. This instance
+  /// type applies to all control plane instances and cannot be changed after
+  /// cluster creation.
+  ///
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html">Capacity
   /// considerations</a> in the <i>Amazon EKS User Guide</i>.
-  ///
-  /// The instance type that you specify is used for all Kubernetes control plane
-  /// instances. The instance type can't be changed after cluster creation. The
-  /// control plane is not automatically scaled by Amazon EKS.
   ///
   ///
   final String controlPlaneInstanceType;
@@ -13642,21 +13992,39 @@ class OutpostConfigRequest {
   /// considerations</a> in the <i>Amazon EKS User Guide</i>.
   final ControlPlanePlacementRequest? controlPlanePlacement;
 
+  /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS
+  /// cluster on Amazon Web Services Outposts. This instance type applies to all
+  /// etcd instances and cannot be changed after cluster creation.
+  final String? etcdInstanceType;
+
+  /// An object representing the placement configuration for the etcd instances of
+  /// your local Amazon EKS cluster on an Amazon Web Services Outpost. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html">Capacity
+  /// considerations</a> in the <i>Amazon EKS User Guide</i>.
+  final EtcdPlacementRequest? etcdPlacement;
+
   OutpostConfigRequest({
     required this.controlPlaneInstanceType,
     required this.outpostArns,
     this.controlPlanePlacement,
+    this.etcdInstanceType,
+    this.etcdPlacement,
   });
 
   Map<String, dynamic> toJson() {
     final controlPlaneInstanceType = this.controlPlaneInstanceType;
     final outpostArns = this.outpostArns;
     final controlPlanePlacement = this.controlPlanePlacement;
+    final etcdInstanceType = this.etcdInstanceType;
+    final etcdPlacement = this.etcdPlacement;
     return {
       'controlPlaneInstanceType': controlPlaneInstanceType,
       'outpostArns': outpostArns,
       if (controlPlanePlacement != null)
         'controlPlanePlacement': controlPlanePlacement,
+      if (etcdInstanceType != null) 'etcdInstanceType': etcdInstanceType,
+      if (etcdPlacement != null) 'etcdPlacement': etcdPlacement,
     };
   }
 }
@@ -13708,14 +14076,46 @@ class ControlPlanePlacementRequest {
   /// This setting can't be changed after cluster creation.
   final String? groupName;
 
+  /// Optional parameter to specify the placement group spread level for control
+  /// plane instances. If not provided, Amazon EKS will deploy control plane
+  /// instances without a placement group.
+  final SpreadLevel? spreadLevel;
+
   ControlPlanePlacementRequest({
     this.groupName,
+    this.spreadLevel,
   });
 
   Map<String, dynamic> toJson() {
     final groupName = this.groupName;
+    final spreadLevel = this.spreadLevel;
     return {
       if (groupName != null) 'groupName': groupName,
+      if (spreadLevel != null) 'spreadLevel': spreadLevel.value,
+    };
+  }
+}
+
+/// The placement configuration for the etcd instances of your local Amazon EKS
+/// cluster on an Amazon Web Services Outpost. For more information, see <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html">Capacity
+/// considerations</a> in the <i>Amazon EKS User Guide</i>.
+///
+/// @nodoc
+class EtcdPlacementRequest {
+  /// Optional parameter to specify the placement group spread level for etcd
+  /// instances. If not provided, Amazon EKS will deploy etcd instances without a
+  /// placement group.
+  final SpreadLevel? spreadLevel;
+
+  EtcdPlacementRequest({
+    this.spreadLevel,
+  });
+
+  Map<String, dynamic> toJson() {
+    final spreadLevel = this.spreadLevel;
+    return {
+      if (spreadLevel != null) 'spreadLevel': spreadLevel.value,
     };
   }
 }

@@ -2587,8 +2587,8 @@ class CrlConfiguration {
   /// Specifies whether to create a complete or partitioned CRL. This setting
   /// determines the maximum number of certificates that the certificate authority
   /// can issue and revoke. For more information, see <a
-  /// href="privateca/latest/userguide/pca.html#limits_pca">Amazon Web Services
-  /// Private CA quotas</a>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/pca.html#limits_pca">Amazon
+  /// Web Services Private CA quotas</a>.
   ///
   /// <ul>
   /// <li>
@@ -2637,7 +2637,7 @@ class CrlConfiguration {
   /// You can change the name of your bucket by calling the <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
   /// operation. You must specify a <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-policies">bucket
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies">bucket
   /// policy</a> that allows Amazon Web Services Private CA to write the CRL to
   /// your bucket.
   /// <note>
@@ -2664,7 +2664,7 @@ class CrlConfiguration {
   /// the value.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-bpa">Blocking
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-bpa">Blocking
   /// public access to the S3 bucket</a>.
   final S3ObjectAcl? s3ObjectAcl;
 
@@ -2813,7 +2813,7 @@ class CrlDistributionPointExtensionConfiguration {
   /// otherwise specified through CSR or API passthrough.
   /// <note>
   /// Only set this if you have another way to distribute the CRL Distribution
-  /// Points ffor certificates issued by your CA, such as the Matter Distributed
+  /// Points for certificates issued by your CA, such as the Matter Distributed
   /// Compliance Ledger
   ///
   /// This configuration cannot be enabled with a custom CNAME set.
@@ -3294,7 +3294,8 @@ class CertificateAuthorityConfiguration {
   /// Name of the algorithm your private CA uses to sign certificate requests.
   ///
   /// This parameter should not be confused with the <code>SigningAlgorithm</code>
-  /// parameter used to sign certificates when they are issued.
+  /// parameter of the <code>IssueCertificate</code> API action, which is used to
+  /// sign certificates when they are issued.
   final SigningAlgorithm signingAlgorithm;
 
   /// Structure that contains X.500 distinguished name information for your
@@ -3456,6 +3457,9 @@ class SigningAlgorithm {
   static const sha256withrsa = SigningAlgorithm._('SHA256WITHRSA');
   static const sha384withrsa = SigningAlgorithm._('SHA384WITHRSA');
   static const sha512withrsa = SigningAlgorithm._('SHA512WITHRSA');
+  static const sha256withrsaPss = SigningAlgorithm._('SHA256WITHRSA_PSS');
+  static const sha384withrsaPss = SigningAlgorithm._('SHA384WITHRSA_PSS');
+  static const sha512withrsaPss = SigningAlgorithm._('SHA512WITHRSA_PSS');
   static const sm3withsm2 = SigningAlgorithm._('SM3WITHSM2');
   static const mlDsa_44 = SigningAlgorithm._('ML_DSA_44');
   static const mlDsa_65 = SigningAlgorithm._('ML_DSA_65');
@@ -3472,6 +3476,9 @@ class SigningAlgorithm {
     sha256withrsa,
     sha384withrsa,
     sha512withrsa,
+    sha256withrsaPss,
+    sha384withrsaPss,
+    sha512withrsaPss,
     sm3withsm2,
     mlDsa_44,
     mlDsa_65,

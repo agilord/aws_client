@@ -1715,15 +1715,33 @@ class Iam {
   /// You can have a maximum of two sets of service-specific credentials for
   /// each supported service per user.
   ///
-  /// You can create service-specific credentials for Amazon Bedrock, Amazon
-  /// CloudWatch Logs, CodeCommit and Amazon Keyspaces (for Apache Cassandra).
-  ///
   /// You can reset the password to a new service-generated value by calling <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResetServiceSpecificCredential.html">ResetServiceSpecificCredential</a>.
   ///
-  /// For more information about service-specific credentials, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_bedrock.html">Service-specific
-  /// credentials for IAM users</a> in the <i>IAM User Guide</i>.
+  /// For more information about using service-specific credentials to
+  /// authenticate to an Amazon Web Services service, refer to the following
+  /// docs:
+  ///
+  /// <ul>
+  /// <li>
+  /// For service-specific credentials with CodeCommit, refer to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html">IAM
+  /// credentials for CodeCommit: Git credentials, SSH keys, and Amazon Web
+  /// Services access keys</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// For service-specific credentials with Amazon Keyspaces (for Apache
+  /// Cassandra), refer to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_keyspaces.html">Use
+  /// IAM with Amazon Keyspaces (for Apache Cassandra)</a> in the <i>IAM User
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// For services that support long-term API keys, refer to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html">API
+  /// keys for Amazon Web Services services</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// </ul>
   ///
   /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
@@ -1747,8 +1765,12 @@ class Iam {
   ///
   /// Parameter [credentialAgeDays] :
   /// The number of days until the service specific credential expires. This
-  /// field is only valid for Bedrock and CloudWatch Logs API keys and must be a
-  /// positive integer. When not specified, the credential will not expire.
+  /// field is only valid for services that support long-term API keys and must
+  /// be a positive integer. When not specified, the credential will not expire.
+  ///
+  /// To see which services support long-term API keys, refer to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html">API
+  /// keys for Amazon Web Services services</a> in the <i>IAM User Guide</i>.
   Future<CreateServiceSpecificCredentialResponse>
       createServiceSpecificCredential({
     required String serviceName,
@@ -4002,6 +4024,10 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>
   /// to understand what key names and values you must supply when you call <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>.
+  /// This operation doesn't return context keys referenced by service control
+  /// policies (SCPs). Only context keys referenced by the identity-based
+  /// policies attached to the specified entity, and any additional policies
+  /// that you provide, are included.
   ///
   /// May throw [InvalidInputException].
   /// May throw [NoSuchEntityException].
@@ -7336,9 +7362,28 @@ class Iam {
   /// list. The service-specific credentials returned by this operation are used
   /// only for authenticating the IAM user to a specific service. For more
   /// information about using service-specific credentials to authenticate to an
-  /// Amazon Web Services service, see <a
-  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">Set
-  /// up service-specific credentials</a> in the CodeCommit User Guide.
+  /// Amazon Web Services service, refer to the following docs:
+  ///
+  /// <ul>
+  /// <li>
+  /// For service-specific credentials with CodeCommit, refer to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html">IAM
+  /// credentials for CodeCommit: Git credentials, SSH keys, and Amazon Web
+  /// Services access keys</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// For service-specific credentials with Amazon Keyspaces (for Apache
+  /// Cassandra), refer to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_keyspaces.html">Use
+  /// IAM with Amazon Keyspaces (for Apache Cassandra)</a> in the <i>IAM User
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// For services that support long-term API keys, refer to <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html">API
+  /// keys for Amazon Web Services services</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceNotSupportedException].
@@ -8687,13 +8732,14 @@ class Iam {
   /// If the output is long, you can use <code>MaxItems</code> and
   /// <code>Marker</code> parameters to paginate the results.
   /// <note>
-  /// The IAM policy simulator evaluates statements in the identity-based policy
-  /// and the inputs that you provide during simulation. The policy simulator
-  /// results can differ from your live Amazon Web Services environment. We
-  /// recommend that you check your policies against your live Amazon Web
-  /// Services environment after testing using the policy simulator to confirm
-  /// that you have the desired results. For more information about using the
-  /// policy simulator, see <a
+  /// The IAM policy simulator evaluates statements in identity-based policies,
+  /// service control policies (SCPs) including their condition keys and
+  /// resource scoping, and the inputs that you provide during simulation. The
+  /// policy simulator results can differ from your live Amazon Web Services
+  /// environment. We recommend that you check your policies against your live
+  /// Amazon Web Services environment after testing using the policy simulator
+  /// to confirm that you have the desired results. For more information about
+  /// using the policy simulator, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html">Testing
   /// IAM policies with the IAM policy simulator </a>in the <i>IAM User
   /// Guide</i>.
@@ -8747,13 +8793,14 @@ class Iam {
   /// </ul>
   ///
   /// Parameter [callerArn] :
-  /// The ARN of the IAM user that you want to use as the simulated caller of
-  /// the API operations. <code>CallerArn</code> is required if you include a
-  /// <code>ResourcePolicy</code> so that the policy's <code>Principal</code>
-  /// element has a value to use in evaluating the policy.
+  /// The ARN of the IAM user, group, or role that you want to use as the
+  /// simulated caller of the API operations. <code>CallerArn</code> is required
+  /// if you include a <code>ResourcePolicy</code> so that the policy's
+  /// <code>Principal</code> element has a value to use in evaluating the
+  /// policy.
   ///
-  /// You can specify only the ARN of an IAM user. You cannot specify the ARN of
-  /// an assumed role, federated user, or a service principal.
+  /// You cannot specify the ARN of an assumed role, federated user, or a
+  /// service principal.
   ///
   /// Parameter [contextEntries] :
   /// A list of context keys and corresponding values for the simulation to use.
@@ -8778,6 +8825,21 @@ class Iam {
   /// returns <code>true</code>, and <code>Marker</code> contains a value to
   /// include in the subsequent call that tells the service where to continue
   /// from.
+  ///
+  /// Parameter [orderedOrganizationPolicyInputList] :
+  /// An ordered list of service control policies (SCPs) to include in the
+  /// simulation. Each element represents one level of an Organizations
+  /// hierarchy, from the organization root to the account.
+  ///
+  /// The simulator evaluates SCPs in the order that you provide, consistent
+  /// with how Organizations enforces SCPs. The first element must represent the
+  /// organization root, and the last element must represent the account. Any
+  /// elements between them represent organizational units (OUs) in descending
+  /// order.
+  ///
+  /// Use this parameter to simulate the effect of an SCP hierarchy without
+  /// calling <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>.
   ///
   /// Parameter [permissionsBoundaryPolicyInputList] :
   /// The IAM permissions boundary policy to simulate. The permissions boundary
@@ -8938,6 +9000,7 @@ class Iam {
     List<ContextEntry>? contextEntries,
     String? marker,
     int? maxItems,
+    List<OrderedOrganizationPolicyType>? orderedOrganizationPolicyInputList,
     List<String>? permissionsBoundaryPolicyInputList,
     List<String>? resourceArns,
     String? resourceHandlingOption,
@@ -8971,6 +9034,15 @@ class Iam {
               'ContextEntries.member.${i1 + 1}.${e3.key}': e3.value,
       if (marker != null) 'Marker': marker,
       if (maxItems != null) 'MaxItems': maxItems.toString(),
+      if (orderedOrganizationPolicyInputList != null)
+        if (orderedOrganizationPolicyInputList.isEmpty)
+          'OrderedOrganizationPolicyInputList': ''
+        else
+          for (var i1 = 0; i1 < orderedOrganizationPolicyInputList.length; i1++)
+            for (var e3
+                in orderedOrganizationPolicyInputList[i1].toQueryMap().entries)
+              'OrderedOrganizationPolicyInputList.member.${i1 + 1}.${e3.key}':
+                  e3.value,
       if (permissionsBoundaryPolicyInputList != null)
         if (permissionsBoundaryPolicyInputList.isEmpty)
           'PermissionsBoundaryPolicyInputList': ''
@@ -9021,6 +9093,12 @@ class Iam {
   /// authorization to determine if the simulated policies allow or deny the
   /// operations.
   ///
+  /// For cross-account simulations, <code>EvalDecisionDetails</code> returns
+  /// the decision for each policy type (identity-based policy, resource-based
+  /// policy, and permissions boundary). This helps you identify which policy
+  /// type is responsible for an allow or deny decision when policies span
+  /// multiple accounts.
+  ///
   /// <b>Note:</b> This operation discloses information about the permissions
   /// granted to other users. If you do not want users to see other user's
   /// permissions, then consider allowing them to use <a
@@ -9037,13 +9115,14 @@ class Iam {
   /// If the output is long, you can use the <code>MaxItems</code> and
   /// <code>Marker</code> parameters to paginate the results.
   /// <note>
-  /// The IAM policy simulator evaluates statements in the identity-based policy
-  /// and the inputs that you provide during simulation. The policy simulator
-  /// results can differ from your live Amazon Web Services environment. We
-  /// recommend that you check your policies against your live Amazon Web
-  /// Services environment after testing using the policy simulator to confirm
-  /// that you have the desired results. For more information about using the
-  /// policy simulator, see <a
+  /// The IAM policy simulator evaluates statements in identity-based policies,
+  /// service control policies (SCPs) including their condition keys and
+  /// resource scoping, and the inputs that you provide during simulation. The
+  /// policy simulator results can differ from your live Amazon Web Services
+  /// environment. We recommend that you check your policies against your live
+  /// Amazon Web Services environment after testing using the policy simulator
+  /// to confirm that you have the desired results. For more information about
+  /// using the policy simulator, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html">Testing
   /// IAM policies with the IAM policy simulator </a>in the <i>IAM User
   /// Guide</i>.
@@ -9077,25 +9156,25 @@ class Iam {
   /// Reference</i>.
   ///
   /// Parameter [callerArn] :
-  /// The ARN of the IAM user that you want to specify as the simulated caller
-  /// of the API operations. If you do not specify a <code>CallerArn</code>, it
-  /// defaults to the ARN of the user that you specify in
-  /// <code>PolicySourceArn</code>, if you specified a user. If you include both
-  /// a <code>PolicySourceArn</code> (for example,
+  /// The ARN of the IAM user, group, or role that you want to specify as the
+  /// simulated caller of the API operations. If you do not specify a
+  /// <code>CallerArn</code>, it defaults to the ARN of the user, group, or role
+  /// that you specify in <code>PolicySourceArn</code>. If you include both a
+  /// <code>PolicySourceArn</code> (for example,
   /// <code>arn:aws:iam::123456789012:user/David</code>) and a
   /// <code>CallerArn</code> (for example,
   /// <code>arn:aws:iam::123456789012:user/Bob</code>), the result is that you
   /// simulate calling the API operations as Bob, as if Bob had David's
   /// policies.
   ///
-  /// You can specify only the ARN of an IAM user. You cannot specify the ARN of
-  /// an assumed role, federated user, or a service principal.
+  /// You can specify the ARN of an IAM user, group, or role. You cannot specify
+  /// the ARN of an assumed role, federated user, or a service principal.
   ///
   /// <code>CallerArn</code> is required if you include a
   /// <code>ResourcePolicy</code> and the <code>PolicySourceArn</code> is not
-  /// the ARN for an IAM user. This is required so that the resource-based
-  /// policy's <code>Principal</code> element has a value to use in evaluating
-  /// the policy.
+  /// the ARN for an IAM user, group, or role. This is required so that the
+  /// resource-based policy's <code>Principal</code> element has a value to use
+  /// in evaluating the policy.
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -9164,6 +9243,25 @@ class Iam {
   /// (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [policyExclusionList] :
+  /// A list of policies to exclude from the simulation. Use this parameter to
+  /// test what the simulation result would be if a policy were removed, without
+  /// changing which policies are actually attached to the principal identified
+  /// by <code>PolicySourceArn</code>.
+  ///
+  /// Each entry is a <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_PolicyIdentifier.html">PolicyIdentifier</a>
+  /// that identifies one or more policies to exclude by policy type, by Amazon
+  /// Resource Name (ARN), or by the name of an inline policy and the entity it
+  /// is attached to.
+  ///
+  /// Syntactically invalid identifiers, such as malformed ARNs or wildcards in
+  /// disallowed positions, cause the request to fail with an
+  /// <code>InvalidInput</code> error. Syntactically valid identifiers that
+  /// don't match any attached policy are ignored. Resource control policies
+  /// (RCPs) are not supported in this release; identifiers that target RCPs are
+  /// also ignored.
   ///
   /// Parameter [policyInputList] :
   /// An optional list of additional policy documents to include in the
@@ -9305,6 +9403,7 @@ class Iam {
     String? marker,
     int? maxItems,
     List<String>? permissionsBoundaryPolicyInputList,
+    List<PolicyIdentifier>? policyExclusionList,
     List<String>? policyInputList,
     List<String>? resourceArns,
     String? resourceHandlingOption,
@@ -9341,6 +9440,13 @@ class Iam {
           for (var i1 = 0; i1 < permissionsBoundaryPolicyInputList.length; i1++)
             'PermissionsBoundaryPolicyInputList.member.${i1 + 1}':
                 permissionsBoundaryPolicyInputList[i1],
+      if (policyExclusionList != null)
+        if (policyExclusionList.isEmpty)
+          'PolicyExclusionList': ''
+        else
+          for (var i1 = 0; i1 < policyExclusionList.length; i1++)
+            for (var e3 in policyExclusionList[i1].toQueryMap().entries)
+              'PolicyExclusionList.member.${i1 + 1}.${e3.key}': e3.value,
       if (policyInputList != null)
         if (policyInputList.isEmpty)
           'PolicyInputList': ''
@@ -16506,6 +16612,181 @@ class ContextKeyTypeEnum {
   String toString() => value;
 }
 
+/// Identifies one or more policies as a union type. Specify exactly one of
+/// <code>PolicyType</code>, <code>PolicyArn</code>, or
+/// <code>InlinePolicyIdentifier</code> to identify policies by their type, by
+/// Amazon Resource Name (ARN), or by the name of an inline policy and the
+/// entity it is attached to.
+///
+/// @nodoc
+class PolicyIdentifier {
+  /// An inline policy identifier consisting of a policy name and the entity it is
+  /// attached to. Wildcard characters (<code>*</code> and <code>?</code>) in the
+  /// entity name can match multiple entities.
+  final InlinePolicyIdentifierType? inlinePolicyIdentifier;
+
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services managed policy or a
+  /// customer managed policy that is attached to an IAM user, group, or role.
+  /// Wildcard characters are supported in the resource name portion of the ARN to
+  /// match multiple managed policies: use at most one <code>*</code> (matches any
+  /// sequence of characters, including none), and any number of <code>?</code>
+  /// (each matches exactly one character).
+  ///
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? policyArn;
+
+  /// The policy type to identify. All policies of the specified type are matched.
+  final PolicyIdentifierPolicyType? policyType;
+
+  PolicyIdentifier({
+    this.inlinePolicyIdentifier,
+    this.policyArn,
+    this.policyType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inlinePolicyIdentifier = this.inlinePolicyIdentifier;
+    final policyArn = this.policyArn;
+    final policyType = this.policyType;
+    return {
+      if (inlinePolicyIdentifier != null)
+        'InlinePolicyIdentifier': inlinePolicyIdentifier,
+      if (policyArn != null) 'PolicyArn': policyArn,
+      if (policyType != null) 'PolicyType': policyType.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final inlinePolicyIdentifier = this.inlinePolicyIdentifier;
+    final policyArn = this.policyArn;
+    final policyType = this.policyType;
+    return {
+      if (inlinePolicyIdentifier != null)
+        for (var e1 in inlinePolicyIdentifier.toQueryMap().entries)
+          'InlinePolicyIdentifier.${e1.key}': e1.value,
+      if (policyArn != null) 'PolicyArn': policyArn,
+      if (policyType != null) 'PolicyType': policyType.value,
+    };
+  }
+}
+
+/// @nodoc
+class PolicyIdentifierPolicyType {
+  static const inline = PolicyIdentifierPolicyType._('inline');
+  static const awsManaged = PolicyIdentifierPolicyType._('aws-managed');
+  static const userManaged = PolicyIdentifierPolicyType._('user-managed');
+  static const permissionBoundary =
+      PolicyIdentifierPolicyType._('permission-boundary');
+  static const scp = PolicyIdentifierPolicyType._('scp');
+  static const rcp = PolicyIdentifierPolicyType._('rcp');
+
+  final String value;
+
+  const PolicyIdentifierPolicyType._(this.value);
+
+  static const values = [
+    inline,
+    awsManaged,
+    userManaged,
+    permissionBoundary,
+    scp,
+    rcp
+  ];
+
+  static PolicyIdentifierPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyIdentifierPolicyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PolicyIdentifierPolicyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies one or more inline policies that are embedded in IAM users,
+/// groups, or roles, by the name of the policy together with the type and name
+/// of the entity that it is attached to. Wildcard characters in the entity name
+/// can match multiple entities, so a single identifier can select more than one
+/// attached inline policy.
+///
+/// @nodoc
+class InlinePolicyIdentifierType {
+  /// The name of the IAM user, group, or role that the inline policy is attached
+  /// to. Wildcard characters are supported to match multiple entities: use at
+  /// most one <code>*</code> (matches any sequence of characters, including
+  /// none), and any number of <code>?</code> (each matches exactly one
+  /// character).
+  final String attachmentName;
+
+  /// The type of IAM entity that the inline policy is attached to.
+  final AttachmentType attachmentType;
+
+  /// The name of the inline policy.
+  final String policyName;
+
+  InlinePolicyIdentifierType({
+    required this.attachmentName,
+    required this.attachmentType,
+    required this.policyName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attachmentName = this.attachmentName;
+    final attachmentType = this.attachmentType;
+    final policyName = this.policyName;
+    return {
+      'AttachmentName': attachmentName,
+      'AttachmentType': attachmentType.value,
+      'PolicyName': policyName,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final attachmentName = this.attachmentName;
+    final attachmentType = this.attachmentType;
+    final policyName = this.policyName;
+    return {
+      'AttachmentName': attachmentName,
+      'AttachmentType': attachmentType.value,
+      'PolicyName': policyName,
+    };
+  }
+}
+
+/// @nodoc
+class AttachmentType {
+  static const user = AttachmentType._('user');
+  static const group = AttachmentType._('group');
+  static const role = AttachmentType._('role');
+
+  final String value;
+
+  const AttachmentType._(this.value);
+
+  static const values = [user, group, role];
+
+  static AttachmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttachmentType._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains the results of a simulation.
 ///
 /// This data type is used by the return parameter of <code> <a
@@ -16513,6 +16794,25 @@ class ContextKeyTypeEnum {
 /// </code> and <code> <a
 /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html">SimulatePrincipalPolicy</a>
 /// </code>.
+/// <important>
+/// The simulator now returns a single <code>EvaluationResult</code> per action,
+/// regardless of how many resource ARNs are provided. Previously, simulating
+/// one action against N resources returned N evaluation results, each
+/// containing the same aggregate decision. The top-level fields
+/// (<code>EvalDecision</code>, <code>MatchedStatements</code>,
+/// <code>MissingContextValues</code>, <code>EvalDecisionDetails</code>) now
+/// represent the <i>aggregate</i> decision across all requested resources. The
+/// top-level <code>EvalDecision</code> reflects the most restrictive decision
+/// across all resources (for example, if any resource produces
+/// <code>explicitDeny</code>, the top-level decision is
+/// <code>explicitDeny</code>).
+///
+/// To see the decision for each individual resource, use
+/// <code>ResourceSpecificResults</code>. If your application parses evaluation
+/// results per resource ARN, update your code to read per-resource decisions
+/// from <code>ResourceSpecificResults</code> rather than from the top-level
+/// result.
+/// </important>
 ///
 /// @nodoc
 class EvaluationResult {
@@ -16526,6 +16826,9 @@ class EvaluationResult {
   /// decision. This parameter is populated for only cross-account simulations. It
   /// contains a brief summary of how each policy type contributes to the final
   /// evaluation decision.
+  ///
+  /// In the top-level result, this map reports the most restrictive decision per
+  /// policy type across all requested resources.
   ///
   /// If the simulation evaluates policies within the same account and includes a
   /// resource ARN, then the parameter is present but the response is empty. If
@@ -16544,7 +16847,17 @@ class EvaluationResult {
   /// further and this parameter is not returned.
   final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
 
-  /// The ARN of the resource that the indicated API operation was tested on.
+  /// The ARN template for the simulated resource type (for example,
+  /// <code>arn:${Partition}:s3:::${BucketName}/${KeyName}</code>), or
+  /// <code>*</code> if no ARN format is defined for the action. This is not a
+  /// specific customer-provided resource ARN. To find the decision for a specific
+  /// resource, use <code>ResourceSpecificResults</code>.
+  /// <note>
+  /// If you previously relied on <code>EvalResourceName</code> to identify which
+  /// specific resource a result applies to, you must now use the
+  /// <code>EvalResourceName</code> field within individual entries in
+  /// <code>ResourceSpecificResults</code> instead.
+  /// </note>
   final String? evalResourceName;
 
   /// A list of the statements in the input policies that determine the result for
@@ -16552,6 +16865,13 @@ class EvaluationResult {
   /// on the resource, if only one statement denies that operation, then the
   /// explicit deny overrides any allow. In addition, the deny statement is the
   /// only entry included in the result.
+  ///
+  /// In the top-level result, this field contains the union of matched statements
+  /// across all requested resources. Only statements that contributed to the
+  /// reported decision are included. For per-resource matched statements, see
+  /// <code>ResourceSpecificResults</code>. This field doesn't include statements
+  /// from service control policies (SCPs). Only statements from identity-based
+  /// and resource-based policies appear here.
   final List<Statement>? matchedStatements;
 
   /// A list of context keys that are required by the included input policies but
@@ -16564,11 +16884,20 @@ class EvaluationResult {
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html">GetContextKeysForCustomPolicy</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html">GetContextKeysForPrincipalPolicy</a>.
+  ///
+  /// In the top-level result, this field contains the deduplicated set of missing
+  /// context values across all requested resources. This field doesn't include
+  /// context keys referenced by service control policies (SCPs). Only context
+  /// keys referenced by identity-based and resource-based policies appear here.
   final List<String>? missingContextValues;
 
   /// A structure that details how Organizations and its service control policies
   /// affect the results of the simulation. Only applies if the simulated user's
   /// account is part of an organization.
+  ///
+  /// For resources that don't support organization-level evaluation, this field
+  /// is omitted from the top-level result. For per-resource details, see
+  /// <code>ResourceSpecificResults</code>.
   final OrganizationsDecisionDetail? organizationsDecisionDetail;
 
   /// Contains information about the effect that a permissions boundary has on a
@@ -16982,6 +17311,49 @@ class Position {
     return {
       if (column != null) 'Column': column,
       if (line != null) 'Line': line,
+    };
+  }
+}
+
+/// Represents one level of an Organizations hierarchy—the organization root, an
+/// organizational unit (OU), or an account—together with the service control
+/// policies (SCPs) that apply at that level. Each element in the list
+/// represents one level of the hierarchy, ordered from the organization root
+/// down to the account.
+///
+/// For more information about SCPs, see <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html">Service
+/// control policies (SCPs)</a> in the <i>Organizations User Guide</i>.
+///
+/// @nodoc
+class OrderedOrganizationPolicyType {
+  /// A list of SCP documents that apply at this level of the Organizations
+  /// hierarchy. Each document is specified as a string containing the complete,
+  /// valid JSON text of an SCP.
+  final List<String>? serviceControlPolicyInputList;
+
+  OrderedOrganizationPolicyType({
+    this.serviceControlPolicyInputList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final serviceControlPolicyInputList = this.serviceControlPolicyInputList;
+    return {
+      if (serviceControlPolicyInputList != null)
+        'ServiceControlPolicyInputList': serviceControlPolicyInputList,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final serviceControlPolicyInputList = this.serviceControlPolicyInputList;
+    return {
+      if (serviceControlPolicyInputList != null)
+        if (serviceControlPolicyInputList.isEmpty)
+          'ServiceControlPolicyInputList': ''
+        else
+          for (var i1 = 0; i1 < serviceControlPolicyInputList.length; i1++)
+            'ServiceControlPolicyInputList.member.${i1 + 1}':
+                serviceControlPolicyInputList[i1],
     };
   }
 }

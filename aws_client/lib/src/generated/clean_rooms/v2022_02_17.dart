@@ -381,9 +381,6 @@ class CleanRooms {
   /// Parameter [creatorMemberAbilities] :
   /// The abilities granted to the collaboration creator.
   ///
-  /// Parameter [description] :
-  /// A description of the collaboration provided by the collaboration owner.
-  ///
   /// Parameter [members] :
   /// A list of initial members, not including the creator. This list is
   /// immutable.
@@ -431,6 +428,9 @@ class CleanRooms {
   /// The settings for client-side encryption with Cryptographic Computing for
   /// Clean Rooms.
   ///
+  /// Parameter [description] :
+  /// A description of the collaboration provided by the collaboration owner.
+  ///
   /// Parameter [isMetricsEnabled] :
   /// An indicator as to whether metrics have been enabled or disabled for the
   /// collaboration.
@@ -454,7 +454,6 @@ class CleanRooms {
   Future<CreateCollaborationOutput> createCollaboration({
     required String creatorDisplayName,
     required List<MemberAbility> creatorMemberAbilities,
-    required String description,
     required List<MemberSpecification> members,
     required String name,
     required CollaborationQueryLogStatus queryLogStatus,
@@ -464,6 +463,7 @@ class CleanRooms {
     MLMemberAbilities? creatorMLMemberAbilities,
     PaymentConfiguration? creatorPaymentConfiguration,
     DataEncryptionMetadata? dataEncryptionMetadata,
+    String? description,
     bool? isMetricsEnabled,
     CollaborationJobLogStatus? jobLogStatus,
     Map<String, String>? tags,
@@ -472,7 +472,6 @@ class CleanRooms {
       'creatorDisplayName': creatorDisplayName,
       'creatorMemberAbilities':
           creatorMemberAbilities.map((e) => e.value).toList(),
-      'description': description,
       'members': members,
       'name': name,
       'queryLogStatus': queryLogStatus.value,
@@ -489,6 +488,7 @@ class CleanRooms {
         'creatorPaymentConfiguration': creatorPaymentConfiguration,
       if (dataEncryptionMetadata != null)
         'dataEncryptionMetadata': dataEncryptionMetadata,
+      if (description != null) 'description': description,
       if (isMetricsEnabled != null) 'isMetricsEnabled': isMetricsEnabled,
       if (jobLogStatus != null) 'jobLogStatus': jobLogStatus.value,
       if (tags != null) 'tags': tags,
@@ -2863,6 +2863,507 @@ class CleanRooms {
     return ListIdNamespaceAssociationsOutput.fromJson(response);
   }
 
+  /// Creates an intermediate table in a membership. An intermediate table
+  /// stores a query definition that you can execute later using
+  /// <code>PopulateIntermediateTable</code> to materialize cached results. The
+  /// intermediate table is owned by the member with the CAN_QUERY ability. This
+  /// operation does not execute the stored query.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership where the intermediate table is
+  /// created.
+  ///
+  /// Parameter [name] :
+  /// The display name for the intermediate table.
+  ///
+  /// Parameter [populationAnalysisConfiguration] :
+  /// The configuration that defines the analysis used to populate the
+  /// intermediate table. This configuration contains the SQL query or analysis
+  /// template reference.
+  ///
+  /// Parameter [description] :
+  /// A description of the intermediate table.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the customer-managed KMS key used to
+  /// encrypt the intermediate table data.
+  ///
+  /// Parameter [retentionInDays] :
+  /// The number of days to retain populated data versions. Minimum value of 1,
+  /// maximum value of 365.
+  ///
+  /// Parameter [tags] :
+  /// An optional label that you can assign to a resource when you create it.
+  /// Each tag consists of a key and an optional value, both of which you
+  /// define. When you use tagging, you can also use tag-based access control in
+  /// IAM policies to control access to this resource.
+  Future<CreateIntermediateTableOutput> createIntermediateTable({
+    required String membershipIdentifier,
+    required String name,
+    required PopulationAnalysisConfiguration populationAnalysisConfiguration,
+    String? description,
+    String? kmsKeyArn,
+    int? retentionInDays,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'populationAnalysisConfiguration': populationAnalysisConfiguration,
+      if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (retentionInDays != null) 'retentionInDays': retentionInDays,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateIntermediateTableOutput.fromJson(response);
+  }
+
+  /// Retrieves an intermediate table. Returns the full details of the
+  /// intermediate table, including schema, table dependencies, inherited
+  /// constraints, child resources, and status. Only the intermediate table
+  /// owner can call this operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table to retrieve.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  Future<GetIntermediateTableOutput> getIntermediateTable({
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetIntermediateTableOutput.fromJson(response);
+  }
+
+  /// Updates an intermediate table. You can update the description, KMS key
+  /// ARN, and column types of existing columns. Only the intermediate table
+  /// owner can call this operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table to update.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  ///
+  /// Parameter [columns] :
+  /// The list of columns with updated type definitions. Only the type of
+  /// existing columns can be updated.
+  ///
+  /// Parameter [description] :
+  /// A new description for the intermediate table.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the customer-managed KMS key to use for
+  /// encrypting future population data.
+  Future<UpdateIntermediateTableOutput> updateIntermediateTable({
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+    List<IntermediateTableColumn>? columns,
+    String? description,
+    String? kmsKeyArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (columns != null) 'columns': columns,
+      if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateIntermediateTableOutput.fromJson(response);
+  }
+
+  /// Deletes an intermediate table. When you delete the table, the service
+  /// marks it as DELETED, removes its analysis rule and schema, and triggers
+  /// storage cleanup. This operation is idempotent. Only the intermediate table
+  /// owner can call this operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table to delete.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  Future<void> deleteIntermediateTable({
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Lists intermediate tables owned by the caller in a membership. We
+  /// recommend using pagination to ensure that the operation returns quickly
+  /// and successfully.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership for which to list intermediate
+  /// tables.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned for an API request call.
+  /// The service chooses a default number if you don't set one. The service
+  /// might return a <code>nextToken</code> even if the <code>maxResults</code>
+  /// value has not been met.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListIntermediateTablesOutput> listIntermediateTables({
+    required String membershipIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIntermediateTablesOutput.fromJson(response);
+  }
+
+  /// Creates an analysis rule for an intermediate table. Only the CUSTOM
+  /// analysis rule type is supported. The service automatically determines
+  /// whether the rule is first-party or multi-party restricted based on the
+  /// intermediate table's inherited constraints. Only the intermediate table
+  /// owner can call this operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [analysisRulePolicy] :
+  /// The analysis rule policy to apply to the intermediate table.
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The type of analysis rule to create. Currently, only <code>CUSTOM</code>
+  /// is supported.
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table for which to create the
+  /// analysis rule.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  Future<CreateIntermediateTableAnalysisRuleOutput>
+      createIntermediateTableAnalysisRule({
+    required IntermediateTableAnalysisRulePolicy analysisRulePolicy,
+    required IntermediateTableAnalysisRuleType analysisRuleType,
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'analysisRulePolicy': analysisRulePolicy,
+      'analysisRuleType': analysisRuleType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}/analysisRule',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateIntermediateTableAnalysisRuleOutput.fromJson(response);
+  }
+
+  /// Deletes an analysis rule from an intermediate table. After the analysis
+  /// rule is deleted, the intermediate table becomes unqueryable until a new
+  /// analysis rule is attached. Only the intermediate table owner can call this
+  /// operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The type of analysis rule to delete. Currently, only <code>CUSTOM</code>
+  /// is supported.
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table from which to delete the
+  /// analysis rule.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  Future<void> deleteIntermediateTableAnalysisRule({
+    required IntermediateTableAnalysisRuleType analysisRuleType,
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}/analysisRule/${Uri.encodeComponent(analysisRuleType.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves the analysis rule for an intermediate table.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The type of analysis rule to retrieve. Currently, only <code>CUSTOM</code>
+  /// is supported.
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table for which to retrieve the
+  /// analysis rule.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  Future<GetIntermediateTableAnalysisRuleOutput>
+      getIntermediateTableAnalysisRule({
+    required IntermediateTableAnalysisRuleType analysisRuleType,
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}/analysisRule/${Uri.encodeComponent(analysisRuleType.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetIntermediateTableAnalysisRuleOutput.fromJson(response);
+  }
+
+  /// Lists the version history of an intermediate table. Each call to
+  /// <code>PopulateIntermediateTable</code> creates a new version. We recommend
+  /// using pagination to ensure that the operation returns quickly and
+  /// successfully.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table for which to list
+  /// versions.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned for an API request call.
+  /// The service chooses a default number if you don't set one. The service
+  /// might return a <code>nextToken</code> even if the <code>maxResults</code>
+  /// value has not been met.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListIntermediateTableVersionsOutput> listIntermediateTableVersions({
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIntermediateTableVersionsOutput.fromJson(response);
+  }
+
+  /// Executes the stored query of an intermediate table to materialize data
+  /// into managed storage. With this operation, you can perform initial
+  /// population and subsequent refreshes. Each call creates a new version. The
+  /// returned analysis ID can be tracked using <code>GetProtectedQuery</code>.
+  /// Only the intermediate table owner can call this operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table to populate.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  ///
+  /// Parameter [analysisPayerAccountId] :
+  /// The account ID of the member that pays for the analysis compute costs.
+  ///
+  /// Parameter [computeConfiguration] :
+  /// The compute configuration for the population query execution.
+  ///
+  /// Parameter [parameters] :
+  /// The runtime parameter values that override the defaults in the stored
+  /// query.
+  Future<PopulateIntermediateTableOutput> populateIntermediateTable({
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+    String? analysisPayerAccountId,
+    IntermediateTableComputeConfiguration? computeConfiguration,
+    Map<String, String>? parameters,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (analysisPayerAccountId != null)
+        'analysisPayerAccountId': analysisPayerAccountId,
+      if (computeConfiguration != null)
+        'computeConfiguration': computeConfiguration,
+      if (parameters != null) 'parameters': parameters,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}/populate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PopulateIntermediateTableOutput.fromJson(response);
+  }
+
+  /// Updates the analysis rule policy for an intermediate table. Only the
+  /// intermediate table owner can call this operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [analysisRulePolicy] :
+  /// The updated analysis rule policy for the intermediate table.
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The type of analysis rule to update. Currently, only <code>CUSTOM</code>
+  /// is supported.
+  ///
+  /// Parameter [intermediateTableIdentifier] :
+  /// The unique identifier of the intermediate table for which to update the
+  /// analysis rule.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  Future<UpdateIntermediateTableAnalysisRuleOutput>
+      updateIntermediateTableAnalysisRule({
+    required IntermediateTableAnalysisRulePolicy analysisRulePolicy,
+    required IntermediateTableAnalysisRuleType analysisRuleType,
+    required String intermediateTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'analysisRulePolicy': analysisRulePolicy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/intermediateTables/${Uri.encodeComponent(intermediateTableIdentifier)}/analysisRule/${Uri.encodeComponent(analysisRuleType.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateIntermediateTableAnalysisRuleOutput.fromJson(response);
+  }
+
   /// Creates a membership for a specific collaboration identifier and joins the
   /// collaboration.
   ///
@@ -3111,6 +3612,46 @@ class CleanRooms {
       exceptionFnMap: _exceptionFns,
     );
     return ListMembershipsOutput.fromJson(response);
+  }
+
+  /// Invalidates a specific intermediate table that references the caller's
+  /// base table. The data provider (base table owner) calls this operation, not
+  /// the intermediate table owner. By default, invalidation cascades to
+  /// descendant intermediate tables.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [intermediateTableName] :
+  /// The name of the intermediate table to disallow.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the intermediate
+  /// table to disallow.
+  ///
+  /// Parameter [includeDescendants] :
+  /// Specifies whether to cascade the disallow action to descendant
+  /// intermediate tables. Default is <code>true</code>.
+  Future<void> disallowIntermediateTable({
+    required String intermediateTableName,
+    required String membershipIdentifier,
+    bool? includeDescendants,
+  }) async {
+    final $payload = <String, dynamic>{
+      'intermediateTableName': intermediateTableName,
+      if (includeDescendants != null) 'includeDescendants': includeDescendants,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/disallowIntermediateTable',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Returns job processing metadata.
@@ -5595,6 +6136,297 @@ class ListIdNamespaceAssociationsOutput {
 }
 
 /// @nodoc
+class CreateIntermediateTableOutput {
+  /// The intermediate table that was created.
+  final IntermediateTable intermediateTable;
+
+  CreateIntermediateTableOutput({
+    required this.intermediateTable,
+  });
+
+  factory CreateIntermediateTableOutput.fromJson(Map<String, dynamic> json) {
+    return CreateIntermediateTableOutput(
+      intermediateTable: IntermediateTable.fromJson(
+          (json['intermediateTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateTable = this.intermediateTable;
+    return {
+      'intermediateTable': intermediateTable,
+    };
+  }
+}
+
+/// @nodoc
+class GetIntermediateTableOutput {
+  /// The intermediate table retrieved.
+  final IntermediateTable intermediateTable;
+
+  GetIntermediateTableOutput({
+    required this.intermediateTable,
+  });
+
+  factory GetIntermediateTableOutput.fromJson(Map<String, dynamic> json) {
+    return GetIntermediateTableOutput(
+      intermediateTable: IntermediateTable.fromJson(
+          (json['intermediateTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateTable = this.intermediateTable;
+    return {
+      'intermediateTable': intermediateTable,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateIntermediateTableOutput {
+  /// The updated intermediate table.
+  final IntermediateTable intermediateTable;
+
+  UpdateIntermediateTableOutput({
+    required this.intermediateTable,
+  });
+
+  factory UpdateIntermediateTableOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateIntermediateTableOutput(
+      intermediateTable: IntermediateTable.fromJson(
+          (json['intermediateTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateTable = this.intermediateTable;
+    return {
+      'intermediateTable': intermediateTable,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteIntermediateTableOutput {
+  DeleteIntermediateTableOutput();
+
+  factory DeleteIntermediateTableOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteIntermediateTableOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class ListIntermediateTablesOutput {
+  /// The list of intermediate table summaries.
+  final List<IntermediateTableSummary> intermediateTableSummaries;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListIntermediateTablesOutput({
+    required this.intermediateTableSummaries,
+    this.nextToken,
+  });
+
+  factory ListIntermediateTablesOutput.fromJson(Map<String, dynamic> json) {
+    return ListIntermediateTablesOutput(
+      intermediateTableSummaries:
+          ((json['intermediateTableSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  IntermediateTableSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateTableSummaries = this.intermediateTableSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'intermediateTableSummaries': intermediateTableSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class CreateIntermediateTableAnalysisRuleOutput {
+  /// The analysis rule that was created for the intermediate table.
+  final IntermediateTableAnalysisRule analysisRule;
+
+  CreateIntermediateTableAnalysisRuleOutput({
+    required this.analysisRule,
+  });
+
+  factory CreateIntermediateTableAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateIntermediateTableAnalysisRuleOutput(
+      analysisRule: IntermediateTableAnalysisRule.fromJson(
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisRule = this.analysisRule;
+    return {
+      'analysisRule': analysisRule,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteIntermediateTableAnalysisRuleOutput {
+  DeleteIntermediateTableAnalysisRuleOutput();
+
+  factory DeleteIntermediateTableAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteIntermediateTableAnalysisRuleOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class GetIntermediateTableAnalysisRuleOutput {
+  /// The analysis rule for the intermediate table.
+  final IntermediateTableAnalysisRule analysisRule;
+
+  GetIntermediateTableAnalysisRuleOutput({
+    required this.analysisRule,
+  });
+
+  factory GetIntermediateTableAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetIntermediateTableAnalysisRuleOutput(
+      analysisRule: IntermediateTableAnalysisRule.fromJson(
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisRule = this.analysisRule;
+    return {
+      'analysisRule': analysisRule,
+    };
+  }
+}
+
+/// @nodoc
+class ListIntermediateTableVersionsOutput {
+  /// The list of intermediate table version summaries.
+  final List<IntermediateTableVersionSummary> intermediateTableVersionSummaries;
+
+  /// The pagination token that's used to fetch the next set of results.
+  final String? nextToken;
+
+  ListIntermediateTableVersionsOutput({
+    required this.intermediateTableVersionSummaries,
+    this.nextToken,
+  });
+
+  factory ListIntermediateTableVersionsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListIntermediateTableVersionsOutput(
+      intermediateTableVersionSummaries:
+          ((json['intermediateTableVersionSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => IntermediateTableVersionSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateTableVersionSummaries =
+        this.intermediateTableVersionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'intermediateTableVersionSummaries': intermediateTableVersionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class PopulateIntermediateTableOutput {
+  /// The identifier for the protected query execution. Use this value with
+  /// <code>GetProtectedQuery</code> to track the population progress.
+  final String analysisId;
+
+  /// The type of analysis performed to populate the intermediate table.
+  final PopulateIntermediateTableAnalysisType analysisType;
+
+  /// The unique identifier of the version created by this population operation.
+  final String versionId;
+
+  PopulateIntermediateTableOutput({
+    required this.analysisId,
+    required this.analysisType,
+    required this.versionId,
+  });
+
+  factory PopulateIntermediateTableOutput.fromJson(Map<String, dynamic> json) {
+    return PopulateIntermediateTableOutput(
+      analysisId: (json['analysisId'] as String?) ?? '',
+      analysisType: PopulateIntermediateTableAnalysisType.fromString(
+          (json['analysisType'] as String?) ?? ''),
+      versionId: (json['versionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisId = this.analysisId;
+    final analysisType = this.analysisType;
+    final versionId = this.versionId;
+    return {
+      'analysisId': analysisId,
+      'analysisType': analysisType.value,
+      'versionId': versionId,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateIntermediateTableAnalysisRuleOutput {
+  /// The updated analysis rule for the intermediate table.
+  final IntermediateTableAnalysisRule analysisRule;
+
+  UpdateIntermediateTableAnalysisRuleOutput({
+    required this.analysisRule,
+  });
+
+  factory UpdateIntermediateTableAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateIntermediateTableAnalysisRuleOutput(
+      analysisRule: IntermediateTableAnalysisRule.fromJson(
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisRule = this.analysisRule;
+    return {
+      'analysisRule': analysisRule,
+    };
+  }
+}
+
+/// @nodoc
 class CreateMembershipOutput {
   /// The membership that was created.
   final Membership membership;
@@ -5711,6 +6543,19 @@ class ListMembershipsOutput {
       'membershipSummaries': membershipSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
+  }
+}
+
+/// @nodoc
+class DisallowIntermediateTableOutput {
+  DisallowIntermediateTableOutput();
+
+  factory DisallowIntermediateTableOutput.fromJson(Map<String, dynamic> _) {
+    return DisallowIntermediateTableOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -7192,12 +8037,13 @@ class WorkerComputeConfiguration {
 class WorkerComputeType {
   static const cr_1x = WorkerComputeType._('CR.1X');
   static const cr_4x = WorkerComputeType._('CR.4X');
+  static const cr_8x = WorkerComputeType._('CR.8X');
 
   final String value;
 
   const WorkerComputeType._(this.value);
 
-  static const values = [cr_1x, cr_4x];
+  static const values = [cr_1x, cr_4x, cr_8x];
 
   static WorkerComputeType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -7520,6 +8366,10 @@ class ProtectedQueryOutputConfiguration {
   /// output type.
   final ProtectedQueryDistributeOutputConfiguration? distribute;
 
+  /// The intermediate table output configuration, present when the protected
+  /// query was triggered by a populate operation.
+  final IntermediateTableOutputConfiguration? intermediateTable;
+
   /// Required configuration for a protected query with a <code>member</code>
   /// output type.
   final ProtectedQueryMemberOutputConfiguration? member;
@@ -7530,6 +8380,7 @@ class ProtectedQueryOutputConfiguration {
 
   ProtectedQueryOutputConfiguration({
     this.distribute,
+    this.intermediateTable,
     this.member,
     this.s3,
   });
@@ -7540,6 +8391,10 @@ class ProtectedQueryOutputConfiguration {
       distribute: json['distribute'] != null
           ? ProtectedQueryDistributeOutputConfiguration.fromJson(
               json['distribute'] as Map<String, dynamic>)
+          : null,
+      intermediateTable: json['intermediateTable'] != null
+          ? IntermediateTableOutputConfiguration.fromJson(
+              json['intermediateTable'] as Map<String, dynamic>)
           : null,
       member: json['member'] != null
           ? ProtectedQueryMemberOutputConfiguration.fromJson(
@@ -7554,10 +8409,12 @@ class ProtectedQueryOutputConfiguration {
 
   Map<String, dynamic> toJson() {
     final distribute = this.distribute;
+    final intermediateTable = this.intermediateTable;
     final member = this.member;
     final s3 = this.s3;
     return {
       if (distribute != null) 'distribute': distribute,
+      if (intermediateTable != null) 'intermediateTable': intermediateTable,
       if (member != null) 'member': member,
       if (s3 != null) 's3': s3,
     };
@@ -7678,6 +8535,47 @@ class ProtectedQueryDistributeOutputConfiguration {
     final locations = this.locations;
     return {
       'locations': locations,
+    };
+  }
+}
+
+/// Contains the output configuration of an intermediate table when a protected
+/// query populates it.
+///
+/// @nodoc
+class IntermediateTableOutputConfiguration {
+  /// The Amazon Resource Name (ARN) of the intermediate table.
+  final String arn;
+
+  /// The unique identifier of the intermediate table.
+  final String id;
+
+  /// The name of the intermediate table.
+  final String name;
+
+  IntermediateTableOutputConfiguration({
+    required this.arn,
+    required this.id,
+    required this.name,
+  });
+
+  factory IntermediateTableOutputConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return IntermediateTableOutputConfiguration(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'id': id,
+      'name': name,
     };
   }
 }
@@ -8702,6 +9600,10 @@ class ProtectedQuerySummary {
   /// The status of the protected query.
   final ProtectedQueryStatus status;
 
+  /// The intermediate table configuration, present when the protected query was
+  /// triggered by a populate operation.
+  final IntermediateTableOutputConfiguration? intermediateTableConfiguration;
+
   /// The account ID of the member that pays for the query compute costs.
   final String? queryComputePayerAccountId;
 
@@ -8712,6 +9614,7 @@ class ProtectedQuerySummary {
     required this.membershipId,
     required this.receiverConfigurations,
     required this.status,
+    this.intermediateTableConfiguration,
     this.queryComputePayerAccountId,
   });
 
@@ -8728,6 +9631,11 @@ class ProtectedQuerySummary {
           .toList(),
       status:
           ProtectedQueryStatus.fromString((json['status'] as String?) ?? ''),
+      intermediateTableConfiguration: json['intermediateTableConfiguration'] !=
+              null
+          ? IntermediateTableOutputConfiguration.fromJson(
+              json['intermediateTableConfiguration'] as Map<String, dynamic>)
+          : null,
       queryComputePayerAccountId: json['queryComputePayerAccountId'] as String?,
     );
   }
@@ -8739,6 +9647,7 @@ class ProtectedQuerySummary {
     final membershipId = this.membershipId;
     final receiverConfigurations = this.receiverConfigurations;
     final status = this.status;
+    final intermediateTableConfiguration = this.intermediateTableConfiguration;
     final queryComputePayerAccountId = this.queryComputePayerAccountId;
     return {
       'createTime': unixTimestampToJson(createTime),
@@ -8747,6 +9656,8 @@ class ProtectedQuerySummary {
       'membershipId': membershipId,
       'receiverConfigurations': receiverConfigurations,
       'status': status.value,
+      if (intermediateTableConfiguration != null)
+        'intermediateTableConfiguration': intermediateTableConfiguration,
       if (queryComputePayerAccountId != null)
         'queryComputePayerAccountId': queryComputePayerAccountId,
     };
@@ -9772,7 +10683,8 @@ class MembershipJobComputePaymentConfig {
   /// compute costs (<code>TRUE</code>) or has not accepted to pay for query and
   /// job compute costs (<code>FALSE</code>).
   ///
-  /// There is only one member who pays for queries and jobs.
+  /// There can be one or more members who are designated as payer candidates for
+  /// queries and jobs.
   ///
   /// An error message is returned for the following reasons:
   ///
@@ -10405,6 +11317,1766 @@ class UpdateMembershipPaymentConfiguration {
   }
 }
 
+/// Contains the details of an analysis rule for an intermediate table.
+///
+/// @nodoc
+class IntermediateTableAnalysisRule {
+  /// The policy of the analysis rule.
+  final IntermediateTableAnalysisRulePolicy analysisRulePolicy;
+
+  /// The type of the analysis rule.
+  final IntermediateTableAnalysisRuleType analysisRuleType;
+
+  /// The time the analysis rule was created.
+  final DateTime createTime;
+
+  /// The Amazon Resource Name (ARN) of the intermediate table associated with
+  /// this analysis rule.
+  final String intermediateTableArn;
+
+  /// The unique identifier of the intermediate table associated with this
+  /// analysis rule.
+  final String intermediateTableIdentifier;
+
+  /// The time the analysis rule was last updated.
+  final DateTime updateTime;
+
+  IntermediateTableAnalysisRule({
+    required this.analysisRulePolicy,
+    required this.analysisRuleType,
+    required this.createTime,
+    required this.intermediateTableArn,
+    required this.intermediateTableIdentifier,
+    required this.updateTime,
+  });
+
+  factory IntermediateTableAnalysisRule.fromJson(Map<String, dynamic> json) {
+    return IntermediateTableAnalysisRule(
+      analysisRulePolicy: IntermediateTableAnalysisRulePolicy.fromJson(
+          (json['analysisRulePolicy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      analysisRuleType: IntermediateTableAnalysisRuleType.fromString(
+          (json['analysisRuleType'] as String?) ?? ''),
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      intermediateTableArn: (json['intermediateTableArn'] as String?) ?? '',
+      intermediateTableIdentifier:
+          (json['intermediateTableIdentifier'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisRulePolicy = this.analysisRulePolicy;
+    final analysisRuleType = this.analysisRuleType;
+    final createTime = this.createTime;
+    final intermediateTableArn = this.intermediateTableArn;
+    final intermediateTableIdentifier = this.intermediateTableIdentifier;
+    final updateTime = this.updateTime;
+    return {
+      'analysisRulePolicy': analysisRulePolicy,
+      'analysisRuleType': analysisRuleType.value,
+      'createTime': unixTimestampToJson(createTime),
+      'intermediateTableArn': intermediateTableArn,
+      'intermediateTableIdentifier': intermediateTableIdentifier,
+      'updateTime': unixTimestampToJson(updateTime),
+    };
+  }
+}
+
+/// Contains the policy for an intermediate table analysis rule.
+///
+/// @nodoc
+class IntermediateTableAnalysisRulePolicy {
+  /// The version 1 policy for the analysis rule.
+  final IntermediateTableAnalysisRulePolicyV1? v1;
+
+  IntermediateTableAnalysisRulePolicy({
+    this.v1,
+  });
+
+  factory IntermediateTableAnalysisRulePolicy.fromJson(
+      Map<String, dynamic> json) {
+    return IntermediateTableAnalysisRulePolicy(
+      v1: json['v1'] != null
+          ? IntermediateTableAnalysisRulePolicyV1.fromJson(
+              json['v1'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final v1 = this.v1;
+    return {
+      if (v1 != null) 'v1': v1,
+    };
+  }
+}
+
+/// @nodoc
+class IntermediateTableAnalysisRuleType {
+  static const custom = IntermediateTableAnalysisRuleType._('CUSTOM');
+
+  final String value;
+
+  const IntermediateTableAnalysisRuleType._(this.value);
+
+  static const values = [custom];
+
+  static IntermediateTableAnalysisRuleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntermediateTableAnalysisRuleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntermediateTableAnalysisRuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the version 1 policy for an intermediate table analysis rule.
+///
+/// @nodoc
+class IntermediateTableAnalysisRulePolicyV1 {
+  /// The custom analysis rule policy.
+  final IntermediateTableAnalysisRuleCustom? custom;
+
+  IntermediateTableAnalysisRulePolicyV1({
+    this.custom,
+  });
+
+  factory IntermediateTableAnalysisRulePolicyV1.fromJson(
+      Map<String, dynamic> json) {
+    return IntermediateTableAnalysisRulePolicyV1(
+      custom: json['custom'] != null
+          ? IntermediateTableAnalysisRuleCustom.fromJson(
+              json['custom'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final custom = this.custom;
+    return {
+      if (custom != null) 'custom': custom,
+    };
+  }
+}
+
+/// Contains the custom analysis rule configuration for an intermediate table.
+///
+/// @nodoc
+class IntermediateTableAnalysisRuleCustom {
+  /// The setting that controls whether additional analyses are allowed on the
+  /// intermediate table.
+  final AdditionalAnalyses? additionalAnalyses;
+
+  /// The list of allowed additional analyses for the intermediate table.
+  final List<String>? allowedAdditionalAnalyses;
+
+  /// The list of allowed analyses that can be performed on the intermediate
+  /// table.
+  final List<String>? allowedAnalyses;
+
+  /// The list of Amazon Web Services account IDs for the allowed analysis
+  /// providers.
+  final List<String>? allowedAnalysisProviders;
+
+  /// The list of Amazon Web Services account IDs that are allowed to receive
+  /// results from queries run on the intermediate table.
+  final List<String>? allowedResultReceivers;
+  final DifferentialPrivacyConfiguration? differentialPrivacy;
+
+  /// The list of columns that are not allowed in the query output.
+  final List<String>? disallowedOutputColumns;
+
+  IntermediateTableAnalysisRuleCustom({
+    this.additionalAnalyses,
+    this.allowedAdditionalAnalyses,
+    this.allowedAnalyses,
+    this.allowedAnalysisProviders,
+    this.allowedResultReceivers,
+    this.differentialPrivacy,
+    this.disallowedOutputColumns,
+  });
+
+  factory IntermediateTableAnalysisRuleCustom.fromJson(
+      Map<String, dynamic> json) {
+    return IntermediateTableAnalysisRuleCustom(
+      additionalAnalyses: (json['additionalAnalyses'] as String?)
+          ?.let(AdditionalAnalyses.fromString),
+      allowedAdditionalAnalyses: (json['allowedAdditionalAnalyses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedAnalyses: (json['allowedAnalyses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedAnalysisProviders: (json['allowedAnalysisProviders'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedResultReceivers: (json['allowedResultReceivers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      differentialPrivacy: json['differentialPrivacy'] != null
+          ? DifferentialPrivacyConfiguration.fromJson(
+              json['differentialPrivacy'] as Map<String, dynamic>)
+          : null,
+      disallowedOutputColumns: (json['disallowedOutputColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAnalyses = this.additionalAnalyses;
+    final allowedAdditionalAnalyses = this.allowedAdditionalAnalyses;
+    final allowedAnalyses = this.allowedAnalyses;
+    final allowedAnalysisProviders = this.allowedAnalysisProviders;
+    final allowedResultReceivers = this.allowedResultReceivers;
+    final differentialPrivacy = this.differentialPrivacy;
+    final disallowedOutputColumns = this.disallowedOutputColumns;
+    return {
+      if (additionalAnalyses != null)
+        'additionalAnalyses': additionalAnalyses.value,
+      if (allowedAdditionalAnalyses != null)
+        'allowedAdditionalAnalyses': allowedAdditionalAnalyses,
+      if (allowedAnalyses != null) 'allowedAnalyses': allowedAnalyses,
+      if (allowedAnalysisProviders != null)
+        'allowedAnalysisProviders': allowedAnalysisProviders,
+      if (allowedResultReceivers != null)
+        'allowedResultReceivers': allowedResultReceivers,
+      if (differentialPrivacy != null)
+        'differentialPrivacy': differentialPrivacy,
+      if (disallowedOutputColumns != null)
+        'disallowedOutputColumns': disallowedOutputColumns,
+    };
+  }
+}
+
+/// @nodoc
+class AdditionalAnalyses {
+  static const allowed = AdditionalAnalyses._('ALLOWED');
+  static const required = AdditionalAnalyses._('REQUIRED');
+  static const notAllowed = AdditionalAnalyses._('NOT_ALLOWED');
+
+  final String value;
+
+  const AdditionalAnalyses._(this.value);
+
+  static const values = [allowed, required, notAllowed];
+
+  static AdditionalAnalyses fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdditionalAnalyses._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalAnalyses && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the unique identifier for your users.
+///
+/// @nodoc
+class DifferentialPrivacyConfiguration {
+  /// The name of the column (such as user_id) that contains the unique identifier
+  /// of your users whose privacy you want to protect. If you want to turn on
+  /// diﬀerential privacy for two or more tables in a collaboration, you must
+  /// conﬁgure the same column as the user identiﬁer column in both analysis
+  /// rules.
+  final List<DifferentialPrivacyColumn> columns;
+
+  DifferentialPrivacyConfiguration({
+    required this.columns,
+  });
+
+  factory DifferentialPrivacyConfiguration.fromJson(Map<String, dynamic> json) {
+    return DifferentialPrivacyConfiguration(
+      columns: ((json['columns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              DifferentialPrivacyColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    return {
+      'columns': columns,
+    };
+  }
+}
+
+/// Specifies the name of the column that contains the unique identifier of your
+/// users, whose privacy you want to protect.
+///
+/// @nodoc
+class DifferentialPrivacyColumn {
+  /// The name of the column, such as user_id, that contains the unique identifier
+  /// of your users, whose privacy you want to protect. If you want to turn on
+  /// differential privacy for two or more tables in a collaboration, you must
+  /// configure the same column as the user identifier column in both analysis
+  /// rules.
+  final String name;
+
+  DifferentialPrivacyColumn({
+    required this.name,
+  });
+
+  factory DifferentialPrivacyColumn.fromJson(Map<String, dynamic> json) {
+    return DifferentialPrivacyColumn(
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
+}
+
+/// @nodoc
+class PopulateIntermediateTableAnalysisType {
+  static const query = PopulateIntermediateTableAnalysisType._('QUERY');
+
+  final String value;
+
+  const PopulateIntermediateTableAnalysisType._(this.value);
+
+  static const values = [query];
+
+  static PopulateIntermediateTableAnalysisType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PopulateIntermediateTableAnalysisType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PopulateIntermediateTableAnalysisType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The compute configuration for an intermediate table population operation.
+///
+/// @nodoc
+class IntermediateTableComputeConfiguration {
+  final WorkerComputeConfiguration? queryComputeConfiguration;
+
+  IntermediateTableComputeConfiguration({
+    this.queryComputeConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final queryComputeConfiguration = this.queryComputeConfiguration;
+    return {
+      if (queryComputeConfiguration != null)
+        'queryComputeConfiguration': queryComputeConfiguration,
+    };
+  }
+}
+
+/// Contains summary information about a version of an intermediate table.
+///
+/// @nodoc
+class IntermediateTableVersionSummary {
+  /// The identifier of the protected query that created this version.
+  final String analysisId;
+
+  /// The type of analysis that created this version.
+  final PopulateIntermediateTableAnalysisType analysisType;
+
+  /// The time the version was created.
+  final DateTime createTime;
+
+  /// The status of the version.
+  final IntermediateTableVersionStatus status;
+
+  /// The unique identifier of the intermediate table that this version belongs
+  /// to.
+  final String tableId;
+
+  /// The unique identifier of the version.
+  final String versionId;
+
+  /// The time when this version expires based on the retention period.
+  final DateTime? expirationTime;
+
+  /// The Amazon Resource Name (ARN) of the KMS key used to encrypt this version's
+  /// data.
+  final String? kmsKeyArn;
+
+  IntermediateTableVersionSummary({
+    required this.analysisId,
+    required this.analysisType,
+    required this.createTime,
+    required this.status,
+    required this.tableId,
+    required this.versionId,
+    this.expirationTime,
+    this.kmsKeyArn,
+  });
+
+  factory IntermediateTableVersionSummary.fromJson(Map<String, dynamic> json) {
+    return IntermediateTableVersionSummary(
+      analysisId: (json['analysisId'] as String?) ?? '',
+      analysisType: PopulateIntermediateTableAnalysisType.fromString(
+          (json['analysisType'] as String?) ?? ''),
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      status: IntermediateTableVersionStatus.fromString(
+          (json['status'] as String?) ?? ''),
+      tableId: (json['tableId'] as String?) ?? '',
+      versionId: (json['versionId'] as String?) ?? '',
+      expirationTime: timeStampFromJson(json['expirationTime']),
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisId = this.analysisId;
+    final analysisType = this.analysisType;
+    final createTime = this.createTime;
+    final status = this.status;
+    final tableId = this.tableId;
+    final versionId = this.versionId;
+    final expirationTime = this.expirationTime;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'analysisId': analysisId,
+      'analysisType': analysisType.value,
+      'createTime': unixTimestampToJson(createTime),
+      'status': status.value,
+      'tableId': tableId,
+      'versionId': versionId,
+      if (expirationTime != null)
+        'expirationTime': unixTimestampToJson(expirationTime),
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// @nodoc
+class IntermediateTableVersionStatus {
+  static const populateStarted =
+      IntermediateTableVersionStatus._('POPULATE_STARTED');
+  static const populateSuccess =
+      IntermediateTableVersionStatus._('POPULATE_SUCCESS');
+  static const populateFailed =
+      IntermediateTableVersionStatus._('POPULATE_FAILED');
+  static const retentionPeriodExpired =
+      IntermediateTableVersionStatus._('RETENTION_PERIOD_EXPIRED');
+
+  final String value;
+
+  const IntermediateTableVersionStatus._(this.value);
+
+  static const values = [
+    populateStarted,
+    populateSuccess,
+    populateFailed,
+    retentionPeriodExpired
+  ];
+
+  static IntermediateTableVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntermediateTableVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntermediateTableVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains summary information about an intermediate table.
+///
+/// @nodoc
+class IntermediateTableSummary {
+  /// The Amazon Resource Name (ARN) of the intermediate table.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains the
+  /// intermediate table.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains the intermediate
+  /// table.
+  final String collaborationId;
+
+  /// The time the intermediate table was created.
+  final DateTime createTime;
+
+  /// The unique identifier of the intermediate table.
+  final String id;
+
+  /// The Amazon Resource Name (ARN) of the membership that contains the
+  /// intermediate table.
+  final String membershipArn;
+
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  final String membershipId;
+
+  /// The name of the intermediate table.
+  final String name;
+
+  /// The current status of the intermediate table.
+  final IntermediateTableStatus status;
+
+  /// The time the intermediate table was last updated.
+  final DateTime updateTime;
+
+  /// The types of analysis rules associated with the intermediate table.
+  final List<IntermediateTableAnalysisRuleType>? analysisRuleTypes;
+
+  /// The description of the intermediate table.
+  final String? description;
+
+  /// The number of days that populated data is retained before expiring.
+  final int? retentionInDays;
+
+  IntermediateTableSummary({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.id,
+    required this.membershipArn,
+    required this.membershipId,
+    required this.name,
+    required this.status,
+    required this.updateTime,
+    this.analysisRuleTypes,
+    this.description,
+    this.retentionInDays,
+  });
+
+  factory IntermediateTableSummary.fromJson(Map<String, dynamic> json) {
+    return IntermediateTableSummary(
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      status:
+          IntermediateTableStatus.fromString((json['status'] as String?) ?? ''),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      analysisRuleTypes: (json['analysisRuleTypes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              IntermediateTableAnalysisRuleType.fromString((e as String)))
+          .toList(),
+      description: json['description'] as String?,
+      retentionInDays: json['retentionInDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final id = this.id;
+    final membershipArn = this.membershipArn;
+    final membershipId = this.membershipId;
+    final name = this.name;
+    final status = this.status;
+    final updateTime = this.updateTime;
+    final analysisRuleTypes = this.analysisRuleTypes;
+    final description = this.description;
+    final retentionInDays = this.retentionInDays;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'id': id,
+      'membershipArn': membershipArn,
+      'membershipId': membershipId,
+      'name': name,
+      'status': status.value,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (analysisRuleTypes != null)
+        'analysisRuleTypes': analysisRuleTypes.map((e) => e.value).toList(),
+      if (description != null) 'description': description,
+      if (retentionInDays != null) 'retentionInDays': retentionInDays,
+    };
+  }
+}
+
+/// @nodoc
+class IntermediateTableStatus {
+  static const created = IntermediateTableStatus._('CREATED');
+  static const populateStarted = IntermediateTableStatus._('POPULATE_STARTED');
+  static const populateSuccess = IntermediateTableStatus._('POPULATE_SUCCESS');
+  static const populateFailed = IntermediateTableStatus._('POPULATE_FAILED');
+  static const disallowedByDataProvider =
+      IntermediateTableStatus._('DISALLOWED_BY_DATA_PROVIDER');
+  static const baseTableRemoved =
+      IntermediateTableStatus._('BASE_TABLE_REMOVED');
+  static const retentionPeriodExpired =
+      IntermediateTableStatus._('RETENTION_PERIOD_EXPIRED');
+
+  final String value;
+
+  const IntermediateTableStatus._(this.value);
+
+  static const values = [
+    created,
+    populateStarted,
+    populateSuccess,
+    populateFailed,
+    disallowedByDataProvider,
+    baseTableRemoved,
+    retentionPeriodExpired
+  ];
+
+  static IntermediateTableStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntermediateTableStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IntermediateTableStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the details of an intermediate table in Clean Rooms. An
+/// intermediate table stores a query definition and its materialized results
+/// within a collaboration.
+///
+/// @nodoc
+class IntermediateTable {
+  /// The Amazon Resource Name (ARN) of the intermediate table.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains the
+  /// intermediate table.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains the intermediate
+  /// table.
+  final String collaborationId;
+
+  /// The time the intermediate table was created.
+  final DateTime createTime;
+
+  /// The unique identifier of the intermediate table.
+  final String id;
+
+  /// The Amazon Resource Name (ARN) of the membership that contains the
+  /// intermediate table.
+  final String membershipArn;
+
+  /// The unique identifier of the membership that contains the intermediate
+  /// table.
+  final String membershipId;
+
+  /// The name of the intermediate table.
+  final String name;
+
+  /// The analysis configuration that defines the query used to populate the
+  /// intermediate table.
+  final PopulationAnalysisConfiguration populationAnalysisConfiguration;
+
+  /// The current status of the intermediate table.
+  final IntermediateTableStatus status;
+
+  /// The time the intermediate table was last updated.
+  final DateTime updateTime;
+
+  /// The types of analysis rules associated with the intermediate table.
+  final List<IntermediateTableAnalysisRuleType>? analysisRuleTypes;
+
+  /// The child resources that depend on this intermediate table.
+  final List<ChildResource>? childResources;
+
+  /// The description of the intermediate table.
+  final String? description;
+
+  /// The details of the currently active version of the intermediate table.
+  final IntermediateTableActiveVersion? intermediateTableVersion;
+
+  /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+  /// intermediate table data.
+  final String? kmsKeyArn;
+
+  /// The number of days that populated data is retained before expiring.
+  final int? retentionInDays;
+
+  /// The schema of the intermediate table, containing column definitions.
+  /// Available after the table has been successfully populated.
+  final IntermediateTableSchema? schema;
+
+  /// The reason for the current status of the intermediate table.
+  final String? statusReason;
+
+  /// The list of base tables that this intermediate table depends on.
+  final List<IntermediateTableDependency>? tableDependencies;
+
+  IntermediateTable({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.id,
+    required this.membershipArn,
+    required this.membershipId,
+    required this.name,
+    required this.populationAnalysisConfiguration,
+    required this.status,
+    required this.updateTime,
+    this.analysisRuleTypes,
+    this.childResources,
+    this.description,
+    this.intermediateTableVersion,
+    this.kmsKeyArn,
+    this.retentionInDays,
+    this.schema,
+    this.statusReason,
+    this.tableDependencies,
+  });
+
+  factory IntermediateTable.fromJson(Map<String, dynamic> json) {
+    return IntermediateTable(
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      populationAnalysisConfiguration: PopulationAnalysisConfiguration.fromJson(
+          (json['populationAnalysisConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status:
+          IntermediateTableStatus.fromString((json['status'] as String?) ?? ''),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      analysisRuleTypes: (json['analysisRuleTypes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              IntermediateTableAnalysisRuleType.fromString((e as String)))
+          .toList(),
+      childResources: (json['childResources'] as List?)
+          ?.nonNulls
+          .map((e) => ChildResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      intermediateTableVersion: json['intermediateTableVersion'] != null
+          ? IntermediateTableActiveVersion.fromJson(
+              json['intermediateTableVersion'] as Map<String, dynamic>)
+          : null,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      retentionInDays: json['retentionInDays'] as int?,
+      schema: json['schema'] != null
+          ? IntermediateTableSchema.fromJson(
+              json['schema'] as Map<String, dynamic>)
+          : null,
+      statusReason: json['statusReason'] as String?,
+      tableDependencies: (json['tableDependencies'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              IntermediateTableDependency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final id = this.id;
+    final membershipArn = this.membershipArn;
+    final membershipId = this.membershipId;
+    final name = this.name;
+    final populationAnalysisConfiguration =
+        this.populationAnalysisConfiguration;
+    final status = this.status;
+    final updateTime = this.updateTime;
+    final analysisRuleTypes = this.analysisRuleTypes;
+    final childResources = this.childResources;
+    final description = this.description;
+    final intermediateTableVersion = this.intermediateTableVersion;
+    final kmsKeyArn = this.kmsKeyArn;
+    final retentionInDays = this.retentionInDays;
+    final schema = this.schema;
+    final statusReason = this.statusReason;
+    final tableDependencies = this.tableDependencies;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'id': id,
+      'membershipArn': membershipArn,
+      'membershipId': membershipId,
+      'name': name,
+      'populationAnalysisConfiguration': populationAnalysisConfiguration,
+      'status': status.value,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (analysisRuleTypes != null)
+        'analysisRuleTypes': analysisRuleTypes.map((e) => e.value).toList(),
+      if (childResources != null) 'childResources': childResources,
+      if (description != null) 'description': description,
+      if (intermediateTableVersion != null)
+        'intermediateTableVersion': intermediateTableVersion,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (retentionInDays != null) 'retentionInDays': retentionInDays,
+      if (schema != null) 'schema': schema,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (tableDependencies != null) 'tableDependencies': tableDependencies,
+    };
+  }
+}
+
+/// Contains the configuration that defines the analysis used to populate an
+/// intermediate table.
+///
+/// @nodoc
+class PopulationAnalysisConfiguration {
+  /// The SQL parameters for the population analysis, including the query string
+  /// or analysis template ARN.
+  final PopulationAnalysisSqlParameters? sqlParameters;
+
+  PopulationAnalysisConfiguration({
+    this.sqlParameters,
+  });
+
+  factory PopulationAnalysisConfiguration.fromJson(Map<String, dynamic> json) {
+    return PopulationAnalysisConfiguration(
+      sqlParameters: json['sqlParameters'] != null
+          ? PopulationAnalysisSqlParameters.fromJson(
+              json['sqlParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sqlParameters = this.sqlParameters;
+    return {
+      if (sqlParameters != null) 'sqlParameters': sqlParameters,
+    };
+  }
+}
+
+/// Contains the details of the currently active version of an intermediate
+/// table.
+///
+/// @nodoc
+class IntermediateTableActiveVersion {
+  /// The identifier of the protected query that created this version.
+  final String analysisId;
+
+  /// The type of analysis that created this version.
+  final PopulateIntermediateTableAnalysisType analysisType;
+
+  /// The privacy constraints inherited from parent tables at the time this
+  /// version was populated.
+  final IntermediateTableInheritedConstraints inheritedConstraints;
+
+  /// The unique identifier of the active version.
+  final String versionId;
+
+  /// The time when this version expires based on the retention period.
+  final DateTime? expirationTime;
+
+  /// The Amazon Resource Name (ARN) of the KMS key used to encrypt this version's
+  /// data.
+  final String? kmsKeyArn;
+
+  /// The runtime parameters that were used when populating this version.
+  final Map<String, String>? parameters;
+
+  IntermediateTableActiveVersion({
+    required this.analysisId,
+    required this.analysisType,
+    required this.inheritedConstraints,
+    required this.versionId,
+    this.expirationTime,
+    this.kmsKeyArn,
+    this.parameters,
+  });
+
+  factory IntermediateTableActiveVersion.fromJson(Map<String, dynamic> json) {
+    return IntermediateTableActiveVersion(
+      analysisId: (json['analysisId'] as String?) ?? '',
+      analysisType: PopulateIntermediateTableAnalysisType.fromString(
+          (json['analysisType'] as String?) ?? ''),
+      inheritedConstraints: IntermediateTableInheritedConstraints.fromJson(
+          (json['inheritedConstraints'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      versionId: (json['versionId'] as String?) ?? '',
+      expirationTime: timeStampFromJson(json['expirationTime']),
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisId = this.analysisId;
+    final analysisType = this.analysisType;
+    final inheritedConstraints = this.inheritedConstraints;
+    final versionId = this.versionId;
+    final expirationTime = this.expirationTime;
+    final kmsKeyArn = this.kmsKeyArn;
+    final parameters = this.parameters;
+    return {
+      'analysisId': analysisId,
+      'analysisType': analysisType.value,
+      'inheritedConstraints': inheritedConstraints,
+      'versionId': versionId,
+      if (expirationTime != null)
+        'expirationTime': unixTimestampToJson(expirationTime),
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (parameters != null) 'parameters': parameters,
+    };
+  }
+}
+
+/// Contains the schema definition of an intermediate table.
+///
+/// @nodoc
+class IntermediateTableSchema {
+  /// The list of columns in the intermediate table schema.
+  final List<Column> columns;
+
+  IntermediateTableSchema({
+    required this.columns,
+  });
+
+  factory IntermediateTableSchema.fromJson(Map<String, dynamic> json) {
+    return IntermediateTableSchema(
+      columns: ((json['columns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    return {
+      'columns': columns,
+    };
+  }
+}
+
+/// A column within a schema relation, derived from the underlying table.
+///
+/// @nodoc
+class Column {
+  /// The name of the column.
+  final String name;
+
+  /// The type of the column.
+  final String type;
+
+  Column({
+    required this.name,
+    required this.type,
+  });
+
+  factory Column.fromJson(Map<String, dynamic> json) {
+    return Column(
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'name': name,
+      'type': type,
+    };
+  }
+}
+
+/// Contains the privacy constraints inherited from parent tables for an
+/// intermediate table version.
+///
+/// @nodoc
+class IntermediateTableInheritedConstraints {
+  /// The inherited additional analyses constraint.
+  final InheritedAdditionalAnalyses? additionalAnalyses;
+
+  /// The inherited allowed additional analyses constraint.
+  final InheritedAllowedAdditionalAnalyses? allowedAdditionalAnalyses;
+
+  /// The inherited allowed result receivers constraint.
+  final InheritedAllowedResultReceivers? allowedResultReceivers;
+
+  /// The inherited disallowed output columns constraint.
+  final InheritedDisallowedOutputColumns? disallowedOutputColumns;
+
+  IntermediateTableInheritedConstraints({
+    this.additionalAnalyses,
+    this.allowedAdditionalAnalyses,
+    this.allowedResultReceivers,
+    this.disallowedOutputColumns,
+  });
+
+  factory IntermediateTableInheritedConstraints.fromJson(
+      Map<String, dynamic> json) {
+    return IntermediateTableInheritedConstraints(
+      additionalAnalyses: json['additionalAnalyses'] != null
+          ? InheritedAdditionalAnalyses.fromJson(
+              json['additionalAnalyses'] as Map<String, dynamic>)
+          : null,
+      allowedAdditionalAnalyses: json['allowedAdditionalAnalyses'] != null
+          ? InheritedAllowedAdditionalAnalyses.fromJson(
+              json['allowedAdditionalAnalyses'] as Map<String, dynamic>)
+          : null,
+      allowedResultReceivers: json['allowedResultReceivers'] != null
+          ? InheritedAllowedResultReceivers.fromJson(
+              json['allowedResultReceivers'] as Map<String, dynamic>)
+          : null,
+      disallowedOutputColumns: json['disallowedOutputColumns'] != null
+          ? InheritedDisallowedOutputColumns.fromJson(
+              json['disallowedOutputColumns'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAnalyses = this.additionalAnalyses;
+    final allowedAdditionalAnalyses = this.allowedAdditionalAnalyses;
+    final allowedResultReceivers = this.allowedResultReceivers;
+    final disallowedOutputColumns = this.disallowedOutputColumns;
+    return {
+      if (additionalAnalyses != null) 'additionalAnalyses': additionalAnalyses,
+      if (allowedAdditionalAnalyses != null)
+        'allowedAdditionalAnalyses': allowedAdditionalAnalyses,
+      if (allowedResultReceivers != null)
+        'allowedResultReceivers': allowedResultReceivers,
+      if (disallowedOutputColumns != null)
+        'disallowedOutputColumns': disallowedOutputColumns,
+    };
+  }
+}
+
+/// Contains the inherited additional analyses constraint and its sources from
+/// parent tables.
+///
+/// @nodoc
+class InheritedAdditionalAnalyses {
+  /// The list of parent tables that contribute to this inherited constraint.
+  final List<InheritedAdditionalAnalysesSource> sources;
+
+  /// The effective additional analyses setting inherited from parent tables.
+  final AdditionalAnalyses value;
+
+  InheritedAdditionalAnalyses({
+    required this.sources,
+    required this.value,
+  });
+
+  factory InheritedAdditionalAnalyses.fromJson(Map<String, dynamic> json) {
+    return InheritedAdditionalAnalyses(
+      sources: ((json['sources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InheritedAdditionalAnalysesSource.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      value: AdditionalAnalyses.fromString((json['value'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sources = this.sources;
+    final value = this.value;
+    return {
+      'sources': sources,
+      'value': value.value,
+    };
+  }
+}
+
+/// Contains the inherited allowed additional analyses constraint and its
+/// sources from parent tables.
+///
+/// @nodoc
+class InheritedAllowedAdditionalAnalyses {
+  /// The list of parent tables that contribute to this inherited constraint.
+  final List<InheritedAllowedAdditionalAnalysesSource> sources;
+
+  /// The effective list of allowed additional analyses inherited from parent
+  /// tables.
+  final List<String> value;
+
+  InheritedAllowedAdditionalAnalyses({
+    required this.sources,
+    required this.value,
+  });
+
+  factory InheritedAllowedAdditionalAnalyses.fromJson(
+      Map<String, dynamic> json) {
+    return InheritedAllowedAdditionalAnalyses(
+      sources: ((json['sources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InheritedAllowedAdditionalAnalysesSource.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      value: ((json['value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sources = this.sources;
+    final value = this.value;
+    return {
+      'sources': sources,
+      'value': value,
+    };
+  }
+}
+
+/// Contains the inherited allowed result receivers constraint and its sources
+/// from parent tables.
+///
+/// @nodoc
+class InheritedAllowedResultReceivers {
+  /// The list of parent tables that contribute to this inherited constraint.
+  final List<InheritedAllowedResultReceiversSource> sources;
+
+  /// The effective list of Amazon Web Services account IDs allowed to receive
+  /// results, inherited from parent tables.
+  final List<String> value;
+
+  InheritedAllowedResultReceivers({
+    required this.sources,
+    required this.value,
+  });
+
+  factory InheritedAllowedResultReceivers.fromJson(Map<String, dynamic> json) {
+    return InheritedAllowedResultReceivers(
+      sources: ((json['sources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InheritedAllowedResultReceiversSource.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      value: ((json['value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sources = this.sources;
+    final value = this.value;
+    return {
+      'sources': sources,
+      'value': value,
+    };
+  }
+}
+
+/// Contains the inherited disallowed output columns constraint and the column
+/// lineage tracing each column to its source.
+///
+/// @nodoc
+class InheritedDisallowedOutputColumns {
+  /// The lineage information that traces each disallowed output column back to
+  /// its source in a parent table.
+  final List<ColumnLineageEntry> columnLineage;
+
+  /// The list of column names that are disallowed from appearing in query output,
+  /// inherited from parent tables.
+  final List<String> value;
+
+  InheritedDisallowedOutputColumns({
+    required this.columnLineage,
+    required this.value,
+  });
+
+  factory InheritedDisallowedOutputColumns.fromJson(Map<String, dynamic> json) {
+    return InheritedDisallowedOutputColumns(
+      columnLineage: ((json['columnLineage'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ColumnLineageEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      value: ((json['value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnLineage = this.columnLineage;
+    final value = this.value;
+    return {
+      'columnLineage': columnLineage,
+      'value': value,
+    };
+  }
+}
+
+/// Contains column lineage information that traces a disallowed output column
+/// back to its source in a base table.
+///
+/// @nodoc
+class ColumnLineageEntry {
+  /// The name of the column in the intermediate table.
+  final String column;
+
+  /// The Amazon Web Services account ID of the owner of the source table.
+  final String sourceAccountId;
+
+  /// The name of the column in the source table.
+  final String sourceColumn;
+
+  /// The unique identifier of the source table.
+  final String sourceId;
+
+  /// The name of the source table.
+  final String sourceName;
+
+  /// The type of the source table.
+  final BaseTableDependencyType sourceType;
+
+  ColumnLineageEntry({
+    required this.column,
+    required this.sourceAccountId,
+    required this.sourceColumn,
+    required this.sourceId,
+    required this.sourceName,
+    required this.sourceType,
+  });
+
+  factory ColumnLineageEntry.fromJson(Map<String, dynamic> json) {
+    return ColumnLineageEntry(
+      column: (json['column'] as String?) ?? '',
+      sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
+      sourceColumn: (json['sourceColumn'] as String?) ?? '',
+      sourceId: (json['sourceId'] as String?) ?? '',
+      sourceName: (json['sourceName'] as String?) ?? '',
+      sourceType: BaseTableDependencyType.fromString(
+          (json['sourceType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final sourceAccountId = this.sourceAccountId;
+    final sourceColumn = this.sourceColumn;
+    final sourceId = this.sourceId;
+    final sourceName = this.sourceName;
+    final sourceType = this.sourceType;
+    return {
+      'column': column,
+      'sourceAccountId': sourceAccountId,
+      'sourceColumn': sourceColumn,
+      'sourceId': sourceId,
+      'sourceName': sourceName,
+      'sourceType': sourceType.value,
+    };
+  }
+}
+
+/// @nodoc
+class BaseTableDependencyType {
+  static const table = BaseTableDependencyType._('TABLE');
+  static const intermediateTable =
+      BaseTableDependencyType._('INTERMEDIATE_TABLE');
+  static const idMappingTable = BaseTableDependencyType._('ID_MAPPING_TABLE');
+
+  final String value;
+
+  const BaseTableDependencyType._(this.value);
+
+  static const values = [table, intermediateTable, idMappingTable];
+
+  static BaseTableDependencyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BaseTableDependencyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BaseTableDependencyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a parent table that contributes an allowed result
+/// receivers constraint.
+///
+/// @nodoc
+class InheritedAllowedResultReceiversSource {
+  /// The unique identifier of the parent table.
+  final String id;
+
+  /// The name of the parent table.
+  final String name;
+
+  /// The Amazon Web Services account ID of the member who owns the parent table.
+  final String sourceAccountId;
+
+  /// The type of the parent table.
+  final BaseTableDependencyType type;
+
+  /// The allowed result receiver account IDs defined on the parent table.
+  final List<String> value;
+
+  InheritedAllowedResultReceiversSource({
+    required this.id,
+    required this.name,
+    required this.sourceAccountId,
+    required this.type,
+    required this.value,
+  });
+
+  factory InheritedAllowedResultReceiversSource.fromJson(
+      Map<String, dynamic> json) {
+    return InheritedAllowedResultReceiversSource(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
+      type: BaseTableDependencyType.fromString((json['type'] as String?) ?? ''),
+      value: ((json['value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final sourceAccountId = this.sourceAccountId;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'id': id,
+      'name': name,
+      'sourceAccountId': sourceAccountId,
+      'type': type.value,
+      'value': value,
+    };
+  }
+}
+
+/// Contains information about a parent table that contributes an allowed
+/// additional analyses constraint.
+///
+/// @nodoc
+class InheritedAllowedAdditionalAnalysesSource {
+  /// The unique identifier of the parent table.
+  final String id;
+
+  /// The name of the parent table.
+  final String name;
+
+  /// The Amazon Web Services account ID of the member who owns the parent table.
+  final String sourceAccountId;
+
+  /// The type of the parent table.
+  final BaseTableDependencyType type;
+
+  /// The allowed additional analyses defined on the parent table.
+  final List<String> value;
+
+  InheritedAllowedAdditionalAnalysesSource({
+    required this.id,
+    required this.name,
+    required this.sourceAccountId,
+    required this.type,
+    required this.value,
+  });
+
+  factory InheritedAllowedAdditionalAnalysesSource.fromJson(
+      Map<String, dynamic> json) {
+    return InheritedAllowedAdditionalAnalysesSource(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
+      type: BaseTableDependencyType.fromString((json['type'] as String?) ?? ''),
+      value: ((json['value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final sourceAccountId = this.sourceAccountId;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'id': id,
+      'name': name,
+      'sourceAccountId': sourceAccountId,
+      'type': type.value,
+      'value': value,
+    };
+  }
+}
+
+/// Contains information about a parent table that contributes an additional
+/// analyses constraint.
+///
+/// @nodoc
+class InheritedAdditionalAnalysesSource {
+  /// The unique identifier of the parent table.
+  final String id;
+
+  /// The name of the parent table.
+  final String name;
+
+  /// The Amazon Web Services account ID of the member who owns the parent table.
+  final String sourceAccountId;
+
+  /// The type of the parent table.
+  final BaseTableDependencyType type;
+
+  /// The additional analyses setting defined on the parent table.
+  final AdditionalAnalyses value;
+
+  InheritedAdditionalAnalysesSource({
+    required this.id,
+    required this.name,
+    required this.sourceAccountId,
+    required this.type,
+    required this.value,
+  });
+
+  factory InheritedAdditionalAnalysesSource.fromJson(
+      Map<String, dynamic> json) {
+    return InheritedAdditionalAnalysesSource(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
+      type: BaseTableDependencyType.fromString((json['type'] as String?) ?? ''),
+      value: AdditionalAnalyses.fromString((json['value'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final sourceAccountId = this.sourceAccountId;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'id': id,
+      'name': name,
+      'sourceAccountId': sourceAccountId,
+      'type': type.value,
+      'value': value.value,
+    };
+  }
+}
+
+/// Contains information about a base table that an intermediate table depends
+/// on.
+///
+/// @nodoc
+class IntermediateTableDependency {
+  /// The Amazon Web Services account ID of the member who owns the dependency
+  /// table.
+  final String creatorAccountId;
+
+  /// The unique identifier of the dependency table.
+  final String id;
+
+  /// The name of the dependency table.
+  final String name;
+
+  /// Whether the dependency is direct or indirect. A direct dependency is a table
+  /// explicitly referenced in the stored query, while an indirect dependency is
+  /// referenced through another intermediate table.
+  final BaseTableParentType parentType;
+
+  /// The type of the dependency table.
+  final BaseTableDependencyType type;
+
+  IntermediateTableDependency({
+    required this.creatorAccountId,
+    required this.id,
+    required this.name,
+    required this.parentType,
+    required this.type,
+  });
+
+  factory IntermediateTableDependency.fromJson(Map<String, dynamic> json) {
+    return IntermediateTableDependency(
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      parentType:
+          BaseTableParentType.fromString((json['parentType'] as String?) ?? ''),
+      type: BaseTableDependencyType.fromString((json['type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creatorAccountId = this.creatorAccountId;
+    final id = this.id;
+    final name = this.name;
+    final parentType = this.parentType;
+    final type = this.type;
+    return {
+      'creatorAccountId': creatorAccountId,
+      'id': id,
+      'name': name,
+      'parentType': parentType.value,
+      'type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class BaseTableParentType {
+  static const direct = BaseTableParentType._('DIRECT');
+  static const indirect = BaseTableParentType._('INDIRECT');
+
+  final String value;
+
+  const BaseTableParentType._(this.value);
+
+  static const values = [direct, indirect];
+
+  static BaseTableParentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BaseTableParentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BaseTableParentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the SQL parameters used to populate an intermediate table.
+///
+/// @nodoc
+class PopulationAnalysisSqlParameters {
+  /// The Amazon Resource Name (ARN) of the analysis template to use for
+  /// populating the intermediate table.
+  final String? analysisTemplateArn;
+
+  /// The SQL query string used to populate the intermediate table. Maximum length
+  /// of 500,000 characters.
+  final String? queryString;
+
+  PopulationAnalysisSqlParameters({
+    this.analysisTemplateArn,
+    this.queryString,
+  });
+
+  factory PopulationAnalysisSqlParameters.fromJson(Map<String, dynamic> json) {
+    return PopulationAnalysisSqlParameters(
+      analysisTemplateArn: json['analysisTemplateArn'] as String?,
+      queryString: json['queryString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisTemplateArn = this.analysisTemplateArn;
+    final queryString = this.queryString;
+    return {
+      if (analysisTemplateArn != null)
+        'analysisTemplateArn': analysisTemplateArn,
+      if (queryString != null) 'queryString': queryString,
+    };
+  }
+}
+
+/// Contains information about a child resource of a given resource in a
+/// collaboration.
+///
+/// @nodoc
+class ChildResource {
+  /// The Amazon Web Services account ID of the member who owns the child
+  /// resource.
+  final String ownerAccountId;
+
+  /// The name of the child resource.
+  final String resourceName;
+
+  /// The type of the child resource.
+  final ChildResourceType resourceType;
+
+  /// The unique identifier of the child resource.
+  final String? resourceId;
+
+  /// The current status of the child resource.
+  final ResourceStatus? resourceStatus;
+
+  ChildResource({
+    required this.ownerAccountId,
+    required this.resourceName,
+    required this.resourceType,
+    this.resourceId,
+    this.resourceStatus,
+  });
+
+  factory ChildResource.fromJson(Map<String, dynamic> json) {
+    return ChildResource(
+      ownerAccountId: (json['ownerAccountId'] as String?) ?? '',
+      resourceName: (json['resourceName'] as String?) ?? '',
+      resourceType:
+          ChildResourceType.fromString((json['resourceType'] as String?) ?? ''),
+      resourceId: json['resourceId'] as String?,
+      resourceStatus:
+          (json['resourceStatus'] as String?)?.let(ResourceStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ownerAccountId = this.ownerAccountId;
+    final resourceName = this.resourceName;
+    final resourceType = this.resourceType;
+    final resourceId = this.resourceId;
+    final resourceStatus = this.resourceStatus;
+    return {
+      'ownerAccountId': ownerAccountId,
+      'resourceName': resourceName,
+      'resourceType': resourceType.value,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (resourceStatus != null) 'resourceStatus': resourceStatus.value,
+    };
+  }
+}
+
+/// @nodoc
+class ChildResourceType {
+  static const intermediateTable = ChildResourceType._('INTERMEDIATE_TABLE');
+
+  final String value;
+
+  const ChildResourceType._(this.value);
+
+  static const values = [intermediateTable];
+
+  static ChildResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChildResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ChildResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ResourceStatus {
+  static const created = ResourceStatus._('CREATED');
+  static const populateStarted = ResourceStatus._('POPULATE_STARTED');
+  static const populateSuccess = ResourceStatus._('POPULATE_SUCCESS');
+  static const populateFailed = ResourceStatus._('POPULATE_FAILED');
+  static const disallowedByDataProvider =
+      ResourceStatus._('DISALLOWED_BY_DATA_PROVIDER');
+  static const baseTableRemoved = ResourceStatus._('BASE_TABLE_REMOVED');
+  static const retentionPeriodExpired =
+      ResourceStatus._('RETENTION_PERIOD_EXPIRED');
+
+  final String value;
+
+  const ResourceStatus._(this.value);
+
+  static const values = [
+    created,
+    populateStarted,
+    populateSuccess,
+    populateFailed,
+    disallowedByDataProvider,
+    baseTableRemoved,
+    retentionPeriodExpired
+  ];
+
+  static ResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the name and type of a column in an intermediate table.
+///
+/// @nodoc
+class IntermediateTableColumn {
+  /// The name of the column.
+  final String name;
+
+  /// The data type of the column.
+  final String type;
+
+  IntermediateTableColumn({
+    required this.name,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'name': name,
+      'type': type,
+    };
+  }
+}
+
 /// Detailed information about the ID namespace association.
 ///
 /// @nodoc
@@ -11006,6 +13678,9 @@ class IdMappingTable {
   /// The most recent time at which the ID mapping table was updated.
   final DateTime updateTime;
 
+  /// The child resources that depend on this ID mapping table.
+  final List<ChildResource>? childResources;
+
   /// The description of the ID mapping table.
   final String? description;
 
@@ -11024,6 +13699,7 @@ class IdMappingTable {
     required this.membershipId,
     required this.name,
     required this.updateTime,
+    this.childResources,
     this.description,
     this.kmsKeyArn,
   });
@@ -11045,6 +13721,10 @@ class IdMappingTable {
       membershipId: (json['membershipId'] as String?) ?? '',
       name: (json['name'] as String?) ?? '',
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      childResources: (json['childResources'] as List?)
+          ?.nonNulls
+          .map((e) => ChildResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
       description: json['description'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
@@ -11062,6 +13742,7 @@ class IdMappingTable {
     final membershipId = this.membershipId;
     final name = this.name;
     final updateTime = this.updateTime;
+    final childResources = this.childResources;
     final description = this.description;
     final kmsKeyArn = this.kmsKeyArn;
     return {
@@ -11076,6 +13757,7 @@ class IdMappingTable {
       'membershipId': membershipId,
       'name': name,
       'updateTime': unixTimestampToJson(updateTime),
+      if (childResources != null) 'childResources': childResources,
       if (description != null) 'description': description,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
@@ -11496,10 +14178,17 @@ class AnalysisRuleCustom {
   /// be applied to the output of the direct query.
   final AdditionalAnalyses? additionalAnalyses;
 
+  /// The list of allowed additional analyses for the custom analysis rule.
+  final List<String>? allowedAdditionalAnalyses;
+
   /// The IDs of the Amazon Web Services accounts that are allowed to query by the
   /// custom analysis rule. Required when <code>allowedAnalyses</code> is
   /// <code>ANY_QUERY</code>.
   final List<String>? allowedAnalysisProviders;
+
+  /// The list of Amazon Web Services account IDs that are allowed to receive
+  /// results from queries run on the configured table.
+  final List<String>? allowedResultReceivers;
 
   /// The differential privacy configuration.
   final DifferentialPrivacyConfiguration? differentialPrivacy;
@@ -11510,7 +14199,9 @@ class AnalysisRuleCustom {
   AnalysisRuleCustom({
     required this.allowedAnalyses,
     this.additionalAnalyses,
+    this.allowedAdditionalAnalyses,
     this.allowedAnalysisProviders,
+    this.allowedResultReceivers,
     this.differentialPrivacy,
     this.disallowedOutputColumns,
   });
@@ -11523,7 +14214,15 @@ class AnalysisRuleCustom {
           .toList(),
       additionalAnalyses: (json['additionalAnalyses'] as String?)
           ?.let(AdditionalAnalyses.fromString),
+      allowedAdditionalAnalyses: (json['allowedAdditionalAnalyses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       allowedAnalysisProviders: (json['allowedAnalysisProviders'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedResultReceivers: (json['allowedResultReceivers'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
@@ -11541,109 +14240,25 @@ class AnalysisRuleCustom {
   Map<String, dynamic> toJson() {
     final allowedAnalyses = this.allowedAnalyses;
     final additionalAnalyses = this.additionalAnalyses;
+    final allowedAdditionalAnalyses = this.allowedAdditionalAnalyses;
     final allowedAnalysisProviders = this.allowedAnalysisProviders;
+    final allowedResultReceivers = this.allowedResultReceivers;
     final differentialPrivacy = this.differentialPrivacy;
     final disallowedOutputColumns = this.disallowedOutputColumns;
     return {
       'allowedAnalyses': allowedAnalyses,
       if (additionalAnalyses != null)
         'additionalAnalyses': additionalAnalyses.value,
+      if (allowedAdditionalAnalyses != null)
+        'allowedAdditionalAnalyses': allowedAdditionalAnalyses,
       if (allowedAnalysisProviders != null)
         'allowedAnalysisProviders': allowedAnalysisProviders,
+      if (allowedResultReceivers != null)
+        'allowedResultReceivers': allowedResultReceivers,
       if (differentialPrivacy != null)
         'differentialPrivacy': differentialPrivacy,
       if (disallowedOutputColumns != null)
         'disallowedOutputColumns': disallowedOutputColumns,
-    };
-  }
-}
-
-/// @nodoc
-class AdditionalAnalyses {
-  static const allowed = AdditionalAnalyses._('ALLOWED');
-  static const required = AdditionalAnalyses._('REQUIRED');
-  static const notAllowed = AdditionalAnalyses._('NOT_ALLOWED');
-
-  final String value;
-
-  const AdditionalAnalyses._(this.value);
-
-  static const values = [allowed, required, notAllowed];
-
-  static AdditionalAnalyses fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AdditionalAnalyses._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AdditionalAnalyses && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the unique identifier for your users.
-///
-/// @nodoc
-class DifferentialPrivacyConfiguration {
-  /// The name of the column (such as user_id) that contains the unique identifier
-  /// of your users whose privacy you want to protect. If you want to turn on
-  /// diﬀerential privacy for two or more tables in a collaboration, you must
-  /// conﬁgure the same column as the user identiﬁer column in both analysis
-  /// rules.
-  final List<DifferentialPrivacyColumn> columns;
-
-  DifferentialPrivacyConfiguration({
-    required this.columns,
-  });
-
-  factory DifferentialPrivacyConfiguration.fromJson(Map<String, dynamic> json) {
-    return DifferentialPrivacyConfiguration(
-      columns: ((json['columns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              DifferentialPrivacyColumn.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columns = this.columns;
-    return {
-      'columns': columns,
-    };
-  }
-}
-
-/// Specifies the name of the column that contains the unique identifier of your
-/// users, whose privacy you want to protect.
-///
-/// @nodoc
-class DifferentialPrivacyColumn {
-  /// The name of the column, such as user_id, that contains the unique identifier
-  /// of your users, whose privacy you want to protect. If you want to turn on
-  /// differential privacy for two or more tables in a collaboration, you must
-  /// configure the same column as the user identifier column in both analysis
-  /// rules.
-  final String name;
-
-  DifferentialPrivacyColumn({
-    required this.name,
-  });
-
-  factory DifferentialPrivacyColumn.fromJson(Map<String, dynamic> json) {
-    return DifferentialPrivacyColumn(
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'name': name,
     };
   }
 }
@@ -13000,6 +15615,9 @@ class ConfiguredTableAssociation {
   /// The analysis rule types for the configured table association.
   final List<ConfiguredTableAssociationAnalysisRuleType>? analysisRuleTypes;
 
+  /// The child resources that depend on this configured table association.
+  final List<ChildResource>? childResources;
+
   /// A description of the configured table association.
   final String? description;
 
@@ -13015,6 +15633,7 @@ class ConfiguredTableAssociation {
     required this.roleArn,
     required this.updateTime,
     this.analysisRuleTypes,
+    this.childResources,
     this.description,
   });
 
@@ -13035,6 +15654,10 @@ class ConfiguredTableAssociation {
           .map((e) => ConfiguredTableAssociationAnalysisRuleType.fromString(
               (e as String)))
           .toList(),
+      childResources: (json['childResources'] as List?)
+          ?.nonNulls
+          .map((e) => ChildResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
       description: json['description'] as String?,
     );
   }
@@ -13051,6 +15674,7 @@ class ConfiguredTableAssociation {
     final roleArn = this.roleArn;
     final updateTime = this.updateTime;
     final analysisRuleTypes = this.analysisRuleTypes;
+    final childResources = this.childResources;
     final description = this.description;
     return {
       'arn': arn,
@@ -13065,6 +15689,7 @@ class ConfiguredTableAssociation {
       'updateTime': unixTimestampToJson(updateTime),
       if (analysisRuleTypes != null)
         'analysisRuleTypes': analysisRuleTypes.map((e) => e.value).toList(),
+      if (childResources != null) 'childResources': childResources,
       if (description != null) 'description': description,
     };
   }
@@ -13818,14 +16443,11 @@ class QueryComputePaymentConfig {
   /// configured the collaboration member to pay for query compute costs
   /// (<code>FALSE</code>).
   ///
-  /// Exactly one member can be configured to pay for query compute costs. An
-  /// error is returned if the collaboration creator sets a <code>TRUE</code>
-  /// value for more than one member in the collaboration.
+  /// One or more members can be configured as payer candidates for query compute
+  /// costs.
   ///
   /// If the collaboration creator hasn't specified anyone as the member paying
   /// for query compute costs, then the member who can query is the default payer.
-  /// An error is returned if the collaboration creator sets a <code>FALSE</code>
-  /// value for the member who can query.
   final bool isResponsible;
 
   QueryComputePaymentConfig({
@@ -13906,9 +16528,8 @@ class JobComputePaymentConfig {
   /// configured the collaboration member to pay for query and job compute costs
   /// (<code>FALSE</code>).
   ///
-  /// Exactly one member can be configured to pay for query and job compute costs.
-  /// An error is returned if the collaboration creator sets a <code>TRUE</code>
-  /// value for more than one member in the collaboration.
+  /// One or more members can be configured as payer candidates for query and job
+  /// compute costs.
   ///
   /// An error is returned if the collaboration creator sets a <code>FALSE</code>
   /// value for the member who can run queries and jobs.
@@ -13942,14 +16563,12 @@ class ModelTrainingPaymentConfig {
   /// configured the collaboration member to pay for model training costs
   /// (<code>FALSE</code>).
   ///
-  /// Exactly one member can be configured to pay for model training costs. An
-  /// error is returned if the collaboration creator sets a <code>TRUE</code>
-  /// value for more than one member in the collaboration.
+  /// One or more members can be configured as payer candidates for model training
+  /// costs.
   ///
   /// If the collaboration creator hasn't specified anyone as the member paying
   /// for model training costs, then the member who can query is the default
-  /// payer. An error is returned if the collaboration creator sets a
-  /// <code>FALSE</code> value for the member who can query.
+  /// payer.
   final bool isResponsible;
 
   ModelTrainingPaymentConfig({
@@ -13980,14 +16599,12 @@ class ModelInferencePaymentConfig {
   /// configured the collaboration member to pay for model inference costs
   /// (<code>FALSE</code>).
   ///
-  /// Exactly one member can be configured to pay for model inference costs. An
-  /// error is returned if the collaboration creator sets a <code>TRUE</code>
-  /// value for more than one member in the collaboration.
+  /// One or more members can be configured as payer candidates for model
+  /// inference costs.
   ///
   /// If the collaboration creator hasn't specified anyone as the member paying
   /// for model inference costs, then the member who can query is the default
-  /// payer. An error is returned if the collaboration creator sets a
-  /// <code>FALSE</code> value for the member who can query.
+  /// payer.
   final bool isResponsible;
 
   ModelInferencePaymentConfig({
@@ -14180,12 +16797,13 @@ class SchemaSummary {
 class SchemaType {
   static const table = SchemaType._('TABLE');
   static const idMappingTable = SchemaType._('ID_MAPPING_TABLE');
+  static const intermediateTable = SchemaType._('INTERMEDIATE_TABLE');
 
   final String value;
 
   const SchemaType._(this.value);
 
-  static const values = [table, idMappingTable];
+  static const values = [table, idMappingTable, intermediateTable];
 
   static SchemaType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => SchemaType._(value));
@@ -15710,26 +18328,48 @@ class Schema {
 ///
 /// @nodoc
 class SchemaTypeProperties {
+  /// The schema type properties for a configured table association.
+  final ConfiguredTableAssociationSchemaTypeProperties?
+      configuredTableAssociation;
+
   /// The ID mapping table for the schema type properties.
   final IdMappingTableSchemaTypeProperties? idMappingTable;
 
+  /// The schema type properties for an intermediate table.
+  final IntermediateTableSchemaTypeProperties? intermediateTable;
+
   SchemaTypeProperties({
+    this.configuredTableAssociation,
     this.idMappingTable,
+    this.intermediateTable,
   });
 
   factory SchemaTypeProperties.fromJson(Map<String, dynamic> json) {
     return SchemaTypeProperties(
+      configuredTableAssociation: json['configuredTableAssociation'] != null
+          ? ConfiguredTableAssociationSchemaTypeProperties.fromJson(
+              json['configuredTableAssociation'] as Map<String, dynamic>)
+          : null,
       idMappingTable: json['idMappingTable'] != null
           ? IdMappingTableSchemaTypeProperties.fromJson(
               json['idMappingTable'] as Map<String, dynamic>)
+          : null,
+      intermediateTable: json['intermediateTable'] != null
+          ? IntermediateTableSchemaTypeProperties.fromJson(
+              json['intermediateTable'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final configuredTableAssociation = this.configuredTableAssociation;
     final idMappingTable = this.idMappingTable;
+    final intermediateTable = this.intermediateTable;
     return {
+      if (configuredTableAssociation != null)
+        'configuredTableAssociation': configuredTableAssociation,
       if (idMappingTable != null) 'idMappingTable': idMappingTable,
+      if (intermediateTable != null) 'intermediateTable': intermediateTable,
     };
   }
 }
@@ -15743,8 +18383,12 @@ class IdMappingTableSchemaTypeProperties {
   /// table.
   final List<IdMappingTableInputSource> idMappingTableInputSource;
 
+  /// The unique identifier of the ID mapping table.
+  final String? idMappingTableId;
+
   IdMappingTableSchemaTypeProperties({
     required this.idMappingTableInputSource,
+    this.idMappingTableId,
   });
 
   factory IdMappingTableSchemaTypeProperties.fromJson(
@@ -15756,13 +18400,69 @@ class IdMappingTableSchemaTypeProperties {
               .map((e) =>
                   IdMappingTableInputSource.fromJson(e as Map<String, dynamic>))
               .toList(),
+      idMappingTableId: json['idMappingTableId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final idMappingTableInputSource = this.idMappingTableInputSource;
+    final idMappingTableId = this.idMappingTableId;
     return {
       'idMappingTableInputSource': idMappingTableInputSource,
+      if (idMappingTableId != null) 'idMappingTableId': idMappingTableId,
+    };
+  }
+}
+
+/// Contains the schema type properties for an intermediate table.
+///
+/// @nodoc
+class IntermediateTableSchemaTypeProperties {
+  /// The unique identifier of the intermediate table.
+  final String intermediateTableId;
+
+  IntermediateTableSchemaTypeProperties({
+    required this.intermediateTableId,
+  });
+
+  factory IntermediateTableSchemaTypeProperties.fromJson(
+      Map<String, dynamic> json) {
+    return IntermediateTableSchemaTypeProperties(
+      intermediateTableId: (json['intermediateTableId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateTableId = this.intermediateTableId;
+    return {
+      'intermediateTableId': intermediateTableId,
+    };
+  }
+}
+
+/// Contains the schema type properties for a configured table association.
+///
+/// @nodoc
+class ConfiguredTableAssociationSchemaTypeProperties {
+  /// The unique identifier of the configured table association.
+  final String configuredTableAssociationId;
+
+  ConfiguredTableAssociationSchemaTypeProperties({
+    required this.configuredTableAssociationId,
+  });
+
+  factory ConfiguredTableAssociationSchemaTypeProperties.fromJson(
+      Map<String, dynamic> json) {
+    return ConfiguredTableAssociationSchemaTypeProperties(
+      configuredTableAssociationId:
+          (json['configuredTableAssociationId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuredTableAssociationId = this.configuredTableAssociationId;
+    return {
+      'configuredTableAssociationId': configuredTableAssociationId,
     };
   }
 }
@@ -15943,6 +18643,20 @@ class SchemaStatusReasonCode {
       SchemaStatusReasonCode._('RESULT_RECEIVERS_NOT_ALLOWED');
   static const analysisRuleTypesNotCompatible =
       SchemaStatusReasonCode._('ANALYSIS_RULE_TYPES_NOT_COMPATIBLE');
+  static const intermediateTableNotPopulated =
+      SchemaStatusReasonCode._('INTERMEDIATE_TABLE_NOT_POPULATED');
+  static const intermediateTableAnalysisRuleMissing =
+      SchemaStatusReasonCode._('INTERMEDIATE_TABLE_ANALYSIS_RULE_MISSING');
+  static const intermediateTableBaseTableRemoved =
+      SchemaStatusReasonCode._('INTERMEDIATE_TABLE_BASE_TABLE_REMOVED');
+  static const intermediateTableInheritedConstraintsViolated =
+      SchemaStatusReasonCode._(
+          'INTERMEDIATE_TABLE_INHERITED_CONSTRAINTS_VIOLATED');
+  static const intermediateTableDisallowedByDataProvider =
+      SchemaStatusReasonCode._(
+          'INTERMEDIATE_TABLE_DISALLOWED_BY_DATA_PROVIDER');
+  static const intermediateTableRetentionPeriodExpired =
+      SchemaStatusReasonCode._('INTERMEDIATE_TABLE_RETENTION_PERIOD_EXPIRED');
 
   final String value;
 
@@ -15959,7 +18673,13 @@ class SchemaStatusReasonCode {
     resultReceiversNotConfigured,
     additionalAnalysesNotAllowed,
     resultReceiversNotAllowed,
-    analysisRuleTypesNotCompatible
+    analysisRuleTypesNotCompatible,
+    intermediateTableNotPopulated,
+    intermediateTableAnalysisRuleMissing,
+    intermediateTableBaseTableRemoved,
+    intermediateTableInheritedConstraintsViolated,
+    intermediateTableDisallowedByDataProvider,
+    intermediateTableRetentionPeriodExpired
   ];
 
   static SchemaStatusReasonCode fromString(String value) =>
@@ -15975,38 +18695,6 @@ class SchemaStatusReasonCode {
 
   @override
   String toString() => value;
-}
-
-/// A column within a schema relation, derived from the underlying table.
-///
-/// @nodoc
-class Column {
-  /// The name of the column.
-  final String name;
-
-  /// The type of the column.
-  final String type;
-
-  Column({
-    required this.name,
-    required this.type,
-  });
-
-  factory Column.fromJson(Map<String, dynamic> json) {
-    return Column(
-      name: (json['name'] as String?) ?? '',
-      type: (json['type'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      'name': name,
-      'type': type,
-    };
-  }
 }
 
 /// An array that specifies the information for a collaboration's privacy budget

@@ -411,6 +411,32 @@ class ConfigService {
     );
   }
 
+  /// Deletes the specified connector.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the connector that you want to delete.
+  Future<void> deleteConnector({
+    required String arn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DeleteConnector'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Arn': arn,
+      },
+    );
+  }
+
   /// Deletes the delivery channel.
   ///
   /// Before you can delete the delivery channel, you must stop the customer
@@ -773,12 +799,22 @@ class ConfigService {
   /// May throw [NoSuchConfigurationRecorderException].
   /// May throw [ValidationException].
   ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the service-linked configuration
+  /// recorder that you want to delete. For third-party service-linked
+  /// configuration recorders, you must use <code>Arn</code>. You must specify
+  /// exactly one of <code>Arn</code> or <code>ServicePrincipal</code>.
+  ///
   /// Parameter [servicePrincipal] :
   /// The service principal of the Amazon Web Services service for the
-  /// service-linked configuration recorder that you want to delete.
+  /// service-linked configuration recorder that you want to delete. This field
+  /// is only supported for Amazon Web Services service principals. For
+  /// third-party service-linked configuration recorders, use <code>Arn</code>
+  /// instead.
   Future<DeleteServiceLinkedConfigurationRecorderResponse>
       deleteServiceLinkedConfigurationRecorder({
-    required String servicePrincipal,
+    String? arn,
+    String? servicePrincipal,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -792,7 +828,8 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServicePrincipal': servicePrincipal,
+        if (arn != null) 'Arn': arn,
+        if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
       },
     );
 
@@ -1467,7 +1504,9 @@ class ConfigService {
   /// Parameter [servicePrincipal] :
   /// For service-linked configuration recorders, you can use the service
   /// principal of the linked Amazon Web Services service to specify the
-  /// configuration recorder.
+  /// configuration recorder. This field is only supported for Amazon Web
+  /// Services service principals. For third-party service-linked configuration
+  /// recorders, use <code>Arn</code> instead.
   Future<DescribeConfigurationRecordersResponse>
       describeConfigurationRecorders({
     String? arn,
@@ -1529,7 +1568,9 @@ class ConfigService {
   /// Parameter [servicePrincipal] :
   /// For service-linked configuration recorders, you can use the service
   /// principal of the linked Amazon Web Services service to specify the
-  /// configuration recorder.
+  /// configuration recorder. This field is only supported for Amazon Web
+  /// Services service principals. For third-party service-linked configuration
+  /// recorders, use <code>Arn</code> instead.
   Future<DescribeConfigurationRecorderStatusResponse>
       describeConfigurationRecorderStatus({
     String? arn,
@@ -2978,6 +3019,34 @@ class ConfigService {
         jsonResponse.body);
   }
 
+  /// Returns the details of the specified connector.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [arn] :
+  /// The Amazon Resource Name (ARN) of the connector.
+  Future<GetConnectorResponse> getConnector({
+    required String arn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.GetConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Arn': arn,
+      },
+    );
+
+    return GetConnectorResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the policy definition containing the logic for your Config Custom
   /// Policy rule.
   ///
@@ -3646,6 +3715,51 @@ class ConfigService {
         jsonResponse.body);
   }
 
+  /// Returns a list of connectors depending on the filters you specify.
+  ///
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filters] :
+  /// Filters the results based on a list of <code>ConnectorFilter</code>
+  /// objects that you specify.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>NextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  Future<ListConnectorsResponse> listConnectors({
+    List<ConnectorFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.ListConnectors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListConnectorsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of resource resource identifiers for the specified resource
   /// types for the resources of that type. A <i>resource identifier</i>
   /// includes the resource type, ID, and (if available) the custom resource
@@ -3885,6 +3999,9 @@ class ConfigService {
   /// </li>
   /// <li>
   /// <code>StoredQuery</code>
+  /// </li>
+  /// <li>
+  /// <code>Connector</code>
   /// </li>
   /// </ul>
   ///
@@ -4395,6 +4512,70 @@ class ConfigService {
     return PutConformancePackResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a connector that specifies the connection between a third-party
+  /// cloud service provider and Config.
+  ///
+  /// A connector is required to create a service-linked configuration recorder
+  /// for a third-party cloud service provider using the <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_PutThirdPartyServiceLinkedConfigurationRecorder.html">PutThirdPartyServiceLinkedConfigurationRecorder</a>
+  /// operation.
+  ///
+  /// This API creates a service-linked role
+  /// <code>AWSServiceRoleForConfigThirdParty</code> in your account. The
+  /// service-linked role is created only when the role does not exist in your
+  /// account.
+  /// <note>
+  /// <b>Connectors cannot be updated</b>
+  ///
+  /// To update the connector configuration, you must delete all associated
+  /// configuration recorders, delete the connector, and recreate it with the
+  /// updated configuration.
+  /// </note> <note>
+  /// <b>Tags are added at creation and cannot be updated with this
+  /// operation</b>
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InsufficientPermissionsException].
+  /// May throw [MaxNumberOfConnectorsExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorConfiguration] :
+  /// The provider-specific configuration for connecting to the third-party
+  /// cloud service provider.
+  ///
+  /// Parameter [tags] :
+  /// The tags for the connector. Each tag consists of a key and an optional
+  /// value, both of which you define.
+  Future<PutConnectorResponse> putConnector({
+    required ConnectorConfiguration connectorConfiguration,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.PutConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConnectorConfiguration': connectorConfiguration,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return PutConnectorResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates a delivery channel to deliver configuration information
   /// and other compliance information.
   ///
@@ -4633,12 +4814,17 @@ class ConfigService {
   /// of Amazon Web Services resource along with the rule identifier. It also
   /// provides the frequency with which you want Config to run evaluations for
   /// the rule if the trigger type is periodic.
+  ///
+  /// Parameter [tags] :
+  /// The tags for the organization Config rule. Each tag consists of a key and
+  /// an optional value, both of which you define.
   Future<PutOrganizationConfigRuleResponse> putOrganizationConfigRule({
     required String organizationConfigRuleName,
     List<String>? excludedAccounts,
     OrganizationCustomPolicyRuleMetadata? organizationCustomPolicyRuleMetadata,
     OrganizationCustomRuleMetadata? organizationCustomRuleMetadata,
     OrganizationManagedRuleMetadata? organizationManagedRuleMetadata,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4660,6 +4846,7 @@ class ConfigService {
           'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
         if (organizationManagedRuleMetadata != null)
           'OrganizationManagedRuleMetadata': organizationManagedRuleMetadata,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -4747,6 +4934,10 @@ class ConfigService {
   /// A list of Amazon Web Services accounts to be excluded from an organization
   /// conformance pack while deploying a conformance pack.
   ///
+  /// Parameter [tags] :
+  /// The tags for the organization conformance pack. Each tag consists of a key
+  /// and an optional value, both of which you define.
+  ///
   /// Parameter [templateBody] :
   /// A string that contains the full conformance pack template body. Structure
   /// containing the template body with a minimum length of 1 byte and a maximum
@@ -4768,6 +4959,7 @@ class ConfigService {
     String? deliveryS3Bucket,
     String? deliveryS3KeyPrefix,
     List<String>? excludedAccounts,
+    List<Tag>? tags,
     String? templateBody,
     String? templateS3Uri,
   }) async {
@@ -4789,6 +4981,7 @@ class ConfigService {
         if (deliveryS3KeyPrefix != null)
           'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
         if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
+        if (tags != null) 'Tags': tags,
         if (templateBody != null) 'TemplateBody': templateBody,
         if (templateS3Uri != null) 'TemplateS3Uri': templateS3Uri,
       },
@@ -5227,6 +5420,86 @@ class ConfigService {
     );
 
     return PutStoredQueryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates a service-linked configuration recorder that is linked
+  /// to a third-party cloud service provider based on the
+  /// <code>ConnectorArn</code> you specify.
+  ///
+  /// The configuration recorder's <code>name</code>,
+  /// <code>recordingGroup</code>, <code>recordingMode</code>, and
+  /// <code>recordingScope</code> is set by the service that is linked to the
+  /// configuration recorder.
+  ///
+  /// If a service-linked configuration recorder already exists for the
+  /// specified service principal and connector, calling this operation again
+  /// updates the <code>ScopeConfiguration</code>.
+  /// <note>
+  /// <b>This operation can only be called by the Amazon Web Services service
+  /// linked to the configuration recorder</b>
+  ///
+  /// Customers cannot call this operation directly. Only the linked Amazon Web
+  /// Services service can create or update the service-linked configuration
+  /// recorder.
+  /// </note> <note>
+  /// <b>Tags are added at creation and cannot be updated with this
+  /// operation</b>
+  ///
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html">UntagResource</a>
+  /// to update tags after creation.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InsufficientPermissionsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorArn] :
+  /// The Amazon Resource Name (ARN) of the connector that specifies the
+  /// connection between the third-party cloud service provider and Config. The
+  /// specified connector must exist.
+  ///
+  /// Parameter [scopeConfiguration] :
+  /// Specifies the scope of resources to record from the third-party cloud
+  /// service provider.
+  ///
+  /// Parameter [servicePrincipal] :
+  /// The service principal of the Amazon Web Services service for the
+  /// service-linked configuration recorder that you want to create.
+  ///
+  /// Parameter [tags] :
+  /// The tags for a service-linked configuration recorder. Each tag consists of
+  /// a key and an optional value, both of which you define.
+  Future<PutThirdPartyServiceLinkedConfigurationRecorderResponse>
+      putThirdPartyServiceLinkedConfigurationRecorder({
+    required String connectorArn,
+    required ScopeConfiguration scopeConfiguration,
+    required String servicePrincipal,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'StarlingDoveService.PutThirdPartyServiceLinkedConfigurationRecorder'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConnectorArn': connectorArn,
+        'ScopeConfiguration': scopeConfiguration,
+        'ServicePrincipal': servicePrincipal,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return PutThirdPartyServiceLinkedConfigurationRecorderResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Accepts a structured query language (SQL) SELECT command and an aggregator
@@ -5669,6 +5942,9 @@ class ConfigService {
   /// <li>
   /// <code>StoredQuery</code>
   /// </li>
+  /// <li>
+  /// <code>Connector</code>
+  /// </li>
   /// </ul>
   ///
   /// Parameter [tags] :
@@ -5727,6 +6003,9 @@ class ConfigService {
   /// </li>
   /// <li>
   /// <code>StoredQuery</code>
+  /// </li>
+  /// <li>
+  /// <code>Connector</code>
   /// </li>
   /// </ul>
   ///
@@ -7375,6 +7654,31 @@ class GetConformancePackComplianceSummaryResponse {
 }
 
 /// @nodoc
+class GetConnectorResponse {
+  /// The details of the specified connector.
+  final Connector connector;
+
+  GetConnectorResponse({
+    required this.connector,
+  });
+
+  factory GetConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectorResponse(
+      connector: Connector.fromJson(
+          (json['Connector'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connector = this.connector;
+    return {
+      'Connector': connector,
+    };
+  }
+}
+
+/// @nodoc
 class GetCustomRulePolicyResponse {
   /// The policy definition containing the logic for your Config Custom Policy
   /// rule.
@@ -7823,6 +8127,40 @@ class ListConformancePackComplianceScoresResponse {
   }
 }
 
+/// @nodoc
+class ListConnectorsResponse {
+  /// A list of <code>ConnectorSummary</code> objects.
+  final List<ConnectorSummary> connectorSummaries;
+
+  /// The <code>NextToken</code> string returned on a previous page that you use
+  /// to get the next page of results in a paginated response.
+  final String? nextToken;
+
+  ListConnectorsResponse({
+    required this.connectorSummaries,
+    this.nextToken,
+  });
+
+  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorsResponse(
+      connectorSummaries: ((json['ConnectorSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ConnectorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorSummaries = this.connectorSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'ConnectorSummaries': connectorSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 ///
 ///
 /// @nodoc
@@ -8044,6 +8382,29 @@ class PutConformancePackResponse {
     final conformancePackArn = this.conformancePackArn;
     return {
       if (conformancePackArn != null) 'ConformancePackArn': conformancePackArn,
+    };
+  }
+}
+
+/// @nodoc
+class PutConnectorResponse {
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String arn;
+
+  PutConnectorResponse({
+    required this.arn,
+  });
+
+  factory PutConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return PutConnectorResponse(
+      arn: (json['Arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'Arn': arn,
     };
   }
 }
@@ -8279,6 +8640,37 @@ class PutStoredQueryResponse {
     final queryArn = this.queryArn;
     return {
       if (queryArn != null) 'QueryArn': queryArn,
+    };
+  }
+}
+
+/// @nodoc
+class PutThirdPartyServiceLinkedConfigurationRecorderResponse {
+  /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+  final String arn;
+
+  /// The name of the specified configuration recorder.
+  final String name;
+
+  PutThirdPartyServiceLinkedConfigurationRecorderResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory PutThirdPartyServiceLinkedConfigurationRecorderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutThirdPartyServiceLinkedConfigurationRecorderResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'Arn': arn,
+      'Name': name,
     };
   }
 }
@@ -10171,6 +10563,64 @@ class FieldInfo {
   }
 }
 
+/// Specifies the scope of resources to record from a third-party cloud service
+/// provider.
+///
+/// @nodoc
+class ScopeConfiguration {
+  /// Specifies whether to record resources from all supported regions for the
+  /// third-party cloud service provider.
+  final bool allRegions;
+
+  /// The type of scope for the third-party cloud resources. Valid values include
+  /// <code>tenant</code> and <code>subscription</code>.
+  final String scopeType;
+
+  /// The list of regions from the third-party cloud service provider to include
+  /// when recording resources. Used when <code>allRegions</code> is set to
+  /// <code>false</code>.
+  final List<String>? includedRegions;
+
+  /// The list of specific scope values for the third-party cloud resources. For
+  /// example, a list of Azure subscriptions or management groups.
+  final List<String>? scopeValues;
+
+  ScopeConfiguration({
+    required this.allRegions,
+    required this.scopeType,
+    this.includedRegions,
+    this.scopeValues,
+  });
+
+  factory ScopeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ScopeConfiguration(
+      allRegions: (json['allRegions'] as bool?) ?? false,
+      scopeType: (json['scopeType'] as String?) ?? '',
+      includedRegions: (json['includedRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      scopeValues: (json['scopeValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allRegions = this.allRegions;
+    final scopeType = this.scopeType;
+    final includedRegions = this.includedRegions;
+    final scopeValues = this.scopeValues;
+    return {
+      'allRegions': allRegions,
+      'scopeType': scopeType,
+      if (includedRegions != null) 'includedRegions': includedRegions,
+      if (scopeValues != null) 'scopeValues': scopeValues,
+    };
+  }
+}
+
 /// Provides the details of a stored query.
 ///
 /// @nodoc
@@ -11564,6 +12014,67 @@ class ConfigSnapshotDeliveryProperties {
   }
 }
 
+/// The provider-specific configuration for connecting to the third-party cloud
+/// service provider. You must specify exactly one provider configuration.
+///
+/// @nodoc
+class ConnectorConfiguration {
+  /// The configuration for an Azure connector.
+  final AzureConnectorConfiguration? azure;
+
+  ConnectorConfiguration({
+    this.azure,
+  });
+
+  factory ConnectorConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectorConfiguration(
+      azure: json['azure'] != null
+          ? AzureConnectorConfiguration.fromJson(
+              json['azure'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final azure = this.azure;
+    return {
+      if (azure != null) 'azure': azure,
+    };
+  }
+}
+
+/// The configuration details for connecting to Microsoft Azure.
+///
+/// @nodoc
+class AzureConnectorConfiguration {
+  /// The Azure client identifier.
+  final String clientIdentifier;
+
+  /// The Azure tenant identifier.
+  final String tenantIdentifier;
+
+  AzureConnectorConfiguration({
+    required this.clientIdentifier,
+    required this.tenantIdentifier,
+  });
+
+  factory AzureConnectorConfiguration.fromJson(Map<String, dynamic> json) {
+    return AzureConnectorConfiguration(
+      clientIdentifier: (json['clientIdentifier'] as String?) ?? '',
+      tenantIdentifier: (json['tenantIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIdentifier = this.clientIdentifier;
+    final tenantIdentifier = this.tenantIdentifier;
+    return {
+      'clientIdentifier': clientIdentifier,
+      'tenantIdentifier': tenantIdentifier,
+    };
+  }
+}
+
 /// This API allows you to create a conformance pack template with an Amazon Web
 /// Services Systems Manager document (SSM document). To deploy a conformance
 /// pack using an SSM document, first create an SSM document with conformance
@@ -11621,6 +12132,10 @@ class TemplateSSMDocumentDetails {
 class ConfigurationRecorder {
   /// The Amazon Resource Name (ARN) of the specified configuration recorder.
   final String? arn;
+
+  /// The Amazon Resource Name (ARN) of the connector that specifies the
+  /// connection between a third-party cloud service provider and Config.
+  final String? connectorArn;
 
   /// The name of the configuration recorder.
   ///
@@ -11741,23 +12256,30 @@ class ConfigurationRecorder {
   /// </note>
   final String? roleARN;
 
+  /// Specifies the scope of resources to record from the third-party cloud
+  /// service provider connected through the connector.
+  final ScopeConfiguration? scopeConfiguration;
+
   /// For service-linked configuration recorders, specifies the linked Amazon Web
   /// Services service for the configuration recorder.
   final String? servicePrincipal;
 
   ConfigurationRecorder({
     this.arn,
+    this.connectorArn,
     this.name,
     this.recordingGroup,
     this.recordingMode,
     this.recordingScope,
     this.roleARN,
+    this.scopeConfiguration,
     this.servicePrincipal,
   });
 
   factory ConfigurationRecorder.fromJson(Map<String, dynamic> json) {
     return ConfigurationRecorder(
       arn: json['arn'] as String?,
+      connectorArn: json['connectorArn'] as String?,
       name: json['name'] as String?,
       recordingGroup: json['recordingGroup'] != null
           ? RecordingGroup.fromJson(
@@ -11770,25 +12292,33 @@ class ConfigurationRecorder {
       recordingScope:
           (json['recordingScope'] as String?)?.let(RecordingScope.fromString),
       roleARN: json['roleARN'] as String?,
+      scopeConfiguration: json['scopeConfiguration'] != null
+          ? ScopeConfiguration.fromJson(
+              json['scopeConfiguration'] as Map<String, dynamic>)
+          : null,
       servicePrincipal: json['servicePrincipal'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final connectorArn = this.connectorArn;
     final name = this.name;
     final recordingGroup = this.recordingGroup;
     final recordingMode = this.recordingMode;
     final recordingScope = this.recordingScope;
     final roleARN = this.roleARN;
+    final scopeConfiguration = this.scopeConfiguration;
     final servicePrincipal = this.servicePrincipal;
     return {
       if (arn != null) 'arn': arn,
+      if (connectorArn != null) 'connectorArn': connectorArn,
       if (name != null) 'name': name,
       if (recordingGroup != null) 'recordingGroup': recordingGroup,
       if (recordingMode != null) 'recordingMode': recordingMode,
       if (recordingScope != null) 'recordingScope': recordingScope.value,
       if (roleARN != null) 'roleARN': roleARN,
+      if (scopeConfiguration != null) 'scopeConfiguration': scopeConfiguration,
       if (servicePrincipal != null) 'servicePrincipal': servicePrincipal,
     };
   }
@@ -13767,6 +14297,134 @@ class ResourceIdentifier {
   }
 }
 
+/// A summary of a connector.
+///
+/// @nodoc
+class ConnectorSummary {
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String arn;
+
+  /// The date and time that the connector was created.
+  final DateTime createdTime;
+
+  /// The name of the connector.
+  final String name;
+
+  /// The third-party cloud service provider. Currently, <code>AZURE</code> is
+  /// supported.
+  final Provider provider;
+
+  /// The Azure tenant identifier for the connector.
+  final String tenantIdentifier;
+
+  ConnectorSummary({
+    required this.arn,
+    required this.createdTime,
+    required this.name,
+    required this.provider,
+    required this.tenantIdentifier,
+  });
+
+  factory ConnectorSummary.fromJson(Map<String, dynamic> json) {
+    return ConnectorSummary(
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      provider: Provider.fromString((json['provider'] as String?) ?? ''),
+      tenantIdentifier: (json['tenantIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final name = this.name;
+    final provider = this.provider;
+    final tenantIdentifier = this.tenantIdentifier;
+    return {
+      'arn': arn,
+      'createdTime': unixTimestampToJson(createdTime),
+      'name': name,
+      'provider': provider.value,
+      'tenantIdentifier': tenantIdentifier,
+    };
+  }
+}
+
+/// @nodoc
+class Provider {
+  static const azure = Provider._('AZURE');
+
+  final String value;
+
+  const Provider._(this.value);
+
+  static const values = [azure];
+
+  static Provider fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Provider._(value));
+
+  @override
+  bool operator ==(other) => other is Provider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Filters connectors based on the connector provider.
+///
+/// @nodoc
+class ConnectorFilter {
+  /// The name of the filter. Currently, only <code>provider</code> is supported.
+  final ConnectorFilterName? filterName;
+
+  /// The value of the filter. For <code>provider</code>, valid values include:
+  /// <code>AZURE</code>.
+  final List<String>? filterValues;
+
+  ConnectorFilter({
+    this.filterName,
+    this.filterValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filterName = this.filterName;
+    final filterValues = this.filterValues;
+    return {
+      if (filterName != null) 'filterName': filterName.value,
+      if (filterValues != null) 'filterValues': filterValues,
+    };
+  }
+}
+
+/// @nodoc
+class ConnectorFilterName {
+  static const provider = ConnectorFilterName._('provider');
+
+  final String value;
+
+  const ConnectorFilterName._(this.value);
+
+  static const values = [provider];
+
+  static ConnectorFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A compliance score is the percentage of the number of compliant
 /// rule-resource combinations in a conformance pack compared to the number of
 /// total possible rule-resource combinations in the conformance pack. This
@@ -13887,8 +14545,8 @@ class SortBy {
 }
 
 /// A summary of a configuration recorder, including the <code>arn</code>,
-/// <code>name</code>, <code>servicePrincipal</code>, and
-/// <code>recordingScope</code>.
+/// <code>name</code>, <code>servicePrincipal</code>,
+/// <code>recordingScope</code>, and <code>provider</code>.
 ///
 /// @nodoc
 class ConfigurationRecorderSummary {
@@ -13905,6 +14563,11 @@ class ConfigurationRecorderSummary {
   /// (<code>PAID</code>).
   final RecordingScope recordingScope;
 
+  /// For service-linked configuration recorders that record resources from a
+  /// third-party cloud service provider, indicates the cloud service provider.
+  /// Currently, <code>AZURE</code> is supported.
+  final Provider? provider;
+
   /// For service-linked configuration recorders, indicates which Amazon Web
   /// Services service the configuration recorder is linked to.
   final String? servicePrincipal;
@@ -13913,6 +14576,7 @@ class ConfigurationRecorderSummary {
     required this.arn,
     required this.name,
     required this.recordingScope,
+    this.provider,
     this.servicePrincipal,
   });
 
@@ -13922,6 +14586,7 @@ class ConfigurationRecorderSummary {
       name: (json['name'] as String?) ?? '',
       recordingScope:
           RecordingScope.fromString((json['recordingScope'] as String?) ?? ''),
+      provider: (json['provider'] as String?)?.let(Provider.fromString),
       servicePrincipal: json['servicePrincipal'] as String?,
     );
   }
@@ -13930,11 +14595,13 @@ class ConfigurationRecorderSummary {
     final arn = this.arn;
     final name = this.name;
     final recordingScope = this.recordingScope;
+    final provider = this.provider;
     final servicePrincipal = this.servicePrincipal;
     return {
       'arn': arn,
       'name': name,
       'recordingScope': recordingScope.value,
+      if (provider != null) 'provider': provider.value,
       if (servicePrincipal != null) 'servicePrincipal': servicePrincipal,
     };
   }
@@ -15026,6 +15693,56 @@ class ResourceCount {
     return {
       if (count != null) 'count': count,
       if (resourceType != null) 'resourceType': resourceType.value,
+    };
+  }
+}
+
+/// The details of the connector, including the connector configuration and
+/// connector ARN.
+///
+/// @nodoc
+class Connector {
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String arn;
+
+  /// The provider-specific configuration for connecting to the third-party cloud
+  /// service provider.
+  final ConnectorConfiguration connectorConfiguration;
+
+  /// The date and time that the connector was created.
+  final DateTime createdTime;
+
+  /// The name of the connector.
+  final String name;
+
+  Connector({
+    required this.arn,
+    required this.connectorConfiguration,
+    required this.createdTime,
+    required this.name,
+  });
+
+  factory Connector.fromJson(Map<String, dynamic> json) {
+    return Connector(
+      arn: (json['arn'] as String?) ?? '',
+      connectorConfiguration: ConnectorConfiguration.fromJson(
+          (json['connectorConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final connectorConfiguration = this.connectorConfiguration;
+    final createdTime = this.createdTime;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'connectorConfiguration': connectorConfiguration,
+      'createdTime': unixTimestampToJson(createdTime),
+      'name': name,
     };
   }
 }
@@ -18553,6 +19270,15 @@ class MaxNumberOfConformancePacksExceededException
 }
 
 /// @nodoc
+class MaxNumberOfConnectorsExceededException extends _s.GenericAwsException {
+  MaxNumberOfConnectorsExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'MaxNumberOfConnectorsExceededException',
+            message: message);
+}
+
+/// @nodoc
 class MaxNumberOfDeliveryChannelsExceededException
     extends _s.GenericAwsException {
   MaxNumberOfDeliveryChannelsExceededException({String? type, String? message})
@@ -18883,6 +19609,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'MaxNumberOfConformancePacksExceededException': (type, message) =>
       MaxNumberOfConformancePacksExceededException(
           type: type, message: message),
+  'MaxNumberOfConnectorsExceededException': (type, message) =>
+      MaxNumberOfConnectorsExceededException(type: type, message: message),
   'MaxNumberOfDeliveryChannelsExceededException': (type, message) =>
       MaxNumberOfDeliveryChannelsExceededException(
           type: type, message: message),

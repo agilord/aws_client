@@ -272,6 +272,7 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
+  /// May throw [LimitExceededException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [connectionId] :
@@ -330,6 +331,7 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
+  /// May throw [LimitExceededException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [connectionId] :
@@ -384,6 +386,7 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
+  /// May throw [LimitExceededException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [connectionId] :
@@ -445,6 +448,7 @@ class DirectConnect {
   ///
   /// May throw [DirectConnectClientException].
   /// May throw [DirectConnectServerException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -1333,6 +1337,7 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
+  /// May throw [LimitExceededException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [connectionId] :
@@ -1376,6 +1381,7 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
+  /// May throw [LimitExceededException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [connectionId] :
@@ -1429,6 +1435,7 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
+  /// May throw [LimitExceededException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [connectionId] :
@@ -1472,40 +1479,59 @@ class DirectConnect {
   /// 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide
   /// a number greater than the maximum, an error is returned. Use
   /// <code>asnLong</code> instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [asnLong] :
   /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual
   /// interface. The valid range is from 1 to 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's
+  /// 2-byte or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   ///
   /// Parameter [bgpPeerId] :
   /// The ID of the BGP peer.
@@ -2560,8 +2586,8 @@ class DirectConnect {
   ///
   /// <ul>
   /// <li>
-  /// If you're using an <code>asn</code>, the response includes ASN value in
-  /// both the <code>asn</code> and <code>asnLong</code> fields.
+  /// If you're using an <code>asn</code>, the response includes the ASN value
+  /// in both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you're using <code>asnLong</code>, the response returns a value of
@@ -2701,6 +2727,69 @@ class DirectConnect {
     );
 
     return DisassociateMacSecKeyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the routes for the specified virtual interface.
+  ///
+  /// Use the <code>routeDirection</code> filter to control which routes are
+  /// returned:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>accepted</code>: routes received from the customer network over the
+  /// virtual interface.
+  /// </li>
+  /// <li>
+  /// <code>advertised</code>: routes advertised to the customer network over
+  /// the virtual interface.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
+  ///
+  /// Parameter [filters] :
+  /// The filters to apply to the routes returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [virtualInterfaceId] :
+  /// The ID of the virtual interface.
+  Future<ListVirtualInterfaceRoutesResponse> listVirtualInterfaceRoutes({
+    RouteFilters? filters,
+    int? maxResults,
+    String? nextToken,
+    String? virtualInterfaceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.ListVirtualInterfaceRoutes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (virtualInterfaceId != null)
+          'virtualInterfaceId': virtualInterfaceId,
+      },
+    );
+
+    return ListVirtualInterfaceRoutesResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the virtual interface failover test history.
@@ -3148,12 +3237,18 @@ class DirectConnect {
   /// The maximum transmission unit (MTU), in bytes. The supported values are
   /// 1500 and 8500. The default value is 1500.
   ///
+  /// Parameter [rateLimit] :
+  /// The rate limit (bandwidth allocation) to apply to the virtual interface.
+  /// Use this to update the bandwidth allocation on an existing virtual
+  /// interface.
+  ///
   /// Parameter [virtualInterfaceName] :
   /// The name of the virtual private interface.
   Future<VirtualInterface> updateVirtualInterfaceAttributes({
     required String virtualInterfaceId,
     bool? enableSiteLink,
     int? mtu,
+    String? rateLimit,
     String? virtualInterfaceName,
   }) async {
     final headers = <String, String>{
@@ -3170,6 +3265,7 @@ class DirectConnect {
         'virtualInterfaceId': virtualInterfaceId,
         if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
         if (mtu != null) 'mtu': mtu,
+        if (rateLimit != null) 'rateLimit': rateLimit,
         if (virtualInterfaceName != null)
           'virtualInterfaceName': virtualInterfaceName,
       },
@@ -3324,6 +3420,10 @@ class Connection {
   /// The name of the service provider associated with the connection.
   final String? providerName;
 
+  /// The rate limiter status for the connection, including how many rate limiters
+  /// are in use and the maximum allowed.
+  final RateLimiterStatus? rateLimiterStatus;
+
   /// The Amazon Web Services Region where the connection is located.
   final String? region;
 
@@ -3354,6 +3454,7 @@ class Connection {
     this.partnerName,
     this.portEncryptionStatus,
     this.providerName,
+    this.rateLimiterStatus,
     this.region,
     this.tags,
     this.vlan,
@@ -3387,6 +3488,10 @@ class Connection {
       partnerName: json['partnerName'] as String?,
       portEncryptionStatus: json['portEncryptionStatus'] as String?,
       providerName: json['providerName'] as String?,
+      rateLimiterStatus: json['rateLimiterStatus'] != null
+          ? RateLimiterStatus.fromJson(
+              json['rateLimiterStatus'] as Map<String, dynamic>)
+          : null,
       region: json['region'] as String?,
       tags: (json['tags'] as List?)
           ?.nonNulls
@@ -3418,6 +3523,7 @@ class Connection {
     final partnerName = this.partnerName;
     final portEncryptionStatus = this.portEncryptionStatus;
     final providerName = this.providerName;
+    final rateLimiterStatus = this.rateLimiterStatus;
     final region = this.region;
     final tags = this.tags;
     final vlan = this.vlan;
@@ -3446,6 +3552,7 @@ class Connection {
       if (portEncryptionStatus != null)
         'portEncryptionStatus': portEncryptionStatus,
       if (providerName != null) 'providerName': providerName,
+      if (rateLimiterStatus != null) 'rateLimiterStatus': rateLimiterStatus,
       if (region != null) 'region': region,
       if (tags != null) 'tags': tags,
       if (vlan != null) 'vlan': vlan,
@@ -3470,40 +3577,59 @@ class VirtualInterface {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   final int? asn;
 
   /// The long ASN for the virtual interface. The valid range is from 1 to
   /// 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -3545,6 +3671,35 @@ class VirtualInterface {
 
   /// The ID of the Amazon Web Services account that owns the virtual interface.
   final String? ownerAccount;
+
+  /// The rate limit (bandwidth allocation) applied to the virtual interface. The
+  /// value must be one of the supported bandwidth values and cannot exceed the
+  /// bandwidth of the parent connection or LAG. Supported values:
+  /// <code>50Mbps</code>, <code>100Mbps</code>, <code>200Mbps</code>,
+  /// <code>300Mbps</code>, <code>400Mbps</code>, <code>500Mbps</code>,
+  /// <code>600Mbps</code>, <code>700Mbps</code>, <code>800Mbps</code>,
+  /// <code>900Mbps</code>, <code>1Gbps</code>, <code>1.2Gbps</code>,
+  /// <code>1.5Gbps</code>, <code>1.8Gbps</code>, <code>2Gbps</code>,
+  /// <code>2.1Gbps</code>, <code>2.4Gbps</code>, <code>2.7Gbps</code>,
+  /// <code>3Gbps</code>, <code>3.2Gbps</code>, <code>3.6Gbps</code>,
+  /// <code>4Gbps</code>, <code>5Gbps</code>, <code>6Gbps</code>,
+  /// <code>7Gbps</code>, <code>8Gbps</code>, <code>9Gbps</code>,
+  /// <code>10Gbps</code>, <code>12Gbps</code>, <code>15Gbps</code>,
+  /// <code>18Gbps</code>, <code>20Gbps</code>, <code>21Gbps</code>,
+  /// <code>24Gbps</code>, <code>27Gbps</code>, <code>30Gbps</code>,
+  /// <code>32Gbps</code>, <code>36Gbps</code>, <code>40Gbps</code>,
+  /// <code>50Gbps</code>, <code>60Gbps</code>, <code>70Gbps</code>,
+  /// <code>80Gbps</code>, <code>100Gbps</code>, <code>120Gbps</code>,
+  /// <code>150Gbps</code>, <code>180Gbps</code>, <code>200Gbps</code>,
+  /// <code>210Gbps</code>, <code>240Gbps</code>, <code>270Gbps</code>,
+  /// <code>300Gbps</code>, <code>320Gbps</code>, <code>360Gbps</code>,
+  /// <code>400Gbps</code>, <code>450Gbps</code>, <code>480Gbps</code>,
+  /// <code>500Gbps</code>, <code>540Gbps</code>, <code>600Gbps</code>,
+  /// <code>700Gbps</code>, <code>800Gbps</code>, <code>900Gbps</code>,
+  /// <code>1Tbps</code>, <code>1.1Tbps</code>, <code>1.2Tbps</code>,
+  /// <code>1.3Tbps</code>, <code>1.4Tbps</code>, <code>1.5Tbps</code>,
+  /// <code>1.6Tbps</code>.
+  final String? rateLimit;
 
   /// The Amazon Web Services Region where the virtual interface is located.
   final String? region;
@@ -3646,6 +3801,7 @@ class VirtualInterface {
     this.location,
     this.mtu,
     this.ownerAccount,
+    this.rateLimit,
     this.region,
     this.routeFilterPrefixes,
     this.siteLinkEnabled,
@@ -3681,6 +3837,7 @@ class VirtualInterface {
       location: json['location'] as String?,
       mtu: json['mtu'] as int?,
       ownerAccount: json['ownerAccount'] as String?,
+      rateLimit: json['rateLimit'] as String?,
       region: json['region'] as String?,
       routeFilterPrefixes: (json['routeFilterPrefixes'] as List?)
           ?.nonNulls
@@ -3719,6 +3876,7 @@ class VirtualInterface {
     final location = this.location;
     final mtu = this.mtu;
     final ownerAccount = this.ownerAccount;
+    final rateLimit = this.rateLimit;
     final region = this.region;
     final routeFilterPrefixes = this.routeFilterPrefixes;
     final siteLinkEnabled = this.siteLinkEnabled;
@@ -3749,6 +3907,7 @@ class VirtualInterface {
       if (location != null) 'location': location,
       if (mtu != null) 'mtu': mtu,
       if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (rateLimit != null) 'rateLimit': rateLimit,
       if (region != null) 'region': region,
       if (routeFilterPrefixes != null)
         'routeFilterPrefixes': routeFilterPrefixes,
@@ -4548,6 +4707,10 @@ class Lag {
   /// The name of the service provider associated with the LAG.
   final String? providerName;
 
+  /// The rate limiter status for the LAG, including how many rate limiters are in
+  /// use and the maximum allowed.
+  final RateLimiterStatus? rateLimiterStatus;
+
   /// The Amazon Web Services Region where the connection is located.
   final String? region;
 
@@ -4574,6 +4737,7 @@ class Lag {
     this.numberOfConnections,
     this.ownerAccount,
     this.providerName,
+    this.rateLimiterStatus,
     this.region,
     this.tags,
   });
@@ -4606,6 +4770,10 @@ class Lag {
       numberOfConnections: json['numberOfConnections'] as int?,
       ownerAccount: json['ownerAccount'] as String?,
       providerName: json['providerName'] as String?,
+      rateLimiterStatus: json['rateLimiterStatus'] != null
+          ? RateLimiterStatus.fromJson(
+              json['rateLimiterStatus'] as Map<String, dynamic>)
+          : null,
       region: json['region'] as String?,
       tags: (json['tags'] as List?)
           ?.nonNulls
@@ -4634,6 +4802,7 @@ class Lag {
     final numberOfConnections = this.numberOfConnections;
     final ownerAccount = this.ownerAccount;
     final providerName = this.providerName;
+    final rateLimiterStatus = this.rateLimiterStatus;
     final region = this.region;
     final tags = this.tags;
     return {
@@ -4660,6 +4829,7 @@ class Lag {
         'numberOfConnections': numberOfConnections,
       if (ownerAccount != null) 'ownerAccount': ownerAccount,
       if (providerName != null) 'providerName': providerName,
+      if (rateLimiterStatus != null) 'rateLimiterStatus': rateLimiterStatus,
       if (region != null) 'region': region,
       if (tags != null) 'tags': tags,
     };
@@ -5520,6 +5690,48 @@ class DisassociateMacSecKeyResponse {
 }
 
 /// @nodoc
+class ListVirtualInterfaceRoutesResponse {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// The routes for the virtual interface.
+  final List<Route>? routes;
+
+  /// The ID of the virtual interface.
+  final String? virtualInterfaceId;
+
+  ListVirtualInterfaceRoutesResponse({
+    this.nextToken,
+    this.routes,
+    this.virtualInterfaceId,
+  });
+
+  factory ListVirtualInterfaceRoutesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListVirtualInterfaceRoutesResponse(
+      nextToken: json['nextToken'] as String?,
+      routes: (json['routes'] as List?)
+          ?.nonNulls
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      virtualInterfaceId: json['virtualInterfaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final routes = this.routes;
+    final virtualInterfaceId = this.virtualInterfaceId;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (routes != null) 'routes': routes,
+      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+    };
+  }
+}
+
+/// @nodoc
 class ListVirtualInterfaceTestHistoryResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
@@ -6254,6 +6466,250 @@ class VirtualInterfaceTestHistory {
         'testDurationInMinutes': testDurationInMinutes,
       if (testId != null) 'testId': testId,
       if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+    };
+  }
+}
+
+/// Information about a route for a virtual interface.
+///
+/// @nodoc
+class Route {
+  /// The address family of the route.
+  ///
+  /// The valid values are <code>ipv4</code> and <code>ipv6</code>.
+  final AddressFamily? addressFamily;
+
+  /// The autonomous system (AS) path of the route.
+  final List<AsPathSegment>? asPath;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
+
+  /// The CIDR (prefix) of the route.
+  final String? cidr;
+
+  /// The BGP communities associated with the route.
+  final List<String>? communities;
+
+  /// The direction of the route.
+  ///
+  /// The valid values are <code>accepted</code> (received from the customer
+  /// network) and <code>advertised</code> (advertised to the customer network).
+  final RouteDirection? routeDirection;
+
+  /// The time when the route was installed. The value is displayed in UTC format.
+  final DateTime? routeInstalledAt;
+
+  Route({
+    this.addressFamily,
+    this.asPath,
+    this.awsLogicalDeviceId,
+    this.cidr,
+    this.communities,
+    this.routeDirection,
+    this.routeInstalledAt,
+  });
+
+  factory Route.fromJson(Map<String, dynamic> json) {
+    return Route(
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
+      asPath: (json['asPath'] as List?)
+          ?.nonNulls
+          .map((e) => AsPathSegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
+      cidr: json['cidr'] as String?,
+      communities: (json['communities'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      routeDirection:
+          (json['routeDirection'] as String?)?.let(RouteDirection.fromString),
+      routeInstalledAt: timeStampFromJson(json['routeInstalledAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final asPath = this.asPath;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
+    final cidr = this.cidr;
+    final communities = this.communities;
+    final routeDirection = this.routeDirection;
+    final routeInstalledAt = this.routeInstalledAt;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (asPath != null) 'asPath': asPath,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
+      if (cidr != null) 'cidr': cidr,
+      if (communities != null) 'communities': communities,
+      if (routeDirection != null) 'routeDirection': routeDirection.value,
+      if (routeInstalledAt != null)
+        'routeInstalledAt': unixTimestampToJson(routeInstalledAt),
+    };
+  }
+}
+
+/// @nodoc
+class RouteDirection {
+  static const accepted = RouteDirection._('accepted');
+  static const advertised = RouteDirection._('advertised');
+
+  final String value;
+
+  const RouteDirection._(this.value);
+
+  static const values = [accepted, advertised];
+
+  static RouteDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteDirection._(value));
+
+  @override
+  bool operator ==(other) => other is RouteDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class AddressFamily {
+  static const ipv4 = AddressFamily._('ipv4');
+  static const ipv6 = AddressFamily._('ipv6');
+
+  final String value;
+
+  const AddressFamily._(this.value);
+
+  static const values = [ipv4, ipv6];
+
+  static AddressFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AddressFamily._(value));
+
+  @override
+  bool operator ==(other) => other is AddressFamily && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A segment of an autonomous system (AS) path.
+///
+/// @nodoc
+class AsPathSegment {
+  /// The autonomous system (AS) numbers in the segment.
+  final List<int>? path;
+
+  /// The type of the AS path segment.
+  ///
+  /// The valid values are <code>seq</code> (an ordered <code>AS_SEQUENCE</code>)
+  /// and <code>set</code> (an unordered <code>AS_SET</code>).
+  final AsPathType? pathType;
+
+  AsPathSegment({
+    this.path,
+    this.pathType,
+  });
+
+  factory AsPathSegment.fromJson(Map<String, dynamic> json) {
+    return AsPathSegment(
+      path: (json['path'] as List?)?.nonNulls.map((e) => e as int).toList(),
+      pathType: (json['pathType'] as String?)?.let(AsPathType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final pathType = this.pathType;
+    return {
+      if (path != null) 'path': path,
+      if (pathType != null) 'pathType': pathType.value,
+    };
+  }
+}
+
+/// @nodoc
+class AsPathType {
+  static const seq = AsPathType._('seq');
+  static const set = AsPathType._('set');
+
+  final String value;
+
+  const AsPathType._(this.value);
+
+  static const values = [seq, set];
+
+  static AsPathType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AsPathType._(value));
+
+  @override
+  bool operator ==(other) => other is AsPathType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The filters used to limit the routes returned by
+/// <a>ListVirtualInterfaceRoutes</a>.
+///
+/// @nodoc
+class RouteFilters {
+  /// The address family of the routes to return.
+  ///
+  /// The valid values are <code>ipv4</code> and <code>ipv6</code>.
+  final AddressFamily? addressFamily;
+
+  /// The autonomous system (AS) numbers used to filter the routes by their AS
+  /// path.
+  final List<int>? asPath;
+
+  /// The CIDRs (prefixes) used to filter the routes. You can specify up to 10
+  /// CIDRs.
+  final List<String>? cidrs;
+
+  /// The BGP communities used to filter the routes.
+  final List<String>? communities;
+
+  /// The direction of the routes to return.
+  ///
+  /// The valid values are <code>accepted</code> (routes received from the
+  /// customer network) and <code>advertised</code> (routes advertised to the
+  /// customer network).
+  final RouteDirection? routeDirection;
+
+  RouteFilters({
+    this.addressFamily,
+    this.asPath,
+    this.cidrs,
+    this.communities,
+    this.routeDirection,
+  });
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final asPath = this.asPath;
+    final cidrs = this.cidrs;
+    final communities = this.communities;
+    final routeDirection = this.routeDirection;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (asPath != null) 'asPath': asPath,
+      if (cidrs != null) 'cidrs': cidrs,
+      if (communities != null) 'communities': communities,
+      if (routeDirection != null) 'routeDirection': routeDirection.value,
     };
   }
 }
@@ -7018,40 +7474,59 @@ class NewTransitVirtualInterface {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   final int? asn;
 
   /// The long ASN for a new transit virtual interface.The valid range is from 1
   /// to 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -7070,6 +7545,11 @@ class NewTransitVirtualInterface {
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 8500. The default value is 1500.
   final int? mtu;
+
+  /// The rate limit (bandwidth allocation) to apply to the virtual interface. The
+  /// rate limit restricts the maximum bandwidth that the virtual interface can
+  /// use on the parent connection.
+  final String? rateLimit;
 
   /// The tags associated with the transitive virtual interface.
   final List<Tag>? tags;
@@ -7092,6 +7572,7 @@ class NewTransitVirtualInterface {
     this.directConnectGatewayId,
     this.enableSiteLink,
     this.mtu,
+    this.rateLimit,
     this.tags,
     this.virtualInterfaceName,
     this.vlan,
@@ -7107,6 +7588,7 @@ class NewTransitVirtualInterface {
     final directConnectGatewayId = this.directConnectGatewayId;
     final enableSiteLink = this.enableSiteLink;
     final mtu = this.mtu;
+    final rateLimit = this.rateLimit;
     final tags = this.tags;
     final virtualInterfaceName = this.virtualInterfaceName;
     final vlan = this.vlan;
@@ -7121,37 +7603,13 @@ class NewTransitVirtualInterface {
         'directConnectGatewayId': directConnectGatewayId,
       if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
       if (mtu != null) 'mtu': mtu,
+      if (rateLimit != null) 'rateLimit': rateLimit,
       if (tags != null) 'tags': tags,
       if (virtualInterfaceName != null)
         'virtualInterfaceName': virtualInterfaceName,
       if (vlan != null) 'vlan': vlan,
     };
   }
-}
-
-/// @nodoc
-class AddressFamily {
-  static const ipv4 = AddressFamily._('ipv4');
-  static const ipv6 = AddressFamily._('ipv6');
-
-  final String value;
-
-  const AddressFamily._(this.value);
-
-  static const values = [ipv4, ipv6];
-
-  static AddressFamily fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AddressFamily._(value));
-
-  @override
-  bool operator ==(other) => other is AddressFamily && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Information about a public virtual interface.
@@ -7176,40 +7634,59 @@ class NewPublicVirtualInterface {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   final int? asn;
 
   /// The long ASN for a new public virtual interface. The valid range is from 1
   /// to 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -7218,6 +7695,11 @@ class NewPublicVirtualInterface {
 
   /// The IP address assigned to the customer interface.
   final String? customerAddress;
+
+  /// The rate limit (bandwidth allocation) to apply to the virtual interface. The
+  /// rate limit restricts the maximum bandwidth that the virtual interface can
+  /// use on the parent connection.
+  final String? rateLimit;
 
   /// The routes to be advertised to the Amazon Web Services network in this
   /// Region. Applies to public virtual interfaces.
@@ -7235,6 +7717,7 @@ class NewPublicVirtualInterface {
     this.asnLong,
     this.authKey,
     this.customerAddress,
+    this.rateLimit,
     this.routeFilterPrefixes,
     this.tags,
   });
@@ -7248,6 +7731,7 @@ class NewPublicVirtualInterface {
     final asnLong = this.asnLong;
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
+    final rateLimit = this.rateLimit;
     final routeFilterPrefixes = this.routeFilterPrefixes;
     final tags = this.tags;
     return {
@@ -7259,6 +7743,7 @@ class NewPublicVirtualInterface {
       if (asnLong != null) 'asnLong': asnLong,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
+      if (rateLimit != null) 'rateLimit': rateLimit,
       if (routeFilterPrefixes != null)
         'routeFilterPrefixes': routeFilterPrefixes,
       if (tags != null) 'tags': tags,
@@ -7288,41 +7773,60 @@ class NewPrivateVirtualInterface {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   /// The valid values are 1-2147483646.
   final int? asn;
 
   /// The long ASN for a new private virtual interface. The valid range is from 1
   /// to 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -7342,6 +7846,11 @@ class NewPrivateVirtualInterface {
   /// and 8500. The default value is 1500.
   final int? mtu;
 
+  /// The rate limit (bandwidth allocation) to apply to the virtual interface. The
+  /// rate limit restricts the maximum bandwidth that the virtual interface can
+  /// use on the parent connection.
+  final String? rateLimit;
+
   /// The tags associated with the private virtual interface.
   final List<Tag>? tags;
 
@@ -7360,6 +7869,7 @@ class NewPrivateVirtualInterface {
     this.directConnectGatewayId,
     this.enableSiteLink,
     this.mtu,
+    this.rateLimit,
     this.tags,
     this.virtualGatewayId,
   });
@@ -7376,6 +7886,7 @@ class NewPrivateVirtualInterface {
     final directConnectGatewayId = this.directConnectGatewayId;
     final enableSiteLink = this.enableSiteLink;
     final mtu = this.mtu;
+    final rateLimit = this.rateLimit;
     final tags = this.tags;
     final virtualGatewayId = this.virtualGatewayId;
     return {
@@ -7391,6 +7902,7 @@ class NewPrivateVirtualInterface {
         'directConnectGatewayId': directConnectGatewayId,
       if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
       if (mtu != null) 'mtu': mtu,
+      if (rateLimit != null) 'rateLimit': rateLimit,
       if (tags != null) 'tags': tags,
       if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
     };
@@ -7459,6 +7971,54 @@ class HasLogicalRedundancy {
 
   @override
   String toString() => value;
+}
+
+/// Contains information about the rate limiter status for a connection,
+/// including the maximum number of rate limiters allowed, the number currently
+/// in use, and the remaining capacity.
+///
+/// @nodoc
+class RateLimiterStatus {
+  /// The number of rate limiters currently in use on the connection.
+  final int? inUse;
+
+  /// The maximum number of rate limiters allowed on the connection.
+  final int? maxAllowed;
+
+  /// The number of rate limiters remaining (available) on the connection.
+  final int? remaining;
+
+  /// The total bandwidth allocated across all rate limiters on the connection.
+  final String? totalBandwidth;
+
+  RateLimiterStatus({
+    this.inUse,
+    this.maxAllowed,
+    this.remaining,
+    this.totalBandwidth,
+  });
+
+  factory RateLimiterStatus.fromJson(Map<String, dynamic> json) {
+    return RateLimiterStatus(
+      inUse: json['inUse'] as int?,
+      maxAllowed: json['maxAllowed'] as int?,
+      remaining: json['remaining'] as int?,
+      totalBandwidth: json['totalBandwidth'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inUse = this.inUse;
+    final maxAllowed = this.maxAllowed;
+    final remaining = this.remaining;
+    final totalBandwidth = this.totalBandwidth;
+    return {
+      if (inUse != null) 'inUse': inUse,
+      if (maxAllowed != null) 'maxAllowed': maxAllowed,
+      if (remaining != null) 'remaining': remaining,
+      if (totalBandwidth != null) 'totalBandwidth': totalBandwidth,
+    };
+  }
 }
 
 /// Information about a new BGP peer.
@@ -7571,41 +8131,60 @@ class NewTransitVirtualInterfaceAllocation {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   /// The valid values are 1-2147483646.
   final int? asn;
 
   /// The ASN when allocating a new transit virtual interface. The valid range is
   /// from 1 to 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -7618,6 +8197,11 @@ class NewTransitVirtualInterfaceAllocation {
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 8500. The default value is 1500
   final int? mtu;
+
+  /// The rate limit (bandwidth allocation) to apply to the virtual interface. The
+  /// rate limit restricts the maximum bandwidth that the virtual interface can
+  /// use on the parent connection.
+  final String? rateLimit;
 
   /// The tags associated with the transitive virtual interface.
   final List<Tag>? tags;
@@ -7638,6 +8222,7 @@ class NewTransitVirtualInterfaceAllocation {
     this.authKey,
     this.customerAddress,
     this.mtu,
+    this.rateLimit,
     this.tags,
     this.virtualInterfaceName,
     this.vlan,
@@ -7651,6 +8236,7 @@ class NewTransitVirtualInterfaceAllocation {
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
     final mtu = this.mtu;
+    final rateLimit = this.rateLimit;
     final tags = this.tags;
     final virtualInterfaceName = this.virtualInterfaceName;
     final vlan = this.vlan;
@@ -7662,6 +8248,7 @@ class NewTransitVirtualInterfaceAllocation {
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
       if (mtu != null) 'mtu': mtu,
+      if (rateLimit != null) 'rateLimit': rateLimit,
       if (tags != null) 'tags': tags,
       if (virtualInterfaceName != null)
         'virtualInterfaceName': virtualInterfaceName,
@@ -7693,41 +8280,60 @@ class NewPublicVirtualInterfaceAllocation {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   /// The valid values are 1-2147483646.
   final int? asn;
 
   /// The ASN when allocating a new public virtual interface. The valid range is
   /// from 1 to 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -7736,6 +8342,11 @@ class NewPublicVirtualInterfaceAllocation {
 
   /// The IP address assigned to the customer interface.
   final String? customerAddress;
+
+  /// The rate limit (bandwidth allocation) to apply to the virtual interface. The
+  /// rate limit restricts the maximum bandwidth that the virtual interface can
+  /// use on the parent connection.
+  final String? rateLimit;
 
   /// The routes to be advertised to the Amazon Web Services network in this
   /// Region. Applies to public virtual interfaces.
@@ -7753,6 +8364,7 @@ class NewPublicVirtualInterfaceAllocation {
     this.asnLong,
     this.authKey,
     this.customerAddress,
+    this.rateLimit,
     this.routeFilterPrefixes,
     this.tags,
   });
@@ -7766,6 +8378,7 @@ class NewPublicVirtualInterfaceAllocation {
     final asnLong = this.asnLong;
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
+    final rateLimit = this.rateLimit;
     final routeFilterPrefixes = this.routeFilterPrefixes;
     final tags = this.tags;
     return {
@@ -7777,6 +8390,7 @@ class NewPublicVirtualInterfaceAllocation {
       if (asnLong != null) 'asnLong': asnLong,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
+      if (rateLimit != null) 'rateLimit': rateLimit,
       if (routeFilterPrefixes != null)
         'routeFilterPrefixes': routeFilterPrefixes,
       if (tags != null) 'tags': tags,
@@ -7798,40 +8412,59 @@ class BGPPeer {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   final int? asn;
 
   /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for
   /// BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -8028,41 +8661,60 @@ class NewPrivateVirtualInterfaceAllocation {
   /// for Border Gateway Protocol (BGP) configuration. If you provide a number
   /// greater than the maximum, an error is returned. Use <code>asnLong</code>
   /// instead.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// <li>
+  /// If you enter a 4-byte ASN for the <code>asn</code> parameter, the API
+  /// returns an error.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// </ul>
   /// The valid values are 1-2147483646.
   final int? asn;
 
   /// The ASN when allocating a new private virtual interface. The valid range is
   /// from 1 to 4294967294 for BGP configuration.
-  /// <note>
-  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
-  /// recommend using <code>asnLong</code> as it supports a greater pool of
-  /// numbers.
+  ///
+  /// Note the following limitations when using <code>asnLong</code>:
   ///
   /// <ul>
   /// <li>
-  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  /// </li>
+  /// <li>
+  /// <code>asnLong</code> accepts any valid ASN value, regardless if it's 2-byte
+  /// or 4-byte.
+  /// </li>
+  /// <li>
+  /// When using a 4-byte <code>asnLong</code>, the API response returns
+  /// <code>0</code> for the legacy <code>asn</code> attribute since 4-byte ASN
+  /// values exceed the maximum supported value of 2,147,483,647.
+  /// </li>
+  /// <li>
+  /// If you are using a 2-byte ASN, the API response will include the 2-byte
+  /// value for both the <code>asn</code> and <code>asnLong</code> fields.
   /// </li>
   /// <li>
   /// If you provide a value in the same API call for both <code>asn</code> and
   /// <code>asnLong</code>, the API will only accept the value for
   /// <code>asnLong</code>.
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
@@ -8075,6 +8727,11 @@ class NewPrivateVirtualInterfaceAllocation {
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 8500. The default value is 1500.
   final int? mtu;
+
+  /// The rate limit (bandwidth allocation) to apply to the virtual interface. The
+  /// rate limit restricts the maximum bandwidth that the virtual interface can
+  /// use on the parent connection.
+  final String? rateLimit;
 
   /// The tags associated with the private virtual interface.
   final List<Tag>? tags;
@@ -8089,6 +8746,7 @@ class NewPrivateVirtualInterfaceAllocation {
     this.authKey,
     this.customerAddress,
     this.mtu,
+    this.rateLimit,
     this.tags,
   });
 
@@ -8102,6 +8760,7 @@ class NewPrivateVirtualInterfaceAllocation {
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
     final mtu = this.mtu;
+    final rateLimit = this.rateLimit;
     final tags = this.tags;
     return {
       'virtualInterfaceName': virtualInterfaceName,
@@ -8113,6 +8772,7 @@ class NewPrivateVirtualInterfaceAllocation {
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
       if (mtu != null) 'mtu': mtu,
+      if (rateLimit != null) 'rateLimit': rateLimit,
       if (tags != null) 'tags': tags,
     };
   }
@@ -8139,6 +8799,12 @@ class DuplicateTagKeysException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class LimitExceededException extends _s.GenericAwsException {
+  LimitExceededException({String? type, String? message})
+      : super(type: type, code: 'LimitExceededException', message: message);
+}
+
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
@@ -8151,6 +8817,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DirectConnectServerException(type: type, message: message),
   'DuplicateTagKeysException': (type, message) =>
       DuplicateTagKeysException(type: type, message: message),
+  'LimitExceededException': (type, message) =>
+      LimitExceededException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
 };

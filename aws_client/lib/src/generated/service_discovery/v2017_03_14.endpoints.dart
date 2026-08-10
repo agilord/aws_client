@@ -38,7 +38,7 @@ ResolvedEndpoint resolveEndpoint({
         throw EndpointResolutionException(
             'FIPS and DualStack are enabled, but this partition does not support one or both');
       }
-      if (useFips == true) {
+      if ((useFips == true) && (useDualStack == false)) {
         if (partitionResult.supportsFips == true) {
           return ResolvedEndpoint(
               url:
@@ -47,20 +47,8 @@ ResolvedEndpoint resolveEndpoint({
         throw EndpointResolutionException(
             'FIPS is enabled but this partition does not support FIPS');
       }
-      if (useDualStack == true) {
+      if ((useFips == false) && (useDualStack == true)) {
         if (true == partitionResult.supportsDualStack) {
-          if ('aws' == partitionResult.name) {
-            return ResolvedEndpoint(
-                url: 'https://servicediscovery.$region.amazonaws.com');
-          }
-          if ('aws-cn' == partitionResult.name) {
-            return ResolvedEndpoint(
-                url: 'https://servicediscovery.$region.amazonaws.com.cn');
-          }
-          if ('aws-us-gov' == partitionResult.name) {
-            return ResolvedEndpoint(
-                url: 'https://servicediscovery.$region.amazonaws.com');
-          }
           return ResolvedEndpoint(
               url:
                   'https://servicediscovery.$region.${partitionResult.dualStackDnsSuffix}');

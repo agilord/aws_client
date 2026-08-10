@@ -326,6 +326,33 @@ class SocialMessaging {
     return ListLinkedWhatsAppBusinessAccountsOutput.fromJson(response);
   }
 
+  /// Creates a Meta Conversions API dataset for a WhatsApp Business Account.
+  ///
+  /// May throw [AccessDeniedByMetaException].
+  /// May throw [DependencyException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottledRequestException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the WhatsApp Business Account to create a dataset for, formatted
+  /// as <code>waba-01234567890123456789012345678901</code>.
+  Future<CreateWhatsAppDatasetOutput> createWhatsAppDataset({
+    required String id,
+  }) async {
+    final $payload = <String, dynamic>{
+      'id': id,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/whatsapp/waba/dataset',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWhatsAppDatasetOutput.fromJson(response);
+  }
+
   /// Creates a new WhatsApp Flow. Flows enable businesses to create rich,
   /// interactive forms and experiences that users can complete without leaving
   /// WhatsApp. The Flow is created in DRAFT status. If <code>publish</code> is
@@ -965,6 +992,46 @@ class SocialMessaging {
     );
   }
 
+  /// Sends a conversion event to Meta's Conversions API for the specified
+  /// WhatsApp Business Account dataset.
+  ///
+  /// May throw [AccessDeniedByMetaException].
+  /// May throw [DependencyException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottledRequestException].
+  ///
+  /// Parameter [datasetId] :
+  /// The Meta-generated dataset ID to send the event to.
+  ///
+  /// Parameter [eventData] :
+  /// The raw Meta Conversions API event payload as a JSON blob. See <a
+  /// href="https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event">Meta's
+  /// server event parameters</a> for the supported format.
+  ///
+  /// Parameter [id] :
+  /// The ID of the WhatsApp Business Account associated with the dataset,
+  /// formatted as <code>waba-01234567890123456789012345678901</code>.
+  Future<SendWhatsAppConversionEventOutput> sendWhatsAppConversionEvent({
+    required String datasetId,
+    required Uint8List eventData,
+    required String id,
+  }) async {
+    final $payload = <String, dynamic>{
+      'datasetId': datasetId,
+      'eventData': base64Encode(eventData),
+      'id': id,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/whatsapp/waba/dataset/events',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendWhatsAppConversionEventOutput.fromJson(response);
+  }
+
   /// Updates the metadata of a WhatsApp Flow, such as its name or categories.
   /// This does not update the Flow JSON definition. Use <a
   /// href="https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_UpdateWhatsAppFlowAssets.html">UpdateWhatsAppFlowAssets</a>
@@ -1546,6 +1613,29 @@ class ListLinkedWhatsAppBusinessAccountsOutput {
 }
 
 /// @nodoc
+class CreateWhatsAppDatasetOutput {
+  /// The Meta-generated dataset ID, a numeric string of 10 to 20 digits.
+  final String datasetId;
+
+  CreateWhatsAppDatasetOutput({
+    required this.datasetId,
+  });
+
+  factory CreateWhatsAppDatasetOutput.fromJson(Map<String, dynamic> json) {
+    return CreateWhatsAppDatasetOutput(
+      datasetId: (json['datasetId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetId = this.datasetId;
+    return {
+      'datasetId': datasetId,
+    };
+  }
+}
+
+/// @nodoc
 class CreateWhatsAppFlowOutput {
   /// The unique identifier assigned to the Flow by Meta.
   final String? flowId;
@@ -2056,6 +2146,30 @@ class PutWhatsAppBusinessAccountEventDestinationsOutput {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class SendWhatsAppConversionEventOutput {
+  /// The unique identifier for the conversion event request.
+  final String requestId;
+
+  SendWhatsAppConversionEventOutput({
+    required this.requestId,
+  });
+
+  factory SendWhatsAppConversionEventOutput.fromJson(
+      Map<String, dynamic> json) {
+    return SendWhatsAppConversionEventOutput(
+      requestId: (json['requestId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestId = this.requestId;
+    return {
+      'requestId': requestId,
+    };
   }
 }
 
@@ -3192,6 +3306,11 @@ class LinkedWhatsAppBusinessAccountSummary {
   /// The name of the linked WhatsApp Business Account.
   final String wabaName;
 
+  /// The Meta Conversions API dataset ID associated with this WhatsApp Business
+  /// Account. This value is a numeric string of 10 to 20 digits. This field is
+  /// not present when no dataset has been created for this account.
+  final String? datasetId;
+
   /// The onboarding status for the Marketing Messages API. This value is fetched
   /// from Meta and indicates whether the WhatsApp Business Account is onboarded
   /// for Meta's Marketing Messages API.
@@ -3205,6 +3324,7 @@ class LinkedWhatsAppBusinessAccountSummary {
     required this.registrationStatus,
     required this.wabaId,
     required this.wabaName,
+    this.datasetId,
     this.marketingMessagesOnboardingStatus,
   });
 
@@ -3223,6 +3343,7 @@ class LinkedWhatsAppBusinessAccountSummary {
           (json['registrationStatus'] as String?) ?? ''),
       wabaId: (json['wabaId'] as String?) ?? '',
       wabaName: (json['wabaName'] as String?) ?? '',
+      datasetId: json['datasetId'] as String?,
       marketingMessagesOnboardingStatus:
           json['marketingMessagesOnboardingStatus'] as String?,
     );
@@ -3236,6 +3357,7 @@ class LinkedWhatsAppBusinessAccountSummary {
     final registrationStatus = this.registrationStatus;
     final wabaId = this.wabaId;
     final wabaName = this.wabaName;
+    final datasetId = this.datasetId;
     final marketingMessagesOnboardingStatus =
         this.marketingMessagesOnboardingStatus;
     return {
@@ -3246,6 +3368,7 @@ class LinkedWhatsAppBusinessAccountSummary {
       'registrationStatus': registrationStatus.value,
       'wabaId': wabaId,
       'wabaName': wabaName,
+      if (datasetId != null) 'datasetId': datasetId,
       if (marketingMessagesOnboardingStatus != null)
         'marketingMessagesOnboardingStatus': marketingMessagesOnboardingStatus,
     };
@@ -3307,6 +3430,11 @@ class LinkedWhatsAppBusinessAccount {
   /// The name of the linked WhatsApp Business Account.
   final String wabaName;
 
+  /// The Meta Conversions API dataset ID associated with this WhatsApp Business
+  /// Account. This value is a numeric string of 10 to 20 digits. This field is
+  /// not present when no dataset has been created for this account.
+  final String? datasetId;
+
   /// The onboarding status for the Marketing Messages API. This value is fetched
   /// from Meta and indicates whether the WhatsApp Business Account is onboarded
   /// for Meta's Marketing Messages API.
@@ -3321,6 +3449,7 @@ class LinkedWhatsAppBusinessAccount {
     required this.registrationStatus,
     required this.wabaId,
     required this.wabaName,
+    this.datasetId,
     this.marketingMessagesOnboardingStatus,
   });
 
@@ -3343,6 +3472,7 @@ class LinkedWhatsAppBusinessAccount {
           (json['registrationStatus'] as String?) ?? ''),
       wabaId: (json['wabaId'] as String?) ?? '',
       wabaName: (json['wabaName'] as String?) ?? '',
+      datasetId: json['datasetId'] as String?,
       marketingMessagesOnboardingStatus:
           json['marketingMessagesOnboardingStatus'] as String?,
     );
@@ -3357,6 +3487,7 @@ class LinkedWhatsAppBusinessAccount {
     final registrationStatus = this.registrationStatus;
     final wabaId = this.wabaId;
     final wabaName = this.wabaName;
+    final datasetId = this.datasetId;
     final marketingMessagesOnboardingStatus =
         this.marketingMessagesOnboardingStatus;
     return {
@@ -3368,6 +3499,7 @@ class LinkedWhatsAppBusinessAccount {
       'registrationStatus': registrationStatus.value,
       'wabaId': wabaId,
       'wabaName': wabaName,
+      if (datasetId != null) 'datasetId': datasetId,
       if (marketingMessagesOnboardingStatus != null)
         'marketingMessagesOnboardingStatus': marketingMessagesOnboardingStatus,
     };

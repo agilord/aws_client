@@ -1530,6 +1530,9 @@ class OfferSummary {
   /// The buyer accounts in the offer.
   final List<String>? buyerAccounts;
 
+  /// The creation source of the offer.
+  final OfferCreatedBySourceString? createdBySource;
+
   /// The name of the offer.
   final String? name;
 
@@ -1548,18 +1551,27 @@ class OfferSummary {
   /// The status of the offer.
   final OfferStateString? state;
 
+  /// The target agreement ID of the offer.
+  final String? targetAgreementId;
+
+  /// The target agreement intent of the offer.
+  final OfferTargetAgreementIntentString? targetAgreementIntent;
+
   /// The targeting in the offer.
   final List<OfferTargetingString>? targeting;
 
   OfferSummary({
     this.availabilityEndDate,
     this.buyerAccounts,
+    this.createdBySource,
     this.name,
     this.offerSetId,
     this.productId,
     this.releaseDate,
     this.resaleAuthorizationId,
     this.state,
+    this.targetAgreementId,
+    this.targetAgreementIntent,
     this.targeting,
   });
 
@@ -1570,12 +1582,17 @@ class OfferSummary {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      createdBySource: (json['CreatedBySource'] as String?)
+          ?.let(OfferCreatedBySourceString.fromString),
       name: json['Name'] as String?,
       offerSetId: json['OfferSetId'] as String?,
       productId: json['ProductId'] as String?,
       releaseDate: json['ReleaseDate'] as String?,
       resaleAuthorizationId: json['ResaleAuthorizationId'] as String?,
       state: (json['State'] as String?)?.let(OfferStateString.fromString),
+      targetAgreementId: json['TargetAgreementId'] as String?,
+      targetAgreementIntent: (json['TargetAgreementIntent'] as String?)
+          ?.let(OfferTargetAgreementIntentString.fromString),
       targeting: (json['Targeting'] as List?)
           ?.nonNulls
           .map((e) => OfferTargetingString.fromString((e as String)))
@@ -1586,17 +1603,21 @@ class OfferSummary {
   Map<String, dynamic> toJson() {
     final availabilityEndDate = this.availabilityEndDate;
     final buyerAccounts = this.buyerAccounts;
+    final createdBySource = this.createdBySource;
     final name = this.name;
     final offerSetId = this.offerSetId;
     final productId = this.productId;
     final releaseDate = this.releaseDate;
     final resaleAuthorizationId = this.resaleAuthorizationId;
     final state = this.state;
+    final targetAgreementId = this.targetAgreementId;
+    final targetAgreementIntent = this.targetAgreementIntent;
     final targeting = this.targeting;
     return {
       if (availabilityEndDate != null)
         'AvailabilityEndDate': availabilityEndDate,
       if (buyerAccounts != null) 'BuyerAccounts': buyerAccounts,
+      if (createdBySource != null) 'CreatedBySource': createdBySource.value,
       if (name != null) 'Name': name,
       if (offerSetId != null) 'OfferSetId': offerSetId,
       if (productId != null) 'ProductId': productId,
@@ -1604,6 +1625,9 @@ class OfferSummary {
       if (resaleAuthorizationId != null)
         'ResaleAuthorizationId': resaleAuthorizationId,
       if (state != null) 'State': state.value,
+      if (targetAgreementId != null) 'TargetAgreementId': targetAgreementId,
+      if (targetAgreementIntent != null)
+        'TargetAgreementIntent': targetAgreementIntent.value,
       if (targeting != null)
         'Targeting': targeting.map((e) => e.value).toList(),
     };
@@ -1644,6 +1668,9 @@ class ResaleAuthorizationSummary {
   /// The reseller legal name of the ResaleAuthorization
   final String? resellerLegalName;
 
+  /// The reseller role of the ResaleAuthorization.
+  final ResaleAuthorizationResellerRoleString? resellerRole;
+
   /// The status of the ResaleAuthorization.
   final ResaleAuthorizationStatusString? status;
 
@@ -1658,6 +1685,7 @@ class ResaleAuthorizationSummary {
     this.productName,
     this.resellerAccountID,
     this.resellerLegalName,
+    this.resellerRole,
     this.status,
   });
 
@@ -1673,6 +1701,8 @@ class ResaleAuthorizationSummary {
       productName: json['ProductName'] as String?,
       resellerAccountID: json['ResellerAccountID'] as String?,
       resellerLegalName: json['ResellerLegalName'] as String?,
+      resellerRole: (json['ResellerRole'] as String?)
+          ?.let(ResaleAuthorizationResellerRoleString.fromString),
       status: (json['Status'] as String?)
           ?.let(ResaleAuthorizationStatusString.fromString),
     );
@@ -1689,6 +1719,7 @@ class ResaleAuthorizationSummary {
     final productName = this.productName;
     final resellerAccountID = this.resellerAccountID;
     final resellerLegalName = this.resellerLegalName;
+    final resellerRole = this.resellerRole;
     final status = this.status;
     return {
       if (availabilityEndDate != null)
@@ -1705,6 +1736,7 @@ class ResaleAuthorizationSummary {
       if (productName != null) 'ProductName': productName,
       if (resellerAccountID != null) 'ResellerAccountID': resellerAccountID,
       if (resellerLegalName != null) 'ResellerLegalName': resellerLegalName,
+      if (resellerRole != null) 'ResellerRole': resellerRole.value,
       if (status != null) 'Status': status.value,
     };
   }
@@ -1902,6 +1934,34 @@ class ResaleAuthorizationStatusString {
 }
 
 /// @nodoc
+class ResaleAuthorizationResellerRoleString {
+  static const channelPartner =
+      ResaleAuthorizationResellerRoleString._('ChannelPartner');
+  static const distributor =
+      ResaleAuthorizationResellerRoleString._('Distributor');
+
+  final String value;
+
+  const ResaleAuthorizationResellerRoleString._(this.value);
+
+  static const values = [channelPartner, distributor];
+
+  static ResaleAuthorizationResellerRoleString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResaleAuthorizationResellerRoleString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResaleAuthorizationResellerRoleString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class OfferStateString {
   static const draft = OfferStateString._('Draft');
   static const released = OfferStateString._('Released');
@@ -1918,6 +1978,57 @@ class OfferStateString {
 
   @override
   bool operator ==(other) => other is OfferStateString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class OfferTargetAgreementIntentString {
+  static const renew = OfferTargetAgreementIntentString._('Renew');
+
+  final String value;
+
+  const OfferTargetAgreementIntentString._(this.value);
+
+  static const values = [renew];
+
+  static OfferTargetAgreementIntentString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferTargetAgreementIntentString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OfferTargetAgreementIntentString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class OfferCreatedBySourceString {
+  static const seller = OfferCreatedBySourceString._('Seller');
+  static const awsMarketplace = OfferCreatedBySourceString._('AwsMarketplace');
+
+  final String value;
+
+  const OfferCreatedBySourceString._(this.value);
+
+  static const values = [seller, awsMarketplace];
+
+  static OfferCreatedBySourceString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferCreatedBySourceString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OfferCreatedBySourceString && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2664,6 +2775,9 @@ class OfferSortBy {
   static const targeting = OfferSortBy._('Targeting');
   static const lastModifiedDate = OfferSortBy._('LastModifiedDate');
   static const offerSetId = OfferSortBy._('OfferSetId');
+  static const targetAgreementId = OfferSortBy._('TargetAgreementId');
+  static const targetAgreementIntent = OfferSortBy._('TargetAgreementIntent');
+  static const createdBySource = OfferSortBy._('CreatedBySource');
 
   final String value;
 
@@ -2680,7 +2794,10 @@ class OfferSortBy {
     state,
     targeting,
     lastModifiedDate,
-    offerSetId
+    offerSetId,
+    targetAgreementId,
+    targetAgreementIntent,
+    createdBySource
   ];
 
   static OfferSortBy fromString(String value) => values
@@ -2913,6 +3030,9 @@ class OfferFilters {
   /// Allows filtering on the <code>BuyerAccounts</code> of an offer.
   final OfferBuyerAccountsFilter? buyerAccounts;
 
+  /// Allows filtering on the <code>CreatedBySource</code> of an offer.
+  final OfferCreatedBySourceFilter? createdBySource;
+
   /// Allows filtering on <code>EntityId</code> of an offer.
   final OfferEntityIdFilter? entityId;
 
@@ -2941,12 +3061,19 @@ class OfferFilters {
   /// Allows filtering on the <code>State</code> of an offer.
   final OfferStateFilter? state;
 
+  /// Allows filtering on the <code>TargetAgreementId</code> of an offer.
+  final OfferTargetAgreementIdFilter? targetAgreementId;
+
+  /// Allows filtering on the <code>TargetAgreementIntent</code> of an offer.
+  final OfferTargetAgreementIntentFilter? targetAgreementIntent;
+
   /// Allows filtering on the <code>Targeting</code> of an offer.
   final OfferTargetingFilter? targeting;
 
   OfferFilters({
     this.availabilityEndDate,
     this.buyerAccounts,
+    this.createdBySource,
     this.entityId,
     this.lastModifiedDate,
     this.name,
@@ -2955,12 +3082,15 @@ class OfferFilters {
     this.releaseDate,
     this.resaleAuthorizationId,
     this.state,
+    this.targetAgreementId,
+    this.targetAgreementIntent,
     this.targeting,
   });
 
   Map<String, dynamic> toJson() {
     final availabilityEndDate = this.availabilityEndDate;
     final buyerAccounts = this.buyerAccounts;
+    final createdBySource = this.createdBySource;
     final entityId = this.entityId;
     final lastModifiedDate = this.lastModifiedDate;
     final name = this.name;
@@ -2969,11 +3099,14 @@ class OfferFilters {
     final releaseDate = this.releaseDate;
     final resaleAuthorizationId = this.resaleAuthorizationId;
     final state = this.state;
+    final targetAgreementId = this.targetAgreementId;
+    final targetAgreementIntent = this.targetAgreementIntent;
     final targeting = this.targeting;
     return {
       if (availabilityEndDate != null)
         'AvailabilityEndDate': availabilityEndDate,
       if (buyerAccounts != null) 'BuyerAccounts': buyerAccounts,
+      if (createdBySource != null) 'CreatedBySource': createdBySource,
       if (entityId != null) 'EntityId': entityId,
       if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
       if (name != null) 'Name': name,
@@ -2983,6 +3116,9 @@ class OfferFilters {
       if (resaleAuthorizationId != null)
         'ResaleAuthorizationId': resaleAuthorizationId,
       if (state != null) 'State': state,
+      if (targetAgreementId != null) 'TargetAgreementId': targetAgreementId,
+      if (targetAgreementIntent != null)
+        'TargetAgreementIntent': targetAgreementIntent,
       if (targeting != null) 'Targeting': targeting,
     };
   }
@@ -3076,6 +3212,9 @@ class ResaleAuthorizationFilters {
   /// ResaleAuthorization.
   final ResaleAuthorizationResellerLegalNameFilter? resellerLegalName;
 
+  /// Allows filtering on the <code>ResellerRole</code> of a ResaleAuthorization.
+  final ResaleAuthorizationResellerRoleFilter? resellerRole;
+
   /// Allows filtering on the <code>Status</code> of a ResaleAuthorization.
   final ResaleAuthorizationStatusFilter? status;
 
@@ -3092,6 +3231,7 @@ class ResaleAuthorizationFilters {
     this.productName,
     this.resellerAccountID,
     this.resellerLegalName,
+    this.resellerRole,
     this.status,
   });
 
@@ -3108,6 +3248,7 @@ class ResaleAuthorizationFilters {
     final productName = this.productName;
     final resellerAccountID = this.resellerAccountID;
     final resellerLegalName = this.resellerLegalName;
+    final resellerRole = this.resellerRole;
     final status = this.status;
     return {
       if (availabilityEndDate != null)
@@ -3126,6 +3267,7 @@ class ResaleAuthorizationFilters {
       if (productName != null) 'ProductName': productName,
       if (resellerAccountID != null) 'ResellerAccountID': resellerAccountID,
       if (resellerLegalName != null) 'ResellerLegalName': resellerLegalName,
+      if (resellerRole != null) 'ResellerRole': resellerRole,
       if (status != null) 'Status': status,
     };
   }
@@ -3865,6 +4007,27 @@ class ResaleAuthorizationLastModifiedDateFilter {
   }
 }
 
+/// Allows filtering on the <code>ResellerRole</code> of a ResaleAuthorization.
+///
+/// @nodoc
+class ResaleAuthorizationResellerRoleFilter {
+  /// Allows filtering on the <code>ResellerRole</code> of a ResaleAuthorization
+  /// with list input.
+  final List<ResaleAuthorizationResellerRoleString>? valueList;
+
+  ResaleAuthorizationResellerRoleFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
 /// Allows filtering on the <code>LastModifiedDate</code> of a
 /// ResaleAuthorization with date range as input.
 ///
@@ -4284,6 +4447,68 @@ class OfferSetIdFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>TargetAgreementId</code> of an offer.
+///
+/// @nodoc
+class OfferTargetAgreementIdFilter {
+  /// Allows filtering on the <code>TargetAgreementId</code> of an offer with list
+  /// input.
+  final List<String>? valueList;
+
+  OfferTargetAgreementIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>TargetAgreementIntent</code> of an offer.
+///
+/// @nodoc
+class OfferTargetAgreementIntentFilter {
+  /// Allows filtering on the <code>TargetAgreementIntent</code> of an offer with
+  /// list input.
+  final List<OfferTargetAgreementIntentString>? valueList;
+
+  OfferTargetAgreementIntentFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Allows filtering on the <code>CreatedBySource</code> of an offer.
+///
+/// @nodoc
+class OfferCreatedBySourceFilter {
+  /// Allows filtering on the <code>CreatedBySource</code> of an offer with list
+  /// input.
+  final List<OfferCreatedBySourceString>? valueList;
+
+  OfferCreatedBySourceFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
     };
   }
 }

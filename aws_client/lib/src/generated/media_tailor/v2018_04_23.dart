@@ -825,6 +825,12 @@ class MediaTailor {
   /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html">Function
   /// types and composition</a> in the <i>MediaTailor User Guide</i>.
   ///
+  /// Parameter [concurrentExecutorConfiguration] :
+  /// The configuration for a <code>CONCURRENT_EXECUTOR</code> function.
+  /// Specifies the list of child functions to run in parallel, the maximum
+  /// concurrency, an optional output block, and a timeout. Required when
+  /// <code>FunctionType</code> is <code>CONCURRENT_EXECUTOR</code>.
+  ///
   /// Parameter [customOutputConfiguration] :
   /// The configuration for a <code>CUSTOM_OUTPUT</code> function. Specifies the
   /// runtime and output expressions. Required when <code>FunctionType</code> is
@@ -853,6 +859,7 @@ class MediaTailor {
   Future<PutFunctionResponse> putFunction({
     required String functionId,
     required FunctionType functionType,
+    ConcurrentExecutorConfiguration? concurrentExecutorConfiguration,
     CustomOutputConfiguration? customOutputConfiguration,
     String? description,
     HttpRequestConfiguration? httpRequestConfiguration,
@@ -861,6 +868,8 @@ class MediaTailor {
   }) async {
     final $payload = <String, dynamic>{
       'FunctionType': functionType.value,
+      if (concurrentExecutorConfiguration != null)
+        'ConcurrentExecutorConfiguration': concurrentExecutorConfiguration,
       if (customOutputConfiguration != null)
         'CustomOutputConfiguration': customOutputConfiguration,
       if (description != null) 'Description': description,
@@ -1156,6 +1165,16 @@ class MediaTailor {
   /// parameters as needed when calling the ADS. Alternately, for testing you
   /// can provide a static VAST URL. The maximum length is 25,000 characters.
   ///
+  /// Parameter [adsPersonalizationConcurrency] :
+  /// The concurrency settings for ad decision server interactions. These
+  /// settings control how many simultaneous ADS requests MediaTailor makes per
+  /// manifest request.
+  ///
+  /// Parameter [adsPersonalizationTimeouts] :
+  /// The timeout settings for ad decision server interactions. These settings
+  /// control how long MediaTailor waits for ADS responses and the total time
+  /// budget for ad personalization across live, VOD, and prefetch workflows.
+  ///
   /// Parameter [availSuppression] :
   /// The configuration for avail suppression, also known as ad suppression. For
   /// more information about ad suppression, see <a
@@ -1246,6 +1265,8 @@ class MediaTailor {
     AdConditioningConfiguration? adConditioningConfiguration,
     AdDecisionServerConfiguration? adDecisionServerConfiguration,
     String? adDecisionServerUrl,
+    AdsPersonalizationConcurrency? adsPersonalizationConcurrency,
+    AdsPersonalizationTimeouts? adsPersonalizationTimeouts,
     AvailSuppression? availSuppression,
     Bumper? bumper,
     CdnConfiguration? cdnConfiguration,
@@ -1275,6 +1296,10 @@ class MediaTailor {
         'AdDecisionServerConfiguration': adDecisionServerConfiguration,
       if (adDecisionServerUrl != null)
         'AdDecisionServerUrl': adDecisionServerUrl,
+      if (adsPersonalizationConcurrency != null)
+        'AdsPersonalizationConcurrency': adsPersonalizationConcurrency,
+      if (adsPersonalizationTimeouts != null)
+        'AdsPersonalizationTimeouts': adsPersonalizationTimeouts,
       if (availSuppression != null) 'AvailSuppression': availSuppression,
       if (bumper != null) 'Bumper': bumper,
       if (cdnConfiguration != null) 'CdnConfiguration': cdnConfiguration,
@@ -3055,6 +3080,9 @@ class PutFunctionResponse {
   /// The Amazon Resource Name (ARN) of the function.
   final String? arn;
 
+  /// The configuration for a <code>CONCURRENT_EXECUTOR</code> function.
+  final ConcurrentExecutorConfiguration? concurrentExecutorConfiguration;
+
   /// The configuration for a <code>CUSTOM_OUTPUT</code> function.
   final CustomOutputConfiguration? customOutputConfiguration;
 
@@ -3078,6 +3106,7 @@ class PutFunctionResponse {
     required this.functionId,
     required this.functionType,
     this.arn,
+    this.concurrentExecutorConfiguration,
     this.customOutputConfiguration,
     this.description,
     this.httpRequestConfiguration,
@@ -3091,6 +3120,12 @@ class PutFunctionResponse {
       functionType:
           FunctionType.fromString((json['FunctionType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
+      concurrentExecutorConfiguration:
+          json['ConcurrentExecutorConfiguration'] != null
+              ? ConcurrentExecutorConfiguration.fromJson(
+                  json['ConcurrentExecutorConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       customOutputConfiguration: json['CustomOutputConfiguration'] != null
           ? CustomOutputConfiguration.fromJson(
               json['CustomOutputConfiguration'] as Map<String, dynamic>)
@@ -3115,6 +3150,8 @@ class PutFunctionResponse {
     final functionId = this.functionId;
     final functionType = this.functionType;
     final arn = this.arn;
+    final concurrentExecutorConfiguration =
+        this.concurrentExecutorConfiguration;
     final customOutputConfiguration = this.customOutputConfiguration;
     final description = this.description;
     final httpRequestConfiguration = this.httpRequestConfiguration;
@@ -3125,6 +3162,8 @@ class PutFunctionResponse {
       'FunctionId': functionId,
       'FunctionType': functionType.value,
       if (arn != null) 'Arn': arn,
+      if (concurrentExecutorConfiguration != null)
+        'ConcurrentExecutorConfiguration': concurrentExecutorConfiguration,
       if (customOutputConfiguration != null)
         'CustomOutputConfiguration': customOutputConfiguration,
       if (description != null) 'Description': description,
@@ -3150,6 +3189,9 @@ class GetFunctionResponse {
   /// The Amazon Resource Name (ARN) of the function.
   final String? arn;
 
+  /// The configuration for a <code>CONCURRENT_EXECUTOR</code> function.
+  final ConcurrentExecutorConfiguration? concurrentExecutorConfiguration;
+
   /// The configuration for a <code>CUSTOM_OUTPUT</code> function.
   final CustomOutputConfiguration? customOutputConfiguration;
 
@@ -3173,6 +3215,7 @@ class GetFunctionResponse {
     required this.functionId,
     required this.functionType,
     this.arn,
+    this.concurrentExecutorConfiguration,
     this.customOutputConfiguration,
     this.description,
     this.httpRequestConfiguration,
@@ -3186,6 +3229,12 @@ class GetFunctionResponse {
       functionType:
           FunctionType.fromString((json['FunctionType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
+      concurrentExecutorConfiguration:
+          json['ConcurrentExecutorConfiguration'] != null
+              ? ConcurrentExecutorConfiguration.fromJson(
+                  json['ConcurrentExecutorConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       customOutputConfiguration: json['CustomOutputConfiguration'] != null
           ? CustomOutputConfiguration.fromJson(
               json['CustomOutputConfiguration'] as Map<String, dynamic>)
@@ -3210,6 +3259,8 @@ class GetFunctionResponse {
     final functionId = this.functionId;
     final functionType = this.functionType;
     final arn = this.arn;
+    final concurrentExecutorConfiguration =
+        this.concurrentExecutorConfiguration;
     final customOutputConfiguration = this.customOutputConfiguration;
     final description = this.description;
     final httpRequestConfiguration = this.httpRequestConfiguration;
@@ -3220,6 +3271,8 @@ class GetFunctionResponse {
       'FunctionId': functionId,
       'FunctionType': functionType.value,
       if (arn != null) 'Arn': arn,
+      if (concurrentExecutorConfiguration != null)
+        'ConcurrentExecutorConfiguration': concurrentExecutorConfiguration,
       if (customOutputConfiguration != null)
         'CustomOutputConfiguration': customOutputConfiguration,
       if (description != null) 'Description': description,
@@ -3583,6 +3636,16 @@ class PutPlaybackConfigurationResponse {
   /// static VAST URL. The maximum length is 25,000 characters.
   final String? adDecisionServerUrl;
 
+  /// The concurrency settings for ad decision server interactions. These settings
+  /// control how many simultaneous ADS requests MediaTailor makes per manifest
+  /// request.
+  final AdsPersonalizationConcurrency? adsPersonalizationConcurrency;
+
+  /// The timeout settings for ad decision server interactions. These settings
+  /// control how long MediaTailor waits for ADS responses and the total time
+  /// budget for ad personalization across live, VOD, and prefetch workflows.
+  final AdsPersonalizationTimeouts? adsPersonalizationTimeouts;
+
   /// The configuration for avail suppression, also known as ad suppression. For
   /// more information about ad suppression, see <a
   /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html">Ad
@@ -3607,6 +3670,14 @@ class PutPlaybackConfigurationResponse {
 
   /// The configuration for DASH content.
   final DashConfiguration? dashConfiguration;
+
+  /// The dual-stack (IPv4 and IPv6) playback endpoint prefix associated with the
+  /// playback configuration.
+  final String? dualStackPlaybackEndpointPrefix;
+
+  /// The dual-stack (IPv4 and IPv6) session initialization endpoint prefix
+  /// associated with the playback configuration.
+  final String? dualStackSessionInitializationEndpointPrefix;
 
   /// A map of lifecycle hook event names to function identifiers. The function
   /// mapping specifies which function MediaTailor executes at each lifecycle hook
@@ -3691,11 +3762,15 @@ class PutPlaybackConfigurationResponse {
     this.adConditioningConfiguration,
     this.adDecisionServerConfiguration,
     this.adDecisionServerUrl,
+    this.adsPersonalizationConcurrency,
+    this.adsPersonalizationTimeouts,
     this.availSuppression,
     this.bumper,
     this.cdnConfiguration,
     this.configurationAliases,
     this.dashConfiguration,
+    this.dualStackPlaybackEndpointPrefix,
+    this.dualStackSessionInitializationEndpointPrefix,
     this.functionMapping,
     this.hlsConfiguration,
     this.insertionMode,
@@ -3725,6 +3800,15 @@ class PutPlaybackConfigurationResponse {
                   json['AdDecisionServerConfiguration'] as Map<String, dynamic>)
               : null,
       adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+      adsPersonalizationConcurrency:
+          json['AdsPersonalizationConcurrency'] != null
+              ? AdsPersonalizationConcurrency.fromJson(
+                  json['AdsPersonalizationConcurrency'] as Map<String, dynamic>)
+              : null,
+      adsPersonalizationTimeouts: json['AdsPersonalizationTimeouts'] != null
+          ? AdsPersonalizationTimeouts.fromJson(
+              json['AdsPersonalizationTimeouts'] as Map<String, dynamic>)
+          : null,
       availSuppression: json['AvailSuppression'] != null
           ? AvailSuppression.fromJson(
               json['AvailSuppression'] as Map<String, dynamic>)
@@ -3746,6 +3830,10 @@ class PutPlaybackConfigurationResponse {
           ? DashConfiguration.fromJson(
               json['DashConfiguration'] as Map<String, dynamic>)
           : null,
+      dualStackPlaybackEndpointPrefix:
+          json['DualStackPlaybackEndpointPrefix'] as String?,
+      dualStackSessionInitializationEndpointPrefix:
+          json['DualStackSessionInitializationEndpointPrefix'] as String?,
       functionMapping: (json['FunctionMapping'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(EventName.fromString(k), e as String)),
       hlsConfiguration: json['HlsConfiguration'] != null
@@ -3785,11 +3873,17 @@ class PutPlaybackConfigurationResponse {
     final adConditioningConfiguration = this.adConditioningConfiguration;
     final adDecisionServerConfiguration = this.adDecisionServerConfiguration;
     final adDecisionServerUrl = this.adDecisionServerUrl;
+    final adsPersonalizationConcurrency = this.adsPersonalizationConcurrency;
+    final adsPersonalizationTimeouts = this.adsPersonalizationTimeouts;
     final availSuppression = this.availSuppression;
     final bumper = this.bumper;
     final cdnConfiguration = this.cdnConfiguration;
     final configurationAliases = this.configurationAliases;
     final dashConfiguration = this.dashConfiguration;
+    final dualStackPlaybackEndpointPrefix =
+        this.dualStackPlaybackEndpointPrefix;
+    final dualStackSessionInitializationEndpointPrefix =
+        this.dualStackSessionInitializationEndpointPrefix;
     final functionMapping = this.functionMapping;
     final hlsConfiguration = this.hlsConfiguration;
     final insertionMode = this.insertionMode;
@@ -3814,12 +3908,21 @@ class PutPlaybackConfigurationResponse {
         'AdDecisionServerConfiguration': adDecisionServerConfiguration,
       if (adDecisionServerUrl != null)
         'AdDecisionServerUrl': adDecisionServerUrl,
+      if (adsPersonalizationConcurrency != null)
+        'AdsPersonalizationConcurrency': adsPersonalizationConcurrency,
+      if (adsPersonalizationTimeouts != null)
+        'AdsPersonalizationTimeouts': adsPersonalizationTimeouts,
       if (availSuppression != null) 'AvailSuppression': availSuppression,
       if (bumper != null) 'Bumper': bumper,
       if (cdnConfiguration != null) 'CdnConfiguration': cdnConfiguration,
       if (configurationAliases != null)
         'ConfigurationAliases': configurationAliases,
       if (dashConfiguration != null) 'DashConfiguration': dashConfiguration,
+      if (dualStackPlaybackEndpointPrefix != null)
+        'DualStackPlaybackEndpointPrefix': dualStackPlaybackEndpointPrefix,
+      if (dualStackSessionInitializationEndpointPrefix != null)
+        'DualStackSessionInitializationEndpointPrefix':
+            dualStackSessionInitializationEndpointPrefix,
       if (functionMapping != null)
         'FunctionMapping': functionMapping.map((k, e) => MapEntry(k.value, e)),
       if (hlsConfiguration != null) 'HlsConfiguration': hlsConfiguration,
@@ -3868,6 +3971,16 @@ class GetPlaybackConfigurationResponse {
   /// static VAST URL. The maximum length is 25,000 characters.
   final String? adDecisionServerUrl;
 
+  /// The concurrency settings for ad decision server interactions. These settings
+  /// control how many simultaneous ADS requests MediaTailor makes per manifest
+  /// request.
+  final AdsPersonalizationConcurrency? adsPersonalizationConcurrency;
+
+  /// The timeout settings for ad decision server interactions. These settings
+  /// control how long MediaTailor waits for ADS responses and the total time
+  /// budget for ad personalization across live, VOD, and prefetch workflows.
+  final AdsPersonalizationTimeouts? adsPersonalizationTimeouts;
+
   /// The configuration for avail suppression, also known as ad suppression. For
   /// more information about ad suppression, see <a
   /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html">Ad
@@ -3892,6 +4005,15 @@ class GetPlaybackConfigurationResponse {
 
   /// The configuration for DASH content.
   final DashConfiguration? dashConfiguration;
+
+  /// The dual-stack (IPv4 and IPv6) URL that your player accesses to get a
+  /// manifest from AWS Elemental MediaTailor. The session uses server-side
+  /// reporting.
+  final String? dualStackPlaybackEndpointPrefix;
+
+  /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a
+  /// session that uses client-side reporting.
+  final String? dualStackSessionInitializationEndpointPrefix;
 
   /// A map of lifecycle hook event names to function identifiers. The function
   /// mapping specifies which function MediaTailor executes at each lifecycle hook
@@ -3940,11 +4062,11 @@ class GetPlaybackConfigurationResponse {
   /// The Amazon Resource Name (ARN) for the playback configuration.
   final String? playbackConfigurationArn;
 
-  /// The URL that the player accesses to get a manifest from AWS Elemental
-  /// MediaTailor. This session will use server-side reporting.
+  /// The URL that your player accesses to get a manifest from AWS Elemental
+  /// MediaTailor. The session uses server-side reporting.
   final String? playbackEndpointPrefix;
 
-  /// The URL that the player uses to initialize a session that uses client-side
+  /// The URL that your player uses to initialize a session that uses client-side
   /// reporting.
   final String? sessionInitializationEndpointPrefix;
 
@@ -3977,11 +4099,15 @@ class GetPlaybackConfigurationResponse {
     this.adConditioningConfiguration,
     this.adDecisionServerConfiguration,
     this.adDecisionServerUrl,
+    this.adsPersonalizationConcurrency,
+    this.adsPersonalizationTimeouts,
     this.availSuppression,
     this.bumper,
     this.cdnConfiguration,
     this.configurationAliases,
     this.dashConfiguration,
+    this.dualStackPlaybackEndpointPrefix,
+    this.dualStackSessionInitializationEndpointPrefix,
     this.functionMapping,
     this.hlsConfiguration,
     this.insertionMode,
@@ -4011,6 +4137,15 @@ class GetPlaybackConfigurationResponse {
                   json['AdDecisionServerConfiguration'] as Map<String, dynamic>)
               : null,
       adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+      adsPersonalizationConcurrency:
+          json['AdsPersonalizationConcurrency'] != null
+              ? AdsPersonalizationConcurrency.fromJson(
+                  json['AdsPersonalizationConcurrency'] as Map<String, dynamic>)
+              : null,
+      adsPersonalizationTimeouts: json['AdsPersonalizationTimeouts'] != null
+          ? AdsPersonalizationTimeouts.fromJson(
+              json['AdsPersonalizationTimeouts'] as Map<String, dynamic>)
+          : null,
       availSuppression: json['AvailSuppression'] != null
           ? AvailSuppression.fromJson(
               json['AvailSuppression'] as Map<String, dynamic>)
@@ -4032,6 +4167,10 @@ class GetPlaybackConfigurationResponse {
           ? DashConfiguration.fromJson(
               json['DashConfiguration'] as Map<String, dynamic>)
           : null,
+      dualStackPlaybackEndpointPrefix:
+          json['DualStackPlaybackEndpointPrefix'] as String?,
+      dualStackSessionInitializationEndpointPrefix:
+          json['DualStackSessionInitializationEndpointPrefix'] as String?,
       functionMapping: (json['FunctionMapping'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(EventName.fromString(k), e as String)),
       hlsConfiguration: json['HlsConfiguration'] != null
@@ -4071,11 +4210,17 @@ class GetPlaybackConfigurationResponse {
     final adConditioningConfiguration = this.adConditioningConfiguration;
     final adDecisionServerConfiguration = this.adDecisionServerConfiguration;
     final adDecisionServerUrl = this.adDecisionServerUrl;
+    final adsPersonalizationConcurrency = this.adsPersonalizationConcurrency;
+    final adsPersonalizationTimeouts = this.adsPersonalizationTimeouts;
     final availSuppression = this.availSuppression;
     final bumper = this.bumper;
     final cdnConfiguration = this.cdnConfiguration;
     final configurationAliases = this.configurationAliases;
     final dashConfiguration = this.dashConfiguration;
+    final dualStackPlaybackEndpointPrefix =
+        this.dualStackPlaybackEndpointPrefix;
+    final dualStackSessionInitializationEndpointPrefix =
+        this.dualStackSessionInitializationEndpointPrefix;
     final functionMapping = this.functionMapping;
     final hlsConfiguration = this.hlsConfiguration;
     final insertionMode = this.insertionMode;
@@ -4100,12 +4245,21 @@ class GetPlaybackConfigurationResponse {
         'AdDecisionServerConfiguration': adDecisionServerConfiguration,
       if (adDecisionServerUrl != null)
         'AdDecisionServerUrl': adDecisionServerUrl,
+      if (adsPersonalizationConcurrency != null)
+        'AdsPersonalizationConcurrency': adsPersonalizationConcurrency,
+      if (adsPersonalizationTimeouts != null)
+        'AdsPersonalizationTimeouts': adsPersonalizationTimeouts,
       if (availSuppression != null) 'AvailSuppression': availSuppression,
       if (bumper != null) 'Bumper': bumper,
       if (cdnConfiguration != null) 'CdnConfiguration': cdnConfiguration,
       if (configurationAliases != null)
         'ConfigurationAliases': configurationAliases,
       if (dashConfiguration != null) 'DashConfiguration': dashConfiguration,
+      if (dualStackPlaybackEndpointPrefix != null)
+        'DualStackPlaybackEndpointPrefix': dualStackPlaybackEndpointPrefix,
+      if (dualStackSessionInitializationEndpointPrefix != null)
+        'DualStackSessionInitializationEndpointPrefix':
+            dualStackSessionInitializationEndpointPrefix,
       if (functionMapping != null)
         'FunctionMapping': functionMapping.map((k, e) => MapEntry(k.value, e)),
       if (hlsConfiguration != null) 'HlsConfiguration': hlsConfiguration,
@@ -6362,6 +6516,16 @@ class PlaybackConfiguration {
   /// static VAST URL. The maximum length is 25,000 characters.
   final String? adDecisionServerUrl;
 
+  /// The concurrency settings for ad decision server interactions. These settings
+  /// control how many simultaneous ADS requests MediaTailor makes per manifest
+  /// request.
+  final AdsPersonalizationConcurrency? adsPersonalizationConcurrency;
+
+  /// The timeout settings for ad decision server interactions. These settings
+  /// control how long MediaTailor waits for ADS responses and the total time
+  /// budget for ad personalization across live, VOD, and prefetch workflows.
+  final AdsPersonalizationTimeouts? adsPersonalizationTimeouts;
+
   /// The configuration for avail suppression, also known as ad suppression. For
   /// more information about ad suppression, see <a
   /// href="https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html">Ad
@@ -6386,6 +6550,14 @@ class PlaybackConfiguration {
 
   /// The configuration for a DASH source.
   final DashConfiguration? dashConfiguration;
+
+  /// The dual-stack (IPv4 and IPv6) URL that your player accesses to get a
+  /// manifest from AWS Elemental MediaTailor.
+  final String? dualStackPlaybackEndpointPrefix;
+
+  /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a
+  /// session that uses client-side reporting.
+  final String? dualStackSessionInitializationEndpointPrefix;
 
   /// A map of lifecycle hook event names to function identifiers. The function
   /// mapping specifies which function MediaTailor executes at each lifecycle hook
@@ -6434,11 +6606,11 @@ class PlaybackConfiguration {
   /// The Amazon Resource Name (ARN) for the playback configuration.
   final String? playbackConfigurationArn;
 
-  /// The URL that the player accesses to get a manifest from AWS Elemental
+  /// The URL that your player accesses to get a manifest from AWS Elemental
   /// MediaTailor.
   final String? playbackEndpointPrefix;
 
-  /// The URL that the player uses to initialize a session that uses client-side
+  /// The URL that your player uses to initialize a session that uses client-side
   /// reporting.
   final String? sessionInitializationEndpointPrefix;
 
@@ -6471,11 +6643,15 @@ class PlaybackConfiguration {
     this.adConditioningConfiguration,
     this.adDecisionServerConfiguration,
     this.adDecisionServerUrl,
+    this.adsPersonalizationConcurrency,
+    this.adsPersonalizationTimeouts,
     this.availSuppression,
     this.bumper,
     this.cdnConfiguration,
     this.configurationAliases,
     this.dashConfiguration,
+    this.dualStackPlaybackEndpointPrefix,
+    this.dualStackSessionInitializationEndpointPrefix,
     this.functionMapping,
     this.hlsConfiguration,
     this.insertionMode,
@@ -6505,6 +6681,15 @@ class PlaybackConfiguration {
                   json['AdDecisionServerConfiguration'] as Map<String, dynamic>)
               : null,
       adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+      adsPersonalizationConcurrency:
+          json['AdsPersonalizationConcurrency'] != null
+              ? AdsPersonalizationConcurrency.fromJson(
+                  json['AdsPersonalizationConcurrency'] as Map<String, dynamic>)
+              : null,
+      adsPersonalizationTimeouts: json['AdsPersonalizationTimeouts'] != null
+          ? AdsPersonalizationTimeouts.fromJson(
+              json['AdsPersonalizationTimeouts'] as Map<String, dynamic>)
+          : null,
       availSuppression: json['AvailSuppression'] != null
           ? AvailSuppression.fromJson(
               json['AvailSuppression'] as Map<String, dynamic>)
@@ -6526,6 +6711,10 @@ class PlaybackConfiguration {
           ? DashConfiguration.fromJson(
               json['DashConfiguration'] as Map<String, dynamic>)
           : null,
+      dualStackPlaybackEndpointPrefix:
+          json['DualStackPlaybackEndpointPrefix'] as String?,
+      dualStackSessionInitializationEndpointPrefix:
+          json['DualStackSessionInitializationEndpointPrefix'] as String?,
       functionMapping: (json['FunctionMapping'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(EventName.fromString(k), e as String)),
       hlsConfiguration: json['HlsConfiguration'] != null
@@ -6565,11 +6754,17 @@ class PlaybackConfiguration {
     final adConditioningConfiguration = this.adConditioningConfiguration;
     final adDecisionServerConfiguration = this.adDecisionServerConfiguration;
     final adDecisionServerUrl = this.adDecisionServerUrl;
+    final adsPersonalizationConcurrency = this.adsPersonalizationConcurrency;
+    final adsPersonalizationTimeouts = this.adsPersonalizationTimeouts;
     final availSuppression = this.availSuppression;
     final bumper = this.bumper;
     final cdnConfiguration = this.cdnConfiguration;
     final configurationAliases = this.configurationAliases;
     final dashConfiguration = this.dashConfiguration;
+    final dualStackPlaybackEndpointPrefix =
+        this.dualStackPlaybackEndpointPrefix;
+    final dualStackSessionInitializationEndpointPrefix =
+        this.dualStackSessionInitializationEndpointPrefix;
     final functionMapping = this.functionMapping;
     final hlsConfiguration = this.hlsConfiguration;
     final insertionMode = this.insertionMode;
@@ -6594,12 +6789,21 @@ class PlaybackConfiguration {
         'AdDecisionServerConfiguration': adDecisionServerConfiguration,
       if (adDecisionServerUrl != null)
         'AdDecisionServerUrl': adDecisionServerUrl,
+      if (adsPersonalizationConcurrency != null)
+        'AdsPersonalizationConcurrency': adsPersonalizationConcurrency,
+      if (adsPersonalizationTimeouts != null)
+        'AdsPersonalizationTimeouts': adsPersonalizationTimeouts,
       if (availSuppression != null) 'AvailSuppression': availSuppression,
       if (bumper != null) 'Bumper': bumper,
       if (cdnConfiguration != null) 'CdnConfiguration': cdnConfiguration,
       if (configurationAliases != null)
         'ConfigurationAliases': configurationAliases,
       if (dashConfiguration != null) 'DashConfiguration': dashConfiguration,
+      if (dualStackPlaybackEndpointPrefix != null)
+        'DualStackPlaybackEndpointPrefix': dualStackPlaybackEndpointPrefix,
+      if (dualStackSessionInitializationEndpointPrefix != null)
+        'DualStackSessionInitializationEndpointPrefix':
+            dualStackSessionInitializationEndpointPrefix,
       if (functionMapping != null)
         'FunctionMapping': functionMapping.map((k, e) => MapEntry(k.value, e)),
       if (hlsConfiguration != null) 'HlsConfiguration': hlsConfiguration,
@@ -6771,8 +6975,12 @@ class CdnConfiguration {
 ///
 /// @nodoc
 class DashConfiguration {
-  /// The URL generated by MediaTailor to initiate a playback session. The session
-  /// uses server-side reporting. This setting is ignored in PUT operations.
+  /// The dual-stack (IPv4 and IPv6) URL that MediaTailor generates to initiate a
+  /// playback session. The session uses server-side reporting.
+  final String? dualStackManifestEndpointPrefix;
+
+  /// The URL that MediaTailor generates to initiate a playback session. The
+  /// session uses server-side reporting.
   final String? manifestEndpointPrefix;
 
   /// The setting that controls whether MediaTailor includes the Location tag in
@@ -6795,6 +7003,7 @@ class DashConfiguration {
   final OriginManifestType? originManifestType;
 
   DashConfiguration({
+    this.dualStackManifestEndpointPrefix,
     this.manifestEndpointPrefix,
     this.mpdLocation,
     this.originManifestType,
@@ -6802,6 +7011,8 @@ class DashConfiguration {
 
   factory DashConfiguration.fromJson(Map<String, dynamic> json) {
     return DashConfiguration(
+      dualStackManifestEndpointPrefix:
+          json['DualStackManifestEndpointPrefix'] as String?,
       manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String?,
       mpdLocation: json['MpdLocation'] as String?,
       originManifestType: (json['OriginManifestType'] as String?)
@@ -6810,10 +7021,14 @@ class DashConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final dualStackManifestEndpointPrefix =
+        this.dualStackManifestEndpointPrefix;
     final manifestEndpointPrefix = this.manifestEndpointPrefix;
     final mpdLocation = this.mpdLocation;
     final originManifestType = this.originManifestType;
     return {
+      if (dualStackManifestEndpointPrefix != null)
+        'DualStackManifestEndpointPrefix': dualStackManifestEndpointPrefix,
       if (manifestEndpointPrefix != null)
         'ManifestEndpointPrefix': manifestEndpointPrefix,
       if (mpdLocation != null) 'MpdLocation': mpdLocation,
@@ -6827,23 +7042,35 @@ class DashConfiguration {
 ///
 /// @nodoc
 class HlsConfiguration {
-  /// The URL that is used to initiate a playback session for devices that support
-  /// Apple HLS. The session uses server-side reporting.
+  /// The dual-stack (IPv4 and IPv6) URL that MediaTailor generates to initiate a
+  /// playback session for devices that support Apple HLS. The session uses
+  /// server-side reporting.
+  final String? dualStackManifestEndpointPrefix;
+
+  /// The URL that MediaTailor generates to initiate a playback session for
+  /// devices that support Apple HLS. The session uses server-side reporting.
   final String? manifestEndpointPrefix;
 
   HlsConfiguration({
+    this.dualStackManifestEndpointPrefix,
     this.manifestEndpointPrefix,
   });
 
   factory HlsConfiguration.fromJson(Map<String, dynamic> json) {
     return HlsConfiguration(
+      dualStackManifestEndpointPrefix:
+          json['DualStackManifestEndpointPrefix'] as String?,
       manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final dualStackManifestEndpointPrefix =
+        this.dualStackManifestEndpointPrefix;
     final manifestEndpointPrefix = this.manifestEndpointPrefix;
     return {
+      if (dualStackManifestEndpointPrefix != null)
+        'DualStackManifestEndpointPrefix': dualStackManifestEndpointPrefix,
       if (manifestEndpointPrefix != null)
         'ManifestEndpointPrefix': manifestEndpointPrefix,
     };
@@ -6882,6 +7109,11 @@ class InsertionMode {
 ///
 /// @nodoc
 class LivePreRollConfiguration {
+  /// The configuration for the ad decision server (ADS) for live pre-roll ads.
+  /// The configuration contains settings that control how MediaTailor processes
+  /// VAST responses for pre-roll ad breaks.
+  final PreRollAdDecisionServerConfiguration? adDecisionServerConfiguration;
+
   /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the
   /// specification of static parameters and placeholders for dynamic parameters.
   /// AWS Elemental MediaTailor substitutes player-specific and session-specific
@@ -6895,21 +7127,30 @@ class LivePreRollConfiguration {
   final int? maxDurationSeconds;
 
   LivePreRollConfiguration({
+    this.adDecisionServerConfiguration,
     this.adDecisionServerUrl,
     this.maxDurationSeconds,
   });
 
   factory LivePreRollConfiguration.fromJson(Map<String, dynamic> json) {
     return LivePreRollConfiguration(
+      adDecisionServerConfiguration:
+          json['AdDecisionServerConfiguration'] != null
+              ? PreRollAdDecisionServerConfiguration.fromJson(
+                  json['AdDecisionServerConfiguration'] as Map<String, dynamic>)
+              : null,
       adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
       maxDurationSeconds: json['MaxDurationSeconds'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final adDecisionServerConfiguration = this.adDecisionServerConfiguration;
     final adDecisionServerUrl = this.adDecisionServerUrl;
     final maxDurationSeconds = this.maxDurationSeconds;
     return {
+      if (adDecisionServerConfiguration != null)
+        'AdDecisionServerConfiguration': adDecisionServerConfiguration,
       if (adDecisionServerUrl != null)
         'AdDecisionServerUrl': adDecisionServerUrl,
       if (maxDurationSeconds != null) 'MaxDurationSeconds': maxDurationSeconds,
@@ -7075,8 +7316,13 @@ class AdDecisionServerConfiguration {
   /// The HTTP request configuration parameters for the ad decision server.
   final HttpRequest? httpRequest;
 
+  /// The settings that control how MediaTailor processes VAST responses from the
+  /// ad decision server.
+  final VastResponse? vastResponse;
+
   AdDecisionServerConfiguration({
     this.httpRequest,
+    this.vastResponse,
   });
 
   factory AdDecisionServerConfiguration.fromJson(Map<String, dynamic> json) {
@@ -7084,13 +7330,139 @@ class AdDecisionServerConfiguration {
       httpRequest: json['HttpRequest'] != null
           ? HttpRequest.fromJson(json['HttpRequest'] as Map<String, dynamic>)
           : null,
+      vastResponse: json['VastResponse'] != null
+          ? VastResponse.fromJson(json['VastResponse'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final httpRequest = this.httpRequest;
+    final vastResponse = this.vastResponse;
     return {
       if (httpRequest != null) 'HttpRequest': httpRequest,
+      if (vastResponse != null) 'VastResponse': vastResponse,
+    };
+  }
+}
+
+/// The timeout settings for ad decision server interactions during ad
+/// personalization.
+///
+/// @nodoc
+class AdsPersonalizationTimeouts {
+  /// The maximum time, in milliseconds, that MediaTailor waits for a single ad
+  /// decision server response during live or VOD playback. The default is 3000.
+  final int? adsRequestTimeoutMilliseconds;
+
+  /// The maximum total time, in milliseconds, that MediaTailor spends on ad
+  /// decision server activity for live manifests, including making requests,
+  /// waiting for responses, and following VAST wrapper redirects. The default is
+  /// 10000.
+  final int? liveMaximumAdsPersonalizationTimeMilliseconds;
+
+  /// The maximum time, in milliseconds, that MediaTailor waits for a single ad
+  /// decision server response during prefetch retrieval. If not set, the value of
+  /// AdsRequestTimeoutMilliseconds is used.
+  final int? prefetchAdsRequestTimeoutMilliseconds;
+
+  /// The maximum total time, in milliseconds, that MediaTailor spends on ad
+  /// decision server activity during prefetch retrieval, including making
+  /// requests, waiting for responses, and following VAST wrapper redirects.
+  final int? prefetchMaximumAdsPersonalizationTimeMilliseconds;
+
+  /// The maximum total time, in milliseconds, that MediaTailor spends on ad
+  /// decision server activity for VOD manifests, including making requests,
+  /// waiting for responses, and following VAST wrapper redirects. The default is
+  /// 10000.
+  final int? vodMaximumAdsPersonalizationTimeMilliseconds;
+
+  AdsPersonalizationTimeouts({
+    this.adsRequestTimeoutMilliseconds,
+    this.liveMaximumAdsPersonalizationTimeMilliseconds,
+    this.prefetchAdsRequestTimeoutMilliseconds,
+    this.prefetchMaximumAdsPersonalizationTimeMilliseconds,
+    this.vodMaximumAdsPersonalizationTimeMilliseconds,
+  });
+
+  factory AdsPersonalizationTimeouts.fromJson(Map<String, dynamic> json) {
+    return AdsPersonalizationTimeouts(
+      adsRequestTimeoutMilliseconds:
+          json['AdsRequestTimeoutMilliseconds'] as int?,
+      liveMaximumAdsPersonalizationTimeMilliseconds:
+          json['LiveMaximumAdsPersonalizationTimeMilliseconds'] as int?,
+      prefetchAdsRequestTimeoutMilliseconds:
+          json['PrefetchAdsRequestTimeoutMilliseconds'] as int?,
+      prefetchMaximumAdsPersonalizationTimeMilliseconds:
+          json['PrefetchMaximumAdsPersonalizationTimeMilliseconds'] as int?,
+      vodMaximumAdsPersonalizationTimeMilliseconds:
+          json['VodMaximumAdsPersonalizationTimeMilliseconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adsRequestTimeoutMilliseconds = this.adsRequestTimeoutMilliseconds;
+    final liveMaximumAdsPersonalizationTimeMilliseconds =
+        this.liveMaximumAdsPersonalizationTimeMilliseconds;
+    final prefetchAdsRequestTimeoutMilliseconds =
+        this.prefetchAdsRequestTimeoutMilliseconds;
+    final prefetchMaximumAdsPersonalizationTimeMilliseconds =
+        this.prefetchMaximumAdsPersonalizationTimeMilliseconds;
+    final vodMaximumAdsPersonalizationTimeMilliseconds =
+        this.vodMaximumAdsPersonalizationTimeMilliseconds;
+    return {
+      if (adsRequestTimeoutMilliseconds != null)
+        'AdsRequestTimeoutMilliseconds': adsRequestTimeoutMilliseconds,
+      if (liveMaximumAdsPersonalizationTimeMilliseconds != null)
+        'LiveMaximumAdsPersonalizationTimeMilliseconds':
+            liveMaximumAdsPersonalizationTimeMilliseconds,
+      if (prefetchAdsRequestTimeoutMilliseconds != null)
+        'PrefetchAdsRequestTimeoutMilliseconds':
+            prefetchAdsRequestTimeoutMilliseconds,
+      if (prefetchMaximumAdsPersonalizationTimeMilliseconds != null)
+        'PrefetchMaximumAdsPersonalizationTimeMilliseconds':
+            prefetchMaximumAdsPersonalizationTimeMilliseconds,
+      if (vodMaximumAdsPersonalizationTimeMilliseconds != null)
+        'VodMaximumAdsPersonalizationTimeMilliseconds':
+            vodMaximumAdsPersonalizationTimeMilliseconds,
+    };
+  }
+}
+
+/// The concurrency settings for ad decision server interactions during ad
+/// personalization.
+///
+/// @nodoc
+class AdsPersonalizationConcurrency {
+  /// Enables parallel processing of ad decision server requests in VOD workflows
+  /// when the ADS returns VAST responses. The default is false.
+  final bool? enableVodVastParallelization;
+
+  /// The maximum number of simultaneous requests that MediaTailor makes to the ad
+  /// decision server per manifest request. The default is 1.
+  final int? maxConcurrentAdsRequests;
+
+  AdsPersonalizationConcurrency({
+    this.enableVodVastParallelization,
+    this.maxConcurrentAdsRequests,
+  });
+
+  factory AdsPersonalizationConcurrency.fromJson(Map<String, dynamic> json) {
+    return AdsPersonalizationConcurrency(
+      enableVodVastParallelization:
+          json['EnableVodVastParallelization'] as bool?,
+      maxConcurrentAdsRequests: json['MaxConcurrentAdsRequests'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableVodVastParallelization = this.enableVodVastParallelization;
+    final maxConcurrentAdsRequests = this.maxConcurrentAdsRequests;
+    return {
+      if (enableVodVastParallelization != null)
+        'EnableVodVastParallelization': enableVodVastParallelization,
+      if (maxConcurrentAdsRequests != null)
+        'MaxConcurrentAdsRequests': maxConcurrentAdsRequests,
     };
   }
 }
@@ -7173,6 +7545,75 @@ class HttpRequest {
       if (method != null) 'Method': method.value,
     };
   }
+}
+
+/// The settings that control how MediaTailor processes VAST responses from the
+/// ad decision server.
+///
+/// @nodoc
+class VastResponse {
+  /// The ad sequencing mode that controls how MediaTailor handles sequenced and
+  /// standalone ads in VAST responses. <code>FOLLOW_AD_SEQUENCE</code> inserts
+  /// sequenced ads in increasing order for both live and VOD workflows, using
+  /// standalone ads only as replacements when a sequenced ad fails.
+  /// <code>FOLLOW_AD_SEQUENCE_ONLY_LIVE</code> enables ad sequencing for live
+  /// workflows only. <code>FOLLOW_AD_SEQUENCE_ONLY_VOD</code> enables ad
+  /// sequencing for VOD workflows only. <code>IGNORE_AD_SEQUENCE</code> inserts
+  /// ads in the order they appear in the VAST response, regardless of sequence
+  /// attributes. The default behavior is <code>IGNORE_AD_SEQUENCE</code>.
+  final AdSequencingMode? adSequencingMode;
+
+  VastResponse({
+    this.adSequencingMode,
+  });
+
+  factory VastResponse.fromJson(Map<String, dynamic> json) {
+    return VastResponse(
+      adSequencingMode: (json['AdSequencingMode'] as String?)
+          ?.let(AdSequencingMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adSequencingMode = this.adSequencingMode;
+    return {
+      if (adSequencingMode != null) 'AdSequencingMode': adSequencingMode.value,
+    };
+  }
+}
+
+/// @nodoc
+class AdSequencingMode {
+  static const followAdSequence = AdSequencingMode._('FOLLOW_AD_SEQUENCE');
+  static const ignoreAdSequence = AdSequencingMode._('IGNORE_AD_SEQUENCE');
+  static const followAdSequenceOnlyLive =
+      AdSequencingMode._('FOLLOW_AD_SEQUENCE_ONLY_LIVE');
+  static const followAdSequenceOnlyVod =
+      AdSequencingMode._('FOLLOW_AD_SEQUENCE_ONLY_VOD');
+
+  final String value;
+
+  const AdSequencingMode._(this.value);
+
+  static const values = [
+    followAdSequence,
+    ignoreAdSequence,
+    followAdSequenceOnlyLive,
+    followAdSequenceOnlyVod
+  ];
+
+  static AdSequencingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdSequencingMode._(value));
+
+  @override
+  bool operator ==(other) => other is AdSequencingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -7761,6 +8202,98 @@ class LoggingStrategy {
   String toString() => value;
 }
 
+/// The ad decision server configuration for live pre-roll ads. It contains
+/// settings that control how MediaTailor processes VAST responses for pre-roll
+/// ad breaks.
+///
+/// @nodoc
+class PreRollAdDecisionServerConfiguration {
+  /// The settings that control how MediaTailor processes VAST responses for live
+  /// pre-roll ad breaks.
+  final PreRollVastResponse? vastResponse;
+
+  PreRollAdDecisionServerConfiguration({
+    this.vastResponse,
+  });
+
+  factory PreRollAdDecisionServerConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return PreRollAdDecisionServerConfiguration(
+      vastResponse: json['VastResponse'] != null
+          ? PreRollVastResponse.fromJson(
+              json['VastResponse'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vastResponse = this.vastResponse;
+    return {
+      if (vastResponse != null) 'VastResponse': vastResponse,
+    };
+  }
+}
+
+/// The settings that control how MediaTailor processes VAST responses from the
+/// ad decision server for live pre-roll ad breaks.
+///
+/// @nodoc
+class PreRollVastResponse {
+  /// The ad sequencing mode for live pre-roll ads.
+  /// <code>FOLLOW_AD_SEQUENCE</code> inserts sequenced ads in increasing order
+  /// and uses standalone ads only as replacements when a sequenced ad fails.
+  /// <code>IGNORE_AD_SEQUENCE</code> inserts ads in the order they appear in the
+  /// VAST response, regardless of sequence attributes. The default behavior is
+  /// <code>IGNORE_AD_SEQUENCE</code>.
+  final PreRollAdSequencingMode? adSequencingMode;
+
+  PreRollVastResponse({
+    this.adSequencingMode,
+  });
+
+  factory PreRollVastResponse.fromJson(Map<String, dynamic> json) {
+    return PreRollVastResponse(
+      adSequencingMode: (json['AdSequencingMode'] as String?)
+          ?.let(PreRollAdSequencingMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adSequencingMode = this.adSequencingMode;
+    return {
+      if (adSequencingMode != null) 'AdSequencingMode': adSequencingMode.value,
+    };
+  }
+}
+
+/// @nodoc
+class PreRollAdSequencingMode {
+  static const followAdSequence =
+      PreRollAdSequencingMode._('FOLLOW_AD_SEQUENCE');
+  static const ignoreAdSequence =
+      PreRollAdSequencingMode._('IGNORE_AD_SEQUENCE');
+
+  final String value;
+
+  const PreRollAdSequencingMode._(this.value);
+
+  static const values = [followAdSequence, ignoreAdSequence];
+
+  static PreRollAdSequencingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PreRollAdSequencingMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PreRollAdSequencingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class OriginManifestType {
   static const singlePeriod = OriginManifestType._('SINGLE_PERIOD');
@@ -7954,7 +8487,11 @@ class LiveSource {
   }
 }
 
-/// -- Define Mixin --
+/// Defines reusable logic that MediaTailor executes at lifecycle hooks during
+/// ad insertion. The <code>FunctionType</code> determines the function's
+/// runtime behavior. For more information about functions, see <a
+/// href="https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html">Working
+/// with functions</a> in the <i>MediaTailor User Guide</i>.
 ///
 /// @nodoc
 class $Function {
@@ -7966,6 +8503,9 @@ class $Function {
 
   /// The Amazon Resource Name (ARN) of the function.
   final String? arn;
+
+  /// The configuration for a <code>CONCURRENT_EXECUTOR</code> function.
+  final ConcurrentExecutorConfiguration? concurrentExecutorConfiguration;
 
   /// The configuration for a <code>CUSTOM_OUTPUT</code> function.
   final CustomOutputConfiguration? customOutputConfiguration;
@@ -7990,6 +8530,7 @@ class $Function {
     required this.functionId,
     required this.functionType,
     this.arn,
+    this.concurrentExecutorConfiguration,
     this.customOutputConfiguration,
     this.description,
     this.httpRequestConfiguration,
@@ -8003,6 +8544,12 @@ class $Function {
       functionType:
           FunctionType.fromString((json['FunctionType'] as String?) ?? ''),
       arn: json['Arn'] as String?,
+      concurrentExecutorConfiguration:
+          json['ConcurrentExecutorConfiguration'] != null
+              ? ConcurrentExecutorConfiguration.fromJson(
+                  json['ConcurrentExecutorConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       customOutputConfiguration: json['CustomOutputConfiguration'] != null
           ? CustomOutputConfiguration.fromJson(
               json['CustomOutputConfiguration'] as Map<String, dynamic>)
@@ -8027,6 +8574,8 @@ class $Function {
     final functionId = this.functionId;
     final functionType = this.functionType;
     final arn = this.arn;
+    final concurrentExecutorConfiguration =
+        this.concurrentExecutorConfiguration;
     final customOutputConfiguration = this.customOutputConfiguration;
     final description = this.description;
     final httpRequestConfiguration = this.httpRequestConfiguration;
@@ -8037,6 +8586,8 @@ class $Function {
       'FunctionId': functionId,
       'FunctionType': functionType.value,
       if (arn != null) 'Arn': arn,
+      if (concurrentExecutorConfiguration != null)
+        'ConcurrentExecutorConfiguration': concurrentExecutorConfiguration,
       if (customOutputConfiguration != null)
         'CustomOutputConfiguration': customOutputConfiguration,
       if (description != null) 'Description': description,
@@ -8055,13 +8606,19 @@ class $Function {
 class FunctionType {
   static const httpRequest = FunctionType._('HTTP_REQUEST');
   static const customOutput = FunctionType._('CUSTOM_OUTPUT');
+  static const concurrentExecutor = FunctionType._('CONCURRENT_EXECUTOR');
   static const sequentialExecutor = FunctionType._('SEQUENTIAL_EXECUTOR');
 
   final String value;
 
   const FunctionType._(this.value);
 
-  static const values = [httpRequest, customOutput, sequentialExecutor];
+  static const values = [
+    httpRequest,
+    customOutput,
+    concurrentExecutor,
+    sequentialExecutor
+  ];
 
   static FunctionType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => FunctionType._(value));
@@ -8076,7 +8633,11 @@ class FunctionType {
   String toString() => value;
 }
 
-/// -- Function Configuration DataStructure
+/// The configuration for an <code>HTTP_REQUEST</code> function. Specifies the
+/// HTTP method, URL, headers, body, timeout, and output expressions for the
+/// request. For more information, see <a
+/// href="https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-http-request.html">HTTP_REQUEST</a>
+/// in the <i>MediaTailor User Guide</i>.
 ///
 /// @nodoc
 class HttpRequestConfiguration {
@@ -8208,6 +8769,81 @@ class CustomOutputConfiguration {
   }
 }
 
+/// The configuration for a <code>CONCURRENT_EXECUTOR</code> function. A
+/// <code>CONCURRENT_EXECUTOR</code> runs a set of child functions in parallel,
+/// up to a maximum concurrency, and combines their output when all functions
+/// complete. For more information about functions, see <a
+/// href="https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html">Working
+/// with functions</a> in the <i>MediaTailor User Guide</i>.
+///
+/// @nodoc
+class ConcurrentExecutorConfiguration {
+  /// The list of child functions that MediaTailor runs in parallel. Each entry
+  /// specifies a child function to execute and an optional run condition
+  /// expression that controls whether the function runs.
+  final List<FunctionRef> functionList;
+
+  /// The maximum number of child functions that MediaTailor runs simultaneously.
+  /// When the list contains more functions than <code>MaxConcurrency</code>,
+  /// MediaTailor starts additional functions as running ones complete, so that no
+  /// more than <code>MaxConcurrency</code> functions run at the same time.
+  final int maxConcurrency;
+
+  /// A map of output bindings that controls which bindings the executor commits
+  /// to the session state after all child functions complete. Each key is a
+  /// namespaced output path, and each value is an expression that MediaTailor
+  /// evaluates against the combined results of the child functions.
+  final Map<String, String> output;
+
+  /// The expression language used to evaluate expressions in the function
+  /// configuration. Set this to <code>JSONata</code>.
+  final RuntimeType runtime;
+
+  /// The maximum time, in milliseconds, for all child functions to complete. This
+  /// timeout covers every function in the list, including any HTTP calls the
+  /// child functions make. If the executor exceeds this timeout, MediaTailor
+  /// discards all output from the executor and proceeds with default behavior.
+  final int timeoutMilliseconds;
+
+  ConcurrentExecutorConfiguration({
+    required this.functionList,
+    required this.maxConcurrency,
+    required this.output,
+    required this.runtime,
+    required this.timeoutMilliseconds,
+  });
+
+  factory ConcurrentExecutorConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConcurrentExecutorConfiguration(
+      functionList: ((json['FunctionList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FunctionRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxConcurrency: (json['MaxConcurrency'] as int?) ?? 0,
+      output: ((json['Output'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+      runtime: RuntimeType.fromString((json['Runtime'] as String?) ?? ''),
+      timeoutMilliseconds: (json['TimeoutMilliseconds'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionList = this.functionList;
+    final maxConcurrency = this.maxConcurrency;
+    final output = this.output;
+    final runtime = this.runtime;
+    final timeoutMilliseconds = this.timeoutMilliseconds;
+    return {
+      'FunctionList': functionList,
+      'MaxConcurrency': maxConcurrency,
+      'Output': output,
+      'Runtime': runtime.value,
+      'TimeoutMilliseconds': timeoutMilliseconds,
+    };
+  }
+}
+
 /// The configuration for a <code>SEQUENTIAL_EXECUTOR</code> function. A
 /// <code>SEQUENTIAL_EXECUTOR</code> runs a sequence of child functions in
 /// order, passing data between steps through temporary data. For more
@@ -8300,6 +8936,10 @@ class RuntimeType {
 ///
 /// @nodoc
 class FunctionRef {
+  /// An optional alternate name for the function within the executor. If omitted,
+  /// MediaTailor uses the function identifier.
+  final String? alias;
+
   /// The identifier of the child function to execute in this step.
   final String? functionId;
 
@@ -8311,21 +8951,25 @@ class FunctionRef {
   final String? runCondition;
 
   FunctionRef({
+    this.alias,
     this.functionId,
     this.runCondition,
   });
 
   factory FunctionRef.fromJson(Map<String, dynamic> json) {
     return FunctionRef(
+      alias: json['Alias'] as String?,
       functionId: json['FunctionId'] as String?,
       runCondition: json['RunCondition'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final alias = this.alias;
     final functionId = this.functionId;
     final runCondition = this.runCondition;
     return {
+      if (alias != null) 'Alias': alias,
       if (functionId != null) 'FunctionId': functionId,
       if (runCondition != null) 'RunCondition': runCondition,
     };
@@ -9431,7 +10075,7 @@ class ResponseOutputItem {
   /// output's playback URL.
   final String manifestName;
 
-  /// The URL used for playback by content players.
+  /// The URL that your player uses for playback.
   final String playbackUrl;
 
   /// A string used to associate a package configuration source group with a
@@ -9441,6 +10085,9 @@ class ResponseOutputItem {
   /// DASH manifest configuration settings.
   final DashPlaylistSettings? dashPlaylistSettings;
 
+  /// The dual-stack (IPv4 and IPv6) URL that your player uses for playback.
+  final String? dualStackPlaybackUrl;
+
   /// HLS manifest configuration settings.
   final HlsPlaylistSettings? hlsPlaylistSettings;
 
@@ -9449,6 +10096,7 @@ class ResponseOutputItem {
     required this.playbackUrl,
     required this.sourceGroup,
     this.dashPlaylistSettings,
+    this.dualStackPlaybackUrl,
     this.hlsPlaylistSettings,
   });
 
@@ -9461,6 +10109,7 @@ class ResponseOutputItem {
           ? DashPlaylistSettings.fromJson(
               json['DashPlaylistSettings'] as Map<String, dynamic>)
           : null,
+      dualStackPlaybackUrl: json['DualStackPlaybackUrl'] as String?,
       hlsPlaylistSettings: json['HlsPlaylistSettings'] != null
           ? HlsPlaylistSettings.fromJson(
               json['HlsPlaylistSettings'] as Map<String, dynamic>)
@@ -9473,6 +10122,7 @@ class ResponseOutputItem {
     final playbackUrl = this.playbackUrl;
     final sourceGroup = this.sourceGroup;
     final dashPlaylistSettings = this.dashPlaylistSettings;
+    final dualStackPlaybackUrl = this.dualStackPlaybackUrl;
     final hlsPlaylistSettings = this.hlsPlaylistSettings;
     return {
       'ManifestName': manifestName,
@@ -9480,6 +10130,8 @@ class ResponseOutputItem {
       'SourceGroup': sourceGroup,
       if (dashPlaylistSettings != null)
         'DashPlaylistSettings': dashPlaylistSettings,
+      if (dualStackPlaybackUrl != null)
+        'DualStackPlaybackUrl': dualStackPlaybackUrl,
       if (hlsPlaylistSettings != null)
         'HlsPlaylistSettings': hlsPlaylistSettings,
     };

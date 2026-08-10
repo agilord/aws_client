@@ -10,202 +10,113 @@ import 'package:aws_client/src/shared/src/protocol/endpoints/endpoint_resolver.d
 import 'package:test/test.dart';
 
 void main() {
-  test('For custom endpoint with region not set and fips disabled [0]', () {
-    final resolved =
-        resolveEndpoint(endpoint: 'https://example.com', useFips: false);
-    expect(resolved.url, 'https://example.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For custom endpoint with fips enabled [1]', () {
-    expect(
-      () => resolveEndpoint(endpoint: 'https://example.com', useFips: true),
-      throwsA(isA<EndpointResolutionException>().having(
-          (e) => e.message,
-          'message',
-          'Invalid Configuration: FIPS and custom endpoint are not supported')),
-    );
-  });
-  test('For custom endpoint with fips disabled and dualstack enabled [2]', () {
-    expect(
-      () => resolveEndpoint(
-          endpoint: 'https://example.com', useFips: false, useDualStack: true),
-      throwsA(isA<EndpointResolutionException>().having(
-          (e) => e.message,
-          'message',
-          'Invalid Configuration: Dualstack and custom endpoint are not supported')),
-    );
-  });
-  test('For region us-east-1 with FIPS enabled and DualStack enabled [3]', () {
-    final resolved =
-        resolveEndpoint(region: 'us-east-1', useFips: true, useDualStack: true);
-    expect(resolved.url, 'https://signin-fips.us-east-1.api.aws');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-1 with FIPS enabled and DualStack disabled [4]', () {
+  test('Control Plane operation in us-east-1 (aws partition) [0]', () {
     final resolved = resolveEndpoint(
-        region: 'us-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.us-east-1.amazonaws.com');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-east-1 with FIPS disabled and DualStack enabled [5]', () {
-    final resolved = resolveEndpoint(
-        region: 'us-east-1', useFips: false, useDualStack: true);
+        isControlPlane: true,
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: false);
     expect(resolved.url, 'https://signin.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'signin');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('Control Plane operation in cn-north-1 (aws-cn partition) [1]', () {
+    final resolved = resolveEndpoint(
+        isControlPlane: true,
+        region: 'cn-north-1',
+        useFips: false,
+        useDualStack: false);
+    expect(
+        resolved.url, 'https://signin.cn-north-1.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'signin');
+    expect(resolved.authSchemes[0].signingRegion, 'cn-north-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('Data Plane operation in us-east-1 [2]', () {
+    final resolved = resolveEndpoint(
+        isControlPlane: false,
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: false);
+    expect(resolved.url, 'https://us-east-1.signin.aws.amazon.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-east-1 with FIPS disabled and DualStack disabled [6]',
-      () {
+  test('Data Plane operation in us-east-1 (IsControlPlane not set) [3]', () {
     final resolved = resolveEndpoint(
         region: 'us-east-1', useFips: false, useDualStack: false);
     expect(resolved.url, 'https://us-east-1.signin.aws.amazon.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region cn-northwest-1 with FIPS enabled and DualStack enabled [7]',
-      () {
+  test('Data Plane operation in cn-north-1 [4]', () {
     final resolved = resolveEndpoint(
-        region: 'cn-northwest-1', useFips: true, useDualStack: true);
-    expect(resolved.url,
-        'https://signin-fips.cn-northwest-1.api.amazonwebservices.com.cn');
+        isControlPlane: false,
+        region: 'cn-north-1',
+        useFips: false,
+        useDualStack: false);
+    expect(resolved.url, 'https://cn-north-1.signin.amazonaws.cn');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region cn-northwest-1 with FIPS enabled and DualStack disabled [8]',
-      () {
+  test('Data Plane operation in us-gov-west-1 [5]', () {
     final resolved = resolveEndpoint(
-        region: 'cn-northwest-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.cn-northwest-1.amazonaws.com.cn');
+        isControlPlane: false,
+        region: 'us-gov-west-1',
+        useFips: false,
+        useDualStack: false);
+    expect(resolved.url, 'https://us-gov-west-1.signin.amazonaws-us-gov.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region cn-northwest-1 with FIPS disabled and DualStack enabled [9]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'cn-northwest-1', useFips: false, useDualStack: true);
-    expect(resolved.url,
-        'https://signin.cn-northwest-1.api.amazonwebservices.com.cn');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region cn-northwest-1 with FIPS disabled and DualStack disabled [10]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'cn-northwest-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://cn-northwest-1.signin.amazonaws.cn');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region eusc-de-east-1 with FIPS enabled and DualStack disabled [11]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eusc-de-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.eusc-de-east-1.amazonaws.eu');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region eusc-de-east-1 with FIPS disabled and DualStack disabled [12]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eusc-de-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://signin.eusc-de-east-1.amazonaws.eu');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-iso-east-1 with FIPS enabled and DualStack disabled [13]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-iso-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.us-iso-east-1.c2s.ic.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-iso-east-1 with FIPS disabled and DualStack disabled [14]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-iso-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://signin.us-iso-east-1.c2s.ic.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-isob-east-1 with FIPS enabled and DualStack disabled [15]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-isob-east-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.us-isob-east-1.sc2s.sgov.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-isob-east-1 with FIPS disabled and DualStack disabled [16]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-isob-east-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://signin.us-isob-east-1.sc2s.sgov.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region eu-isoe-west-1 with FIPS enabled and DualStack disabled [17]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-isoe-west-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.eu-isoe-west-1.cloud.adc-e.uk');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region eu-isoe-west-1 with FIPS disabled and DualStack disabled [18]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'eu-isoe-west-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://signin.eu-isoe-west-1.cloud.adc-e.uk');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-isof-south-1 with FIPS enabled and DualStack disabled [19]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-isof-south-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.us-isof-south-1.csp.hci.ic.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test(
-      'For region us-isof-south-1 with FIPS disabled and DualStack disabled [20]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-isof-south-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://signin.us-isof-south-1.csp.hci.ic.gov');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-gov-west-1 with FIPS enabled and DualStack enabled [21]',
-      () {
-    final resolved = resolveEndpoint(
-        region: 'us-gov-west-1', useFips: true, useDualStack: true);
-    expect(resolved.url, 'https://signin-fips.us-gov-west-1.api.aws');
-    expect(resolved.authSchemes.length, 0);
-    expect(resolved.headers.keys.toSet(), [].toSet());
-  });
-  test('For region us-gov-west-1 with FIPS enabled and DualStack disabled [22]',
-      () {
+  test('FIPS endpoint in us-gov-west-1 (global endpoint) [6]', () {
     final resolved = resolveEndpoint(
         region: 'us-gov-west-1', useFips: true, useDualStack: false);
-    expect(resolved.url, 'https://signin-fips.us-gov-west-1.amazonaws.com');
+    expect(resolved.url, 'https://signin-fips.amazonaws-us-gov.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('For region us-gov-west-1 with FIPS disabled and DualStack enabled [23]',
+  test('FIPS endpoint in us-gov-east-1 (regional endpoint) [7]', () {
+    final resolved = resolveEndpoint(
+        region: 'us-gov-east-1', useFips: true, useDualStack: false);
+    expect(
+        resolved.url, 'https://us-gov-east-1.signin-fips.amazonaws-us-gov.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('FIPS endpoint in us-east-1 [8]', () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-1', useFips: true, useDualStack: false);
+    expect(resolved.url, 'https://signin-fips.us-east-1.amazonaws.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'DualStack falls through to default SDK endpoint in us-east-1 (aws partition) [9]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'us-east-1', useFips: false, useDualStack: true);
+    expect(resolved.url, 'https://signin.us-east-1.api.aws');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'DualStack falls through to default SDK endpoint in cn-north-1 (aws-cn partition) [10]',
+      () {
+    final resolved = resolveEndpoint(
+        region: 'cn-north-1', useFips: false, useDualStack: true);
+    expect(
+        resolved.url, 'https://signin.cn-north-1.api.amazonwebservices.com.cn');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'DualStack falls through to default SDK endpoint in us-gov-west-1 (aws-us-gov partition) [11]',
       () {
     final resolved = resolveEndpoint(
         region: 'us-gov-west-1', useFips: false, useDualStack: true);
@@ -213,20 +124,126 @@ void main() {
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test(
-      'For region us-gov-west-1 with FIPS disabled and DualStack disabled [24]',
-      () {
+  test('Custom SDK endpoint override [12]', () {
     final resolved = resolveEndpoint(
-        region: 'us-gov-west-1', useFips: false, useDualStack: false);
-    expect(resolved.url, 'https://us-gov-west-1.signin.amazonaws-us-gov.com');
+        region: 'us-east-1',
+        endpoint: 'https://custom.signin.example.com',
+        useFips: false,
+        useDualStack: false);
+    expect(resolved.url, 'https://custom.signin.example.com');
     expect(resolved.authSchemes.length, 0);
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
-  test('Missing region [25]', () {
+  test('ISO partition (us-iso-east-1) [13]', () {
+    final resolved = resolveEndpoint(
+        region: 'us-iso-east-1', useFips: false, useDualStack: false);
+    expect(resolved.url, 'https://us-iso-east-1.signin.c2shome.ic.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('ISO-B partition (us-isob-east-1) [14]', () {
+    final resolved = resolveEndpoint(
+        region: 'us-isob-east-1', useFips: false, useDualStack: false);
+    expect(resolved.url, 'https://us-isob-east-1.signin.sc2shome.sgov.gov');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('OAuth endpoint in us-east-1 (aws partition) [15]', () {
+    final resolved = resolveEndpoint(
+        isoAuthEndpoint: true,
+        region: 'us-east-1',
+        useFips: false,
+        useDualStack: false);
+    expect(resolved.url, 'https://us-east-1.oauth.signin.aws');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'signin');
+    expect(resolved.authSchemes[0].signingRegion, 'us-east-1');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test('OAuth endpoint in us-west-2 (aws partition) [16]', () {
+    final resolved = resolveEndpoint(
+        isoAuthEndpoint: true,
+        region: 'us-west-2',
+        useFips: false,
+        useDualStack: false);
+    expect(resolved.url, 'https://us-west-2.oauth.signin.aws');
+    expect(resolved.authSchemes.length, 1);
+    expect(resolved.authSchemes[0].name, 'sigv4');
+    expect(resolved.authSchemes[0].signingName, 'signin');
+    expect(resolved.authSchemes[0].signingRegion, 'us-west-2');
+    expect(resolved.headers.keys.toSet(), [].toSet());
+  });
+  test(
+      'OAuth endpoint with FIPS returns an error (no FIPS variant exists) [17]',
+      () {
     expect(
-      () => resolveEndpoint(),
-      throwsA(isA<EndpointResolutionException>().having((e) => e.message,
-          'message', 'Invalid Configuration: Missing Region')),
+      () => resolveEndpoint(
+          isoAuthEndpoint: true,
+          region: 'us-east-1',
+          useFips: true,
+          useDualStack: false),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.')),
     );
+  });
+  test(
+      'OAuth endpoint with FIPS returns an error in us-west-2 (aws partition) [18]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          isoAuthEndpoint: true,
+          region: 'us-west-2',
+          useFips: true,
+          useDualStack: false),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.')),
+    );
+  });
+  test(
+      'OAuth endpoint with FIPS returns an error in cn-north-1 (non-aws partition, error is partition-agnostic) [19]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          isoAuthEndpoint: true,
+          region: 'cn-north-1',
+          useFips: true,
+          useDualStack: false),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.')),
+    );
+  });
+  test(
+      'OAuth endpoint with FIPS returns an error even with a custom SDK endpoint override [20]',
+      () {
+    expect(
+      () => resolveEndpoint(
+          isoAuthEndpoint: true,
+          region: 'us-east-1',
+          endpoint: 'https://custom.signin.example.com',
+          useFips: true,
+          useDualStack: false),
+      throwsA(isA<EndpointResolutionException>().having(
+          (e) => e.message,
+          'message',
+          'FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.')),
+    );
+  });
+  test('OAuth operation with custom SDK endpoint override [21]', () {
+    final resolved = resolveEndpoint(
+        isoAuthEndpoint: true,
+        region: 'us-east-1',
+        endpoint: 'https://custom.signin.example.com',
+        useFips: false,
+        useDualStack: false);
+    expect(resolved.url, 'https://custom.signin.example.com');
+    expect(resolved.authSchemes.length, 0);
+    expect(resolved.headers.keys.toSet(), [].toSet());
   });
 }

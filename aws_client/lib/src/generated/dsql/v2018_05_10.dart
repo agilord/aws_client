@@ -327,12 +327,18 @@ class Dsql {
   /// Each peer cluster: exact ARN of each specified peer cluster
   /// </li>
   /// </ul> </dd> <dt>dsql:RemovePeerCluster</dt> <dd>
-  /// Permission to remove peer clusters. The <i>dsql:RemovePeerCluster</i>
-  /// permission uses a wildcard ARN pattern to simplify permission management
-  /// during updates.
+  /// Permission to remove peer clusters. When you list peer clusters in
+  /// <code>multiRegionProperties.clusters</code>, you need this permission for
+  /// each current peer cluster that your list omits.
   ///
-  /// Resources: <code>arn:aws:dsql:*:<i>account-id</i>:cluster/*</code>
-  /// </dd> </dl> <dl> <dt>dsql:PutWitnessRegion</dt> <dd>
+  /// Resources:
+  ///
+  /// <ul>
+  /// <li>
+  /// Each removed peer cluster: exact ARN of each removed peer cluster, in its
+  /// own Region
+  /// </li>
+  /// </ul> </dd> </dl> <dl> <dt>dsql:PutWitnessRegion</dt> <dd>
   /// Permission to set a witness Region.
   ///
   /// Resources:
@@ -346,17 +352,16 @@ class Dsql {
   /// </dd> </dl> <important>
   /// <ul>
   /// <li>
-  /// The witness region specified in
+  /// The witness Region specified in
   /// <code>multiRegionProperties.witnessRegion</code> cannot be the same as the
   /// cluster's Region.
   /// </li>
   /// <li>
-  /// When updating clusters with peer relationships, permissions are checked
-  /// for both adding and removing peers.
-  /// </li>
-  /// <li>
-  /// The <code>dsql:RemovePeerCluster</code> permission uses a wildcard ARN
-  /// pattern to simplify permission management during updates.
+  /// When you list peer clusters in
+  /// <code>multiRegionProperties.clusters</code>, you need
+  /// <code>dsql:AddPeerCluster</code> for every peer cluster in your request.
+  /// You need <code>dsql:RemovePeerCluster</code> only for the peer clusters
+  /// that the update removes.
   /// </li>
   /// </ul> </important>
   ///
@@ -385,6 +390,9 @@ class Dsql {
   /// The KMS key that encrypts and protects the data on your cluster. You can
   /// specify the ARN, ID, or alias of an existing key or have Amazon Web
   /// Services create a default key for you.
+  ///
+  /// To switch to the key owned by Amazon Web Services, specify the reserved
+  /// value <code>AWS_OWNED_KMS_KEY</code>.
   ///
   /// Parameter [multiRegionProperties] :
   /// The new multi-Region cluster configuration settings to be applied during

@@ -3076,6 +3076,7 @@ class SessionKeyDerivationMode {
   static const mastercardSessionKey =
       SessionKeyDerivationMode._('MASTERCARD_SESSION_KEY');
   static const visa = SessionKeyDerivationMode._('VISA');
+  static const unionPay = SessionKeyDerivationMode._('UNION_PAY');
 
   final String value;
 
@@ -3086,7 +3087,8 @@ class SessionKeyDerivationMode {
     emv2000,
     amex,
     mastercardSessionKey,
-    visa
+    visa,
+    unionPay
   ];
 
   static SessionKeyDerivationMode fromString(String value) =>
@@ -3474,6 +3476,10 @@ class SessionKeyDerivation {
   /// verification.
   final SessionKeyMastercard? mastercard;
 
+  /// Parameters to derive session key for a UnionPay payment card for
+  /// Authorization Request Cryptogram (ARQC) generation and verification.
+  final SessionKeyUnionPay? unionPay;
+
   /// Parameters to derive session key for a Visa payment cardfor ARQC
   /// verification.
   final SessionKeyVisa? visa;
@@ -3483,6 +3489,7 @@ class SessionKeyDerivation {
     this.emv2000,
     this.emvCommon,
     this.mastercard,
+    this.unionPay,
     this.visa,
   });
 
@@ -3491,12 +3498,14 @@ class SessionKeyDerivation {
     final emv2000 = this.emv2000;
     final emvCommon = this.emvCommon;
     final mastercard = this.mastercard;
+    final unionPay = this.unionPay;
     final visa = this.visa;
     return {
       if (amex != null) 'Amex': amex,
       if (emv2000 != null) 'Emv2000': emv2000,
       if (emvCommon != null) 'EmvCommon': emvCommon,
       if (mastercard != null) 'Mastercard': mastercard,
+      if (unionPay != null) 'UnionPay': unionPay,
       if (visa != null) 'Visa': visa,
     };
   }
@@ -3747,6 +3756,43 @@ class SessionKeyVisa {
     final panSequenceNumber = this.panSequenceNumber;
     final primaryAccountNumber = this.primaryAccountNumber;
     return {
+      'PanSequenceNumber': panSequenceNumber,
+      'PrimaryAccountNumber': primaryAccountNumber,
+    };
+  }
+}
+
+/// Parameters to derive session key for a UnionPay payment card for
+/// Authorization Request Cryptogram (ARQC) generation and verification.
+///
+/// @nodoc
+class SessionKeyUnionPay {
+  /// The transaction counter that the terminal provides during transaction
+  /// processing. This value is in hexadecimal format. For example, enter a
+  /// decimal counter of 109 as <code>006D</code>.
+  final String applicationTransactionCounter;
+
+  /// A number that identifies and differentiates payment cards with the same
+  /// Primary Account Number (PAN). If not used, enter <code>00</code>.
+  final String panSequenceNumber;
+
+  /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique
+  /// identifier for a payment credit or debit card and associates the card to a
+  /// specific account holder.
+  final String primaryAccountNumber;
+
+  SessionKeyUnionPay({
+    required this.applicationTransactionCounter,
+    required this.panSequenceNumber,
+    required this.primaryAccountNumber,
+  });
+
+  Map<String, dynamic> toJson() {
+    final applicationTransactionCounter = this.applicationTransactionCounter;
+    final panSequenceNumber = this.panSequenceNumber;
+    final primaryAccountNumber = this.primaryAccountNumber;
+    return {
+      'ApplicationTransactionCounter': applicationTransactionCounter,
       'PanSequenceNumber': panSequenceNumber,
       'PrimaryAccountNumber': primaryAccountNumber,
     };

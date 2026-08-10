@@ -295,10 +295,9 @@ class RdsData {
 
   /// Runs one or more SQL statements.
   /// <note>
-  /// This operation isn't supported for Aurora Serverless v2 and provisioned DB
-  /// clusters. For Aurora Serverless v1 DB clusters, the operation is
-  /// deprecated. Use the <code>BatchExecuteStatement</code> or
-  /// <code>ExecuteStatement</code> operation.
+  /// This operation is deprecated. Please use the
+  /// <code>BatchExecuteStatement</code> or <code>ExecuteStatement</code>
+  /// operation.
   /// </note>
   ///
   /// May throw [AccessDeniedException].

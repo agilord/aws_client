@@ -68,6 +68,108 @@ class BedrockAgent {
     _protocol.close();
   }
 
+  /// Removes the resource policy associated with a knowledge base. After
+  /// deletion, other AWS accounts can no longer access the knowledge base using
+  /// cross-account permissions.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the knowledge base to remove the
+  /// resource policy from.
+  ///
+  /// Parameter [expectedRevisionId] :
+  /// The expected revision identifier of the resource policy. Use this to
+  /// prevent conflicts when multiple users update the same policy concurrently.
+  Future<DeleteResourcePolicyResponse> deleteResourcePolicy({
+    required String resourceArn,
+    String? expectedRevisionId,
+  }) async {
+    final $query = <String, List<String>>{
+      if (expectedRevisionId != null)
+        'expectedRevisionId': [expectedRevisionId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/resourcepolicy/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteResourcePolicyResponse.fromJson(response);
+  }
+
+  /// Retrieves the resource policy associated with a knowledge base.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the knowledge base to retrieve the
+  /// resource policy for.
+  Future<GetResourcePolicyResponse> getResourcePolicy({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/resourcepolicy/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetResourcePolicyResponse.fromJson(response);
+  }
+
+  /// Associates a resource policy with a knowledge base. A resource policy
+  /// allows other AWS accounts to access the knowledge base. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-cross-account.html">Cross-account
+  /// access for knowledge bases</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [policy] :
+  /// The JSON-formatted resource policy to associate with the knowledge base.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the knowledge base to attach the
+  /// resource policy to.
+  ///
+  /// Parameter [expectedRevisionId] :
+  /// The expected revision identifier of the resource policy. Use this to
+  /// prevent conflicts when multiple users update the same policy concurrently.
+  /// Specify the <code>revisionId</code> from the most recent
+  /// <code>GetResourcePolicy</code> or <code>PutResourcePolicy</code> response.
+  Future<PutResourcePolicyResponse> putResourcePolicy({
+    required Object policy,
+    required String resourceArn,
+    String? expectedRevisionId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'policy': jsonEncode(policy),
+      if (expectedRevisionId != null) 'expectedRevisionId': expectedRevisionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/resourcepolicy/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutResourcePolicyResponse.fromJson(response);
+  }
+
   /// Validates the definition of a flow.
   ///
   /// May throw [AccessDeniedException].
@@ -1515,7 +1617,10 @@ class BedrockAgent {
   /// resource. Note that the <b>vector store itself is not deleted</b> if you
   /// delete a knowledge base or data source resource.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// For managed knowledge bases, the only supported option is
+  /// <code>DELETE</code>, which is also the default.
+  /// </note>
   ///
   /// Parameter [description] :
   /// A description of the data source.
@@ -1816,13 +1921,23 @@ class BedrockAgent {
   ///
   /// Parameter [flowIdentifier] :
   /// The unique identifier of the flow.
+  ///
+  /// Parameter [includedData] :
+  /// Controls the scope of data returned. Set to <code>METADATA_ONLY</code> to
+  /// return only resource metadata. Set to <code>ALL_DATA</code> or omit this
+  /// field to return the full response.
   Future<GetFlowResponse> getFlow({
     required String flowIdentifier,
+    IncludedData? includedData,
   }) async {
+    final $query = <String, List<String>>{
+      if (includedData != null) 'includedData': [includedData.value],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetFlowResponse.fromJson(response);
@@ -2284,15 +2399,25 @@ class BedrockAgent {
   ///
   /// Parameter [flowVersion] :
   /// The version of the flow for which to get information.
+  ///
+  /// Parameter [includedData] :
+  /// Controls the scope of data returned. Set to <code>METADATA_ONLY</code> to
+  /// return only resource metadata. Set to <code>ALL_DATA</code> or omit this
+  /// field to return the full response.
   Future<GetFlowVersionResponse> getFlowVersion({
     required String flowIdentifier,
     required String flowVersion,
+    IncludedData? includedData,
   }) async {
+    final $query = <String, List<String>>{
+      if (includedData != null) 'includedData': [includedData.value],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/flows/${Uri.encodeComponent(flowIdentifier)}/versions/${Uri.encodeComponent(flowVersion)}/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetFlowVersionResponse.fromJson(response);
@@ -2834,11 +2959,11 @@ class BedrockAgent {
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowlege-base-prereq.html">Set
   /// up a knowledge base</a>.
   /// <note>
-  /// If you prefer to let Amazon Bedrock create and manage a vector store for
-  /// you in Amazon OpenSearch Service, use the console. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create">Create
-  /// a knowledge base</a>.
+  /// To create a managed knowledge base, provide a
+  /// <code>managedKnowledgeBaseConfiguration</code> during creation. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-build-managed.html">Build
+  /// a managed knowledge base</a>.
   /// </note>
   /// <ul>
   /// <li>
@@ -2849,12 +2974,21 @@ class BedrockAgent {
   /// knowledge base in the <code>roleArn</code> field.
   /// </li>
   /// <li>
-  /// Provide the embedding model to use in the <code>embeddingModelArn</code>
-  /// field in the <code>knowledgeBaseConfiguration</code> object.
+  /// For managed knowledge bases, set <code>embeddingModelType</code> to
+  /// <code>MANAGED</code> to use the service-managed embedding model, or
+  /// <code>CUSTOM</code> with an <code>embeddingModelArn</code> to use your
+  /// own. To use your own KMS key for encryption, provide the ARN in
+  /// <code>serverSideEncryptionConfiguration</code>. No vector store
+  /// configuration is required for managed knowledge bases.
   /// </li>
   /// <li>
-  /// Provide the configuration for your vector store in the
-  /// <code>storageConfiguration</code> object.
+  /// For self-managed knowledge bases, provide the embedding model to use in
+  /// the <code>embeddingModelArn</code> field in the
+  /// <code>knowledgeBaseConfiguration</code> object.
+  /// </li>
+  /// <li>
+  /// For self-managed knowledge bases, provide the configuration for your
+  /// vector store in the <code>storageConfiguration</code> object.
   ///
   /// <ul>
   /// <li>
@@ -3382,15 +3516,22 @@ class BedrockAgent {
   /// Parameter [promptIdentifier] :
   /// The unique identifier of the prompt.
   ///
+  /// Parameter [includedData] :
+  /// Controls the scope of data returned. Set to <code>METADATA_ONLY</code> to
+  /// return only resource metadata. Set to <code>ALL_DATA</code> or omit this
+  /// field to return the full response.
+  ///
   /// Parameter [promptVersion] :
   /// The version of the prompt about which you want to retrieve information.
   /// Omit this field to return information about the working draft of the
   /// prompt.
   Future<GetPromptResponse> getPrompt({
     required String promptIdentifier,
+    IncludedData? includedData,
     String? promptVersion,
   }) async {
     final $query = <String, List<String>>{
+      if (includedData != null) 'includedData': [includedData.value],
       if (promptVersion != null) 'promptVersion': [promptVersion],
     };
     final response = await _protocol.send(
@@ -3804,6 +3945,105 @@ class BedrockAgent {
       exceptionFnMap: _exceptionFns,
     );
     return ListAgentVersionsResponse.fromJson(response);
+  }
+}
+
+/// @nodoc
+class DeleteResourcePolicyResponse {
+  /// The ARN of the knowledge base that the resource policy was removed from.
+  final String resourceArn;
+
+  /// The revision identifier after the resource policy was deleted.
+  final String? revisionId;
+
+  DeleteResourcePolicyResponse({
+    required this.resourceArn,
+    this.revisionId,
+  });
+
+  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteResourcePolicyResponse(
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final revisionId = this.revisionId;
+    return {
+      'resourceArn': resourceArn,
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
+}
+
+/// @nodoc
+class GetResourcePolicyResponse {
+  /// The JSON-formatted resource policy associated with the knowledge base.
+  final Object policy;
+
+  /// The ARN of the knowledge base that the resource policy is associated with.
+  final String resourceArn;
+
+  /// The revision identifier of the resource policy.
+  final String revisionId;
+
+  GetResourcePolicyResponse({
+    required this.policy,
+    required this.resourceArn,
+    required this.revisionId,
+  });
+
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyResponse(
+      policy: jsonDecode(json['policy'] as String) as Object,
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    final resourceArn = this.resourceArn;
+    final revisionId = this.revisionId;
+    return {
+      'policy': jsonEncode(policy),
+      'resourceArn': resourceArn,
+      'revisionId': revisionId,
+    };
+  }
+}
+
+/// @nodoc
+class PutResourcePolicyResponse {
+  /// The ARN of the knowledge base that the resource policy was attached to.
+  final String resourceArn;
+
+  /// The revision identifier of the resource policy. Use this value in the
+  /// <code>expectedRevisionId</code> field of a subsequent
+  /// <code>PutResourcePolicy</code> or <code>DeleteResourcePolicy</code> request.
+  final String revisionId;
+
+  PutResourcePolicyResponse({
+    required this.resourceArn,
+    required this.revisionId,
+  });
+
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final revisionId = this.revisionId;
+    return {
+      'resourceArn': resourceArn,
+      'revisionId': revisionId,
+    };
   }
 }
 
@@ -8489,6 +8729,30 @@ class PromptSummary {
   }
 }
 
+/// @nodoc
+class IncludedData {
+  static const allData = IncludedData._('ALL_DATA');
+  static const metadataOnly = IncludedData._('METADATA_ONLY');
+
+  final String value;
+
+  const IncludedData._(this.value);
+
+  static const values = [allData, metadataOnly];
+
+  static IncludedData fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IncludedData._(value));
+
+  @override
+  bool operator ==(other) => other is IncludedData && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains information about a knowledge base.
 ///
 /// @nodoc
@@ -8618,11 +8882,12 @@ class KnowledgeBase {
 /// @nodoc
 class KnowledgeBaseConfiguration {
   /// The type of data that the data source is converted into for the knowledge
-  /// base.
+  /// base. Choose <code>MANAGED</code> to create a managed knowledge base.
   final KnowledgeBaseType type;
 
   /// Settings for an Amazon Kendra knowledge base.
   final KendraKnowledgeBaseConfiguration? kendraKnowledgeBaseConfiguration;
+  final ManagedKnowledgeBaseConfiguration? managedKnowledgeBaseConfiguration;
 
   /// Specifies configurations for a knowledge base connected to an SQL database.
   final SqlKnowledgeBaseConfiguration? sqlKnowledgeBaseConfiguration;
@@ -8634,6 +8899,7 @@ class KnowledgeBaseConfiguration {
   KnowledgeBaseConfiguration({
     required this.type,
     this.kendraKnowledgeBaseConfiguration,
+    this.managedKnowledgeBaseConfiguration,
     this.sqlKnowledgeBaseConfiguration,
     this.vectorKnowledgeBaseConfiguration,
   });
@@ -8645,6 +8911,12 @@ class KnowledgeBaseConfiguration {
           json['kendraKnowledgeBaseConfiguration'] != null
               ? KendraKnowledgeBaseConfiguration.fromJson(
                   json['kendraKnowledgeBaseConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      managedKnowledgeBaseConfiguration:
+          json['managedKnowledgeBaseConfiguration'] != null
+              ? ManagedKnowledgeBaseConfiguration.fromJson(
+                  json['managedKnowledgeBaseConfiguration']
                       as Map<String, dynamic>)
               : null,
       sqlKnowledgeBaseConfiguration:
@@ -8665,6 +8937,8 @@ class KnowledgeBaseConfiguration {
     final type = this.type;
     final kendraKnowledgeBaseConfiguration =
         this.kendraKnowledgeBaseConfiguration;
+    final managedKnowledgeBaseConfiguration =
+        this.managedKnowledgeBaseConfiguration;
     final sqlKnowledgeBaseConfiguration = this.sqlKnowledgeBaseConfiguration;
     final vectorKnowledgeBaseConfiguration =
         this.vectorKnowledgeBaseConfiguration;
@@ -8672,6 +8946,8 @@ class KnowledgeBaseConfiguration {
       'type': type.value,
       if (kendraKnowledgeBaseConfiguration != null)
         'kendraKnowledgeBaseConfiguration': kendraKnowledgeBaseConfiguration,
+      if (managedKnowledgeBaseConfiguration != null)
+        'managedKnowledgeBaseConfiguration': managedKnowledgeBaseConfiguration,
       if (sqlKnowledgeBaseConfiguration != null)
         'sqlKnowledgeBaseConfiguration': sqlKnowledgeBaseConfiguration,
       if (vectorKnowledgeBaseConfiguration != null)
@@ -8827,6 +9103,8 @@ class KnowledgeBaseStatus {
   static const failed = KnowledgeBaseStatus._('FAILED');
   static const deleteUnsuccessful =
       KnowledgeBaseStatus._('DELETE_UNSUCCESSFUL');
+  static const updateUnsuccessful =
+      KnowledgeBaseStatus._('UPDATE_UNSUCCESSFUL');
 
   final String value;
 
@@ -8838,7 +9116,8 @@ class KnowledgeBaseStatus {
     deleting,
     updating,
     failed,
-    deleteUnsuccessful
+    deleteUnsuccessful,
+    updateUnsuccessful
   ];
 
   static KnowledgeBaseStatus fromString(String value) =>
@@ -8856,6 +9135,8 @@ class KnowledgeBaseStatus {
   String toString() => value;
 }
 
+/// The storage type of a knowledge base.
+///
 /// @nodoc
 class KnowledgeBaseStorageType {
   static const opensearchServerless =
@@ -9632,17 +9913,20 @@ class OpenSearchServerlessFieldMapping {
   }
 }
 
+/// The type of a knowledge base.
+///
 /// @nodoc
 class KnowledgeBaseType {
   static const vector = KnowledgeBaseType._('VECTOR');
   static const kendra = KnowledgeBaseType._('KENDRA');
   static const sql = KnowledgeBaseType._('SQL');
+  static const managed = KnowledgeBaseType._('MANAGED');
 
   final String value;
 
   const KnowledgeBaseType._(this.value);
 
-  static const values = [vector, kendra, sql];
+  static const values = [vector, kendra, sql, managed];
 
   static KnowledgeBaseType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -9713,6 +9997,60 @@ class VectorKnowledgeBaseConfiguration {
       if (supplementalDataStorageConfiguration != null)
         'supplementalDataStorageConfiguration':
             supplementalDataStorageConfiguration,
+    };
+  }
+}
+
+/// Configurations for a managed knowledge base.
+///
+/// @nodoc
+class ManagedKnowledgeBaseConfiguration {
+  /// The ARN for the embeddings model.
+  final String? embeddingModelArn;
+  final EmbeddingModelConfiguration? embeddingModelConfiguration;
+  final EmbeddingModelType? embeddingModelType;
+  final ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration;
+
+  ManagedKnowledgeBaseConfiguration({
+    this.embeddingModelArn,
+    this.embeddingModelConfiguration,
+    this.embeddingModelType,
+    this.serverSideEncryptionConfiguration,
+  });
+
+  factory ManagedKnowledgeBaseConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ManagedKnowledgeBaseConfiguration(
+      embeddingModelArn: json['embeddingModelArn'] as String?,
+      embeddingModelConfiguration: json['embeddingModelConfiguration'] != null
+          ? EmbeddingModelConfiguration.fromJson(
+              json['embeddingModelConfiguration'] as Map<String, dynamic>)
+          : null,
+      embeddingModelType: (json['embeddingModelType'] as String?)
+          ?.let(EmbeddingModelType.fromString),
+      serverSideEncryptionConfiguration:
+          json['serverSideEncryptionConfiguration'] != null
+              ? ServerSideEncryptionConfiguration.fromJson(
+                  json['serverSideEncryptionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final embeddingModelArn = this.embeddingModelArn;
+    final embeddingModelConfiguration = this.embeddingModelConfiguration;
+    final embeddingModelType = this.embeddingModelType;
+    final serverSideEncryptionConfiguration =
+        this.serverSideEncryptionConfiguration;
+    return {
+      if (embeddingModelArn != null) 'embeddingModelArn': embeddingModelArn,
+      if (embeddingModelConfiguration != null)
+        'embeddingModelConfiguration': embeddingModelConfiguration,
+      if (embeddingModelType != null)
+        'embeddingModelType': embeddingModelType.value,
+      if (serverSideEncryptionConfiguration != null)
+        'serverSideEncryptionConfiguration': serverSideEncryptionConfiguration,
     };
   }
 }
@@ -10519,6 +10857,38 @@ class RedshiftQueryEngineRedshiftStorageConfiguration {
   }
 }
 
+/// Choose <code>CUSTOM</code> to provide your own Bedrock embedding model ARN.
+/// Choose <code>MANAGED</code> to use a service-managed embedding model. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-create.html#kb-managed-embedding-models">Embedding
+/// model options</a>.
+///
+/// @nodoc
+class EmbeddingModelType {
+  static const custom = EmbeddingModelType._('CUSTOM');
+  static const managed = EmbeddingModelType._('MANAGED');
+
+  final String value;
+
+  const EmbeddingModelType._(this.value);
+
+  static const values = [custom, managed];
+
+  static EmbeddingModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EmbeddingModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmbeddingModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The configuration details for the embeddings model.
 ///
 /// @nodoc
@@ -10552,122 +10922,29 @@ class EmbeddingModelConfiguration {
   }
 }
 
-/// Specifies configurations for the storage location of the images extracted
-/// from multimodal documents in your data source. These images can be retrieved
-/// and returned to the end user.
+/// Contains the configuration for server-side encryption for your managed
+/// knowledge base.
 ///
 /// @nodoc
-class SupplementalDataStorageConfiguration {
-  /// A list of objects specifying storage locations for images extracted from
-  /// multimodal documents in your data source.
-  final List<SupplementalDataStorageLocation> storageLocations;
+class ServerSideEncryptionConfiguration {
+  /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
+  final String? kmsKeyArn;
 
-  SupplementalDataStorageConfiguration({
-    required this.storageLocations,
+  ServerSideEncryptionConfiguration({
+    this.kmsKeyArn,
   });
 
-  factory SupplementalDataStorageConfiguration.fromJson(
+  factory ServerSideEncryptionConfiguration.fromJson(
       Map<String, dynamic> json) {
-    return SupplementalDataStorageConfiguration(
-      storageLocations: ((json['storageLocations'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => SupplementalDataStorageLocation.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+    return ServerSideEncryptionConfiguration(
+      kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final storageLocations = this.storageLocations;
+    final kmsKeyArn = this.kmsKeyArn;
     return {
-      'storageLocations': storageLocations,
-    };
-  }
-}
-
-/// Contains information about a storage location for images extracted from
-/// multimodal documents in your data source.
-///
-/// @nodoc
-class SupplementalDataStorageLocation {
-  /// Specifies the storage service used for this location.
-  final SupplementalDataStorageLocationType type;
-
-  /// Contains information about the Amazon S3 location for the extracted images.
-  final S3Location? s3Location;
-
-  SupplementalDataStorageLocation({
-    required this.type,
-    this.s3Location,
-  });
-
-  factory SupplementalDataStorageLocation.fromJson(Map<String, dynamic> json) {
-    return SupplementalDataStorageLocation(
-      type: SupplementalDataStorageLocationType.fromString(
-          (json['type'] as String?) ?? ''),
-      s3Location: json['s3Location'] != null
-          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final s3Location = this.s3Location;
-    return {
-      'type': type.value,
-      if (s3Location != null) 's3Location': s3Location,
-    };
-  }
-}
-
-/// @nodoc
-class SupplementalDataStorageLocationType {
-  static const s3 = SupplementalDataStorageLocationType._('S3');
-
-  final String value;
-
-  const SupplementalDataStorageLocationType._(this.value);
-
-  static const values = [s3];
-
-  static SupplementalDataStorageLocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SupplementalDataStorageLocationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SupplementalDataStorageLocationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An Amazon S3 location.
-///
-/// @nodoc
-class S3Location {
-  /// The location's URI. For example,
-  /// <code>s3://my-bucket/chunk-processor/</code>.
-  final String uri;
-
-  S3Location({
-    required this.uri,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      uri: (json['uri'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final uri = this.uri;
-    return {
-      'uri': uri,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
   }
 }
@@ -10871,6 +11148,130 @@ class AudioSegmentationConfiguration {
     final fixedLengthDuration = this.fixedLengthDuration;
     return {
       'fixedLengthDuration': fixedLengthDuration,
+    };
+  }
+}
+
+/// Specifies configurations for the storage location of multimedia content
+/// (images, audio, and video) extracted from multimodal documents in your data
+/// source. This content can be retrieved and returned to the end user with
+/// timestamp references for audio and video segments.
+///
+/// @nodoc
+class SupplementalDataStorageConfiguration {
+  /// A list of objects specifying storage locations for multimedia content
+  /// (images, audio, and video) extracted from multimodal documents in your data
+  /// source.
+  final List<SupplementalDataStorageLocation> storageLocations;
+
+  SupplementalDataStorageConfiguration({
+    required this.storageLocations,
+  });
+
+  factory SupplementalDataStorageConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SupplementalDataStorageConfiguration(
+      storageLocations: ((json['storageLocations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SupplementalDataStorageLocation.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageLocations = this.storageLocations;
+    return {
+      'storageLocations': storageLocations,
+    };
+  }
+}
+
+/// Contains information about a storage location for multimedia content
+/// (images, audio, and video) extracted from multimodal documents in your data
+/// source.
+///
+/// @nodoc
+class SupplementalDataStorageLocation {
+  /// Specifies the storage service used for this location.
+  final SupplementalDataStorageLocationType type;
+
+  /// Contains information about the Amazon S3 location for the extracted
+  /// multimedia content.
+  final S3Location? s3Location;
+
+  SupplementalDataStorageLocation({
+    required this.type,
+    this.s3Location,
+  });
+
+  factory SupplementalDataStorageLocation.fromJson(Map<String, dynamic> json) {
+    return SupplementalDataStorageLocation(
+      type: SupplementalDataStorageLocationType.fromString(
+          (json['type'] as String?) ?? ''),
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final s3Location = this.s3Location;
+    return {
+      'type': type.value,
+      if (s3Location != null) 's3Location': s3Location,
+    };
+  }
+}
+
+/// @nodoc
+class SupplementalDataStorageLocationType {
+  static const s3 = SupplementalDataStorageLocationType._('S3');
+
+  final String value;
+
+  const SupplementalDataStorageLocationType._(this.value);
+
+  static const values = [s3];
+
+  static SupplementalDataStorageLocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SupplementalDataStorageLocationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupplementalDataStorageLocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An Amazon S3 location.
+///
+/// @nodoc
+class S3Location {
+  /// The location's URI. For example,
+  /// <code>s3://my-bucket/chunk-processor/</code>.
+  final String uri;
+
+  S3Location({
+    required this.uri,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      uri: (json['uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    return {
+      'uri': uri,
     };
   }
 }
@@ -11368,6 +11769,10 @@ class DocumentMetadata {
   /// The type of the source source from which to add metadata.
   final MetadataSourceType type;
 
+  /// Access control list for the document. Used when metadata type is
+  /// IN_LINE_ATTRIBUTE.
+  final List<DocumentAccessControlEntry>? accessControlList;
+
   /// An array of objects, each of which defines a metadata attribute to associate
   /// with the content to ingest. You define the attributes inline.
   final List<MetadataAttribute>? inlineAttributes;
@@ -11378,16 +11783,19 @@ class DocumentMetadata {
 
   DocumentMetadata({
     required this.type,
+    this.accessControlList,
     this.inlineAttributes,
     this.s3Location,
   });
 
   Map<String, dynamic> toJson() {
     final type = this.type;
+    final accessControlList = this.accessControlList;
     final inlineAttributes = this.inlineAttributes;
     final s3Location = this.s3Location;
     return {
       'type': type.value,
+      if (accessControlList != null) 'accessControlList': accessControlList,
       if (inlineAttributes != null) 'inlineAttributes': inlineAttributes,
       if (s3Location != null) 's3Location': s3Location,
     };
@@ -11736,6 +12144,92 @@ class MetadataSourceType {
   String toString() => value;
 }
 
+/// An access control entry specifying a principal and their access level.
+///
+/// @nodoc
+class DocumentAccessControlEntry {
+  /// Whether to allow or deny access.
+  final AccessControlAccess access;
+
+  /// The user identifier.
+  final String name;
+
+  /// The type of principal.
+  final AccessControlPrincipalType type;
+
+  DocumentAccessControlEntry({
+    required this.access,
+    required this.name,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final access = this.access;
+    final name = this.name;
+    final type = this.type;
+    return {
+      'access': access.value,
+      'name': name,
+      'type': type.value,
+    };
+  }
+}
+
+/// The type of principal in an access control entry.
+///
+/// @nodoc
+class AccessControlPrincipalType {
+  static const user = AccessControlPrincipalType._('USER');
+
+  final String value;
+
+  const AccessControlPrincipalType._(this.value);
+
+  static const values = [user];
+
+  static AccessControlPrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessControlPrincipalType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessControlPrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The access level for an access control entry.
+///
+/// @nodoc
+class AccessControlAccess {
+  static const allow = AccessControlAccess._('ALLOW');
+  static const deny = AccessControlAccess._('DENY');
+
+  final String value;
+
+  const AccessControlAccess._(this.value);
+
+  static const values = [allow, deny];
+
+  static AccessControlAccess fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessControlAccess._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessControlAccess && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains information about a metadata attribute.
 ///
 /// @nodoc
@@ -11997,6 +12491,9 @@ class IngestionJobStatistics {
   /// updated, and unchanged documents.
   final int? numberOfDocumentsScanned;
 
+  /// The number of source documents that were skipped during ingestion.
+  final int? numberOfDocumentsSkipped;
+
   /// The number of metadata files that were updated or deleted.
   final int? numberOfMetadataDocumentsModified;
 
@@ -12016,6 +12513,7 @@ class IngestionJobStatistics {
     this.numberOfDocumentsDeleted,
     this.numberOfDocumentsFailed,
     this.numberOfDocumentsScanned,
+    this.numberOfDocumentsSkipped,
     this.numberOfMetadataDocumentsModified,
     this.numberOfMetadataDocumentsScanned,
     this.numberOfModifiedDocumentsIndexed,
@@ -12027,6 +12525,7 @@ class IngestionJobStatistics {
       numberOfDocumentsDeleted: json['numberOfDocumentsDeleted'] as int?,
       numberOfDocumentsFailed: json['numberOfDocumentsFailed'] as int?,
       numberOfDocumentsScanned: json['numberOfDocumentsScanned'] as int?,
+      numberOfDocumentsSkipped: json['numberOfDocumentsSkipped'] as int?,
       numberOfMetadataDocumentsModified:
           json['numberOfMetadataDocumentsModified'] as int?,
       numberOfMetadataDocumentsScanned:
@@ -12041,6 +12540,7 @@ class IngestionJobStatistics {
     final numberOfDocumentsDeleted = this.numberOfDocumentsDeleted;
     final numberOfDocumentsFailed = this.numberOfDocumentsFailed;
     final numberOfDocumentsScanned = this.numberOfDocumentsScanned;
+    final numberOfDocumentsSkipped = this.numberOfDocumentsSkipped;
     final numberOfMetadataDocumentsModified =
         this.numberOfMetadataDocumentsModified;
     final numberOfMetadataDocumentsScanned =
@@ -12055,6 +12555,8 @@ class IngestionJobStatistics {
         'numberOfDocumentsFailed': numberOfDocumentsFailed,
       if (numberOfDocumentsScanned != null)
         'numberOfDocumentsScanned': numberOfDocumentsScanned,
+      if (numberOfDocumentsSkipped != null)
+        'numberOfDocumentsSkipped': numberOfDocumentsSkipped,
       if (numberOfMetadataDocumentsModified != null)
         'numberOfMetadataDocumentsModified': numberOfMetadataDocumentsModified,
       if (numberOfMetadataDocumentsScanned != null)
@@ -16447,12 +16949,22 @@ class DataSourceStatus {
   static const available = DataSourceStatus._('AVAILABLE');
   static const deleting = DataSourceStatus._('DELETING');
   static const deleteUnsuccessful = DataSourceStatus._('DELETE_UNSUCCESSFUL');
+  static const creating = DataSourceStatus._('CREATING');
+  static const updating = DataSourceStatus._('UPDATING');
+  static const failed = DataSourceStatus._('FAILED');
 
   final String value;
 
   const DataSourceStatus._(this.value);
 
-  static const values = [available, deleting, deleteUnsuccessful];
+  static const values = [
+    available,
+    deleting,
+    deleteUnsuccessful,
+    creating,
+    updating,
+    failed
+  ];
 
   static DataSourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -16475,41 +16987,59 @@ class DataSourceConfiguration {
   /// The type of data source.
   final DataSourceType type;
 
-  /// The configuration information to connect to Confluence as your data source.
+  /// The configuration information to connect to Confluence as your data source
+  /// for self-managed knowledge bases.
   /// <note>
-  /// Confluence data source connector is in preview release and is subject to
-  /// change.
+  /// To configure this data source for managed knowledge bases, use <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html">managedKnowledgeBaseConnectorConfiguration</a>.
+  /// Confluence data source connector for self-managed knowledge bases is in
+  /// preview release and is subject to change.
   /// </note>
   final ConfluenceDataSourceConfiguration? confluenceConfiguration;
 
-  /// The configuration information to connect to Amazon S3 as your data source.
+  /// Contains the configuration for a data source that connects a managed
+  /// knowledge base to a supported data source connector. Specify this object
+  /// when the data source type is <code>MANAGED_KNOWLEDGE_BASE_CONNECTOR</code>.
+  final ManagedKnowledgeBaseConnectorConfiguration?
+      managedKnowledgeBaseConnectorConfiguration;
+
+  /// The configuration information to connect to Amazon S3 as your data source
+  /// for self-managed knowledge bases. To configure this data source for managed
+  /// knowledge bases, use <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html">managedKnowledgeBaseConnectorConfiguration</a>.
   final S3DataSourceConfiguration? s3Configuration;
 
   /// The configuration information to connect to Salesforce as your data source.
   /// <note>
-  /// Salesforce data source connector is in preview release and is subject to
-  /// change.
+  /// Salesforce data source connector for self-managed knowledge bases is in
+  /// preview release and is subject to change.
   /// </note>
   final SalesforceDataSourceConfiguration? salesforceConfiguration;
 
-  /// The configuration information to connect to SharePoint as your data source.
+  /// The configuration information to connect to SharePoint as your data source
+  /// for self-managed knowledge bases.
   /// <note>
-  /// SharePoint data source connector is in preview release and is subject to
-  /// change.
+  /// To configure this data source for managed knowledge bases, use <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html">managedKnowledgeBaseConnectorConfiguration</a>.
+  /// SharePoint data source connector for self-managed knowledge bases is in
+  /// preview release and is subject to change.
   /// </note>
   final SharePointDataSourceConfiguration? sharePointConfiguration;
 
   /// The configuration of web URLs to crawl for your data source. You should be
   /// authorized to crawl the URLs.
   /// <note>
-  /// Crawling web URLs as your data source is in preview release and is subject
-  /// to change.
+  /// To configure this data source for managed knowledge bases, use <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html">managedKnowledgeBaseConnectorConfiguration</a>.
+  /// Web crawler data source connector for self-managed knowledge bases is in
+  /// preview release and is subject to change.
   /// </note>
   final WebDataSourceConfiguration? webConfiguration;
 
   DataSourceConfiguration({
     required this.type,
     this.confluenceConfiguration,
+    this.managedKnowledgeBaseConnectorConfiguration,
     this.s3Configuration,
     this.salesforceConfiguration,
     this.sharePointConfiguration,
@@ -16523,6 +17053,12 @@ class DataSourceConfiguration {
           ? ConfluenceDataSourceConfiguration.fromJson(
               json['confluenceConfiguration'] as Map<String, dynamic>)
           : null,
+      managedKnowledgeBaseConnectorConfiguration:
+          json['managedKnowledgeBaseConnectorConfiguration'] != null
+              ? ManagedKnowledgeBaseConnectorConfiguration.fromJson(
+                  json['managedKnowledgeBaseConnectorConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       s3Configuration: json['s3Configuration'] != null
           ? S3DataSourceConfiguration.fromJson(
               json['s3Configuration'] as Map<String, dynamic>)
@@ -16545,6 +17081,8 @@ class DataSourceConfiguration {
   Map<String, dynamic> toJson() {
     final type = this.type;
     final confluenceConfiguration = this.confluenceConfiguration;
+    final managedKnowledgeBaseConnectorConfiguration =
+        this.managedKnowledgeBaseConnectorConfiguration;
     final s3Configuration = this.s3Configuration;
     final salesforceConfiguration = this.salesforceConfiguration;
     final sharePointConfiguration = this.sharePointConfiguration;
@@ -16553,38 +17091,15 @@ class DataSourceConfiguration {
       'type': type.value,
       if (confluenceConfiguration != null)
         'confluenceConfiguration': confluenceConfiguration,
+      if (managedKnowledgeBaseConnectorConfiguration != null)
+        'managedKnowledgeBaseConnectorConfiguration':
+            managedKnowledgeBaseConnectorConfiguration,
       if (s3Configuration != null) 's3Configuration': s3Configuration,
       if (salesforceConfiguration != null)
         'salesforceConfiguration': salesforceConfiguration,
       if (sharePointConfiguration != null)
         'sharePointConfiguration': sharePointConfiguration,
       if (webConfiguration != null) 'webConfiguration': webConfiguration,
-    };
-  }
-}
-
-/// Contains the configuration for server-side encryption.
-///
-/// @nodoc
-class ServerSideEncryptionConfiguration {
-  /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
-  final String? kmsKeyArn;
-
-  ServerSideEncryptionConfiguration({
-    this.kmsKeyArn,
-  });
-
-  factory ServerSideEncryptionConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ServerSideEncryptionConfiguration(
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kmsKeyArn = this.kmsKeyArn;
-    return {
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
     };
   }
 }
@@ -16849,7 +17364,10 @@ class CustomTransformationConfiguration {
 ///
 /// @nodoc
 class ParsingConfiguration {
-  /// The parsing strategy for the data source.
+  /// The parsing strategy for the data source. Only <code>SMART_PARSING</code>
+  /// can be selected for managed knowledge bases. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-customize-ingestion.html">Customize
+  /// ingestion for managed knowledge bases</a>.
   final ParsingStrategy parsingStrategy;
 
   /// If you specify <code>BEDROCK_DATA_AUTOMATION</code> as the parsing strategy
@@ -17074,12 +17592,17 @@ class ParsingStrategy {
       ParsingStrategy._('BEDROCK_FOUNDATION_MODEL');
   static const bedrockDataAutomation =
       ParsingStrategy._('BEDROCK_DATA_AUTOMATION');
+  static const smartParsing = ParsingStrategy._('SMART_PARSING');
 
   final String value;
 
   const ParsingStrategy._(this.value);
 
-  static const values = [bedrockFoundationModel, bedrockDataAutomation];
+  static const values = [
+    bedrockFoundationModel,
+    bedrockDataAutomation,
+    smartParsing
+  ];
 
   static ParsingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -17558,6 +18081,8 @@ class DataSourceType {
   static const sharepoint = DataSourceType._('SHAREPOINT');
   static const custom = DataSourceType._('CUSTOM');
   static const redshiftMetadata = DataSourceType._('REDSHIFT_METADATA');
+  static const managedKnowledgeBaseConnector =
+      DataSourceType._('MANAGED_KNOWLEDGE_BASE_CONNECTOR');
 
   final String value;
 
@@ -17570,7 +18095,8 @@ class DataSourceType {
     salesforce,
     sharepoint,
     custom,
-    redshiftMetadata
+    redshiftMetadata,
+    managedKnowledgeBaseConnector
   ];
 
   static DataSourceType fromString(String value) =>
@@ -17587,7 +18113,68 @@ class DataSourceType {
   String toString() => value;
 }
 
-/// The configuration information to connect to Amazon S3 as your data source.
+/// Configuration for managed knowledge base connector data sources.
+///
+/// @nodoc
+class ManagedKnowledgeBaseConnectorConfiguration {
+  /// Connector-specific parameters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-connect-ds.html">Connect
+  /// a data source</a>.
+  final Document? connectorParameters;
+
+  /// A safeguard against accidental bulk deletion of indexed content.
+  final DeletionProtectionConfiguration? deletionProtectionConfiguration;
+
+  /// Configuration for extracting media (images, audio, video) from data source
+  /// files.
+  final MediaExtractionConfiguration? mediaExtractionConfiguration;
+
+  ManagedKnowledgeBaseConnectorConfiguration({
+    this.connectorParameters,
+    this.deletionProtectionConfiguration,
+    this.mediaExtractionConfiguration,
+  });
+
+  factory ManagedKnowledgeBaseConnectorConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ManagedKnowledgeBaseConnectorConfiguration(
+      connectorParameters: json['connectorParameters'] != null
+          ? Document.fromJson(
+              json['connectorParameters'] as Map<String, dynamic>)
+          : null,
+      deletionProtectionConfiguration:
+          json['deletionProtectionConfiguration'] != null
+              ? DeletionProtectionConfiguration.fromJson(
+                  json['deletionProtectionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      mediaExtractionConfiguration: json['mediaExtractionConfiguration'] != null
+          ? MediaExtractionConfiguration.fromJson(
+              json['mediaExtractionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorParameters = this.connectorParameters;
+    final deletionProtectionConfiguration =
+        this.deletionProtectionConfiguration;
+    final mediaExtractionConfiguration = this.mediaExtractionConfiguration;
+    return {
+      if (connectorParameters != null)
+        'connectorParameters': connectorParameters,
+      if (deletionProtectionConfiguration != null)
+        'deletionProtectionConfiguration': deletionProtectionConfiguration,
+      if (mediaExtractionConfiguration != null)
+        'mediaExtractionConfiguration': mediaExtractionConfiguration,
+    };
+  }
+}
+
+/// The configuration information to connect to Amazon S3 as your data source
+/// for self-managed knowledge bases. To configure this data source for managed
+/// knowledge bases, use <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html">managedKnowledgeBaseConnectorConfiguration</a>.
 ///
 /// @nodoc
 class S3DataSourceConfiguration {
@@ -17671,7 +18258,8 @@ class WebDataSourceConfiguration {
   }
 }
 
-/// The configuration information to connect to Confluence as your data source.
+/// The configuration information to connect to Confluence as your data source
+/// for self-managed knowledge bases.
 ///
 /// @nodoc
 class ConfluenceDataSourceConfiguration {
@@ -17751,7 +18339,8 @@ class SalesforceDataSourceConfiguration {
   }
 }
 
-/// The configuration information to connect to SharePoint as your data source.
+/// The configuration information to connect to SharePoint as your data source
+/// for self-managed knowledge bases.
 ///
 /// @nodoc
 class SharePointDataSourceConfiguration {
@@ -18568,6 +19157,198 @@ class SeedUrl {
       if (url != null) 'url': url,
     };
   }
+}
+
+/// Configuration for deletion protection.
+///
+/// @nodoc
+class DeletionProtectionConfiguration {
+  /// Enable or disable deletion protection for the connector.
+  final EnabledOrDisabledState deletionProtectionStatus;
+
+  /// The threshold is the maximum percentage of documents that a sync job can
+  /// delete from your index. If a sync would delete more than this percentage,
+  /// the sync skips its delete phase, leaving your indexed documents in place.
+  /// Not supported for the Custom connector.
+  final int? deletionProtectionThreshold;
+
+  DeletionProtectionConfiguration({
+    required this.deletionProtectionStatus,
+    this.deletionProtectionThreshold,
+  });
+
+  factory DeletionProtectionConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeletionProtectionConfiguration(
+      deletionProtectionStatus: EnabledOrDisabledState.fromString(
+          (json['deletionProtectionStatus'] as String?) ?? ''),
+      deletionProtectionThreshold: json['deletionProtectionThreshold'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionProtectionStatus = this.deletionProtectionStatus;
+    final deletionProtectionThreshold = this.deletionProtectionThreshold;
+    return {
+      'deletionProtectionStatus': deletionProtectionStatus.value,
+      if (deletionProtectionThreshold != null)
+        'deletionProtectionThreshold': deletionProtectionThreshold,
+    };
+  }
+}
+
+/// Configuration for media extraction settings.
+///
+/// @nodoc
+class MediaExtractionConfiguration {
+  /// Configuration for audio extraction.
+  final AudioExtractionConfiguration? audioExtractionConfiguration;
+
+  /// Configuration for image extraction.
+  final ImageExtractionConfiguration? imageExtractionConfiguration;
+
+  /// Configuration for video extraction.
+  final VideoExtractionConfiguration? videoExtractionConfiguration;
+
+  MediaExtractionConfiguration({
+    this.audioExtractionConfiguration,
+    this.imageExtractionConfiguration,
+    this.videoExtractionConfiguration,
+  });
+
+  factory MediaExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return MediaExtractionConfiguration(
+      audioExtractionConfiguration: json['audioExtractionConfiguration'] != null
+          ? AudioExtractionConfiguration.fromJson(
+              json['audioExtractionConfiguration'] as Map<String, dynamic>)
+          : null,
+      imageExtractionConfiguration: json['imageExtractionConfiguration'] != null
+          ? ImageExtractionConfiguration.fromJson(
+              json['imageExtractionConfiguration'] as Map<String, dynamic>)
+          : null,
+      videoExtractionConfiguration: json['videoExtractionConfiguration'] != null
+          ? VideoExtractionConfiguration.fromJson(
+              json['videoExtractionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioExtractionConfiguration = this.audioExtractionConfiguration;
+    final imageExtractionConfiguration = this.imageExtractionConfiguration;
+    final videoExtractionConfiguration = this.videoExtractionConfiguration;
+    return {
+      if (audioExtractionConfiguration != null)
+        'audioExtractionConfiguration': audioExtractionConfiguration,
+      if (imageExtractionConfiguration != null)
+        'imageExtractionConfiguration': imageExtractionConfiguration,
+      if (videoExtractionConfiguration != null)
+        'videoExtractionConfiguration': videoExtractionConfiguration,
+    };
+  }
+}
+
+/// Configuration for image extraction.
+///
+/// @nodoc
+class ImageExtractionConfiguration {
+  /// Whether image extraction is enabled or disabled.
+  final EnabledOrDisabledState imageExtractionStatus;
+
+  ImageExtractionConfiguration({
+    required this.imageExtractionStatus,
+  });
+
+  factory ImageExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ImageExtractionConfiguration(
+      imageExtractionStatus: EnabledOrDisabledState.fromString(
+          (json['imageExtractionStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageExtractionStatus = this.imageExtractionStatus;
+    return {
+      'imageExtractionStatus': imageExtractionStatus.value,
+    };
+  }
+}
+
+/// Configuration for audio extraction.
+///
+/// @nodoc
+class AudioExtractionConfiguration {
+  /// Whether audio extraction is enabled or disabled.
+  final EnabledOrDisabledState audioExtractionStatus;
+
+  AudioExtractionConfiguration({
+    required this.audioExtractionStatus,
+  });
+
+  factory AudioExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return AudioExtractionConfiguration(
+      audioExtractionStatus: EnabledOrDisabledState.fromString(
+          (json['audioExtractionStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioExtractionStatus = this.audioExtractionStatus;
+    return {
+      'audioExtractionStatus': audioExtractionStatus.value,
+    };
+  }
+}
+
+/// Configuration for video extraction.
+///
+/// @nodoc
+class VideoExtractionConfiguration {
+  /// Whether video extraction is enabled or disabled.
+  final EnabledOrDisabledState videoExtractionStatus;
+
+  VideoExtractionConfiguration({
+    required this.videoExtractionStatus,
+  });
+
+  factory VideoExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return VideoExtractionConfiguration(
+      videoExtractionStatus: EnabledOrDisabledState.fromString(
+          (json['videoExtractionStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final videoExtractionStatus = this.videoExtractionStatus;
+    return {
+      'videoExtractionStatus': videoExtractionStatus.value,
+    };
+  }
+}
+
+/// @nodoc
+class EnabledOrDisabledState {
+  static const enabled = EnabledOrDisabledState._('ENABLED');
+  static const disabled = EnabledOrDisabledState._('DISABLED');
+
+  final String value;
+
+  const EnabledOrDisabledState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static EnabledOrDisabledState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnabledOrDisabledState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnabledOrDisabledState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains details about a data source.

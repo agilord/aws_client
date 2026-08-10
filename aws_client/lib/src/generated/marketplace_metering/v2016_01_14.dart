@@ -74,8 +74,10 @@ class MarketplaceMetering {
   /// account. Starting June 1, 2026, new SaaS products must use
   /// <code>CustomerAWSAccountId</code> (instead of
   /// <code>CustomerIdentifier</code>), <code>LicenseArn</code> (instead of
-  /// <code>ProductCode</code>) to support this feature. Existing integrations
-  /// will continue to work. Review the new integration for Concurrent
+  /// <code>ProductCode</code>) to support this feature.
+  /// <code>BatchMeterUsage</code> does not support
+  /// <code>CustomerIdentifier</code> for new integrations. Existing
+  /// integrations continue to work. Review the new integration for Concurrent
   /// Agreements <a
   /// href="https://catalog.workshops.aws/mpseller/en-US/saas/integration-for-concurrent-agreements">here</a>.
   /// </important>
@@ -88,7 +90,12 @@ class MarketplaceMetering {
   /// <code>BatchMeterUsage</code> calls.
   ///
   /// Usage records should be submitted in quick succession following a recorded
-  /// event. Usage records aren't accepted 6 hours or more after an event.
+  /// event. Usage records aren't accepted 24 hours or more after an event. At
+  /// the end of each billing cycle, a 6-hour grace period applies. We accept
+  /// usage records for the previous billing month until 06:00 UTC on the first
+  /// day of the next month. For example, you must submit March usage records
+  /// before 06:00 UTC on April 1. After this grace period, we return a
+  /// <code>TimestampOutOfBoundsException</code> error.
   ///
   /// <code>BatchMeterUsage</code> can process up to 25
   /// <code>UsageRecords</code> at a time, and each request must be less than 1
@@ -450,7 +457,13 @@ class MarketplaceMetering {
   /// <code>CustomerIdentifier</code> along with the
   /// <code>CustomerAWSAccountId</code>, <code>ProductCode</code>, and
   /// <code>LicenseArn</code>.
-  /// <note>
+  /// <important>
+  /// For new SaaS product integrations, the <code>CustomerIdentifier</code>
+  /// field is not populated in the <code>ResolveCustomer</code> API response.
+  /// New integrations must use <code>CustomerAWSAccountId</code> and
+  /// <code>LicenseArn</code> to identify customers. Existing integrations
+  /// continue to work unchanged.
+  /// </important> <note>
   /// To successfully resolve the token, the API must be called from the account
   /// that was used to publish the SaaS application. For an example of using
   /// <code>ResolveCustomer</code>, see <a
@@ -483,6 +496,11 @@ class MarketplaceMetering {
   /// token is resolved to obtain a <code>CustomerIdentifier</code> along with
   /// the <code>CustomerAWSAccountId</code>, <code>ProductCode</code>, and
   /// <code>LicenseArn</code>.
+  /// <note>
+  /// For new SaaS product integrations, the <code>CustomerIdentifier</code>
+  /// field is not populated. Use <code>CustomerAWSAccountId</code> and
+  /// <code>LicenseArn</code> for customer identification.
+  /// </note>
   Future<ResolveCustomerResult> resolveCustomer({
     required String registrationToken,
   }) async {
@@ -623,6 +641,11 @@ class ResolveCustomerResult {
 
   /// The <code>CustomerIdentifier</code> is used to identify an individual
   /// customer in your application.
+  /// <important>
+  /// For new SaaS product integrations, this field is not populated. Use
+  /// <code>CustomerAWSAccountId</code> and <code>LicenseArn</code> to identify
+  /// customers instead.
+  /// </important>
   final String? customerIdentifier;
 
   /// The <code>LicenseArn</code> is a unique identifier for a specific granted
@@ -763,9 +786,13 @@ class UsageRecord {
 
   /// Timestamp, in UTC, for which the usage is being reported.
   ///
-  /// Your application can meter usage for up to six hours in the past. Make sure
+  /// Your application can meter usage for up to 24 hours in the past. Make sure
   /// the <code>timestamp</code> value is not before the start of the software
   /// usage.
+  ///
+  /// At the end of each billing cycle, you have a 6-hour grace period to submit
+  /// usage records for the previous billing month before 06:00 UTC on the first
+  /// day of the next month.
   final DateTime timestamp;
 
   /// The <code>CustomerAWSAccountId</code> parameter specifies the AWS account ID
@@ -781,6 +808,10 @@ class UsageRecord {
   /// The <code>CustomerIdentifier</code> is obtained through the
   /// <code>ResolveCustomer</code> operation and represents an individual buyer in
   /// your application.
+  /// <important>
+  /// <code>CustomerIdentifier</code> is not supported for new SaaS product
+  /// integrations. Use <code>CustomerAWSAccountId</code> to identify the buyer.
+  /// </important>
   final String? customerIdentifier;
 
   /// The <code>LicenseArn</code> is a unique identifier for a specific granted

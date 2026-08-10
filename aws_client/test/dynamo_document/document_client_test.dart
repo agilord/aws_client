@@ -160,6 +160,67 @@ void main() {
       expect(updateRet.attributes['test'], equals(1337));
     });
 
+    test('calling searchVectors()', () async {
+      late String requestBody;
+      final dc = DocumentClient(
+        region: 'foo',
+        credentials: AwsClientCredentials(accessKey: '123', secretKey: '123'),
+        client: MockClient((req) async {
+          requestBody = req.body;
+          return Response(
+            jsonEncode({
+              'ConsumedCapacity': {'VectorSearchRequestBytes': 12.5},
+              'SearchResults': [
+                {
+                  'Item': {
+                    'ProductName': {'S': 'Headphones'},
+                    'Price': {'N': '49.99'},
+                  },
+                  'Score': 0.125,
+                },
+                {
+                  'Item': {
+                    'ProductName': {'S': 'Speakers'},
+                  },
+                  'Score': 0.5,
+                },
+              ],
+            }),
+            200,
+          );
+        }),
+      );
+
+      final ret = await dc.searchVectors(
+        tableName: 'Products',
+        indexName: 'cosine-product-idx',
+        searchVector: [0.12, 0.85, 3],
+        topK: 2,
+        searchConditionExpression: 'Category = :cat',
+        expressionAttributeValues: {':cat': 'Electronics'},
+      );
+
+      expect(
+          jsonDecode(requestBody)['SearchVector'],
+          equals([
+            {'N': '0.12'},
+            {'N': '0.85'},
+            {'N': '3'},
+          ]));
+      expect(
+          jsonDecode(requestBody)['ExpressionAttributeValues'],
+          equals({
+            ':cat': {'S': 'Electronics'}
+          }));
+
+      expect(ret.consumedCapacity?.vectorSearchRequestBytes, equals(12.5));
+      expect(ret.searchResults, hasLength(2));
+      expect(ret.searchResults.first.item,
+          equals({'ProductName': 'Headphones', 'Price': 49.99}));
+      expect(ret.searchResults.first.score, equals(0.125));
+      expect(ret.searchResults.last.item, equals({'ProductName': 'Speakers'}));
+    });
+
     test('number values keep their int/double type', () async {
       final dc = mockedDocumentClient({
         'Item': {

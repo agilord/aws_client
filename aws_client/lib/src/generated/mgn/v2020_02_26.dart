@@ -2572,6 +2572,10 @@ class Mgn {
   /// Parameter [internetProtocol] :
   /// Request to configure the internet protocol to IPv4 or IPv6.
   ///
+  /// Parameter [storageConfiguration] :
+  /// Request to configure storage during Replication Settings template
+  /// creation.
+  ///
   /// Parameter [storeSnapshotOnLocalZone] :
   /// Request to store snapshot on local zone during Replication Settings
   /// template creation.
@@ -2598,6 +2602,7 @@ class Mgn {
     required bool useDedicatedReplicationServer,
     String? ebsEncryptionKeyArn,
     InternetProtocol? internetProtocol,
+    StorageConfiguration? storageConfiguration,
     bool? storeSnapshotOnLocalZone,
     Map<String, String>? tags,
     bool? useFipsEndpoint,
@@ -2625,6 +2630,8 @@ class Mgn {
       if (ebsEncryptionKeyArn != null)
         'ebsEncryptionKeyArn': ebsEncryptionKeyArn,
       if (internetProtocol != null) 'internetProtocol': internetProtocol.value,
+      if (storageConfiguration != null)
+        'storageConfiguration': storageConfiguration,
       if (storeSnapshotOnLocalZone != null)
         'storeSnapshotOnLocalZone': storeSnapshotOnLocalZone,
       if (tags != null) 'tags': tags,
@@ -2692,6 +2699,9 @@ class Mgn {
   /// Parameter [stagingAreaTags] :
   /// Update replication configuration template Staging Area Tags request.
   ///
+  /// Parameter [storageConfiguration] :
+  /// Update replication configuration template storage configuration request.
+  ///
   /// Parameter [storeSnapshotOnLocalZone] :
   /// Update replication configuration template store snapshot on local zone
   /// request.
@@ -2719,6 +2729,7 @@ class Mgn {
     List<String>? replicationServersSecurityGroupsIDs,
     String? stagingAreaSubnetId,
     Map<String, String>? stagingAreaTags,
+    StorageConfiguration? storageConfiguration,
     bool? storeSnapshotOnLocalZone,
     bool? useDedicatedReplicationServer,
     bool? useFipsEndpoint,
@@ -2752,6 +2763,8 @@ class Mgn {
       if (stagingAreaSubnetId != null)
         'stagingAreaSubnetId': stagingAreaSubnetId,
       if (stagingAreaTags != null) 'stagingAreaTags': stagingAreaTags,
+      if (storageConfiguration != null)
+        'storageConfiguration': storageConfiguration,
       if (storeSnapshotOnLocalZone != null)
         'storeSnapshotOnLocalZone': storeSnapshotOnLocalZone,
       if (useDedicatedReplicationServer != null)
@@ -2847,15 +2860,31 @@ class Mgn {
   ///
   /// Parameter [connectorAction] :
   /// Update Source Server request connector action.
+  ///
+  /// Parameter [fqdnForActionFramework] :
+  /// Update Source Server request FQDN for action framework.
+  ///
+  /// Parameter [platform] :
+  /// Update Source Server request platform operating system.
+  ///
+  /// Parameter [userProvidedID] :
+  /// Update Source Server request user provided ID.
   Future<SourceServer> updateSourceServer({
     required String sourceServerID,
     String? accountID,
     SourceServerConnectorAction? connectorAction,
+    String? fqdnForActionFramework,
+    String? platform,
+    String? userProvidedID,
   }) async {
     final $payload = <String, dynamic>{
       'sourceServerID': sourceServerID,
       if (accountID != null) 'accountID': accountID,
       if (connectorAction != null) 'connectorAction': connectorAction,
+      if (fqdnForActionFramework != null)
+        'fqdnForActionFramework': fqdnForActionFramework,
+      if (platform != null) 'platform': platform,
+      if (userProvidedID != null) 'userProvidedID': userProvidedID,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3620,6 +3649,9 @@ class Mgn {
   /// Parameter [stagingAreaTags] :
   /// Update replication configuration Staging Area Tags request.
   ///
+  /// Parameter [storageConfiguration] :
+  /// Update replication configuration storage configuration.
+  ///
   /// Parameter [storeSnapshotOnLocalZone] :
   /// Update replication configuration store snapshot on local zone.
   ///
@@ -3646,6 +3678,7 @@ class Mgn {
     List<String>? replicationServersSecurityGroupsIDs,
     String? stagingAreaSubnetId,
     Map<String, String>? stagingAreaTags,
+    StorageConfiguration? storageConfiguration,
     bool? storeSnapshotOnLocalZone,
     bool? useDedicatedReplicationServer,
     bool? useFipsEndpoint,
@@ -3681,6 +3714,8 @@ class Mgn {
       if (stagingAreaSubnetId != null)
         'stagingAreaSubnetId': stagingAreaSubnetId,
       if (stagingAreaTags != null) 'stagingAreaTags': stagingAreaTags,
+      if (storageConfiguration != null)
+        'storageConfiguration': storageConfiguration,
       if (storeSnapshotOnLocalZone != null)
         'storeSnapshotOnLocalZone': storeSnapshotOnLocalZone,
       if (useDedicatedReplicationServer != null)
@@ -6104,6 +6139,9 @@ class ReplicationConfigurationTemplate {
   /// Replication Configuration template Staging Area Tags.
   final Map<String, String>? stagingAreaTags;
 
+  /// Replication Configuration template storage configuration.
+  final StorageConfiguration? storageConfiguration;
+
   /// Replication Configuration template store snapshot on local zone.
   final bool? storeSnapshotOnLocalZone;
 
@@ -6131,6 +6169,7 @@ class ReplicationConfigurationTemplate {
     this.replicationServersSecurityGroupsIDs,
     this.stagingAreaSubnetId,
     this.stagingAreaTags,
+    this.storageConfiguration,
     this.storeSnapshotOnLocalZone,
     this.tags,
     this.useDedicatedReplicationServer,
@@ -6166,6 +6205,10 @@ class ReplicationConfigurationTemplate {
       stagingAreaSubnetId: json['stagingAreaSubnetId'] as String?,
       stagingAreaTags: (json['stagingAreaTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      storageConfiguration: json['storageConfiguration'] != null
+          ? StorageConfiguration.fromJson(
+              json['storageConfiguration'] as Map<String, dynamic>)
+          : null,
       storeSnapshotOnLocalZone: json['storeSnapshotOnLocalZone'] as bool?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -6192,6 +6235,7 @@ class ReplicationConfigurationTemplate {
         this.replicationServersSecurityGroupsIDs;
     final stagingAreaSubnetId = this.stagingAreaSubnetId;
     final stagingAreaTags = this.stagingAreaTags;
+    final storageConfiguration = this.storageConfiguration;
     final storeSnapshotOnLocalZone = this.storeSnapshotOnLocalZone;
     final tags = this.tags;
     final useDedicatedReplicationServer = this.useDedicatedReplicationServer;
@@ -6219,6 +6263,8 @@ class ReplicationConfigurationTemplate {
       if (stagingAreaSubnetId != null)
         'stagingAreaSubnetId': stagingAreaSubnetId,
       if (stagingAreaTags != null) 'stagingAreaTags': stagingAreaTags,
+      if (storageConfiguration != null)
+        'storageConfiguration': storageConfiguration,
       if (storeSnapshotOnLocalZone != null)
         'storeSnapshotOnLocalZone': storeSnapshotOnLocalZone,
       if (tags != null) 'tags': tags,
@@ -6619,6 +6665,9 @@ class ReplicationConfiguration {
   /// Replication Configuration Staging Area tags.
   final Map<String, String>? stagingAreaTags;
 
+  /// Replication Configuration storage configuration.
+  final StorageConfiguration? storageConfiguration;
+
   /// Replication Configuration store snapshot on local zone.
   final bool? storeSnapshotOnLocalZone;
 
@@ -6644,6 +6693,7 @@ class ReplicationConfiguration {
     this.sourceServerID,
     this.stagingAreaSubnetId,
     this.stagingAreaTags,
+    this.storageConfiguration,
     this.storeSnapshotOnLocalZone,
     this.useDedicatedReplicationServer,
     this.useFipsEndpoint,
@@ -6682,6 +6732,10 @@ class ReplicationConfiguration {
       stagingAreaSubnetId: json['stagingAreaSubnetId'] as String?,
       stagingAreaTags: (json['stagingAreaTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      storageConfiguration: json['storageConfiguration'] != null
+          ? StorageConfiguration.fromJson(
+              json['storageConfiguration'] as Map<String, dynamic>)
+          : null,
       storeSnapshotOnLocalZone: json['storeSnapshotOnLocalZone'] as bool?,
       useDedicatedReplicationServer:
           json['useDedicatedReplicationServer'] as bool?,
@@ -6706,6 +6760,7 @@ class ReplicationConfiguration {
     final sourceServerID = this.sourceServerID;
     final stagingAreaSubnetId = this.stagingAreaSubnetId;
     final stagingAreaTags = this.stagingAreaTags;
+    final storageConfiguration = this.storageConfiguration;
     final storeSnapshotOnLocalZone = this.storeSnapshotOnLocalZone;
     final useDedicatedReplicationServer = this.useDedicatedReplicationServer;
     final useFipsEndpoint = this.useFipsEndpoint;
@@ -6733,6 +6788,8 @@ class ReplicationConfiguration {
       if (stagingAreaSubnetId != null)
         'stagingAreaSubnetId': stagingAreaSubnetId,
       if (stagingAreaTags != null) 'stagingAreaTags': stagingAreaTags,
+      if (storageConfiguration != null)
+        'storageConfiguration': storageConfiguration,
       if (storeSnapshotOnLocalZone != null)
         'storeSnapshotOnLocalZone': storeSnapshotOnLocalZone,
       if (useDedicatedReplicationServer != null)
@@ -8060,6 +8117,100 @@ class InternetProtocol {
   String toString() => value;
 }
 
+/// Storage configuration for replication.
+///
+/// @nodoc
+class StorageConfiguration {
+  /// Storage configuration storage type.
+  final StorageType storageType;
+
+  /// Storage configuration FSx ONTAP configuration.
+  final FsxOntapConfiguration? fsxOntapConfiguration;
+
+  StorageConfiguration({
+    required this.storageType,
+    this.fsxOntapConfiguration,
+  });
+
+  factory StorageConfiguration.fromJson(Map<String, dynamic> json) {
+    return StorageConfiguration(
+      storageType:
+          StorageType.fromString((json['storageType'] as String?) ?? ''),
+      fsxOntapConfiguration: json['fsxOntapConfiguration'] != null
+          ? FsxOntapConfiguration.fromJson(
+              json['fsxOntapConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageType = this.storageType;
+    final fsxOntapConfiguration = this.fsxOntapConfiguration;
+    return {
+      'storageType': storageType.value,
+      if (fsxOntapConfiguration != null)
+        'fsxOntapConfiguration': fsxOntapConfiguration,
+    };
+  }
+}
+
+/// @nodoc
+class StorageType {
+  static const ebs = StorageType._('EBS');
+  static const fsxOntap = StorageType._('FSX_ONTAP');
+
+  final String value;
+
+  const StorageType._(this.value);
+
+  static const values = [ebs, fsxOntap];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// FSx for ONTAP storage configuration.
+///
+/// @nodoc
+class FsxOntapConfiguration {
+  /// FSx ONTAP configuration credentials secret ARN.
+  final String credentialsSecretArn;
+
+  /// FSx ONTAP configuration storage virtual machine ID.
+  final String storageVirtualMachineId;
+
+  FsxOntapConfiguration({
+    required this.credentialsSecretArn,
+    required this.storageVirtualMachineId,
+  });
+
+  factory FsxOntapConfiguration.fromJson(Map<String, dynamic> json) {
+    return FsxOntapConfiguration(
+      credentialsSecretArn: (json['credentialsSecretArn'] as String?) ?? '',
+      storageVirtualMachineId:
+          (json['storageVirtualMachineId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final credentialsSecretArn = this.credentialsSecretArn;
+    final storageVirtualMachineId = this.storageVirtualMachineId;
+    return {
+      'credentialsSecretArn': credentialsSecretArn,
+      'storageVirtualMachineId': storageVirtualMachineId,
+    };
+  }
+}
+
 /// Replication Configuration replicated disk.
 ///
 /// @nodoc
@@ -8133,12 +8284,24 @@ class ReplicationConfigurationReplicatedDiskStagingDiskType {
       ReplicationConfigurationReplicatedDiskStagingDiskType._('GP3');
   static const io2 =
       ReplicationConfigurationReplicatedDiskStagingDiskType._('IO2');
+  static const fsxOntap =
+      ReplicationConfigurationReplicatedDiskStagingDiskType._('FSX_ONTAP');
 
   final String value;
 
   const ReplicationConfigurationReplicatedDiskStagingDiskType._(this.value);
 
-  static const values = [auto, gp2, io1, sc1, st1, standard, gp3, io2];
+  static const values = [
+    auto,
+    gp2,
+    io1,
+    sc1,
+    st1,
+    standard,
+    gp3,
+    io2,
+    fsxOntap
+  ];
 
   static ReplicationConfigurationReplicatedDiskStagingDiskType fromString(
           String value) =>
@@ -8566,10 +8729,18 @@ class LaunchedInstance {
   /// Launched instance Job ID.
   final String? jobID;
 
+  /// Launched instance last known checks.
+  final List<LastKnownCheck>? lastKnownChecks;
+
+  /// Launched instance last known FSx checks status.
+  final LastKnownCheckStatus? lastKnownFsxChecksStatus;
+
   LaunchedInstance({
     this.ec2InstanceID,
     this.firstBoot,
     this.jobID,
+    this.lastKnownChecks,
+    this.lastKnownFsxChecksStatus,
   });
 
   factory LaunchedInstance.fromJson(Map<String, dynamic> json) {
@@ -8577,6 +8748,12 @@ class LaunchedInstance {
       ec2InstanceID: json['ec2InstanceID'] as String?,
       firstBoot: (json['firstBoot'] as String?)?.let(FirstBoot.fromString),
       jobID: json['jobID'] as String?,
+      lastKnownChecks: (json['lastKnownChecks'] as List?)
+          ?.nonNulls
+          .map((e) => LastKnownCheck.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastKnownFsxChecksStatus: (json['lastKnownFsxChecksStatus'] as String?)
+          ?.let(LastKnownCheckStatus.fromString),
     );
   }
 
@@ -8584,10 +8761,15 @@ class LaunchedInstance {
     final ec2InstanceID = this.ec2InstanceID;
     final firstBoot = this.firstBoot;
     final jobID = this.jobID;
+    final lastKnownChecks = this.lastKnownChecks;
+    final lastKnownFsxChecksStatus = this.lastKnownFsxChecksStatus;
     return {
       if (ec2InstanceID != null) 'ec2InstanceID': ec2InstanceID,
       if (firstBoot != null) 'firstBoot': firstBoot.value,
       if (jobID != null) 'jobID': jobID,
+      if (lastKnownChecks != null) 'lastKnownChecks': lastKnownChecks,
+      if (lastKnownFsxChecksStatus != null)
+        'lastKnownFsxChecksStatus': lastKnownFsxChecksStatus.value,
     };
   }
 }
@@ -9482,6 +9664,10 @@ class DataReplicationErrorString {
       DataReplicationErrorString._('UNSUPPORTED_VM_CONFIGURATION');
   static const lastSnapshotJobFailed =
       DataReplicationErrorString._('LAST_SNAPSHOT_JOB_FAILED');
+  static const failedToSetupFsxProxy =
+      DataReplicationErrorString._('FAILED_TO_SETUP_FSX_PROXY');
+  static const failedToCreateFsxSnapshot =
+      DataReplicationErrorString._('FAILED_TO_CREATE_FSX_SNAPSHOT');
 
   final String value;
 
@@ -9503,7 +9689,9 @@ class DataReplicationErrorString {
     failedToConnectAgentToReplicationServer,
     failedToStartDataTransfer,
     unsupportedVmConfiguration,
-    lastSnapshotJobFailed
+    lastSnapshotJobFailed,
+    failedToSetupFsxProxy,
+    failedToCreateFsxSnapshot
   ];
 
   static DataReplicationErrorString fromString(String value) =>
@@ -9579,6 +9767,8 @@ class DataReplicationInitiationStepName {
           'CONNECT_AGENT_TO_REPLICATION_SERVER');
   static const startDataTransfer =
       DataReplicationInitiationStepName._('START_DATA_TRANSFER');
+  static const setupFsxProxy =
+      DataReplicationInitiationStepName._('SETUP_FSX_PROXY');
 
   final String value;
 
@@ -9595,7 +9785,8 @@ class DataReplicationInitiationStepName {
     attachStagingDisks,
     pairReplicationServerWithAgent,
     connectAgentToReplicationServer,
-    startDataTransfer
+    startDataTransfer,
+    setupFsxProxy
   ];
 
   static DataReplicationInitiationStepName fromString(String value) =>
@@ -9719,6 +9910,112 @@ class FirstBoot {
 
   @override
   bool operator ==(other) => other is FirstBoot && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class LastKnownCheckStatus {
+  static const passed = LastKnownCheckStatus._('PASSED');
+  static const failed = LastKnownCheckStatus._('FAILED');
+  static const pending = LastKnownCheckStatus._('PENDING');
+
+  final String value;
+
+  const LastKnownCheckStatus._(this.value);
+
+  static const values = [passed, failed, pending];
+
+  static LastKnownCheckStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LastKnownCheckStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LastKnownCheckStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Last known check performed on a launched instance.
+///
+/// @nodoc
+class LastKnownCheck {
+  /// Last known check timestamp.
+  final DateTime? checkedAt;
+
+  /// Last known check error.
+  final String? error;
+
+  /// Last known check name.
+  final String? name;
+
+  /// Last known check status.
+  final LastKnownCheckStatus? status;
+
+  /// Last known check type.
+  final LastKnownCheckType? type;
+
+  LastKnownCheck({
+    this.checkedAt,
+    this.error,
+    this.name,
+    this.status,
+    this.type,
+  });
+
+  factory LastKnownCheck.fromJson(Map<String, dynamic> json) {
+    return LastKnownCheck(
+      checkedAt: timeStampFromJson(json['checkedAt']),
+      error: json['error'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(LastKnownCheckStatus.fromString),
+      type: (json['type'] as String?)?.let(LastKnownCheckType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkedAt = this.checkedAt;
+    final error = this.error;
+    final name = this.name;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (checkedAt != null) 'checkedAt': unixTimestampToJson(checkedAt),
+      if (error != null) 'error': error,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class LastKnownCheckType {
+  static const ec2 = LastKnownCheckType._('EC2');
+  static const fSx = LastKnownCheckType._('FSx');
+
+  final String value;
+
+  const LastKnownCheckType._(this.value);
+
+  static const values = [ec2, fSx];
+
+  static LastKnownCheckType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LastKnownCheckType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LastKnownCheckType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -11825,6 +12122,8 @@ class SourceEnvironment {
   static const ciscoAci = SourceEnvironment._('CISCO_ACI');
   static const logicalModel = SourceEnvironment._('LOGICAL_MODEL');
   static const modelizeIt = SourceEnvironment._('MODELIZE_IT');
+  static const awsDiscoveryCollector =
+      SourceEnvironment._('AWS_DISCOVERY_COLLECTOR');
 
   final String value;
 
@@ -11837,7 +12136,8 @@ class SourceEnvironment {
     paloAltoFirewall,
     ciscoAci,
     logicalModel,
-    modelizeIt
+    modelizeIt,
+    awsDiscoveryCollector
   ];
 
   static SourceEnvironment fromString(String value) =>

@@ -3318,6 +3318,7 @@ class RuntimeEnvironment {
   static const flink_1_19 = RuntimeEnvironment._('FLINK-1_19');
   static const flink_1_20 = RuntimeEnvironment._('FLINK-1_20');
   static const flink_2_2 = RuntimeEnvironment._('FLINK-2_2');
+  static const flink_2_3 = RuntimeEnvironment._('FLINK-2_3');
 
   final String value;
 
@@ -3336,7 +3337,8 @@ class RuntimeEnvironment {
     flink_1_18,
     flink_1_19,
     flink_1_20,
-    flink_2_2
+    flink_2_2,
+    flink_2_3
   ];
 
   static RuntimeEnvironment fromString(String value) =>
@@ -3803,9 +3805,9 @@ class FlinkApplicationConfigurationDescription {
 
   /// The job plan for an application. For more information about the job plan,
   /// see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/internals/job_scheduling.html">Jobs
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/internals/job_scheduling.html">Jobs
   /// and Scheduling</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/">Apache
   /// Flink Documentation</a>. To retrieve the job plan for the application, use
   /// the <a>DescribeApplicationRequest$IncludeAdditionalDetails</a> parameter of
   /// the <a>DescribeApplication</a> operation.
@@ -4834,9 +4836,9 @@ class FlinkRunConfiguration {
   /// the program is updated between snapshots to remove stateful parameters, and
   /// state data in the snapshot no longer corresponds to valid application data.
   /// For more information, see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/docs/ops/state/savepoints/#allowing-non-restored-state">
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/ops/state/savepoints/#allowing-non-restored-state">
   /// Allowing Non-Restored State</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/">Apache
   /// Flink documentation</a>.
   /// <note>
   /// This value defaults to <code>false</code>. If you update your application
@@ -8072,9 +8074,9 @@ class FlinkApplicationConfiguration {
   /// Describes an application's checkpointing configuration. Checkpointing is the
   /// process of persisting application state for fault tolerance. For more
   /// information, see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
   /// Checkpoints for Fault Tolerance</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/">Apache
   /// Flink Documentation</a>.
   final CheckpointConfiguration? checkpointConfiguration;
 
@@ -8443,9 +8445,9 @@ class CodeContent {
 /// Describes an application's checkpointing configuration. Checkpointing is the
 /// process of persisting application state for fault tolerance. For more
 /// information, see <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
+/// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
 /// Checkpoints for Fault Tolerance</a> in the <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
+/// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/">Apache
 /// Flink Documentation</a>.
 ///
 /// @nodoc
@@ -8497,9 +8499,9 @@ class CheckpointConfiguration {
   /// operation takes longer than the <code>CheckpointInterval</code>, the
   /// application otherwise performs continual checkpoint operations. For more
   /// information, see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/docs/ops/state/large_state_tuning/#tuning-checkpointing">
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/ops/state/large_state_tuning/#tuning-checkpointing">
   /// Tuning Checkpointing</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/">Apache
   /// Flink Documentation</a>.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
@@ -8572,9 +8574,9 @@ class MonitoringConfiguration {
 /// Describes parameters for how a Managed Service for Apache Flink application
 /// executes multiple tasks simultaneously. For more information about
 /// parallelism, see <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/dev/parallel.html">Parallel
+/// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/dev/parallel.html">Parallel
 /// Execution</a> in the <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-2.2/">Apache
+/// href="https://nightlies.apache.org/flink/flink-docs-release-2.3/">Apache
 /// Flink Documentation</a>.
 ///
 /// @nodoc

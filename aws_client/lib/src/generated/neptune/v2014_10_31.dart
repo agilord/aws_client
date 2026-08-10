@@ -286,14 +286,13 @@ class Neptune {
   /// Must specify a valid DB cluster parameter group.
   /// </li>
   /// <li>
-  /// If the source DB cluster parameter group is in the same Amazon Region as
-  /// the copy, specify a valid DB parameter group identifier, for example
+  /// Must specify a valid DB cluster parameter group identifier, for example
   /// <code>my-db-cluster-param-group</code>, or a valid ARN.
   /// </li>
   /// <li>
-  /// If the source DB parameter group is in a different Amazon Region than the
-  /// copy, specify a valid DB cluster parameter group ARN, for example
-  /// <code>arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1</code>.
+  /// The source DB cluster parameter group must be in the same Amazon Region as
+  /// the copy. Neptune does not support cross-Region copying of parameter
+  /// groups.
   /// </li>
   /// </ul>
   ///
@@ -492,6 +491,10 @@ class Neptune {
   /// Must specify a valid DB parameter group identifier, for example
   /// <code>my-db-param-group</code>, or a valid ARN.
   /// </li>
+  /// <li>
+  /// The source DB parameter group must be in the same Amazon Region as the
+  /// copy. Neptune does not support cross-Region copying of parameter groups.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [targetDBParameterGroupDescription] :
@@ -578,6 +581,7 @@ class Neptune {
   /// May throw [InvalidSubnet].
   /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [NetworkTypeNotSupportedFault].
   /// May throw [StorageQuotaExceededFault].
   ///
   /// Parameter [dBClusterIdentifier] :
@@ -649,9 +653,7 @@ class Neptune {
   /// Example: <code>mySubnetgroup</code>
   ///
   /// Parameter [databaseName] :
-  /// The name for your database of up to 64 alpha-numeric characters. If you do
-  /// not provide a name, Amazon Neptune will not create a database in the DB
-  /// cluster you are creating.
+  /// Not supported by Neptune.
   ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB cluster has deletion protection
@@ -719,6 +721,23 @@ class Neptune {
   ///
   /// Parameter [masterUsername] :
   /// Not supported by Neptune.
+  ///
+  /// Parameter [networkType] :
+  /// The network type of the DB cluster.
+  ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>IPV4</code> </b> – ( <i>the default</i> ) The DB cluster uses
+  /// only IPv4 addresses for communication.
+  /// </li>
+  /// <li>
+  /// <b> <code>DUAL</code> </b> – The DB cluster uses both IPv4 and IPv6
+  /// addresses for communication. The DB subnet group associated with the
+  /// cluster must support IPv6.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [optionGroupName] :
   /// <i>(Not supported by Neptune)</i>
@@ -836,6 +855,7 @@ class Neptune {
     String? kmsKeyId,
     String? masterUserPassword,
     String? masterUsername,
+    String? networkType,
     String? optionGroupName,
     int? port,
     String? preSignedUrl,
@@ -885,6 +905,7 @@ class Neptune {
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
       if (masterUsername != null) 'MasterUsername': masterUsername,
+      if (networkType != null) 'NetworkType': networkType,
       if (optionGroupName != null) 'OptionGroupName': optionGroupName,
       if (port != null) 'Port': port.toString(),
       if (preSignedUrl != null) 'PreSignedUrl': preSignedUrl,
@@ -4017,6 +4038,7 @@ class Neptune {
   /// May throw [InvalidDBSubnetGroupStateFault].
   /// May throw [InvalidSubnet].
   /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [NetworkTypeNotSupportedFault].
   /// May throw [StorageQuotaExceededFault].
   /// May throw [StorageTypeNotSupportedFault].
   ///
@@ -4131,6 +4153,23 @@ class Neptune {
   /// Parameter [masterUserPassword] :
   /// Not supported by Neptune.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the DB cluster.
+  ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>IPV4</code> </b> – The DB cluster uses only IPv4 addresses for
+  /// communication.
+  /// </li>
+  /// <li>
+  /// <b> <code>DUAL</code> </b> – The DB cluster uses both IPv4 and IPv6
+  /// addresses for communication. The DB subnet group associated with the
+  /// cluster must support IPv6.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [newDBClusterIdentifier] :
   /// The new DB cluster identifier for the DB cluster when renaming a DB
   /// cluster. This value is stored as a lowercase string.
@@ -4243,6 +4282,7 @@ class Neptune {
     bool? enableIAMDatabaseAuthentication,
     String? engineVersion,
     String? masterUserPassword,
+    String? networkType,
     String? newDBClusterIdentifier,
     String? optionGroupName,
     int? port,
@@ -4276,6 +4316,7 @@ class Neptune {
             enableIAMDatabaseAuthentication.toString(),
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
+      if (networkType != null) 'NetworkType': networkType,
       if (newDBClusterIdentifier != null)
         'NewDBClusterIdentifier': newDBClusterIdentifier,
       if (optionGroupName != null) 'OptionGroupName': optionGroupName,
@@ -5631,6 +5672,7 @@ class Neptune {
   /// May throw [InvalidSubnet].
   /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [NetworkTypeNotSupportedFault].
   /// May throw [OptionGroupNotFoundFault].
   /// May throw [StorageQuotaExceededFault].
   ///
@@ -5751,6 +5793,23 @@ class Neptune {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [networkType] :
+  /// The network type of the DB cluster.
+  ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>IPV4</code> </b> – ( <i>the default</i> ) The DB cluster uses
+  /// only IPv4 addresses for communication.
+  /// </li>
+  /// <li>
+  /// <b> <code>DUAL</code> </b> – The DB cluster uses both IPv4 and IPv6
+  /// addresses for communication. The DB subnet group associated with the
+  /// cluster must support IPv6.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [optionGroupName] :
   /// <i>(Not supported by Neptune)</i>
   ///
@@ -5794,6 +5853,7 @@ class Neptune {
     bool? enableIAMDatabaseAuthentication,
     String? engineVersion,
     String? kmsKeyId,
+    String? networkType,
     String? optionGroupName,
     int? port,
     ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
@@ -5832,6 +5892,7 @@ class Neptune {
             enableIAMDatabaseAuthentication.toString(),
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (networkType != null) 'NetworkType': networkType,
       if (optionGroupName != null) 'OptionGroupName': optionGroupName,
       if (port != null) 'Port': port.toString(),
       if (serverlessV2ScalingConfiguration != null)
@@ -5895,6 +5956,7 @@ class Neptune {
   /// May throw [InvalidSubnet].
   /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [NetworkTypeNotSupportedFault].
   /// May throw [OptionGroupNotFoundFault].
   /// May throw [StorageQuotaExceededFault].
   ///
@@ -5992,6 +6054,23 @@ class Neptune {
   /// If <code>DBClusterIdentifier</code> refers to a DB cluster that is not
   /// encrypted, then the restore request is rejected.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the DB cluster.
+  ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>IPV4</code> </b> – ( <i>the default</i> ) The DB cluster uses
+  /// only IPv4 addresses for communication.
+  /// </li>
+  /// <li>
+  /// <b> <code>DUAL</code> </b> – The DB cluster uses both IPv4 and IPv6
+  /// addresses for communication. The DB subnet group associated with the
+  /// cluster must support IPv6.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [optionGroupName] :
   /// <i>(Not supported by Neptune)</i>
   ///
@@ -6083,6 +6162,7 @@ class Neptune {
     List<String>? enableCloudwatchLogsExports,
     bool? enableIAMDatabaseAuthentication,
     String? kmsKeyId,
+    String? networkType,
     String? optionGroupName,
     int? port,
     DateTime? restoreToTime,
@@ -6112,6 +6192,7 @@ class Neptune {
         'EnableIAMDatabaseAuthentication':
             enableIAMDatabaseAuthentication.toString(),
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (networkType != null) 'NetworkType': networkType,
       if (optionGroupName != null) 'OptionGroupName': optionGroupName,
       if (port != null) 'Port': port.toString(),
       if (restoreToTime != null)
@@ -8639,6 +8720,22 @@ class DBCluster {
   /// Zones.
   final bool? multiAZ;
 
+  /// The network type of the DB cluster.
+  ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>IPV4</code> </b> – The DB cluster uses only IPv4 addresses for
+  /// communication.
+  /// </li>
+  /// <li>
+  /// <b> <code>DUAL</code> </b> – The DB cluster uses both IPv4 and IPv6
+  /// addresses for communication.
+  /// </li>
+  /// </ul>
+  final String? networkType;
+
   /// This data type is used as a response element in the
   /// <code>ModifyDBCluster</code> operation and contains changes that will be
   /// applied during the next maintenance window.
@@ -8751,6 +8848,7 @@ class DBCluster {
     this.latestRestorableTime,
     this.masterUsername,
     this.multiAZ,
+    this.networkType,
     this.pendingModifiedValues,
     this.percentProgress,
     this.port,
@@ -8825,6 +8923,7 @@ class DBCluster {
           _s.extractXmlDateTimeValue(elem, 'LatestRestorableTime'),
       masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
+      networkType: _s.extractXmlStringValue(elem, 'NetworkType'),
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
           ?.let(ClusterPendingModifiedValues.fromXml),
@@ -8891,6 +8990,7 @@ class DBCluster {
     final latestRestorableTime = this.latestRestorableTime;
     final masterUsername = this.masterUsername;
     final multiAZ = this.multiAZ;
+    final networkType = this.networkType;
     final pendingModifiedValues = this.pendingModifiedValues;
     final percentProgress = this.percentProgress;
     final port = this.port;
@@ -8952,6 +9052,7 @@ class DBCluster {
         'LatestRestorableTime': iso8601ToJson(latestRestorableTime),
       if (masterUsername != null) 'MasterUsername': masterUsername,
       if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (networkType != null) 'NetworkType': networkType,
       if (pendingModifiedValues != null)
         'PendingModifiedValues': pendingModifiedValues,
       if (percentProgress != null) 'PercentProgress': percentProgress,
@@ -9004,6 +9105,11 @@ class ClusterPendingModifiedValues {
   /// for Multi-AZ DB clusters.
   final int? iops;
 
+  /// The pending change in network type for the DB cluster.
+  ///
+  /// Valid Values: <code>IPV4</code>, <code>DUAL</code>
+  final String? networkType;
+
   /// This <code>PendingCloudwatchLogsExports</code> structure specifies pending
   /// changes to which CloudWatch logs are enabled and which are disabled.
   final PendingCloudwatchLogsExports? pendingCloudwatchLogsExports;
@@ -9036,6 +9142,7 @@ class ClusterPendingModifiedValues {
     this.engineVersion,
     this.iAMDatabaseAuthenticationEnabled,
     this.iops,
+    this.networkType,
     this.pendingCloudwatchLogsExports,
     this.storageType,
   });
@@ -9050,6 +9157,7 @@ class ClusterPendingModifiedValues {
       iAMDatabaseAuthenticationEnabled:
           _s.extractXmlBoolValue(elem, 'IAMDatabaseAuthenticationEnabled'),
       iops: _s.extractXmlIntValue(elem, 'Iops'),
+      networkType: _s.extractXmlStringValue(elem, 'NetworkType'),
       pendingCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'PendingCloudwatchLogsExports')
           ?.let(PendingCloudwatchLogsExports.fromXml),
@@ -9065,6 +9173,7 @@ class ClusterPendingModifiedValues {
     final iAMDatabaseAuthenticationEnabled =
         this.iAMDatabaseAuthenticationEnabled;
     final iops = this.iops;
+    final networkType = this.networkType;
     final pendingCloudwatchLogsExports = this.pendingCloudwatchLogsExports;
     final storageType = this.storageType;
     return {
@@ -9077,6 +9186,7 @@ class ClusterPendingModifiedValues {
       if (iAMDatabaseAuthenticationEnabled != null)
         'IAMDatabaseAuthenticationEnabled': iAMDatabaseAuthenticationEnabled,
       if (iops != null) 'Iops': iops,
+      if (networkType != null) 'NetworkType': networkType,
       if (pendingCloudwatchLogsExports != null)
         'PendingCloudwatchLogsExports': pendingCloudwatchLogsExports,
       if (storageType != null) 'StorageType': storageType,
@@ -9766,6 +9876,11 @@ class DBInstance {
   /// Specifies if the DB instance is a Multi-AZ deployment.
   final bool? multiAZ;
 
+  /// The network type of the DB instance. Inherited from the DB cluster.
+  ///
+  /// Valid Values: <code>IPV4</code>, <code>DUAL</code>
+  final String? networkType;
+
   /// <i>(Not supported by Neptune)</i>
   final List<OptionGroupMembership>? optionGroupMemberships;
 
@@ -9880,6 +9995,7 @@ class DBInstance {
     this.monitoringInterval,
     this.monitoringRoleArn,
     this.multiAZ,
+    this.networkType,
     this.optionGroupMemberships,
     this.pendingModifiedValues,
     this.performanceInsightsEnabled,
@@ -9960,6 +10076,7 @@ class DBInstance {
       monitoringInterval: _s.extractXmlIntValue(elem, 'MonitoringInterval'),
       monitoringRoleArn: _s.extractXmlStringValue(elem, 'MonitoringRoleArn'),
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
+      networkType: _s.extractXmlStringValue(elem, 'NetworkType'),
       optionGroupMemberships: _s
           .extractXmlChild(elem, 'OptionGroupMemberships')
           ?.let((elem) => elem
@@ -10044,6 +10161,7 @@ class DBInstance {
     final monitoringInterval = this.monitoringInterval;
     final monitoringRoleArn = this.monitoringRoleArn;
     final multiAZ = this.multiAZ;
+    final networkType = this.networkType;
     final optionGroupMemberships = this.optionGroupMemberships;
     final pendingModifiedValues = this.pendingModifiedValues;
     final performanceInsightsEnabled = this.performanceInsightsEnabled;
@@ -10111,6 +10229,7 @@ class DBInstance {
       if (monitoringInterval != null) 'MonitoringInterval': monitoringInterval,
       if (monitoringRoleArn != null) 'MonitoringRoleArn': monitoringRoleArn,
       if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (networkType != null) 'NetworkType': networkType,
       if (optionGroupMemberships != null)
         'OptionGroupMemberships': optionGroupMemberships,
       if (pendingModifiedValues != null)
@@ -10207,6 +10326,13 @@ class DBSubnetGroup {
   /// Contains a list of <a>Subnet</a> elements.
   final List<Subnet>? subnets;
 
+  /// The network types supported by the DB subnet group.
+  ///
+  /// Valid network types include <code>IPV4</code> and <code>DUAL</code>. A DB
+  /// subnet group supports <code>DUAL</code> if all subnets in the group have
+  /// both IPv4 and IPv6 CIDRs.
+  final List<String>? supportedNetworkTypes;
+
   /// Provides the VpcId of the DB subnet group.
   final String? vpcId;
 
@@ -10216,6 +10342,7 @@ class DBSubnetGroup {
     this.dBSubnetGroupName,
     this.subnetGroupStatus,
     this.subnets,
+    this.supportedNetworkTypes,
     this.vpcId,
   });
   factory DBSubnetGroup.fromXml(_s.XmlElement elem) {
@@ -10227,6 +10354,9 @@ class DBSubnetGroup {
       subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
       subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
           (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
+      supportedNetworkTypes: _s
+          .extractXmlChild(elem, 'SupportedNetworkTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -10237,6 +10367,7 @@ class DBSubnetGroup {
     final dBSubnetGroupName = this.dBSubnetGroupName;
     final subnetGroupStatus = this.subnetGroupStatus;
     final subnets = this.subnets;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
     final vpcId = this.vpcId;
     return {
       if (dBSubnetGroupArn != null) 'DBSubnetGroupArn': dBSubnetGroupArn,
@@ -10245,6 +10376,8 @@ class DBSubnetGroup {
       if (dBSubnetGroupName != null) 'DBSubnetGroupName': dBSubnetGroupName,
       if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
       if (subnets != null) 'Subnets': subnets,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes': supportedNetworkTypes,
       if (vpcId != null) 'VpcId': vpcId,
     };
   }
@@ -11168,6 +11301,9 @@ class OrderableDBInstanceOption {
   /// level.
   final String? storageType;
 
+  /// The network types supported by the orderable DB instance option.
+  final List<String>? supportedNetworkTypes;
+
   /// Indicates whether a DB instance supports Enhanced Monitoring at intervals
   /// from 1 to 60 seconds.
   final bool? supportsEnhancedMonitoring;
@@ -11206,6 +11342,7 @@ class OrderableDBInstanceOption {
     this.multiAZCapable,
     this.readReplicaCapable,
     this.storageType,
+    this.supportedNetworkTypes,
     this.supportsEnhancedMonitoring,
     this.supportsGlobalDatabases,
     this.supportsIAMDatabaseAuthentication,
@@ -11234,6 +11371,9 @@ class OrderableDBInstanceOption {
       multiAZCapable: _s.extractXmlBoolValue(elem, 'MultiAZCapable'),
       readReplicaCapable: _s.extractXmlBoolValue(elem, 'ReadReplicaCapable'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
+      supportedNetworkTypes: _s
+          .extractXmlChild(elem, 'SupportedNetworkTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       supportsEnhancedMonitoring:
           _s.extractXmlBoolValue(elem, 'SupportsEnhancedMonitoring'),
       supportsGlobalDatabases:
@@ -11264,6 +11404,7 @@ class OrderableDBInstanceOption {
     final multiAZCapable = this.multiAZCapable;
     final readReplicaCapable = this.readReplicaCapable;
     final storageType = this.storageType;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
     final supportsEnhancedMonitoring = this.supportsEnhancedMonitoring;
     final supportsGlobalDatabases = this.supportsGlobalDatabases;
     final supportsIAMDatabaseAuthentication =
@@ -11291,6 +11432,8 @@ class OrderableDBInstanceOption {
       if (multiAZCapable != null) 'MultiAZCapable': multiAZCapable,
       if (readReplicaCapable != null) 'ReadReplicaCapable': readReplicaCapable,
       if (storageType != null) 'StorageType': storageType,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes': supportedNetworkTypes,
       if (supportsEnhancedMonitoring != null)
         'SupportsEnhancedMonitoring': supportsEnhancedMonitoring,
       if (supportsGlobalDatabases != null)
@@ -12606,6 +12749,13 @@ class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class NetworkTypeNotSupportedFault extends _s.GenericAwsException {
+  NetworkTypeNotSupportedFault({String? type, String? message})
+      : super(
+            type: type, code: 'NetworkTypeNotSupportedFault', message: message);
+}
+
+/// @nodoc
 class OptionGroupNotFoundFault extends _s.GenericAwsException {
   OptionGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'OptionGroupNotFoundFault', message: message);
@@ -12813,6 +12963,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidVPCNetworkStateFault(type: type, message: message),
   'KMSKeyNotAccessibleFault': (type, message) =>
       KMSKeyNotAccessibleFault(type: type, message: message),
+  'NetworkTypeNotSupportedFault': (type, message) =>
+      NetworkTypeNotSupportedFault(type: type, message: message),
   'OptionGroupNotFoundFault': (type, message) =>
       OptionGroupNotFoundFault(type: type, message: message),
   'ProvisionedIopsNotAvailableInAZFault': (type, message) =>

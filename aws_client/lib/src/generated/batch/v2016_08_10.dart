@@ -5040,6 +5040,29 @@ class ComputeResourceUpdate {
   /// requirements of the jobs in the queue. Its preference is for instance types
   /// with lower cost vCPUs. If additional instances of the previously selected
   /// instance types aren't available, Batch selects new instance types.
+  /// </dd> <dt>BEST_FIT_PROGRESSIVE_ORDERED</dt> <dd> <important>
+  /// This is an advanced allocation strategy only for customers who want to
+  /// control which instance types are preferred during scaling.
+  ///
+  /// Placing large instance types at the top of the list may result in
+  /// <b>over-provisioning</b> for small jobs. Placing small instance types at the
+  /// top may cause the compute environment to reach Amazon EC2 instance count
+  /// limits before reaching <code>maxvCpus</code>.
+  /// </important>
+  /// Batch selects instance types in the order they appear in the
+  /// <code>instanceTypes</code> list. When an instance family is specified, sizes
+  /// within that family are expanded using <code>BEST_FIT_PROGRESSIVE</code>
+  /// logic—preferring sizes that best fit the jobs, with larger sizes as
+  /// fallback. Instance types that cannot meet the resource requirements of the
+  /// jobs are skipped. This strategy is only available for On-Demand Instance
+  /// (<code>EC2</code>) compute resources.
+  ///
+  /// If an instance family and an explicit instance type from that family both
+  /// appear in <code>instanceTypes</code>, the explicit type takes its listed
+  /// position and is excluded from the family expansion. For example, in
+  /// <code>\["m7a.4xlarge", "m7a", "m6a"\]</code>, <code>m7a.4xlarge</code> is
+  /// always placed first and is excluded from the <code>m7a</code> family
+  /// expansion.
   /// </dd> <dt>SPOT_CAPACITY_OPTIMIZED</dt> <dd>
   /// Batch selects one or more instance types that are large enough to meet the
   /// requirements of the jobs in the queue. Its preference is for instance types
@@ -5050,13 +5073,31 @@ class ComputeResourceUpdate {
   /// capacity to select the Spot Instance pools that are the least likely to be
   /// interrupted and have the lowest possible price. This allocation strategy is
   /// only available for Spot Instance compute resources.
+  /// </dd> <dt>SPOT_CAPACITY_OPTIMIZED_PRIORITIZED</dt> <dd> <important>
+  /// This is an advanced allocation strategy for customers who want to influence
+  /// instance type selection during scaling. This strategy optimizes for
+  /// <b>capacity first</b>, and honors instance type priorities on a best-effort
+  /// basis (priorities are honored when they do not significantly reduce
+  /// available Spot capacity).
+  ///
+  /// Placing large instance types at the top of the list may result in
+  /// <b>over-provisioning</b> for small jobs. Placing small instance types at the
+  /// top may cause the compute environment to reach Amazon EC2 instance count
+  /// limits before reaching <code>maxvCpus</code>.
+  /// </important>
+  /// Batch selects instance types in the order they appear in the
+  /// <code>instanceTypes</code> list, but <b>optimizes for capacity first</b>.
+  /// The customer-defined priority is honored on a best-effort basis. When Spot
+  /// Instance capacity pools are similarly available, priority order is
+  /// respected. When capacity is constrained, Batch selects from the most
+  /// available pools regardless of priority to minimize the likelihood of Spot
+  /// Instance interruptions. This strategy is only available for Spot Instance
+  /// compute resources.
   /// </dd> </dl>
-  /// With <code>BEST_FIT_PROGRESSIVE</code>,<code>SPOT_CAPACITY_OPTIMIZED</code>
-  /// and <code>SPOT_PRICE_CAPACITY_OPTIMIZED</code> (recommended) strategies
-  /// using On-Demand or Spot Instances, and the <code>BEST_FIT</code> strategy
-  /// using Spot Instances, Batch might need to exceed <code>maxvCpus</code> to
-  /// meet your capacity requirements. In this event, Batch never exceeds
-  /// <code>maxvCpus</code> by more than a single instance.
+  /// With any allocation strategy except <code>BEST_FIT</code> using On-Demand
+  /// (<code>EC2</code>) compute resources, Batch might need to exceed
+  /// <code>maxvCpus</code> to meet your capacity requirements. In this event,
+  /// Batch never exceeds <code>maxvCpus</code> by more than a single instance.
   final CRUpdateAllocationStrategy? allocationStrategy;
 
   /// The maximum percentage that a Spot Instance price can be when compared with
@@ -5272,12 +5313,10 @@ class ComputeResourceUpdate {
 
   /// The maximum number of Amazon EC2 vCPUs that an environment can reach.
   /// <note>
-  /// With <code>BEST_FIT_PROGRESSIVE</code>,<code>SPOT_CAPACITY_OPTIMIZED</code>
-  /// and <code>SPOT_PRICE_CAPACITY_OPTIMIZED</code> (recommended) strategies
-  /// using On-Demand or Spot Instances, and the <code>BEST_FIT</code> strategy
-  /// using Spot Instances, Batch might need to exceed <code>maxvCpus</code> to
-  /// meet your capacity requirements. In this event, Batch never exceeds
-  /// <code>maxvCpus</code> by more than a single instance.
+  /// With any allocation strategy except <code>BEST_FIT</code> using On-Demand
+  /// (<code>EC2</code>) compute resources, Batch might need to exceed
+  /// <code>maxvCpus</code> to meet your capacity requirements. In this event,
+  /// Batch never exceeds <code>maxvCpus</code> by more than a single instance.
   /// </note>
   final int? maxvCpus;
 
@@ -5535,10 +5574,14 @@ class UpdatePolicy {
 class CRUpdateAllocationStrategy {
   static const bestFitProgressive =
       CRUpdateAllocationStrategy._('BEST_FIT_PROGRESSIVE');
+  static const bestFitProgressiveOrdered =
+      CRUpdateAllocationStrategy._('BEST_FIT_PROGRESSIVE_ORDERED');
   static const spotCapacityOptimized =
       CRUpdateAllocationStrategy._('SPOT_CAPACITY_OPTIMIZED');
   static const spotPriceCapacityOptimized =
       CRUpdateAllocationStrategy._('SPOT_PRICE_CAPACITY_OPTIMIZED');
+  static const spotCapacityOptimizedPrioritized =
+      CRUpdateAllocationStrategy._('SPOT_CAPACITY_OPTIMIZED_PRIORITIZED');
 
   final String value;
 
@@ -5546,8 +5589,10 @@ class CRUpdateAllocationStrategy {
 
   static const values = [
     bestFitProgressive,
+    bestFitProgressiveOrdered,
     spotCapacityOptimized,
-    spotPriceCapacityOptimized
+    spotPriceCapacityOptimized,
+    spotCapacityOptimizedPrioritized
   ];
 
   static CRUpdateAllocationStrategy fromString(String value) =>
@@ -15464,35 +15509,12 @@ class CEStatus {
 class ComputeResource {
   /// The maximum number of vCPUs that a compute environment can support.
   /// <note>
-  /// With <code>BEST_FIT_PROGRESSIVE</code>,<code>SPOT_CAPACITY_OPTIMIZED</code>
-  /// and <code>SPOT_PRICE_CAPACITY_OPTIMIZED</code> (recommended) strategies
-  /// using On-Demand or Spot Instances, and the <code>BEST_FIT</code> strategy
-  /// using Spot Instances, Batch might need to exceed <code>maxvCpus</code> to
-  /// meet your capacity requirements. In this event, Batch never exceeds
-  /// <code>maxvCpus</code> by more than a single instance.
+  /// With any allocation strategy except <code>BEST_FIT</code> using On-Demand
+  /// (<code>EC2</code>) compute resources, Batch might need to exceed
+  /// <code>maxvCpus</code> to meet your capacity requirements. In this event,
+  /// Batch never exceeds <code>maxvCpus</code> by more than a single instance.
   /// </note>
   final int maxvCpus;
-
-  /// The VPC subnets where the compute resources are launched. These subnets must
-  /// be within the same VPC. Fargate compute resources can contain up to 16
-  /// subnets. For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
-  /// and subnets</a> in the <i>Amazon VPC User Guide</i>.
-  /// <note>
-  /// Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones">
-  /// Local Zones</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>, <a
-  /// href="https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html">Amazon
-  /// EKS and Amazon Web Services Local Zones</a> in the <i>Amazon EKS User
-  /// Guide</i> and <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones">
-  /// Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web
-  /// Services Outposts</a> in the <i>Amazon ECS Developer Guide</i>.
-  ///
-  /// Batch on Fargate doesn't currently support Local Zones.
-  /// </note>
-  final List<String> subnets;
 
   /// The type of compute environment: <code>EC2</code>, <code>SPOT</code>,
   /// <code>FARGATE</code>, or <code>FARGATE_SPOT</code>. For more information,
@@ -15544,6 +15566,29 @@ class ComputeResource {
   /// requirements of the jobs in the queue. Its preference is for instance types
   /// with lower cost vCPUs. If additional instances of the previously selected
   /// instance types aren't available, Batch selects new instance types.
+  /// </dd> <dt>BEST_FIT_PROGRESSIVE_ORDERED</dt> <dd> <important>
+  /// This is an advanced allocation strategy only for customers who want to
+  /// control which instance types are preferred during scaling.
+  ///
+  /// Placing large instance types at the top of the list may result in
+  /// <b>over-provisioning</b> for small jobs. Placing small instance types at the
+  /// top may cause the compute environment to reach Amazon EC2 instance count
+  /// limits before reaching <code>maxvCpus</code>.
+  /// </important>
+  /// Batch selects instance types in the order they appear in the
+  /// <code>instanceTypes</code> list. When an instance family is specified, sizes
+  /// within that family are expanded using <code>BEST_FIT_PROGRESSIVE</code>
+  /// logic—preferring sizes that best fit the jobs, with larger sizes as
+  /// fallback. Instance types that cannot meet the resource requirements of the
+  /// jobs are skipped. This strategy is only available for On-Demand Instance
+  /// (<code>EC2</code>) compute resources.
+  ///
+  /// If an instance family and an explicit instance type from that family both
+  /// appear in <code>instanceTypes</code>, the explicit type takes its listed
+  /// position and is excluded from the family expansion. For example, in
+  /// <code>\["m7a.4xlarge", "m7a", "m6a"\]</code>, <code>m7a.4xlarge</code> is
+  /// always placed first and is excluded from the <code>m7a</code> family
+  /// expansion.
   /// </dd> <dt>SPOT_CAPACITY_OPTIMIZED</dt> <dd>
   /// Batch selects one or more instance types that are large enough to meet the
   /// requirements of the jobs in the queue. Its preference is for instance types
@@ -15554,13 +15599,31 @@ class ComputeResource {
   /// capacity to select the Spot Instance pools that are the least likely to be
   /// interrupted and have the lowest possible price. This allocation strategy is
   /// only available for Spot Instance compute resources.
+  /// </dd> <dt>SPOT_CAPACITY_OPTIMIZED_PRIORITIZED</dt> <dd> <important>
+  /// This is an advanced allocation strategy for customers who want to influence
+  /// instance type selection during scaling. This strategy optimizes for
+  /// <b>capacity first</b>, and honors instance type priorities on a best-effort
+  /// basis (priorities are honored when they do not significantly reduce
+  /// available Spot capacity).
+  ///
+  /// Placing large instance types at the top of the list may result in
+  /// <b>over-provisioning</b> for small jobs. Placing small instance types at the
+  /// top may cause the compute environment to reach Amazon EC2 instance count
+  /// limits before reaching <code>maxvCpus</code>.
+  /// </important>
+  /// Batch selects instance types in the order they appear in the
+  /// <code>instanceTypes</code> list, but <b>optimizes for capacity first</b>.
+  /// The customer-defined priority is honored on a best-effort basis. When Spot
+  /// Instance capacity pools are similarly available, priority order is
+  /// respected. When capacity is constrained, Batch selects from the most
+  /// available pools regardless of priority to minimize the likelihood of Spot
+  /// Instance interruptions. This strategy is only available for Spot Instance
+  /// compute resources.
   /// </dd> </dl>
-  /// With <code>BEST_FIT_PROGRESSIVE</code>,<code>SPOT_CAPACITY_OPTIMIZED</code>
-  /// and <code>SPOT_PRICE_CAPACITY_OPTIMIZED</code> (recommended) strategies
-  /// using On-Demand or Spot Instances, and the <code>BEST_FIT</code> strategy
-  /// using Spot Instances, Batch might need to exceed <code>maxvCpus</code> to
-  /// meet your capacity requirements. In this event, Batch never exceeds
-  /// <code>maxvCpus</code> by more than a single instance.
+  /// With any allocation strategy except <code>BEST_FIT</code> using On-Demand
+  /// (<code>EC2</code>) compute resources, Batch might need to exceed
+  /// <code>maxvCpus</code> to meet your capacity requirements. In this event,
+  /// Batch never exceeds <code>maxvCpus</code> by more than a single instance.
   final CRAllocationStrategy? allocationStrategy;
 
   /// The maximum percentage that a Spot Instance price can be when compared with
@@ -15771,6 +15834,29 @@ class ComputeResource {
   /// </important>
   final String? spotIamFleetRole;
 
+  /// The VPC subnets where the compute resources are launched. These subnets must
+  /// be within the same VPC. Fargate compute resources can contain up to 16
+  /// subnets. For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
+  /// and subnets</a> in the <i>Amazon VPC User Guide</i>. This parameter is
+  /// required for compute environments using <code>EC2</code>, <code>SPOT</code>,
+  /// <code>FARGATE</code>, or <code>FARGATE_SPOT</code> compute resources.
+  /// <note>
+  /// Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones">
+  /// Local Zones</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>, <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html">Amazon
+  /// EKS and Amazon Web Services Local Zones</a> in the <i>Amazon EKS User
+  /// Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones">
+  /// Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web
+  /// Services Outposts</a> in the <i>Amazon ECS Developer Guide</i>.
+  ///
+  /// Batch on Fargate doesn't currently support Local Zones.
+  /// </note>
+  final List<String>? subnets;
+
   /// Key-value pair tags to be applied to Amazon EC2 resources that are launched
   /// in the compute environment. For Batch, these take the form of
   /// <code>"String1": "String2"</code>, where <code>String1</code> is the tag key
@@ -15790,7 +15876,6 @@ class ComputeResource {
 
   ComputeResource({
     required this.maxvCpus,
-    required this.subnets,
     required this.type,
     this.allocationStrategy,
     this.bidPercentage,
@@ -15806,16 +15891,13 @@ class ComputeResource {
     this.scalingPolicy,
     this.securityGroupIds,
     this.spotIamFleetRole,
+    this.subnets,
     this.tags,
   });
 
   factory ComputeResource.fromJson(Map<String, dynamic> json) {
     return ComputeResource(
       maxvCpus: (json['maxvCpus'] as int?) ?? 0,
-      subnets: ((json['subnets'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
       type: CRType.fromString((json['type'] as String?) ?? ''),
       allocationStrategy: (json['allocationStrategy'] as String?)
           ?.let(CRAllocationStrategy.fromString),
@@ -15847,6 +15929,8 @@ class ComputeResource {
           .map((e) => e as String)
           .toList(),
       spotIamFleetRole: json['spotIamFleetRole'] as String?,
+      subnets:
+          (json['subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -15854,7 +15938,6 @@ class ComputeResource {
 
   Map<String, dynamic> toJson() {
     final maxvCpus = this.maxvCpus;
-    final subnets = this.subnets;
     final type = this.type;
     final allocationStrategy = this.allocationStrategy;
     final bidPercentage = this.bidPercentage;
@@ -15870,10 +15953,10 @@ class ComputeResource {
     final scalingPolicy = this.scalingPolicy;
     final securityGroupIds = this.securityGroupIds;
     final spotIamFleetRole = this.spotIamFleetRole;
+    final subnets = this.subnets;
     final tags = this.tags;
     return {
       'maxvCpus': maxvCpus,
-      'subnets': subnets,
       'type': type.value,
       if (allocationStrategy != null)
         'allocationStrategy': allocationStrategy.value,
@@ -15890,6 +15973,7 @@ class ComputeResource {
       if (scalingPolicy != null) 'scalingPolicy': scalingPolicy,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
       if (spotIamFleetRole != null) 'spotIamFleetRole': spotIamFleetRole,
+      if (subnets != null) 'subnets': subnets,
       if (tags != null) 'tags': tags,
     };
   }
@@ -15943,10 +16027,14 @@ class CRAllocationStrategy {
   static const bestFit = CRAllocationStrategy._('BEST_FIT');
   static const bestFitProgressive =
       CRAllocationStrategy._('BEST_FIT_PROGRESSIVE');
+  static const bestFitProgressiveOrdered =
+      CRAllocationStrategy._('BEST_FIT_PROGRESSIVE_ORDERED');
   static const spotCapacityOptimized =
       CRAllocationStrategy._('SPOT_CAPACITY_OPTIMIZED');
   static const spotPriceCapacityOptimized =
       CRAllocationStrategy._('SPOT_PRICE_CAPACITY_OPTIMIZED');
+  static const spotCapacityOptimizedPrioritized =
+      CRAllocationStrategy._('SPOT_CAPACITY_OPTIMIZED_PRIORITIZED');
 
   final String value;
 
@@ -15955,8 +16043,10 @@ class CRAllocationStrategy {
   static const values = [
     bestFit,
     bestFitProgressive,
+    bestFitProgressiveOrdered,
     spotCapacityOptimized,
-    spotPriceCapacityOptimized
+    spotPriceCapacityOptimized,
+    spotCapacityOptimizedPrioritized
   ];
 
   static CRAllocationStrategy fromString(String value) =>

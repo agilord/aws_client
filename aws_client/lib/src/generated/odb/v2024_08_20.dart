@@ -261,10 +261,15 @@ class Odb {
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
+  /// Parameter [autonomousDatabaseOciAwsSecretsManagerIntegration] :
+  /// Specifies whether to enable or disable the OCI service-account role for
+  /// Amazon Web Services Secrets Manager integration with Autonomous Database.
+  ///
   /// Parameter [ociIdentityDomain] :
   /// The Oracle Cloud Infrastructure (OCI) identity domain configuration for
   /// service initialization.
   Future<void> initializeService({
+    Access? autonomousDatabaseOciAwsSecretsManagerIntegration,
     bool? ociIdentityDomain,
   }) async {
     final headers = <String, String>{
@@ -278,9 +283,102 @@ class Odb {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (autonomousDatabaseOciAwsSecretsManagerIntegration != null)
+          'autonomousDatabaseOciAwsSecretsManagerIntegration':
+              autonomousDatabaseOciAwsSecretsManagerIntegration.value,
         if (ociIdentityDomain != null) 'ociIdentityDomain': ociIdentityDomain,
       },
     );
+  }
+
+  /// Lists the available character sets for Autonomous Databases.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [characterSetType] :
+  /// The type of character set to return results for, either the database
+  /// character set or the national character set.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this request. To get the next
+  /// page of items, make another request with the token returned in the output.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from a previous paginated request. Pagination continues
+  /// from the end of the items returned by the previous request.
+  Future<ListAutonomousDatabaseCharacterSetsOutput>
+      listAutonomousDatabaseCharacterSets({
+    CharacterSetType? characterSetType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.ListAutonomousDatabaseCharacterSets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (characterSetType != null)
+          'characterSetType': characterSetType.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListAutonomousDatabaseCharacterSetsOutput.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Lists the available Oracle Database software versions for Autonomous
+  /// Databases.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dbWorkload] :
+  /// The intended use of the Autonomous Database to return versions for, such
+  /// as transaction processing, data warehouse, JSON database, or APEX.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this request. To get the next
+  /// page of items, make another request with the token returned in the output.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from a previous paginated request. Pagination continues
+  /// from the end of the items returned by the previous request.
+  Future<ListAutonomousDatabaseVersionsOutput> listAutonomousDatabaseVersions({
+    DbWorkload? dbWorkload,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.ListAutonomousDatabaseVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (dbWorkload != null) 'dbWorkload': dbWorkload.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListAutonomousDatabaseVersionsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the shapes that are available for an Exadata
@@ -519,6 +617,1343 @@ class Odb {
         'tagKeys': tagKeys,
       },
     );
+  }
+
+  /// Creates a new backup of the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to back up.
+  ///
+  /// Parameter [clientToken] :
+  /// A client-provided token to ensure the idempotency of the request.
+  ///
+  /// Parameter [displayName] :
+  /// The user-friendly name for the Autonomous Database backup.
+  ///
+  /// Parameter [retentionPeriodInDays] :
+  /// The retention period, in days, for the Autonomous Database backup.
+  ///
+  /// Parameter [tags] :
+  /// The list of resource tags to apply to the Autonomous Database backup. Each
+  /// tag is a key-value pair with no predefined name, type, or namespace.
+  Future<CreateAutonomousDatabaseBackupOutput> createAutonomousDatabaseBackup({
+    required String autonomousDatabaseId,
+    String? clientToken,
+    String? displayName,
+    int? retentionPeriodInDays,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.CreateAutonomousDatabaseBackup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (displayName != null) 'displayName': displayName,
+        if (retentionPeriodInDays != null)
+          'retentionPeriodInDays': retentionPeriodInDays,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateAutonomousDatabaseBackupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Gets information about a specific Autonomous Database backup.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseBackupId] :
+  /// The unique identifier of the Autonomous Database backup to retrieve
+  /// information about.
+  Future<GetAutonomousDatabaseBackupOutput> getAutonomousDatabaseBackup({
+    required String autonomousDatabaseBackupId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.GetAutonomousDatabaseBackup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+      },
+    );
+
+    return GetAutonomousDatabaseBackupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the properties of an Autonomous Database backup.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseBackupId] :
+  /// The unique identifier of the Autonomous Database backup to update.
+  ///
+  /// Parameter [retentionPeriodInDays] :
+  /// The retention period, in days, for the Autonomous Database backup.
+  Future<UpdateAutonomousDatabaseBackupOutput> updateAutonomousDatabaseBackup({
+    required String autonomousDatabaseBackupId,
+    int? retentionPeriodInDays,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.UpdateAutonomousDatabaseBackup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+        if (retentionPeriodInDays != null)
+          'retentionPeriodInDays': retentionPeriodInDays,
+      },
+    );
+
+    return UpdateAutonomousDatabaseBackupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified Autonomous Database backup.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseBackupId] :
+  /// The unique identifier of the Autonomous Database backup to delete.
+  Future<void> deleteAutonomousDatabaseBackup({
+    required String autonomousDatabaseBackupId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.DeleteAutonomousDatabaseBackup'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+      },
+    );
+  }
+
+  /// Lists the backups of the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database whose backups you want to
+  /// list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this request. To get the next
+  /// page of items, make another request with the token returned in the output.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from a previous paginated request. Pagination continues
+  /// from the end of the items returned by the previous request.
+  ///
+  /// Parameter [status] :
+  /// The status of the Autonomous Database backups to return results for.
+  ///
+  /// Parameter [type] :
+  /// The type of the Autonomous Database backups to return results for.
+  Future<ListAutonomousDatabaseBackupsOutput> listAutonomousDatabaseBackups({
+    required String autonomousDatabaseId,
+    int? maxResults,
+    String? nextToken,
+    AutonomousDatabaseBackupStatus? status,
+    AutonomousDatabaseBackupType? type,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.ListAutonomousDatabaseBackups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (status != null) 'status': status.value,
+        if (type != null) 'type': type.value,
+      },
+    );
+
+    return ListAutonomousDatabaseBackupsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [adminPassword] :
+  /// The password for the <code>ADMIN</code> user of the Autonomous Database.
+  ///
+  /// Parameter [adminPasswordSource] :
+  /// The source of the admin password for the Autonomous Database. When set to
+  /// <code>CUSTOMER_MANAGED_AWS_SECRET</code>, the admin password is retrieved
+  /// from an Amazon Web Services Secrets Manager secret.
+  ///
+  /// Parameter [adminPasswordSourceConfiguration] :
+  /// The configuration of the admin password source for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [allowlistedIps] :
+  /// The list of IP addresses that are allowed to access the Autonomous
+  /// Database.
+  ///
+  /// Parameter [autonomousMaintenanceScheduleType] :
+  /// The maintenance schedule type for the Autonomous Database.
+  ///
+  /// Parameter [backupRetentionPeriodInDays] :
+  /// The retention period, in days, for automatic backups of the Autonomous
+  /// Database.
+  ///
+  /// Parameter [byolComputeCountLimit] :
+  /// The maximum number of compute resources that you can allocate to the
+  /// Autonomous Database under the bring-your-own-license (BYOL) model.
+  ///
+  /// Parameter [characterSet] :
+  /// The character set to use for the Autonomous Database.
+  ///
+  /// Parameter [clientToken] :
+  /// A client-provided token to ensure the idempotency of the request.
+  ///
+  /// Parameter [computeCount] :
+  /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs
+  /// (OCPUs), to assign to the Autonomous Database.
+  ///
+  /// Parameter [cpuCoreCount] :
+  /// The number of CPU cores to allocate to the Autonomous Database.
+  ///
+  /// Parameter [customerContactsToSendToOCI] :
+  /// The list of customer contacts to receive operational notifications from
+  /// Oracle Cloud Infrastructure (OCI) for the Autonomous Database.
+  ///
+  /// Parameter [dataStorageSizeInGBs] :
+  /// The size, in gigabytes (GB), of the data volume to allocate for the
+  /// Autonomous Database.
+  ///
+  /// Parameter [dataStorageSizeInTBs] :
+  /// The size, in terabytes (TB), of the data volume to allocate for the
+  /// Autonomous Database.
+  ///
+  /// Parameter [databaseEdition] :
+  /// The Oracle Database edition to apply to the Autonomous Database.
+  ///
+  /// Parameter [dbName] :
+  /// The name of the Autonomous Database. The name must begin with an
+  /// alphabetic character and can contain a maximum of 30 alphanumeric
+  /// characters. Special characters are not permitted. The name must be unique
+  /// in the Amazon Web Services account.
+  ///
+  /// Parameter [dbToolsDetails] :
+  /// The list of database management tools to enable for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [dbVersion] :
+  /// The Oracle Database software version to use for the Autonomous Database.
+  ///
+  /// Parameter [dbWorkload] :
+  /// The intended use of the Autonomous Database, such as transaction
+  /// processing, data warehouse, JSON database, or APEX.
+  ///
+  /// Parameter [displayName] :
+  /// The user-friendly name for the Autonomous Database. The name does not have
+  /// to be unique.
+  ///
+  /// Parameter [encryptionKeyConfiguration] :
+  /// The configuration of the encryption key to use for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [encryptionKeyProvider] :
+  /// The provider of the encryption key to use for the Autonomous Database.
+  ///
+  /// Parameter [isAutoScalingEnabled] :
+  /// Specifies whether to enable automatic scaling of the compute resources for
+  /// the Autonomous Database.
+  ///
+  /// Parameter [isAutoScalingForStorageEnabled] :
+  /// Specifies whether to enable automatic scaling of the storage for the
+  /// Autonomous Database.
+  ///
+  /// Parameter [isBackupRetentionLocked] :
+  /// Specifies whether to lock the backup retention period of the Autonomous
+  /// Database to prevent it from being shortened.
+  ///
+  /// Parameter [isLocalDataGuardEnabled] :
+  /// Specifies whether to enable local Oracle Data Guard for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [isMtlsConnectionRequired] :
+  /// Specifies whether mutual TLS (mTLS) authentication is required to connect
+  /// to the Autonomous Database.
+  ///
+  /// Parameter [licenseModel] :
+  /// The Oracle license model to apply to the Autonomous Database.
+  ///
+  /// Parameter [ncharacterSet] :
+  /// The national character set to use for the Autonomous Database.
+  ///
+  /// Parameter [odbNetworkId] :
+  /// The unique identifier of the ODB network to be used for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [privateEndpointIp] :
+  /// The private endpoint IP address for the Autonomous Database.
+  ///
+  /// Parameter [privateEndpointLabel] :
+  /// The private endpoint label for the Autonomous Database.
+  ///
+  /// Parameter [resourcePoolLeaderId] :
+  /// The unique identifier of the resource pool leader Autonomous Database.
+  ///
+  /// Parameter [resourcePoolSummary] :
+  /// The configuration of the resource pool for the Autonomous Database.
+  ///
+  /// Parameter [scheduledOperations] :
+  /// The list of scheduled start and stop times for the Autonomous Database.
+  ///
+  /// Parameter [source] :
+  /// The source from which to create the Autonomous Database, such as a clone,
+  /// backup, or cross-Region copy.
+  ///
+  /// Parameter [sourceConfiguration] :
+  /// The configuration details for the source used to create the Autonomous
+  /// Database.
+  ///
+  /// Parameter [standbyAllowlistedIps] :
+  /// The list of IP addresses that are allowed to access the standby Autonomous
+  /// Database.
+  ///
+  /// Parameter [standbyAllowlistedIpsSource] :
+  /// The source of the allowlisted IP addresses for the standby Autonomous
+  /// Database.
+  ///
+  /// Parameter [tags] :
+  /// The list of resource tags to apply to the Autonomous Database. Each tag is
+  /// a key-value pair with no predefined name, type, or namespace.
+  ///
+  /// Parameter [transportableTablespace] :
+  /// The transportable tablespace configuration to use when creating the
+  /// Autonomous Database.
+  Future<CreateAutonomousDatabaseOutput> createAutonomousDatabase({
+    String? adminPassword,
+    AdminPasswordSource? adminPasswordSource,
+    AdminPasswordSourceConfigurationInput? adminPasswordSourceConfiguration,
+    List<String>? allowlistedIps,
+    AutonomousMaintenanceScheduleType? autonomousMaintenanceScheduleType,
+    int? backupRetentionPeriodInDays,
+    double? byolComputeCountLimit,
+    String? characterSet,
+    String? clientToken,
+    double? computeCount,
+    int? cpuCoreCount,
+    List<CustomerContact>? customerContactsToSendToOCI,
+    int? dataStorageSizeInGBs,
+    int? dataStorageSizeInTBs,
+    DatabaseEdition? databaseEdition,
+    String? dbName,
+    List<DatabaseTool>? dbToolsDetails,
+    String? dbVersion,
+    DbWorkload? dbWorkload,
+    String? displayName,
+    EncryptionKeyConfigurationInput? encryptionKeyConfiguration,
+    EncryptionKeyProviderInput? encryptionKeyProvider,
+    bool? isAutoScalingEnabled,
+    bool? isAutoScalingForStorageEnabled,
+    bool? isBackupRetentionLocked,
+    bool? isLocalDataGuardEnabled,
+    bool? isMtlsConnectionRequired,
+    LicenseModel? licenseModel,
+    String? ncharacterSet,
+    String? odbNetworkId,
+    String? privateEndpointIp,
+    String? privateEndpointLabel,
+    String? resourcePoolLeaderId,
+    ResourcePoolSummary? resourcePoolSummary,
+    List<ScheduledOperationDetails>? scheduledOperations,
+    SourceType? source,
+    SourceConfiguration? sourceConfiguration,
+    List<String>? standbyAllowlistedIps,
+    StandbyAllowlistedIpsSource? standbyAllowlistedIpsSource,
+    Map<String, String>? tags,
+    TransportableTablespace? transportableTablespace,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.CreateAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (adminPassword != null) 'adminPassword': adminPassword,
+        if (adminPasswordSource != null)
+          'adminPasswordSource': adminPasswordSource.value,
+        if (adminPasswordSourceConfiguration != null)
+          'adminPasswordSourceConfiguration': adminPasswordSourceConfiguration,
+        if (allowlistedIps != null) 'allowlistedIps': allowlistedIps,
+        if (autonomousMaintenanceScheduleType != null)
+          'autonomousMaintenanceScheduleType':
+              autonomousMaintenanceScheduleType.value,
+        if (backupRetentionPeriodInDays != null)
+          'backupRetentionPeriodInDays': backupRetentionPeriodInDays,
+        if (byolComputeCountLimit != null)
+          'byolComputeCountLimit': _s.encodeJsonDouble(byolComputeCountLimit),
+        if (characterSet != null) 'characterSet': characterSet,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (computeCount != null)
+          'computeCount': _s.encodeJsonDouble(computeCount),
+        if (cpuCoreCount != null) 'cpuCoreCount': cpuCoreCount,
+        if (customerContactsToSendToOCI != null)
+          'customerContactsToSendToOCI': customerContactsToSendToOCI,
+        if (dataStorageSizeInGBs != null)
+          'dataStorageSizeInGBs': dataStorageSizeInGBs,
+        if (dataStorageSizeInTBs != null)
+          'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        if (databaseEdition != null) 'databaseEdition': databaseEdition.value,
+        if (dbName != null) 'dbName': dbName,
+        if (dbToolsDetails != null) 'dbToolsDetails': dbToolsDetails,
+        if (dbVersion != null) 'dbVersion': dbVersion,
+        if (dbWorkload != null) 'dbWorkload': dbWorkload.value,
+        if (displayName != null) 'displayName': displayName,
+        if (encryptionKeyConfiguration != null)
+          'encryptionKeyConfiguration': encryptionKeyConfiguration,
+        if (encryptionKeyProvider != null)
+          'encryptionKeyProvider': encryptionKeyProvider.value,
+        if (isAutoScalingEnabled != null)
+          'isAutoScalingEnabled': isAutoScalingEnabled,
+        if (isAutoScalingForStorageEnabled != null)
+          'isAutoScalingForStorageEnabled': isAutoScalingForStorageEnabled,
+        if (isBackupRetentionLocked != null)
+          'isBackupRetentionLocked': isBackupRetentionLocked,
+        if (isLocalDataGuardEnabled != null)
+          'isLocalDataGuardEnabled': isLocalDataGuardEnabled,
+        if (isMtlsConnectionRequired != null)
+          'isMtlsConnectionRequired': isMtlsConnectionRequired,
+        if (licenseModel != null) 'licenseModel': licenseModel.value,
+        if (ncharacterSet != null) 'ncharacterSet': ncharacterSet,
+        if (odbNetworkId != null) 'odbNetworkId': odbNetworkId,
+        if (privateEndpointIp != null) 'privateEndpointIp': privateEndpointIp,
+        if (privateEndpointLabel != null)
+          'privateEndpointLabel': privateEndpointLabel,
+        if (resourcePoolLeaderId != null)
+          'resourcePoolLeaderId': resourcePoolLeaderId,
+        if (resourcePoolSummary != null)
+          'resourcePoolSummary': resourcePoolSummary,
+        if (scheduledOperations != null)
+          'scheduledOperations': scheduledOperations,
+        if (source != null) 'source': source.value,
+        if (sourceConfiguration != null)
+          'sourceConfiguration': sourceConfiguration,
+        if (standbyAllowlistedIps != null)
+          'standbyAllowlistedIps': standbyAllowlistedIps,
+        if (standbyAllowlistedIpsSource != null)
+          'standbyAllowlistedIpsSource': standbyAllowlistedIpsSource.value,
+        if (tags != null) 'tags': tags,
+        if (transportableTablespace != null)
+          'transportableTablespace': transportableTablespace,
+      },
+    );
+
+    return CreateAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Gets information about a specific Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to retrieve information
+  /// about.
+  Future<GetAutonomousDatabaseOutput> getAutonomousDatabase({
+    required String autonomousDatabaseId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.GetAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+      },
+    );
+
+    return GetAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the properties of an Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to update.
+  ///
+  /// Parameter [adminPassword] :
+  /// The new password for the <code>ADMIN</code> user of the Autonomous
+  /// Database.
+  ///
+  /// Parameter [adminPasswordSource] :
+  /// The source of the admin password for the Autonomous Database. When set to
+  /// <code>CUSTOMER_MANAGED_AWS_SECRET</code>, the admin password is retrieved
+  /// from an Amazon Web Services Secrets Manager secret.
+  ///
+  /// Parameter [adminPasswordSourceConfiguration] :
+  /// The configuration of the admin password source for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [allowlistedIps] :
+  /// The list of IP addresses that are allowed to access the Autonomous
+  /// Database.
+  ///
+  /// Parameter [autoRefreshFrequencyInSeconds] :
+  /// The frequency, in seconds, at which the refreshable clone Autonomous
+  /// Database is automatically refreshed.
+  ///
+  /// Parameter [autoRefreshPointLagInSeconds] :
+  /// The time lag, in seconds, between the refreshable clone and its source
+  /// Autonomous Database.
+  ///
+  /// Parameter [autonomousMaintenanceScheduleType] :
+  /// The maintenance schedule type for the Autonomous Database.
+  ///
+  /// Parameter [backupRetentionPeriodInDays] :
+  /// The retention period, in days, for automatic backups of the Autonomous
+  /// Database.
+  ///
+  /// Parameter [byolComputeCountLimit] :
+  /// The maximum number of compute resources that you can allocate to the
+  /// Autonomous Database under the bring-your-own-license (BYOL) model.
+  ///
+  /// Parameter [computeCount] :
+  /// The compute capacity, in number of ECPUs or OCPUs, to assign to the
+  /// Autonomous Database.
+  ///
+  /// Parameter [cpuCoreCount] :
+  /// The number of CPU cores to allocate to the Autonomous Database.
+  ///
+  /// Parameter [customerContactsToSendToOCI] :
+  /// The list of customer contacts to receive operational notifications from
+  /// OCI for the Autonomous Database.
+  ///
+  /// Parameter [dataStorageSizeInGBs] :
+  /// The size, in gigabytes (GB), of the data volume to allocate for the
+  /// Autonomous Database.
+  ///
+  /// Parameter [dataStorageSizeInTBs] :
+  /// The size, in terabytes (TB), of the data volume to allocate for the
+  /// Autonomous Database.
+  ///
+  /// Parameter [databaseEdition] :
+  /// The Oracle Database edition to apply to the Autonomous Database.
+  ///
+  /// Parameter [dbName] :
+  /// The new name of the Autonomous Database.
+  ///
+  /// Parameter [dbToolsDetails] :
+  /// The list of database management tools to enable for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [dbVersion] :
+  /// The Oracle Database software version to use for the Autonomous Database.
+  ///
+  /// Parameter [dbWorkload] :
+  /// The intended use of the Autonomous Database, such as transaction
+  /// processing, data warehouse, JSON database, or APEX.
+  ///
+  /// Parameter [displayName] :
+  /// The new user-friendly name for the Autonomous Database.
+  ///
+  /// Parameter [encryptionKeyConfiguration] :
+  /// The configuration of the encryption key to use for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [encryptionKeyProvider] :
+  /// The provider of the encryption key to use for the Autonomous Database.
+  ///
+  /// Parameter [isAutoScalingEnabled] :
+  /// Specifies whether to enable automatic scaling of the compute resources for
+  /// the Autonomous Database.
+  ///
+  /// Parameter [isAutoScalingForStorageEnabled] :
+  /// Specifies whether to enable automatic scaling of the storage for the
+  /// Autonomous Database.
+  ///
+  /// Parameter [isBackupRetentionLocked] :
+  /// Specifies whether to lock the backup retention period of the Autonomous
+  /// Database to prevent it from being shortened.
+  ///
+  /// Parameter [isDisconnectPeer] :
+  /// Specifies whether to disconnect the Autonomous Database from its peer
+  /// database.
+  ///
+  /// Parameter [isLocalDataGuardEnabled] :
+  /// Specifies whether to enable local Oracle Data Guard for the Autonomous
+  /// Database.
+  ///
+  /// Parameter [isMtlsConnectionRequired] :
+  /// Specifies whether mutual TLS (mTLS) authentication is required to connect
+  /// to the Autonomous Database.
+  ///
+  /// Parameter [isRefreshableClone] :
+  /// Specifies whether the Autonomous Database is a refreshable clone.
+  ///
+  /// Parameter [licenseModel] :
+  /// The Oracle license model to apply to the Autonomous Database.
+  ///
+  /// Parameter [localAdgAutoFailoverMaxDataLossLimit] :
+  /// The maximum data loss limit, in seconds, for automatic failover to the
+  /// local Oracle Data Guard standby database.
+  ///
+  /// Parameter [longTermBackupSchedule] :
+  /// The long-term backup schedule for the Autonomous Database.
+  ///
+  /// Parameter [openMode] :
+  /// The mode in which to open the Autonomous Database, either read-only or
+  /// read/write.
+  ///
+  /// Parameter [peerDbId] :
+  /// The unique identifier of the peer Autonomous Database.
+  ///
+  /// Parameter [permissionLevel] :
+  /// The permission level of the Autonomous Database.
+  ///
+  /// Parameter [privateEndpointIp] :
+  /// The private endpoint IP address for the Autonomous Database.
+  ///
+  /// Parameter [privateEndpointLabel] :
+  /// The private endpoint label for the Autonomous Database.
+  ///
+  /// Parameter [refreshableMode] :
+  /// The refresh mode of the refreshable clone Autonomous Database.
+  ///
+  /// Parameter [resourcePoolLeaderId] :
+  /// The unique identifier of the resource pool leader Autonomous Database.
+  ///
+  /// Parameter [resourcePoolSummary] :
+  /// The configuration of the resource pool for the Autonomous Database.
+  ///
+  /// Parameter [scheduledOperations] :
+  /// The list of scheduled start and stop times for the Autonomous Database.
+  ///
+  /// Parameter [standbyAllowlistedIps] :
+  /// The list of IP addresses that are allowed to access the standby Autonomous
+  /// Database.
+  ///
+  /// Parameter [standbyAllowlistedIpsSource] :
+  /// The source of the allowlisted IP addresses for the standby Autonomous
+  /// Database.
+  ///
+  /// Parameter [timeOfAutoRefreshStart] :
+  /// The date and time at which the automatic refresh of the refreshable clone
+  /// Autonomous Database starts.
+  Future<UpdateAutonomousDatabaseOutput> updateAutonomousDatabase({
+    required String autonomousDatabaseId,
+    String? adminPassword,
+    AdminPasswordSource? adminPasswordSource,
+    AdminPasswordSourceConfigurationInput? adminPasswordSourceConfiguration,
+    List<String>? allowlistedIps,
+    int? autoRefreshFrequencyInSeconds,
+    int? autoRefreshPointLagInSeconds,
+    AutonomousMaintenanceScheduleType? autonomousMaintenanceScheduleType,
+    int? backupRetentionPeriodInDays,
+    double? byolComputeCountLimit,
+    double? computeCount,
+    int? cpuCoreCount,
+    List<CustomerContact>? customerContactsToSendToOCI,
+    int? dataStorageSizeInGBs,
+    int? dataStorageSizeInTBs,
+    DatabaseEdition? databaseEdition,
+    String? dbName,
+    List<DatabaseTool>? dbToolsDetails,
+    String? dbVersion,
+    DbWorkload? dbWorkload,
+    String? displayName,
+    EncryptionKeyConfigurationInput? encryptionKeyConfiguration,
+    EncryptionKeyProviderInput? encryptionKeyProvider,
+    bool? isAutoScalingEnabled,
+    bool? isAutoScalingForStorageEnabled,
+    bool? isBackupRetentionLocked,
+    bool? isDisconnectPeer,
+    bool? isLocalDataGuardEnabled,
+    bool? isMtlsConnectionRequired,
+    bool? isRefreshableClone,
+    LicenseModel? licenseModel,
+    int? localAdgAutoFailoverMaxDataLossLimit,
+    LongTermBackupSchedule? longTermBackupSchedule,
+    OpenMode? openMode,
+    String? peerDbId,
+    PermissionLevel? permissionLevel,
+    String? privateEndpointIp,
+    String? privateEndpointLabel,
+    RefreshableMode? refreshableMode,
+    String? resourcePoolLeaderId,
+    ResourcePoolSummary? resourcePoolSummary,
+    List<ScheduledOperationDetails>? scheduledOperations,
+    List<String>? standbyAllowlistedIps,
+    StandbyAllowlistedIpsSource? standbyAllowlistedIpsSource,
+    DateTime? timeOfAutoRefreshStart,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.UpdateAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        if (adminPassword != null) 'adminPassword': adminPassword,
+        if (adminPasswordSource != null)
+          'adminPasswordSource': adminPasswordSource.value,
+        if (adminPasswordSourceConfiguration != null)
+          'adminPasswordSourceConfiguration': adminPasswordSourceConfiguration,
+        if (allowlistedIps != null) 'allowlistedIps': allowlistedIps,
+        if (autoRefreshFrequencyInSeconds != null)
+          'autoRefreshFrequencyInSeconds': autoRefreshFrequencyInSeconds,
+        if (autoRefreshPointLagInSeconds != null)
+          'autoRefreshPointLagInSeconds': autoRefreshPointLagInSeconds,
+        if (autonomousMaintenanceScheduleType != null)
+          'autonomousMaintenanceScheduleType':
+              autonomousMaintenanceScheduleType.value,
+        if (backupRetentionPeriodInDays != null)
+          'backupRetentionPeriodInDays': backupRetentionPeriodInDays,
+        if (byolComputeCountLimit != null)
+          'byolComputeCountLimit': _s.encodeJsonDouble(byolComputeCountLimit),
+        if (computeCount != null)
+          'computeCount': _s.encodeJsonDouble(computeCount),
+        if (cpuCoreCount != null) 'cpuCoreCount': cpuCoreCount,
+        if (customerContactsToSendToOCI != null)
+          'customerContactsToSendToOCI': customerContactsToSendToOCI,
+        if (dataStorageSizeInGBs != null)
+          'dataStorageSizeInGBs': dataStorageSizeInGBs,
+        if (dataStorageSizeInTBs != null)
+          'dataStorageSizeInTBs': dataStorageSizeInTBs,
+        if (databaseEdition != null) 'databaseEdition': databaseEdition.value,
+        if (dbName != null) 'dbName': dbName,
+        if (dbToolsDetails != null) 'dbToolsDetails': dbToolsDetails,
+        if (dbVersion != null) 'dbVersion': dbVersion,
+        if (dbWorkload != null) 'dbWorkload': dbWorkload.value,
+        if (displayName != null) 'displayName': displayName,
+        if (encryptionKeyConfiguration != null)
+          'encryptionKeyConfiguration': encryptionKeyConfiguration,
+        if (encryptionKeyProvider != null)
+          'encryptionKeyProvider': encryptionKeyProvider.value,
+        if (isAutoScalingEnabled != null)
+          'isAutoScalingEnabled': isAutoScalingEnabled,
+        if (isAutoScalingForStorageEnabled != null)
+          'isAutoScalingForStorageEnabled': isAutoScalingForStorageEnabled,
+        if (isBackupRetentionLocked != null)
+          'isBackupRetentionLocked': isBackupRetentionLocked,
+        if (isDisconnectPeer != null) 'isDisconnectPeer': isDisconnectPeer,
+        if (isLocalDataGuardEnabled != null)
+          'isLocalDataGuardEnabled': isLocalDataGuardEnabled,
+        if (isMtlsConnectionRequired != null)
+          'isMtlsConnectionRequired': isMtlsConnectionRequired,
+        if (isRefreshableClone != null)
+          'isRefreshableClone': isRefreshableClone,
+        if (licenseModel != null) 'licenseModel': licenseModel.value,
+        if (localAdgAutoFailoverMaxDataLossLimit != null)
+          'localAdgAutoFailoverMaxDataLossLimit':
+              localAdgAutoFailoverMaxDataLossLimit,
+        if (longTermBackupSchedule != null)
+          'longTermBackupSchedule': longTermBackupSchedule,
+        if (openMode != null) 'openMode': openMode.value,
+        if (peerDbId != null) 'peerDbId': peerDbId,
+        if (permissionLevel != null) 'permissionLevel': permissionLevel.value,
+        if (privateEndpointIp != null) 'privateEndpointIp': privateEndpointIp,
+        if (privateEndpointLabel != null)
+          'privateEndpointLabel': privateEndpointLabel,
+        if (refreshableMode != null) 'refreshableMode': refreshableMode.value,
+        if (resourcePoolLeaderId != null)
+          'resourcePoolLeaderId': resourcePoolLeaderId,
+        if (resourcePoolSummary != null)
+          'resourcePoolSummary': resourcePoolSummary,
+        if (scheduledOperations != null)
+          'scheduledOperations': scheduledOperations,
+        if (standbyAllowlistedIps != null)
+          'standbyAllowlistedIps': standbyAllowlistedIps,
+        if (standbyAllowlistedIpsSource != null)
+          'standbyAllowlistedIpsSource': standbyAllowlistedIpsSource.value,
+        if (timeOfAutoRefreshStart != null)
+          'timeOfAutoRefreshStart': iso8601ToJson(timeOfAutoRefreshStart),
+      },
+    );
+
+    return UpdateAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to delete.
+  Future<void> deleteAutonomousDatabase({
+    required String autonomousDatabaseId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.DeleteAutonomousDatabase'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+      },
+    );
+  }
+
+  /// Returns information about the Autonomous Databases owned by your Amazon
+  /// Web Services account in the current Amazon Web Services Region.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this request. To get the next
+  /// page of items, make another request with the token returned in the output.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from a previous paginated request. Pagination continues
+  /// from the end of the items returned by the previous request.
+  Future<ListAutonomousDatabasesOutput> listAutonomousDatabases({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.ListAutonomousDatabases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListAutonomousDatabasesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new wallet for the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to create a wallet for.
+  ///
+  /// Parameter [clientToken] :
+  /// A client-provided token to ensure the idempotency of the request.
+  ///
+  /// Parameter [password] :
+  /// The password to encrypt the keys inside the wallet.
+  ///
+  /// Parameter [passwordSource] :
+  /// The source of the password for encrypting the wallet. When set to
+  /// <code>CUSTOMER_MANAGED_AWS_SECRET</code>, the password is retrieved from
+  /// an Amazon Web Services Secrets Manager secret.
+  ///
+  /// Parameter [passwordSourceConfiguration] :
+  /// The configuration of the password source for the Autonomous Database
+  /// wallet.
+  ///
+  /// Parameter [walletType] :
+  /// The type of wallet to create, either a regional wallet or an instance
+  /// wallet.
+  Future<CreateAutonomousDatabaseWalletOutput> createAutonomousDatabaseWallet({
+    required String autonomousDatabaseId,
+    String? clientToken,
+    String? password,
+    WalletPasswordSource? passwordSource,
+    WalletPasswordSourceConfigurationInput? passwordSourceConfiguration,
+    WalletType? walletType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.CreateAutonomousDatabaseWallet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (password != null) 'password': password,
+        if (passwordSource != null) 'passwordSource': passwordSource.value,
+        if (passwordSourceConfiguration != null)
+          'passwordSourceConfiguration': passwordSourceConfiguration,
+        if (walletType != null) 'walletType': walletType.value,
+      },
+    );
+
+    return CreateAutonomousDatabaseWalletOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Initiates a failover of the specified Autonomous Database to a standby
+  /// peer database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to fail over.
+  ///
+  /// Parameter [peerDbArn] :
+  /// The Amazon Resource Name (ARN) of the peer Autonomous Database to fail
+  /// over to.
+  Future<FailoverAutonomousDatabaseOutput> failoverAutonomousDatabase({
+    required String autonomousDatabaseId,
+    String? peerDbArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.FailoverAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        if (peerDbArn != null) 'peerDbArn': peerDbArn,
+      },
+    );
+
+    return FailoverAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the wallet details for the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to retrieve wallet
+  /// details for.
+  Future<GetAutonomousDatabaseWalletDetailsOutput>
+      getAutonomousDatabaseWalletDetails({
+    required String autonomousDatabaseId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.GetAutonomousDatabaseWalletDetails'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+      },
+    );
+
+    return GetAutonomousDatabaseWalletDetailsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the clones of the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the source Autonomous Database whose clones you
+  /// want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this request. To get the next
+  /// page of items, make another request with the token returned in the output.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from a previous paginated request. Pagination continues
+  /// from the end of the items returned by the previous request.
+  Future<ListAutonomousDatabaseClonesOutput> listAutonomousDatabaseClones({
+    required String autonomousDatabaseId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.ListAutonomousDatabaseClones'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListAutonomousDatabaseClonesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the peer databases of the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database whose peer databases you
+  /// want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this request. To get the next
+  /// page of items, make another request with the token returned in the output.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from a previous paginated request. Pagination continues
+  /// from the end of the items returned by the previous request.
+  Future<ListAutonomousDatabasePeersOutput> listAutonomousDatabasePeers({
+    required String autonomousDatabaseId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.ListAutonomousDatabasePeers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListAutonomousDatabasePeersOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Reboots the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to reboot.
+  ///
+  /// Parameter [isOnlineReboot] :
+  /// Specifies whether to perform an online reboot of the Autonomous Database
+  /// without interrupting active connections.
+  Future<RebootAutonomousDatabaseOutput> rebootAutonomousDatabase({
+    required String autonomousDatabaseId,
+    bool? isOnlineReboot,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.RebootAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        if (isOnlineReboot != null) 'isOnlineReboot': isOnlineReboot,
+      },
+    );
+
+    return RebootAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Restores the specified Autonomous Database to a point in time.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to restore.
+  ///
+  /// Parameter [timestamp] :
+  /// The date and time to which to restore the Autonomous Database.
+  Future<RestoreAutonomousDatabaseOutput> restoreAutonomousDatabase({
+    required String autonomousDatabaseId,
+    required DateTime timestamp,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.RestoreAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        'timestamp': iso8601ToJson(timestamp),
+      },
+    );
+
+    return RestoreAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Shrinks the storage of the specified Autonomous Database to reclaim unused
+  /// space.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to shrink.
+  Future<ShrinkAutonomousDatabaseOutput> shrinkAutonomousDatabase({
+    required String autonomousDatabaseId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.ShrinkAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+      },
+    );
+
+    return ShrinkAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Starts the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to start.
+  Future<StartAutonomousDatabaseOutput> startAutonomousDatabase({
+    required String autonomousDatabaseId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.StartAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+      },
+    );
+
+    return StartAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Stops the specified Autonomous Database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to stop.
+  Future<StopAutonomousDatabaseOutput> stopAutonomousDatabase({
+    required String autonomousDatabaseId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.StopAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+      },
+    );
+
+    return StopAutonomousDatabaseOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Performs a switchover of the specified Autonomous Database to a standby
+  /// peer database.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [autonomousDatabaseId] :
+  /// The unique identifier of the Autonomous Database to switch over.
+  ///
+  /// Parameter [peerDbArn] :
+  /// The Amazon Resource Name (ARN) of the peer Autonomous Database to switch
+  /// over to.
+  Future<SwitchoverAutonomousDatabaseOutput> switchoverAutonomousDatabase({
+    required String autonomousDatabaseId,
+    String? peerDbArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'Odb.SwitchoverAutonomousDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autonomousDatabaseId': autonomousDatabaseId,
+        if (peerDbArn != null) 'peerDbArn': peerDbArn,
+      },
+    );
+
+    return SwitchoverAutonomousDatabaseOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a new Autonomous VM cluster in the specified Exadata
@@ -2354,9 +3789,22 @@ class DisassociateIamRoleFromResourceOutput {
 
 /// @nodoc
 class GetOciOnboardingStatusOutput {
+  /// The list of Amazon Web Services Identity and Access Management (IAM) service
+  /// roles used for Autonomous Database integration with Oracle Cloud
+  /// Infrastructure (OCI).
+  final List<OciIamRole>? autonomousDatabaseOciIntegrationIamRoles;
+
   /// The existing OCI tenancy activation link for your Amazon Web Services
   /// account.
   final String? existingTenancyActivationLink;
+
+  /// The unique identifier of the Oracle Cloud Infrastructure (OCI) compartment
+  /// that is linked to your Amazon Web Services account.
+  final String? linkedOciCompartmentId;
+
+  /// The unique identifier of the Oracle Cloud Infrastructure (OCI) tenancy that
+  /// is linked to your Amazon Web Services account.
+  final String? linkedOciTenancyId;
 
   /// A new OCI tenancy activation link for your Amazon Web Services account.
   final String? newTenancyActivationLink;
@@ -2366,38 +3814,69 @@ class GetOciOnboardingStatusOutput {
   final OciIdentityDomain? ociIdentityDomain;
   final OciOnboardingStatus? status;
 
+  /// The list of errors that occurred during the subscription process for your
+  /// Amazon Web Services account, if any.
+  final List<SubscriptionError>? subscriptionErrors;
+
   GetOciOnboardingStatusOutput({
+    this.autonomousDatabaseOciIntegrationIamRoles,
     this.existingTenancyActivationLink,
+    this.linkedOciCompartmentId,
+    this.linkedOciTenancyId,
     this.newTenancyActivationLink,
     this.ociIdentityDomain,
     this.status,
+    this.subscriptionErrors,
   });
 
   factory GetOciOnboardingStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetOciOnboardingStatusOutput(
+      autonomousDatabaseOciIntegrationIamRoles:
+          (json['autonomousDatabaseOciIntegrationIamRoles'] as List?)
+              ?.nonNulls
+              .map((e) => OciIamRole.fromJson(e as Map<String, dynamic>))
+              .toList(),
       existingTenancyActivationLink:
           json['existingTenancyActivationLink'] as String?,
+      linkedOciCompartmentId: json['linkedOciCompartmentId'] as String?,
+      linkedOciTenancyId: json['linkedOciTenancyId'] as String?,
       newTenancyActivationLink: json['newTenancyActivationLink'] as String?,
       ociIdentityDomain: json['ociIdentityDomain'] != null
           ? OciIdentityDomain.fromJson(
               json['ociIdentityDomain'] as Map<String, dynamic>)
           : null,
       status: (json['status'] as String?)?.let(OciOnboardingStatus.fromString),
+      subscriptionErrors: (json['subscriptionErrors'] as List?)
+          ?.nonNulls
+          .map((e) => SubscriptionError.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final autonomousDatabaseOciIntegrationIamRoles =
+        this.autonomousDatabaseOciIntegrationIamRoles;
     final existingTenancyActivationLink = this.existingTenancyActivationLink;
+    final linkedOciCompartmentId = this.linkedOciCompartmentId;
+    final linkedOciTenancyId = this.linkedOciTenancyId;
     final newTenancyActivationLink = this.newTenancyActivationLink;
     final ociIdentityDomain = this.ociIdentityDomain;
     final status = this.status;
+    final subscriptionErrors = this.subscriptionErrors;
     return {
+      if (autonomousDatabaseOciIntegrationIamRoles != null)
+        'autonomousDatabaseOciIntegrationIamRoles':
+            autonomousDatabaseOciIntegrationIamRoles,
       if (existingTenancyActivationLink != null)
         'existingTenancyActivationLink': existingTenancyActivationLink,
+      if (linkedOciCompartmentId != null)
+        'linkedOciCompartmentId': linkedOciCompartmentId,
+      if (linkedOciTenancyId != null) 'linkedOciTenancyId': linkedOciTenancyId,
       if (newTenancyActivationLink != null)
         'newTenancyActivationLink': newTenancyActivationLink,
       if (ociIdentityDomain != null) 'ociIdentityDomain': ociIdentityDomain,
       if (status != null) 'status': status.value,
+      if (subscriptionErrors != null) 'subscriptionErrors': subscriptionErrors,
     };
   }
 }
@@ -2412,6 +3891,82 @@ class InitializeServiceOutput {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class ListAutonomousDatabaseCharacterSetsOutput {
+  /// The list of available Autonomous Database character sets.
+  final List<AutonomousDatabaseCharacterSetSummary>
+      autonomousDatabaseCharacterSets;
+
+  /// The token to include in another request to get the next page of items. This
+  /// value is <code>null</code> when there are no more items to return.
+  final String? nextToken;
+
+  ListAutonomousDatabaseCharacterSetsOutput({
+    required this.autonomousDatabaseCharacterSets,
+    this.nextToken,
+  });
+
+  factory ListAutonomousDatabaseCharacterSetsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListAutonomousDatabaseCharacterSetsOutput(
+      autonomousDatabaseCharacterSets:
+          ((json['autonomousDatabaseCharacterSets'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AutonomousDatabaseCharacterSetSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseCharacterSets =
+        this.autonomousDatabaseCharacterSets;
+    final nextToken = this.nextToken;
+    return {
+      'autonomousDatabaseCharacterSets': autonomousDatabaseCharacterSets,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListAutonomousDatabaseVersionsOutput {
+  /// The list of available Autonomous Database software versions.
+  final List<AutonomousDatabaseVersionSummary> autonomousDatabaseVersions;
+
+  /// The token to include in another request to get the next page of items. This
+  /// value is <code>null</code> when there are no more items to return.
+  final String? nextToken;
+
+  ListAutonomousDatabaseVersionsOutput({
+    required this.autonomousDatabaseVersions,
+    this.nextToken,
+  });
+
+  factory ListAutonomousDatabaseVersionsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListAutonomousDatabaseVersionsOutput(
+      autonomousDatabaseVersions:
+          ((json['autonomousDatabaseVersions'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AutonomousDatabaseVersionSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseVersions = this.autonomousDatabaseVersions;
+    final nextToken = this.nextToken;
+    return {
+      'autonomousDatabaseVersions': autonomousDatabaseVersions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
   }
 }
 
@@ -2564,6 +4119,796 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class CreateAutonomousDatabaseBackupOutput {
+  /// The unique identifier of the Autonomous Database backup that was created.
+  final String autonomousDatabaseBackupId;
+
+  /// The user-friendly name of the Autonomous Database backup that was created.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database backup.
+  final ResourceStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database
+  /// backup, if applicable.
+  final String? statusReason;
+
+  CreateAutonomousDatabaseBackupOutput({
+    required this.autonomousDatabaseBackupId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory CreateAutonomousDatabaseBackupOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAutonomousDatabaseBackupOutput(
+      autonomousDatabaseBackupId:
+          (json['autonomousDatabaseBackupId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)?.let(ResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseBackupId = this.autonomousDatabaseBackupId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class GetAutonomousDatabaseBackupOutput {
+  /// The details of the requested Autonomous Database backup.
+  final AutonomousDatabaseBackup? autonomousDatabaseBackup;
+
+  GetAutonomousDatabaseBackupOutput({
+    this.autonomousDatabaseBackup,
+  });
+
+  factory GetAutonomousDatabaseBackupOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetAutonomousDatabaseBackupOutput(
+      autonomousDatabaseBackup: json['autonomousDatabaseBackup'] != null
+          ? AutonomousDatabaseBackup.fromJson(
+              json['autonomousDatabaseBackup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseBackup = this.autonomousDatabaseBackup;
+    return {
+      if (autonomousDatabaseBackup != null)
+        'autonomousDatabaseBackup': autonomousDatabaseBackup,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateAutonomousDatabaseBackupOutput {
+  /// The unique identifier of the Autonomous Database backup that was updated.
+  final String autonomousDatabaseBackupId;
+
+  /// The user-friendly name of the Autonomous Database backup.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database backup.
+  final ResourceStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database
+  /// backup, if applicable.
+  final String? statusReason;
+
+  UpdateAutonomousDatabaseBackupOutput({
+    required this.autonomousDatabaseBackupId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory UpdateAutonomousDatabaseBackupOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAutonomousDatabaseBackupOutput(
+      autonomousDatabaseBackupId:
+          (json['autonomousDatabaseBackupId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)?.let(ResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseBackupId = this.autonomousDatabaseBackupId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteAutonomousDatabaseBackupOutput {
+  DeleteAutonomousDatabaseBackupOutput();
+
+  factory DeleteAutonomousDatabaseBackupOutput.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteAutonomousDatabaseBackupOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class ListAutonomousDatabaseBackupsOutput {
+  /// The list of Autonomous Database backups along with their properties.
+  final List<AutonomousDatabaseBackupSummary> autonomousDatabaseBackups;
+
+  /// The token to include in another request to get the next page of items. This
+  /// value is <code>null</code> when there are no more items to return.
+  final String? nextToken;
+
+  ListAutonomousDatabaseBackupsOutput({
+    required this.autonomousDatabaseBackups,
+    this.nextToken,
+  });
+
+  factory ListAutonomousDatabaseBackupsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListAutonomousDatabaseBackupsOutput(
+      autonomousDatabaseBackups:
+          ((json['autonomousDatabaseBackups'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AutonomousDatabaseBackupSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseBackups = this.autonomousDatabaseBackups;
+    final nextToken = this.nextToken;
+    return {
+      'autonomousDatabaseBackups': autonomousDatabaseBackups,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class CreateAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was created.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database that was created.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database,
+  /// if applicable.
+  final String? statusReason;
+
+  CreateAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory CreateAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return CreateAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class GetAutonomousDatabaseOutput {
+  /// The details of the requested Autonomous Database.
+  final AutonomousDatabase autonomousDatabase;
+
+  GetAutonomousDatabaseOutput({
+    required this.autonomousDatabase,
+  });
+
+  factory GetAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return GetAutonomousDatabaseOutput(
+      autonomousDatabase: AutonomousDatabase.fromJson(
+          (json['autonomousDatabase'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabase = this.autonomousDatabase;
+    return {
+      'autonomousDatabase': autonomousDatabase,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was updated.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database that was updated.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database,
+  /// if applicable.
+  final String? statusReason;
+
+  UpdateAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory UpdateAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteAutonomousDatabaseOutput {
+  DeleteAutonomousDatabaseOutput();
+
+  factory DeleteAutonomousDatabaseOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteAutonomousDatabaseOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class ListAutonomousDatabasesOutput {
+  /// The list of Autonomous Databases along with their properties.
+  final List<AutonomousDatabaseSummary> autonomousDatabases;
+
+  /// The token to include in another request to get the next page of items. This
+  /// value is <code>null</code> when there are no more items to return.
+  final String? nextToken;
+
+  ListAutonomousDatabasesOutput({
+    required this.autonomousDatabases,
+    this.nextToken,
+  });
+
+  factory ListAutonomousDatabasesOutput.fromJson(Map<String, dynamic> json) {
+    return ListAutonomousDatabasesOutput(
+      autonomousDatabases: ((json['autonomousDatabases'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              AutonomousDatabaseSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabases = this.autonomousDatabases;
+    final nextToken = this.nextToken;
+    return {
+      'autonomousDatabases': autonomousDatabases,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class CreateAutonomousDatabaseWalletOutput {
+  /// The generated wallet file for the Autonomous Database, returned as a
+  /// compressed archive.
+  final Uint8List autonomousDatabaseWalletFile;
+
+  CreateAutonomousDatabaseWalletOutput({
+    required this.autonomousDatabaseWalletFile,
+  });
+
+  factory CreateAutonomousDatabaseWalletOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAutonomousDatabaseWalletOutput(
+      autonomousDatabaseWalletFile: _s.decodeUint8List(
+          (json['autonomousDatabaseWalletFile'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseWalletFile = this.autonomousDatabaseWalletFile;
+    return {
+      'autonomousDatabaseWalletFile':
+          base64Encode(autonomousDatabaseWalletFile),
+    };
+  }
+}
+
+/// @nodoc
+class FailoverAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was failed over.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database after the failover operation.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the status of the Autonomous Database after the
+  /// failover operation.
+  final String? statusReason;
+
+  FailoverAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory FailoverAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return FailoverAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class GetAutonomousDatabaseWalletDetailsOutput {
+  /// The wallet details for the Autonomous Database.
+  final AutonomousDatabaseWalletDetails autonomousDatabaseWalletDetails;
+
+  GetAutonomousDatabaseWalletDetailsOutput({
+    required this.autonomousDatabaseWalletDetails,
+  });
+
+  factory GetAutonomousDatabaseWalletDetailsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetAutonomousDatabaseWalletDetailsOutput(
+      autonomousDatabaseWalletDetails: AutonomousDatabaseWalletDetails.fromJson(
+          (json['autonomousDatabaseWalletDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseWalletDetails =
+        this.autonomousDatabaseWalletDetails;
+    return {
+      'autonomousDatabaseWalletDetails': autonomousDatabaseWalletDetails,
+    };
+  }
+}
+
+/// @nodoc
+class ListAutonomousDatabaseClonesOutput {
+  /// The list of Autonomous Database clones along with their properties.
+  final List<AutonomousDatabaseSummary> autonomousDatabaseClones;
+
+  /// The token to include in another request to get the next page of items. This
+  /// value is <code>null</code> when there are no more items to return.
+  final String? nextToken;
+
+  ListAutonomousDatabaseClonesOutput({
+    required this.autonomousDatabaseClones,
+    this.nextToken,
+  });
+
+  factory ListAutonomousDatabaseClonesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListAutonomousDatabaseClonesOutput(
+      autonomousDatabaseClones:
+          ((json['autonomousDatabaseClones'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  AutonomousDatabaseSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseClones = this.autonomousDatabaseClones;
+    final nextToken = this.nextToken;
+    return {
+      'autonomousDatabaseClones': autonomousDatabaseClones,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListAutonomousDatabasePeersOutput {
+  /// The list of peer databases for the Autonomous Database.
+  final List<AutonomousDatabasePeerSummary> autonomousDatabasePeers;
+
+  /// The token to include in another request to get the next page of items. This
+  /// value is <code>null</code> when there are no more items to return.
+  final String? nextToken;
+
+  ListAutonomousDatabasePeersOutput({
+    required this.autonomousDatabasePeers,
+    this.nextToken,
+  });
+
+  factory ListAutonomousDatabasePeersOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListAutonomousDatabasePeersOutput(
+      autonomousDatabasePeers: ((json['autonomousDatabasePeers'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              AutonomousDatabasePeerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabasePeers = this.autonomousDatabasePeers;
+    final nextToken = this.nextToken;
+    return {
+      'autonomousDatabasePeers': autonomousDatabasePeers,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class RebootAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was rebooted.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database after the reboot operation.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the status of the Autonomous Database after the
+  /// reboot operation.
+  final String? statusReason;
+
+  RebootAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory RebootAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return RebootAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class RestoreAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was restored.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database after the restore operation.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the status of the Autonomous Database after the
+  /// restore operation.
+  final String? statusReason;
+
+  RestoreAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory RestoreAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return RestoreAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class ShrinkAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was shrunk.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database after the shrink operation.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the status of the Autonomous Database after the
+  /// shrink operation.
+  final String? statusReason;
+
+  ShrinkAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory ShrinkAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return ShrinkAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class StartAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was started.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database after the start operation.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the status of the Autonomous Database after the
+  /// start operation.
+  final String? statusReason;
+
+  StartAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory StartAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return StartAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class StopAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was stopped.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database after the stop operation.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the status of the Autonomous Database after the
+  /// stop operation.
+  final String? statusReason;
+
+  StopAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory StopAutonomousDatabaseOutput.fromJson(Map<String, dynamic> json) {
+    return StopAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class SwitchoverAutonomousDatabaseOutput {
+  /// The unique identifier of the Autonomous Database that was switched over.
+  final String autonomousDatabaseId;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The current status of the Autonomous Database after the switchover
+  /// operation.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the status of the Autonomous Database after the
+  /// switchover operation.
+  final String? statusReason;
+
+  SwitchoverAutonomousDatabaseOutput({
+    required this.autonomousDatabaseId,
+    this.displayName,
+    this.status,
+    this.statusReason,
+  });
+
+  factory SwitchoverAutonomousDatabaseOutput.fromJson(
+      Map<String, dynamic> json) {
+    return SwitchoverAutonomousDatabaseOutput(
+      autonomousDatabaseId: (json['autonomousDatabaseId'] as String?) ?? '',
+      displayName: json['displayName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final displayName = this.displayName;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'autonomousDatabaseId': autonomousDatabaseId,
+      if (displayName != null) 'displayName': displayName,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
   }
 }
 
@@ -9056,6 +11401,4656 @@ class CloudAutonomousVmCluster {
   }
 }
 
+/// @nodoc
+class AutonomousDatabaseResourceStatus {
+  static const available = AutonomousDatabaseResourceStatus._('AVAILABLE');
+  static const failed = AutonomousDatabaseResourceStatus._('FAILED');
+  static const provisioning =
+      AutonomousDatabaseResourceStatus._('PROVISIONING');
+  static const terminated = AutonomousDatabaseResourceStatus._('TERMINATED');
+  static const terminating = AutonomousDatabaseResourceStatus._('TERMINATING');
+  static const updating = AutonomousDatabaseResourceStatus._('UPDATING');
+  static const maintenanceInProgress =
+      AutonomousDatabaseResourceStatus._('MAINTENANCE_IN_PROGRESS');
+  static const stopping = AutonomousDatabaseResourceStatus._('STOPPING');
+  static const stopped = AutonomousDatabaseResourceStatus._('STOPPED');
+  static const starting = AutonomousDatabaseResourceStatus._('STARTING');
+  static const unavailable = AutonomousDatabaseResourceStatus._('UNAVAILABLE');
+  static const restoreInProgress =
+      AutonomousDatabaseResourceStatus._('RESTORE_IN_PROGRESS');
+  static const restoreFailed =
+      AutonomousDatabaseResourceStatus._('RESTORE_FAILED');
+  static const backupInProgress =
+      AutonomousDatabaseResourceStatus._('BACKUP_IN_PROGRESS');
+  static const scaleInProgress =
+      AutonomousDatabaseResourceStatus._('SCALE_IN_PROGRESS');
+  static const availableNeedsAttention =
+      AutonomousDatabaseResourceStatus._('AVAILABLE_NEEDS_ATTENTION');
+  static const restarting = AutonomousDatabaseResourceStatus._('RESTARTING');
+  static const recreating = AutonomousDatabaseResourceStatus._('RECREATING');
+  static const roleChangeInProgress =
+      AutonomousDatabaseResourceStatus._('ROLE_CHANGE_IN_PROGRESS');
+  static const upgrading = AutonomousDatabaseResourceStatus._('UPGRADING');
+  static const inaccessible =
+      AutonomousDatabaseResourceStatus._('INACCESSIBLE');
+  static const standby = AutonomousDatabaseResourceStatus._('STANDBY');
+
+  final String value;
+
+  const AutonomousDatabaseResourceStatus._(this.value);
+
+  static const values = [
+    available,
+    failed,
+    provisioning,
+    terminated,
+    terminating,
+    updating,
+    maintenanceInProgress,
+    stopping,
+    stopped,
+    starting,
+    unavailable,
+    restoreInProgress,
+    restoreFailed,
+    backupInProgress,
+    scaleInProgress,
+    availableNeedsAttention,
+    restarting,
+    recreating,
+    roleChangeInProgress,
+    upgrading,
+    inaccessible,
+    standby
+  ];
+
+  static AutonomousDatabaseResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutonomousDatabaseResourceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutonomousDatabaseResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of a peer database of an Autonomous Database.
+///
+/// @nodoc
+class AutonomousDatabasePeerSummary {
+  /// The Amazon Resource Name (ARN) of the peer Autonomous Database.
+  final String? autonomousDatabaseArn;
+
+  /// The unique identifier of the peer Autonomous Database.
+  final String? autonomousDatabaseId;
+
+  /// The Oracle Cloud Identifier (OCID) of the peer Autonomous Database.
+  final String? ocid;
+
+  /// The Amazon Web Services Region where the peer Autonomous Database is
+  /// located.
+  final String? region;
+
+  AutonomousDatabasePeerSummary({
+    this.autonomousDatabaseArn,
+    this.autonomousDatabaseId,
+    this.ocid,
+    this.region,
+  });
+
+  factory AutonomousDatabasePeerSummary.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabasePeerSummary(
+      autonomousDatabaseArn: json['autonomousDatabaseArn'] as String?,
+      autonomousDatabaseId: json['autonomousDatabaseId'] as String?,
+      ocid: json['ocid'] as String?,
+      region: json['region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseArn = this.autonomousDatabaseArn;
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final ocid = this.ocid;
+    final region = this.region;
+    return {
+      if (autonomousDatabaseArn != null)
+        'autonomousDatabaseArn': autonomousDatabaseArn,
+      if (autonomousDatabaseId != null)
+        'autonomousDatabaseId': autonomousDatabaseId,
+      if (ocid != null) 'ocid': ocid,
+      if (region != null) 'region': region,
+    };
+  }
+}
+
+/// A summary of an Autonomous Database.
+///
+/// @nodoc
+class AutonomousDatabaseSummary {
+  /// The actual amount of data storage currently in use by the Autonomous
+  /// Database, in TB.
+  final double? actualUsedDataStorageSizeInTBs;
+
+  /// The summary of the admin password source configuration for the Autonomous
+  /// Database.
+  final AdminPasswordSourceSummary? adminPasswordSourceSummary;
+
+  /// The amount of storage currently allocated to the Autonomous Database, in TB.
+  final double? allocatedStorageSizeInTBs;
+
+  /// The list of IP addresses that are allowed to access the Autonomous Database.
+  final List<String>? allowlistedIps;
+
+  /// The Oracle Application Express (APEX) details for the Autonomous Database.
+  final AutonomousDatabaseApex? apexDetails;
+
+  /// The frequency, in seconds, at which the refreshable clone Autonomous
+  /// Database is automatically refreshed.
+  final int? autoRefreshFrequencyInSeconds;
+
+  /// The time lag, in seconds, between the refreshable clone and its source
+  /// Autonomous Database.
+  final int? autoRefreshPointLagInSeconds;
+
+  /// The Amazon Resource Name (ARN) of the Autonomous Database.
+  final String? autonomousDatabaseArn;
+
+  /// The unique identifier of the Autonomous Database.
+  final String? autonomousDatabaseId;
+
+  /// The maintenance schedule type for the Autonomous Database.
+  final AutonomousMaintenanceScheduleType? autonomousMaintenanceScheduleType;
+
+  /// The Availability Zone where the Autonomous Database is located.
+  final String? availabilityZone;
+
+  /// The unique identifier of the Availability Zone where the Autonomous Database
+  /// is located.
+  final String? availabilityZoneId;
+
+  /// The list of Oracle Database software versions to which the Autonomous
+  /// Database can be upgraded.
+  final List<String>? availableUpgradeVersions;
+
+  /// The retention period, in days, for automatic backups of the Autonomous
+  /// Database.
+  final int? backupRetentionPeriodInDays;
+
+  /// The maximum number of compute resources that you can allocate to the
+  /// Autonomous Database under the bring-your-own-license (BYOL) model.
+  final int? byolComputeCountLimit;
+
+  /// The character set of the Autonomous Database.
+  final String? characterSet;
+
+  /// The list of tablespace identifiers to clone for the Autonomous Database.
+  final List<int>? cloneTableSpaceList;
+
+  /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs
+  /// (OCPUs), assigned to the Autonomous Database.
+  final double? computeCount;
+
+  /// The compute model of the Autonomous Database, either ECPU or OCPU.
+  final ComputeModel? computeModel;
+
+  /// The connection string details for the Autonomous Database.
+  final AutonomousDatabaseConnectionStrings? connectionStringDetails;
+
+  /// The connection URLs for accessing tools and services for the Autonomous
+  /// Database.
+  final AutonomousDatabaseConnectionUrls? connectionUrls;
+
+  /// The number of CPU cores allocated to the Autonomous Database.
+  final int? cpuCoreCount;
+
+  /// The date and time when the Autonomous Database was created.
+  final DateTime? createdAt;
+
+  /// The list of customer contacts that receive operational notifications from
+  /// Oracle for the Autonomous Database.
+  final List<CustomerContact>? customerContacts;
+
+  /// The status of the Oracle Data Safe registration for the Autonomous Database.
+  final DataSafeStatus? dataSafeStatus;
+
+  /// The size, in gigabytes (GB), of the data volume allocated for the Autonomous
+  /// Database.
+  final int? dataStorageSizeInGBs;
+
+  /// The size, in terabytes (TB), of the data volume allocated for the Autonomous
+  /// Database.
+  final double? dataStorageSizeInTBs;
+
+  /// The Oracle Database edition of the Autonomous Database.
+  final DatabaseEdition? databaseEdition;
+
+  /// The status of Oracle Database Management for the Autonomous Database.
+  final DatabaseManagementStatus? databaseManagementStatus;
+
+  /// The type of the Autonomous Database, either a regular database or a clone.
+  final DatabaseType? databaseType;
+
+  /// The name of the Autonomous Database.
+  final String? dbName;
+
+  /// The list of database management tools enabled for the Autonomous Database.
+  final List<DatabaseTool>? dbToolsDetails;
+
+  /// The Oracle Database software version of the Autonomous Database.
+  final String? dbVersion;
+
+  /// The intended use of the Autonomous Database, such as transaction processing,
+  /// data warehouse, JSON database, or APEX.
+  final DbWorkload? dbWorkload;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The encryption configuration for the Autonomous Database.
+  final EncryptionSummary? encryptionSummary;
+
+  /// The amount of time, in seconds, that the data in the Autonomous Database is
+  /// behind the data in the primary database.
+  final int? failedDataRecoveryInSeconds;
+
+  /// The size of the in-memory area of the Autonomous Database, in GB.
+  final int? inMemoryAreaInGBs;
+
+  /// Indicates whether automatic scaling of the compute resources is enabled for
+  /// the Autonomous Database.
+  final bool? isAutoScalingEnabled;
+
+  /// Indicates whether automatic scaling of the storage is enabled for the
+  /// Autonomous Database.
+  final bool? isAutoScalingForStorageEnabled;
+
+  /// Indicates whether the backup retention period of the Autonomous Database is
+  /// locked.
+  final bool? isBackupRetentionLocked;
+
+  /// Indicates whether local Oracle Data Guard is enabled for the Autonomous
+  /// Database.
+  final bool? isLocalDataGuardEnabled;
+
+  /// Indicates whether mutual TLS (mTLS) authentication is required to connect to
+  /// the Autonomous Database.
+  final bool? isMtlsConnectionRequired;
+
+  /// Indicates whether reconnecting the refreshable clone to its source
+  /// Autonomous Database is enabled.
+  final bool? isReconnectCloneEnabled;
+
+  /// Indicates whether the Autonomous Database is a refreshable clone.
+  final bool? isRefreshableClone;
+
+  /// Indicates whether remote Oracle Data Guard is enabled for the Autonomous
+  /// Database.
+  final bool? isRemoteDataGuardEnabled;
+
+  /// The Oracle license model that applies to the Autonomous Database.
+  final LicenseModel? licenseModel;
+
+  /// The maximum data loss limit, in seconds, for automatic failover to the local
+  /// Oracle Data Guard standby database.
+  final int? localAdgAutoFailoverMaxDataLossLimit;
+
+  /// The type of local disaster recovery configured for the Autonomous Database.
+  final DisasterRecoveryType? localDisasterRecoveryType;
+
+  /// The details of the local standby Autonomous Database in an Oracle Data Guard
+  /// configuration.
+  final DatabaseStandbySummary? localStandbyDb;
+
+  /// The long-term backup schedule for the Autonomous Database.
+  final LongTermBackupSchedule? longTermBackupSchedule;
+
+  /// The component on the Autonomous Database that the current maintenance is
+  /// being applied to.
+  final String? maintenanceTargetComponent;
+
+  /// The amount of memory allocated per Oracle Compute Unit, in GB.
+  final int? memoryPerOracleComputeUnitInGBs;
+
+  /// The national character set of the Autonomous Database.
+  final String? ncharacterSet;
+
+  /// The Oracle Net Services architecture of the Autonomous Database, either
+  /// dedicated or shared.
+  final NetServicesArchitecture? netServicesArchitecture;
+
+  /// The date and time of the next scheduled long-term backup of the Autonomous
+  /// Database.
+  final DateTime? nextLongTermBackupTimeStamp;
+
+  /// The name of the Oracle Cloud Infrastructure (OCI) resource anchor associated
+  /// with the Autonomous Database.
+  final String? ociResourceAnchorName;
+
+  /// The URL for accessing the OCI console page for the Autonomous Database.
+  final String? ociUrl;
+
+  /// The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+  final String? ocid;
+
+  /// The Amazon Resource Name (ARN) of the ODB network associated with the
+  /// Autonomous Database.
+  final String? odbNetworkArn;
+
+  /// The unique identifier of the ODB network associated with the Autonomous
+  /// Database.
+  final String? odbNetworkId;
+
+  /// The mode in which the Autonomous Database is open, either read-only or
+  /// read/write.
+  final OpenMode? openMode;
+
+  /// The status of Oracle Operations Insights for the Autonomous Database.
+  final OperationsInsightsStatus? operationsInsightsStatus;
+
+  /// The list of unique identifiers of the peer Autonomous Databases.
+  final List<String>? peerDbIds;
+
+  /// The progress of the current operation on the Autonomous Database, as a
+  /// percentage.
+  final double? percentProgress;
+
+  /// The permission level of the Autonomous Database.
+  final PermissionLevel? permissionLevel;
+
+  /// The private endpoint for the Autonomous Database.
+  final String? privateEndpoint;
+
+  /// The private endpoint IP address for the Autonomous Database.
+  final String? privateEndpointIp;
+
+  /// The private endpoint label for the Autonomous Database.
+  final String? privateEndpointLabel;
+
+  /// The list of CPU core counts that you can provision for the Autonomous
+  /// Database.
+  final List<int>? provisionableCpus;
+
+  /// The refresh mode of the refreshable clone Autonomous Database.
+  final RefreshableMode? refreshableMode;
+
+  /// The refresh status of the refreshable clone Autonomous Database.
+  final RefreshableStatus? refreshableStatus;
+
+  /// The configuration of the remote disaster recovery for the Autonomous
+  /// Database.
+  final DisasterRecoveryConfiguration? remoteDisasterRecoveryConfiguration;
+
+  /// The unique identifier of the resource pool leader Autonomous Database.
+  final String? resourcePoolLeaderId;
+
+  /// The configuration of the resource pool for the Autonomous Database.
+  final ResourcePoolSummary? resourcePoolSummary;
+
+  /// The Oracle Data Guard role of the Autonomous Database.
+  final DataGuardRole? role;
+
+  /// The list of scheduled start and stop times for the Autonomous Database.
+  final List<ScheduledOperationDetails>? scheduledOperations;
+
+  /// The URL for accessing the Oracle service console for the Autonomous
+  /// Database.
+  final String? serviceConsoleUrl;
+
+  /// The unique identifier of the source from which the Autonomous Database was
+  /// created.
+  final String? sourceId;
+
+  /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+  final String? sqlWebDeveloperUrl;
+
+  /// The list of IP addresses that are allowed to access the standby Autonomous
+  /// Database.
+  final List<String>? standbyAllowlistedIps;
+
+  /// The source of the allowlisted IP addresses for the standby Autonomous
+  /// Database.
+  final StandbyAllowlistedIpsSource? standbyAllowlistedIpsSource;
+
+  /// The details of the standby Autonomous Database in a cross-Region Oracle Data
+  /// Guard configuration.
+  final DatabaseStandbySummary? standbyDb;
+
+  /// The current status of the Autonomous Database.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database,
+  /// if applicable.
+  final String? statusReason;
+
+  /// The date and time when the Oracle Data Guard role of the Autonomous Database
+  /// last changed.
+  final DateTime? timeDataGuardRoleChanged;
+
+  /// The date and time when the inactive Always Free Autonomous Database is
+  /// scheduled to be automatically deleted.
+  final DateTime? timeDeletionOfFreeAutonomousDatabase;
+
+  /// The date and time when the disaster recovery role of the Autonomous Database
+  /// last changed.
+  final DateTime? timeDisasterRecoveryRoleChanged;
+
+  /// The date and time when local Oracle Data Guard was enabled for the
+  /// Autonomous Database.
+  final DateTime? timeLocalDataGuardEnabled;
+
+  /// The date and time when the next maintenance of the Autonomous Database
+  /// begins.
+  final DateTime? timeMaintenanceBegin;
+
+  /// The date and time when the next maintenance of the Autonomous Database ends.
+  final DateTime? timeMaintenanceEnd;
+
+  /// The date and time at which the automatic refresh of the refreshable clone
+  /// Autonomous Database starts.
+  final DateTime? timeOfAutoRefreshStart;
+
+  /// The date and time of the last backup of the Autonomous Database.
+  final DateTime? timeOfLastBackup;
+
+  /// The date and time of the last failover operation for the Autonomous
+  /// Database.
+  final DateTime? timeOfLastFailover;
+
+  /// The date and time of the last refresh of the refreshable clone Autonomous
+  /// Database.
+  final DateTime? timeOfLastRefresh;
+
+  /// The date and time as of which the data in the refreshable clone Autonomous
+  /// Database is current.
+  final DateTime? timeOfLastRefreshPoint;
+
+  /// The date and time of the last switchover operation for the Autonomous
+  /// Database.
+  final DateTime? timeOfLastSwitchover;
+
+  /// The date and time of the next scheduled refresh of the refreshable clone
+  /// Autonomous Database.
+  final DateTime? timeOfNextRefresh;
+
+  /// The date and time when the Always Free Autonomous Database is scheduled to
+  /// be stopped because of inactivity.
+  final DateTime? timeReclamationOfFreeAutonomousDatabase;
+
+  /// The date and time when the Autonomous Database was restored after deletion.
+  final DateTime? timeUndeleted;
+
+  /// The date and time until which reconnecting the refreshable clone to its
+  /// source Autonomous Database is allowed.
+  final DateTime? timeUntilReconnectCloneEnabled;
+
+  /// The total amount of backup storage used by the Autonomous Database, in GB.
+  final double? totalBackupStorageSizeInGBs;
+
+  /// The amount of data storage currently in use by the Autonomous Database, in
+  /// GB.
+  final int? usedDataStorageSizeInGBs;
+
+  /// The amount of data storage currently in use by the Autonomous Database, in
+  /// TB.
+  final double? usedDataStorageSizeInTBs;
+
+  AutonomousDatabaseSummary({
+    this.actualUsedDataStorageSizeInTBs,
+    this.adminPasswordSourceSummary,
+    this.allocatedStorageSizeInTBs,
+    this.allowlistedIps,
+    this.apexDetails,
+    this.autoRefreshFrequencyInSeconds,
+    this.autoRefreshPointLagInSeconds,
+    this.autonomousDatabaseArn,
+    this.autonomousDatabaseId,
+    this.autonomousMaintenanceScheduleType,
+    this.availabilityZone,
+    this.availabilityZoneId,
+    this.availableUpgradeVersions,
+    this.backupRetentionPeriodInDays,
+    this.byolComputeCountLimit,
+    this.characterSet,
+    this.cloneTableSpaceList,
+    this.computeCount,
+    this.computeModel,
+    this.connectionStringDetails,
+    this.connectionUrls,
+    this.cpuCoreCount,
+    this.createdAt,
+    this.customerContacts,
+    this.dataSafeStatus,
+    this.dataStorageSizeInGBs,
+    this.dataStorageSizeInTBs,
+    this.databaseEdition,
+    this.databaseManagementStatus,
+    this.databaseType,
+    this.dbName,
+    this.dbToolsDetails,
+    this.dbVersion,
+    this.dbWorkload,
+    this.displayName,
+    this.encryptionSummary,
+    this.failedDataRecoveryInSeconds,
+    this.inMemoryAreaInGBs,
+    this.isAutoScalingEnabled,
+    this.isAutoScalingForStorageEnabled,
+    this.isBackupRetentionLocked,
+    this.isLocalDataGuardEnabled,
+    this.isMtlsConnectionRequired,
+    this.isReconnectCloneEnabled,
+    this.isRefreshableClone,
+    this.isRemoteDataGuardEnabled,
+    this.licenseModel,
+    this.localAdgAutoFailoverMaxDataLossLimit,
+    this.localDisasterRecoveryType,
+    this.localStandbyDb,
+    this.longTermBackupSchedule,
+    this.maintenanceTargetComponent,
+    this.memoryPerOracleComputeUnitInGBs,
+    this.ncharacterSet,
+    this.netServicesArchitecture,
+    this.nextLongTermBackupTimeStamp,
+    this.ociResourceAnchorName,
+    this.ociUrl,
+    this.ocid,
+    this.odbNetworkArn,
+    this.odbNetworkId,
+    this.openMode,
+    this.operationsInsightsStatus,
+    this.peerDbIds,
+    this.percentProgress,
+    this.permissionLevel,
+    this.privateEndpoint,
+    this.privateEndpointIp,
+    this.privateEndpointLabel,
+    this.provisionableCpus,
+    this.refreshableMode,
+    this.refreshableStatus,
+    this.remoteDisasterRecoveryConfiguration,
+    this.resourcePoolLeaderId,
+    this.resourcePoolSummary,
+    this.role,
+    this.scheduledOperations,
+    this.serviceConsoleUrl,
+    this.sourceId,
+    this.sqlWebDeveloperUrl,
+    this.standbyAllowlistedIps,
+    this.standbyAllowlistedIpsSource,
+    this.standbyDb,
+    this.status,
+    this.statusReason,
+    this.timeDataGuardRoleChanged,
+    this.timeDeletionOfFreeAutonomousDatabase,
+    this.timeDisasterRecoveryRoleChanged,
+    this.timeLocalDataGuardEnabled,
+    this.timeMaintenanceBegin,
+    this.timeMaintenanceEnd,
+    this.timeOfAutoRefreshStart,
+    this.timeOfLastBackup,
+    this.timeOfLastFailover,
+    this.timeOfLastRefresh,
+    this.timeOfLastRefreshPoint,
+    this.timeOfLastSwitchover,
+    this.timeOfNextRefresh,
+    this.timeReclamationOfFreeAutonomousDatabase,
+    this.timeUndeleted,
+    this.timeUntilReconnectCloneEnabled,
+    this.totalBackupStorageSizeInGBs,
+    this.usedDataStorageSizeInGBs,
+    this.usedDataStorageSizeInTBs,
+  });
+
+  factory AutonomousDatabaseSummary.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabaseSummary(
+      actualUsedDataStorageSizeInTBs:
+          _s.parseJsonDouble(json['actualUsedDataStorageSizeInTBs']),
+      adminPasswordSourceSummary: json['adminPasswordSourceSummary'] != null
+          ? AdminPasswordSourceSummary.fromJson(
+              json['adminPasswordSourceSummary'] as Map<String, dynamic>)
+          : null,
+      allocatedStorageSizeInTBs:
+          _s.parseJsonDouble(json['allocatedStorageSizeInTBs']),
+      allowlistedIps: (json['allowlistedIps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      apexDetails: json['apexDetails'] != null
+          ? AutonomousDatabaseApex.fromJson(
+              json['apexDetails'] as Map<String, dynamic>)
+          : null,
+      autoRefreshFrequencyInSeconds:
+          json['autoRefreshFrequencyInSeconds'] as int?,
+      autoRefreshPointLagInSeconds:
+          json['autoRefreshPointLagInSeconds'] as int?,
+      autonomousDatabaseArn: json['autonomousDatabaseArn'] as String?,
+      autonomousDatabaseId: json['autonomousDatabaseId'] as String?,
+      autonomousMaintenanceScheduleType:
+          (json['autonomousMaintenanceScheduleType'] as String?)
+              ?.let(AutonomousMaintenanceScheduleType.fromString),
+      availabilityZone: json['availabilityZone'] as String?,
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      availableUpgradeVersions: (json['availableUpgradeVersions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      backupRetentionPeriodInDays: json['backupRetentionPeriodInDays'] as int?,
+      byolComputeCountLimit: json['byolComputeCountLimit'] as int?,
+      characterSet: json['characterSet'] as String?,
+      cloneTableSpaceList: (json['cloneTableSpaceList'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      computeCount: _s.parseJsonDouble(json['computeCount']),
+      computeModel:
+          (json['computeModel'] as String?)?.let(ComputeModel.fromString),
+      connectionStringDetails: json['connectionStringDetails'] != null
+          ? AutonomousDatabaseConnectionStrings.fromJson(
+              json['connectionStringDetails'] as Map<String, dynamic>)
+          : null,
+      connectionUrls: json['connectionUrls'] != null
+          ? AutonomousDatabaseConnectionUrls.fromJson(
+              json['connectionUrls'] as Map<String, dynamic>)
+          : null,
+      cpuCoreCount: json['cpuCoreCount'] as int?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      customerContacts: (json['customerContacts'] as List?)
+          ?.nonNulls
+          .map((e) => CustomerContact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataSafeStatus:
+          (json['dataSafeStatus'] as String?)?.let(DataSafeStatus.fromString),
+      dataStorageSizeInGBs: json['dataStorageSizeInGBs'] as int?,
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
+      databaseEdition:
+          (json['databaseEdition'] as String?)?.let(DatabaseEdition.fromString),
+      databaseManagementStatus: (json['databaseManagementStatus'] as String?)
+          ?.let(DatabaseManagementStatus.fromString),
+      databaseType:
+          (json['databaseType'] as String?)?.let(DatabaseType.fromString),
+      dbName: json['dbName'] as String?,
+      dbToolsDetails: (json['dbToolsDetails'] as List?)
+          ?.nonNulls
+          .map((e) => DatabaseTool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dbVersion: json['dbVersion'] as String?,
+      dbWorkload: (json['dbWorkload'] as String?)?.let(DbWorkload.fromString),
+      displayName: json['displayName'] as String?,
+      encryptionSummary: json['encryptionSummary'] != null
+          ? EncryptionSummary.fromJson(
+              json['encryptionSummary'] as Map<String, dynamic>)
+          : null,
+      failedDataRecoveryInSeconds: json['failedDataRecoveryInSeconds'] as int?,
+      inMemoryAreaInGBs: json['inMemoryAreaInGBs'] as int?,
+      isAutoScalingEnabled: json['isAutoScalingEnabled'] as bool?,
+      isAutoScalingForStorageEnabled:
+          json['isAutoScalingForStorageEnabled'] as bool?,
+      isBackupRetentionLocked: json['isBackupRetentionLocked'] as bool?,
+      isLocalDataGuardEnabled: json['isLocalDataGuardEnabled'] as bool?,
+      isMtlsConnectionRequired: json['isMtlsConnectionRequired'] as bool?,
+      isReconnectCloneEnabled: json['isReconnectCloneEnabled'] as bool?,
+      isRefreshableClone: json['isRefreshableClone'] as bool?,
+      isRemoteDataGuardEnabled: json['isRemoteDataGuardEnabled'] as bool?,
+      licenseModel:
+          (json['licenseModel'] as String?)?.let(LicenseModel.fromString),
+      localAdgAutoFailoverMaxDataLossLimit:
+          json['localAdgAutoFailoverMaxDataLossLimit'] as int?,
+      localDisasterRecoveryType: (json['localDisasterRecoveryType'] as String?)
+          ?.let(DisasterRecoveryType.fromString),
+      localStandbyDb: json['localStandbyDb'] != null
+          ? DatabaseStandbySummary.fromJson(
+              json['localStandbyDb'] as Map<String, dynamic>)
+          : null,
+      longTermBackupSchedule: json['longTermBackupSchedule'] != null
+          ? LongTermBackupSchedule.fromJson(
+              json['longTermBackupSchedule'] as Map<String, dynamic>)
+          : null,
+      maintenanceTargetComponent: json['maintenanceTargetComponent'] as String?,
+      memoryPerOracleComputeUnitInGBs:
+          json['memoryPerOracleComputeUnitInGBs'] as int?,
+      ncharacterSet: json['ncharacterSet'] as String?,
+      netServicesArchitecture: (json['netServicesArchitecture'] as String?)
+          ?.let(NetServicesArchitecture.fromString),
+      nextLongTermBackupTimeStamp:
+          timeStampFromJson(json['nextLongTermBackupTimeStamp']),
+      ociResourceAnchorName: json['ociResourceAnchorName'] as String?,
+      ociUrl: json['ociUrl'] as String?,
+      ocid: json['ocid'] as String?,
+      odbNetworkArn: json['odbNetworkArn'] as String?,
+      odbNetworkId: json['odbNetworkId'] as String?,
+      openMode: (json['openMode'] as String?)?.let(OpenMode.fromString),
+      operationsInsightsStatus: (json['operationsInsightsStatus'] as String?)
+          ?.let(OperationsInsightsStatus.fromString),
+      peerDbIds: (json['peerDbIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
+      permissionLevel:
+          (json['permissionLevel'] as String?)?.let(PermissionLevel.fromString),
+      privateEndpoint: json['privateEndpoint'] as String?,
+      privateEndpointIp: json['privateEndpointIp'] as String?,
+      privateEndpointLabel: json['privateEndpointLabel'] as String?,
+      provisionableCpus: (json['provisionableCpus'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      refreshableMode:
+          (json['refreshableMode'] as String?)?.let(RefreshableMode.fromString),
+      refreshableStatus: (json['refreshableStatus'] as String?)
+          ?.let(RefreshableStatus.fromString),
+      remoteDisasterRecoveryConfiguration:
+          json['remoteDisasterRecoveryConfiguration'] != null
+              ? DisasterRecoveryConfiguration.fromJson(
+                  json['remoteDisasterRecoveryConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      resourcePoolLeaderId: json['resourcePoolLeaderId'] as String?,
+      resourcePoolSummary: json['resourcePoolSummary'] != null
+          ? ResourcePoolSummary.fromJson(
+              json['resourcePoolSummary'] as Map<String, dynamic>)
+          : null,
+      role: (json['role'] as String?)?.let(DataGuardRole.fromString),
+      scheduledOperations: (json['scheduledOperations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ScheduledOperationDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceConsoleUrl: json['serviceConsoleUrl'] as String?,
+      sourceId: json['sourceId'] as String?,
+      sqlWebDeveloperUrl: json['sqlWebDeveloperUrl'] as String?,
+      standbyAllowlistedIps: (json['standbyAllowlistedIps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      standbyAllowlistedIpsSource:
+          (json['standbyAllowlistedIpsSource'] as String?)
+              ?.let(StandbyAllowlistedIpsSource.fromString),
+      standbyDb: json['standbyDb'] != null
+          ? DatabaseStandbySummary.fromJson(
+              json['standbyDb'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      timeDataGuardRoleChanged:
+          timeStampFromJson(json['timeDataGuardRoleChanged']),
+      timeDeletionOfFreeAutonomousDatabase:
+          timeStampFromJson(json['timeDeletionOfFreeAutonomousDatabase']),
+      timeDisasterRecoveryRoleChanged:
+          timeStampFromJson(json['timeDisasterRecoveryRoleChanged']),
+      timeLocalDataGuardEnabled:
+          timeStampFromJson(json['timeLocalDataGuardEnabled']),
+      timeMaintenanceBegin: timeStampFromJson(json['timeMaintenanceBegin']),
+      timeMaintenanceEnd: timeStampFromJson(json['timeMaintenanceEnd']),
+      timeOfAutoRefreshStart: timeStampFromJson(json['timeOfAutoRefreshStart']),
+      timeOfLastBackup: timeStampFromJson(json['timeOfLastBackup']),
+      timeOfLastFailover: timeStampFromJson(json['timeOfLastFailover']),
+      timeOfLastRefresh: timeStampFromJson(json['timeOfLastRefresh']),
+      timeOfLastRefreshPoint: timeStampFromJson(json['timeOfLastRefreshPoint']),
+      timeOfLastSwitchover: timeStampFromJson(json['timeOfLastSwitchover']),
+      timeOfNextRefresh: timeStampFromJson(json['timeOfNextRefresh']),
+      timeReclamationOfFreeAutonomousDatabase:
+          timeStampFromJson(json['timeReclamationOfFreeAutonomousDatabase']),
+      timeUndeleted: timeStampFromJson(json['timeUndeleted']),
+      timeUntilReconnectCloneEnabled:
+          timeStampFromJson(json['timeUntilReconnectCloneEnabled']),
+      totalBackupStorageSizeInGBs:
+          _s.parseJsonDouble(json['totalBackupStorageSizeInGBs']),
+      usedDataStorageSizeInGBs: json['usedDataStorageSizeInGBs'] as int?,
+      usedDataStorageSizeInTBs:
+          _s.parseJsonDouble(json['usedDataStorageSizeInTBs']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actualUsedDataStorageSizeInTBs = this.actualUsedDataStorageSizeInTBs;
+    final adminPasswordSourceSummary = this.adminPasswordSourceSummary;
+    final allocatedStorageSizeInTBs = this.allocatedStorageSizeInTBs;
+    final allowlistedIps = this.allowlistedIps;
+    final apexDetails = this.apexDetails;
+    final autoRefreshFrequencyInSeconds = this.autoRefreshFrequencyInSeconds;
+    final autoRefreshPointLagInSeconds = this.autoRefreshPointLagInSeconds;
+    final autonomousDatabaseArn = this.autonomousDatabaseArn;
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final autonomousMaintenanceScheduleType =
+        this.autonomousMaintenanceScheduleType;
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
+    final availableUpgradeVersions = this.availableUpgradeVersions;
+    final backupRetentionPeriodInDays = this.backupRetentionPeriodInDays;
+    final byolComputeCountLimit = this.byolComputeCountLimit;
+    final characterSet = this.characterSet;
+    final cloneTableSpaceList = this.cloneTableSpaceList;
+    final computeCount = this.computeCount;
+    final computeModel = this.computeModel;
+    final connectionStringDetails = this.connectionStringDetails;
+    final connectionUrls = this.connectionUrls;
+    final cpuCoreCount = this.cpuCoreCount;
+    final createdAt = this.createdAt;
+    final customerContacts = this.customerContacts;
+    final dataSafeStatus = this.dataSafeStatus;
+    final dataStorageSizeInGBs = this.dataStorageSizeInGBs;
+    final dataStorageSizeInTBs = this.dataStorageSizeInTBs;
+    final databaseEdition = this.databaseEdition;
+    final databaseManagementStatus = this.databaseManagementStatus;
+    final databaseType = this.databaseType;
+    final dbName = this.dbName;
+    final dbToolsDetails = this.dbToolsDetails;
+    final dbVersion = this.dbVersion;
+    final dbWorkload = this.dbWorkload;
+    final displayName = this.displayName;
+    final encryptionSummary = this.encryptionSummary;
+    final failedDataRecoveryInSeconds = this.failedDataRecoveryInSeconds;
+    final inMemoryAreaInGBs = this.inMemoryAreaInGBs;
+    final isAutoScalingEnabled = this.isAutoScalingEnabled;
+    final isAutoScalingForStorageEnabled = this.isAutoScalingForStorageEnabled;
+    final isBackupRetentionLocked = this.isBackupRetentionLocked;
+    final isLocalDataGuardEnabled = this.isLocalDataGuardEnabled;
+    final isMtlsConnectionRequired = this.isMtlsConnectionRequired;
+    final isReconnectCloneEnabled = this.isReconnectCloneEnabled;
+    final isRefreshableClone = this.isRefreshableClone;
+    final isRemoteDataGuardEnabled = this.isRemoteDataGuardEnabled;
+    final licenseModel = this.licenseModel;
+    final localAdgAutoFailoverMaxDataLossLimit =
+        this.localAdgAutoFailoverMaxDataLossLimit;
+    final localDisasterRecoveryType = this.localDisasterRecoveryType;
+    final localStandbyDb = this.localStandbyDb;
+    final longTermBackupSchedule = this.longTermBackupSchedule;
+    final maintenanceTargetComponent = this.maintenanceTargetComponent;
+    final memoryPerOracleComputeUnitInGBs =
+        this.memoryPerOracleComputeUnitInGBs;
+    final ncharacterSet = this.ncharacterSet;
+    final netServicesArchitecture = this.netServicesArchitecture;
+    final nextLongTermBackupTimeStamp = this.nextLongTermBackupTimeStamp;
+    final ociResourceAnchorName = this.ociResourceAnchorName;
+    final ociUrl = this.ociUrl;
+    final ocid = this.ocid;
+    final odbNetworkArn = this.odbNetworkArn;
+    final odbNetworkId = this.odbNetworkId;
+    final openMode = this.openMode;
+    final operationsInsightsStatus = this.operationsInsightsStatus;
+    final peerDbIds = this.peerDbIds;
+    final percentProgress = this.percentProgress;
+    final permissionLevel = this.permissionLevel;
+    final privateEndpoint = this.privateEndpoint;
+    final privateEndpointIp = this.privateEndpointIp;
+    final privateEndpointLabel = this.privateEndpointLabel;
+    final provisionableCpus = this.provisionableCpus;
+    final refreshableMode = this.refreshableMode;
+    final refreshableStatus = this.refreshableStatus;
+    final remoteDisasterRecoveryConfiguration =
+        this.remoteDisasterRecoveryConfiguration;
+    final resourcePoolLeaderId = this.resourcePoolLeaderId;
+    final resourcePoolSummary = this.resourcePoolSummary;
+    final role = this.role;
+    final scheduledOperations = this.scheduledOperations;
+    final serviceConsoleUrl = this.serviceConsoleUrl;
+    final sourceId = this.sourceId;
+    final sqlWebDeveloperUrl = this.sqlWebDeveloperUrl;
+    final standbyAllowlistedIps = this.standbyAllowlistedIps;
+    final standbyAllowlistedIpsSource = this.standbyAllowlistedIpsSource;
+    final standbyDb = this.standbyDb;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final timeDataGuardRoleChanged = this.timeDataGuardRoleChanged;
+    final timeDeletionOfFreeAutonomousDatabase =
+        this.timeDeletionOfFreeAutonomousDatabase;
+    final timeDisasterRecoveryRoleChanged =
+        this.timeDisasterRecoveryRoleChanged;
+    final timeLocalDataGuardEnabled = this.timeLocalDataGuardEnabled;
+    final timeMaintenanceBegin = this.timeMaintenanceBegin;
+    final timeMaintenanceEnd = this.timeMaintenanceEnd;
+    final timeOfAutoRefreshStart = this.timeOfAutoRefreshStart;
+    final timeOfLastBackup = this.timeOfLastBackup;
+    final timeOfLastFailover = this.timeOfLastFailover;
+    final timeOfLastRefresh = this.timeOfLastRefresh;
+    final timeOfLastRefreshPoint = this.timeOfLastRefreshPoint;
+    final timeOfLastSwitchover = this.timeOfLastSwitchover;
+    final timeOfNextRefresh = this.timeOfNextRefresh;
+    final timeReclamationOfFreeAutonomousDatabase =
+        this.timeReclamationOfFreeAutonomousDatabase;
+    final timeUndeleted = this.timeUndeleted;
+    final timeUntilReconnectCloneEnabled = this.timeUntilReconnectCloneEnabled;
+    final totalBackupStorageSizeInGBs = this.totalBackupStorageSizeInGBs;
+    final usedDataStorageSizeInGBs = this.usedDataStorageSizeInGBs;
+    final usedDataStorageSizeInTBs = this.usedDataStorageSizeInTBs;
+    return {
+      if (actualUsedDataStorageSizeInTBs != null)
+        'actualUsedDataStorageSizeInTBs':
+            _s.encodeJsonDouble(actualUsedDataStorageSizeInTBs),
+      if (adminPasswordSourceSummary != null)
+        'adminPasswordSourceSummary': adminPasswordSourceSummary,
+      if (allocatedStorageSizeInTBs != null)
+        'allocatedStorageSizeInTBs':
+            _s.encodeJsonDouble(allocatedStorageSizeInTBs),
+      if (allowlistedIps != null) 'allowlistedIps': allowlistedIps,
+      if (apexDetails != null) 'apexDetails': apexDetails,
+      if (autoRefreshFrequencyInSeconds != null)
+        'autoRefreshFrequencyInSeconds': autoRefreshFrequencyInSeconds,
+      if (autoRefreshPointLagInSeconds != null)
+        'autoRefreshPointLagInSeconds': autoRefreshPointLagInSeconds,
+      if (autonomousDatabaseArn != null)
+        'autonomousDatabaseArn': autonomousDatabaseArn,
+      if (autonomousDatabaseId != null)
+        'autonomousDatabaseId': autonomousDatabaseId,
+      if (autonomousMaintenanceScheduleType != null)
+        'autonomousMaintenanceScheduleType':
+            autonomousMaintenanceScheduleType.value,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (availableUpgradeVersions != null)
+        'availableUpgradeVersions': availableUpgradeVersions,
+      if (backupRetentionPeriodInDays != null)
+        'backupRetentionPeriodInDays': backupRetentionPeriodInDays,
+      if (byolComputeCountLimit != null)
+        'byolComputeCountLimit': byolComputeCountLimit,
+      if (characterSet != null) 'characterSet': characterSet,
+      if (cloneTableSpaceList != null)
+        'cloneTableSpaceList': cloneTableSpaceList,
+      if (computeCount != null)
+        'computeCount': _s.encodeJsonDouble(computeCount),
+      if (computeModel != null) 'computeModel': computeModel.value,
+      if (connectionStringDetails != null)
+        'connectionStringDetails': connectionStringDetails,
+      if (connectionUrls != null) 'connectionUrls': connectionUrls,
+      if (cpuCoreCount != null) 'cpuCoreCount': cpuCoreCount,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (customerContacts != null) 'customerContacts': customerContacts,
+      if (dataSafeStatus != null) 'dataSafeStatus': dataSafeStatus.value,
+      if (dataStorageSizeInGBs != null)
+        'dataStorageSizeInGBs': dataStorageSizeInGBs,
+      if (dataStorageSizeInTBs != null)
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
+      if (databaseEdition != null) 'databaseEdition': databaseEdition.value,
+      if (databaseManagementStatus != null)
+        'databaseManagementStatus': databaseManagementStatus.value,
+      if (databaseType != null) 'databaseType': databaseType.value,
+      if (dbName != null) 'dbName': dbName,
+      if (dbToolsDetails != null) 'dbToolsDetails': dbToolsDetails,
+      if (dbVersion != null) 'dbVersion': dbVersion,
+      if (dbWorkload != null) 'dbWorkload': dbWorkload.value,
+      if (displayName != null) 'displayName': displayName,
+      if (encryptionSummary != null) 'encryptionSummary': encryptionSummary,
+      if (failedDataRecoveryInSeconds != null)
+        'failedDataRecoveryInSeconds': failedDataRecoveryInSeconds,
+      if (inMemoryAreaInGBs != null) 'inMemoryAreaInGBs': inMemoryAreaInGBs,
+      if (isAutoScalingEnabled != null)
+        'isAutoScalingEnabled': isAutoScalingEnabled,
+      if (isAutoScalingForStorageEnabled != null)
+        'isAutoScalingForStorageEnabled': isAutoScalingForStorageEnabled,
+      if (isBackupRetentionLocked != null)
+        'isBackupRetentionLocked': isBackupRetentionLocked,
+      if (isLocalDataGuardEnabled != null)
+        'isLocalDataGuardEnabled': isLocalDataGuardEnabled,
+      if (isMtlsConnectionRequired != null)
+        'isMtlsConnectionRequired': isMtlsConnectionRequired,
+      if (isReconnectCloneEnabled != null)
+        'isReconnectCloneEnabled': isReconnectCloneEnabled,
+      if (isRefreshableClone != null) 'isRefreshableClone': isRefreshableClone,
+      if (isRemoteDataGuardEnabled != null)
+        'isRemoteDataGuardEnabled': isRemoteDataGuardEnabled,
+      if (licenseModel != null) 'licenseModel': licenseModel.value,
+      if (localAdgAutoFailoverMaxDataLossLimit != null)
+        'localAdgAutoFailoverMaxDataLossLimit':
+            localAdgAutoFailoverMaxDataLossLimit,
+      if (localDisasterRecoveryType != null)
+        'localDisasterRecoveryType': localDisasterRecoveryType.value,
+      if (localStandbyDb != null) 'localStandbyDb': localStandbyDb,
+      if (longTermBackupSchedule != null)
+        'longTermBackupSchedule': longTermBackupSchedule,
+      if (maintenanceTargetComponent != null)
+        'maintenanceTargetComponent': maintenanceTargetComponent,
+      if (memoryPerOracleComputeUnitInGBs != null)
+        'memoryPerOracleComputeUnitInGBs': memoryPerOracleComputeUnitInGBs,
+      if (ncharacterSet != null) 'ncharacterSet': ncharacterSet,
+      if (netServicesArchitecture != null)
+        'netServicesArchitecture': netServicesArchitecture.value,
+      if (nextLongTermBackupTimeStamp != null)
+        'nextLongTermBackupTimeStamp':
+            iso8601ToJson(nextLongTermBackupTimeStamp),
+      if (ociResourceAnchorName != null)
+        'ociResourceAnchorName': ociResourceAnchorName,
+      if (ociUrl != null) 'ociUrl': ociUrl,
+      if (ocid != null) 'ocid': ocid,
+      if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
+      if (odbNetworkId != null) 'odbNetworkId': odbNetworkId,
+      if (openMode != null) 'openMode': openMode.value,
+      if (operationsInsightsStatus != null)
+        'operationsInsightsStatus': operationsInsightsStatus.value,
+      if (peerDbIds != null) 'peerDbIds': peerDbIds,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
+      if (permissionLevel != null) 'permissionLevel': permissionLevel.value,
+      if (privateEndpoint != null) 'privateEndpoint': privateEndpoint,
+      if (privateEndpointIp != null) 'privateEndpointIp': privateEndpointIp,
+      if (privateEndpointLabel != null)
+        'privateEndpointLabel': privateEndpointLabel,
+      if (provisionableCpus != null) 'provisionableCpus': provisionableCpus,
+      if (refreshableMode != null) 'refreshableMode': refreshableMode.value,
+      if (refreshableStatus != null)
+        'refreshableStatus': refreshableStatus.value,
+      if (remoteDisasterRecoveryConfiguration != null)
+        'remoteDisasterRecoveryConfiguration':
+            remoteDisasterRecoveryConfiguration,
+      if (resourcePoolLeaderId != null)
+        'resourcePoolLeaderId': resourcePoolLeaderId,
+      if (resourcePoolSummary != null)
+        'resourcePoolSummary': resourcePoolSummary,
+      if (role != null) 'role': role.value,
+      if (scheduledOperations != null)
+        'scheduledOperations': scheduledOperations,
+      if (serviceConsoleUrl != null) 'serviceConsoleUrl': serviceConsoleUrl,
+      if (sourceId != null) 'sourceId': sourceId,
+      if (sqlWebDeveloperUrl != null) 'sqlWebDeveloperUrl': sqlWebDeveloperUrl,
+      if (standbyAllowlistedIps != null)
+        'standbyAllowlistedIps': standbyAllowlistedIps,
+      if (standbyAllowlistedIpsSource != null)
+        'standbyAllowlistedIpsSource': standbyAllowlistedIpsSource.value,
+      if (standbyDb != null) 'standbyDb': standbyDb,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (timeDataGuardRoleChanged != null)
+        'timeDataGuardRoleChanged': iso8601ToJson(timeDataGuardRoleChanged),
+      if (timeDeletionOfFreeAutonomousDatabase != null)
+        'timeDeletionOfFreeAutonomousDatabase':
+            iso8601ToJson(timeDeletionOfFreeAutonomousDatabase),
+      if (timeDisasterRecoveryRoleChanged != null)
+        'timeDisasterRecoveryRoleChanged':
+            iso8601ToJson(timeDisasterRecoveryRoleChanged),
+      if (timeLocalDataGuardEnabled != null)
+        'timeLocalDataGuardEnabled': iso8601ToJson(timeLocalDataGuardEnabled),
+      if (timeMaintenanceBegin != null)
+        'timeMaintenanceBegin': iso8601ToJson(timeMaintenanceBegin),
+      if (timeMaintenanceEnd != null)
+        'timeMaintenanceEnd': iso8601ToJson(timeMaintenanceEnd),
+      if (timeOfAutoRefreshStart != null)
+        'timeOfAutoRefreshStart': iso8601ToJson(timeOfAutoRefreshStart),
+      if (timeOfLastBackup != null)
+        'timeOfLastBackup': iso8601ToJson(timeOfLastBackup),
+      if (timeOfLastFailover != null)
+        'timeOfLastFailover': iso8601ToJson(timeOfLastFailover),
+      if (timeOfLastRefresh != null)
+        'timeOfLastRefresh': iso8601ToJson(timeOfLastRefresh),
+      if (timeOfLastRefreshPoint != null)
+        'timeOfLastRefreshPoint': iso8601ToJson(timeOfLastRefreshPoint),
+      if (timeOfLastSwitchover != null)
+        'timeOfLastSwitchover': iso8601ToJson(timeOfLastSwitchover),
+      if (timeOfNextRefresh != null)
+        'timeOfNextRefresh': iso8601ToJson(timeOfNextRefresh),
+      if (timeReclamationOfFreeAutonomousDatabase != null)
+        'timeReclamationOfFreeAutonomousDatabase':
+            iso8601ToJson(timeReclamationOfFreeAutonomousDatabase),
+      if (timeUndeleted != null) 'timeUndeleted': iso8601ToJson(timeUndeleted),
+      if (timeUntilReconnectCloneEnabled != null)
+        'timeUntilReconnectCloneEnabled':
+            iso8601ToJson(timeUntilReconnectCloneEnabled),
+      if (totalBackupStorageSizeInGBs != null)
+        'totalBackupStorageSizeInGBs':
+            _s.encodeJsonDouble(totalBackupStorageSizeInGBs),
+      if (usedDataStorageSizeInGBs != null)
+        'usedDataStorageSizeInGBs': usedDataStorageSizeInGBs,
+      if (usedDataStorageSizeInTBs != null)
+        'usedDataStorageSizeInTBs':
+            _s.encodeJsonDouble(usedDataStorageSizeInTBs),
+    };
+  }
+}
+
+/// @nodoc
+class DatabaseType {
+  static const regular = DatabaseType._('REGULAR');
+  static const clone = DatabaseType._('CLONE');
+
+  final String value;
+
+  const DatabaseType._(this.value);
+
+  static const values = [regular, clone];
+
+  static DatabaseType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatabaseType._(value));
+
+  @override
+  bool operator ==(other) => other is DatabaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DbWorkload {
+  static const oltp = DbWorkload._('OLTP');
+  static const ajd = DbWorkload._('AJD');
+  static const apex = DbWorkload._('APEX');
+  static const lh = DbWorkload._('LH');
+
+  final String value;
+
+  const DbWorkload._(this.value);
+
+  static const values = [oltp, ajd, apex, lh];
+
+  static DbWorkload fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DbWorkload._(value));
+
+  @override
+  bool operator ==(other) => other is DbWorkload && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DatabaseEdition {
+  static const standardEdition = DatabaseEdition._('STANDARD_EDITION');
+  static const enterpriseEdition = DatabaseEdition._('ENTERPRISE_EDITION');
+
+  final String value;
+
+  const DatabaseEdition._(this.value);
+
+  static const values = [standardEdition, enterpriseEdition];
+
+  static DatabaseEdition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatabaseEdition._(value));
+
+  @override
+  bool operator ==(other) => other is DatabaseEdition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class OpenMode {
+  static const readOnly = OpenMode._('READ_ONLY');
+  static const readWrite = OpenMode._('READ_WRITE');
+
+  final String value;
+
+  const OpenMode._(this.value);
+
+  static const values = [readOnly, readWrite];
+
+  static OpenMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OpenMode._(value));
+
+  @override
+  bool operator ==(other) => other is OpenMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class PermissionLevel {
+  static const restricted = PermissionLevel._('RESTRICTED');
+  static const unrestricted = PermissionLevel._('UNRESTRICTED');
+
+  final String value;
+
+  const PermissionLevel._(this.value);
+
+  static const values = [restricted, unrestricted];
+
+  static PermissionLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionLevel._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class AutonomousMaintenanceScheduleType {
+  static const early = AutonomousMaintenanceScheduleType._('EARLY');
+  static const regular = AutonomousMaintenanceScheduleType._('REGULAR');
+
+  final String value;
+
+  const AutonomousMaintenanceScheduleType._(this.value);
+
+  static const values = [early, regular];
+
+  static AutonomousMaintenanceScheduleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutonomousMaintenanceScheduleType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutonomousMaintenanceScheduleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class NetServicesArchitecture {
+  static const dedicated = NetServicesArchitecture._('DEDICATED');
+  static const shared = NetServicesArchitecture._('SHARED');
+
+  final String value;
+
+  const NetServicesArchitecture._(this.value);
+
+  static const values = [dedicated, shared];
+
+  static NetServicesArchitecture fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetServicesArchitecture._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetServicesArchitecture && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The connection strings used to connect to an Autonomous Database.
+///
+/// @nodoc
+class AutonomousDatabaseConnectionStrings {
+  /// The list of all connection strings that you can use to connect to the
+  /// Autonomous Database.
+  final Map<String, String>? allConnectionStrings;
+
+  /// The connection string for connecting to the Autonomous Database with a
+  /// dedicated service.
+  final String? dedicated;
+
+  /// The connection string for the high-priority database service.
+  final String? high;
+
+  /// The connection string for the low-priority database service.
+  final String? low;
+
+  /// The connection string for the medium-priority database service.
+  final String? medium;
+
+  /// The list of connection string profiles for the Autonomous Database.
+  final List<DatabaseConnectionStringProfile>? profiles;
+
+  AutonomousDatabaseConnectionStrings({
+    this.allConnectionStrings,
+    this.dedicated,
+    this.high,
+    this.low,
+    this.medium,
+    this.profiles,
+  });
+
+  factory AutonomousDatabaseConnectionStrings.fromJson(
+      Map<String, dynamic> json) {
+    return AutonomousDatabaseConnectionStrings(
+      allConnectionStrings:
+          (json['allConnectionStrings'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      dedicated: json['dedicated'] as String?,
+      high: json['high'] as String?,
+      low: json['low'] as String?,
+      medium: json['medium'] as String?,
+      profiles: (json['profiles'] as List?)
+          ?.nonNulls
+          .map((e) => DatabaseConnectionStringProfile.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allConnectionStrings = this.allConnectionStrings;
+    final dedicated = this.dedicated;
+    final high = this.high;
+    final low = this.low;
+    final medium = this.medium;
+    final profiles = this.profiles;
+    return {
+      if (allConnectionStrings != null)
+        'allConnectionStrings': allConnectionStrings,
+      if (dedicated != null) 'dedicated': dedicated,
+      if (high != null) 'high': high,
+      if (low != null) 'low': low,
+      if (medium != null) 'medium': medium,
+      if (profiles != null) 'profiles': profiles,
+    };
+  }
+}
+
+/// The Oracle Application Express (APEX) details for an Autonomous Database.
+///
+/// @nodoc
+class AutonomousDatabaseApex {
+  /// The Oracle Application Express (APEX) version of the Autonomous Database.
+  final String? apexVersion;
+
+  /// The Oracle REST Data Services (ORDS) version of the Autonomous Database.
+  final String? ordsVersion;
+
+  AutonomousDatabaseApex({
+    this.apexVersion,
+    this.ordsVersion,
+  });
+
+  factory AutonomousDatabaseApex.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabaseApex(
+      apexVersion: json['apexVersion'] as String?,
+      ordsVersion: json['ordsVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apexVersion = this.apexVersion;
+    final ordsVersion = this.ordsVersion;
+    return {
+      if (apexVersion != null) 'apexVersion': apexVersion,
+      if (ordsVersion != null) 'ordsVersion': ordsVersion,
+    };
+  }
+}
+
+/// A summary of a standby Autonomous Database in an Oracle Data Guard
+/// configuration.
+///
+/// @nodoc
+class DatabaseStandbySummary {
+  /// The availability domain of the standby Autonomous Database.
+  final String? availabilityDomain;
+
+  /// The time lag, in seconds, between the standby database and the primary
+  /// database.
+  final int? lagTimeInSeconds;
+
+  /// The component on the standby Autonomous Database that the current
+  /// maintenance is being applied to.
+  final String? maintenanceTargetComponent;
+
+  /// The current status of the standby Autonomous Database.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the current status of the standby Autonomous
+  /// Database, if applicable.
+  final String? statusReason;
+
+  /// The date and time when the Oracle Data Guard role of the standby database
+  /// last changed.
+  final DateTime? timeDataGuardRoleChanged;
+
+  /// The date and time when the disaster recovery role of the standby database
+  /// last changed.
+  final DateTime? timeDisasterRecoveryRoleChanged;
+
+  /// The date and time when the next maintenance of the standby database begins.
+  final DateTime? timeMaintenanceBegin;
+
+  /// The date and time when the next maintenance of the standby database ends.
+  final DateTime? timeMaintenanceEnd;
+
+  DatabaseStandbySummary({
+    this.availabilityDomain,
+    this.lagTimeInSeconds,
+    this.maintenanceTargetComponent,
+    this.status,
+    this.statusReason,
+    this.timeDataGuardRoleChanged,
+    this.timeDisasterRecoveryRoleChanged,
+    this.timeMaintenanceBegin,
+    this.timeMaintenanceEnd,
+  });
+
+  factory DatabaseStandbySummary.fromJson(Map<String, dynamic> json) {
+    return DatabaseStandbySummary(
+      availabilityDomain: json['availabilityDomain'] as String?,
+      lagTimeInSeconds: json['lagTimeInSeconds'] as int?,
+      maintenanceTargetComponent: json['maintenanceTargetComponent'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      timeDataGuardRoleChanged:
+          timeStampFromJson(json['timeDataGuardRoleChanged']),
+      timeDisasterRecoveryRoleChanged:
+          timeStampFromJson(json['timeDisasterRecoveryRoleChanged']),
+      timeMaintenanceBegin: timeStampFromJson(json['timeMaintenanceBegin']),
+      timeMaintenanceEnd: timeStampFromJson(json['timeMaintenanceEnd']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityDomain = this.availabilityDomain;
+    final lagTimeInSeconds = this.lagTimeInSeconds;
+    final maintenanceTargetComponent = this.maintenanceTargetComponent;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final timeDataGuardRoleChanged = this.timeDataGuardRoleChanged;
+    final timeDisasterRecoveryRoleChanged =
+        this.timeDisasterRecoveryRoleChanged;
+    final timeMaintenanceBegin = this.timeMaintenanceBegin;
+    final timeMaintenanceEnd = this.timeMaintenanceEnd;
+    return {
+      if (availabilityDomain != null) 'availabilityDomain': availabilityDomain,
+      if (lagTimeInSeconds != null) 'lagTimeInSeconds': lagTimeInSeconds,
+      if (maintenanceTargetComponent != null)
+        'maintenanceTargetComponent': maintenanceTargetComponent,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (timeDataGuardRoleChanged != null)
+        'timeDataGuardRoleChanged': iso8601ToJson(timeDataGuardRoleChanged),
+      if (timeDisasterRecoveryRoleChanged != null)
+        'timeDisasterRecoveryRoleChanged':
+            iso8601ToJson(timeDisasterRecoveryRoleChanged),
+      if (timeMaintenanceBegin != null)
+        'timeMaintenanceBegin': iso8601ToJson(timeMaintenanceBegin),
+      if (timeMaintenanceEnd != null)
+        'timeMaintenanceEnd': iso8601ToJson(timeMaintenanceEnd),
+    };
+  }
+}
+
+/// @nodoc
+class DataSafeStatus {
+  static const registering = DataSafeStatus._('REGISTERING');
+  static const registered = DataSafeStatus._('REGISTERED');
+  static const deregistering = DataSafeStatus._('DEREGISTERING');
+  static const notRegistered = DataSafeStatus._('NOT_REGISTERED');
+  static const failed = DataSafeStatus._('FAILED');
+
+  final String value;
+
+  const DataSafeStatus._(this.value);
+
+  static const values = [
+    registering,
+    registered,
+    deregistering,
+    notRegistered,
+    failed
+  ];
+
+  static DataSafeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSafeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataSafeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DatabaseManagementStatus {
+  static const enabling = DatabaseManagementStatus._('ENABLING');
+  static const enabled = DatabaseManagementStatus._('ENABLED');
+  static const disabling = DatabaseManagementStatus._('DISABLING');
+  static const notEnabled = DatabaseManagementStatus._('NOT_ENABLED');
+  static const failedEnabling = DatabaseManagementStatus._('FAILED_ENABLING');
+  static const failedDisabling = DatabaseManagementStatus._('FAILED_DISABLING');
+
+  final String value;
+
+  const DatabaseManagementStatus._(this.value);
+
+  static const values = [
+    enabling,
+    enabled,
+    disabling,
+    notEnabled,
+    failedEnabling,
+    failedDisabling
+  ];
+
+  static DatabaseManagementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatabaseManagementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseManagementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class OperationsInsightsStatus {
+  static const enabling = OperationsInsightsStatus._('ENABLING');
+  static const enabled = OperationsInsightsStatus._('ENABLED');
+  static const disabling = OperationsInsightsStatus._('DISABLING');
+  static const notEnabled = OperationsInsightsStatus._('NOT_ENABLED');
+  static const failedEnabling = OperationsInsightsStatus._('FAILED_ENABLING');
+  static const failedDisabling = OperationsInsightsStatus._('FAILED_DISABLING');
+
+  final String value;
+
+  const OperationsInsightsStatus._(this.value);
+
+  static const values = [
+    enabling,
+    enabled,
+    disabling,
+    notEnabled,
+    failedEnabling,
+    failedDisabling
+  ];
+
+  static OperationsInsightsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationsInsightsStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OperationsInsightsStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The connection URLs for accessing tools and services for an Autonomous
+/// Database.
+///
+/// @nodoc
+class AutonomousDatabaseConnectionUrls {
+  /// The URL for accessing Oracle Application Express (APEX) for the Autonomous
+  /// Database.
+  final String? apexUrl;
+
+  /// The URL for accessing Oracle Database Transforms for the Autonomous
+  /// Database.
+  final String? databaseTransformsUrl;
+
+  /// The URL for accessing Oracle Graph Studio for the Autonomous Database.
+  final String? graphStudioUrl;
+
+  /// The URL for accessing the Oracle Machine Learning notebook for the
+  /// Autonomous Database.
+  final String? machineLearningNotebookUrl;
+
+  /// The URL for accessing Oracle Machine Learning user management for the
+  /// Autonomous Database.
+  final String? machineLearningUserManagementUrl;
+
+  /// The URL for accessing the MongoDB API for the Autonomous Database.
+  final String? mongoDbUrl;
+
+  /// The URL for accessing Oracle REST Data Services (ORDS) for the Autonomous
+  /// Database.
+  final String? ordsUrl;
+
+  /// The URL for accessing Oracle Spatial Studio for the Autonomous Database.
+  final String? spatialStudioUrl;
+
+  /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+  final String? sqlDevWebUrl;
+
+  AutonomousDatabaseConnectionUrls({
+    this.apexUrl,
+    this.databaseTransformsUrl,
+    this.graphStudioUrl,
+    this.machineLearningNotebookUrl,
+    this.machineLearningUserManagementUrl,
+    this.mongoDbUrl,
+    this.ordsUrl,
+    this.spatialStudioUrl,
+    this.sqlDevWebUrl,
+  });
+
+  factory AutonomousDatabaseConnectionUrls.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabaseConnectionUrls(
+      apexUrl: json['apexUrl'] as String?,
+      databaseTransformsUrl: json['databaseTransformsUrl'] as String?,
+      graphStudioUrl: json['graphStudioUrl'] as String?,
+      machineLearningNotebookUrl: json['machineLearningNotebookUrl'] as String?,
+      machineLearningUserManagementUrl:
+          json['machineLearningUserManagementUrl'] as String?,
+      mongoDbUrl: json['mongoDbUrl'] as String?,
+      ordsUrl: json['ordsUrl'] as String?,
+      spatialStudioUrl: json['spatialStudioUrl'] as String?,
+      sqlDevWebUrl: json['sqlDevWebUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apexUrl = this.apexUrl;
+    final databaseTransformsUrl = this.databaseTransformsUrl;
+    final graphStudioUrl = this.graphStudioUrl;
+    final machineLearningNotebookUrl = this.machineLearningNotebookUrl;
+    final machineLearningUserManagementUrl =
+        this.machineLearningUserManagementUrl;
+    final mongoDbUrl = this.mongoDbUrl;
+    final ordsUrl = this.ordsUrl;
+    final spatialStudioUrl = this.spatialStudioUrl;
+    final sqlDevWebUrl = this.sqlDevWebUrl;
+    return {
+      if (apexUrl != null) 'apexUrl': apexUrl,
+      if (databaseTransformsUrl != null)
+        'databaseTransformsUrl': databaseTransformsUrl,
+      if (graphStudioUrl != null) 'graphStudioUrl': graphStudioUrl,
+      if (machineLearningNotebookUrl != null)
+        'machineLearningNotebookUrl': machineLearningNotebookUrl,
+      if (machineLearningUserManagementUrl != null)
+        'machineLearningUserManagementUrl': machineLearningUserManagementUrl,
+      if (mongoDbUrl != null) 'mongoDbUrl': mongoDbUrl,
+      if (ordsUrl != null) 'ordsUrl': ordsUrl,
+      if (spatialStudioUrl != null) 'spatialStudioUrl': spatialStudioUrl,
+      if (sqlDevWebUrl != null) 'sqlDevWebUrl': sqlDevWebUrl,
+    };
+  }
+}
+
+/// @nodoc
+class StandbyAllowlistedIpsSource {
+  static const primary = StandbyAllowlistedIpsSource._('PRIMARY');
+  static const separate = StandbyAllowlistedIpsSource._('SEPARATE');
+  static const notApplicable = StandbyAllowlistedIpsSource._('NOT_APPLICABLE');
+
+  final String value;
+
+  const StandbyAllowlistedIpsSource._(this.value);
+
+  static const values = [primary, separate, notApplicable];
+
+  static StandbyAllowlistedIpsSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StandbyAllowlistedIpsSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StandbyAllowlistedIpsSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DisasterRecoveryType {
+  static const adg = DisasterRecoveryType._('ADG');
+  static const backupBased = DisasterRecoveryType._('BACKUP_BASED');
+
+  final String value;
+
+  const DisasterRecoveryType._(this.value);
+
+  static const values = [adg, backupBased];
+
+  static DisasterRecoveryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DisasterRecoveryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DisasterRecoveryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DataGuardRole {
+  static const primary = DataGuardRole._('PRIMARY');
+  static const standby = DataGuardRole._('STANDBY');
+  static const disabledStandby = DataGuardRole._('DISABLED_STANDBY');
+  static const backupCopy = DataGuardRole._('BACKUP_COPY');
+  static const snapshotStandby = DataGuardRole._('SNAPSHOT_STANDBY');
+
+  final String value;
+
+  const DataGuardRole._(this.value);
+
+  static const values = [
+    primary,
+    standby,
+    disabledStandby,
+    backupCopy,
+    snapshotStandby
+  ];
+
+  static DataGuardRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataGuardRole._(value));
+
+  @override
+  bool operator ==(other) => other is DataGuardRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The disaster recovery configuration for an Autonomous Database.
+///
+/// @nodoc
+class DisasterRecoveryConfiguration {
+  /// The type of disaster recovery configured for the Autonomous Database.
+  final DisasterRecoveryType? disasterRecoveryType;
+
+  /// Indicates whether automatic backups are replicated to the disaster recovery
+  /// database.
+  final bool? isReplicateAutomaticBackups;
+
+  /// Indicates whether the standby database is a snapshot standby.
+  final bool? isSnapshotStandby;
+
+  /// The date and time until which the snapshot standby database remains enabled.
+  final DateTime? timeSnapshotStandbyEnabledTill;
+
+  DisasterRecoveryConfiguration({
+    this.disasterRecoveryType,
+    this.isReplicateAutomaticBackups,
+    this.isSnapshotStandby,
+    this.timeSnapshotStandbyEnabledTill,
+  });
+
+  factory DisasterRecoveryConfiguration.fromJson(Map<String, dynamic> json) {
+    return DisasterRecoveryConfiguration(
+      disasterRecoveryType: (json['disasterRecoveryType'] as String?)
+          ?.let(DisasterRecoveryType.fromString),
+      isReplicateAutomaticBackups: json['isReplicateAutomaticBackups'] as bool?,
+      isSnapshotStandby: json['isSnapshotStandby'] as bool?,
+      timeSnapshotStandbyEnabledTill:
+          timeStampFromJson(json['timeSnapshotStandbyEnabledTill']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disasterRecoveryType = this.disasterRecoveryType;
+    final isReplicateAutomaticBackups = this.isReplicateAutomaticBackups;
+    final isSnapshotStandby = this.isSnapshotStandby;
+    final timeSnapshotStandbyEnabledTill = this.timeSnapshotStandbyEnabledTill;
+    return {
+      if (disasterRecoveryType != null)
+        'disasterRecoveryType': disasterRecoveryType.value,
+      if (isReplicateAutomaticBackups != null)
+        'isReplicateAutomaticBackups': isReplicateAutomaticBackups,
+      if (isSnapshotStandby != null) 'isSnapshotStandby': isSnapshotStandby,
+      if (timeSnapshotStandbyEnabledTill != null)
+        'timeSnapshotStandbyEnabledTill':
+            iso8601ToJson(timeSnapshotStandbyEnabledTill),
+    };
+  }
+}
+
+/// @nodoc
+class RefreshableMode {
+  static const automatic = RefreshableMode._('AUTOMATIC');
+  static const manual = RefreshableMode._('MANUAL');
+
+  final String value;
+
+  const RefreshableMode._(this.value);
+
+  static const values = [automatic, manual];
+
+  static RefreshableMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RefreshableMode._(value));
+
+  @override
+  bool operator ==(other) => other is RefreshableMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class RefreshableStatus {
+  static const refreshing = RefreshableStatus._('REFRESHING');
+  static const notRefreshing = RefreshableStatus._('NOT_REFRESHING');
+
+  final String value;
+
+  const RefreshableStatus._(this.value);
+
+  static const values = [refreshing, notRefreshing];
+
+  static RefreshableStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RefreshableStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RefreshableStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The long-term backup schedule for an Autonomous Database.
+///
+/// @nodoc
+class LongTermBackupSchedule {
+  /// Indicates whether the long-term backup schedule is disabled.
+  final bool? isDisabled;
+
+  /// The cadence at which long-term backups are taken.
+  final RepeatCadence? repeatCadence;
+
+  /// The retention period, in days, for long-term backups.
+  final int? retentionPeriodInDays;
+
+  /// The date and time at which the long-term backup is taken.
+  final DateTime? timeOfBackup;
+
+  LongTermBackupSchedule({
+    this.isDisabled,
+    this.repeatCadence,
+    this.retentionPeriodInDays,
+    this.timeOfBackup,
+  });
+
+  factory LongTermBackupSchedule.fromJson(Map<String, dynamic> json) {
+    return LongTermBackupSchedule(
+      isDisabled: json['isDisabled'] as bool?,
+      repeatCadence:
+          (json['repeatCadence'] as String?)?.let(RepeatCadence.fromString),
+      retentionPeriodInDays: json['retentionPeriodInDays'] as int?,
+      timeOfBackup: timeStampFromJson(json['timeOfBackup']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isDisabled = this.isDisabled;
+    final repeatCadence = this.repeatCadence;
+    final retentionPeriodInDays = this.retentionPeriodInDays;
+    final timeOfBackup = this.timeOfBackup;
+    return {
+      if (isDisabled != null) 'isDisabled': isDisabled,
+      if (repeatCadence != null) 'repeatCadence': repeatCadence.value,
+      if (retentionPeriodInDays != null)
+        'retentionPeriodInDays': retentionPeriodInDays,
+      if (timeOfBackup != null) 'timeOfBackup': iso8601ToJson(timeOfBackup),
+    };
+  }
+}
+
+/// The configuration of a resource pool for an Autonomous Database.
+///
+/// @nodoc
+class ResourcePoolSummary {
+  /// The available compute capacity in the resource pool.
+  final int? availableComputeCapacity;
+
+  /// The available storage capacity in the resource pool, in TB.
+  final double? availableStorageCapacityInTBs;
+
+  /// Indicates whether the resource pool is disabled.
+  final bool? isDisabled;
+
+  /// The number of Autonomous Databases that the resource pool can contain.
+  final int? poolSize;
+
+  /// The total storage size of the resource pool, in terabytes (TB).
+  final int? poolStorageSizeInTBs;
+
+  /// The total compute capacity of the resource pool.
+  final int? totalComputeCapacity;
+
+  ResourcePoolSummary({
+    this.availableComputeCapacity,
+    this.availableStorageCapacityInTBs,
+    this.isDisabled,
+    this.poolSize,
+    this.poolStorageSizeInTBs,
+    this.totalComputeCapacity,
+  });
+
+  factory ResourcePoolSummary.fromJson(Map<String, dynamic> json) {
+    return ResourcePoolSummary(
+      availableComputeCapacity: json['availableComputeCapacity'] as int?,
+      availableStorageCapacityInTBs:
+          _s.parseJsonDouble(json['availableStorageCapacityInTBs']),
+      isDisabled: json['isDisabled'] as bool?,
+      poolSize: json['poolSize'] as int?,
+      poolStorageSizeInTBs: json['poolStorageSizeInTBs'] as int?,
+      totalComputeCapacity: json['totalComputeCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availableComputeCapacity = this.availableComputeCapacity;
+    final availableStorageCapacityInTBs = this.availableStorageCapacityInTBs;
+    final isDisabled = this.isDisabled;
+    final poolSize = this.poolSize;
+    final poolStorageSizeInTBs = this.poolStorageSizeInTBs;
+    final totalComputeCapacity = this.totalComputeCapacity;
+    return {
+      if (availableComputeCapacity != null)
+        'availableComputeCapacity': availableComputeCapacity,
+      if (availableStorageCapacityInTBs != null)
+        'availableStorageCapacityInTBs':
+            _s.encodeJsonDouble(availableStorageCapacityInTBs),
+      if (isDisabled != null) 'isDisabled': isDisabled,
+      if (poolSize != null) 'poolSize': poolSize,
+      if (poolStorageSizeInTBs != null)
+        'poolStorageSizeInTBs': poolStorageSizeInTBs,
+      if (totalComputeCapacity != null)
+        'totalComputeCapacity': totalComputeCapacity,
+    };
+  }
+}
+
+/// The encryption configuration for an Autonomous Database.
+///
+/// @nodoc
+class EncryptionSummary {
+  /// The configuration of the encryption key used for the Autonomous Database.
+  final EncryptionKeyConfiguration? encryptionKeyConfiguration;
+
+  /// The provider of the encryption key used for the Autonomous Database.
+  final EncryptionKeyProvider? encryptionKeyProvider;
+
+  EncryptionSummary({
+    this.encryptionKeyConfiguration,
+    this.encryptionKeyProvider,
+  });
+
+  factory EncryptionSummary.fromJson(Map<String, dynamic> json) {
+    return EncryptionSummary(
+      encryptionKeyConfiguration: json['encryptionKeyConfiguration'] != null
+          ? EncryptionKeyConfiguration.fromJson(
+              json['encryptionKeyConfiguration'] as Map<String, dynamic>)
+          : null,
+      encryptionKeyProvider: (json['encryptionKeyProvider'] as String?)
+          ?.let(EncryptionKeyProvider.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionKeyConfiguration = this.encryptionKeyConfiguration;
+    final encryptionKeyProvider = this.encryptionKeyProvider;
+    return {
+      if (encryptionKeyConfiguration != null)
+        'encryptionKeyConfiguration': encryptionKeyConfiguration,
+      if (encryptionKeyProvider != null)
+        'encryptionKeyProvider': encryptionKeyProvider.value,
+    };
+  }
+}
+
+/// A summary of the admin password source configuration for an Autonomous
+/// Database.
+///
+/// @nodoc
+class AdminPasswordSourceSummary {
+  /// The source of the admin password for the Autonomous Database.
+  final AdminPasswordSource? adminPasswordSource;
+
+  /// The configuration of the admin password source for the Autonomous Database.
+  final AdminPasswordSourceConfiguration? adminPasswordSourceConfiguration;
+
+  AdminPasswordSourceSummary({
+    this.adminPasswordSource,
+    this.adminPasswordSourceConfiguration,
+  });
+
+  factory AdminPasswordSourceSummary.fromJson(Map<String, dynamic> json) {
+    return AdminPasswordSourceSummary(
+      adminPasswordSource: (json['adminPasswordSource'] as String?)
+          ?.let(AdminPasswordSource.fromString),
+      adminPasswordSourceConfiguration:
+          json['adminPasswordSourceConfiguration'] != null
+              ? AdminPasswordSourceConfiguration.fromJson(
+                  json['adminPasswordSourceConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminPasswordSource = this.adminPasswordSource;
+    final adminPasswordSourceConfiguration =
+        this.adminPasswordSourceConfiguration;
+    return {
+      if (adminPasswordSource != null)
+        'adminPasswordSource': adminPasswordSource.value,
+      if (adminPasswordSourceConfiguration != null)
+        'adminPasswordSourceConfiguration': adminPasswordSourceConfiguration,
+    };
+  }
+}
+
+/// The source of the admin password for an Autonomous Database.
+///
+/// @nodoc
+class AdminPasswordSource {
+  static const customerManagedAwsSecret =
+      AdminPasswordSource._('CUSTOMER_MANAGED_AWS_SECRET');
+  static const apiRequestParameter =
+      AdminPasswordSource._('API_REQUEST_PARAMETER');
+
+  final String value;
+
+  const AdminPasswordSource._(this.value);
+
+  static const values = [customerManagedAwsSecret, apiRequestParameter];
+
+  static AdminPasswordSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdminPasswordSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdminPasswordSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of the admin password source. This is a union, so only one
+/// of the following members can be specified.
+///
+/// @nodoc
+class AdminPasswordSourceConfiguration {
+  /// The configuration for a customer-managed Amazon Web Services Secrets Manager
+  /// secret used as the admin password source.
+  final CustomerManagedAwsSecretConfiguration? customerManagedAwsSecret;
+
+  AdminPasswordSourceConfiguration({
+    this.customerManagedAwsSecret,
+  });
+
+  factory AdminPasswordSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return AdminPasswordSourceConfiguration(
+      customerManagedAwsSecret: json['customerManagedAwsSecret'] != null
+          ? CustomerManagedAwsSecretConfiguration.fromJson(
+              json['customerManagedAwsSecret'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedAwsSecret = this.customerManagedAwsSecret;
+    return {
+      if (customerManagedAwsSecret != null)
+        'customerManagedAwsSecret': customerManagedAwsSecret,
+    };
+  }
+}
+
+/// The configuration of a customer-managed Amazon Web Services Secrets Manager
+/// secret used to supply a password.
+///
+/// @nodoc
+class CustomerManagedAwsSecretConfiguration {
+  /// The type of Oracle Cloud Identifier (OCID) used as the external ID when
+  /// assuming the IAM role.
+  final ExternalIdType? externalIdType;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
+  /// Access Management (IAM) role that OCI assumes to retrieve the secret value.
+  final String? iamRoleArn;
+
+  /// The identifier or ARN of the Amazon Web Services Secrets Manager secret that
+  /// contains the password.
+  final String? secretId;
+
+  CustomerManagedAwsSecretConfiguration({
+    this.externalIdType,
+    this.iamRoleArn,
+    this.secretId,
+  });
+
+  factory CustomerManagedAwsSecretConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CustomerManagedAwsSecretConfiguration(
+      externalIdType:
+          (json['externalIdType'] as String?)?.let(ExternalIdType.fromString),
+      iamRoleArn: json['iamRoleArn'] as String?,
+      secretId: json['secretId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalIdType = this.externalIdType;
+    final iamRoleArn = this.iamRoleArn;
+    final secretId = this.secretId;
+    return {
+      if (externalIdType != null) 'externalIdType': externalIdType.value,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (secretId != null) 'secretId': secretId,
+    };
+  }
+}
+
+/// @nodoc
+class ExternalIdType {
+  static const databaseOcid = ExternalIdType._('database_ocid');
+  static const compartmentOcid = ExternalIdType._('compartment_ocid');
+  static const tenantOcid = ExternalIdType._('tenant_ocid');
+
+  final String value;
+
+  const ExternalIdType._(this.value);
+
+  static const values = [databaseOcid, compartmentOcid, tenantOcid];
+
+  static ExternalIdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExternalIdType._(value));
+
+  @override
+  bool operator ==(other) => other is ExternalIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class EncryptionKeyProvider {
+  static const oracleManaged = EncryptionKeyProvider._('ORACLE_MANAGED');
+  static const awsKms = EncryptionKeyProvider._('AWS_KMS');
+  static const okv = EncryptionKeyProvider._('OKV');
+  static const oci = EncryptionKeyProvider._('OCI');
+
+  final String value;
+
+  const EncryptionKeyProvider._(this.value);
+
+  static const values = [oracleManaged, awsKms, okv, oci];
+
+  static EncryptionKeyProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionKeyProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EncryptionKeyProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of the encryption key used for an Autonomous Database.
+/// This is a union, so only one of the following members can be specified.
+///
+/// @nodoc
+class EncryptionKeyConfiguration {
+  /// The configuration of the Amazon Web Services Key Management Service (KMS)
+  /// encryption key.
+  final AwsEncryptionKeyConfiguration? awsEncryptionKey;
+
+  /// The configuration of the Oracle Cloud Infrastructure (OCI) Vault encryption
+  /// key.
+  final OciEncryptionKeyConfiguration? ociEncryptionKey;
+
+  /// The configuration of the Oracle Key Vault (OKV) encryption key.
+  final OkvEncryptionKeyConfiguration? okvEncryptionKey;
+
+  EncryptionKeyConfiguration({
+    this.awsEncryptionKey,
+    this.ociEncryptionKey,
+    this.okvEncryptionKey,
+  });
+
+  factory EncryptionKeyConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionKeyConfiguration(
+      awsEncryptionKey: json['awsEncryptionKey'] != null
+          ? AwsEncryptionKeyConfiguration.fromJson(
+              json['awsEncryptionKey'] as Map<String, dynamic>)
+          : null,
+      ociEncryptionKey: json['ociEncryptionKey'] != null
+          ? OciEncryptionKeyConfiguration.fromJson(
+              json['ociEncryptionKey'] as Map<String, dynamic>)
+          : null,
+      okvEncryptionKey: json['okvEncryptionKey'] != null
+          ? OkvEncryptionKeyConfiguration.fromJson(
+              json['okvEncryptionKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsEncryptionKey = this.awsEncryptionKey;
+    final ociEncryptionKey = this.ociEncryptionKey;
+    final okvEncryptionKey = this.okvEncryptionKey;
+    return {
+      if (awsEncryptionKey != null) 'awsEncryptionKey': awsEncryptionKey,
+      if (ociEncryptionKey != null) 'ociEncryptionKey': ociEncryptionKey,
+      if (okvEncryptionKey != null) 'okvEncryptionKey': okvEncryptionKey,
+    };
+  }
+}
+
+/// The configuration of the Amazon Web Services Key Management Service (KMS)
+/// encryption key used for an Autonomous Database.
+///
+/// @nodoc
+class AwsEncryptionKeyConfiguration {
+  /// The type of external identifier associated with the encryption key.
+  final ExternalIdType? externalIdType;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
+  /// Access Management (IAM) role that grants access to the KMS key.
+  final String? iamRoleArn;
+
+  /// The identifier or ARN of the Amazon Web Services KMS key used for
+  /// encryption.
+  final String? kmsKeyId;
+
+  AwsEncryptionKeyConfiguration({
+    this.externalIdType,
+    this.iamRoleArn,
+    this.kmsKeyId,
+  });
+
+  factory AwsEncryptionKeyConfiguration.fromJson(Map<String, dynamic> json) {
+    return AwsEncryptionKeyConfiguration(
+      externalIdType:
+          (json['externalIdType'] as String?)?.let(ExternalIdType.fromString),
+      iamRoleArn: json['iamRoleArn'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalIdType = this.externalIdType;
+    final iamRoleArn = this.iamRoleArn;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      if (externalIdType != null) 'externalIdType': externalIdType.value,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// The configuration of the Oracle Cloud Infrastructure (OCI) Vault encryption
+/// key used for an Autonomous Database.
+///
+/// @nodoc
+class OciEncryptionKeyConfiguration {
+  /// The Oracle Cloud Identifier (OCID) of the OCI Vault key to use for
+  /// encryption.
+  final String kmsKeyId;
+
+  /// The Oracle Cloud Identifier (OCID) of the OCI Vault that contains the
+  /// encryption key.
+  final String vaultId;
+
+  OciEncryptionKeyConfiguration({
+    required this.kmsKeyId,
+    required this.vaultId,
+  });
+
+  factory OciEncryptionKeyConfiguration.fromJson(Map<String, dynamic> json) {
+    return OciEncryptionKeyConfiguration(
+      kmsKeyId: (json['kmsKeyId'] as String?) ?? '',
+      vaultId: (json['vaultId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final vaultId = this.vaultId;
+    return {
+      'kmsKeyId': kmsKeyId,
+      'vaultId': vaultId,
+    };
+  }
+}
+
+/// The configuration of the Oracle Key Vault (OKV) encryption key used for an
+/// Autonomous Database.
+///
+/// @nodoc
+class OkvEncryptionKeyConfiguration {
+  /// The name of the directory that contains the Oracle Key Vault (OKV)
+  /// certificate.
+  final String certificateDirectoryName;
+
+  /// The name of the directory where the Oracle Key Vault (OKV) configuration is
+  /// stored.
+  final String directoryName;
+
+  /// The identifier of the Oracle Key Vault (OKV) key to use for encryption.
+  final String okvKmsKey;
+
+  /// The URI of the Oracle Key Vault (OKV) server.
+  final String okvUri;
+
+  /// The identifier of the Oracle Key Vault (OKV) certificate.
+  final String? certificateId;
+
+  OkvEncryptionKeyConfiguration({
+    required this.certificateDirectoryName,
+    required this.directoryName,
+    required this.okvKmsKey,
+    required this.okvUri,
+    this.certificateId,
+  });
+
+  factory OkvEncryptionKeyConfiguration.fromJson(Map<String, dynamic> json) {
+    return OkvEncryptionKeyConfiguration(
+      certificateDirectoryName:
+          (json['certificateDirectoryName'] as String?) ?? '',
+      directoryName: (json['directoryName'] as String?) ?? '',
+      okvKmsKey: (json['okvKmsKey'] as String?) ?? '',
+      okvUri: (json['okvUri'] as String?) ?? '',
+      certificateId: json['certificateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateDirectoryName = this.certificateDirectoryName;
+    final directoryName = this.directoryName;
+    final okvKmsKey = this.okvKmsKey;
+    final okvUri = this.okvUri;
+    final certificateId = this.certificateId;
+    return {
+      'certificateDirectoryName': certificateDirectoryName,
+      'directoryName': directoryName,
+      'okvKmsKey': okvKmsKey,
+      'okvUri': okvUri,
+      if (certificateId != null) 'certificateId': certificateId,
+    };
+  }
+}
+
+/// @nodoc
+class RepeatCadence {
+  static const oneTime = RepeatCadence._('ONE_TIME');
+  static const weekly = RepeatCadence._('WEEKLY');
+  static const monthly = RepeatCadence._('MONTHLY');
+  static const yearly = RepeatCadence._('YEARLY');
+
+  final String value;
+
+  const RepeatCadence._(this.value);
+
+  static const values = [oneTime, weekly, monthly, yearly];
+
+  static RepeatCadence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepeatCadence._(value));
+
+  @override
+  bool operator ==(other) => other is RepeatCadence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The scheduled start and stop times for an Autonomous Database on a specific
+/// day of the week.
+///
+/// @nodoc
+class ScheduledOperationDetails {
+  /// The day of the week on which the scheduled operation occurs.
+  final DayOfWeek dayOfWeek;
+
+  /// The scheduled start time for the Autonomous Database, in UTC.
+  final String? scheduledStartTime;
+
+  /// The scheduled stop time for the Autonomous Database, in UTC.
+  final String? scheduledStopTime;
+
+  ScheduledOperationDetails({
+    required this.dayOfWeek,
+    this.scheduledStartTime,
+    this.scheduledStopTime,
+  });
+
+  factory ScheduledOperationDetails.fromJson(Map<String, dynamic> json) {
+    return ScheduledOperationDetails(
+      dayOfWeek: DayOfWeek.fromJson(
+          (json['dayOfWeek'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      scheduledStartTime: json['scheduledStartTime'] as String?,
+      scheduledStopTime: json['scheduledStopTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfWeek = this.dayOfWeek;
+    final scheduledStartTime = this.scheduledStartTime;
+    final scheduledStopTime = this.scheduledStopTime;
+    return {
+      'dayOfWeek': dayOfWeek,
+      if (scheduledStartTime != null) 'scheduledStartTime': scheduledStartTime,
+      if (scheduledStopTime != null) 'scheduledStopTime': scheduledStopTime,
+    };
+  }
+}
+
+/// Information about a database management tool for an Autonomous Database.
+///
+/// @nodoc
+class DatabaseTool {
+  /// The compute capacity allocated to the database management tool.
+  final double? computeCount;
+
+  /// Indicates whether the database management tool is enabled.
+  final bool? isEnabled;
+
+  /// The maximum amount of time, in minutes, that the database management tool
+  /// can be idle before it is shut down.
+  final int? maxIdleTimeInMinutes;
+
+  /// The name of the database management tool.
+  final String? name;
+
+  DatabaseTool({
+    this.computeCount,
+    this.isEnabled,
+    this.maxIdleTimeInMinutes,
+    this.name,
+  });
+
+  factory DatabaseTool.fromJson(Map<String, dynamic> json) {
+    return DatabaseTool(
+      computeCount: _s.parseJsonDouble(json['computeCount']),
+      isEnabled: json['isEnabled'] as bool?,
+      maxIdleTimeInMinutes: json['maxIdleTimeInMinutes'] as int?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeCount = this.computeCount;
+    final isEnabled = this.isEnabled;
+    final maxIdleTimeInMinutes = this.maxIdleTimeInMinutes;
+    final name = this.name;
+    return {
+      if (computeCount != null)
+        'computeCount': _s.encodeJsonDouble(computeCount),
+      if (isEnabled != null) 'isEnabled': isEnabled,
+      if (maxIdleTimeInMinutes != null)
+        'maxIdleTimeInMinutes': maxIdleTimeInMinutes,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// A connection string profile for an Autonomous Database.
+///
+/// @nodoc
+class DatabaseConnectionStringProfile {
+  /// The consumer group associated with the connection string profile.
+  final String? consumerGroup;
+
+  /// The user-friendly name of the connection string profile.
+  final String? displayName;
+
+  /// The host name format used in the connection string.
+  final String? hostFormat;
+
+  /// Indicates whether the connection string profile is regional.
+  final bool? isRegional;
+
+  /// The protocol used by the connection string profile.
+  final String? protocol;
+
+  /// The session mode of the connection string profile.
+  final String? sessionMode;
+
+  /// The syntax format of the connection string profile.
+  final String? syntaxFormat;
+
+  /// The TLS authentication method used by the connection string profile.
+  final String? tlsAuthentication;
+
+  /// The connection string value of the profile.
+  final String? value;
+
+  DatabaseConnectionStringProfile({
+    this.consumerGroup,
+    this.displayName,
+    this.hostFormat,
+    this.isRegional,
+    this.protocol,
+    this.sessionMode,
+    this.syntaxFormat,
+    this.tlsAuthentication,
+    this.value,
+  });
+
+  factory DatabaseConnectionStringProfile.fromJson(Map<String, dynamic> json) {
+    return DatabaseConnectionStringProfile(
+      consumerGroup: json['consumerGroup'] as String?,
+      displayName: json['displayName'] as String?,
+      hostFormat: json['hostFormat'] as String?,
+      isRegional: json['isRegional'] as bool?,
+      protocol: json['protocol'] as String?,
+      sessionMode: json['sessionMode'] as String?,
+      syntaxFormat: json['syntaxFormat'] as String?,
+      tlsAuthentication: json['tlsAuthentication'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumerGroup = this.consumerGroup;
+    final displayName = this.displayName;
+    final hostFormat = this.hostFormat;
+    final isRegional = this.isRegional;
+    final protocol = this.protocol;
+    final sessionMode = this.sessionMode;
+    final syntaxFormat = this.syntaxFormat;
+    final tlsAuthentication = this.tlsAuthentication;
+    final value = this.value;
+    return {
+      if (consumerGroup != null) 'consumerGroup': consumerGroup,
+      if (displayName != null) 'displayName': displayName,
+      if (hostFormat != null) 'hostFormat': hostFormat,
+      if (isRegional != null) 'isRegional': isRegional,
+      if (protocol != null) 'protocol': protocol,
+      if (sessionMode != null) 'sessionMode': sessionMode,
+      if (syntaxFormat != null) 'syntaxFormat': syntaxFormat,
+      if (tlsAuthentication != null) 'tlsAuthentication': tlsAuthentication,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// The wallet details for an Autonomous Database.
+///
+/// @nodoc
+class AutonomousDatabaseWalletDetails {
+  /// The summary of the password source configuration for the Autonomous Database
+  /// wallet.
+  final WalletPasswordSourceSummary? passwordSourceSummary;
+
+  /// The current status of the Autonomous Database wallet.
+  final AutonomousDatabaseWalletStatus? status;
+
+  /// The date and time when the Autonomous Database wallet was last rotated.
+  final DateTime? timeRotated;
+
+  AutonomousDatabaseWalletDetails({
+    this.passwordSourceSummary,
+    this.status,
+    this.timeRotated,
+  });
+
+  factory AutonomousDatabaseWalletDetails.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabaseWalletDetails(
+      passwordSourceSummary: json['passwordSourceSummary'] != null
+          ? WalletPasswordSourceSummary.fromJson(
+              json['passwordSourceSummary'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseWalletStatus.fromString),
+      timeRotated: timeStampFromJson(json['timeRotated']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final passwordSourceSummary = this.passwordSourceSummary;
+    final status = this.status;
+    final timeRotated = this.timeRotated;
+    return {
+      if (passwordSourceSummary != null)
+        'passwordSourceSummary': passwordSourceSummary,
+      if (status != null) 'status': status.value,
+      if (timeRotated != null) 'timeRotated': iso8601ToJson(timeRotated),
+    };
+  }
+}
+
+/// @nodoc
+class AutonomousDatabaseWalletStatus {
+  static const active = AutonomousDatabaseWalletStatus._('ACTIVE');
+  static const updating = AutonomousDatabaseWalletStatus._('UPDATING');
+
+  final String value;
+
+  const AutonomousDatabaseWalletStatus._(this.value);
+
+  static const values = [active, updating];
+
+  static AutonomousDatabaseWalletStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutonomousDatabaseWalletStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutonomousDatabaseWalletStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of the password source configuration for an Autonomous Database
+/// wallet.
+///
+/// @nodoc
+class WalletPasswordSourceSummary {
+  /// The source of the password for the Autonomous Database wallet.
+  final WalletPasswordSource? passwordSource;
+
+  /// The configuration of the password source for the Autonomous Database wallet.
+  final WalletPasswordSourceConfiguration? passwordSourceConfiguration;
+
+  WalletPasswordSourceSummary({
+    this.passwordSource,
+    this.passwordSourceConfiguration,
+  });
+
+  factory WalletPasswordSourceSummary.fromJson(Map<String, dynamic> json) {
+    return WalletPasswordSourceSummary(
+      passwordSource: (json['passwordSource'] as String?)
+          ?.let(WalletPasswordSource.fromString),
+      passwordSourceConfiguration: json['passwordSourceConfiguration'] != null
+          ? WalletPasswordSourceConfiguration.fromJson(
+              json['passwordSourceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final passwordSource = this.passwordSource;
+    final passwordSourceConfiguration = this.passwordSourceConfiguration;
+    return {
+      if (passwordSource != null) 'passwordSource': passwordSource.value,
+      if (passwordSourceConfiguration != null)
+        'passwordSourceConfiguration': passwordSourceConfiguration,
+    };
+  }
+}
+
+/// The source of the password for an Autonomous Database wallet.
+///
+/// @nodoc
+class WalletPasswordSource {
+  static const customerManagedAwsSecret =
+      WalletPasswordSource._('CUSTOMER_MANAGED_AWS_SECRET');
+  static const apiRequestParameter =
+      WalletPasswordSource._('API_REQUEST_PARAMETER');
+
+  final String value;
+
+  const WalletPasswordSource._(this.value);
+
+  static const values = [customerManagedAwsSecret, apiRequestParameter];
+
+  static WalletPasswordSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WalletPasswordSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WalletPasswordSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of the wallet password source. This is a union, so only
+/// one of the following members can be specified.
+///
+/// @nodoc
+class WalletPasswordSourceConfiguration {
+  /// The configuration for a customer-managed Amazon Web Services Secrets Manager
+  /// secret used as the wallet password source.
+  final CustomerManagedAwsSecretConfiguration? customerManagedAwsSecret;
+
+  WalletPasswordSourceConfiguration({
+    this.customerManagedAwsSecret,
+  });
+
+  factory WalletPasswordSourceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return WalletPasswordSourceConfiguration(
+      customerManagedAwsSecret: json['customerManagedAwsSecret'] != null
+          ? CustomerManagedAwsSecretConfiguration.fromJson(
+              json['customerManagedAwsSecret'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedAwsSecret = this.customerManagedAwsSecret;
+    return {
+      if (customerManagedAwsSecret != null)
+        'customerManagedAwsSecret': customerManagedAwsSecret,
+    };
+  }
+}
+
+/// @nodoc
+class WalletType {
+  static const regional = WalletType._('REGIONAL');
+  static const instance = WalletType._('INSTANCE');
+
+  final String value;
+
+  const WalletType._(this.value);
+
+  static const values = [regional, instance];
+
+  static WalletType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WalletType._(value));
+
+  @override
+  bool operator ==(other) => other is WalletType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The input configuration for the wallet password source. This is a union, so
+/// only one of the following members can be specified.
+///
+/// @nodoc
+class WalletPasswordSourceConfigurationInput {
+  /// The configuration for using a customer-managed Amazon Web Services Secrets
+  /// Manager secret as the wallet password source.
+  final CustomerManagedAwsSecretConfigurationInput? customerManagedAwsSecret;
+
+  WalletPasswordSourceConfigurationInput({
+    this.customerManagedAwsSecret,
+  });
+
+  Map<String, dynamic> toJson() {
+    final customerManagedAwsSecret = this.customerManagedAwsSecret;
+    return {
+      if (customerManagedAwsSecret != null)
+        'customerManagedAwsSecret': customerManagedAwsSecret,
+    };
+  }
+}
+
+/// The input configuration for a customer-managed Amazon Web Services Secrets
+/// Manager secret used to supply a password.
+///
+/// @nodoc
+class CustomerManagedAwsSecretConfigurationInput {
+  /// The type of Oracle Cloud Identifier (OCID) used as the external ID when
+  /// assuming the IAM role.
+  ///
+  /// The valid values depend on the operation. For the
+  /// <code>CreateAutonomousDatabase</code> operation, only
+  /// <code>compartment_ocid</code> and <code>tenant_ocid</code> are allowed. For
+  /// the <code>UpdateAutonomousDatabase</code> and
+  /// <code>CreateAutonomousDatabaseWallet</code> operations,
+  /// <code>database_ocid</code>, <code>compartment_ocid</code>, and
+  /// <code>tenant_ocid</code> are all allowed.
+  final ExternalIdType? externalIdType;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
+  /// Access Management (IAM) role that OCI assumes to retrieve the secret value.
+  final String? iamRoleArn;
+
+  /// The identifier or ARN of the Amazon Web Services Secrets Manager secret that
+  /// contains the password.
+  final String? secretId;
+
+  CustomerManagedAwsSecretConfigurationInput({
+    this.externalIdType,
+    this.iamRoleArn,
+    this.secretId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final externalIdType = this.externalIdType;
+    final iamRoleArn = this.iamRoleArn;
+    final secretId = this.secretId;
+    return {
+      if (externalIdType != null) 'externalIdType': externalIdType.value,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (secretId != null) 'secretId': secretId,
+    };
+  }
+}
+
+/// @nodoc
+class EncryptionKeyProviderInput {
+  static const oracleManaged = EncryptionKeyProviderInput._('ORACLE_MANAGED');
+  static const awsKms = EncryptionKeyProviderInput._('AWS_KMS');
+
+  final String value;
+
+  const EncryptionKeyProviderInput._(this.value);
+
+  static const values = [oracleManaged, awsKms];
+
+  static EncryptionKeyProviderInput fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionKeyProviderInput._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EncryptionKeyProviderInput && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of the encryption key to use for an Autonomous Database.
+/// This is a union, so only one of the following members can be specified.
+///
+/// @nodoc
+class EncryptionKeyConfigurationInput {
+  /// The configuration of the Amazon Web Services Key Management Service (KMS)
+  /// encryption key to use.
+  final AwsEncryptionKeyConfigurationInput? awsEncryptionKey;
+
+  EncryptionKeyConfigurationInput({
+    this.awsEncryptionKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final awsEncryptionKey = this.awsEncryptionKey;
+    return {
+      if (awsEncryptionKey != null) 'awsEncryptionKey': awsEncryptionKey,
+    };
+  }
+}
+
+/// The input configuration for the admin password source. This is a union, so
+/// only one of the following members can be specified.
+///
+/// @nodoc
+class AdminPasswordSourceConfigurationInput {
+  /// The configuration for using a customer-managed Amazon Web Services Secrets
+  /// Manager secret as the admin password source.
+  final CustomerManagedAwsSecretConfigurationInput? customerManagedAwsSecret;
+
+  AdminPasswordSourceConfigurationInput({
+    this.customerManagedAwsSecret,
+  });
+
+  Map<String, dynamic> toJson() {
+    final customerManagedAwsSecret = this.customerManagedAwsSecret;
+    return {
+      if (customerManagedAwsSecret != null)
+        'customerManagedAwsSecret': customerManagedAwsSecret,
+    };
+  }
+}
+
+/// The configuration of the Amazon Web Services Key Management Service (KMS)
+/// encryption key to use for an Autonomous Database.
+///
+/// @nodoc
+class AwsEncryptionKeyConfigurationInput {
+  /// The type of external identifier associated with the encryption key.
+  final ExternalIdType? externalIdType;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
+  /// Access Management (IAM) role that grants access to the KMS key.
+  final String? iamRoleArn;
+
+  /// The identifier or ARN of the Amazon Web Services KMS key to use for
+  /// encryption.
+  final String? kmsKeyId;
+
+  AwsEncryptionKeyConfigurationInput({
+    this.externalIdType,
+    this.iamRoleArn,
+    this.kmsKeyId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final externalIdType = this.externalIdType;
+    final iamRoleArn = this.iamRoleArn;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      if (externalIdType != null) 'externalIdType': externalIdType.value,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// Information about an Autonomous Database.
+///
+/// @nodoc
+class AutonomousDatabase {
+  /// The actual amount of data storage currently in use by the Autonomous
+  /// Database, in TB.
+  final double? actualUsedDataStorageSizeInTBs;
+
+  /// The summary of the admin password source configuration for the Autonomous
+  /// Database.
+  final AdminPasswordSourceSummary? adminPasswordSourceSummary;
+
+  /// The amount of storage currently allocated to the Autonomous Database, in TB.
+  final double? allocatedStorageSizeInTBs;
+
+  /// The list of IP addresses that are allowed to access the Autonomous Database.
+  final List<String>? allowlistedIps;
+
+  /// The Oracle Application Express (APEX) details for the Autonomous Database.
+  final AutonomousDatabaseApex? apexDetails;
+
+  /// The frequency, in seconds, at which the refreshable clone Autonomous
+  /// Database is automatically refreshed.
+  final int? autoRefreshFrequencyInSeconds;
+
+  /// The time lag, in seconds, between the refreshable clone and its source
+  /// Autonomous Database.
+  final int? autoRefreshPointLagInSeconds;
+
+  /// The Amazon Resource Name (ARN) of the Autonomous Database.
+  final String? autonomousDatabaseArn;
+
+  /// The unique identifier of the Autonomous Database.
+  final String? autonomousDatabaseId;
+
+  /// The maintenance schedule type for the Autonomous Database.
+  final AutonomousMaintenanceScheduleType? autonomousMaintenanceScheduleType;
+
+  /// The Availability Zone where the Autonomous Database is located.
+  final String? availabilityZone;
+
+  /// The unique identifier of the Availability Zone where the Autonomous Database
+  /// is located.
+  final String? availabilityZoneId;
+
+  /// The list of Oracle Database software versions to which the Autonomous
+  /// Database can be upgraded.
+  final List<String>? availableUpgradeVersions;
+
+  /// The retention period, in days, for automatic backups of the Autonomous
+  /// Database.
+  final int? backupRetentionPeriodInDays;
+
+  /// The maximum number of compute resources that you can allocate to the
+  /// Autonomous Database under the bring-your-own-license (BYOL) model.
+  final int? byolComputeCountLimit;
+
+  /// The character set of the Autonomous Database.
+  final String? characterSet;
+
+  /// The list of tablespace identifiers to clone for the Autonomous Database.
+  final List<int>? cloneTableSpaceList;
+
+  /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs
+  /// (OCPUs), assigned to the Autonomous Database.
+  final double? computeCount;
+
+  /// The compute model of the Autonomous Database, either ECPU or OCPU.
+  final ComputeModel? computeModel;
+
+  /// The connection string details for the Autonomous Database.
+  final AutonomousDatabaseConnectionStrings? connectionStringDetails;
+
+  /// The connection URLs for accessing tools and services for the Autonomous
+  /// Database.
+  final AutonomousDatabaseConnectionUrls? connectionUrls;
+
+  /// The number of CPU cores allocated to the Autonomous Database.
+  final int? cpuCoreCount;
+
+  /// The date and time when the Autonomous Database was created.
+  final DateTime? createdAt;
+
+  /// The list of customer contacts that receive operational notifications from
+  /// Oracle for the Autonomous Database.
+  final List<CustomerContact>? customerContacts;
+
+  /// The status of the Oracle Data Safe registration for the Autonomous Database.
+  final DataSafeStatus? dataSafeStatus;
+
+  /// The size, in gigabytes (GB), of the data volume allocated for the Autonomous
+  /// Database.
+  final int? dataStorageSizeInGBs;
+
+  /// The size, in terabytes (TB), of the data volume allocated for the Autonomous
+  /// Database.
+  final double? dataStorageSizeInTBs;
+
+  /// The Oracle Database edition of the Autonomous Database.
+  final DatabaseEdition? databaseEdition;
+
+  /// The status of Oracle Database Management for the Autonomous Database.
+  final DatabaseManagementStatus? databaseManagementStatus;
+
+  /// The type of the Autonomous Database, either a regular database or a clone.
+  final DatabaseType? databaseType;
+
+  /// The name of the Autonomous Database.
+  final String? dbName;
+
+  /// The list of database management tools enabled for the Autonomous Database.
+  final List<DatabaseTool>? dbToolsDetails;
+
+  /// The Oracle Database software version of the Autonomous Database.
+  final String? dbVersion;
+
+  /// The intended use of the Autonomous Database, such as transaction processing,
+  /// data warehouse, JSON database, or APEX.
+  final DbWorkload? dbWorkload;
+
+  /// The user-friendly name of the Autonomous Database.
+  final String? displayName;
+
+  /// The encryption configuration for the Autonomous Database.
+  final EncryptionSummary? encryptionSummary;
+
+  /// The amount of time, in seconds, that the data in the Autonomous Database is
+  /// behind the data in the primary database.
+  final int? failedDataRecoveryInSeconds;
+
+  /// The size of the in-memory area of the Autonomous Database, in GB.
+  final int? inMemoryAreaInGBs;
+
+  /// Indicates whether automatic scaling of the compute resources is enabled for
+  /// the Autonomous Database.
+  final bool? isAutoScalingEnabled;
+
+  /// Indicates whether automatic scaling of the storage is enabled for the
+  /// Autonomous Database.
+  final bool? isAutoScalingForStorageEnabled;
+
+  /// Indicates whether the backup retention period of the Autonomous Database is
+  /// locked.
+  final bool? isBackupRetentionLocked;
+
+  /// Indicates whether local Oracle Data Guard is enabled for the Autonomous
+  /// Database.
+  final bool? isLocalDataGuardEnabled;
+
+  /// Indicates whether mutual TLS (mTLS) authentication is required to connect to
+  /// the Autonomous Database.
+  final bool? isMtlsConnectionRequired;
+
+  /// Indicates whether reconnecting the refreshable clone to its source
+  /// Autonomous Database is enabled.
+  final bool? isReconnectCloneEnabled;
+
+  /// Indicates whether the Autonomous Database is a refreshable clone.
+  final bool? isRefreshableClone;
+
+  /// Indicates whether remote Oracle Data Guard is enabled for the Autonomous
+  /// Database.
+  final bool? isRemoteDataGuardEnabled;
+
+  /// The Oracle license model that applies to the Autonomous Database.
+  final LicenseModel? licenseModel;
+
+  /// The maximum data loss limit, in seconds, for automatic failover to the local
+  /// Oracle Data Guard standby database.
+  final int? localAdgAutoFailoverMaxDataLossLimit;
+
+  /// The type of local disaster recovery configured for the Autonomous Database.
+  final DisasterRecoveryType? localDisasterRecoveryType;
+
+  /// The details of the local standby Autonomous Database in an Oracle Data Guard
+  /// configuration.
+  final DatabaseStandbySummary? localStandbyDb;
+
+  /// The long-term backup schedule for the Autonomous Database.
+  final LongTermBackupSchedule? longTermBackupSchedule;
+
+  /// The component on the Autonomous Database that the current maintenance is
+  /// being applied to.
+  final String? maintenanceTargetComponent;
+
+  /// The amount of memory allocated per Oracle Compute Unit, in GB.
+  final int? memoryPerOracleComputeUnitInGBs;
+
+  /// The national character set of the Autonomous Database.
+  final String? ncharacterSet;
+
+  /// The Oracle Net Services architecture of the Autonomous Database, either
+  /// dedicated or shared.
+  final NetServicesArchitecture? netServicesArchitecture;
+
+  /// The date and time of the next scheduled long-term backup of the Autonomous
+  /// Database.
+  final DateTime? nextLongTermBackupTimeStamp;
+
+  /// The name of the Oracle Cloud Infrastructure (OCI) resource anchor associated
+  /// with the Autonomous Database.
+  final String? ociResourceAnchorName;
+
+  /// The URL for accessing the OCI console page for the Autonomous Database.
+  final String? ociUrl;
+
+  /// The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+  final String? ocid;
+
+  /// The Amazon Resource Name (ARN) of the ODB network associated with the
+  /// Autonomous Database.
+  final String? odbNetworkArn;
+
+  /// The unique identifier of the ODB network associated with the Autonomous
+  /// Database.
+  final String? odbNetworkId;
+
+  /// The mode in which the Autonomous Database is open, either read-only or
+  /// read/write.
+  final OpenMode? openMode;
+
+  /// The status of Oracle Operations Insights for the Autonomous Database.
+  final OperationsInsightsStatus? operationsInsightsStatus;
+
+  /// The list of unique identifiers of the peer Autonomous Databases.
+  final List<String>? peerDbIds;
+
+  /// The progress of the current operation on the Autonomous Database, as a
+  /// percentage.
+  final double? percentProgress;
+
+  /// The permission level of the Autonomous Database.
+  final PermissionLevel? permissionLevel;
+
+  /// The private endpoint for the Autonomous Database.
+  final String? privateEndpoint;
+
+  /// The private endpoint IP address for the Autonomous Database.
+  final String? privateEndpointIp;
+
+  /// The private endpoint label for the Autonomous Database.
+  final String? privateEndpointLabel;
+
+  /// The list of CPU core counts that you can provision for the Autonomous
+  /// Database.
+  final List<int>? provisionableCpus;
+
+  /// The refresh mode of the refreshable clone Autonomous Database.
+  final RefreshableMode? refreshableMode;
+
+  /// The refresh status of the refreshable clone Autonomous Database.
+  final RefreshableStatus? refreshableStatus;
+
+  /// The configuration of the remote disaster recovery for the Autonomous
+  /// Database.
+  final DisasterRecoveryConfiguration? remoteDisasterRecoveryConfiguration;
+
+  /// The unique identifier of the resource pool leader Autonomous Database.
+  final String? resourcePoolLeaderId;
+
+  /// The configuration of the resource pool for the Autonomous Database.
+  final ResourcePoolSummary? resourcePoolSummary;
+
+  /// The Oracle Data Guard role of the Autonomous Database.
+  final DataGuardRole? role;
+
+  /// The list of scheduled start and stop times for the Autonomous Database.
+  final List<ScheduledOperationDetails>? scheduledOperations;
+
+  /// The URL for accessing the Oracle service console for the Autonomous
+  /// Database.
+  final String? serviceConsoleUrl;
+
+  /// The unique identifier of the source from which the Autonomous Database was
+  /// created.
+  final String? sourceId;
+
+  /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+  final String? sqlWebDeveloperUrl;
+
+  /// The list of IP addresses that are allowed to access the standby Autonomous
+  /// Database.
+  final List<String>? standbyAllowlistedIps;
+
+  /// The source of the allowlisted IP addresses for the standby Autonomous
+  /// Database.
+  final StandbyAllowlistedIpsSource? standbyAllowlistedIpsSource;
+
+  /// The details of the standby Autonomous Database in a cross-Region Oracle Data
+  /// Guard configuration.
+  final DatabaseStandbySummary? standbyDb;
+
+  /// The current status of the Autonomous Database.
+  final AutonomousDatabaseResourceStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database,
+  /// if applicable.
+  final String? statusReason;
+
+  /// The date and time when the Oracle Data Guard role of the Autonomous Database
+  /// last changed.
+  final DateTime? timeDataGuardRoleChanged;
+
+  /// The date and time when the inactive Always Free Autonomous Database is
+  /// scheduled to be automatically deleted.
+  final DateTime? timeDeletionOfFreeAutonomousDatabase;
+
+  /// The date and time when the disaster recovery role of the Autonomous Database
+  /// last changed.
+  final DateTime? timeDisasterRecoveryRoleChanged;
+
+  /// The date and time when local Oracle Data Guard was enabled for the
+  /// Autonomous Database.
+  final DateTime? timeLocalDataGuardEnabled;
+
+  /// The date and time when the next maintenance of the Autonomous Database
+  /// begins.
+  final DateTime? timeMaintenanceBegin;
+
+  /// The date and time when the next maintenance of the Autonomous Database ends.
+  final DateTime? timeMaintenanceEnd;
+
+  /// The date and time at which the automatic refresh of the refreshable clone
+  /// Autonomous Database starts.
+  final DateTime? timeOfAutoRefreshStart;
+
+  /// The date and time of the last backup of the Autonomous Database.
+  final DateTime? timeOfLastBackup;
+
+  /// The date and time of the last failover operation for the Autonomous
+  /// Database.
+  final DateTime? timeOfLastFailover;
+
+  /// The date and time of the last refresh of the refreshable clone Autonomous
+  /// Database.
+  final DateTime? timeOfLastRefresh;
+
+  /// The date and time as of which the data in the refreshable clone Autonomous
+  /// Database is current.
+  final DateTime? timeOfLastRefreshPoint;
+
+  /// The date and time of the last switchover operation for the Autonomous
+  /// Database.
+  final DateTime? timeOfLastSwitchover;
+
+  /// The date and time of the next scheduled refresh of the refreshable clone
+  /// Autonomous Database.
+  final DateTime? timeOfNextRefresh;
+
+  /// The date and time when the Always Free Autonomous Database is scheduled to
+  /// be stopped because of inactivity.
+  final DateTime? timeReclamationOfFreeAutonomousDatabase;
+
+  /// The date and time when the Autonomous Database was restored after deletion.
+  final DateTime? timeUndeleted;
+
+  /// The date and time until which reconnecting the refreshable clone to its
+  /// source Autonomous Database is allowed.
+  final DateTime? timeUntilReconnectCloneEnabled;
+
+  /// The total amount of backup storage used by the Autonomous Database, in GB.
+  final double? totalBackupStorageSizeInGBs;
+
+  /// The amount of data storage currently in use by the Autonomous Database, in
+  /// GB.
+  final int? usedDataStorageSizeInGBs;
+
+  /// The amount of data storage currently in use by the Autonomous Database, in
+  /// TB.
+  final double? usedDataStorageSizeInTBs;
+
+  AutonomousDatabase({
+    this.actualUsedDataStorageSizeInTBs,
+    this.adminPasswordSourceSummary,
+    this.allocatedStorageSizeInTBs,
+    this.allowlistedIps,
+    this.apexDetails,
+    this.autoRefreshFrequencyInSeconds,
+    this.autoRefreshPointLagInSeconds,
+    this.autonomousDatabaseArn,
+    this.autonomousDatabaseId,
+    this.autonomousMaintenanceScheduleType,
+    this.availabilityZone,
+    this.availabilityZoneId,
+    this.availableUpgradeVersions,
+    this.backupRetentionPeriodInDays,
+    this.byolComputeCountLimit,
+    this.characterSet,
+    this.cloneTableSpaceList,
+    this.computeCount,
+    this.computeModel,
+    this.connectionStringDetails,
+    this.connectionUrls,
+    this.cpuCoreCount,
+    this.createdAt,
+    this.customerContacts,
+    this.dataSafeStatus,
+    this.dataStorageSizeInGBs,
+    this.dataStorageSizeInTBs,
+    this.databaseEdition,
+    this.databaseManagementStatus,
+    this.databaseType,
+    this.dbName,
+    this.dbToolsDetails,
+    this.dbVersion,
+    this.dbWorkload,
+    this.displayName,
+    this.encryptionSummary,
+    this.failedDataRecoveryInSeconds,
+    this.inMemoryAreaInGBs,
+    this.isAutoScalingEnabled,
+    this.isAutoScalingForStorageEnabled,
+    this.isBackupRetentionLocked,
+    this.isLocalDataGuardEnabled,
+    this.isMtlsConnectionRequired,
+    this.isReconnectCloneEnabled,
+    this.isRefreshableClone,
+    this.isRemoteDataGuardEnabled,
+    this.licenseModel,
+    this.localAdgAutoFailoverMaxDataLossLimit,
+    this.localDisasterRecoveryType,
+    this.localStandbyDb,
+    this.longTermBackupSchedule,
+    this.maintenanceTargetComponent,
+    this.memoryPerOracleComputeUnitInGBs,
+    this.ncharacterSet,
+    this.netServicesArchitecture,
+    this.nextLongTermBackupTimeStamp,
+    this.ociResourceAnchorName,
+    this.ociUrl,
+    this.ocid,
+    this.odbNetworkArn,
+    this.odbNetworkId,
+    this.openMode,
+    this.operationsInsightsStatus,
+    this.peerDbIds,
+    this.percentProgress,
+    this.permissionLevel,
+    this.privateEndpoint,
+    this.privateEndpointIp,
+    this.privateEndpointLabel,
+    this.provisionableCpus,
+    this.refreshableMode,
+    this.refreshableStatus,
+    this.remoteDisasterRecoveryConfiguration,
+    this.resourcePoolLeaderId,
+    this.resourcePoolSummary,
+    this.role,
+    this.scheduledOperations,
+    this.serviceConsoleUrl,
+    this.sourceId,
+    this.sqlWebDeveloperUrl,
+    this.standbyAllowlistedIps,
+    this.standbyAllowlistedIpsSource,
+    this.standbyDb,
+    this.status,
+    this.statusReason,
+    this.timeDataGuardRoleChanged,
+    this.timeDeletionOfFreeAutonomousDatabase,
+    this.timeDisasterRecoveryRoleChanged,
+    this.timeLocalDataGuardEnabled,
+    this.timeMaintenanceBegin,
+    this.timeMaintenanceEnd,
+    this.timeOfAutoRefreshStart,
+    this.timeOfLastBackup,
+    this.timeOfLastFailover,
+    this.timeOfLastRefresh,
+    this.timeOfLastRefreshPoint,
+    this.timeOfLastSwitchover,
+    this.timeOfNextRefresh,
+    this.timeReclamationOfFreeAutonomousDatabase,
+    this.timeUndeleted,
+    this.timeUntilReconnectCloneEnabled,
+    this.totalBackupStorageSizeInGBs,
+    this.usedDataStorageSizeInGBs,
+    this.usedDataStorageSizeInTBs,
+  });
+
+  factory AutonomousDatabase.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabase(
+      actualUsedDataStorageSizeInTBs:
+          _s.parseJsonDouble(json['actualUsedDataStorageSizeInTBs']),
+      adminPasswordSourceSummary: json['adminPasswordSourceSummary'] != null
+          ? AdminPasswordSourceSummary.fromJson(
+              json['adminPasswordSourceSummary'] as Map<String, dynamic>)
+          : null,
+      allocatedStorageSizeInTBs:
+          _s.parseJsonDouble(json['allocatedStorageSizeInTBs']),
+      allowlistedIps: (json['allowlistedIps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      apexDetails: json['apexDetails'] != null
+          ? AutonomousDatabaseApex.fromJson(
+              json['apexDetails'] as Map<String, dynamic>)
+          : null,
+      autoRefreshFrequencyInSeconds:
+          json['autoRefreshFrequencyInSeconds'] as int?,
+      autoRefreshPointLagInSeconds:
+          json['autoRefreshPointLagInSeconds'] as int?,
+      autonomousDatabaseArn: json['autonomousDatabaseArn'] as String?,
+      autonomousDatabaseId: json['autonomousDatabaseId'] as String?,
+      autonomousMaintenanceScheduleType:
+          (json['autonomousMaintenanceScheduleType'] as String?)
+              ?.let(AutonomousMaintenanceScheduleType.fromString),
+      availabilityZone: json['availabilityZone'] as String?,
+      availabilityZoneId: json['availabilityZoneId'] as String?,
+      availableUpgradeVersions: (json['availableUpgradeVersions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      backupRetentionPeriodInDays: json['backupRetentionPeriodInDays'] as int?,
+      byolComputeCountLimit: json['byolComputeCountLimit'] as int?,
+      characterSet: json['characterSet'] as String?,
+      cloneTableSpaceList: (json['cloneTableSpaceList'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      computeCount: _s.parseJsonDouble(json['computeCount']),
+      computeModel:
+          (json['computeModel'] as String?)?.let(ComputeModel.fromString),
+      connectionStringDetails: json['connectionStringDetails'] != null
+          ? AutonomousDatabaseConnectionStrings.fromJson(
+              json['connectionStringDetails'] as Map<String, dynamic>)
+          : null,
+      connectionUrls: json['connectionUrls'] != null
+          ? AutonomousDatabaseConnectionUrls.fromJson(
+              json['connectionUrls'] as Map<String, dynamic>)
+          : null,
+      cpuCoreCount: json['cpuCoreCount'] as int?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      customerContacts: (json['customerContacts'] as List?)
+          ?.nonNulls
+          .map((e) => CustomerContact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataSafeStatus:
+          (json['dataSafeStatus'] as String?)?.let(DataSafeStatus.fromString),
+      dataStorageSizeInGBs: json['dataStorageSizeInGBs'] as int?,
+      dataStorageSizeInTBs: _s.parseJsonDouble(json['dataStorageSizeInTBs']),
+      databaseEdition:
+          (json['databaseEdition'] as String?)?.let(DatabaseEdition.fromString),
+      databaseManagementStatus: (json['databaseManagementStatus'] as String?)
+          ?.let(DatabaseManagementStatus.fromString),
+      databaseType:
+          (json['databaseType'] as String?)?.let(DatabaseType.fromString),
+      dbName: json['dbName'] as String?,
+      dbToolsDetails: (json['dbToolsDetails'] as List?)
+          ?.nonNulls
+          .map((e) => DatabaseTool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dbVersion: json['dbVersion'] as String?,
+      dbWorkload: (json['dbWorkload'] as String?)?.let(DbWorkload.fromString),
+      displayName: json['displayName'] as String?,
+      encryptionSummary: json['encryptionSummary'] != null
+          ? EncryptionSummary.fromJson(
+              json['encryptionSummary'] as Map<String, dynamic>)
+          : null,
+      failedDataRecoveryInSeconds: json['failedDataRecoveryInSeconds'] as int?,
+      inMemoryAreaInGBs: json['inMemoryAreaInGBs'] as int?,
+      isAutoScalingEnabled: json['isAutoScalingEnabled'] as bool?,
+      isAutoScalingForStorageEnabled:
+          json['isAutoScalingForStorageEnabled'] as bool?,
+      isBackupRetentionLocked: json['isBackupRetentionLocked'] as bool?,
+      isLocalDataGuardEnabled: json['isLocalDataGuardEnabled'] as bool?,
+      isMtlsConnectionRequired: json['isMtlsConnectionRequired'] as bool?,
+      isReconnectCloneEnabled: json['isReconnectCloneEnabled'] as bool?,
+      isRefreshableClone: json['isRefreshableClone'] as bool?,
+      isRemoteDataGuardEnabled: json['isRemoteDataGuardEnabled'] as bool?,
+      licenseModel:
+          (json['licenseModel'] as String?)?.let(LicenseModel.fromString),
+      localAdgAutoFailoverMaxDataLossLimit:
+          json['localAdgAutoFailoverMaxDataLossLimit'] as int?,
+      localDisasterRecoveryType: (json['localDisasterRecoveryType'] as String?)
+          ?.let(DisasterRecoveryType.fromString),
+      localStandbyDb: json['localStandbyDb'] != null
+          ? DatabaseStandbySummary.fromJson(
+              json['localStandbyDb'] as Map<String, dynamic>)
+          : null,
+      longTermBackupSchedule: json['longTermBackupSchedule'] != null
+          ? LongTermBackupSchedule.fromJson(
+              json['longTermBackupSchedule'] as Map<String, dynamic>)
+          : null,
+      maintenanceTargetComponent: json['maintenanceTargetComponent'] as String?,
+      memoryPerOracleComputeUnitInGBs:
+          json['memoryPerOracleComputeUnitInGBs'] as int?,
+      ncharacterSet: json['ncharacterSet'] as String?,
+      netServicesArchitecture: (json['netServicesArchitecture'] as String?)
+          ?.let(NetServicesArchitecture.fromString),
+      nextLongTermBackupTimeStamp:
+          timeStampFromJson(json['nextLongTermBackupTimeStamp']),
+      ociResourceAnchorName: json['ociResourceAnchorName'] as String?,
+      ociUrl: json['ociUrl'] as String?,
+      ocid: json['ocid'] as String?,
+      odbNetworkArn: json['odbNetworkArn'] as String?,
+      odbNetworkId: json['odbNetworkId'] as String?,
+      openMode: (json['openMode'] as String?)?.let(OpenMode.fromString),
+      operationsInsightsStatus: (json['operationsInsightsStatus'] as String?)
+          ?.let(OperationsInsightsStatus.fromString),
+      peerDbIds: (json['peerDbIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      percentProgress: _s.parseJsonDouble(json['percentProgress']),
+      permissionLevel:
+          (json['permissionLevel'] as String?)?.let(PermissionLevel.fromString),
+      privateEndpoint: json['privateEndpoint'] as String?,
+      privateEndpointIp: json['privateEndpointIp'] as String?,
+      privateEndpointLabel: json['privateEndpointLabel'] as String?,
+      provisionableCpus: (json['provisionableCpus'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      refreshableMode:
+          (json['refreshableMode'] as String?)?.let(RefreshableMode.fromString),
+      refreshableStatus: (json['refreshableStatus'] as String?)
+          ?.let(RefreshableStatus.fromString),
+      remoteDisasterRecoveryConfiguration:
+          json['remoteDisasterRecoveryConfiguration'] != null
+              ? DisasterRecoveryConfiguration.fromJson(
+                  json['remoteDisasterRecoveryConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      resourcePoolLeaderId: json['resourcePoolLeaderId'] as String?,
+      resourcePoolSummary: json['resourcePoolSummary'] != null
+          ? ResourcePoolSummary.fromJson(
+              json['resourcePoolSummary'] as Map<String, dynamic>)
+          : null,
+      role: (json['role'] as String?)?.let(DataGuardRole.fromString),
+      scheduledOperations: (json['scheduledOperations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ScheduledOperationDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceConsoleUrl: json['serviceConsoleUrl'] as String?,
+      sourceId: json['sourceId'] as String?,
+      sqlWebDeveloperUrl: json['sqlWebDeveloperUrl'] as String?,
+      standbyAllowlistedIps: (json['standbyAllowlistedIps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      standbyAllowlistedIpsSource:
+          (json['standbyAllowlistedIpsSource'] as String?)
+              ?.let(StandbyAllowlistedIpsSource.fromString),
+      standbyDb: json['standbyDb'] != null
+          ? DatabaseStandbySummary.fromJson(
+              json['standbyDb'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseResourceStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      timeDataGuardRoleChanged:
+          timeStampFromJson(json['timeDataGuardRoleChanged']),
+      timeDeletionOfFreeAutonomousDatabase:
+          timeStampFromJson(json['timeDeletionOfFreeAutonomousDatabase']),
+      timeDisasterRecoveryRoleChanged:
+          timeStampFromJson(json['timeDisasterRecoveryRoleChanged']),
+      timeLocalDataGuardEnabled:
+          timeStampFromJson(json['timeLocalDataGuardEnabled']),
+      timeMaintenanceBegin: timeStampFromJson(json['timeMaintenanceBegin']),
+      timeMaintenanceEnd: timeStampFromJson(json['timeMaintenanceEnd']),
+      timeOfAutoRefreshStart: timeStampFromJson(json['timeOfAutoRefreshStart']),
+      timeOfLastBackup: timeStampFromJson(json['timeOfLastBackup']),
+      timeOfLastFailover: timeStampFromJson(json['timeOfLastFailover']),
+      timeOfLastRefresh: timeStampFromJson(json['timeOfLastRefresh']),
+      timeOfLastRefreshPoint: timeStampFromJson(json['timeOfLastRefreshPoint']),
+      timeOfLastSwitchover: timeStampFromJson(json['timeOfLastSwitchover']),
+      timeOfNextRefresh: timeStampFromJson(json['timeOfNextRefresh']),
+      timeReclamationOfFreeAutonomousDatabase:
+          timeStampFromJson(json['timeReclamationOfFreeAutonomousDatabase']),
+      timeUndeleted: timeStampFromJson(json['timeUndeleted']),
+      timeUntilReconnectCloneEnabled:
+          timeStampFromJson(json['timeUntilReconnectCloneEnabled']),
+      totalBackupStorageSizeInGBs:
+          _s.parseJsonDouble(json['totalBackupStorageSizeInGBs']),
+      usedDataStorageSizeInGBs: json['usedDataStorageSizeInGBs'] as int?,
+      usedDataStorageSizeInTBs:
+          _s.parseJsonDouble(json['usedDataStorageSizeInTBs']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actualUsedDataStorageSizeInTBs = this.actualUsedDataStorageSizeInTBs;
+    final adminPasswordSourceSummary = this.adminPasswordSourceSummary;
+    final allocatedStorageSizeInTBs = this.allocatedStorageSizeInTBs;
+    final allowlistedIps = this.allowlistedIps;
+    final apexDetails = this.apexDetails;
+    final autoRefreshFrequencyInSeconds = this.autoRefreshFrequencyInSeconds;
+    final autoRefreshPointLagInSeconds = this.autoRefreshPointLagInSeconds;
+    final autonomousDatabaseArn = this.autonomousDatabaseArn;
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final autonomousMaintenanceScheduleType =
+        this.autonomousMaintenanceScheduleType;
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
+    final availableUpgradeVersions = this.availableUpgradeVersions;
+    final backupRetentionPeriodInDays = this.backupRetentionPeriodInDays;
+    final byolComputeCountLimit = this.byolComputeCountLimit;
+    final characterSet = this.characterSet;
+    final cloneTableSpaceList = this.cloneTableSpaceList;
+    final computeCount = this.computeCount;
+    final computeModel = this.computeModel;
+    final connectionStringDetails = this.connectionStringDetails;
+    final connectionUrls = this.connectionUrls;
+    final cpuCoreCount = this.cpuCoreCount;
+    final createdAt = this.createdAt;
+    final customerContacts = this.customerContacts;
+    final dataSafeStatus = this.dataSafeStatus;
+    final dataStorageSizeInGBs = this.dataStorageSizeInGBs;
+    final dataStorageSizeInTBs = this.dataStorageSizeInTBs;
+    final databaseEdition = this.databaseEdition;
+    final databaseManagementStatus = this.databaseManagementStatus;
+    final databaseType = this.databaseType;
+    final dbName = this.dbName;
+    final dbToolsDetails = this.dbToolsDetails;
+    final dbVersion = this.dbVersion;
+    final dbWorkload = this.dbWorkload;
+    final displayName = this.displayName;
+    final encryptionSummary = this.encryptionSummary;
+    final failedDataRecoveryInSeconds = this.failedDataRecoveryInSeconds;
+    final inMemoryAreaInGBs = this.inMemoryAreaInGBs;
+    final isAutoScalingEnabled = this.isAutoScalingEnabled;
+    final isAutoScalingForStorageEnabled = this.isAutoScalingForStorageEnabled;
+    final isBackupRetentionLocked = this.isBackupRetentionLocked;
+    final isLocalDataGuardEnabled = this.isLocalDataGuardEnabled;
+    final isMtlsConnectionRequired = this.isMtlsConnectionRequired;
+    final isReconnectCloneEnabled = this.isReconnectCloneEnabled;
+    final isRefreshableClone = this.isRefreshableClone;
+    final isRemoteDataGuardEnabled = this.isRemoteDataGuardEnabled;
+    final licenseModel = this.licenseModel;
+    final localAdgAutoFailoverMaxDataLossLimit =
+        this.localAdgAutoFailoverMaxDataLossLimit;
+    final localDisasterRecoveryType = this.localDisasterRecoveryType;
+    final localStandbyDb = this.localStandbyDb;
+    final longTermBackupSchedule = this.longTermBackupSchedule;
+    final maintenanceTargetComponent = this.maintenanceTargetComponent;
+    final memoryPerOracleComputeUnitInGBs =
+        this.memoryPerOracleComputeUnitInGBs;
+    final ncharacterSet = this.ncharacterSet;
+    final netServicesArchitecture = this.netServicesArchitecture;
+    final nextLongTermBackupTimeStamp = this.nextLongTermBackupTimeStamp;
+    final ociResourceAnchorName = this.ociResourceAnchorName;
+    final ociUrl = this.ociUrl;
+    final ocid = this.ocid;
+    final odbNetworkArn = this.odbNetworkArn;
+    final odbNetworkId = this.odbNetworkId;
+    final openMode = this.openMode;
+    final operationsInsightsStatus = this.operationsInsightsStatus;
+    final peerDbIds = this.peerDbIds;
+    final percentProgress = this.percentProgress;
+    final permissionLevel = this.permissionLevel;
+    final privateEndpoint = this.privateEndpoint;
+    final privateEndpointIp = this.privateEndpointIp;
+    final privateEndpointLabel = this.privateEndpointLabel;
+    final provisionableCpus = this.provisionableCpus;
+    final refreshableMode = this.refreshableMode;
+    final refreshableStatus = this.refreshableStatus;
+    final remoteDisasterRecoveryConfiguration =
+        this.remoteDisasterRecoveryConfiguration;
+    final resourcePoolLeaderId = this.resourcePoolLeaderId;
+    final resourcePoolSummary = this.resourcePoolSummary;
+    final role = this.role;
+    final scheduledOperations = this.scheduledOperations;
+    final serviceConsoleUrl = this.serviceConsoleUrl;
+    final sourceId = this.sourceId;
+    final sqlWebDeveloperUrl = this.sqlWebDeveloperUrl;
+    final standbyAllowlistedIps = this.standbyAllowlistedIps;
+    final standbyAllowlistedIpsSource = this.standbyAllowlistedIpsSource;
+    final standbyDb = this.standbyDb;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final timeDataGuardRoleChanged = this.timeDataGuardRoleChanged;
+    final timeDeletionOfFreeAutonomousDatabase =
+        this.timeDeletionOfFreeAutonomousDatabase;
+    final timeDisasterRecoveryRoleChanged =
+        this.timeDisasterRecoveryRoleChanged;
+    final timeLocalDataGuardEnabled = this.timeLocalDataGuardEnabled;
+    final timeMaintenanceBegin = this.timeMaintenanceBegin;
+    final timeMaintenanceEnd = this.timeMaintenanceEnd;
+    final timeOfAutoRefreshStart = this.timeOfAutoRefreshStart;
+    final timeOfLastBackup = this.timeOfLastBackup;
+    final timeOfLastFailover = this.timeOfLastFailover;
+    final timeOfLastRefresh = this.timeOfLastRefresh;
+    final timeOfLastRefreshPoint = this.timeOfLastRefreshPoint;
+    final timeOfLastSwitchover = this.timeOfLastSwitchover;
+    final timeOfNextRefresh = this.timeOfNextRefresh;
+    final timeReclamationOfFreeAutonomousDatabase =
+        this.timeReclamationOfFreeAutonomousDatabase;
+    final timeUndeleted = this.timeUndeleted;
+    final timeUntilReconnectCloneEnabled = this.timeUntilReconnectCloneEnabled;
+    final totalBackupStorageSizeInGBs = this.totalBackupStorageSizeInGBs;
+    final usedDataStorageSizeInGBs = this.usedDataStorageSizeInGBs;
+    final usedDataStorageSizeInTBs = this.usedDataStorageSizeInTBs;
+    return {
+      if (actualUsedDataStorageSizeInTBs != null)
+        'actualUsedDataStorageSizeInTBs':
+            _s.encodeJsonDouble(actualUsedDataStorageSizeInTBs),
+      if (adminPasswordSourceSummary != null)
+        'adminPasswordSourceSummary': adminPasswordSourceSummary,
+      if (allocatedStorageSizeInTBs != null)
+        'allocatedStorageSizeInTBs':
+            _s.encodeJsonDouble(allocatedStorageSizeInTBs),
+      if (allowlistedIps != null) 'allowlistedIps': allowlistedIps,
+      if (apexDetails != null) 'apexDetails': apexDetails,
+      if (autoRefreshFrequencyInSeconds != null)
+        'autoRefreshFrequencyInSeconds': autoRefreshFrequencyInSeconds,
+      if (autoRefreshPointLagInSeconds != null)
+        'autoRefreshPointLagInSeconds': autoRefreshPointLagInSeconds,
+      if (autonomousDatabaseArn != null)
+        'autonomousDatabaseArn': autonomousDatabaseArn,
+      if (autonomousDatabaseId != null)
+        'autonomousDatabaseId': autonomousDatabaseId,
+      if (autonomousMaintenanceScheduleType != null)
+        'autonomousMaintenanceScheduleType':
+            autonomousMaintenanceScheduleType.value,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'availabilityZoneId': availabilityZoneId,
+      if (availableUpgradeVersions != null)
+        'availableUpgradeVersions': availableUpgradeVersions,
+      if (backupRetentionPeriodInDays != null)
+        'backupRetentionPeriodInDays': backupRetentionPeriodInDays,
+      if (byolComputeCountLimit != null)
+        'byolComputeCountLimit': byolComputeCountLimit,
+      if (characterSet != null) 'characterSet': characterSet,
+      if (cloneTableSpaceList != null)
+        'cloneTableSpaceList': cloneTableSpaceList,
+      if (computeCount != null)
+        'computeCount': _s.encodeJsonDouble(computeCount),
+      if (computeModel != null) 'computeModel': computeModel.value,
+      if (connectionStringDetails != null)
+        'connectionStringDetails': connectionStringDetails,
+      if (connectionUrls != null) 'connectionUrls': connectionUrls,
+      if (cpuCoreCount != null) 'cpuCoreCount': cpuCoreCount,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (customerContacts != null) 'customerContacts': customerContacts,
+      if (dataSafeStatus != null) 'dataSafeStatus': dataSafeStatus.value,
+      if (dataStorageSizeInGBs != null)
+        'dataStorageSizeInGBs': dataStorageSizeInGBs,
+      if (dataStorageSizeInTBs != null)
+        'dataStorageSizeInTBs': _s.encodeJsonDouble(dataStorageSizeInTBs),
+      if (databaseEdition != null) 'databaseEdition': databaseEdition.value,
+      if (databaseManagementStatus != null)
+        'databaseManagementStatus': databaseManagementStatus.value,
+      if (databaseType != null) 'databaseType': databaseType.value,
+      if (dbName != null) 'dbName': dbName,
+      if (dbToolsDetails != null) 'dbToolsDetails': dbToolsDetails,
+      if (dbVersion != null) 'dbVersion': dbVersion,
+      if (dbWorkload != null) 'dbWorkload': dbWorkload.value,
+      if (displayName != null) 'displayName': displayName,
+      if (encryptionSummary != null) 'encryptionSummary': encryptionSummary,
+      if (failedDataRecoveryInSeconds != null)
+        'failedDataRecoveryInSeconds': failedDataRecoveryInSeconds,
+      if (inMemoryAreaInGBs != null) 'inMemoryAreaInGBs': inMemoryAreaInGBs,
+      if (isAutoScalingEnabled != null)
+        'isAutoScalingEnabled': isAutoScalingEnabled,
+      if (isAutoScalingForStorageEnabled != null)
+        'isAutoScalingForStorageEnabled': isAutoScalingForStorageEnabled,
+      if (isBackupRetentionLocked != null)
+        'isBackupRetentionLocked': isBackupRetentionLocked,
+      if (isLocalDataGuardEnabled != null)
+        'isLocalDataGuardEnabled': isLocalDataGuardEnabled,
+      if (isMtlsConnectionRequired != null)
+        'isMtlsConnectionRequired': isMtlsConnectionRequired,
+      if (isReconnectCloneEnabled != null)
+        'isReconnectCloneEnabled': isReconnectCloneEnabled,
+      if (isRefreshableClone != null) 'isRefreshableClone': isRefreshableClone,
+      if (isRemoteDataGuardEnabled != null)
+        'isRemoteDataGuardEnabled': isRemoteDataGuardEnabled,
+      if (licenseModel != null) 'licenseModel': licenseModel.value,
+      if (localAdgAutoFailoverMaxDataLossLimit != null)
+        'localAdgAutoFailoverMaxDataLossLimit':
+            localAdgAutoFailoverMaxDataLossLimit,
+      if (localDisasterRecoveryType != null)
+        'localDisasterRecoveryType': localDisasterRecoveryType.value,
+      if (localStandbyDb != null) 'localStandbyDb': localStandbyDb,
+      if (longTermBackupSchedule != null)
+        'longTermBackupSchedule': longTermBackupSchedule,
+      if (maintenanceTargetComponent != null)
+        'maintenanceTargetComponent': maintenanceTargetComponent,
+      if (memoryPerOracleComputeUnitInGBs != null)
+        'memoryPerOracleComputeUnitInGBs': memoryPerOracleComputeUnitInGBs,
+      if (ncharacterSet != null) 'ncharacterSet': ncharacterSet,
+      if (netServicesArchitecture != null)
+        'netServicesArchitecture': netServicesArchitecture.value,
+      if (nextLongTermBackupTimeStamp != null)
+        'nextLongTermBackupTimeStamp':
+            iso8601ToJson(nextLongTermBackupTimeStamp),
+      if (ociResourceAnchorName != null)
+        'ociResourceAnchorName': ociResourceAnchorName,
+      if (ociUrl != null) 'ociUrl': ociUrl,
+      if (ocid != null) 'ocid': ocid,
+      if (odbNetworkArn != null) 'odbNetworkArn': odbNetworkArn,
+      if (odbNetworkId != null) 'odbNetworkId': odbNetworkId,
+      if (openMode != null) 'openMode': openMode.value,
+      if (operationsInsightsStatus != null)
+        'operationsInsightsStatus': operationsInsightsStatus.value,
+      if (peerDbIds != null) 'peerDbIds': peerDbIds,
+      if (percentProgress != null)
+        'percentProgress': _s.encodeJsonDouble(percentProgress),
+      if (permissionLevel != null) 'permissionLevel': permissionLevel.value,
+      if (privateEndpoint != null) 'privateEndpoint': privateEndpoint,
+      if (privateEndpointIp != null) 'privateEndpointIp': privateEndpointIp,
+      if (privateEndpointLabel != null)
+        'privateEndpointLabel': privateEndpointLabel,
+      if (provisionableCpus != null) 'provisionableCpus': provisionableCpus,
+      if (refreshableMode != null) 'refreshableMode': refreshableMode.value,
+      if (refreshableStatus != null)
+        'refreshableStatus': refreshableStatus.value,
+      if (remoteDisasterRecoveryConfiguration != null)
+        'remoteDisasterRecoveryConfiguration':
+            remoteDisasterRecoveryConfiguration,
+      if (resourcePoolLeaderId != null)
+        'resourcePoolLeaderId': resourcePoolLeaderId,
+      if (resourcePoolSummary != null)
+        'resourcePoolSummary': resourcePoolSummary,
+      if (role != null) 'role': role.value,
+      if (scheduledOperations != null)
+        'scheduledOperations': scheduledOperations,
+      if (serviceConsoleUrl != null) 'serviceConsoleUrl': serviceConsoleUrl,
+      if (sourceId != null) 'sourceId': sourceId,
+      if (sqlWebDeveloperUrl != null) 'sqlWebDeveloperUrl': sqlWebDeveloperUrl,
+      if (standbyAllowlistedIps != null)
+        'standbyAllowlistedIps': standbyAllowlistedIps,
+      if (standbyAllowlistedIpsSource != null)
+        'standbyAllowlistedIpsSource': standbyAllowlistedIpsSource.value,
+      if (standbyDb != null) 'standbyDb': standbyDb,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (timeDataGuardRoleChanged != null)
+        'timeDataGuardRoleChanged': iso8601ToJson(timeDataGuardRoleChanged),
+      if (timeDeletionOfFreeAutonomousDatabase != null)
+        'timeDeletionOfFreeAutonomousDatabase':
+            iso8601ToJson(timeDeletionOfFreeAutonomousDatabase),
+      if (timeDisasterRecoveryRoleChanged != null)
+        'timeDisasterRecoveryRoleChanged':
+            iso8601ToJson(timeDisasterRecoveryRoleChanged),
+      if (timeLocalDataGuardEnabled != null)
+        'timeLocalDataGuardEnabled': iso8601ToJson(timeLocalDataGuardEnabled),
+      if (timeMaintenanceBegin != null)
+        'timeMaintenanceBegin': iso8601ToJson(timeMaintenanceBegin),
+      if (timeMaintenanceEnd != null)
+        'timeMaintenanceEnd': iso8601ToJson(timeMaintenanceEnd),
+      if (timeOfAutoRefreshStart != null)
+        'timeOfAutoRefreshStart': iso8601ToJson(timeOfAutoRefreshStart),
+      if (timeOfLastBackup != null)
+        'timeOfLastBackup': iso8601ToJson(timeOfLastBackup),
+      if (timeOfLastFailover != null)
+        'timeOfLastFailover': iso8601ToJson(timeOfLastFailover),
+      if (timeOfLastRefresh != null)
+        'timeOfLastRefresh': iso8601ToJson(timeOfLastRefresh),
+      if (timeOfLastRefreshPoint != null)
+        'timeOfLastRefreshPoint': iso8601ToJson(timeOfLastRefreshPoint),
+      if (timeOfLastSwitchover != null)
+        'timeOfLastSwitchover': iso8601ToJson(timeOfLastSwitchover),
+      if (timeOfNextRefresh != null)
+        'timeOfNextRefresh': iso8601ToJson(timeOfNextRefresh),
+      if (timeReclamationOfFreeAutonomousDatabase != null)
+        'timeReclamationOfFreeAutonomousDatabase':
+            iso8601ToJson(timeReclamationOfFreeAutonomousDatabase),
+      if (timeUndeleted != null) 'timeUndeleted': iso8601ToJson(timeUndeleted),
+      if (timeUntilReconnectCloneEnabled != null)
+        'timeUntilReconnectCloneEnabled':
+            iso8601ToJson(timeUntilReconnectCloneEnabled),
+      if (totalBackupStorageSizeInGBs != null)
+        'totalBackupStorageSizeInGBs':
+            _s.encodeJsonDouble(totalBackupStorageSizeInGBs),
+      if (usedDataStorageSizeInGBs != null)
+        'usedDataStorageSizeInGBs': usedDataStorageSizeInGBs,
+      if (usedDataStorageSizeInTBs != null)
+        'usedDataStorageSizeInTBs':
+            _s.encodeJsonDouble(usedDataStorageSizeInTBs),
+    };
+  }
+}
+
+/// The transportable tablespace configuration used when creating an Autonomous
+/// Database.
+///
+/// @nodoc
+class TransportableTablespace {
+  /// The URL of the transportable tablespace bundle to use when creating the
+  /// Autonomous Database.
+  final String? ttsBundleUrl;
+
+  TransportableTablespace({
+    this.ttsBundleUrl,
+  });
+
+  Map<String, dynamic> toJson() {
+    final ttsBundleUrl = this.ttsBundleUrl;
+    return {
+      if (ttsBundleUrl != null) 'ttsBundleUrl': ttsBundleUrl,
+    };
+  }
+}
+
+/// @nodoc
+class SourceType {
+  static const none = SourceType._('NONE');
+  static const database = SourceType._('DATABASE');
+  static const backupFromId = SourceType._('BACKUP_FROM_ID');
+  static const backupFromTimestamp = SourceType._('BACKUP_FROM_TIMESTAMP');
+  static const crossRegionDataguard = SourceType._('CROSS_REGION_DATAGUARD');
+  static const crossRegionDisasterRecovery =
+      SourceType._('CROSS_REGION_DISASTER_RECOVERY');
+  static const cloneToRefreshable = SourceType._('CLONE_TO_REFRESHABLE');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [
+    none,
+    database,
+    backupFromId,
+    backupFromTimestamp,
+    crossRegionDataguard,
+    crossRegionDisasterRecovery,
+    cloneToRefreshable
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration details for the source used to create an Autonomous
+/// Database. This is a union, so only one of the following members can be
+/// specified.
+///
+/// @nodoc
+class SourceConfiguration {
+  /// The configuration for creating the Autonomous Database as a refreshable
+  /// clone.
+  final CloneToRefreshableConfiguration? cloneToRefreshable;
+
+  /// The configuration for creating the Autonomous Database as a cross-Region
+  /// Oracle Data Guard peer.
+  final CrossRegionDataGuardConfiguration? crossRegionDataGuard;
+
+  /// The configuration for creating the Autonomous Database as a cross-Region
+  /// disaster recovery peer.
+  final CrossRegionDisasterRecoveryConfiguration? crossRegionDisasterRecovery;
+
+  /// The configuration for creating the Autonomous Database as a clone of an
+  /// existing database.
+  final DatabaseCloneConfiguration? databaseClone;
+
+  /// The configuration for creating the Autonomous Database by restoring to a
+  /// point in time.
+  final PointInTimeRestoreConfiguration? pointInTimeRestore;
+
+  /// The configuration for creating the Autonomous Database by restoring from a
+  /// backup.
+  final RestoreFromBackupConfiguration? restoreFromBackup;
+
+  SourceConfiguration({
+    this.cloneToRefreshable,
+    this.crossRegionDataGuard,
+    this.crossRegionDisasterRecovery,
+    this.databaseClone,
+    this.pointInTimeRestore,
+    this.restoreFromBackup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloneToRefreshable = this.cloneToRefreshable;
+    final crossRegionDataGuard = this.crossRegionDataGuard;
+    final crossRegionDisasterRecovery = this.crossRegionDisasterRecovery;
+    final databaseClone = this.databaseClone;
+    final pointInTimeRestore = this.pointInTimeRestore;
+    final restoreFromBackup = this.restoreFromBackup;
+    return {
+      if (cloneToRefreshable != null) 'cloneToRefreshable': cloneToRefreshable,
+      if (crossRegionDataGuard != null)
+        'crossRegionDataGuard': crossRegionDataGuard,
+      if (crossRegionDisasterRecovery != null)
+        'crossRegionDisasterRecovery': crossRegionDisasterRecovery,
+      if (databaseClone != null) 'databaseClone': databaseClone,
+      if (pointInTimeRestore != null) 'pointInTimeRestore': pointInTimeRestore,
+      if (restoreFromBackup != null) 'restoreFromBackup': restoreFromBackup,
+    };
+  }
+}
+
+/// The configuration for creating an Autonomous Database as a clone of an
+/// existing database.
+///
+/// @nodoc
+class DatabaseCloneConfiguration {
+  /// The type of clone to create, either a full clone, a metadata clone, or a
+  /// partial clone.
+  final CloneType cloneType;
+
+  /// The unique identifier of the source Autonomous Database to clone.
+  final String sourceAutonomousDatabaseId;
+
+  DatabaseCloneConfiguration({
+    required this.cloneType,
+    required this.sourceAutonomousDatabaseId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloneType = this.cloneType;
+    final sourceAutonomousDatabaseId = this.sourceAutonomousDatabaseId;
+    return {
+      'cloneType': cloneType.value,
+      'sourceAutonomousDatabaseId': sourceAutonomousDatabaseId,
+    };
+  }
+}
+
+/// The configuration for creating an Autonomous Database by restoring from a
+/// backup.
+///
+/// @nodoc
+class RestoreFromBackupConfiguration {
+  /// The unique identifier of the Autonomous Database backup to restore from.
+  final String autonomousDatabaseBackupId;
+
+  /// The type of clone to create from the backup.
+  final CloneType cloneType;
+
+  /// The list of tablespace identifiers to clone from the backup.
+  final List<int>? cloneTableSpaceList;
+
+  RestoreFromBackupConfiguration({
+    required this.autonomousDatabaseBackupId,
+    required this.cloneType,
+    this.cloneTableSpaceList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseBackupId = this.autonomousDatabaseBackupId;
+    final cloneType = this.cloneType;
+    final cloneTableSpaceList = this.cloneTableSpaceList;
+    return {
+      'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+      'cloneType': cloneType.value,
+      if (cloneTableSpaceList != null)
+        'cloneTableSpaceList': cloneTableSpaceList,
+    };
+  }
+}
+
+/// The configuration for creating an Autonomous Database by restoring to a
+/// point in time.
+///
+/// @nodoc
+class PointInTimeRestoreConfiguration {
+  /// The type of clone to create from the point-in-time restore.
+  final CloneType cloneType;
+
+  /// The unique identifier of the source Autonomous Database to restore from.
+  final String sourceAutonomousDatabaseId;
+
+  /// The list of tablespace identifiers to clone from the point-in-time restore.
+  final List<int>? cloneTableSpaceList;
+
+  /// The date and time to which to restore the Autonomous Database.
+  final DateTime? timestamp;
+
+  /// Indicates whether to use the latest available backup timestamp for the
+  /// restore.
+  final bool? useLatestAvailableBackupTimestamp;
+
+  PointInTimeRestoreConfiguration({
+    required this.cloneType,
+    required this.sourceAutonomousDatabaseId,
+    this.cloneTableSpaceList,
+    this.timestamp,
+    this.useLatestAvailableBackupTimestamp,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloneType = this.cloneType;
+    final sourceAutonomousDatabaseId = this.sourceAutonomousDatabaseId;
+    final cloneTableSpaceList = this.cloneTableSpaceList;
+    final timestamp = this.timestamp;
+    final useLatestAvailableBackupTimestamp =
+        this.useLatestAvailableBackupTimestamp;
+    return {
+      'cloneType': cloneType.value,
+      'sourceAutonomousDatabaseId': sourceAutonomousDatabaseId,
+      if (cloneTableSpaceList != null)
+        'cloneTableSpaceList': cloneTableSpaceList,
+      if (timestamp != null) 'timestamp': iso8601ToJson(timestamp),
+      if (useLatestAvailableBackupTimestamp != null)
+        'useLatestAvailableBackupTimestamp': useLatestAvailableBackupTimestamp,
+    };
+  }
+}
+
+/// The configuration for creating an Autonomous Database as a cross-Region
+/// Oracle Data Guard peer.
+///
+/// @nodoc
+class CrossRegionDataGuardConfiguration {
+  /// The Amazon Resource Name (ARN) of the source Autonomous Database for the
+  /// cross-Region Oracle Data Guard configuration.
+  final String sourceAutonomousDatabaseArn;
+
+  CrossRegionDataGuardConfiguration({
+    required this.sourceAutonomousDatabaseArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceAutonomousDatabaseArn = this.sourceAutonomousDatabaseArn;
+    return {
+      'sourceAutonomousDatabaseArn': sourceAutonomousDatabaseArn,
+    };
+  }
+}
+
+/// The configuration for creating an Autonomous Database as a cross-Region
+/// disaster recovery peer.
+///
+/// @nodoc
+class CrossRegionDisasterRecoveryConfiguration {
+  /// The type of remote disaster recovery to configure, either Autonomous Data
+  /// Guard or backup-based.
+  final DisasterRecoveryType remoteDisasterRecoveryType;
+
+  /// The Amazon Resource Name (ARN) of the source Autonomous Database for the
+  /// cross-Region disaster recovery configuration.
+  final String sourceAutonomousDatabaseArn;
+
+  /// Indicates whether automatic backups are replicated to the disaster recovery
+  /// database.
+  final bool? isReplicateAutomaticBackups;
+
+  CrossRegionDisasterRecoveryConfiguration({
+    required this.remoteDisasterRecoveryType,
+    required this.sourceAutonomousDatabaseArn,
+    this.isReplicateAutomaticBackups,
+  });
+
+  Map<String, dynamic> toJson() {
+    final remoteDisasterRecoveryType = this.remoteDisasterRecoveryType;
+    final sourceAutonomousDatabaseArn = this.sourceAutonomousDatabaseArn;
+    final isReplicateAutomaticBackups = this.isReplicateAutomaticBackups;
+    return {
+      'remoteDisasterRecoveryType': remoteDisasterRecoveryType.value,
+      'sourceAutonomousDatabaseArn': sourceAutonomousDatabaseArn,
+      if (isReplicateAutomaticBackups != null)
+        'isReplicateAutomaticBackups': isReplicateAutomaticBackups,
+    };
+  }
+}
+
+/// The configuration for creating an Autonomous Database as a refreshable
+/// clone.
+///
+/// @nodoc
+class CloneToRefreshableConfiguration {
+  /// The unique identifier of the source Autonomous Database to create the
+  /// refreshable clone from.
+  final String sourceAutonomousDatabaseId;
+
+  /// The frequency, in seconds, at which the refreshable clone is automatically
+  /// refreshed.
+  final int? autoRefreshFrequencyInSeconds;
+
+  /// The time lag, in seconds, between the refreshable clone and its source
+  /// database.
+  final int? autoRefreshPointLagInSeconds;
+
+  /// The type of clone to create.
+  final CloneType? cloneType;
+
+  /// The mode in which to open the refreshable clone, either read-only or
+  /// read/write.
+  final OpenMode? openMode;
+
+  /// The refresh mode of the refreshable clone, either automatic or manual.
+  final RefreshableMode? refreshableMode;
+
+  /// The date and time at which the automatic refresh of the refreshable clone
+  /// starts.
+  final DateTime? timeOfAutoRefreshStart;
+
+  CloneToRefreshableConfiguration({
+    required this.sourceAutonomousDatabaseId,
+    this.autoRefreshFrequencyInSeconds,
+    this.autoRefreshPointLagInSeconds,
+    this.cloneType,
+    this.openMode,
+    this.refreshableMode,
+    this.timeOfAutoRefreshStart,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceAutonomousDatabaseId = this.sourceAutonomousDatabaseId;
+    final autoRefreshFrequencyInSeconds = this.autoRefreshFrequencyInSeconds;
+    final autoRefreshPointLagInSeconds = this.autoRefreshPointLagInSeconds;
+    final cloneType = this.cloneType;
+    final openMode = this.openMode;
+    final refreshableMode = this.refreshableMode;
+    final timeOfAutoRefreshStart = this.timeOfAutoRefreshStart;
+    return {
+      'sourceAutonomousDatabaseId': sourceAutonomousDatabaseId,
+      if (autoRefreshFrequencyInSeconds != null)
+        'autoRefreshFrequencyInSeconds': autoRefreshFrequencyInSeconds,
+      if (autoRefreshPointLagInSeconds != null)
+        'autoRefreshPointLagInSeconds': autoRefreshPointLagInSeconds,
+      if (cloneType != null) 'cloneType': cloneType.value,
+      if (openMode != null) 'openMode': openMode.value,
+      if (refreshableMode != null) 'refreshableMode': refreshableMode.value,
+      if (timeOfAutoRefreshStart != null)
+        'timeOfAutoRefreshStart': iso8601ToJson(timeOfAutoRefreshStart),
+    };
+  }
+}
+
+/// @nodoc
+class CloneType {
+  static const full = CloneType._('FULL');
+  static const metadata = CloneType._('METADATA');
+  static const partial = CloneType._('PARTIAL');
+
+  final String value;
+
+  const CloneType._(this.value);
+
+  static const values = [full, metadata, partial];
+
+  static CloneType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CloneType._(value));
+
+  @override
+  bool operator ==(other) => other is CloneType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of an Autonomous Database backup.
+///
+/// @nodoc
+class AutonomousDatabaseBackupSummary {
+  /// The Amazon Resource Name (ARN) of the Autonomous Database backup.
+  final String? autonomousDatabaseBackupArn;
+
+  /// The unique identifier of the Autonomous Database backup.
+  final String? autonomousDatabaseBackupId;
+
+  /// The unique identifier of the Autonomous Database that the backup was created
+  /// from.
+  final String? autonomousDatabaseId;
+
+  /// The Oracle Database software version of the Autonomous Database backup.
+  final String? dbVersion;
+
+  /// The user-friendly name of the Autonomous Database backup.
+  final String? displayName;
+
+  /// Indicates whether the backup was created automatically.
+  final bool? isAutomatic;
+
+  /// The Oracle Cloud Identifier (OCID) of the Autonomous Database backup.
+  final String? ocid;
+
+  /// The retention period, in days, for the Autonomous Database backup.
+  final int? retentionPeriodInDays;
+
+  /// The size of the Autonomous Database backup, in terabytes (TB).
+  final double? sizeInTBs;
+
+  /// The current status of the Autonomous Database backup.
+  final AutonomousDatabaseBackupStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database
+  /// backup, if applicable.
+  final String? statusReason;
+
+  /// The date and time until which the Autonomous Database backup is available
+  /// for restore.
+  final DateTime? timeAvailableTill;
+
+  /// The date and time when the Autonomous Database backup ended.
+  final DateTime? timeEnded;
+
+  /// The date and time when the Autonomous Database backup started.
+  final DateTime? timeStarted;
+
+  /// The type of the Autonomous Database backup.
+  final AutonomousDatabaseBackupType? type;
+
+  AutonomousDatabaseBackupSummary({
+    this.autonomousDatabaseBackupArn,
+    this.autonomousDatabaseBackupId,
+    this.autonomousDatabaseId,
+    this.dbVersion,
+    this.displayName,
+    this.isAutomatic,
+    this.ocid,
+    this.retentionPeriodInDays,
+    this.sizeInTBs,
+    this.status,
+    this.statusReason,
+    this.timeAvailableTill,
+    this.timeEnded,
+    this.timeStarted,
+    this.type,
+  });
+
+  factory AutonomousDatabaseBackupSummary.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabaseBackupSummary(
+      autonomousDatabaseBackupArn:
+          json['autonomousDatabaseBackupArn'] as String?,
+      autonomousDatabaseBackupId: json['autonomousDatabaseBackupId'] as String?,
+      autonomousDatabaseId: json['autonomousDatabaseId'] as String?,
+      dbVersion: json['dbVersion'] as String?,
+      displayName: json['displayName'] as String?,
+      isAutomatic: json['isAutomatic'] as bool?,
+      ocid: json['ocid'] as String?,
+      retentionPeriodInDays: json['retentionPeriodInDays'] as int?,
+      sizeInTBs: _s.parseJsonDouble(json['sizeInTBs']),
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseBackupStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      timeAvailableTill: timeStampFromJson(json['timeAvailableTill']),
+      timeEnded: timeStampFromJson(json['timeEnded']),
+      timeStarted: timeStampFromJson(json['timeStarted']),
+      type: (json['type'] as String?)
+          ?.let(AutonomousDatabaseBackupType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseBackupArn = this.autonomousDatabaseBackupArn;
+    final autonomousDatabaseBackupId = this.autonomousDatabaseBackupId;
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final dbVersion = this.dbVersion;
+    final displayName = this.displayName;
+    final isAutomatic = this.isAutomatic;
+    final ocid = this.ocid;
+    final retentionPeriodInDays = this.retentionPeriodInDays;
+    final sizeInTBs = this.sizeInTBs;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final timeAvailableTill = this.timeAvailableTill;
+    final timeEnded = this.timeEnded;
+    final timeStarted = this.timeStarted;
+    final type = this.type;
+    return {
+      if (autonomousDatabaseBackupArn != null)
+        'autonomousDatabaseBackupArn': autonomousDatabaseBackupArn,
+      if (autonomousDatabaseBackupId != null)
+        'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+      if (autonomousDatabaseId != null)
+        'autonomousDatabaseId': autonomousDatabaseId,
+      if (dbVersion != null) 'dbVersion': dbVersion,
+      if (displayName != null) 'displayName': displayName,
+      if (isAutomatic != null) 'isAutomatic': isAutomatic,
+      if (ocid != null) 'ocid': ocid,
+      if (retentionPeriodInDays != null)
+        'retentionPeriodInDays': retentionPeriodInDays,
+      if (sizeInTBs != null) 'sizeInTBs': _s.encodeJsonDouble(sizeInTBs),
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (timeAvailableTill != null)
+        'timeAvailableTill': iso8601ToJson(timeAvailableTill),
+      if (timeEnded != null) 'timeEnded': iso8601ToJson(timeEnded),
+      if (timeStarted != null) 'timeStarted': iso8601ToJson(timeStarted),
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class AutonomousDatabaseBackupStatus {
+  static const active = AutonomousDatabaseBackupStatus._('ACTIVE');
+  static const creating = AutonomousDatabaseBackupStatus._('CREATING');
+  static const updating = AutonomousDatabaseBackupStatus._('UPDATING');
+  static const deleting = AutonomousDatabaseBackupStatus._('DELETING');
+  static const failed = AutonomousDatabaseBackupStatus._('FAILED');
+
+  final String value;
+
+  const AutonomousDatabaseBackupStatus._(this.value);
+
+  static const values = [active, creating, updating, deleting, failed];
+
+  static AutonomousDatabaseBackupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutonomousDatabaseBackupStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutonomousDatabaseBackupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class AutonomousDatabaseBackupType {
+  static const incremental = AutonomousDatabaseBackupType._('INCREMENTAL');
+  static const full = AutonomousDatabaseBackupType._('FULL');
+  static const longterm = AutonomousDatabaseBackupType._('LONGTERM');
+  static const virtualFull = AutonomousDatabaseBackupType._('VIRTUAL_FULL');
+  static const cumulativeIncremental =
+      AutonomousDatabaseBackupType._('CUMULATIVE_INCREMENTAL');
+  static const rollForwardImageCopy =
+      AutonomousDatabaseBackupType._('ROLL_FORWARD_IMAGE_COPY');
+
+  final String value;
+
+  const AutonomousDatabaseBackupType._(this.value);
+
+  static const values = [
+    incremental,
+    full,
+    longterm,
+    virtualFull,
+    cumulativeIncremental,
+    rollForwardImageCopy
+  ];
+
+  static AutonomousDatabaseBackupType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutonomousDatabaseBackupType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutonomousDatabaseBackupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an Autonomous Database backup.
+///
+/// @nodoc
+class AutonomousDatabaseBackup {
+  /// The Amazon Resource Name (ARN) of the Autonomous Database backup.
+  final String? autonomousDatabaseBackupArn;
+
+  /// The unique identifier of the Autonomous Database backup.
+  final String? autonomousDatabaseBackupId;
+
+  /// The unique identifier of the Autonomous Database that the backup was created
+  /// from.
+  final String? autonomousDatabaseId;
+
+  /// The Oracle Database software version of the Autonomous Database backup.
+  final String? dbVersion;
+
+  /// The user-friendly name of the Autonomous Database backup.
+  final String? displayName;
+
+  /// Indicates whether the backup was created automatically.
+  final bool? isAutomatic;
+
+  /// The Oracle Cloud Identifier (OCID) of the Autonomous Database backup.
+  final String? ocid;
+
+  /// The retention period, in days, for the Autonomous Database backup.
+  final int? retentionPeriodInDays;
+
+  /// The size of the Autonomous Database backup, in terabytes (TB).
+  final double? sizeInTBs;
+
+  /// The current status of the Autonomous Database backup.
+  final AutonomousDatabaseBackupStatus? status;
+
+  /// Additional information about the current status of the Autonomous Database
+  /// backup, if applicable.
+  final String? statusReason;
+
+  /// The date and time until which the Autonomous Database backup is available
+  /// for restore.
+  final DateTime? timeAvailableTill;
+
+  /// The date and time when the Autonomous Database backup ended.
+  final DateTime? timeEnded;
+
+  /// The date and time when the Autonomous Database backup started.
+  final DateTime? timeStarted;
+
+  /// The type of the Autonomous Database backup.
+  final AutonomousDatabaseBackupType? type;
+
+  AutonomousDatabaseBackup({
+    this.autonomousDatabaseBackupArn,
+    this.autonomousDatabaseBackupId,
+    this.autonomousDatabaseId,
+    this.dbVersion,
+    this.displayName,
+    this.isAutomatic,
+    this.ocid,
+    this.retentionPeriodInDays,
+    this.sizeInTBs,
+    this.status,
+    this.statusReason,
+    this.timeAvailableTill,
+    this.timeEnded,
+    this.timeStarted,
+    this.type,
+  });
+
+  factory AutonomousDatabaseBackup.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabaseBackup(
+      autonomousDatabaseBackupArn:
+          json['autonomousDatabaseBackupArn'] as String?,
+      autonomousDatabaseBackupId: json['autonomousDatabaseBackupId'] as String?,
+      autonomousDatabaseId: json['autonomousDatabaseId'] as String?,
+      dbVersion: json['dbVersion'] as String?,
+      displayName: json['displayName'] as String?,
+      isAutomatic: json['isAutomatic'] as bool?,
+      ocid: json['ocid'] as String?,
+      retentionPeriodInDays: json['retentionPeriodInDays'] as int?,
+      sizeInTBs: _s.parseJsonDouble(json['sizeInTBs']),
+      status: (json['status'] as String?)
+          ?.let(AutonomousDatabaseBackupStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+      timeAvailableTill: timeStampFromJson(json['timeAvailableTill']),
+      timeEnded: timeStampFromJson(json['timeEnded']),
+      timeStarted: timeStampFromJson(json['timeStarted']),
+      type: (json['type'] as String?)
+          ?.let(AutonomousDatabaseBackupType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autonomousDatabaseBackupArn = this.autonomousDatabaseBackupArn;
+    final autonomousDatabaseBackupId = this.autonomousDatabaseBackupId;
+    final autonomousDatabaseId = this.autonomousDatabaseId;
+    final dbVersion = this.dbVersion;
+    final displayName = this.displayName;
+    final isAutomatic = this.isAutomatic;
+    final ocid = this.ocid;
+    final retentionPeriodInDays = this.retentionPeriodInDays;
+    final sizeInTBs = this.sizeInTBs;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final timeAvailableTill = this.timeAvailableTill;
+    final timeEnded = this.timeEnded;
+    final timeStarted = this.timeStarted;
+    final type = this.type;
+    return {
+      if (autonomousDatabaseBackupArn != null)
+        'autonomousDatabaseBackupArn': autonomousDatabaseBackupArn,
+      if (autonomousDatabaseBackupId != null)
+        'autonomousDatabaseBackupId': autonomousDatabaseBackupId,
+      if (autonomousDatabaseId != null)
+        'autonomousDatabaseId': autonomousDatabaseId,
+      if (dbVersion != null) 'dbVersion': dbVersion,
+      if (displayName != null) 'displayName': displayName,
+      if (isAutomatic != null) 'isAutomatic': isAutomatic,
+      if (ocid != null) 'ocid': ocid,
+      if (retentionPeriodInDays != null)
+        'retentionPeriodInDays': retentionPeriodInDays,
+      if (sizeInTBs != null) 'sizeInTBs': _s.encodeJsonDouble(sizeInTBs),
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (timeAvailableTill != null)
+        'timeAvailableTill': iso8601ToJson(timeAvailableTill),
+      if (timeEnded != null) 'timeEnded': iso8601ToJson(timeEnded),
+      if (timeStarted != null) 'timeStarted': iso8601ToJson(timeStarted),
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
 /// Information about the compatible system versions that can be used with a
 /// specific Exadata shape and Grid Infrastructure (GI) version.
 ///
@@ -9377,6 +16372,98 @@ class ShapeType {
   String toString() => value;
 }
 
+/// A summary of an available Oracle Database software version for Autonomous
+/// Databases.
+///
+/// @nodoc
+class AutonomousDatabaseVersionSummary {
+  /// The intended use of the Autonomous Database that the version supports, such
+  /// as transaction processing, data warehouse, JSON database, or APEX.
+  final DbWorkload? dbWorkload;
+
+  /// Additional details about the Autonomous Database software version.
+  final String? details;
+
+  /// The Oracle Database software version.
+  final String? version;
+
+  AutonomousDatabaseVersionSummary({
+    this.dbWorkload,
+    this.details,
+    this.version,
+  });
+
+  factory AutonomousDatabaseVersionSummary.fromJson(Map<String, dynamic> json) {
+    return AutonomousDatabaseVersionSummary(
+      dbWorkload: (json['dbWorkload'] as String?)?.let(DbWorkload.fromString),
+      details: json['details'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dbWorkload = this.dbWorkload;
+    final details = this.details;
+    final version = this.version;
+    return {
+      if (dbWorkload != null) 'dbWorkload': dbWorkload.value,
+      if (details != null) 'details': details,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// A summary of an available character set for Autonomous Databases.
+///
+/// @nodoc
+class AutonomousDatabaseCharacterSetSummary {
+  /// The name of the character set.
+  final String? characterSet;
+
+  AutonomousDatabaseCharacterSetSummary({
+    this.characterSet,
+  });
+
+  factory AutonomousDatabaseCharacterSetSummary.fromJson(
+      Map<String, dynamic> json) {
+    return AutonomousDatabaseCharacterSetSummary(
+      characterSet: json['characterSet'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final characterSet = this.characterSet;
+    return {
+      if (characterSet != null) 'characterSet': characterSet,
+    };
+  }
+}
+
+/// @nodoc
+class CharacterSetType {
+  static const database = CharacterSetType._('DATABASE');
+  static const national = CharacterSetType._('NATIONAL');
+
+  final String value;
+
+  const CharacterSetType._(this.value);
+
+  static const values = [database, national];
+
+  static CharacterSetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CharacterSetType._(value));
+
+  @override
+  bool operator ==(other) => other is CharacterSetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// <p/>
 ///
 /// @nodoc
@@ -9500,6 +16587,146 @@ class OciIdentityDomain {
       if (statusReason != null) 'statusReason': statusReason,
     };
   }
+}
+
+/// Information about an error that occurred during the subscription process.
+///
+/// @nodoc
+class SubscriptionError {
+  /// A human-readable message that describes the subscription error.
+  final String? errorMessage;
+
+  SubscriptionError({
+    this.errorMessage,
+  });
+
+  factory SubscriptionError.fromJson(Map<String, dynamic> json) {
+    return SubscriptionError(
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Information about an Amazon Web Services Identity and Access Management
+/// (IAM) service role used for Autonomous Database integration with Oracle
+/// Cloud Infrastructure (OCI).
+///
+/// @nodoc
+class OciIamRole {
+  /// The Amazon Web Services integration configuration settings for the Amazon
+  /// Web Services Identity and Access Management (IAM) service role.
+  final OciAwsIntegration? awsIntegration;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and
+  /// Access Management (IAM) service role.
+  final String? iamRoleArn;
+
+  /// The current lifecycle status of the IAM service role.
+  final OciIamRoleStatus? status;
+
+  /// Additional information about the current status of the IAM service role, if
+  /// applicable.
+  final String? statusReason;
+
+  OciIamRole({
+    this.awsIntegration,
+    this.iamRoleArn,
+    this.status,
+    this.statusReason,
+  });
+
+  factory OciIamRole.fromJson(Map<String, dynamic> json) {
+    return OciIamRole(
+      awsIntegration: (json['awsIntegration'] as String?)
+          ?.let(OciAwsIntegration.fromString),
+      iamRoleArn: json['iamRoleArn'] as String?,
+      status: (json['status'] as String?)?.let(OciIamRoleStatus.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsIntegration = this.awsIntegration;
+    final iamRoleArn = this.iamRoleArn;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (awsIntegration != null) 'awsIntegration': awsIntegration.value,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (status != null) 'status': status.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class OciAwsIntegration {
+  static const kmsTde = OciAwsIntegration._('KmsTde');
+  static const secretsManager = OciAwsIntegration._('SecretsManager');
+
+  final String value;
+
+  const OciAwsIntegration._(this.value);
+
+  static const values = [kmsTde, secretsManager];
+
+  static OciAwsIntegration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OciAwsIntegration._(value));
+
+  @override
+  bool operator ==(other) => other is OciAwsIntegration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The lifecycle status of an Amazon Web Services Identity and Access
+/// Management (IAM) service role used for Autonomous Database integration with
+/// Oracle Cloud Infrastructure (OCI).
+///
+/// @nodoc
+class OciIamRoleStatus {
+  static const provisioning = OciIamRoleStatus._('PROVISIONING');
+  static const available = OciIamRoleStatus._('AVAILABLE');
+  static const provisionFailed = OciIamRoleStatus._('PROVISION_FAILED');
+  static const terminating = OciIamRoleStatus._('TERMINATING');
+  static const terminateFailed = OciIamRoleStatus._('TERMINATE_FAILED');
+
+  final String value;
+
+  const OciIamRoleStatus._(this.value);
+
+  static const values = [
+    provisioning,
+    available,
+    provisionFailed,
+    terminating,
+    terminateFailed
+  ];
+
+  static OciIamRoleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OciIamRoleStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OciIamRoleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc

@@ -824,6 +824,13 @@ class AutoScaling {
   /// instance scale-in protection</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
   ///
+  /// Parameter [operator] :
+  /// The entity that manages the Auto Scaling group. If you specify this
+  /// parameter, Amazon EC2 Auto Scaling passes the operator identity to EC2 for
+  /// instance launches and only allows the designated operator to make changes
+  /// to the Auto Scaling group. All mutating API calls from non-operator
+  /// callers are rejected with an <code>AccessDenied</code> exception.
+  ///
   /// Parameter [placementGroup] :
   /// The name of the placement group into which to launch your instances. For
   /// more information, see <a
@@ -927,6 +934,7 @@ class AutoScaling {
     int? maxInstanceLifetime,
     MixedInstancesPolicy? mixedInstancesPolicy,
     bool? newInstancesProtectedFromScaleIn,
+    Operator? operator,
     String? placementGroup,
     String? serviceLinkedRoleARN,
     bool? skipZonalShiftValidation,
@@ -1012,6 +1020,9 @@ class AutoScaling {
       if (newInstancesProtectedFromScaleIn != null)
         'NewInstancesProtectedFromScaleIn':
             newInstancesProtectedFromScaleIn.toString(),
+      if (operator != null)
+        for (var e1 in operator.toQueryMap().entries)
+          'Operator.${e1.key}': e1.value,
       if (placementGroup != null) 'PlacementGroup': placementGroup,
       if (serviceLinkedRoleARN != null)
         'ServiceLinkedRoleARN': serviceLinkedRoleARN,
@@ -6626,6 +6637,11 @@ class AvailabilityZoneDistribution {
   /// Zone, Auto Scaling will attempt to launch in another healthy Availability
   /// Zone instead.
   /// </li>
+  /// <li>
+  /// <code>reservations-then-balanced</code> - Auto Scaling will first attempt to
+  /// launch into your Capacity Reservations, and then balance any remaining
+  /// capacity across healthy Availability Zones.
+  /// </li>
   /// </ul>
   final CapacityDistributionStrategy? capacityDistributionStrategy;
 
@@ -7068,12 +7084,18 @@ class CapacityDistributionStrategy {
   static const balancedOnly = CapacityDistributionStrategy._('balanced-only');
   static const balancedBestEffort =
       CapacityDistributionStrategy._('balanced-best-effort');
+  static const reservationsThenBalanced =
+      CapacityDistributionStrategy._('reservations-then-balanced');
 
   final String value;
 
   const CapacityDistributionStrategy._(this.value);
 
-  static const values = [balancedOnly, balancedBestEffort];
+  static const values = [
+    balancedOnly,
+    balancedBestEffort,
+    reservationsThenBalanced
+  ];
 
   static CapacityDistributionStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -14485,6 +14507,10 @@ class AutoScalingGroup {
   /// Guide</i>.
   final bool? newInstancesProtectedFromScaleIn;
 
+  /// The entity that manages the Auto Scaling group, if applicable. When set,
+  /// only the designated operator can make changes to the group configuration.
+  final Operator? operator;
+
   /// The name of the placement group into which to launch EC2 instances for the
   /// Auto Scaling group.
   final String? placementGroup;
@@ -14555,6 +14581,7 @@ class AutoScalingGroup {
     this.maxInstanceLifetime,
     this.mixedInstancesPolicy,
     this.newInstancesProtectedFromScaleIn,
+    this.operator,
     this.placementGroup,
     this.predictedCapacity,
     this.serviceLinkedRoleARN,
@@ -14629,6 +14656,7 @@ class AutoScalingGroup {
           ?.let(MixedInstancesPolicy.fromXml),
       newInstancesProtectedFromScaleIn:
           _s.extractXmlBoolValue(elem, 'NewInstancesProtectedFromScaleIn'),
+      operator: _s.extractXmlChild(elem, 'Operator')?.let(Operator.fromXml),
       placementGroup: _s.extractXmlStringValue(elem, 'PlacementGroup'),
       predictedCapacity: _s.extractXmlIntValue(elem, 'PredictedCapacity'),
       serviceLinkedRoleARN:
@@ -14693,6 +14721,7 @@ class AutoScalingGroup {
     final mixedInstancesPolicy = this.mixedInstancesPolicy;
     final newInstancesProtectedFromScaleIn =
         this.newInstancesProtectedFromScaleIn;
+    final operator = this.operator;
     final placementGroup = this.placementGroup;
     final predictedCapacity = this.predictedCapacity;
     final serviceLinkedRoleARN = this.serviceLinkedRoleARN;
@@ -14750,6 +14779,7 @@ class AutoScalingGroup {
         'MixedInstancesPolicy': mixedInstancesPolicy,
       if (newInstancesProtectedFromScaleIn != null)
         'NewInstancesProtectedFromScaleIn': newInstancesProtectedFromScaleIn,
+      if (operator != null) 'Operator': operator,
       if (placementGroup != null) 'PlacementGroup': placementGroup,
       if (predictedCapacity != null) 'PredictedCapacity': predictedCapacity,
       if (serviceLinkedRoleARN != null)
@@ -14765,6 +14795,39 @@ class AutoScalingGroup {
       if (warmPoolConfiguration != null)
         'WarmPoolConfiguration': warmPoolConfiguration,
       if (warmPoolSize != null) 'WarmPoolSize': warmPoolSize,
+    };
+  }
+}
+
+/// Describes the entity that manages an Auto Scaling group.
+///
+/// @nodoc
+class Operator {
+  /// The service principal that is authorized to manage the Auto Scaling group.
+  /// When an operator is specified, only the designated operator service
+  /// principal can make mutating changes to the Auto Scaling group.
+  final String principal;
+
+  Operator({
+    required this.principal,
+  });
+  factory Operator.fromXml(_s.XmlElement elem) {
+    return Operator(
+      principal: _s.extractXmlStringValue(elem, 'Principal')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final principal = this.principal;
+    return {
+      'Principal': principal,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final principal = this.principal;
+    return {
+      'Principal': principal,
     };
   }
 }

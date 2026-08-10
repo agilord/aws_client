@@ -1501,13 +1501,25 @@ class Rds {
   /// <code>custom-sqlserver-se</code>
   /// </li>
   /// <li>
-  /// <code>ccustom-sqlserver-web</code>
+  /// <code>custom-sqlserver-web</code>
   /// </li>
   /// <li>
   /// <code>custom-sqlserver-dev</code>
   /// </li>
   /// </ul>
-  /// RDS for SQL Server supports only <code>sqlserver-dev-ee</code>.
+  /// RDS for SQL Server supports the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>sqlserver-ee</code> (Bring Your Own Media)
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se</code> (Bring Your Own Media)
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-dev-ee</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [engineVersion] :
   /// The name of your custom engine version (CEV).
@@ -1516,16 +1528,24 @@ class Rds {
   /// <code>19.*customized_string*</code>. For example, a valid CEV name is
   /// <code>19.my_cev1</code>.
   ///
-  /// For RDS for SQL Server and RDS Custom for SQL Server, the name format is
-  /// <code>major
-  /// engine_version*.*minor_engine_version*.*customized_string*</code>. For
-  /// example, a valid CEV name is <code>16.00.4215.2.my_cev1</code>.
+  /// For RDS Custom for SQL Server and RDS for SQL Server
+  /// <code>sqlserver-dev-ee</code>, the name format is
+  /// <code>*major_engine_version*.*minor_engine_version*.*customized_string*</code>.
+  /// For example, a valid CEV name is <code>16.00.4215.2.my_cev1</code>.
+  ///
+  /// For RDS for SQL Server Bring Your Own Media (<code>sqlserver-ee</code>,
+  /// <code>sqlserver-se</code>), specify the RDS engine version that you want
+  /// to use. For example, <code>16.00.4175.1.v1</code>.
   ///
   /// The CEV name is unique per customer per Amazon Web Services Regions.
   ///
   /// Parameter [databaseInstallationFiles] :
   /// The database installation files (ISO and EXE) uploaded to Amazon S3 for
   /// your database engine version to import to Amazon RDS.
+  ///
+  /// For RDS for SQL Server Bring Your Own Media (<code>sqlserver-ee</code>,
+  /// <code>sqlserver-se</code>), provide the SQL Server RTM ISO file once per
+  /// major version and edition combination. Minor versions reuse the same file.
   ///
   /// Parameter [databaseInstallationFilesS3BucketName] :
   /// The name of an Amazon S3 bucket that contains database installation files
@@ -1688,10 +1708,17 @@ class Rds {
   /// seconds. Express configuration provides a cluster with a writer instance
   /// and feature specific values set to all other input parameters of this API.
   ///
+  /// You can use the <code>AssociatedRoles</code> parameter to associate one or
+  /// more Amazon Web Services Identity and Access Management (IAM) roles with
+  /// an Aurora DB cluster. Each associated role lets the DB cluster access
+  /// other Amazon Web Services on your behalf, such as Amazon S3 for data
+  /// import and export, or Amazon Web Services Lambda for invoking functions.
+  ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterNotFoundFault].
   /// May throw [DBClusterParameterGroupNotFoundFault].
   /// May throw [DBClusterQuotaExceededFault].
+  /// May throw [DBClusterRoleQuotaExceededFault].
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [DBSubnetGroupNotFoundFault].
@@ -1769,6 +1796,15 @@ class Rds {
   /// Valid for Cluster Type: Multi-AZ DB clusters only
   ///
   /// This setting is required to create a Multi-AZ DB cluster.
+  ///
+  /// Parameter [associatedRoles] :
+  /// A list of Amazon Web Services Identity and Access Management (IAM) roles
+  /// to associate with the DB cluster. Each role grants the DB cluster
+  /// permission to access other Amazon Web Services on your behalf. For each
+  /// role, specify a role ARN and, optionally, the feature name (such as
+  /// <code>s3Import</code>, <code>s3Export</code>, or <code>Lambda</code>).
+  ///
+  /// Valid for Cluster Type: Aurora DB clusters only
   ///
   /// Parameter [autoMinorVersionUpgrade] :
   /// Specifies whether minor engine upgrades are applied automatically to the
@@ -2076,7 +2112,7 @@ class Rds {
   /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB cluster.
+  /// The lifecycle type for this DB cluster.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -2708,6 +2744,7 @@ class Rds {
     required String dBClusterIdentifier,
     required String engine,
     int? allocatedStorage,
+    List<DBClusterAssociatedRole>? associatedRoles,
     bool? autoMinorVersionUpgrade,
     List<String>? availabilityZones,
     int? backtrackWindow,
@@ -2770,6 +2807,14 @@ class Rds {
       'Engine': engine,
       if (allocatedStorage != null)
         'AllocatedStorage': allocatedStorage.toString(),
+      if (associatedRoles != null)
+        if (associatedRoles.isEmpty)
+          'AssociatedRoles': ''
+        else
+          for (var i1 = 0; i1 < associatedRoles.length; i1++)
+            for (var e3 in associatedRoles[i1].toQueryMap().entries)
+              'AssociatedRoles.DBClusterAssociatedRole.${i1 + 1}.${e3.key}':
+                  e3.value,
       if (autoMinorVersionUpgrade != null)
         'AutoMinorVersionUpgrade': autoMinorVersionUpgrade.toString(),
       if (availabilityZones != null)
@@ -3329,6 +3374,9 @@ class Rds {
   /// </li>
   /// <li>
   /// <code>db2-ae</code>
+  /// </li>
+  /// <li>
+  /// <code>db2-ce</code>
   /// </li>
   /// <li>
   /// <code>db2-se</code>
@@ -4064,7 +4112,7 @@ class Rds {
   /// This setting doesn't apply to RDS Custom DB instances.
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB instance.
+  /// The lifecycle type for this DB instance.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -4075,8 +4123,8 @@ class Rds {
   /// of standard support date.
   /// </note>
   /// This setting applies only to RDS for MySQL and RDS for PostgreSQL. For
-  /// Amazon Aurora DB instances, the life cycle type is managed by the DB
-  /// cluster.
+  /// Amazon Aurora DB instances, the engine lifecycle support is managed by the
+  /// DB cluster.
   ///
   /// You can use this setting to enroll your DB instance into Amazon RDS
   /// Extended Support. With RDS Extended Support, you can run the selected
@@ -4215,7 +4263,8 @@ class Rds {
   /// RDS for MariaDB - <code>general-public-license</code>
   /// </li>
   /// <li>
-  /// RDS for Microsoft SQL Server - <code>license-included</code>
+  /// RDS for Microsoft SQL Server - <code>license-included |
+  /// bring-your-own-media</code>
   /// </li>
   /// <li>
   /// RDS for MySQL - <code>general-public-license</code>
@@ -5575,10 +5624,11 @@ class Rds {
   /// This parameter is only supported for Db2 DB instances and Oracle DB
   /// instances.
   /// <dl> <dt>Db2</dt> <dd>
-  /// Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2
-  /// Standard Edition (SE). The main use case for standby replicas is
-  /// cross-Region disaster recovery. Because it doesn't accept user
-  /// connections, a standby replica can't serve a read-only workload.
+  /// Standby DB replicas are included in Db2 Advanced Edition (AE), Db2
+  /// Community Edition (CE), and Db2 Standard Edition (SE). The main use case
+  /// for standby replicas is cross-Region disaster recovery. Because it doesn't
+  /// accept user connections, a standby replica can't serve a read-only
+  /// workload.
   ///
   /// You can create a combination of standby and read-only DB replicas for the
   /// same primary DB instance. For more information, see <a
@@ -5963,6 +6013,9 @@ class Rds {
   /// </li>
   /// <li>
   /// <code>db2-ae</code>
+  /// </li>
+  /// <li>
+  /// <code>db2-ce</code>
   /// </li>
   /// <li>
   /// <code>db2-se</code>
@@ -6940,7 +6993,7 @@ class Rds {
   /// </ul>
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this global database cluster.
+  /// The lifecycle type for this global database cluster.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your global
@@ -7166,6 +7219,9 @@ class Rds {
   /// <ul>
   /// <li>
   /// <code>db2-ae</code>
+  /// </li>
+  /// <li>
+  /// <code>db2-ce</code>
   /// </li>
   /// <li>
   /// <code>db2-se</code>
@@ -7520,13 +7576,25 @@ class Rds {
   /// <code>custom-sqlserver-se</code>
   /// </li>
   /// <li>
-  /// <code>ccustom-sqlserver-web</code>
+  /// <code>custom-sqlserver-web</code>
   /// </li>
   /// <li>
   /// <code>custom-sqlserver-dev</code>
   /// </li>
   /// </ul>
-  /// RDS for SQL Server supports only <code>sqlserver-dev-ee</code>.
+  /// RDS for SQL Server supports the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>sqlserver-ee</code> (Bring Your Own Media)
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se</code> (Bring Your Own Media)
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-dev-ee</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [engineVersion] :
   /// The custom engine version (CEV) for your DB instance. This option is
@@ -9502,6 +9570,9 @@ class Rds {
   /// <code>db2-ae</code>
   /// </li>
   /// <li>
+  /// <code>db2-ce</code>
+  /// </li>
+  /// <li>
   /// <code>db2-se</code>
   /// </li>
   /// <li>
@@ -9536,6 +9607,9 @@ class Rds {
   /// </li>
   /// <li>
   /// <code>sqlserver-web</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-dev-ee</code>
   /// </li>
   /// </ul>
   ///
@@ -10002,6 +10076,9 @@ class Rds {
   /// </li>
   /// <li>
   /// <code>db2-ae</code>
+  /// </li>
+  /// <li>
+  /// <code>db2-ce</code>
   /// </li>
   /// <li>
   /// <code>db2-se</code>
@@ -11366,6 +11443,9 @@ class Rds {
   /// <code>db2-ae</code>
   /// </li>
   /// <li>
+  /// <code>db2-ce</code>
+  /// </li>
+  /// <li>
   /// <code>db2-se</code>
   /// </li>
   /// <li>
@@ -12059,6 +12139,9 @@ class Rds {
   /// <code>db2-ae</code>
   /// </li>
   /// <li>
+  /// <code>db2-ce</code>
+  /// </li>
+  /// <li>
   /// <code>db2-se</code>
   /// </li>
   /// <li>
@@ -12162,6 +12245,9 @@ class Rds {
   /// <ul>
   /// <li>
   /// <code>db2-ae</code>
+  /// </li>
+  /// <li>
+  /// <code>db2-ce</code>
   /// </li>
   /// <li>
   /// <code>db2-se</code>
@@ -12290,6 +12376,9 @@ class Rds {
   /// </li>
   /// <li>
   /// <code>db2-ae</code>
+  /// </li>
+  /// <li>
+  /// <code>db2-ce</code>
   /// </li>
   /// <li>
   /// <code>db2-se</code>
@@ -13670,13 +13759,25 @@ class Rds {
   /// <code>custom-sqlserver-se</code>
   /// </li>
   /// <li>
-  /// <code>ccustom-sqlserver-web</code>
+  /// <code>custom-sqlserver-web</code>
   /// </li>
   /// <li>
   /// <code>custom-sqlserver-dev</code>
   /// </li>
   /// </ul>
-  /// RDS for SQL Server supports only <code>sqlserver-dev-ee</code>.
+  /// RDS for SQL Server supports the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>sqlserver-ee</code> (Bring Your Own Media)
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se</code> (Bring Your Own Media)
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-dev-ee</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [engineVersion] :
   /// The custom engine version (CEV) that you want to modify. This option is
@@ -14090,6 +14191,34 @@ class Rds {
   /// Using Amazon Performance Insights</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+  ///
+  /// Parameter [engineLifecycleSupport] :
+  /// The lifecycle type for this DB cluster.
+  ///
+  /// You can use this setting to enroll your DB cluster into Amazon RDS
+  /// Extended Support or to opt out. With RDS Extended Support, you can run the
+  /// selected major engine version on your DB cluster past the end of standard
+  /// support for that engine version. For more information, see the following
+  /// sections:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Aurora - <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html">Amazon
+  /// RDS Extended Support with Amazon Aurora</a> in the <i>Amazon Aurora User
+  /// Guide</i>
+  /// </li>
+  /// <li>
+  /// Amazon RDS - <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html">Amazon
+  /// RDS Extended Support with Amazon RDS</a> in the <i>Amazon RDS User
+  /// Guide</i>
+  /// </li>
+  /// </ul>
+  /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+  ///
+  /// Valid Values: <code>open-source-rds-extended-support |
+  /// open-source-rds-extended-support-disabled</code>
   ///
   /// Parameter [engineMode] :
   /// The DB engine mode of the DB cluster, either <code>provisioned</code> or
@@ -14541,6 +14670,7 @@ class Rds {
     bool? enableLimitlessDatabase,
     bool? enableLocalWriteForwarding,
     bool? enablePerformanceInsights,
+    String? engineLifecycleSupport,
     String? engineMode,
     String? engineVersion,
     int? iops,
@@ -14614,6 +14744,8 @@ class Rds {
         'EnableLocalWriteForwarding': enableLocalWriteForwarding.toString(),
       if (enablePerformanceInsights != null)
         'EnablePerformanceInsights': enablePerformanceInsights.toString(),
+      if (engineLifecycleSupport != null)
+        'EngineLifecycleSupport': engineLifecycleSupport,
       if (engineMode != null) 'EngineMode': engineMode,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (iops != null) 'Iops': iops.toString(),
@@ -15494,6 +15626,26 @@ class Rds {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [engineLifecycleSupport] :
+  /// The lifecycle type for this DB instance.
+  ///
+  /// This setting applies only to RDS for MySQL and RDS for PostgreSQL. For
+  /// Amazon Aurora DB instances, the engine lifecycle support is managed by the
+  /// DB cluster.
+  ///
+  /// You can use this setting to enroll your DB instance into Amazon RDS
+  /// Extended Support or to opt out. With RDS Extended Support, you can run the
+  /// selected major engine version on your DB instance past the end of standard
+  /// support for that engine version. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html">Amazon
+  /// RDS Extended Support with Amazon RDS</a> in the <i>Amazon RDS User
+  /// Guide</i>.
+  ///
+  /// Valid Values: <code>open-source-rds-extended-support |
+  /// open-source-rds-extended-support-disabled</code>
+  ///
+  /// This setting doesn't apply to RDS Custom DB instances.
+  ///
   /// Parameter [engineVersion] :
   /// The version number of the database engine to upgrade to. Changing this
   /// parameter results in an outage and the change is applied during the next
@@ -15587,7 +15739,8 @@ class Rds {
   /// RDS for MariaDB - <code>general-public-license</code>
   /// </li>
   /// <li>
-  /// RDS for Microsoft SQL Server - <code>license-included</code>
+  /// RDS for Microsoft SQL Server - <code>license-included |
+  /// bring-your-own-media</code>
   /// </li>
   /// <li>
   /// RDS for MySQL - <code>general-public-license</code>
@@ -16041,10 +16194,11 @@ class Rds {
   /// This parameter is only supported for Db2 DB instances and Oracle DB
   /// instances.
   /// <dl> <dt>Db2</dt> <dd>
-  /// Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2
-  /// Standard Edition (SE). The main use case for standby replicas is
-  /// cross-Region disaster recovery. Because it doesn't accept user
-  /// connections, a standby replica can't serve a read-only workload.
+  /// Standby DB replicas are included in Db2 Advanced Edition (AE), Db2
+  /// Community Edition (CE), and Db2 Standard Edition (SE). The main use case
+  /// for standby replicas is cross-Region disaster recovery. Because it doesn't
+  /// accept user connections, a standby replica can't serve a read-only
+  /// workload.
   ///
   /// You can create a combination of standby and read-only DB replicas for the
   /// same primary DB instance. For more information, see <a
@@ -16229,6 +16383,7 @@ class Rds {
     bool? enableIAMDatabaseAuthentication,
     bool? enablePerformanceInsights,
     String? engine,
+    String? engineLifecycleSupport,
     String? engineVersion,
     int? iops,
     String? licenseModel,
@@ -16332,6 +16487,8 @@ class Rds {
       if (enablePerformanceInsights != null)
         'EnablePerformanceInsights': enablePerformanceInsights.toString(),
       if (engine != null) 'Engine': engine,
+      if (engineLifecycleSupport != null)
+        'EngineLifecycleSupport': engineLifecycleSupport,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (iops != null) 'Iops': iops.toString(),
       if (licenseModel != null) 'LicenseModel': licenseModel,
@@ -18361,11 +18518,15 @@ class Rds {
   /// This operation only applies to Aurora DB clusters. The source DB engine
   /// must be MySQL.
   /// </note>
+  /// You can use the <code>AssociatedRoles</code> parameter to associate one or
+  /// more Amazon Web Services Identity and Access Management (IAM) roles with
+  /// the Aurora DB cluster when you restore it from Amazon S3.
   ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterNotFoundFault].
   /// May throw [DBClusterParameterGroupNotFoundFault].
   /// May throw [DBClusterQuotaExceededFault].
+  /// May throw [DBClusterRoleQuotaExceededFault].
   /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [DomainNotFoundFault].
   /// May throw [InsufficientStorageClusterCapacityFault].
@@ -18441,6 +18602,14 @@ class Rds {
   /// MySQL versions 5.7 and 8.0 are supported.
   ///
   /// Example: <code>5.7.40</code>, <code>8.0.28</code>
+  ///
+  /// Parameter [associatedRoles] :
+  /// A list of Amazon Web Services Identity and Access Management (IAM) roles
+  /// to associate with the DB cluster when it's restored from Amazon S3. Each
+  /// role grants the DB cluster permission to access other Amazon Web Services
+  /// on your behalf. For each role, specify a role ARN and, optionally, the
+  /// feature name (such as <code>s3Import</code>, <code>s3Export</code>, or
+  /// <code>Lambda</code>).
   ///
   /// Parameter [availabilityZones] :
   /// A list of Availability Zones (AZs) where instances in the restored DB
@@ -18565,7 +18734,7 @@ class Rds {
   /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB cluster.
+  /// The lifecycle type for this DB cluster.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -18808,6 +18977,7 @@ class Rds {
     required String s3IngestionRoleArn,
     required String sourceEngine,
     required String sourceEngineVersion,
+    List<DBClusterAssociatedRole>? associatedRoles,
     List<String>? availabilityZones,
     int? backtrackWindow,
     int? backupRetentionPeriod,
@@ -18848,6 +19018,14 @@ class Rds {
       'S3IngestionRoleArn': s3IngestionRoleArn,
       'SourceEngine': sourceEngine,
       'SourceEngineVersion': sourceEngineVersion,
+      if (associatedRoles != null)
+        if (associatedRoles.isEmpty)
+          'AssociatedRoles': ''
+        else
+          for (var i1 = 0; i1 < associatedRoles.length; i1++)
+            for (var e3 in associatedRoles[i1].toQueryMap().entries)
+              'AssociatedRoles.DBClusterAssociatedRole.${i1 + 1}.${e3.key}':
+                  e3.value,
       if (availabilityZones != null)
         if (availabilityZones.isEmpty)
           'AvailabilityZones': ''
@@ -18955,6 +19133,10 @@ class Rds {
   /// <code>EnableIAMDatabaseAuthentication</code>. Once the cluster is
   /// restored, you need to modify the DB cluster to update
   /// <code>MasterUserAuthenticationType</code> to <code>iam-db-auth</code>.
+  ///
+  /// You can use the <code>AssociatedRoles</code> parameter to associate one or
+  /// more Amazon Web Services Identity and Access Management (IAM) roles with
+  /// an Aurora DB cluster when you restore it from a snapshot.
   /// <note>
   /// This operation only restores the DB cluster, not the DB instances for that
   /// DB cluster. You must invoke the <code>CreateDBInstance</code> operation to
@@ -18975,6 +19157,7 @@ class Rds {
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterParameterGroupNotFoundFault].
   /// May throw [DBClusterQuotaExceededFault].
+  /// May throw [DBClusterRoleQuotaExceededFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
   /// May throw [DBSnapshotNotFoundFault].
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
@@ -19041,6 +19224,16 @@ class Rds {
   /// </li>
   /// </ul>
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  ///
+  /// Parameter [associatedRoles] :
+  /// A list of Amazon Web Services Identity and Access Management (IAM) roles
+  /// to associate with the DB cluster when it's restored from a snapshot. Each
+  /// role grants the DB cluster permission to access other Amazon Web Services
+  /// on your behalf. For each role, specify a role ARN and, optionally, the
+  /// feature name (such as <code>s3Import</code>, <code>s3Export</code>, or
+  /// <code>Lambda</code>).
+  ///
+  /// Valid for Cluster Type: Aurora DB clusters only
   ///
   /// Parameter [availabilityZones] :
   /// Provides the list of Availability Zones (AZs) where instances in the
@@ -19247,7 +19440,7 @@ class Rds {
   /// Valid for Cluster Type: Aurora PostgreSQL clusters
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB cluster.
+  /// The lifecycle type for this DB cluster.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -19607,6 +19800,7 @@ class Rds {
     required String dBClusterIdentifier,
     required String engine,
     required String snapshotIdentifier,
+    List<DBClusterAssociatedRole>? associatedRoles,
     List<String>? availabilityZones,
     int? backtrackWindow,
     int? backupRetentionPeriod,
@@ -19649,6 +19843,14 @@ class Rds {
       'DBClusterIdentifier': dBClusterIdentifier,
       'Engine': engine,
       'SnapshotIdentifier': snapshotIdentifier,
+      if (associatedRoles != null)
+        if (associatedRoles.isEmpty)
+          'AssociatedRoles': ''
+        else
+          for (var i1 = 0; i1 < associatedRoles.length; i1++)
+            for (var e3 in associatedRoles[i1].toQueryMap().entries)
+              'AssociatedRoles.DBClusterAssociatedRole.${i1 + 1}.${e3.key}':
+                  e3.value,
       if (availabilityZones != null)
         if (availabilityZones.isEmpty)
           'AvailabilityZones': ''
@@ -19775,6 +19977,10 @@ class Rds {
   /// <code>EnableIAMDatabaseAuthentication</code>. Once the cluster is
   /// restored, you need to modify the DB cluster to update
   /// <code>MasterUserAuthenticationType</code> to <code>iam-db-auth</code>.
+  ///
+  /// You can use the <code>AssociatedRoles</code> parameter to associate one or
+  /// more Amazon Web Services Identity and Access Management (IAM) roles with
+  /// an Aurora DB cluster when you restore it to a point in time.
   /// <note>
   /// For Aurora, this operation only restores the DB cluster, not the DB
   /// instances for that DB cluster. You must invoke the
@@ -19797,6 +20003,7 @@ class Rds {
   /// May throw [DBClusterNotFoundFault].
   /// May throw [DBClusterParameterGroupNotFoundFault].
   /// May throw [DBClusterQuotaExceededFault].
+  /// May throw [DBClusterRoleQuotaExceededFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
   /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [DomainNotFoundFault].
@@ -19833,6 +20040,16 @@ class Rds {
   /// </li>
   /// </ul>
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  ///
+  /// Parameter [associatedRoles] :
+  /// A list of Amazon Web Services Identity and Access Management (IAM) roles
+  /// to associate with the DB cluster when it's restored to a point in time.
+  /// Each role grants the DB cluster permission to access other Amazon Web
+  /// Services on your behalf. For each role, specify a role ARN and,
+  /// optionally, the feature name (such as <code>s3Import</code>,
+  /// <code>s3Export</code>, or <code>Lambda</code>).
+  ///
+  /// Valid for Cluster Type: Aurora DB clusters only
   ///
   /// Parameter [backtrackWindow] :
   /// The target backtrack window, in seconds. To disable backtracking, set this
@@ -20027,7 +20244,7 @@ class Rds {
   /// Valid for Cluster Type: Aurora PostgreSQL clusters
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB cluster.
+  /// The lifecycle type for this DB cluster.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -20402,6 +20619,7 @@ class Rds {
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   Future<RestoreDBClusterToPointInTimeResult> restoreDBClusterToPointInTime({
     required String dBClusterIdentifier,
+    List<DBClusterAssociatedRole>? associatedRoles,
     int? backtrackWindow,
     int? backupRetentionPeriod,
     bool? copyTagsToSnapshot,
@@ -20444,6 +20662,14 @@ class Rds {
   }) async {
     final $request = <String, String>{
       'DBClusterIdentifier': dBClusterIdentifier,
+      if (associatedRoles != null)
+        if (associatedRoles.isEmpty)
+          'AssociatedRoles': ''
+        else
+          for (var i1 = 0; i1 < associatedRoles.length; i1++)
+            for (var e3 in associatedRoles[i1].toQueryMap().entries)
+              'AssociatedRoles.DBClusterAssociatedRole.${i1 + 1}.${e3.key}':
+                  e3.value,
       if (backtrackWindow != null)
         'BacktrackWindow': backtrackWindow.toString(),
       if (backupRetentionPeriod != null)
@@ -21015,6 +21241,9 @@ class Rds {
   /// <code>db2-ae</code>
   /// </li>
   /// <li>
+  /// <code>db2-ce</code>
+  /// </li>
+  /// <li>
   /// <code>db2-se</code>
   /// </li>
   /// <li>
@@ -21053,7 +21282,7 @@ class Rds {
   /// </ul>
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB instance.
+  /// The lifecycle type for this DB instance.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -21073,8 +21302,8 @@ class Rds {
   /// Guide</i>.
   ///
   /// This setting applies only to RDS for MySQL and RDS for PostgreSQL. For
-  /// Amazon Aurora DB instances, the life cycle type is managed by the DB
-  /// cluster.
+  /// Amazon Aurora DB instances, the engine lifecycle support is managed by the
+  /// DB cluster.
   ///
   /// Valid Values: <code>open-source-rds-extended-support |
   /// open-source-rds-extended-support-disabled</code>
@@ -21119,7 +21348,8 @@ class Rds {
   /// RDS for MariaDB - <code>general-public-license</code>
   /// </li>
   /// <li>
-  /// RDS for Microsoft SQL Server - <code>license-included</code>
+  /// RDS for Microsoft SQL Server - <code>license-included |
+  /// bring-your-own-media</code>
   /// </li>
   /// <li>
   /// RDS for MySQL - <code>general-public-license</code>
@@ -21723,7 +21953,7 @@ class Rds {
   /// Amazon Performance Insights</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB instance.
+  /// The lifecycle type for this DB instance.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -21742,8 +21972,8 @@ class Rds {
   /// RDS Extended Support Amazon RDS</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting applies only to RDS for MySQL and RDS for PostgreSQL. For
-  /// Amazon Aurora DB instances, the life cycle type is managed by the DB
-  /// cluster.
+  /// Amazon Aurora DB instances, the engine lifecycle support is managed by the
+  /// DB cluster.
   ///
   /// Valid Values: <code>open-source-rds-extended-support |
   /// open-source-rds-extended-support-disabled</code>
@@ -22713,6 +22943,9 @@ class Rds {
   /// <code>db2-ae</code>
   /// </li>
   /// <li>
+  /// <code>db2-ce</code>
+  /// </li>
+  /// <li>
   /// <code>db2-se</code>
   /// </li>
   /// <li>
@@ -22760,7 +22993,7 @@ class Rds {
   /// </ul>
   ///
   /// Parameter [engineLifecycleSupport] :
-  /// The life cycle type for this DB instance.
+  /// The lifecycle type for this DB instance.
   /// <note>
   /// By default, this value is set to
   /// <code>open-source-rds-extended-support</code>, which enrolls your DB
@@ -22780,8 +23013,8 @@ class Rds {
   /// Guide</i>.
   ///
   /// This setting applies only to RDS for MySQL and RDS for PostgreSQL. For
-  /// Amazon Aurora DB instances, the life cycle type is managed by the DB
-  /// cluster.
+  /// Amazon Aurora DB instances, the engine lifecycle support is managed by the
+  /// DB cluster.
   ///
   /// Valid Values: <code>open-source-rds-extended-support |
   /// open-source-rds-extended-support-disabled</code>
@@ -22825,7 +23058,8 @@ class Rds {
   /// RDS for MariaDB - <code>general-public-license</code>
   /// </li>
   /// <li>
-  /// RDS for Microsoft SQL Server - <code>license-included</code>
+  /// RDS for Microsoft SQL Server - <code>license-included |
+  /// bring-your-own-media</code>
   /// </li>
   /// <li>
   /// RDS for MySQL - <code>general-public-license</code>
@@ -24637,8 +24871,13 @@ class DBEngineVersion {
   /// The description of the database engine.
   final String? dBEngineDescription;
 
-  /// A value that indicates the source media provider of the AMI based on the
-  /// usage operation. Applicable for RDS Custom for SQL Server.
+  /// The source of the installation media for this engine version. A value of
+  /// <code>Customer Provided</code> indicates that the engine version was created
+  /// from customer-supplied installation media using
+  /// <code>CreateCustomDBEngineVersion</code>. Applicable to RDS Custom for SQL
+  /// Server and to RDS for SQL Server engine versions (<code>sqlserver-ee</code>
+  /// and <code>sqlserver-se</code> with the <code>bring-your-own-media</code>
+  /// license model, and <code>sqlserver-dev-ee</code>).
   final String? dBEngineMediaType;
 
   /// The ARN of the custom engine version.
@@ -24650,9 +24889,11 @@ class DBEngineVersion {
   /// The name of the DB parameter group family for the database engine.
   final String? dBParameterGroupFamily;
 
-  /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your
-  /// database engine version to import to Amazon RDS. Required for
-  /// <code>sqlserver-dev-ee</code>.
+  /// The database installation files (ISO and EXE) that were uploaded to Amazon
+  /// S3 and used to import the database engine version to Amazon RDS. Returned
+  /// for RDS for SQL Server engine versions (<code>sqlserver-ee</code>,
+  /// <code>sqlserver-se</code>, and <code>sqlserver-dev-ee</code>) created from
+  /// customer-supplied installation media.
   final List<String>? databaseInstallationFiles;
 
   /// The name of the Amazon S3 bucket that contains your database installation
@@ -24678,9 +24919,10 @@ class DBEngineVersion {
   /// CloudWatch Logs.
   final List<String>? exportableLogTypes;
 
-  /// The reason that the custom engine version creation for
-  /// <code>sqlserver-dev-ee</code> failed with an
-  /// <code>incompatible-installation-media</code> status.
+  /// The reason that the custom engine version creation failed with an
+  /// <code>incompatible-installation-media</code> status. Applicable to RDS for
+  /// SQL Server engine versions (<code>sqlserver-ee</code>,
+  /// <code>sqlserver-se</code>, and <code>sqlserver-dev-ee</code>).
   final String? failureReason;
 
   /// The EC2 image
@@ -29569,6 +29811,30 @@ class DBInstance {
   /// </ul>
   final StorageEncryptionType? storageEncryptionType;
 
+  /// The percentage of the in-progress storage operation on the DB instance that
+  /// has completed, from <code>0</code> to <code>100</code>. This field appears
+  /// only while a storage operation is in progress. It isn't present when no
+  /// storage operation is active.
+  final int? storageOperationPercentProgress;
+
+  /// The status of an in-progress storage operation on the DB instance. This
+  /// field appears only while a storage operation is in progress. It isn't
+  /// present when no storage operation is active. Possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Initializing</code> - The volume is initializing from a snapshot, such
+  /// as during a snapshot restore, point-in-time restore, read replica creation,
+  /// or blue/green deployment. Performance can be lower than provisioned until
+  /// initialization completes.
+  /// </li>
+  /// <li>
+  /// <code>Optimizing</code> - The volume is optimizing following a storage
+  /// scaling or modification operation.
+  /// </li>
+  /// </ul>
+  final String? storageOperationStatus;
+
   /// The storage throughput for the DB instance.
   ///
   /// This setting applies only to the <code>gp3</code> storage type.
@@ -29695,6 +29961,8 @@ class DBInstance {
     this.statusInfos,
     this.storageEncrypted,
     this.storageEncryptionType,
+    this.storageOperationPercentProgress,
+    this.storageOperationStatus,
     this.storageThroughput,
     this.storageType,
     this.storageVolumeStatus,
@@ -29885,6 +30153,10 @@ class DBInstance {
       storageEncryptionType: _s
           .extractXmlStringValue(elem, 'StorageEncryptionType')
           ?.let(StorageEncryptionType.fromString),
+      storageOperationPercentProgress:
+          _s.extractXmlIntValue(elem, 'StorageOperationPercentProgress'),
+      storageOperationStatus:
+          _s.extractXmlStringValue(elem, 'StorageOperationStatus'),
       storageThroughput: _s.extractXmlIntValue(elem, 'StorageThroughput'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       storageVolumeStatus:
@@ -29999,6 +30271,9 @@ class DBInstance {
     final statusInfos = this.statusInfos;
     final storageEncrypted = this.storageEncrypted;
     final storageEncryptionType = this.storageEncryptionType;
+    final storageOperationPercentProgress =
+        this.storageOperationPercentProgress;
+    final storageOperationStatus = this.storageOperationStatus;
     final storageThroughput = this.storageThroughput;
     final storageType = this.storageType;
     final storageVolumeStatus = this.storageVolumeStatus;
@@ -30138,6 +30413,10 @@ class DBInstance {
       if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
       if (storageEncryptionType != null)
         'StorageEncryptionType': storageEncryptionType.value,
+      if (storageOperationPercentProgress != null)
+        'StorageOperationPercentProgress': storageOperationPercentProgress,
+      if (storageOperationStatus != null)
+        'StorageOperationStatus': storageOperationStatus,
       if (storageThroughput != null) 'StorageThroughput': storageThroughput,
       if (storageType != null) 'StorageType': storageType,
       if (storageVolumeStatus != null)
@@ -30391,7 +30670,8 @@ class PendingModifiedValues {
   /// The license model for the DB instance.
   ///
   /// Valid values: <code>license-included</code> |
-  /// <code>bring-your-own-license</code> | <code>general-public-license</code>
+  /// <code>bring-your-own-license</code> | <code>general-public-license</code> |
+  /// <code>bring-your-own-media</code>
   final String? licenseModel;
 
   /// The master credentials for the DB instance.
@@ -30870,6 +31150,30 @@ class AdditionalStorageVolumeOutput {
   /// storage of the additional storage volume.
   final int? maxAllocatedStorage;
 
+  /// The percentage of the in-progress storage operation on the additional
+  /// storage volume that has completed, from <code>0</code> to <code>100</code>.
+  /// This field appears only while a storage operation is in progress. It isn't
+  /// present when no storage operation is active.
+  final int? storageOperationPercentProgress;
+
+  /// The status of an in-progress storage operation on the additional storage
+  /// volume. This field appears only while a storage operation is in progress. It
+  /// isn't present when no storage operation is active. Possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Initializing</code> - The volume is initializing from a snapshot, such
+  /// as during a snapshot restore, point-in-time restore, read replica creation,
+  /// or blue/green deployment. Performance can be lower than provisioned until
+  /// initialization completes.
+  /// </li>
+  /// <li>
+  /// <code>Optimizing</code> - The volume is optimizing following a storage
+  /// scaling or modification operation.
+  /// </li>
+  /// </ul>
+  final String? storageOperationStatus;
+
   /// The storage throughput value for the additional storage volume, in mebibytes
   /// per second (MiBps).
   final int? storageThroughput;
@@ -30892,6 +31196,8 @@ class AdditionalStorageVolumeOutput {
     this.allocatedStorage,
     this.iops,
     this.maxAllocatedStorage,
+    this.storageOperationPercentProgress,
+    this.storageOperationStatus,
     this.storageThroughput,
     this.storageType,
     this.storageVolumeStatus,
@@ -30902,6 +31208,10 @@ class AdditionalStorageVolumeOutput {
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
       iops: _s.extractXmlIntValue(elem, 'IOPS'),
       maxAllocatedStorage: _s.extractXmlIntValue(elem, 'MaxAllocatedStorage'),
+      storageOperationPercentProgress:
+          _s.extractXmlIntValue(elem, 'StorageOperationPercentProgress'),
+      storageOperationStatus:
+          _s.extractXmlStringValue(elem, 'StorageOperationStatus'),
       storageThroughput: _s.extractXmlIntValue(elem, 'StorageThroughput'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       storageVolumeStatus:
@@ -30914,6 +31224,9 @@ class AdditionalStorageVolumeOutput {
     final allocatedStorage = this.allocatedStorage;
     final iops = this.iops;
     final maxAllocatedStorage = this.maxAllocatedStorage;
+    final storageOperationPercentProgress =
+        this.storageOperationPercentProgress;
+    final storageOperationStatus = this.storageOperationStatus;
     final storageThroughput = this.storageThroughput;
     final storageType = this.storageType;
     final storageVolumeStatus = this.storageVolumeStatus;
@@ -30923,6 +31236,10 @@ class AdditionalStorageVolumeOutput {
       if (iops != null) 'IOPS': iops,
       if (maxAllocatedStorage != null)
         'MaxAllocatedStorage': maxAllocatedStorage,
+      if (storageOperationPercentProgress != null)
+        'StorageOperationPercentProgress': storageOperationPercentProgress,
+      if (storageOperationStatus != null)
+        'StorageOperationStatus': storageOperationStatus,
       if (storageThroughput != null) 'StorageThroughput': storageThroughput,
       if (storageType != null) 'StorageType': storageType,
       if (storageVolumeStatus != null)
@@ -34873,6 +35190,47 @@ class ScalingConfiguration {
       if (secondsUntilAutoPause != null)
         'SecondsUntilAutoPause': secondsUntilAutoPause.toString(),
       if (timeoutAction != null) 'TimeoutAction': timeoutAction,
+    };
+  }
+}
+
+/// Contains information about an Amazon Web Services Identity and Access
+/// Management (IAM) role to associate with a DB cluster. You can specify this
+/// structure in the <code>AssociatedRoles</code> parameter of
+/// <a>CreateDBCluster</a>, <a>RestoreDBClusterFromS3</a>,
+/// <a>RestoreDBClusterFromSnapshot</a>, and
+/// <a>RestoreDBClusterToPointInTime</a>.
+///
+/// @nodoc
+class DBClusterAssociatedRole {
+  /// The Amazon Resource Name (ARN) of the IAM role to associate with the DB
+  /// cluster.
+  final String roleArn;
+
+  /// The name of the feature associated with the IAM role. For information about
+  /// supported feature names, see <a>DBEngineVersion</a>.
+  final String? featureName;
+
+  DBClusterAssociatedRole({
+    required this.roleArn,
+    this.featureName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final featureName = this.featureName;
+    return {
+      'RoleArn': roleArn,
+      if (featureName != null) 'FeatureName': featureName,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final roleArn = this.roleArn;
+    final featureName = this.featureName;
+    return {
+      'RoleArn': roleArn,
+      if (featureName != null) 'FeatureName': featureName,
     };
   }
 }

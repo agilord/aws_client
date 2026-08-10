@@ -1464,6 +1464,12 @@ class ResourceType {
   static const memoryDbReservedInstances =
       ResourceType._('MemoryDbReservedInstances');
   static const natGateway = ResourceType._('NatGateway');
+  static const dynamoDBTable = ResourceType._('DynamoDBTable');
+  static const elastiCacheCluster = ResourceType._('ElastiCacheCluster');
+  static const memoryDBCluster = ResourceType._('MemoryDBCluster');
+  static const documentDBCluster = ResourceType._('DocumentDBCluster');
+  static const workSpaces = ResourceType._('WorkSpaces');
+  static const sageMakerEndpoint = ResourceType._('SageMakerEndpoint');
 
   final String value;
 
@@ -1488,7 +1494,13 @@ class ResourceType {
     auroraDbClusterStorage,
     dynamoDbReservedCapacity,
     memoryDbReservedInstances,
-    natGateway
+    natGateway,
+    dynamoDBTable,
+    elastiCacheCluster,
+    memoryDBCluster,
+    documentDBCluster,
+    workSpaces,
+    sageMakerEndpoint
   ];
 
   static ResourceType fromString(String value) => values
@@ -2011,8 +2023,14 @@ class ResourceDetails {
   /// The Compute Savings Plans recommendation details.
   final ComputeSavingsPlans? computeSavingsPlans;
 
+  /// The Amazon DocumentDB cluster recommendation details.
+  final DocumentDbCluster? documentDbCluster;
+
   /// The DynamoDB reserved capacity recommendation details.
   final DynamoDbReservedCapacity? dynamoDbReservedCapacity;
+
+  /// The DynamoDB table recommendation details.
+  final DynamoDbTable? dynamoDbTable;
 
   /// The Amazon Elastic Block Store volume recommendation details.
   final EbsVolume? ebsVolume;
@@ -2032,11 +2050,17 @@ class ResourceDetails {
   /// The ECS service recommendation details.
   final EcsService? ecsService;
 
+  /// The ElastiCache cluster recommendation details.
+  final ElastiCacheCluster? elastiCacheCluster;
+
   /// The ElastiCache reserved instances recommendation details.
   final ElastiCacheReservedInstances? elastiCacheReservedInstances;
 
   /// The Lambda function recommendation details.
   final LambdaFunction? lambdaFunction;
+
+  /// The MemoryDB cluster recommendation details.
+  final MemoryDbCluster? memoryDbCluster;
 
   /// The MemoryDB reserved instances recommendation details.
   final MemoryDbReservedInstances? memoryDbReservedInstances;
@@ -2059,21 +2083,31 @@ class ResourceDetails {
   /// The Redshift reserved instances recommendation details.
   final RedshiftReservedInstances? redshiftReservedInstances;
 
+  /// The SageMaker endpoint recommendation details.
+  final SageMakerEndpoint? sageMakerEndpoint;
+
   /// The SageMaker AI Savings Plans recommendation details.
   final SageMakerSavingsPlans? sageMakerSavingsPlans;
+
+  /// The WorkSpaces recommendation details.
+  final WorkSpaces? workSpaces;
 
   ResourceDetails({
     this.auroraDbClusterStorage,
     this.computeSavingsPlans,
+    this.documentDbCluster,
     this.dynamoDbReservedCapacity,
+    this.dynamoDbTable,
     this.ebsVolume,
     this.ec2AutoScalingGroup,
     this.ec2Instance,
     this.ec2InstanceSavingsPlans,
     this.ec2ReservedInstances,
     this.ecsService,
+    this.elastiCacheCluster,
     this.elastiCacheReservedInstances,
     this.lambdaFunction,
+    this.memoryDbCluster,
     this.memoryDbReservedInstances,
     this.natGateway,
     this.openSearchReservedInstances,
@@ -2081,7 +2115,9 @@ class ResourceDetails {
     this.rdsDbInstanceStorage,
     this.rdsReservedInstances,
     this.redshiftReservedInstances,
+    this.sageMakerEndpoint,
     this.sageMakerSavingsPlans,
+    this.workSpaces,
   });
 
   factory ResourceDetails.fromJson(Map<String, dynamic> json) {
@@ -2094,9 +2130,17 @@ class ResourceDetails {
           ? ComputeSavingsPlans.fromJson(
               json['computeSavingsPlans'] as Map<String, dynamic>)
           : null,
+      documentDbCluster: json['documentDbCluster'] != null
+          ? DocumentDbCluster.fromJson(
+              json['documentDbCluster'] as Map<String, dynamic>)
+          : null,
       dynamoDbReservedCapacity: json['dynamoDbReservedCapacity'] != null
           ? DynamoDbReservedCapacity.fromJson(
               json['dynamoDbReservedCapacity'] as Map<String, dynamic>)
+          : null,
+      dynamoDbTable: json['dynamoDbTable'] != null
+          ? DynamoDbTable.fromJson(
+              json['dynamoDbTable'] as Map<String, dynamic>)
           : null,
       ebsVolume: json['ebsVolume'] != null
           ? EbsVolume.fromJson(json['ebsVolume'] as Map<String, dynamic>)
@@ -2119,6 +2163,10 @@ class ResourceDetails {
       ecsService: json['ecsService'] != null
           ? EcsService.fromJson(json['ecsService'] as Map<String, dynamic>)
           : null,
+      elastiCacheCluster: json['elastiCacheCluster'] != null
+          ? ElastiCacheCluster.fromJson(
+              json['elastiCacheCluster'] as Map<String, dynamic>)
+          : null,
       elastiCacheReservedInstances: json['elastiCacheReservedInstances'] != null
           ? ElastiCacheReservedInstances.fromJson(
               json['elastiCacheReservedInstances'] as Map<String, dynamic>)
@@ -2126,6 +2174,10 @@ class ResourceDetails {
       lambdaFunction: json['lambdaFunction'] != null
           ? LambdaFunction.fromJson(
               json['lambdaFunction'] as Map<String, dynamic>)
+          : null,
+      memoryDbCluster: json['memoryDbCluster'] != null
+          ? MemoryDbCluster.fromJson(
+              json['memoryDbCluster'] as Map<String, dynamic>)
           : null,
       memoryDbReservedInstances: json['memoryDbReservedInstances'] != null
           ? MemoryDbReservedInstances.fromJson(
@@ -2154,9 +2206,16 @@ class ResourceDetails {
           ? RedshiftReservedInstances.fromJson(
               json['redshiftReservedInstances'] as Map<String, dynamic>)
           : null,
+      sageMakerEndpoint: json['sageMakerEndpoint'] != null
+          ? SageMakerEndpoint.fromJson(
+              json['sageMakerEndpoint'] as Map<String, dynamic>)
+          : null,
       sageMakerSavingsPlans: json['sageMakerSavingsPlans'] != null
           ? SageMakerSavingsPlans.fromJson(
               json['sageMakerSavingsPlans'] as Map<String, dynamic>)
+          : null,
+      workSpaces: json['workSpaces'] != null
+          ? WorkSpaces.fromJson(json['workSpaces'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -2164,15 +2223,19 @@ class ResourceDetails {
   Map<String, dynamic> toJson() {
     final auroraDbClusterStorage = this.auroraDbClusterStorage;
     final computeSavingsPlans = this.computeSavingsPlans;
+    final documentDbCluster = this.documentDbCluster;
     final dynamoDbReservedCapacity = this.dynamoDbReservedCapacity;
+    final dynamoDbTable = this.dynamoDbTable;
     final ebsVolume = this.ebsVolume;
     final ec2AutoScalingGroup = this.ec2AutoScalingGroup;
     final ec2Instance = this.ec2Instance;
     final ec2InstanceSavingsPlans = this.ec2InstanceSavingsPlans;
     final ec2ReservedInstances = this.ec2ReservedInstances;
     final ecsService = this.ecsService;
+    final elastiCacheCluster = this.elastiCacheCluster;
     final elastiCacheReservedInstances = this.elastiCacheReservedInstances;
     final lambdaFunction = this.lambdaFunction;
+    final memoryDbCluster = this.memoryDbCluster;
     final memoryDbReservedInstances = this.memoryDbReservedInstances;
     final natGateway = this.natGateway;
     final openSearchReservedInstances = this.openSearchReservedInstances;
@@ -2180,14 +2243,18 @@ class ResourceDetails {
     final rdsDbInstanceStorage = this.rdsDbInstanceStorage;
     final rdsReservedInstances = this.rdsReservedInstances;
     final redshiftReservedInstances = this.redshiftReservedInstances;
+    final sageMakerEndpoint = this.sageMakerEndpoint;
     final sageMakerSavingsPlans = this.sageMakerSavingsPlans;
+    final workSpaces = this.workSpaces;
     return {
       if (auroraDbClusterStorage != null)
         'auroraDbClusterStorage': auroraDbClusterStorage,
       if (computeSavingsPlans != null)
         'computeSavingsPlans': computeSavingsPlans,
+      if (documentDbCluster != null) 'documentDbCluster': documentDbCluster,
       if (dynamoDbReservedCapacity != null)
         'dynamoDbReservedCapacity': dynamoDbReservedCapacity,
+      if (dynamoDbTable != null) 'dynamoDbTable': dynamoDbTable,
       if (ebsVolume != null) 'ebsVolume': ebsVolume,
       if (ec2AutoScalingGroup != null)
         'ec2AutoScalingGroup': ec2AutoScalingGroup,
@@ -2197,9 +2264,11 @@ class ResourceDetails {
       if (ec2ReservedInstances != null)
         'ec2ReservedInstances': ec2ReservedInstances,
       if (ecsService != null) 'ecsService': ecsService,
+      if (elastiCacheCluster != null) 'elastiCacheCluster': elastiCacheCluster,
       if (elastiCacheReservedInstances != null)
         'elastiCacheReservedInstances': elastiCacheReservedInstances,
       if (lambdaFunction != null) 'lambdaFunction': lambdaFunction,
+      if (memoryDbCluster != null) 'memoryDbCluster': memoryDbCluster,
       if (memoryDbReservedInstances != null)
         'memoryDbReservedInstances': memoryDbReservedInstances,
       if (natGateway != null) 'natGateway': natGateway,
@@ -2212,8 +2281,10 @@ class ResourceDetails {
         'rdsReservedInstances': rdsReservedInstances,
       if (redshiftReservedInstances != null)
         'redshiftReservedInstances': redshiftReservedInstances,
+      if (sageMakerEndpoint != null) 'sageMakerEndpoint': sageMakerEndpoint,
       if (sageMakerSavingsPlans != null)
         'sageMakerSavingsPlans': sageMakerSavingsPlans,
+      if (workSpaces != null) 'workSpaces': workSpaces,
     };
   }
 }
@@ -2936,44 +3007,164 @@ class NatGateway {
   }
 }
 
-/// The NAT Gateway configuration used for recommendations.
+/// The DynamoDB table recommendation details.
 ///
 /// @nodoc
-class NatGatewayConfiguration {
-  /// The number of active connections through the NAT Gateway.
-  final int? activeConnectionCount;
+class DynamoDbTable {
+  final ResourceCostCalculation? costCalculation;
 
-  /// The number of packets received from the destination through the NAT Gateway.
-  final int? packetsInFromDestination;
-
-  /// The number of packets received from the source through the NAT Gateway.
-  final int? packetsInFromSource;
-
-  NatGatewayConfiguration({
-    this.activeConnectionCount,
-    this.packetsInFromDestination,
-    this.packetsInFromSource,
+  DynamoDbTable({
+    this.costCalculation,
   });
 
-  factory NatGatewayConfiguration.fromJson(Map<String, dynamic> json) {
-    return NatGatewayConfiguration(
-      activeConnectionCount: json['activeConnectionCount'] as int?,
-      packetsInFromDestination: json['packetsInFromDestination'] as int?,
-      packetsInFromSource: json['packetsInFromSource'] as int?,
+  factory DynamoDbTable.fromJson(Map<String, dynamic> json) {
+    return DynamoDbTable(
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final activeConnectionCount = this.activeConnectionCount;
-    final packetsInFromDestination = this.packetsInFromDestination;
-    final packetsInFromSource = this.packetsInFromSource;
+    final costCalculation = this.costCalculation;
     return {
-      if (activeConnectionCount != null)
-        'activeConnectionCount': activeConnectionCount,
-      if (packetsInFromDestination != null)
-        'packetsInFromDestination': packetsInFromDestination,
-      if (packetsInFromSource != null)
-        'packetsInFromSource': packetsInFromSource,
+      if (costCalculation != null) 'costCalculation': costCalculation,
+    };
+  }
+}
+
+/// The ElastiCache cluster recommendation details.
+///
+/// @nodoc
+class ElastiCacheCluster {
+  final ResourceCostCalculation? costCalculation;
+
+  ElastiCacheCluster({
+    this.costCalculation,
+  });
+
+  factory ElastiCacheCluster.fromJson(Map<String, dynamic> json) {
+    return ElastiCacheCluster(
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCalculation = this.costCalculation;
+    return {
+      if (costCalculation != null) 'costCalculation': costCalculation,
+    };
+  }
+}
+
+/// The MemoryDB cluster recommendation details.
+///
+/// @nodoc
+class MemoryDbCluster {
+  final ResourceCostCalculation? costCalculation;
+
+  MemoryDbCluster({
+    this.costCalculation,
+  });
+
+  factory MemoryDbCluster.fromJson(Map<String, dynamic> json) {
+    return MemoryDbCluster(
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCalculation = this.costCalculation;
+    return {
+      if (costCalculation != null) 'costCalculation': costCalculation,
+    };
+  }
+}
+
+/// The Amazon DocumentDB cluster recommendation details.
+///
+/// @nodoc
+class DocumentDbCluster {
+  final ResourceCostCalculation? costCalculation;
+
+  DocumentDbCluster({
+    this.costCalculation,
+  });
+
+  factory DocumentDbCluster.fromJson(Map<String, dynamic> json) {
+    return DocumentDbCluster(
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCalculation = this.costCalculation;
+    return {
+      if (costCalculation != null) 'costCalculation': costCalculation,
+    };
+  }
+}
+
+/// The WorkSpaces recommendation details.
+///
+/// @nodoc
+class WorkSpaces {
+  final ResourceCostCalculation? costCalculation;
+
+  WorkSpaces({
+    this.costCalculation,
+  });
+
+  factory WorkSpaces.fromJson(Map<String, dynamic> json) {
+    return WorkSpaces(
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCalculation = this.costCalculation;
+    return {
+      if (costCalculation != null) 'costCalculation': costCalculation,
+    };
+  }
+}
+
+/// The SageMaker endpoint recommendation details.
+///
+/// @nodoc
+class SageMakerEndpoint {
+  final ResourceCostCalculation? costCalculation;
+
+  SageMakerEndpoint({
+    this.costCalculation,
+  });
+
+  factory SageMakerEndpoint.fromJson(Map<String, dynamic> json) {
+    return SageMakerEndpoint(
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCalculation = this.costCalculation;
+    return {
+      if (costCalculation != null) 'costCalculation': costCalculation,
     };
   }
 }
@@ -3172,6 +3363,48 @@ class Usage {
       if (unit != null) 'unit': unit,
       if (usageAmount != null) 'usageAmount': _s.encodeJsonDouble(usageAmount),
       if (usageType != null) 'usageType': usageType,
+    };
+  }
+}
+
+/// The NAT Gateway configuration used for recommendations.
+///
+/// @nodoc
+class NatGatewayConfiguration {
+  /// The number of active connections through the NAT Gateway.
+  final int? activeConnectionCount;
+
+  /// The number of packets received from the destination through the NAT Gateway.
+  final int? packetsInFromDestination;
+
+  /// The number of packets received from the source through the NAT Gateway.
+  final int? packetsInFromSource;
+
+  NatGatewayConfiguration({
+    this.activeConnectionCount,
+    this.packetsInFromDestination,
+    this.packetsInFromSource,
+  });
+
+  factory NatGatewayConfiguration.fromJson(Map<String, dynamic> json) {
+    return NatGatewayConfiguration(
+      activeConnectionCount: json['activeConnectionCount'] as int?,
+      packetsInFromDestination: json['packetsInFromDestination'] as int?,
+      packetsInFromSource: json['packetsInFromSource'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeConnectionCount = this.activeConnectionCount;
+    final packetsInFromDestination = this.packetsInFromDestination;
+    final packetsInFromSource = this.packetsInFromSource;
+    return {
+      if (activeConnectionCount != null)
+        'activeConnectionCount': activeConnectionCount,
+      if (packetsInFromDestination != null)
+        'packetsInFromDestination': packetsInFromDestination,
+      if (packetsInFromSource != null)
+        'packetsInFromSource': packetsInFromSource,
     };
   }
 }

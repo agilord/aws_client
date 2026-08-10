@@ -2310,6 +2310,87 @@ class GuardDuty {
     return CreateFilterResponse.fromJson(response);
   }
 
+  /// This API is currently available as a preview. During the preview, you can
+  /// initiate up to 10 investigations per account per day, with a total limit
+  /// of 100 investigations per account. This feature is available in the
+  /// following Amazon Web Services Regions: US East (N. Virginia), US East
+  /// (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe
+  /// (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia
+  /// Pacific (Tokyo).
+  ///
+  /// Initiates a GuardDuty investigation that automatically analyzes security
+  /// findings, correlates related activity, performs account-level analysis,
+  /// and produces a structured investigation summary with recommended next
+  /// steps.
+  ///
+  /// Only the administrator account can create an investigation. Member
+  /// accounts don't have permission to create investigations from their
+  /// accounts.
+  ///
+  /// To use this operation, the <code>AI_ANALYST</code> feature must be enabled
+  /// on your detector.
+  ///
+  /// This feature uses Amazon Bedrock models that leverage Cross-Region
+  /// Inference (CRIS), which automatically selects the optimal Amazon Web
+  /// Services Region within your geography to process the investigation
+  /// analysis and generate the investigation report. This maximizes available
+  /// compute resources, model availability, and delivers the best customer
+  /// experience. Your data remains stored only in the Region where the
+  /// investigation request originates, however, investigation data and summary
+  /// results may be processed outside that Region. All data is transmitted
+  /// encrypted across Amazon's secure network. For more information, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-investigation.html">GuardDuty
+  /// Investigation</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [detectorId] :
+  /// The unique ID of the GuardDuty detector for the account in which the
+  /// investigation is created.
+  ///
+  /// To find the <code>detectorId</code> in the current Region, see the
+  /// Settings page in the GuardDuty console, or run the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html">ListDetectors</a>
+  /// API.
+  ///
+  /// Parameter [triggerPrompt] :
+  /// A natural-language description of what to investigate. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account
+  /// 123456789012"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Analyze findings in account with id 123456789012"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Analyze findings in my organization"</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the create request.
+  Future<CreateInvestigationResponse> createInvestigation({
+    required String detectorId,
+    required String triggerPrompt,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'triggerPrompt': triggerPrompt,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/detector/${Uri.encodeComponent(detectorId)}/investigation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateInvestigationResponse.fromJson(response);
+  }
+
   /// Creates a new IPSet, which is called a trusted IP list in the console user
   /// interface. An IPSet is a list of IP addresses that are trusted for secure
   /// communication with Amazon Web Services infrastructure and applications.
@@ -3719,6 +3800,47 @@ class GuardDuty {
     return GetFindingsStatisticsResponse.fromJson(response);
   }
 
+  /// This API is currently available as a preview. This feature is available in
+  /// the following Amazon Web Services Regions: US East (N. Virginia), US East
+  /// (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe
+  /// (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia
+  /// Pacific (Tokyo).
+  ///
+  /// Retrieves the results and status of a specific GuardDuty investigation.
+  ///
+  /// An administrator account can retrieve any investigation within the
+  /// organization. Member accounts can only retrieve investigations that belong
+  /// to them.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [detectorId] :
+  /// The unique ID of the GuardDuty detector associated with the investigation.
+  ///
+  /// To find the <code>detectorId</code> in the current Region, see the
+  /// Settings page in the GuardDuty console, or run the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html">ListDetectors</a>
+  /// API.
+  ///
+  /// Parameter [investigationId] :
+  /// The unique identifier of the investigation to retrieve.
+  Future<GetInvestigationResponse> getInvestigation({
+    required String detectorId,
+    required String investigationId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/detector/${Uri.encodeComponent(detectorId)}/investigation/${Uri.encodeComponent(investigationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInvestigationResponse.fromJson(response);
+  }
+
   /// Returns the count of all GuardDuty membership invitations that were sent
   /// to the current member account except the currently accepted invitation.
   ///
@@ -4611,6 +4733,70 @@ class GuardDuty {
       exceptionFnMap: _exceptionFns,
     );
     return ListFindingsResponse.fromJson(response);
+  }
+
+  /// This API is currently available as a preview. This feature is available in
+  /// the following Amazon Web Services Regions: US East (N. Virginia), US East
+  /// (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe
+  /// (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia
+  /// Pacific (Tokyo).
+  ///
+  /// Returns a list of investigations associated with the specified GuardDuty
+  /// detector.
+  ///
+  /// An administrator account sees all investigations across the organization.
+  /// Member accounts see only the investigations that belong to them.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [detectorId] :
+  /// The unique ID of the GuardDuty detector whose investigations you want to
+  /// list.
+  ///
+  /// To find the <code>detectorId</code> in the current Region, see the
+  /// Settings page in the GuardDuty console, or run the <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html">ListDetectors</a>
+  /// API.
+  ///
+  /// Parameter [maxResults] :
+  /// You can use this parameter to indicate the maximum number of items you
+  /// want in the response. The default value is 50.
+  ///
+  /// Parameter [nextToken] :
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the list action. For subsequent
+  /// calls to the action, fill nextToken in the request with the value of
+  /// NextToken from the previous response to continue listing data.
+  ///
+  /// Parameter [sortCriteria] :
+  /// Represents the criteria used for sorting investigations.
+  Future<ListInvestigationsResponse> listInvestigations({
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
+    InvestigationSortCriteria? sortCriteria,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sortCriteria != null) 'sortCriteria': sortCriteria,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/detector/${Uri.encodeComponent(detectorId)}/investigation/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInvestigationsResponse.fromJson(response);
   }
 
   /// Lists all GuardDuty membership invitations that were sent to the current
@@ -8087,6 +8273,29 @@ class CreateFilterResponse {
 }
 
 /// @nodoc
+class CreateInvestigationResponse {
+  /// The unique identifier of the newly created investigation.
+  final String investigationId;
+
+  CreateInvestigationResponse({
+    required this.investigationId,
+  });
+
+  factory CreateInvestigationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateInvestigationResponse(
+      investigationId: (json['investigationId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final investigationId = this.investigationId;
+    return {
+      'investigationId': investigationId,
+    };
+  }
+}
+
+/// @nodoc
 class CreateIPSetResponse {
   /// The ID of the IPSet resource.
   final String ipSetId;
@@ -8880,6 +9089,11 @@ class GetFilterResponse {
   /// The name of the filter.
   final String name;
 
+  /// The timestamp when the filter was created. This field is not available for
+  /// filters that were created before the lifecycle metadata feature was enabled
+  /// (legacy filters).
+  final DateTime? createdAt;
+
   /// The description of the filter.
   final String? description;
 
@@ -8890,13 +9104,26 @@ class GetFilterResponse {
   /// The tags of the filter resource.
   final Map<String, String>? tags;
 
+  /// The timestamp when the filter was last updated. For legacy filters, this
+  /// field is present only after the filter has been updated at least once since
+  /// the lifecycle metadata feature was enabled.
+  final DateTime? updatedAt;
+
+  /// The version of the filter. Every time the filter is updated, the version
+  /// increments by 1. This field is not available for legacy filters that were
+  /// created before the lifecycle metadata feature was enabled.
+  final int? version;
+
   GetFilterResponse({
     required this.action,
     required this.findingCriteria,
     required this.name,
+    this.createdAt,
     this.description,
     this.rank,
     this.tags,
+    this.updatedAt,
+    this.version,
   });
 
   factory GetFilterResponse.fromJson(Map<String, dynamic> json) {
@@ -8906,10 +9133,13 @@ class GetFilterResponse {
           (json['findingCriteria'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       name: (json['name'] as String?) ?? '',
+      createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       rank: json['rank'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+      version: json['version'] as int?,
     );
   }
 
@@ -8917,16 +9147,22 @@ class GetFilterResponse {
     final action = this.action;
     final findingCriteria = this.findingCriteria;
     final name = this.name;
+    final createdAt = this.createdAt;
     final description = this.description;
     final rank = this.rank;
     final tags = this.tags;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
     return {
       'action': action.value,
       'findingCriteria': findingCriteria,
       'name': name,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (description != null) 'description': description,
       if (rank != null) 'rank': rank,
       if (tags != null) 'tags': tags,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+      if (version != null) 'version': version,
     };
   }
 }
@@ -8988,6 +9224,31 @@ class GetFindingsStatisticsResponse {
     return {
       'findingStatistics': findingStatistics,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class GetInvestigationResponse {
+  /// The details and results of the requested investigation.
+  final Investigation investigation;
+
+  GetInvestigationResponse({
+    required this.investigation,
+  });
+
+  factory GetInvestigationResponse.fromJson(Map<String, dynamic> json) {
+    return GetInvestigationResponse(
+      investigation: Investigation.fromJson(
+          (json['investigation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final investigation = this.investigation;
+    return {
+      'investigation': investigation,
     };
   }
 }
@@ -9980,6 +10241,40 @@ class ListFindingsResponse {
 }
 
 /// @nodoc
+class ListInvestigationsResponse {
+  /// A list of investigation summaries associated with the specified detector.
+  final List<InvestigationSummary> investigations;
+
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
+  final String? nextToken;
+
+  ListInvestigationsResponse({
+    required this.investigations,
+    this.nextToken,
+  });
+
+  factory ListInvestigationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListInvestigationsResponse(
+      investigations: ((json['investigations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InvestigationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final investigations = this.investigations;
+    final nextToken = this.nextToken;
+    return {
+      'investigations': investigations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListInvitationsResponse {
   /// A list of invitation descriptions.
   final List<Invitation>? invitations;
@@ -10819,6 +11114,7 @@ class OrgFeature {
   static const lambdaNetworkLogs = OrgFeature._('LAMBDA_NETWORK_LOGS');
   static const eksRuntimeMonitoring = OrgFeature._('EKS_RUNTIME_MONITORING');
   static const runtimeMonitoring = OrgFeature._('RUNTIME_MONITORING');
+  static const aiProtection = OrgFeature._('AI_PROTECTION');
 
   final String value;
 
@@ -10831,7 +11127,8 @@ class OrgFeature {
     rdsLoginEvents,
     lambdaNetworkLogs,
     eksRuntimeMonitoring,
-    runtimeMonitoring
+    runtimeMonitoring,
+    aiProtection
   ];
 
   static OrgFeature fromString(String value) => values
@@ -11917,6 +12214,8 @@ class DetectorFeature {
   static const eksRuntimeMonitoring =
       DetectorFeature._('EKS_RUNTIME_MONITORING');
   static const runtimeMonitoring = DetectorFeature._('RUNTIME_MONITORING');
+  static const aiProtection = DetectorFeature._('AI_PROTECTION');
+  static const aiAnalyst = DetectorFeature._('AI_ANALYST');
 
   final String value;
 
@@ -11929,7 +12228,9 @@ class DetectorFeature {
     rdsLoginEvents,
     lambdaNetworkLogs,
     eksRuntimeMonitoring,
-    runtimeMonitoring
+    runtimeMonitoring,
+    aiProtection,
+    aiAnalyst
   ];
 
   static DetectorFeature fromString(String value) =>
@@ -12862,6 +13163,221 @@ class Invitation {
   }
 }
 
+/// Contains summary information about a GuardDuty investigation.
+///
+/// @nodoc
+class InvestigationSummary {
+  /// The Amazon Web Services account ID associated with the investigation.
+  final String? accountId;
+
+  /// The confidence level of the investigation's assessment.
+  final Confidence? confidence;
+
+  /// The timestamp at which the investigation completed.
+  final DateTime? endTime;
+
+  /// The unique identifier of the investigation.
+  final String? investigationId;
+
+  /// The assessed risk level of the investigated threat.
+  final RiskLevel? riskLevel;
+
+  /// The timestamp at which the investigation started.
+  final DateTime? startTime;
+
+  /// The current status of the investigation.
+  final InvestigationStatus? status;
+
+  /// A short title summarizing the investigation.
+  final String? title;
+
+  /// The natural-language prompt that initiated this investigation.
+  final String? triggerPrompt;
+
+  InvestigationSummary({
+    this.accountId,
+    this.confidence,
+    this.endTime,
+    this.investigationId,
+    this.riskLevel,
+    this.startTime,
+    this.status,
+    this.title,
+    this.triggerPrompt,
+  });
+
+  factory InvestigationSummary.fromJson(Map<String, dynamic> json) {
+    return InvestigationSummary(
+      accountId: json['accountId'] as String?,
+      confidence: (json['confidence'] as String?)?.let(Confidence.fromString),
+      endTime: timeStampFromJson(json['endTime']),
+      investigationId: json['investigationId'] as String?,
+      riskLevel: (json['riskLevel'] as String?)?.let(RiskLevel.fromString),
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.let(InvestigationStatus.fromString),
+      title: json['title'] as String?,
+      triggerPrompt: json['triggerPrompt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final confidence = this.confidence;
+    final endTime = this.endTime;
+    final investigationId = this.investigationId;
+    final riskLevel = this.riskLevel;
+    final startTime = this.startTime;
+    final status = this.status;
+    final title = this.title;
+    final triggerPrompt = this.triggerPrompt;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (confidence != null) 'confidence': confidence.value,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (investigationId != null) 'investigationId': investigationId,
+      if (riskLevel != null) 'riskLevel': riskLevel.value,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.value,
+      if (title != null) 'title': title,
+      if (triggerPrompt != null) 'triggerPrompt': triggerPrompt,
+    };
+  }
+}
+
+/// @nodoc
+class InvestigationStatus {
+  static const running = InvestigationStatus._('RUNNING');
+  static const completed = InvestigationStatus._('COMPLETED');
+  static const failed = InvestigationStatus._('FAILED');
+
+  final String value;
+
+  const InvestigationStatus._(this.value);
+
+  static const values = [running, completed, failed];
+
+  static InvestigationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InvestigationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InvestigationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class RiskLevel {
+  static const info = RiskLevel._('Info');
+  static const low = RiskLevel._('Low');
+  static const medium = RiskLevel._('Medium');
+  static const high = RiskLevel._('High');
+  static const critical = RiskLevel._('Critical');
+
+  final String value;
+
+  const RiskLevel._(this.value);
+
+  static const values = [info, low, medium, high, critical];
+
+  static RiskLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RiskLevel._(value));
+
+  @override
+  bool operator ==(other) => other is RiskLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class Confidence {
+  static const unknown = Confidence._('Unknown');
+  static const low = Confidence._('Low');
+  static const medium = Confidence._('Medium');
+  static const high = Confidence._('High');
+
+  final String value;
+
+  const Confidence._(this.value);
+
+  static const values = [unknown, low, medium, high];
+
+  static Confidence fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Confidence._(value));
+
+  @override
+  bool operator ==(other) => other is Confidence && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the criteria used for sorting investigations.
+///
+/// @nodoc
+class InvestigationSortCriteria {
+  /// The attribute by which to sort investigations.
+  final InvestigationSortField? attributeName;
+
+  /// The order in which the sorted results are to be displayed.
+  final OrderBy? orderBy;
+
+  InvestigationSortCriteria({
+    this.attributeName,
+    this.orderBy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final orderBy = this.orderBy;
+    return {
+      if (attributeName != null) 'attributeName': attributeName.value,
+      if (orderBy != null) 'orderBy': orderBy.value,
+    };
+  }
+}
+
+/// @nodoc
+class InvestigationSortField {
+  static const startTime = InvestigationSortField._('START_TIME');
+  static const endTime = InvestigationSortField._('END_TIME');
+  static const status = InvestigationSortField._('STATUS');
+  static const riskLevel = InvestigationSortField._('RISK_LEVEL');
+  static const confidence = InvestigationSortField._('CONFIDENCE');
+
+  final String value;
+
+  const InvestigationSortField._(this.value);
+
+  static const values = [startTime, endTime, status, riskLevel, confidence];
+
+  static InvestigationSortField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InvestigationSortField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InvestigationSortField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about the resource of the GuardDuty account.
 ///
 /// @nodoc
@@ -13731,6 +14247,7 @@ class UsageFeature {
       UsageFeature._('RDS_DBI_PROTECTION_PROVISIONED');
   static const rdsDbiProtectionServerless =
       UsageFeature._('RDS_DBI_PROTECTION_SERVERLESS');
+  static const aiProtection = UsageFeature._('AI_PROTECTION');
 
   final String value;
 
@@ -13749,7 +14266,8 @@ class UsageFeature {
     ec2RuntimeMonitoring,
     fargateRuntimeMonitoring,
     rdsDbiProtectionProvisioned,
-    rdsDbiProtectionServerless
+    rdsDbiProtectionServerless,
+    aiProtection
   ];
 
   static UsageFeature fromString(String value) => values
@@ -14470,6 +14988,7 @@ class FreeTrialFeatureResult {
       FreeTrialFeatureResult._('EC2_RUNTIME_MONITORING');
   static const fargateRuntimeMonitoring =
       FreeTrialFeatureResult._('FARGATE_RUNTIME_MONITORING');
+  static const aiProtection = FreeTrialFeatureResult._('AI_PROTECTION');
 
   final String value;
 
@@ -14486,7 +15005,8 @@ class FreeTrialFeatureResult {
     lambdaNetworkLogs,
     eksRuntimeMonitoring,
     ec2RuntimeMonitoring,
-    fargateRuntimeMonitoring
+    fargateRuntimeMonitoring,
+    aiProtection
   ];
 
   static FreeTrialFeatureResult fromString(String value) =>
@@ -16249,6 +16769,257 @@ class IpSetStatus {
   String toString() => value;
 }
 
+/// Contains the details and results of a GuardDuty investigation.
+///
+/// @nodoc
+class Investigation {
+  /// The unique identifier of the investigation.
+  final String investigationId;
+
+  /// The current status of the investigation. Possible values are
+  /// <code>RUNNING</code>, <code>COMPLETED</code>, and <code>FAILED</code>.
+  final InvestigationStatus status;
+
+  /// The natural-language prompt that initiated this investigation.
+  final String triggerPrompt;
+
+  /// The account that initiated the investigation.
+  final String triggeredBy;
+
+  /// Details about the cloud environment in which the investigation was
+  /// performed, including the provider, region, and account.
+  final CloudDetails? cloud;
+
+  /// The confidence level of the investigation's assessment. Possible values are
+  /// <code>Unknown</code>, <code>Low</code>, <code>Medium</code>, and
+  /// <code>High</code>.
+  final Confidence? confidence;
+
+  /// The timestamp at which the investigation completed.
+  final DateTime? endTime;
+
+  /// Details about the error if the investigation status is <code>FAILED</code>.
+  final String? error;
+
+  /// Metadata about the product and version that produced the investigation.
+  final InvestigationMetadata? metadata;
+
+  /// A human-readable description of the assessed risk.
+  final String? risk;
+
+  /// The assessed risk level of the investigated threat. Possible values are
+  /// <code>Info</code>, <code>Low</code>, <code>Medium</code>, <code>High</code>,
+  /// and <code>Critical</code>.
+  final RiskLevel? riskLevel;
+
+  /// The timestamp at which the investigation started.
+  final DateTime? startTime;
+
+  /// A structured summary of the investigation findings, including affected
+  /// resources, threat assessment, and recommended remediation steps.
+  final String? summary;
+
+  Investigation({
+    required this.investigationId,
+    required this.status,
+    required this.triggerPrompt,
+    required this.triggeredBy,
+    this.cloud,
+    this.confidence,
+    this.endTime,
+    this.error,
+    this.metadata,
+    this.risk,
+    this.riskLevel,
+    this.startTime,
+    this.summary,
+  });
+
+  factory Investigation.fromJson(Map<String, dynamic> json) {
+    return Investigation(
+      investigationId: (json['investigationId'] as String?) ?? '',
+      status: InvestigationStatus.fromString((json['status'] as String?) ?? ''),
+      triggerPrompt: (json['triggerPrompt'] as String?) ?? '',
+      triggeredBy: (json['triggeredBy'] as String?) ?? '',
+      cloud: json['cloud'] != null
+          ? CloudDetails.fromJson(json['cloud'] as Map<String, dynamic>)
+          : null,
+      confidence: (json['confidence'] as String?)?.let(Confidence.fromString),
+      endTime: timeStampFromJson(json['endTime']),
+      error: json['error'] as String?,
+      metadata: json['metadata'] != null
+          ? InvestigationMetadata.fromJson(
+              json['metadata'] as Map<String, dynamic>)
+          : null,
+      risk: json['risk'] as String?,
+      riskLevel: (json['riskLevel'] as String?)?.let(RiskLevel.fromString),
+      startTime: timeStampFromJson(json['startTime']),
+      summary: json['summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final investigationId = this.investigationId;
+    final status = this.status;
+    final triggerPrompt = this.triggerPrompt;
+    final triggeredBy = this.triggeredBy;
+    final cloud = this.cloud;
+    final confidence = this.confidence;
+    final endTime = this.endTime;
+    final error = this.error;
+    final metadata = this.metadata;
+    final risk = this.risk;
+    final riskLevel = this.riskLevel;
+    final startTime = this.startTime;
+    final summary = this.summary;
+    return {
+      'investigationId': investigationId,
+      'status': status.value,
+      'triggerPrompt': triggerPrompt,
+      'triggeredBy': triggeredBy,
+      if (cloud != null) 'cloud': cloud,
+      if (confidence != null) 'confidence': confidence.value,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (error != null) 'error': error,
+      if (metadata != null) 'metadata': metadata,
+      if (risk != null) 'risk': risk,
+      if (riskLevel != null) 'riskLevel': riskLevel.value,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (summary != null) 'summary': summary,
+    };
+  }
+}
+
+/// Contains metadata about the product and version that produced an
+/// investigation.
+///
+/// @nodoc
+class InvestigationMetadata {
+  /// Information about the product that produced the investigation.
+  final Product product;
+
+  /// The version of the investigation engine that produced the results.
+  final String version;
+
+  InvestigationMetadata({
+    required this.product,
+    required this.version,
+  });
+
+  factory InvestigationMetadata.fromJson(Map<String, dynamic> json) {
+    return InvestigationMetadata(
+      product: Product.fromJson((json['product'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      version: (json['version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final product = this.product;
+    final version = this.version;
+    return {
+      'product': product,
+      'version': version,
+    };
+  }
+}
+
+/// Contains details about the cloud environment associated with an
+/// investigation.
+///
+/// @nodoc
+class CloudDetails {
+  /// The Amazon Web Services account ID of the investigated resource.
+  final String account;
+
+  /// The cloud provider. Currently, only <code>AWS</code> is supported.
+  final CloudProvider provider;
+
+  /// The Amazon Web Services Region in which the investigated resource resides.
+  final String region;
+
+  CloudDetails({
+    required this.account,
+    required this.provider,
+    required this.region,
+  });
+
+  factory CloudDetails.fromJson(Map<String, dynamic> json) {
+    return CloudDetails(
+      account: (json['account'] as String?) ?? '',
+      provider: CloudProvider.fromString((json['provider'] as String?) ?? ''),
+      region: (json['region'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final provider = this.provider;
+    final region = this.region;
+    return {
+      'account': account,
+      'provider': provider.value,
+      'region': region,
+    };
+  }
+}
+
+/// @nodoc
+class CloudProvider {
+  static const aws = CloudProvider._('AWS');
+
+  final String value;
+
+  const CloudProvider._(this.value);
+
+  static const values = [aws];
+
+  static CloudProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudProvider._(value));
+
+  @override
+  bool operator ==(other) => other is CloudProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the product that produced an investigation.
+///
+/// @nodoc
+class Product {
+  /// The name of the product.
+  final String name;
+
+  /// The specific feature within the product that produced the investigation.
+  final String? feature;
+
+  Product({
+    required this.name,
+    this.feature,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      name: (json['name'] as String?) ?? '',
+      feature: json['feature'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final feature = this.feature;
+    return {
+      'name': name,
+      if (feature != null) 'feature': feature,
+    };
+  }
+}
+
 /// Contains information about finding statistics.
 ///
 /// @nodoc
@@ -16807,6 +17578,10 @@ class Resource {
   /// The IAM access key details (user information) of a user that engaged in the
   /// activity that prompted GuardDuty to generate a finding.
   final AccessKeyDetails? accessKeyDetails;
+
+  /// Contains information about the Bedrock guardrail that was involved in a
+  /// finding.
+  final BedrockGuardrailDetails? bedrockGuardrailDetails;
   final Container? containerDetails;
 
   /// Contains details about the EBS snapshot that was scanned.
@@ -16836,6 +17611,9 @@ class Resource {
   /// finding.
   final LambdaDetails? lambdaDetails;
 
+  /// Contains information about the AI models involved in a finding.
+  final List<ModelDetail>? modelDetails;
+
   /// Contains information about the database instance to which an anomalous login
   /// attempt was made.
   final RdsDbInstanceDetails? rdsDbInstanceDetails;
@@ -16859,6 +17637,7 @@ class Resource {
 
   Resource({
     this.accessKeyDetails,
+    this.bedrockGuardrailDetails,
     this.containerDetails,
     this.ebsSnapshotDetails,
     this.ebsVolumeDetails,
@@ -16868,6 +17647,7 @@ class Resource {
     this.instanceDetails,
     this.kubernetesDetails,
     this.lambdaDetails,
+    this.modelDetails,
     this.rdsDbInstanceDetails,
     this.rdsDbUserDetails,
     this.rdsLimitlessDbDetails,
@@ -16881,6 +17661,10 @@ class Resource {
       accessKeyDetails: json['accessKeyDetails'] != null
           ? AccessKeyDetails.fromJson(
               json['accessKeyDetails'] as Map<String, dynamic>)
+          : null,
+      bedrockGuardrailDetails: json['bedrockGuardrailDetails'] != null
+          ? BedrockGuardrailDetails.fromJson(
+              json['bedrockGuardrailDetails'] as Map<String, dynamic>)
           : null,
       containerDetails: json['containerDetails'] != null
           ? Container.fromJson(json['containerDetails'] as Map<String, dynamic>)
@@ -16917,6 +17701,10 @@ class Resource {
           ? LambdaDetails.fromJson(
               json['lambdaDetails'] as Map<String, dynamic>)
           : null,
+      modelDetails: (json['modelDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ModelDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
       rdsDbInstanceDetails: json['rdsDbInstanceDetails'] != null
           ? RdsDbInstanceDetails.fromJson(
               json['rdsDbInstanceDetails'] as Map<String, dynamic>)
@@ -16943,6 +17731,7 @@ class Resource {
 
   Map<String, dynamic> toJson() {
     final accessKeyDetails = this.accessKeyDetails;
+    final bedrockGuardrailDetails = this.bedrockGuardrailDetails;
     final containerDetails = this.containerDetails;
     final ebsSnapshotDetails = this.ebsSnapshotDetails;
     final ebsVolumeDetails = this.ebsVolumeDetails;
@@ -16952,6 +17741,7 @@ class Resource {
     final instanceDetails = this.instanceDetails;
     final kubernetesDetails = this.kubernetesDetails;
     final lambdaDetails = this.lambdaDetails;
+    final modelDetails = this.modelDetails;
     final rdsDbInstanceDetails = this.rdsDbInstanceDetails;
     final rdsDbUserDetails = this.rdsDbUserDetails;
     final rdsLimitlessDbDetails = this.rdsLimitlessDbDetails;
@@ -16960,6 +17750,8 @@ class Resource {
     final s3BucketDetails = this.s3BucketDetails;
     return {
       if (accessKeyDetails != null) 'accessKeyDetails': accessKeyDetails,
+      if (bedrockGuardrailDetails != null)
+        'bedrockGuardrailDetails': bedrockGuardrailDetails,
       if (containerDetails != null) 'containerDetails': containerDetails,
       if (ebsSnapshotDetails != null) 'ebsSnapshotDetails': ebsSnapshotDetails,
       if (ebsVolumeDetails != null) 'ebsVolumeDetails': ebsVolumeDetails,
@@ -16969,6 +17761,7 @@ class Resource {
       if (instanceDetails != null) 'instanceDetails': instanceDetails,
       if (kubernetesDetails != null) 'kubernetesDetails': kubernetesDetails,
       if (lambdaDetails != null) 'lambdaDetails': lambdaDetails,
+      if (modelDetails != null) 'modelDetails': modelDetails,
       if (rdsDbInstanceDetails != null)
         'rdsDbInstanceDetails': rdsDbInstanceDetails,
       if (rdsDbUserDetails != null) 'rdsDbUserDetails': rdsDbUserDetails,
@@ -20230,12 +21023,13 @@ class AnomalyObject {
 /// @nodoc
 class ProfileType {
   static const frequency = ProfileType._('FREQUENCY');
+  static const volume = ProfileType._('VOLUME');
 
   final String value;
 
   const ProfileType._(this.value);
 
-  static const values = [frequency];
+  static const values = [frequency, volume];
 
   static ProfileType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => ProfileType._(value));
@@ -20256,12 +21050,14 @@ class ProfileSubtype {
   static const infrequent = ProfileSubtype._('INFREQUENT');
   static const unseen = ProfileSubtype._('UNSEEN');
   static const rare = ProfileSubtype._('RARE');
+  static const count = ProfileSubtype._('COUNT');
+  static const average = ProfileSubtype._('AVERAGE');
 
   final String value;
 
   const ProfileSubtype._(this.value);
 
-  static const values = [frequent, infrequent, unseen, rare];
+  static const values = [frequent, infrequent, unseen, rare, count, average];
 
   static ProfileSubtype fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -20281,22 +21077,29 @@ class ProfileSubtype {
 ///
 /// @nodoc
 class Observations {
+  /// The numeric values that were unusual.
+  final List<int>? number;
+
   /// The text that was unusual.
   final List<String>? text;
 
   Observations({
+    this.number,
     this.text,
   });
 
   factory Observations.fromJson(Map<String, dynamic> json) {
     return Observations(
+      number: (json['number'] as List?)?.nonNulls.map((e) => e as int).toList(),
       text: (json['text'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final number = this.number;
     final text = this.text;
     return {
+      if (number != null) 'number': number,
       if (text != null) 'text': text,
     };
   }
@@ -22971,28 +23774,352 @@ class Ec2ImageDetails {
 class RecoveryPointDetails {
   /// The name of the backup vault containing the recovery point.
   final String? backupVaultName;
+  final ScanConfigurationContinuousScanDetails? continuousScanDetails;
 
   /// The Amazon Resource Name (ARN) of the recovery point.
   final String? recoveryPointArn;
 
   RecoveryPointDetails({
     this.backupVaultName,
+    this.continuousScanDetails,
     this.recoveryPointArn,
   });
 
   factory RecoveryPointDetails.fromJson(Map<String, dynamic> json) {
     return RecoveryPointDetails(
       backupVaultName: json['backupVaultName'] as String?,
+      continuousScanDetails: json['continuousScanDetails'] != null
+          ? ScanConfigurationContinuousScanDetails.fromJson(
+              json['continuousScanDetails'] as Map<String, dynamic>)
+          : null,
       recoveryPointArn: json['recoveryPointArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final backupVaultName = this.backupVaultName;
+    final continuousScanDetails = this.continuousScanDetails;
     final recoveryPointArn = this.recoveryPointArn;
     return {
       if (backupVaultName != null) 'backupVaultName': backupVaultName,
+      if (continuousScanDetails != null)
+        'continuousScanDetails': continuousScanDetails,
       if (recoveryPointArn != null) 'recoveryPointArn': recoveryPointArn,
+    };
+  }
+}
+
+/// Contains information about the Bedrock guardrail that was involved in a
+/// finding.
+///
+/// @nodoc
+class BedrockGuardrailDetails {
+  /// The list of content policy filters that matched during the guardrail
+  /// evaluation.
+  final List<ContentPolicyFilter>? contentPolicyFilters;
+
+  /// Indicates whether the guardrail intervened or not.
+  final GuardrailAction? guardrailAction;
+
+  /// The ARN of the Bedrock guardrail. This field is deprecated. Use the
+  /// <code>guardrails</code> list instead.
+  final String? guardrailArn;
+
+  /// Indicates whether the guardrail was applied on the input or output of the
+  /// model invocation.
+  final GuardrailSource? guardrailSource;
+
+  /// The version of the Bedrock guardrail. This field is deprecated. Use the
+  /// <code>guardrails</code> list instead.
+  final String? guardrailVersion;
+
+  /// The list of Bedrock guardrails associated with the finding.
+  final List<BedrockGuardrail>? guardrails;
+
+  BedrockGuardrailDetails({
+    this.contentPolicyFilters,
+    this.guardrailAction,
+    this.guardrailArn,
+    this.guardrailSource,
+    this.guardrailVersion,
+    this.guardrails,
+  });
+
+  factory BedrockGuardrailDetails.fromJson(Map<String, dynamic> json) {
+    return BedrockGuardrailDetails(
+      contentPolicyFilters: (json['contentPolicyFilters'] as List?)
+          ?.nonNulls
+          .map((e) => ContentPolicyFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      guardrailAction:
+          (json['guardrailAction'] as String?)?.let(GuardrailAction.fromString),
+      guardrailArn: json['guardrailArn'] as String?,
+      guardrailSource:
+          (json['guardrailSource'] as String?)?.let(GuardrailSource.fromString),
+      guardrailVersion: json['guardrailVersion'] as String?,
+      guardrails: (json['guardrails'] as List?)
+          ?.nonNulls
+          .map((e) => BedrockGuardrail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentPolicyFilters = this.contentPolicyFilters;
+    final guardrailAction = this.guardrailAction;
+    final guardrailArn = this.guardrailArn;
+    final guardrailSource = this.guardrailSource;
+    final guardrailVersion = this.guardrailVersion;
+    final guardrails = this.guardrails;
+    return {
+      if (contentPolicyFilters != null)
+        'contentPolicyFilters': contentPolicyFilters,
+      if (guardrailAction != null) 'guardrailAction': guardrailAction.value,
+      if (guardrailArn != null) 'guardrailArn': guardrailArn,
+      if (guardrailSource != null) 'guardrailSource': guardrailSource.value,
+      if (guardrailVersion != null) 'guardrailVersion': guardrailVersion,
+      if (guardrails != null) 'guardrails': guardrails,
+    };
+  }
+}
+
+/// Contains information about the AI model involved in a finding.
+///
+/// @nodoc
+class ModelDetail {
+  /// The identifier of the AI model.
+  final String? modelId;
+
+  ModelDetail({
+    this.modelId,
+  });
+
+  factory ModelDetail.fromJson(Map<String, dynamic> json) {
+    return ModelDetail(
+      modelId: json['modelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelId = this.modelId;
+    return {
+      if (modelId != null) 'modelId': modelId,
+    };
+  }
+}
+
+/// @nodoc
+class GuardrailAction {
+  static const guardrailIntervened = GuardrailAction._('GUARDRAIL_INTERVENED');
+  static const none = GuardrailAction._('NONE');
+
+  final String value;
+
+  const GuardrailAction._(this.value);
+
+  static const values = [guardrailIntervened, none];
+
+  static GuardrailAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailAction._(value));
+
+  @override
+  bool operator ==(other) => other is GuardrailAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class GuardrailSource {
+  static const input = GuardrailSource._('INPUT');
+  static const output = GuardrailSource._('OUTPUT');
+
+  final String value;
+
+  const GuardrailSource._(this.value);
+
+  static const values = [input, output];
+
+  static GuardrailSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailSource._(value));
+
+  @override
+  bool operator ==(other) => other is GuardrailSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a content policy filter that matched during a
+/// guardrail evaluation.
+///
+/// @nodoc
+class ContentPolicyFilter {
+  /// The action taken by the guardrail filter.
+  final ContentPolicyFilterAction? action;
+
+  /// The confidence level that the content matched the filter.
+  final ConfidenceLevel? confidence;
+
+  /// The type of content that was filtered by the guardrail.
+  final ContentPolicyFilterType? type;
+
+  ContentPolicyFilter({
+    this.action,
+    this.confidence,
+    this.type,
+  });
+
+  factory ContentPolicyFilter.fromJson(Map<String, dynamic> json) {
+    return ContentPolicyFilter(
+      action: (json['action'] as String?)
+          ?.let(ContentPolicyFilterAction.fromString),
+      confidence:
+          (json['confidence'] as String?)?.let(ConfidenceLevel.fromString),
+      type: (json['type'] as String?)?.let(ContentPolicyFilterType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final confidence = this.confidence;
+    final type = this.type;
+    return {
+      if (action != null) 'action': action.value,
+      if (confidence != null) 'confidence': confidence.value,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class ContentPolicyFilterType {
+  static const promptAttack = ContentPolicyFilterType._('PROMPT_ATTACK');
+  static const jailbreak = ContentPolicyFilterType._('JAILBREAK');
+  static const hate = ContentPolicyFilterType._('HATE');
+  static const insults = ContentPolicyFilterType._('INSULTS');
+  static const sexual = ContentPolicyFilterType._('SEXUAL');
+  static const violence = ContentPolicyFilterType._('VIOLENCE');
+  static const misconduct = ContentPolicyFilterType._('MISCONDUCT');
+
+  final String value;
+
+  const ContentPolicyFilterType._(this.value);
+
+  static const values = [
+    promptAttack,
+    jailbreak,
+    hate,
+    insults,
+    sexual,
+    violence,
+    misconduct
+  ];
+
+  static ContentPolicyFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentPolicyFilterType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentPolicyFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ConfidenceLevel {
+  static const high = ConfidenceLevel._('HIGH');
+  static const medium = ConfidenceLevel._('MEDIUM');
+  static const low = ConfidenceLevel._('LOW');
+  static const none = ConfidenceLevel._('NONE');
+
+  final String value;
+
+  const ConfidenceLevel._(this.value);
+
+  static const values = [high, medium, low, none];
+
+  static ConfidenceLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfidenceLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ConfidenceLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ContentPolicyFilterAction {
+  static const blocked = ContentPolicyFilterAction._('BLOCKED');
+  static const none = ContentPolicyFilterAction._('NONE');
+
+  final String value;
+
+  const ContentPolicyFilterAction._(this.value);
+
+  static const values = [blocked, none];
+
+  static ContentPolicyFilterAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentPolicyFilterAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentPolicyFilterAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a Bedrock guardrail associated with a finding.
+///
+/// @nodoc
+class BedrockGuardrail {
+  /// The ARN of the Bedrock guardrail.
+  final String? arn;
+
+  /// The version of the Bedrock guardrail.
+  final String? version;
+
+  BedrockGuardrail({
+    this.arn,
+    this.version,
+  });
+
+  factory BedrockGuardrail.fromJson(Map<String, dynamic> json) {
+    return BedrockGuardrail(
+      arn: json['arn'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (version != null) 'version': version,
     };
   }
 }
@@ -24159,6 +25286,8 @@ class DetectorFeatureResult {
       DetectorFeatureResult._('EKS_RUNTIME_MONITORING');
   static const runtimeMonitoring =
       DetectorFeatureResult._('RUNTIME_MONITORING');
+  static const aiProtection = DetectorFeatureResult._('AI_PROTECTION');
+  static const aiAnalyst = DetectorFeatureResult._('AI_ANALYST');
 
   final String value;
 
@@ -24174,7 +25303,9 @@ class DetectorFeatureResult {
     rdsLoginEvents,
     lambdaNetworkLogs,
     eksRuntimeMonitoring,
-    runtimeMonitoring
+    runtimeMonitoring,
+    aiProtection,
+    aiAnalyst
   ];
 
   static DetectorFeatureResult fromString(String value) =>

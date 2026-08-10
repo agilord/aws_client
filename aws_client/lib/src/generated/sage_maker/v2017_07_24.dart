@@ -821,6 +821,12 @@ class SageMaker {
   /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon
   /// SageMaker AI to perform tasks on your behalf.
   ///
+  /// Parameter [adapterSource] :
+  /// The LoRA adapter source for the recommendation job. Specify either a list
+  /// of model package ARNs or Amazon S3 URIs for your LoRA adapters. When this
+  /// parameter is absent, the recommendation job runs without LoRA adapter
+  /// support.
+  ///
   /// Parameter [computeSpec] :
   /// The compute resource specification for the recommendation job. You can
   /// specify up to 3 instance types to consider, and optionally provide
@@ -844,6 +850,7 @@ class SageMaker {
     required AIRecommendationOutputConfig outputConfig,
     required AIRecommendationPerformanceTarget performanceTarget,
     required String roleArn,
+    AIAdapterSource? adapterSource,
     AIRecommendationComputeSpec? computeSpec,
     AIRecommendationInferenceSpecification? inferenceSpecification,
     bool? optimizeModel,
@@ -866,6 +873,7 @@ class SageMaker {
         'OutputConfig': outputConfig,
         'PerformanceTarget': performanceTarget,
         'RoleArn': roleArn,
+        if (adapterSource != null) 'AdapterSource': adapterSource,
         if (computeSpec != null) 'ComputeSpec': computeSpec,
         if (inferenceSpecification != null)
           'InferenceSpecification': inferenceSpecification,
@@ -2832,13 +2840,10 @@ class SageMaker {
   /// <note>
   /// Certain Nitro-based instances include local storage, dependent on the
   /// instance type. Local storage volumes are encrypted using a hardware module
-  /// on the instance. You can't request a <code>KmsKeyId</code> when using an
-  /// instance type with local storage. If any of the models that you specify in
-  /// the <code>ProductionVariants</code> parameter use nitro-based instances
-  /// with local storage, do not specify a value for the <code>KmsKeyId</code>
-  /// parameter. If you specify a value for <code>KmsKeyId</code> when using any
-  /// nitro-based instances with local storage, the call to
-  /// <code>CreateEndpointConfig</code> fails.
+  /// on the instance. If any of the models that you specify in the
+  /// <code>ProductionVariants</code> parameter use nitro-based instances with
+  /// local storage, the <code>KmsKeyId</code> parameter does not encrypt
+  /// instance local storage.
   ///
   /// For a list of instance types that support local instance storage, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes">Instance
@@ -5931,6 +5936,20 @@ class SageMaker {
   /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
   /// Reference Guide</i>.
   ///
+  /// Parameter [trainingPlanArns] :
+  /// The Amazon Resource Name (ARN) of the training plan to use for this
+  /// optimization job.
+  ///
+  /// When you use reserved capacity from a training plan, the optimization job
+  /// runs on that reserved capacity instead of on-demand capacity. If you omit
+  /// this field, the job uses on-demand capacity. You can specify at most one
+  /// training plan.
+  ///
+  /// For more information about how to reserve GPU capacity for your
+  /// optimization jobs using Amazon SageMaker Training Plans, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/reserve-capacity-with-training-plans.html">Reserve
+  /// capacity with training plans</a>.
+  ///
   /// Parameter [vpcConfig] :
   /// A VPC in Amazon VPC that your optimized model has access to.
   Future<CreateOptimizationJobResponse> createOptimizationJob({
@@ -5944,6 +5963,7 @@ class SageMaker {
     int? maxInstanceCount,
     Map<String, String>? optimizationEnvironment,
     List<Tag>? tags,
+    List<String>? trainingPlanArns,
     OptimizationVpcConfig? vpcConfig,
   }) async {
     _s.validateNumRange(
@@ -5974,6 +5994,7 @@ class SageMaker {
         if (optimizationEnvironment != null)
           'OptimizationEnvironment': optimizationEnvironment,
         if (tags != null) 'Tags': tags,
+        if (trainingPlanArns != null) 'TrainingPlanArns': trainingPlanArns,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
@@ -27027,6 +27048,11 @@ class DescribeAIRecommendationJobResponse {
   /// job.
   final String roleArn;
 
+  /// The LoRA adapter source that you specified when you created the
+  /// recommendation job. This field is absent when you created the job without
+  /// LoRA adapters.
+  final AIAdapterSource? adapterSource;
+
   /// The compute resource specification for the recommendation job.
   final AIRecommendationComputeSpec? computeSpec;
 
@@ -27065,6 +27091,7 @@ class DescribeAIRecommendationJobResponse {
     required this.modelSource,
     required this.outputConfig,
     required this.roleArn,
+    this.adapterSource,
     this.computeSpec,
     this.endTime,
     this.failureReason,
@@ -27094,6 +27121,10 @@ class DescribeAIRecommendationJobResponse {
           (json['OutputConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       roleArn: (json['RoleArn'] as String?) ?? '',
+      adapterSource: json['AdapterSource'] != null
+          ? AIAdapterSource.fromJson(
+              json['AdapterSource'] as Map<String, dynamic>)
+          : null,
       computeSpec: json['ComputeSpec'] != null
           ? AIRecommendationComputeSpec.fromJson(
               json['ComputeSpec'] as Map<String, dynamic>)
@@ -27130,6 +27161,7 @@ class DescribeAIRecommendationJobResponse {
     final modelSource = this.modelSource;
     final outputConfig = this.outputConfig;
     final roleArn = this.roleArn;
+    final adapterSource = this.adapterSource;
     final computeSpec = this.computeSpec;
     final endTime = this.endTime;
     final failureReason = this.failureReason;
@@ -27148,6 +27180,7 @@ class DescribeAIRecommendationJobResponse {
       'ModelSource': modelSource,
       'OutputConfig': outputConfig,
       'RoleArn': roleArn,
+      if (adapterSource != null) 'AdapterSource': adapterSource,
       if (computeSpec != null) 'ComputeSpec': computeSpec,
       if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
       if (failureReason != null) 'FailureReason': failureReason,
@@ -34235,6 +34268,12 @@ class DescribeOptimizationJobResponse {
   /// The time when the optimization job started.
   final DateTime? optimizationStartTime;
 
+  /// The Amazon Resource Name (ARN) of the training plan associated with this
+  /// optimization job. This field appears only when you specified a training plan
+  /// when you created the job. Optimization jobs that use on-demand capacity
+  /// don't return this field.
+  final List<String>? trainingPlanArns;
+
   /// A VPC in Amazon VPC that your optimized model has access to.
   final OptimizationVpcConfig? vpcConfig;
 
@@ -34256,6 +34295,7 @@ class DescribeOptimizationJobResponse {
     this.optimizationEnvironment,
     this.optimizationOutput,
     this.optimizationStartTime,
+    this.trainingPlanArns,
     this.vpcConfig,
   });
 
@@ -34295,6 +34335,10 @@ class DescribeOptimizationJobResponse {
               json['OptimizationOutput'] as Map<String, dynamic>)
           : null,
       optimizationStartTime: timeStampFromJson(json['OptimizationStartTime']),
+      trainingPlanArns: (json['TrainingPlanArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       vpcConfig: json['VpcConfig'] != null
           ? OptimizationVpcConfig.fromJson(
               json['VpcConfig'] as Map<String, dynamic>)
@@ -34320,6 +34364,7 @@ class DescribeOptimizationJobResponse {
     final optimizationEnvironment = this.optimizationEnvironment;
     final optimizationOutput = this.optimizationOutput;
     final optimizationStartTime = this.optimizationStartTime;
+    final trainingPlanArns = this.trainingPlanArns;
     final vpcConfig = this.vpcConfig;
     return {
       'CreationTime': unixTimestampToJson(creationTime),
@@ -34342,6 +34387,7 @@ class DescribeOptimizationJobResponse {
       if (optimizationOutput != null) 'OptimizationOutput': optimizationOutput,
       if (optimizationStartTime != null)
         'OptimizationStartTime': unixTimestampToJson(optimizationStartTime),
+      if (trainingPlanArns != null) 'TrainingPlanArns': trainingPlanArns,
       if (vpcConfig != null) 'VpcConfig': vpcConfig,
     };
   }
@@ -44495,6 +44541,18 @@ class AppInstanceType {
   static const mlR6id_24xlarge = AppInstanceType._('ml.r6id.24xlarge');
   static const mlR6id_32xlarge = AppInstanceType._('ml.r6id.32xlarge');
   static const mlP5_4xlarge = AppInstanceType._('ml.p5.4xlarge');
+  static const mlG7_2xlarge = AppInstanceType._('ml.g7.2xlarge');
+  static const mlG7_4xlarge = AppInstanceType._('ml.g7.4xlarge');
+  static const mlG7_8xlarge = AppInstanceType._('ml.g7.8xlarge');
+  static const mlG7_12xlarge = AppInstanceType._('ml.g7.12xlarge');
+  static const mlG7_24xlarge = AppInstanceType._('ml.g7.24xlarge');
+  static const mlG7_48xlarge = AppInstanceType._('ml.g7.48xlarge');
+  static const mlG7e_2xlarge = AppInstanceType._('ml.g7e.2xlarge');
+  static const mlG7e_4xlarge = AppInstanceType._('ml.g7e.4xlarge');
+  static const mlG7e_8xlarge = AppInstanceType._('ml.g7e.8xlarge');
+  static const mlG7e_12xlarge = AppInstanceType._('ml.g7e.12xlarge');
+  static const mlG7e_24xlarge = AppInstanceType._('ml.g7e.24xlarge');
+  static const mlG7e_48xlarge = AppInstanceType._('ml.g7e.48xlarge');
 
   final String value;
 
@@ -44664,7 +44722,19 @@ class AppInstanceType {
     mlR6id_16xlarge,
     mlR6id_24xlarge,
     mlR6id_32xlarge,
-    mlP5_4xlarge
+    mlP5_4xlarge,
+    mlG7_2xlarge,
+    mlG7_4xlarge,
+    mlG7_8xlarge,
+    mlG7_12xlarge,
+    mlG7_24xlarge,
+    mlG7_48xlarge,
+    mlG7e_2xlarge,
+    mlG7e_4xlarge,
+    mlG7e_8xlarge,
+    mlG7e_12xlarge,
+    mlG7e_24xlarge,
+    mlG7e_48xlarge
   ];
 
   static AppInstanceType fromString(String value) =>
@@ -46169,6 +46239,12 @@ class ProcessingInstanceType {
   static const mlG7e_12xlarge = ProcessingInstanceType._('ml.g7e.12xlarge');
   static const mlG7e_24xlarge = ProcessingInstanceType._('ml.g7e.24xlarge');
   static const mlG7e_48xlarge = ProcessingInstanceType._('ml.g7e.48xlarge');
+  static const mlG7_2xlarge = ProcessingInstanceType._('ml.g7.2xlarge');
+  static const mlG7_4xlarge = ProcessingInstanceType._('ml.g7.4xlarge');
+  static const mlG7_8xlarge = ProcessingInstanceType._('ml.g7.8xlarge');
+  static const mlG7_12xlarge = ProcessingInstanceType._('ml.g7.12xlarge');
+  static const mlG7_24xlarge = ProcessingInstanceType._('ml.g7.24xlarge');
+  static const mlG7_48xlarge = ProcessingInstanceType._('ml.g7.48xlarge');
 
   final String value;
 
@@ -46301,7 +46377,13 @@ class ProcessingInstanceType {
     mlG7e_8xlarge,
     mlG7e_12xlarge,
     mlG7e_24xlarge,
-    mlG7e_48xlarge
+    mlG7e_48xlarge,
+    mlG7_2xlarge,
+    mlG7_4xlarge,
+    mlG7_8xlarge,
+    mlG7_12xlarge,
+    mlG7_24xlarge,
+    mlG7_48xlarge
   ];
 
   static ProcessingInstanceType fromString(String value) =>
@@ -47379,8 +47461,22 @@ class InstanceType {
   static const mlG6_16xlarge = InstanceType._('ml.g6.16xlarge');
   static const mlG6_24xlarge = InstanceType._('ml.g6.24xlarge');
   static const mlG6_48xlarge = InstanceType._('ml.g6.48xlarge');
+  static const mlG7e_2xlarge = InstanceType._('ml.g7e.2xlarge');
+  static const mlG7e_4xlarge = InstanceType._('ml.g7e.4xlarge');
+  static const mlG7e_8xlarge = InstanceType._('ml.g7e.8xlarge');
+  static const mlG7e_12xlarge = InstanceType._('ml.g7e.12xlarge');
+  static const mlG7e_24xlarge = InstanceType._('ml.g7e.24xlarge');
+  static const mlG7e_48xlarge = InstanceType._('ml.g7e.48xlarge');
   static const mlP5_4xlarge = InstanceType._('ml.p5.4xlarge');
   static const mlP5en_48xlarge = InstanceType._('ml.p5en.48xlarge');
+  static const mlG6eXlarge = InstanceType._('ml.g6e.xlarge');
+  static const mlG6e_2xlarge = InstanceType._('ml.g6e.2xlarge');
+  static const mlG6e_4xlarge = InstanceType._('ml.g6e.4xlarge');
+  static const mlG6e_8xlarge = InstanceType._('ml.g6e.8xlarge');
+  static const mlG6e_12xlarge = InstanceType._('ml.g6e.12xlarge');
+  static const mlG6e_16xlarge = InstanceType._('ml.g6e.16xlarge');
+  static const mlG6e_24xlarge = InstanceType._('ml.g6e.24xlarge');
+  static const mlG6e_48xlarge = InstanceType._('ml.g6e.48xlarge');
 
   final String value;
 
@@ -47560,8 +47656,22 @@ class InstanceType {
     mlG6_16xlarge,
     mlG6_24xlarge,
     mlG6_48xlarge,
+    mlG7e_2xlarge,
+    mlG7e_4xlarge,
+    mlG7e_8xlarge,
+    mlG7e_12xlarge,
+    mlG7e_24xlarge,
+    mlG7e_48xlarge,
     mlP5_4xlarge,
-    mlP5en_48xlarge
+    mlP5en_48xlarge,
+    mlG6eXlarge,
+    mlG6e_2xlarge,
+    mlG6e_4xlarge,
+    mlG6e_8xlarge,
+    mlG6e_12xlarge,
+    mlG6e_16xlarge,
+    mlG6e_24xlarge,
+    mlG6e_48xlarge
   ];
 
   static InstanceType fromString(String value) => values
@@ -49473,6 +49583,15 @@ class ProductionVariantInstanceType {
       ProductionVariantInstanceType._('ml.g7e.24xlarge');
   static const mlG7e_48xlarge =
       ProductionVariantInstanceType._('ml.g7e.48xlarge');
+  static const mlG7_2xlarge = ProductionVariantInstanceType._('ml.g7.2xlarge');
+  static const mlG7_4xlarge = ProductionVariantInstanceType._('ml.g7.4xlarge');
+  static const mlG7_8xlarge = ProductionVariantInstanceType._('ml.g7.8xlarge');
+  static const mlG7_12xlarge =
+      ProductionVariantInstanceType._('ml.g7.12xlarge');
+  static const mlG7_24xlarge =
+      ProductionVariantInstanceType._('ml.g7.24xlarge');
+  static const mlG7_48xlarge =
+      ProductionVariantInstanceType._('ml.g7.48xlarge');
   static const mlP4d_24xlarge =
       ProductionVariantInstanceType._('ml.p4d.24xlarge');
   static const mlC7gLarge = ProductionVariantInstanceType._('ml.c7g.large');
@@ -49852,6 +49971,12 @@ class ProductionVariantInstanceType {
     mlG7e_12xlarge,
     mlG7e_24xlarge,
     mlG7e_48xlarge,
+    mlG7_2xlarge,
+    mlG7_4xlarge,
+    mlG7_8xlarge,
+    mlG7_12xlarge,
+    mlG7_24xlarge,
+    mlG7_48xlarge,
     mlP4d_24xlarge,
     mlC7gLarge,
     mlC7gXlarge,
@@ -51827,6 +51952,15 @@ class InferenceComponentContainerSpecification {
   /// archive (.tar.gz suffix).
   final String? artifactUrl;
 
+  /// The configuration for container metrics scraping. Specifies the metrics
+  /// endpoint path and publishing frequency for the inference component's
+  /// container. If not specified when <code>EnableDetailedObservability</code> is
+  /// <code>True</code>, the default path <code>/metrics</code> on port
+  /// <code>8080</code> is used. For first-party and Deep Learning Containers
+  /// (DLC), the endpoint path is determined automatically and this configuration
+  /// is optional.
+  final ContainerMetricsConfig? containerMetricsConfig;
+
   /// The environment variables to set in the Docker container. Each key and value
   /// in the Environment string-to-string map can have length of up to 1024. We
   /// support up to 16 entries in the map.
@@ -51838,16 +51972,20 @@ class InferenceComponentContainerSpecification {
 
   InferenceComponentContainerSpecification({
     this.artifactUrl,
+    this.containerMetricsConfig,
     this.environment,
     this.image,
   });
 
   Map<String, dynamic> toJson() {
     final artifactUrl = this.artifactUrl;
+    final containerMetricsConfig = this.containerMetricsConfig;
     final environment = this.environment;
     final image = this.image;
     return {
       if (artifactUrl != null) 'ArtifactUrl': artifactUrl,
+      if (containerMetricsConfig != null)
+        'ContainerMetricsConfig': containerMetricsConfig,
       if (environment != null) 'Environment': environment,
       if (image != null) 'Image': image,
     };
@@ -52131,6 +52269,90 @@ class AvailabilityZoneBalanceEnforcementMode {
 
   @override
   String toString() => value;
+}
+
+/// The configuration for container-level metrics scraping. Use this
+/// configuration to specify a custom metrics endpoint path and publishing
+/// frequency for container metrics. When
+/// <code>EnableDetailedObservability</code> is set to <code>True</code> in
+/// <code>MetricsConfig</code>, metrics are scraped from the container's
+/// Prometheus endpoint. If this configuration is not provided, the default path
+/// <code>/metrics</code> on port <code>8080</code> is used with a default
+/// publishing frequency of <code>60</code> seconds. For first-party and Deep
+/// Learning Containers (DLC), the endpoint path is determined automatically and
+/// this configuration is optional.
+///
+/// @nodoc
+class ContainerMetricsConfig {
+  /// A list of metrics endpoints to scrape from the container. Each endpoint
+  /// specifies the path where the container exposes Prometheus-formatted metrics
+  /// and the frequency at which to publish them. You can specify a maximum of 1
+  /// endpoint.
+  final List<MetricsEndpoint>? metricsEndpoints;
+
+  ContainerMetricsConfig({
+    this.metricsEndpoints,
+  });
+
+  factory ContainerMetricsConfig.fromJson(Map<String, dynamic> json) {
+    return ContainerMetricsConfig(
+      metricsEndpoints: (json['MetricsEndpoints'] as List?)
+          ?.nonNulls
+          .map((e) => MetricsEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricsEndpoints = this.metricsEndpoints;
+    return {
+      if (metricsEndpoints != null) 'MetricsEndpoints': metricsEndpoints,
+    };
+  }
+}
+
+/// Specifies a metrics endpoint for a container, including the path where the
+/// container exposes Prometheus-formatted metrics and the frequency at which to
+/// publish them to Amazon CloudWatch.
+///
+/// @nodoc
+class MetricsEndpoint {
+  /// The path to the metrics endpoint exposed by the container. For example,
+  /// <code>/metrics</code> or <code>/server/metrics</code>. The path must start
+  /// with <code>/</code> and can contain alphanumeric characters, forward
+  /// slashes, underscores, hyphens, and periods. Maximum length is 256
+  /// characters. If not specified, defaults to <code>/metrics</code>.
+  final String metricsEndpointPath;
+
+  /// The interval, in seconds, at which container metrics scraped from the
+  /// endpoint are published to Amazon CloudWatch. Valid values: <code>10</code>,
+  /// <code>30</code>, <code>60</code>, <code>120</code>, <code>180</code>,
+  /// <code>240</code>, <code>300</code>. Defaults to <code>60</code>.
+  final int? metricPublishFrequencyInSeconds;
+
+  MetricsEndpoint({
+    required this.metricsEndpointPath,
+    this.metricPublishFrequencyInSeconds,
+  });
+
+  factory MetricsEndpoint.fromJson(Map<String, dynamic> json) {
+    return MetricsEndpoint(
+      metricsEndpointPath: (json['MetricsEndpointPath'] as String?) ?? '',
+      metricPublishFrequencyInSeconds:
+          json['MetricPublishFrequencyInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricsEndpointPath = this.metricsEndpointPath;
+    final metricPublishFrequencyInSeconds =
+        this.metricPublishFrequencyInSeconds;
+    return {
+      'MetricsEndpointPath': metricsEndpointPath,
+      if (metricPublishFrequencyInSeconds != null)
+        'MetricPublishFrequencyInSeconds': metricPublishFrequencyInSeconds,
+    };
+  }
 }
 
 /// @nodoc
@@ -54305,6 +54527,84 @@ class ClusterInstanceType {
   static const mlG7e_24xlarge = ClusterInstanceType._('ml.g7e.24xlarge');
   static const mlG7e_48xlarge = ClusterInstanceType._('ml.g7e.48xlarge');
   static const mlP6B300_48xlarge = ClusterInstanceType._('ml.p6-b300.48xlarge');
+  static const mlG4dnXlarge = ClusterInstanceType._('ml.g4dn.xlarge');
+  static const mlG4dn_2xlarge = ClusterInstanceType._('ml.g4dn.2xlarge');
+  static const mlG4dn_4xlarge = ClusterInstanceType._('ml.g4dn.4xlarge');
+  static const mlG4dn_8xlarge = ClusterInstanceType._('ml.g4dn.8xlarge');
+  static const mlG4dn_12xlarge = ClusterInstanceType._('ml.g4dn.12xlarge');
+  static const mlG4dn_16xlarge = ClusterInstanceType._('ml.g4dn.16xlarge');
+  static const mlC6gMedium = ClusterInstanceType._('ml.c6g.medium');
+  static const mlC6gLarge = ClusterInstanceType._('ml.c6g.large');
+  static const mlC6gXlarge = ClusterInstanceType._('ml.c6g.xlarge');
+  static const mlC6g_2xlarge = ClusterInstanceType._('ml.c6g.2xlarge');
+  static const mlC6g_4xlarge = ClusterInstanceType._('ml.c6g.4xlarge');
+  static const mlC6g_8xlarge = ClusterInstanceType._('ml.c6g.8xlarge');
+  static const mlC6g_12xlarge = ClusterInstanceType._('ml.c6g.12xlarge');
+  static const mlC6g_16xlarge = ClusterInstanceType._('ml.c6g.16xlarge');
+  static const mlC7gMedium = ClusterInstanceType._('ml.c7g.medium');
+  static const mlC7gLarge = ClusterInstanceType._('ml.c7g.large');
+  static const mlC7gXlarge = ClusterInstanceType._('ml.c7g.xlarge');
+  static const mlC7g_2xlarge = ClusterInstanceType._('ml.c7g.2xlarge');
+  static const mlC7g_4xlarge = ClusterInstanceType._('ml.c7g.4xlarge');
+  static const mlC7g_8xlarge = ClusterInstanceType._('ml.c7g.8xlarge');
+  static const mlC7g_12xlarge = ClusterInstanceType._('ml.c7g.12xlarge');
+  static const mlC7g_16xlarge = ClusterInstanceType._('ml.c7g.16xlarge');
+  static const mlC8gMedium = ClusterInstanceType._('ml.c8g.medium');
+  static const mlC8gLarge = ClusterInstanceType._('ml.c8g.large');
+  static const mlC8gXlarge = ClusterInstanceType._('ml.c8g.xlarge');
+  static const mlC8g_2xlarge = ClusterInstanceType._('ml.c8g.2xlarge');
+  static const mlC8g_4xlarge = ClusterInstanceType._('ml.c8g.4xlarge');
+  static const mlC8g_8xlarge = ClusterInstanceType._('ml.c8g.8xlarge');
+  static const mlC8g_12xlarge = ClusterInstanceType._('ml.c8g.12xlarge');
+  static const mlC8g_16xlarge = ClusterInstanceType._('ml.c8g.16xlarge');
+  static const mlC8g_24xlarge = ClusterInstanceType._('ml.c8g.24xlarge');
+  static const mlC8g_48xlarge = ClusterInstanceType._('ml.c8g.48xlarge');
+  static const mlC6aLarge = ClusterInstanceType._('ml.c6a.large');
+  static const mlC6aXlarge = ClusterInstanceType._('ml.c6a.xlarge');
+  static const mlC6a_2xlarge = ClusterInstanceType._('ml.c6a.2xlarge');
+  static const mlC6a_4xlarge = ClusterInstanceType._('ml.c6a.4xlarge');
+  static const mlC6a_8xlarge = ClusterInstanceType._('ml.c6a.8xlarge');
+  static const mlC6a_12xlarge = ClusterInstanceType._('ml.c6a.12xlarge');
+  static const mlC6a_16xlarge = ClusterInstanceType._('ml.c6a.16xlarge');
+  static const mlC6a_24xlarge = ClusterInstanceType._('ml.c6a.24xlarge');
+  static const mlC6a_32xlarge = ClusterInstanceType._('ml.c6a.32xlarge');
+  static const mlC6a_48xlarge = ClusterInstanceType._('ml.c6a.48xlarge');
+  static const mlM6aLarge = ClusterInstanceType._('ml.m6a.large');
+  static const mlM6aXlarge = ClusterInstanceType._('ml.m6a.xlarge');
+  static const mlM6a_2xlarge = ClusterInstanceType._('ml.m6a.2xlarge');
+  static const mlM6a_4xlarge = ClusterInstanceType._('ml.m6a.4xlarge');
+  static const mlM6a_8xlarge = ClusterInstanceType._('ml.m6a.8xlarge');
+  static const mlM6a_12xlarge = ClusterInstanceType._('ml.m6a.12xlarge');
+  static const mlM6a_16xlarge = ClusterInstanceType._('ml.m6a.16xlarge');
+  static const mlM6a_24xlarge = ClusterInstanceType._('ml.m6a.24xlarge');
+  static const mlM6a_32xlarge = ClusterInstanceType._('ml.m6a.32xlarge');
+  static const mlM6a_48xlarge = ClusterInstanceType._('ml.m6a.48xlarge');
+  static const mlM6gMedium = ClusterInstanceType._('ml.m6g.medium');
+  static const mlM6gLarge = ClusterInstanceType._('ml.m6g.large');
+  static const mlM6gXlarge = ClusterInstanceType._('ml.m6g.xlarge');
+  static const mlM6g_2xlarge = ClusterInstanceType._('ml.m6g.2xlarge');
+  static const mlM6g_4xlarge = ClusterInstanceType._('ml.m6g.4xlarge');
+  static const mlM6g_8xlarge = ClusterInstanceType._('ml.m6g.8xlarge');
+  static const mlM6g_12xlarge = ClusterInstanceType._('ml.m6g.12xlarge');
+  static const mlM6g_16xlarge = ClusterInstanceType._('ml.m6g.16xlarge');
+  static const mlM7gMedium = ClusterInstanceType._('ml.m7g.medium');
+  static const mlM7gLarge = ClusterInstanceType._('ml.m7g.large');
+  static const mlM7gXlarge = ClusterInstanceType._('ml.m7g.xlarge');
+  static const mlM7g_2xlarge = ClusterInstanceType._('ml.m7g.2xlarge');
+  static const mlM7g_4xlarge = ClusterInstanceType._('ml.m7g.4xlarge');
+  static const mlM7g_8xlarge = ClusterInstanceType._('ml.m7g.8xlarge');
+  static const mlM7g_12xlarge = ClusterInstanceType._('ml.m7g.12xlarge');
+  static const mlM7g_16xlarge = ClusterInstanceType._('ml.m7g.16xlarge');
+  static const mlM8gMedium = ClusterInstanceType._('ml.m8g.medium');
+  static const mlM8gLarge = ClusterInstanceType._('ml.m8g.large');
+  static const mlM8gXlarge = ClusterInstanceType._('ml.m8g.xlarge');
+  static const mlM8g_2xlarge = ClusterInstanceType._('ml.m8g.2xlarge');
+  static const mlM8g_4xlarge = ClusterInstanceType._('ml.m8g.4xlarge');
+  static const mlM8g_8xlarge = ClusterInstanceType._('ml.m8g.8xlarge');
+  static const mlM8g_12xlarge = ClusterInstanceType._('ml.m8g.12xlarge');
+  static const mlM8g_16xlarge = ClusterInstanceType._('ml.m8g.16xlarge');
+  static const mlM8g_24xlarge = ClusterInstanceType._('ml.m8g.24xlarge');
+  static const mlM8g_48xlarge = ClusterInstanceType._('ml.m8g.48xlarge');
 
   final String value;
 
@@ -54433,7 +54733,85 @@ class ClusterInstanceType {
     mlG7e_12xlarge,
     mlG7e_24xlarge,
     mlG7e_48xlarge,
-    mlP6B300_48xlarge
+    mlP6B300_48xlarge,
+    mlG4dnXlarge,
+    mlG4dn_2xlarge,
+    mlG4dn_4xlarge,
+    mlG4dn_8xlarge,
+    mlG4dn_12xlarge,
+    mlG4dn_16xlarge,
+    mlC6gMedium,
+    mlC6gLarge,
+    mlC6gXlarge,
+    mlC6g_2xlarge,
+    mlC6g_4xlarge,
+    mlC6g_8xlarge,
+    mlC6g_12xlarge,
+    mlC6g_16xlarge,
+    mlC7gMedium,
+    mlC7gLarge,
+    mlC7gXlarge,
+    mlC7g_2xlarge,
+    mlC7g_4xlarge,
+    mlC7g_8xlarge,
+    mlC7g_12xlarge,
+    mlC7g_16xlarge,
+    mlC8gMedium,
+    mlC8gLarge,
+    mlC8gXlarge,
+    mlC8g_2xlarge,
+    mlC8g_4xlarge,
+    mlC8g_8xlarge,
+    mlC8g_12xlarge,
+    mlC8g_16xlarge,
+    mlC8g_24xlarge,
+    mlC8g_48xlarge,
+    mlC6aLarge,
+    mlC6aXlarge,
+    mlC6a_2xlarge,
+    mlC6a_4xlarge,
+    mlC6a_8xlarge,
+    mlC6a_12xlarge,
+    mlC6a_16xlarge,
+    mlC6a_24xlarge,
+    mlC6a_32xlarge,
+    mlC6a_48xlarge,
+    mlM6aLarge,
+    mlM6aXlarge,
+    mlM6a_2xlarge,
+    mlM6a_4xlarge,
+    mlM6a_8xlarge,
+    mlM6a_12xlarge,
+    mlM6a_16xlarge,
+    mlM6a_24xlarge,
+    mlM6a_32xlarge,
+    mlM6a_48xlarge,
+    mlM6gMedium,
+    mlM6gLarge,
+    mlM6gXlarge,
+    mlM6g_2xlarge,
+    mlM6g_4xlarge,
+    mlM6g_8xlarge,
+    mlM6g_12xlarge,
+    mlM6g_16xlarge,
+    mlM7gMedium,
+    mlM7gLarge,
+    mlM7gXlarge,
+    mlM7g_2xlarge,
+    mlM7g_4xlarge,
+    mlM7g_8xlarge,
+    mlM7g_12xlarge,
+    mlM7g_16xlarge,
+    mlM8gMedium,
+    mlM8gLarge,
+    mlM8gXlarge,
+    mlM8g_2xlarge,
+    mlM8g_4xlarge,
+    mlM8g_8xlarge,
+    mlM8g_12xlarge,
+    mlM8g_16xlarge,
+    mlM8g_24xlarge,
+    mlM8g_48xlarge
   ];
 
   static ClusterInstanceType fromString(String value) =>
@@ -54780,14 +55158,22 @@ class UpdateClusterSoftwareInstanceGroupSpecification {
   /// The name of the instance group to update.
   final String instanceGroupName;
 
+  /// The version of the HyperPod-managed AMI to update to for the instance group.
+  /// Uses semantic versioning in the format <code>MAJOR.MINOR.PATCH</code>.
+  final String? imageReleaseVersion;
+
   UpdateClusterSoftwareInstanceGroupSpecification({
     required this.instanceGroupName,
+    this.imageReleaseVersion,
   });
 
   Map<String, dynamic> toJson() {
     final instanceGroupName = this.instanceGroupName;
+    final imageReleaseVersion = this.imageReleaseVersion;
     return {
       'InstanceGroupName': instanceGroupName,
+      if (imageReleaseVersion != null)
+        'ImageReleaseVersion': imageReleaseVersion,
     };
   }
 }
@@ -55777,6 +56163,10 @@ class ClusterInstanceGroupSpecification {
   /// Specifies the name of the instance group.
   final String instanceGroupName;
 
+  /// The configuration for automatic OS security patching. If present, the system
+  /// automatically applies PATCH AMI updates to this instance group.
+  final ClusterAutoPatchConfig? autoPatchConfig;
+
   /// Specifies the capacity requirements for the instance group.
   final ClusterCapacityRequirements? capacityRequirements;
 
@@ -55791,7 +56181,9 @@ class ClusterInstanceGroupSpecification {
   /// <code>CustomAmiId</code>: Use your custom AMI
   /// </li>
   /// <li>
-  /// <code>default</code>: Use the default latest system image
+  /// <code>default</code>: Use the default latest system image. For clusters with
+  /// continuous scaling node provisioning mode, new instance groups inherit the
+  /// AMI from the earliest existing instance group
   /// </li>
   /// </ul>
   /// If you choose to use a custom AMI (<code>CustomAmiId</code>), ensure it
@@ -55817,6 +56209,12 @@ class ClusterInstanceGroupSpecification {
   /// <code>UpdateClusterSoftware</code> request, then all of the instance groups
   /// are patched with the specified image.
   final String? imageId;
+
+  /// The version of the HyperPod-managed AMI to use for the instance group. Uses
+  /// semantic versioning in the format <code>MAJOR.MINOR.PATCH</code> (for
+  /// example, <code>1.2.3</code>). If omitted, the latest available version is
+  /// used.
+  final String? imageReleaseVersion;
 
   /// The instance requirements for the instance group, including the instance
   /// types to use. Use this to create a flexible instance group that supports
@@ -55932,8 +56330,10 @@ class ClusterInstanceGroupSpecification {
     required this.executionRole,
     required this.instanceCount,
     required this.instanceGroupName,
+    this.autoPatchConfig,
     this.capacityRequirements,
     this.imageId,
+    this.imageReleaseVersion,
     this.instanceRequirements,
     this.instanceStorageConfigs,
     this.instanceType,
@@ -55953,8 +56353,10 @@ class ClusterInstanceGroupSpecification {
     final executionRole = this.executionRole;
     final instanceCount = this.instanceCount;
     final instanceGroupName = this.instanceGroupName;
+    final autoPatchConfig = this.autoPatchConfig;
     final capacityRequirements = this.capacityRequirements;
     final imageId = this.imageId;
+    final imageReleaseVersion = this.imageReleaseVersion;
     final instanceRequirements = this.instanceRequirements;
     final instanceStorageConfigs = this.instanceStorageConfigs;
     final instanceType = this.instanceType;
@@ -55972,9 +56374,12 @@ class ClusterInstanceGroupSpecification {
       'ExecutionRole': executionRole,
       'InstanceCount': instanceCount,
       'InstanceGroupName': instanceGroupName,
+      if (autoPatchConfig != null) 'AutoPatchConfig': autoPatchConfig,
       if (capacityRequirements != null)
         'CapacityRequirements': capacityRequirements,
       if (imageId != null) 'ImageId': imageId,
+      if (imageReleaseVersion != null)
+        'ImageReleaseVersion': imageReleaseVersion,
       if (instanceRequirements != null)
         'InstanceRequirements': instanceRequirements,
       if (instanceStorageConfigs != null)
@@ -56071,6 +56476,58 @@ class ClusterLifeCycleConfig {
       if (onCreate != null) 'OnCreate': onCreate,
       if (onInitComplete != null) 'OnInitComplete': onInitComplete,
       if (sourceS3Uri != null) 'SourceS3Uri': sourceS3Uri,
+    };
+  }
+}
+
+/// The configuration for automatic patching of the instance group. When
+/// configured, the system automatically applies security patch AMI updates to
+/// the instance group.
+///
+/// @nodoc
+class ClusterAutoPatchConfig {
+  /// The strategy for applying patches to instances in the group.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>WhenIdle</code>: Cordons all instances and patches each instance as it
+  /// becomes idle (no running jobs). Each instance is uncordoned immediately
+  /// after patching and becomes available for new jobs. If instances do not
+  /// become idle, they remain on the previous AMI version. You can then use
+  /// UpdateClusterSoftware with the desired ImageReleaseVersion to manually
+  /// update the remaining instances.
+  /// </li>
+  /// <li>
+  /// <code>WhenAllIdle</code>: Cordons all instances and waits for all to become
+  /// idle before patching. All instances are uncordoned after patching completes.
+  /// If not all instances become idle, no patching occurs and all instances
+  /// remain on the previous AMI version.
+  /// </li>
+  /// </ul>
+  final ClusterPatchingStrategy patchingStrategy;
+
+  /// The deployment configuration for rolling patch updates, including rollback
+  /// settings and batch sizes. Only applicable when using a rolling patching
+  /// strategy.
+  final DeploymentConfiguration? deploymentConfig;
+
+  /// The schedule for automatic patching, including the next patch date.
+  final ClusterPatchSchedule? patchSchedule;
+
+  ClusterAutoPatchConfig({
+    required this.patchingStrategy,
+    this.deploymentConfig,
+    this.patchSchedule,
+  });
+
+  Map<String, dynamic> toJson() {
+    final patchingStrategy = this.patchingStrategy;
+    final deploymentConfig = this.deploymentConfig;
+    final patchSchedule = this.patchSchedule;
+    return {
+      'PatchingStrategy': patchingStrategy.value,
+      if (deploymentConfig != null) 'DeploymentConfig': deploymentConfig,
+      if (patchSchedule != null) 'PatchSchedule': patchSchedule,
     };
   }
 }
@@ -56351,6 +56808,73 @@ class ClusterKubernetesTaintEffect {
 
   @override
   String toString() => value;
+}
+
+/// The strategy for applying automatic patches to instances.
+///
+/// <ul>
+/// <li>
+/// <code>WhenIdle</code>: Cordons all instances and patches each instance as it
+/// becomes idle (no running jobs). Each instance is uncordoned immediately
+/// after patching and becomes available for new jobs. If instances do not
+/// become idle, they remain on the previous AMI version. You can then use
+/// UpdateClusterSoftware with the desired ImageReleaseVersion to manually
+/// update the remaining instances.
+/// </li>
+/// <li>
+/// <code>WhenAllIdle</code>: Cordons all instances and waits for all to become
+/// idle before patching. All instances are uncordoned after patching completes.
+/// If not all instances become idle, no patching occurs and all instances
+/// remain on the previous AMI version.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ClusterPatchingStrategy {
+  static const whenIdle = ClusterPatchingStrategy._('WhenIdle');
+  static const whenAllIdle = ClusterPatchingStrategy._('WhenAllIdle');
+
+  final String value;
+
+  const ClusterPatchingStrategy._(this.value);
+
+  static const values = [whenIdle, whenAllIdle];
+
+  static ClusterPatchingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClusterPatchingStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterPatchingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The schedule configuration for automatic patching.
+///
+/// @nodoc
+class ClusterPatchSchedule {
+  /// The date and time of the next scheduled automatic patch. The system sets
+  /// this automatically when a patch is detected. Use this field to reschedule
+  /// the patch to a different date.
+  final DateTime? nextPatchDate;
+
+  ClusterPatchSchedule({
+    this.nextPatchDate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final nextPatchDate = this.nextPatchDate;
+    return {
+      if (nextPatchDate != null)
+        'NextPatchDate': unixTimestampToJson(nextPatchDate),
+    };
+  }
 }
 
 /// The configuration for the file system and kernels in a SageMaker AI image
@@ -57392,6 +57916,8 @@ class SearchRecord {
 
   /// The properties of a hyperparameter tuning job.
   final HyperParameterTuningJobSearchEntity? hyperParameterTuningJob;
+
+  /// The properties of a job.
   final Job? job;
   final ModelDashboardModel? model;
 
@@ -60298,8 +60824,9 @@ class ModelDashboardModel {
   }
 }
 
-/// Search shape for Job. Mirrors DescribeJobResponse fields. If you update
-/// DescribeJobResponse, update this structure as well.
+/// The properties of a job returned by the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html">Search</a>
+/// API.
 ///
 /// @nodoc
 class Job {
@@ -62547,6 +63074,14 @@ class ContainerDefinition {
   /// every <code>ContainerDefinition</code> in that pipeline.
   final String? containerHostname;
 
+  /// The configuration for container metrics scraping. Specifies the metrics
+  /// endpoint path and publishing frequency. If not specified when
+  /// <code>EnableDetailedObservability</code> is <code>True</code>, the default
+  /// path <code>/metrics</code> on port <code>8080</code> is used. For
+  /// first-party and Deep Learning Containers (DLC), the endpoint path is
+  /// determined automatically and this configuration is optional.
+  final ContainerMetricsConfig? containerMetricsConfig;
+
   /// The environment variables to set in the Docker container. Don't include any
   /// sensitive data in your environment variables.
   ///
@@ -62637,6 +63172,7 @@ class ContainerDefinition {
   ContainerDefinition({
     this.additionalModelDataSources,
     this.containerHostname,
+    this.containerMetricsConfig,
     this.environment,
     this.image,
     this.imageConfig,
@@ -62656,6 +63192,10 @@ class ContainerDefinition {
               AdditionalModelDataSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       containerHostname: json['ContainerHostname'] as String?,
+      containerMetricsConfig: json['ContainerMetricsConfig'] != null
+          ? ContainerMetricsConfig.fromJson(
+              json['ContainerMetricsConfig'] as Map<String, dynamic>)
+          : null,
       environment: (json['Environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       image: json['Image'] as String?,
@@ -62680,6 +63220,7 @@ class ContainerDefinition {
   Map<String, dynamic> toJson() {
     final additionalModelDataSources = this.additionalModelDataSources;
     final containerHostname = this.containerHostname;
+    final containerMetricsConfig = this.containerMetricsConfig;
     final environment = this.environment;
     final image = this.image;
     final imageConfig = this.imageConfig;
@@ -62693,6 +63234,8 @@ class ContainerDefinition {
       if (additionalModelDataSources != null)
         'AdditionalModelDataSources': additionalModelDataSources,
       if (containerHostname != null) 'ContainerHostname': containerHostname,
+      if (containerMetricsConfig != null)
+        'ContainerMetricsConfig': containerMetricsConfig,
       if (environment != null) 'Environment': environment,
       if (image != null) 'Image': image,
       if (imageConfig != null) 'ImageConfig': imageConfig,
@@ -64990,6 +65533,12 @@ class TrainingInstanceType {
   static const mlG7e_12xlarge = TrainingInstanceType._('ml.g7e.12xlarge');
   static const mlG7e_24xlarge = TrainingInstanceType._('ml.g7e.24xlarge');
   static const mlG7e_48xlarge = TrainingInstanceType._('ml.g7e.48xlarge');
+  static const mlG7_2xlarge = TrainingInstanceType._('ml.g7.2xlarge');
+  static const mlG7_4xlarge = TrainingInstanceType._('ml.g7.4xlarge');
+  static const mlG7_8xlarge = TrainingInstanceType._('ml.g7.8xlarge');
+  static const mlG7_12xlarge = TrainingInstanceType._('ml.g7.12xlarge');
+  static const mlG7_24xlarge = TrainingInstanceType._('ml.g7.24xlarge');
+  static const mlG7_48xlarge = TrainingInstanceType._('ml.g7.48xlarge');
 
   final String value;
 
@@ -65140,7 +65689,13 @@ class TrainingInstanceType {
     mlG7e_8xlarge,
     mlG7e_12xlarge,
     mlG7e_24xlarge,
-    mlG7e_48xlarge
+    mlG7e_48xlarge,
+    mlG7_2xlarge,
+    mlG7_4xlarge,
+    mlG7_8xlarge,
+    mlG7_12xlarge,
+    mlG7_24xlarge,
+    mlG7_48xlarge
   ];
 
   static TrainingInstanceType fromString(String value) =>
@@ -69136,24 +69691,42 @@ class ProductionVariantRoutingConfig {
   /// <code>RANDOM</code>: The endpoint routes each request to a randomly chosen
   /// instance.
   /// </li>
+  /// <li>
+  /// <code>PREFIX_AWARE</code>: The endpoint routes requests that share the same
+  /// prompt prefix to the same instance. When the number of in-flight requests on
+  /// the selected instance reaches the configured threshold, the endpoint routes
+  /// the request to an instance with more available capacity.
+  /// </li>
   /// </ul>
   final RoutingStrategy routingStrategy;
 
+  /// The configuration for prefix-aware routing. Specify this parameter only when
+  /// you set <code>RoutingStrategy</code> to <code>PREFIX_AWARE</code>.
+  final PrefixAwareRoutingConfig? prefixAwareRoutingConfig;
+
   ProductionVariantRoutingConfig({
     required this.routingStrategy,
+    this.prefixAwareRoutingConfig,
   });
 
   factory ProductionVariantRoutingConfig.fromJson(Map<String, dynamic> json) {
     return ProductionVariantRoutingConfig(
       routingStrategy: RoutingStrategy.fromString(
           (json['RoutingStrategy'] as String?) ?? ''),
+      prefixAwareRoutingConfig: json['PrefixAwareRoutingConfig'] != null
+          ? PrefixAwareRoutingConfig.fromJson(
+              json['PrefixAwareRoutingConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final routingStrategy = this.routingStrategy;
+    final prefixAwareRoutingConfig = this.prefixAwareRoutingConfig;
     return {
       'RoutingStrategy': routingStrategy.value,
+      if (prefixAwareRoutingConfig != null)
+        'PrefixAwareRoutingConfig': prefixAwareRoutingConfig,
     };
   }
 }
@@ -69321,12 +69894,13 @@ class RoutingStrategy {
   static const leastOutstandingRequests =
       RoutingStrategy._('LEAST_OUTSTANDING_REQUESTS');
   static const random = RoutingStrategy._('RANDOM');
+  static const prefixAware = RoutingStrategy._('PREFIX_AWARE');
 
   final String value;
 
   const RoutingStrategy._(this.value);
 
-  static const values = [leastOutstandingRequests, random];
+  static const values = [leastOutstandingRequests, random, prefixAware];
 
   static RoutingStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -69340,6 +69914,61 @@ class RoutingStrategy {
 
   @override
   String toString() => value;
+}
+
+/// The configuration for prefix-aware routing on a SageMaker real-time
+/// inference endpoint. Specify <code>PrefixLength</code> and
+/// <code>ConcurrencyThreshold</code> to control routing behavior.
+///
+/// @nodoc
+class PrefixAwareRoutingConfig {
+  /// The maximum number of in-flight requests on the target instance before the
+  /// endpoint routes to another instance. Required when
+  /// <code>RoutingStrategy</code> is <code>PREFIX_AWARE</code>. When in-flight
+  /// requests on the prefix-selected instance reach this threshold, the endpoint
+  /// routes the request to an instance with more available capacity.
+  final int? concurrencyThreshold;
+
+  /// The maximum length of the prefix used for routing decisions. Required when
+  /// <code>RoutingStrategy</code> is <code>PREFIX_AWARE</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the SageMaker Runtime <code>InvokeEndpoint</code> and
+  /// <code>InvokeEndpointWithResponseStream</code> APIs, this value specifies the
+  /// number of bytes from the beginning of the request body.
+  /// </li>
+  /// <li>
+  /// For OpenAI-compatible API, this value specifies the number of characters
+  /// from the text content of the messages array.
+  /// </li>
+  /// </ul>
+  /// The endpoint routes requests that share the same prefix to the same
+  /// instance. Set this value to cover shared content (such as system prompts)
+  /// plus enough unique content to distribute workloads across instances.
+  final int? prefixLength;
+
+  PrefixAwareRoutingConfig({
+    this.concurrencyThreshold,
+    this.prefixLength,
+  });
+
+  factory PrefixAwareRoutingConfig.fromJson(Map<String, dynamic> json) {
+    return PrefixAwareRoutingConfig(
+      concurrencyThreshold: json['ConcurrencyThreshold'] as int?,
+      prefixLength: json['PrefixLength'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final concurrencyThreshold = this.concurrencyThreshold;
+    final prefixLength = this.prefixLength;
+    return {
+      if (concurrencyThreshold != null)
+        'ConcurrencyThreshold': concurrencyThreshold,
+      if (prefixLength != null) 'PrefixLength': prefixLength,
+    };
+  }
 }
 
 /// @nodoc
@@ -77147,6 +77776,20 @@ class OptimizationJobDeploymentInstanceType {
       OptimizationJobDeploymentInstanceType._('ml.trn1.32xlarge');
   static const mlTrn1n_32xlarge =
       OptimizationJobDeploymentInstanceType._('ml.trn1n.32xlarge');
+  static const mlP6B200_48xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.p6-b200.48xlarge');
+  static const mlG7e_2xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g7e.2xlarge');
+  static const mlG7e_4xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g7e.4xlarge');
+  static const mlG7e_8xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g7e.8xlarge');
+  static const mlG7e_12xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g7e.12xlarge');
+  static const mlG7e_24xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g7e.24xlarge');
+  static const mlG7e_48xlarge =
+      OptimizationJobDeploymentInstanceType._('ml.g7e.48xlarge');
 
   final String value;
 
@@ -77194,7 +77837,14 @@ class OptimizationJobDeploymentInstanceType {
     mlInf2_48xlarge,
     mlTrn1_2xlarge,
     mlTrn1_32xlarge,
-    mlTrn1n_32xlarge
+    mlTrn1n_32xlarge,
+    mlP6B200_48xlarge,
+    mlG7e_2xlarge,
+    mlG7e_4xlarge,
+    mlG7e_8xlarge,
+    mlG7e_12xlarge,
+    mlG7e_24xlarge,
+    mlG7e_48xlarge
   ];
 
   static OptimizationJobDeploymentInstanceType fromString(String value) =>
@@ -77372,6 +78022,9 @@ class NotebookInstanceStatus {
   static const failed = NotebookInstanceStatus._('Failed');
   static const deleting = NotebookInstanceStatus._('Deleting');
   static const updating = NotebookInstanceStatus._('Updating');
+  static const pendingMaintenance =
+      NotebookInstanceStatus._('PendingMaintenance');
+  static const inMaintenance = NotebookInstanceStatus._('InMaintenance');
 
   final String value;
 
@@ -77384,7 +78037,9 @@ class NotebookInstanceStatus {
     stopped,
     failed,
     deleting,
-    updating
+    updating,
+    pendingMaintenance,
+    inMaintenance
   ];
 
   static NotebookInstanceStatus fromString(String value) =>
@@ -83653,6 +84308,10 @@ class ClusterSummary {
   /// The time when the SageMaker HyperPod cluster is created.
   final DateTime creationTime;
 
+  /// The aggregate status of the image version across the cluster's instance
+  /// groups.
+  final ClusterImageVersionStatus? imageVersionStatus;
+
   /// A list of Amazon Resource Names (ARNs) of the training plans associated with
   /// this cluster.
   ///
@@ -83667,6 +84326,7 @@ class ClusterSummary {
     required this.clusterName,
     required this.clusterStatus,
     required this.creationTime,
+    this.imageVersionStatus,
     this.trainingPlanArns,
   });
 
@@ -83677,6 +84337,8 @@ class ClusterSummary {
       clusterStatus:
           ClusterStatus.fromString((json['ClusterStatus'] as String?) ?? ''),
       creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      imageVersionStatus: (json['ImageVersionStatus'] as String?)
+          ?.let(ClusterImageVersionStatus.fromString),
       trainingPlanArns: (json['TrainingPlanArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -83689,12 +84351,15 @@ class ClusterSummary {
     final clusterName = this.clusterName;
     final clusterStatus = this.clusterStatus;
     final creationTime = this.creationTime;
+    final imageVersionStatus = this.imageVersionStatus;
     final trainingPlanArns = this.trainingPlanArns;
     return {
       'ClusterArn': clusterArn,
       'ClusterName': clusterName,
       'ClusterStatus': clusterStatus.value,
       'CreationTime': unixTimestampToJson(creationTime),
+      if (imageVersionStatus != null)
+        'ImageVersionStatus': imageVersionStatus.value,
       if (trainingPlanArns != null) 'TrainingPlanArns': trainingPlanArns,
     };
   }
@@ -83730,6 +84395,64 @@ class ClusterStatus {
 
   @override
   bool operator ==(other) => other is ClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of the Amazon Machine Image (AMI) version for the HyperPod
+/// cluster instance group, node, or cluster. The AMI version is determined at
+/// the instance group level, and all nodes within an instance group run the
+/// same AMI. The cluster-level status is aggregated across all instance groups.
+///
+/// <ul>
+/// <li>
+/// <code>UpToDate</code>: The resource is running the latest available AMI
+/// version.
+/// </li>
+/// <li>
+/// <code>UpdateAvailable</code>: A newer AMI version is available for the
+/// resource.
+/// </li>
+/// <li>
+/// <code>SecurityUpdateRequired</code>: The current AMI has known security
+/// vulnerabilities, and a patched version is available.
+/// </li>
+/// <li>
+/// <code>EndOfLife</code>: The AMI variant has reached end of support and an
+/// upgrade is required.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ClusterImageVersionStatus {
+  static const upToDate = ClusterImageVersionStatus._('UpToDate');
+  static const updateAvailable = ClusterImageVersionStatus._('UpdateAvailable');
+  static const securityUpdateRequired =
+      ClusterImageVersionStatus._('SecurityUpdateRequired');
+  static const endOfLife = ClusterImageVersionStatus._('EndOfLife');
+
+  final String value;
+
+  const ClusterImageVersionStatus._(this.value);
+
+  static const values = [
+    upToDate,
+    updateAvailable,
+    securityUpdateRequired,
+    endOfLife
+  ];
+
+  static ClusterImageVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClusterImageVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusterImageVersionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -83783,6 +84506,9 @@ class ClusterNodeSummary {
   /// The time when the instance is launched.
   final DateTime launchTime;
 
+  /// The version of the HyperPod-managed AMI currently running on the node.
+  final String? currentImageReleaseVersion;
+
   /// The status of the image version for the cluster node.
   final ClusterImageVersionStatus? imageVersionStatus;
 
@@ -83809,6 +84535,7 @@ class ClusterNodeSummary {
     required this.instanceStatus,
     required this.instanceType,
     required this.launchTime,
+    this.currentImageReleaseVersion,
     this.imageVersionStatus,
     this.lastSoftwareUpdateTime,
     this.nodeLogicalId,
@@ -83826,6 +84553,7 @@ class ClusterNodeSummary {
       instanceType: ClusterInstanceType.fromString(
           (json['InstanceType'] as String?) ?? ''),
       launchTime: nonNullableTimeStampFromJson(json['LaunchTime'] ?? 0),
+      currentImageReleaseVersion: json['CurrentImageReleaseVersion'] as String?,
       imageVersionStatus: (json['ImageVersionStatus'] as String?)
           ?.let(ClusterImageVersionStatus.fromString),
       lastSoftwareUpdateTime: timeStampFromJson(json['LastSoftwareUpdateTime']),
@@ -83844,6 +84572,7 @@ class ClusterNodeSummary {
     final instanceStatus = this.instanceStatus;
     final instanceType = this.instanceType;
     final launchTime = this.launchTime;
+    final currentImageReleaseVersion = this.currentImageReleaseVersion;
     final imageVersionStatus = this.imageVersionStatus;
     final lastSoftwareUpdateTime = this.lastSoftwareUpdateTime;
     final nodeLogicalId = this.nodeLogicalId;
@@ -83855,6 +84584,8 @@ class ClusterNodeSummary {
       'InstanceStatus': instanceStatus,
       'InstanceType': instanceType.value,
       'LaunchTime': unixTimestampToJson(launchTime),
+      if (currentImageReleaseVersion != null)
+        'CurrentImageReleaseVersion': currentImageReleaseVersion,
       if (imageVersionStatus != null)
         'ImageVersionStatus': imageVersionStatus.value,
       if (lastSoftwareUpdateTime != null)
@@ -83929,48 +84660,6 @@ class UltraServerInfo {
       if (type != null) 'Type': type,
     };
   }
-}
-
-/// The status of the Amazon Machine Image (AMI) version for the HyperPod
-/// cluster instance group, node, or cluster. The AMI version is determined at
-/// the instance group level, and all nodes within an instance group run the
-/// same AMI. The cluster-level status is aggregated across all instance groups.
-///
-/// <ul>
-/// <li>
-/// <code>UpToDate</code>: The resource is running the latest available AMI
-/// version.
-/// </li>
-/// <li>
-/// <code>UpdateAvailable</code>: A newer AMI version is available for the
-/// resource.
-/// </li>
-/// </ul>
-///
-/// @nodoc
-class ClusterImageVersionStatus {
-  static const upToDate = ClusterImageVersionStatus._('UpToDate');
-  static const updateAvailable = ClusterImageVersionStatus._('UpdateAvailable');
-
-  final String value;
-
-  const ClusterImageVersionStatus._(this.value);
-
-  static const values = [upToDate, updateAvailable];
-
-  static ClusterImageVersionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ClusterImageVersionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ClusterImageVersionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// @nodoc
@@ -87050,6 +87739,41 @@ class ServerlessJobConfig {
   /// The parameter-efficient fine-tuning configuration.
   final Peft? peft;
 
+  /// The maximum sequence length, in tokens, that the customization job supports.
+  /// SageMaker uses this value to select a training configuration for the base
+  /// model that you specify. The parameter supports the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>1K</code>
+  /// </li>
+  /// <li>
+  /// <code>2K</code>
+  /// </li>
+  /// <li>
+  /// <code>4K</code>
+  /// </li>
+  /// <li>
+  /// <code>8K</code>
+  /// </li>
+  /// <li>
+  /// <code>16K</code>
+  /// </li>
+  /// <li>
+  /// <code>32K</code>
+  /// </li>
+  /// <li>
+  /// <code>64K</code>
+  /// </li>
+  /// <li>
+  /// <code>128K</code>
+  /// </li>
+  /// </ul>
+  /// If you don't specify a value, SageMaker selects a training configuration
+  /// based on the other values that you specify. The selection is not restricted
+  /// to a particular sequence length.
+  final String? sequenceLength;
+
   ServerlessJobConfig({
     required this.baseModelArn,
     required this.jobType,
@@ -87058,6 +87782,7 @@ class ServerlessJobConfig {
     this.evaluationType,
     this.evaluatorArn,
     this.peft,
+    this.sequenceLength,
   });
 
   factory ServerlessJobConfig.fromJson(Map<String, dynamic> json) {
@@ -87071,6 +87796,7 @@ class ServerlessJobConfig {
           (json['EvaluationType'] as String?)?.let(EvaluationType.fromString),
       evaluatorArn: json['EvaluatorArn'] as String?,
       peft: (json['Peft'] as String?)?.let(Peft.fromString),
+      sequenceLength: json['SequenceLength'] as String?,
     );
   }
 
@@ -87082,6 +87808,7 @@ class ServerlessJobConfig {
     final evaluationType = this.evaluationType;
     final evaluatorArn = this.evaluatorArn;
     final peft = this.peft;
+    final sequenceLength = this.sequenceLength;
     return {
       'BaseModelArn': baseModelArn,
       'JobType': jobType.value,
@@ -87091,6 +87818,7 @@ class ServerlessJobConfig {
       if (evaluationType != null) 'EvaluationType': evaluationType.value,
       if (evaluatorArn != null) 'EvaluatorArn': evaluatorArn,
       if (peft != null) 'Peft': peft.value,
+      if (sequenceLength != null) 'SequenceLength': sequenceLength,
     };
   }
 }
@@ -93096,6 +93824,10 @@ class InferenceComponentPlacementStatus {
 class InferenceComponentContainerSpecificationSummary {
   /// The Amazon S3 path where the model artifacts are stored.
   final String? artifactUrl;
+
+  /// The container metrics scraping configuration for this inference component,
+  /// including the metrics endpoint path and publishing frequency.
+  final ContainerMetricsConfig? containerMetricsConfig;
   final DeployedImage? deployedImage;
 
   /// The environment variables to set in the Docker container.
@@ -93103,6 +93835,7 @@ class InferenceComponentContainerSpecificationSummary {
 
   InferenceComponentContainerSpecificationSummary({
     this.artifactUrl,
+    this.containerMetricsConfig,
     this.deployedImage,
     this.environment,
   });
@@ -93111,6 +93844,10 @@ class InferenceComponentContainerSpecificationSummary {
       Map<String, dynamic> json) {
     return InferenceComponentContainerSpecificationSummary(
       artifactUrl: json['ArtifactUrl'] as String?,
+      containerMetricsConfig: json['ContainerMetricsConfig'] != null
+          ? ContainerMetricsConfig.fromJson(
+              json['ContainerMetricsConfig'] as Map<String, dynamic>)
+          : null,
       deployedImage: json['DeployedImage'] != null
           ? DeployedImage.fromJson(
               json['DeployedImage'] as Map<String, dynamic>)
@@ -93122,10 +93859,13 @@ class InferenceComponentContainerSpecificationSummary {
 
   Map<String, dynamic> toJson() {
     final artifactUrl = this.artifactUrl;
+    final containerMetricsConfig = this.containerMetricsConfig;
     final deployedImage = this.deployedImage;
     final environment = this.environment;
     return {
       if (artifactUrl != null) 'ArtifactUrl': artifactUrl,
+      if (containerMetricsConfig != null)
+        'ContainerMetricsConfig': containerMetricsConfig,
       if (deployedImage != null) 'DeployedImage': deployedImage,
       if (environment != null) 'Environment': environment,
     };
@@ -93877,6 +94617,42 @@ class ExplainerConfig {
 ///
 /// @nodoc
 class MetricsConfig {
+  /// Indicates whether detailed observability is enabled for the endpoint. When
+  /// set to <code>True</code>, the following metrics are published at the
+  /// configured frequency:
+  ///
+  /// <ul>
+  /// <li>
+  /// Container-level inference metrics scraped from the container's Prometheus
+  /// endpoint (such as request latency, error counts, and throughput). Available
+  /// metrics vary by framework.
+  /// </li>
+  /// <li>
+  /// Per-GPU metrics (utilization, memory, and temperature) attributed to
+  /// individual inference components.
+  /// </li>
+  /// <li>
+  /// Per-instance host metrics (CPU, memory, and disk utilization).
+  /// </li>
+  /// <li>
+  /// Inference component placement metrics (copy count per Availability Zone).
+  /// </li>
+  /// </ul>
+  /// For first-party and Deep Learning Containers (DLC), the Prometheus endpoint
+  /// path is determined automatically. For Bring-Your-Own-Container (BYOC) cases,
+  /// you can optionally set <code>ContainerMetricsConfig</code> to specify a
+  /// custom endpoint path. If not specified, the default path
+  /// <code>/metrics</code> on port <code>8080</code> is used.
+  ///
+  /// When set to <code>False</code>, these additional metrics are not published.
+  /// Standard invocation and utilization metrics controlled by
+  /// <code>EnableEnhancedMetrics</code> are unaffected.
+  ///
+  /// The default value for new endpoint configurations is <code>True</code>. For
+  /// existing endpoint configurations created before this feature, the value is
+  /// <code>False</code> unless explicitly set.
+  final bool? enableDetailedObservability;
+
   /// Specifies whether to enable enhanced metrics for the endpoint. Enhanced
   /// metrics provide utilization and invocation data at instance and container
   /// granularity. Container granularity is supported for Inference Components.
@@ -93886,21 +94662,29 @@ class MetricsConfig {
   /// The interval, in seconds, at which metrics are published to Amazon
   /// CloudWatch. Defaults to <code>60</code>. Valid values: <code>10</code>,
   /// <code>30</code>, <code>60</code>, <code>120</code>, <code>180</code>,
-  /// <code>240</code>, <code>300</code>. When <code>EnableEnhancedMetrics</code>
-  /// is set to <code>False</code>, this interval applies to utilization metrics
-  /// only; invocation metrics continue to be published at the default 60-second
-  /// interval. When <code>EnableEnhancedMetrics</code> is set to
-  /// <code>True</code>, this interval applies to both utilization and invocation
-  /// metrics.
+  /// <code>240</code>, <code>300</code>.
+  ///
+  /// When <code>EnableEnhancedMetrics</code> is set to <code>False</code>, this
+  /// interval applies to utilization metrics only. Invocation metrics continue to
+  /// be published at the default 60-second interval. When
+  /// <code>EnableEnhancedMetrics</code> is set to <code>True</code>, this
+  /// interval applies to both utilization and invocation metrics.
+  ///
+  /// When <code>EnableDetailedObservability</code> is set to <code>True</code>,
+  /// this interval applies to per-GPU metrics, per-instance host metrics,
+  /// container metrics, and fleet-level inference component lifecycle and
+  /// placement metrics.
   final int? metricPublishFrequencyInSeconds;
 
   MetricsConfig({
+    this.enableDetailedObservability,
     this.enableEnhancedMetrics,
     this.metricPublishFrequencyInSeconds,
   });
 
   factory MetricsConfig.fromJson(Map<String, dynamic> json) {
     return MetricsConfig(
+      enableDetailedObservability: json['EnableDetailedObservability'] as bool?,
       enableEnhancedMetrics: json['EnableEnhancedMetrics'] as bool?,
       metricPublishFrequencyInSeconds:
           json['MetricPublishFrequencyInSeconds'] as int?,
@@ -93908,10 +94692,13 @@ class MetricsConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final enableDetailedObservability = this.enableDetailedObservability;
     final enableEnhancedMetrics = this.enableEnhancedMetrics;
     final metricPublishFrequencyInSeconds =
         this.metricPublishFrequencyInSeconds;
     return {
+      if (enableDetailedObservability != null)
+        'EnableDetailedObservability': enableDetailedObservability,
       if (enableEnhancedMetrics != null)
         'EnableEnhancedMetrics': enableEnhancedMetrics,
       if (metricPublishFrequencyInSeconds != null)
@@ -97209,8 +97996,15 @@ class ClusterNodeDetails {
   /// The ID of the Amazon Machine Image (AMI) currently in use by the node.
   final String? currentImageId;
 
+  /// The version of the HyperPod-managed AMI currently running on the node.
+  final String? currentImageReleaseVersion;
+
   /// The ID of the Amazon Machine Image (AMI) desired for the node.
   final String? desiredImageId;
+
+  /// The desired version of the HyperPod-managed AMI for the node. This may
+  /// differ from the current version when an update is pending.
+  final String? desiredImageReleaseVersion;
 
   /// The status of the image version for the cluster node.
   final ClusterImageVersionStatus? imageVersionStatus;
@@ -97283,7 +98077,9 @@ class ClusterNodeDetails {
   ClusterNodeDetails({
     this.capacityType,
     this.currentImageId,
+    this.currentImageReleaseVersion,
     this.desiredImageId,
+    this.desiredImageReleaseVersion,
     this.imageVersionStatus,
     this.instanceGroupName,
     this.instanceId,
@@ -97310,7 +98106,9 @@ class ClusterNodeDetails {
       capacityType: (json['CapacityType'] as String?)
           ?.let(ClusterCapacityType.fromString),
       currentImageId: json['CurrentImageId'] as String?,
+      currentImageReleaseVersion: json['CurrentImageReleaseVersion'] as String?,
       desiredImageId: json['DesiredImageId'] as String?,
+      desiredImageReleaseVersion: json['DesiredImageReleaseVersion'] as String?,
       imageVersionStatus: (json['ImageVersionStatus'] as String?)
           ?.let(ClusterImageVersionStatus.fromString),
       instanceGroupName: json['InstanceGroupName'] as String?,
@@ -97363,7 +98161,9 @@ class ClusterNodeDetails {
   Map<String, dynamic> toJson() {
     final capacityType = this.capacityType;
     final currentImageId = this.currentImageId;
+    final currentImageReleaseVersion = this.currentImageReleaseVersion;
     final desiredImageId = this.desiredImageId;
+    final desiredImageReleaseVersion = this.desiredImageReleaseVersion;
     final imageVersionStatus = this.imageVersionStatus;
     final instanceGroupName = this.instanceGroupName;
     final instanceId = this.instanceId;
@@ -97386,7 +98186,11 @@ class ClusterNodeDetails {
     return {
       if (capacityType != null) 'CapacityType': capacityType.value,
       if (currentImageId != null) 'CurrentImageId': currentImageId,
+      if (currentImageReleaseVersion != null)
+        'CurrentImageReleaseVersion': currentImageReleaseVersion,
       if (desiredImageId != null) 'DesiredImageId': desiredImageId,
+      if (desiredImageReleaseVersion != null)
+        'DesiredImageReleaseVersion': desiredImageReleaseVersion,
       if (imageVersionStatus != null)
         'ImageVersionStatus': imageVersionStatus.value,
       if (instanceGroupName != null) 'InstanceGroupName': instanceGroupName,
@@ -98558,6 +99362,10 @@ class ClusterInstanceGroupDetails {
   final Map<ActiveClusterOperationName, int>? activeOperations;
   final DeploymentConfiguration? activeSoftwareUpdateConfig;
 
+  /// The auto-patching configuration for the instance group, including the
+  /// current patching strategy and next scheduled patch date.
+  final ClusterAutoPatchConfigDetails? autoPatchConfig;
+
   /// The instance capacity requirements for the instance group.
   final ClusterCapacityRequirements? capacityRequirements;
 
@@ -98569,8 +99377,16 @@ class ClusterInstanceGroupDetails {
   /// group.
   final String? currentImageId;
 
+  /// The version of the HyperPod-managed AMI currently running on the instance
+  /// group.
+  final String? currentImageReleaseVersion;
+
   /// The ID of the Amazon Machine Image (AMI) desired for the instance group.
   final String? desiredImageId;
+
+  /// The desired version of the HyperPod-managed AMI for the instance group. This
+  /// may differ from the current version when an update is pending.
+  final String? desiredImageReleaseVersion;
 
   /// The execution role for the instance group to assume.
   final String? executionRole;
@@ -98724,10 +99540,13 @@ class ClusterInstanceGroupDetails {
   ClusterInstanceGroupDetails({
     this.activeOperations,
     this.activeSoftwareUpdateConfig,
+    this.autoPatchConfig,
     this.capacityRequirements,
     this.currentCount,
     this.currentImageId,
+    this.currentImageReleaseVersion,
     this.desiredImageId,
+    this.desiredImageReleaseVersion,
     this.executionRole,
     this.imageVersionStatus,
     this.instanceGroupName,
@@ -98761,13 +99580,19 @@ class ClusterInstanceGroupDetails {
           ? DeploymentConfiguration.fromJson(
               json['ActiveSoftwareUpdateConfig'] as Map<String, dynamic>)
           : null,
+      autoPatchConfig: json['AutoPatchConfig'] != null
+          ? ClusterAutoPatchConfigDetails.fromJson(
+              json['AutoPatchConfig'] as Map<String, dynamic>)
+          : null,
       capacityRequirements: json['CapacityRequirements'] != null
           ? ClusterCapacityRequirements.fromJson(
               json['CapacityRequirements'] as Map<String, dynamic>)
           : null,
       currentCount: json['CurrentCount'] as int?,
       currentImageId: json['CurrentImageId'] as String?,
+      currentImageReleaseVersion: json['CurrentImageReleaseVersion'] as String?,
       desiredImageId: json['DesiredImageId'] as String?,
+      desiredImageReleaseVersion: json['DesiredImageReleaseVersion'] as String?,
       executionRole: json['ExecutionRole'] as String?,
       imageVersionStatus: (json['ImageVersionStatus'] as String?)
           ?.let(ClusterImageVersionStatus.fromString),
@@ -98831,10 +99656,13 @@ class ClusterInstanceGroupDetails {
   Map<String, dynamic> toJson() {
     final activeOperations = this.activeOperations;
     final activeSoftwareUpdateConfig = this.activeSoftwareUpdateConfig;
+    final autoPatchConfig = this.autoPatchConfig;
     final capacityRequirements = this.capacityRequirements;
     final currentCount = this.currentCount;
     final currentImageId = this.currentImageId;
+    final currentImageReleaseVersion = this.currentImageReleaseVersion;
     final desiredImageId = this.desiredImageId;
+    final desiredImageReleaseVersion = this.desiredImageReleaseVersion;
     final executionRole = this.executionRole;
     final imageVersionStatus = this.imageVersionStatus;
     final instanceGroupName = this.instanceGroupName;
@@ -98863,11 +99691,16 @@ class ClusterInstanceGroupDetails {
             activeOperations.map((k, e) => MapEntry(k.value, e)),
       if (activeSoftwareUpdateConfig != null)
         'ActiveSoftwareUpdateConfig': activeSoftwareUpdateConfig,
+      if (autoPatchConfig != null) 'AutoPatchConfig': autoPatchConfig,
       if (capacityRequirements != null)
         'CapacityRequirements': capacityRequirements,
       if (currentCount != null) 'CurrentCount': currentCount,
       if (currentImageId != null) 'CurrentImageId': currentImageId,
+      if (currentImageReleaseVersion != null)
+        'CurrentImageReleaseVersion': currentImageReleaseVersion,
       if (desiredImageId != null) 'DesiredImageId': desiredImageId,
+      if (desiredImageReleaseVersion != null)
+        'DesiredImageReleaseVersion': desiredImageReleaseVersion,
       if (executionRole != null) 'ExecutionRole': executionRole,
       if (imageVersionStatus != null)
         'ImageVersionStatus': imageVersionStatus.value,
@@ -98943,6 +99776,83 @@ class ClusterInstanceRequirementDetails {
       if (desiredInstanceTypes != null)
         'DesiredInstanceTypes':
             desiredInstanceTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// The auto-patching configuration details for the instance group, including
+/// the patching strategy and schedule.
+///
+/// @nodoc
+class ClusterAutoPatchConfigDetails {
+  /// The currently active patch schedule that the system will execute.
+  final ClusterPatchScheduleDetails? currentPatchSchedule;
+
+  /// The deployment configuration for rolling patch updates.
+  final DeploymentConfiguration? deploymentConfig;
+
+  /// The requested patch schedule. Differs from CurrentPatchSchedule when a
+  /// reschedule request is pending.
+  final ClusterPatchScheduleDetails? desiredPatchSchedule;
+
+  /// The strategy used for applying patches to instances in the group.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>WhenIdle</code>: Cordons all instances and patches each instance as it
+  /// becomes idle (no running jobs). Each instance is uncordoned immediately
+  /// after patching and becomes available for new jobs. If instances do not
+  /// become idle, they remain on the previous AMI version. You can then use
+  /// UpdateClusterSoftware with the desired ImageReleaseVersion to manually
+  /// update the remaining instances.
+  /// </li>
+  /// <li>
+  /// <code>WhenAllIdle</code>: Cordons all instances and waits for all to become
+  /// idle before patching. All instances are uncordoned after patching completes.
+  /// If not all instances become idle, no patching occurs and all instances
+  /// remain on the previous AMI version.
+  /// </li>
+  /// </ul>
+  final ClusterPatchingStrategy? patchingStrategy;
+
+  ClusterAutoPatchConfigDetails({
+    this.currentPatchSchedule,
+    this.deploymentConfig,
+    this.desiredPatchSchedule,
+    this.patchingStrategy,
+  });
+
+  factory ClusterAutoPatchConfigDetails.fromJson(Map<String, dynamic> json) {
+    return ClusterAutoPatchConfigDetails(
+      currentPatchSchedule: json['CurrentPatchSchedule'] != null
+          ? ClusterPatchScheduleDetails.fromJson(
+              json['CurrentPatchSchedule'] as Map<String, dynamic>)
+          : null,
+      deploymentConfig: json['DeploymentConfig'] != null
+          ? DeploymentConfiguration.fromJson(
+              json['DeploymentConfig'] as Map<String, dynamic>)
+          : null,
+      desiredPatchSchedule: json['DesiredPatchSchedule'] != null
+          ? ClusterPatchScheduleDetails.fromJson(
+              json['DesiredPatchSchedule'] as Map<String, dynamic>)
+          : null,
+      patchingStrategy: (json['PatchingStrategy'] as String?)
+          ?.let(ClusterPatchingStrategy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentPatchSchedule = this.currentPatchSchedule;
+    final deploymentConfig = this.deploymentConfig;
+    final desiredPatchSchedule = this.desiredPatchSchedule;
+    final patchingStrategy = this.patchingStrategy;
+    return {
+      if (currentPatchSchedule != null)
+        'CurrentPatchSchedule': currentPatchSchedule,
+      if (deploymentConfig != null) 'DeploymentConfig': deploymentConfig,
+      if (desiredPatchSchedule != null)
+        'DesiredPatchSchedule': desiredPatchSchedule,
+      if (patchingStrategy != null) 'PatchingStrategy': patchingStrategy.value,
     };
   }
 }
@@ -99103,6 +100013,33 @@ class ActiveClusterOperationName {
 
   @override
   String toString() => value;
+}
+
+/// The schedule details for automatic patching, including the next scheduled
+/// patch date.
+///
+/// @nodoc
+class ClusterPatchScheduleDetails {
+  /// The date and time of the next scheduled automatic patch.
+  final DateTime? nextPatchDate;
+
+  ClusterPatchScheduleDetails({
+    this.nextPatchDate,
+  });
+
+  factory ClusterPatchScheduleDetails.fromJson(Map<String, dynamic> json) {
+    return ClusterPatchScheduleDetails(
+      nextPatchDate: timeStampFromJson(json['NextPatchDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPatchDate = this.nextPatchDate;
+    return {
+      if (nextPatchDate != null)
+        'NextPatchDate': unixTimestampToJson(nextPatchDate),
+    };
+  }
 }
 
 /// Details about a specific instance type within a flexible instance group,
@@ -102659,6 +103596,121 @@ class AIRecommendationComputeSpec {
   }
 }
 
+/// The source of LoRA adapters for an AI recommendation job. This is a union
+/// type — specify exactly one of the members.
+///
+/// @nodoc
+class AIAdapterSource {
+  /// A list of LoRA adapters identified by their model package ARNs. Use this
+  /// when your adapters were produced by a SageMaker AI fine-tuning workflow that
+  /// registers model packages.
+  final List<AIAdapterModelPackageEntry>? modelPackageArns;
+
+  /// A list of LoRA adapters identified by their Amazon S3 URIs. Use this when
+  /// your adapters are stored as raw artifacts in Amazon S3.
+  final List<AIAdapterS3Entry>? s3Uris;
+
+  AIAdapterSource({
+    this.modelPackageArns,
+    this.s3Uris,
+  });
+
+  factory AIAdapterSource.fromJson(Map<String, dynamic> json) {
+    return AIAdapterSource(
+      modelPackageArns: (json['ModelPackageArns'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AIAdapterModelPackageEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3Uris: (json['S3Uris'] as List?)
+          ?.nonNulls
+          .map((e) => AIAdapterS3Entry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelPackageArns = this.modelPackageArns;
+    final s3Uris = this.s3Uris;
+    return {
+      if (modelPackageArns != null) 'ModelPackageArns': modelPackageArns,
+      if (s3Uris != null) 'S3Uris': s3Uris,
+    };
+  }
+}
+
+/// A LoRA adapter entry identified by an Amazon S3 URI.
+///
+/// @nodoc
+class AIAdapterS3Entry {
+  /// A unique identifier for the adapter. This ID is used as the inference
+  /// component name when the adapter is deployed. The ID must start and end with
+  /// an alphanumeric character, can contain hyphens between alphanumeric
+  /// characters, and can be up to 63 characters long.
+  final String adapterId;
+
+  /// The Amazon S3 URI of the directory that contains the LoRA adapter artifacts
+  /// in PEFT format.
+  final String s3Uri;
+
+  AIAdapterS3Entry({
+    required this.adapterId,
+    required this.s3Uri,
+  });
+
+  factory AIAdapterS3Entry.fromJson(Map<String, dynamic> json) {
+    return AIAdapterS3Entry(
+      adapterId: (json['AdapterId'] as String?) ?? '',
+      s3Uri: (json['S3Uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adapterId = this.adapterId;
+    final s3Uri = this.s3Uri;
+    return {
+      'AdapterId': adapterId,
+      'S3Uri': s3Uri,
+    };
+  }
+}
+
+/// A LoRA adapter entry identified by a model package ARN.
+///
+/// @nodoc
+class AIAdapterModelPackageEntry {
+  /// A unique identifier for the adapter. This ID is used as the inference
+  /// component name when the adapter is deployed. The ID must start and end with
+  /// an alphanumeric character, can contain hyphens between alphanumeric
+  /// characters, and can be up to 63 characters long.
+  final String adapterId;
+
+  /// The Amazon Resource Name (ARN) of the model package that contains the LoRA
+  /// adapter artifacts.
+  final String modelPackageArn;
+
+  AIAdapterModelPackageEntry({
+    required this.adapterId,
+    required this.modelPackageArn,
+  });
+
+  factory AIAdapterModelPackageEntry.fromJson(Map<String, dynamic> json) {
+    return AIAdapterModelPackageEntry(
+      adapterId: (json['AdapterId'] as String?) ?? '',
+      modelPackageArn: (json['ModelPackageArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adapterId = this.adapterId;
+    final modelPackageArn = this.modelPackageArn;
+    return {
+      'AdapterId': adapterId,
+      'ModelPackageArn': modelPackageArn,
+    };
+  }
+}
+
 /// The capacity reservation configuration for an AI recommendation job.
 ///
 /// @nodoc
@@ -102849,6 +103901,12 @@ class AIRecommendation {
   /// recommendation.
   final String? aIBenchmarkJobArn;
 
+  /// The LoRA adapter details for this recommendation. This field contains both
+  /// the model package ARNs and Amazon S3 URIs for each adapter, regardless of
+  /// which form was originally supplied. This field is absent when the job was
+  /// created without LoRA adapters.
+  final AIRecommendationAdapterDetails? adapterDetails;
+
   /// The deployment configuration for this recommendation, including the
   /// container image, instance type, instance count, and environment variables.
   final AIRecommendationDeploymentConfiguration? deploymentConfiguration;
@@ -102867,6 +103925,7 @@ class AIRecommendation {
 
   AIRecommendation({
     this.aIBenchmarkJobArn,
+    this.adapterDetails,
     this.deploymentConfiguration,
     this.expectedPerformance,
     this.modelDetails,
@@ -102877,6 +103936,10 @@ class AIRecommendation {
   factory AIRecommendation.fromJson(Map<String, dynamic> json) {
     return AIRecommendation(
       aIBenchmarkJobArn: json['AIBenchmarkJobArn'] as String?,
+      adapterDetails: json['AdapterDetails'] != null
+          ? AIRecommendationAdapterDetails.fromJson(
+              json['AdapterDetails'] as Map<String, dynamic>)
+          : null,
       deploymentConfiguration: json['DeploymentConfiguration'] != null
           ? AIRecommendationDeploymentConfiguration.fromJson(
               json['DeploymentConfiguration'] as Map<String, dynamic>)
@@ -102901,6 +103964,7 @@ class AIRecommendation {
 
   Map<String, dynamic> toJson() {
     final aIBenchmarkJobArn = this.aIBenchmarkJobArn;
+    final adapterDetails = this.adapterDetails;
     final deploymentConfiguration = this.deploymentConfiguration;
     final expectedPerformance = this.expectedPerformance;
     final modelDetails = this.modelDetails;
@@ -102908,6 +103972,7 @@ class AIRecommendation {
     final recommendationDescription = this.recommendationDescription;
     return {
       if (aIBenchmarkJobArn != null) 'AIBenchmarkJobArn': aIBenchmarkJobArn,
+      if (adapterDetails != null) 'AdapterDetails': adapterDetails,
       if (deploymentConfiguration != null)
         'DeploymentConfiguration': deploymentConfiguration,
       if (expectedPerformance != null)
@@ -102985,6 +104050,12 @@ class AIRecommendationDeploymentConfiguration {
   /// The recommended instance type for the deployment.
   final AIRecommendationInstanceType? instanceType;
 
+  /// The minimum host (CPU) memory, in MiB, to reserve for each model copy when
+  /// deploying the recommendation as an Inference Component. This value maps to
+  /// the Inference Component's
+  /// <code>ComputeResourceRequirements$MinMemoryRequiredInMb</code> field.
+  final int? minCpuMemoryRequiredInMb;
+
   /// The Amazon S3 data channels for the deployment.
   final List<AIRecommendationDeploymentS3Channel>? s3;
 
@@ -102994,6 +104065,7 @@ class AIRecommendationDeploymentConfiguration {
     this.imageUri,
     this.instanceCount,
     this.instanceType,
+    this.minCpuMemoryRequiredInMb,
     this.s3,
   });
 
@@ -103008,6 +104080,7 @@ class AIRecommendationDeploymentConfiguration {
       instanceCount: json['InstanceCount'] as int?,
       instanceType: (json['InstanceType'] as String?)
           ?.let(AIRecommendationInstanceType.fromString),
+      minCpuMemoryRequiredInMb: json['MinCpuMemoryRequiredInMb'] as int?,
       s3: (json['S3'] as List?)
           ?.nonNulls
           .map((e) => AIRecommendationDeploymentS3Channel.fromJson(
@@ -103022,6 +104095,7 @@ class AIRecommendationDeploymentConfiguration {
     final imageUri = this.imageUri;
     final instanceCount = this.instanceCount;
     final instanceType = this.instanceType;
+    final minCpuMemoryRequiredInMb = this.minCpuMemoryRequiredInMb;
     final s3 = this.s3;
     return {
       if (copyCountPerInstance != null)
@@ -103031,7 +104105,51 @@ class AIRecommendationDeploymentConfiguration {
       if (imageUri != null) 'ImageUri': imageUri,
       if (instanceCount != null) 'InstanceCount': instanceCount,
       if (instanceType != null) 'InstanceType': instanceType.value,
+      if (minCpuMemoryRequiredInMb != null)
+        'MinCpuMemoryRequiredInMb': minCpuMemoryRequiredInMb,
       if (s3 != null) 'S3': s3,
+    };
+  }
+}
+
+/// The per-recommendation LoRA adapter details. Contains both the model package
+/// ARNs and Amazon S3 URIs for each adapter, regardless of which form was
+/// originally supplied in the request. When you supply only Amazon S3 URIs,
+/// Amazon SageMaker AI creates model packages on your behalf.
+///
+/// @nodoc
+class AIRecommendationAdapterDetails {
+  /// The list of LoRA adapters with their model package ARNs.
+  final List<AIAdapterModelPackageEntry> modelPackageArns;
+
+  /// The list of LoRA adapters with their Amazon S3 URIs.
+  final List<AIAdapterS3Entry> s3Uris;
+
+  AIRecommendationAdapterDetails({
+    required this.modelPackageArns,
+    required this.s3Uris,
+  });
+
+  factory AIRecommendationAdapterDetails.fromJson(Map<String, dynamic> json) {
+    return AIRecommendationAdapterDetails(
+      modelPackageArns: ((json['ModelPackageArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              AIAdapterModelPackageEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3Uris: ((json['S3Uris'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AIAdapterS3Entry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelPackageArns = this.modelPackageArns;
+    final s3Uris = this.s3Uris;
+    return {
+      'ModelPackageArns': modelPackageArns,
+      'S3Uris': s3Uris,
     };
   }
 }

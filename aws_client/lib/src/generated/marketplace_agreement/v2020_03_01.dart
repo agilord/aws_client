@@ -4446,6 +4446,10 @@ class AcceptedTerm {
   /// the end user license agreement (EULA).
   final LegalTerm? legalTerm;
 
+  /// Defines the net payment due period for the agreement, specifying when
+  /// payment is due after an invoice is issued.
+  final NetPaymentTerm? netPaymentTerm;
+
   /// Defines an installment-based pricing model where customers are charged a
   /// fixed price on different dates during the agreement validity period. This is
   /// used most commonly for flexible payment schedule pricing.
@@ -4489,6 +4493,7 @@ class AcceptedTerm {
     this.fixedUpfrontPricingTerm,
     this.freeTrialPricingTerm,
     this.legalTerm,
+    this.netPaymentTerm,
     this.paymentScheduleTerm,
     this.recurringPaymentTerm,
     this.renewalTerm,
@@ -4519,6 +4524,10 @@ class AcceptedTerm {
           : null,
       legalTerm: json['legalTerm'] != null
           ? LegalTerm.fromJson(json['legalTerm'] as Map<String, dynamic>)
+          : null,
+      netPaymentTerm: json['netPaymentTerm'] != null
+          ? NetPaymentTerm.fromJson(
+              json['netPaymentTerm'] as Map<String, dynamic>)
           : null,
       paymentScheduleTerm: json['paymentScheduleTerm'] != null
           ? PaymentScheduleTerm.fromJson(
@@ -4554,6 +4563,7 @@ class AcceptedTerm {
     final fixedUpfrontPricingTerm = this.fixedUpfrontPricingTerm;
     final freeTrialPricingTerm = this.freeTrialPricingTerm;
     final legalTerm = this.legalTerm;
+    final netPaymentTerm = this.netPaymentTerm;
     final paymentScheduleTerm = this.paymentScheduleTerm;
     final recurringPaymentTerm = this.recurringPaymentTerm;
     final renewalTerm = this.renewalTerm;
@@ -4570,6 +4580,7 @@ class AcceptedTerm {
       if (freeTrialPricingTerm != null)
         'freeTrialPricingTerm': freeTrialPricingTerm,
       if (legalTerm != null) 'legalTerm': legalTerm,
+      if (netPaymentTerm != null) 'netPaymentTerm': netPaymentTerm,
       if (paymentScheduleTerm != null)
         'paymentScheduleTerm': paymentScheduleTerm,
       if (recurringPaymentTerm != null)
@@ -5207,6 +5218,48 @@ class VariablePaymentTerm {
       if (id != null) 'id': id,
       if (maxTotalChargeAmount != null)
         'maxTotalChargeAmount': maxTotalChargeAmount,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+/// Defines the net payment due period for the agreement, specifying when
+/// payment is due after an invoice is issued.
+///
+/// @nodoc
+class NetPaymentTerm {
+  /// The unique identifier for the term.
+  final String? id;
+
+  /// The duration after an invoice is issued within which the payment is due. The
+  /// duration is represented in the ISO 8601 format (for example,
+  /// <code>P30D</code> for 30 days or <code>P60D</code> for 60 days).
+  final String? paymentDuePeriod;
+
+  /// Type of the term being updated.
+  final String? type;
+
+  NetPaymentTerm({
+    this.id,
+    this.paymentDuePeriod,
+    this.type,
+  });
+
+  factory NetPaymentTerm.fromJson(Map<String, dynamic> json) {
+    return NetPaymentTerm(
+      id: json['id'] as String?,
+      paymentDuePeriod: json['paymentDuePeriod'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final paymentDuePeriod = this.paymentDuePeriod;
+    final type = this.type;
+    return {
+      if (id != null) 'id': id,
+      if (paymentDuePeriod != null) 'paymentDuePeriod': paymentDuePeriod,
       if (type != null) 'type': type,
     };
   }

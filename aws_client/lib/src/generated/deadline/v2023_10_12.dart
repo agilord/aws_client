@@ -1479,17 +1479,24 @@ class Deadline {
   ///
   /// Parameter [principalType] :
   /// The principal type of the member to associate with the farm.
+  ///
+  /// Parameter [identityCenterRegion] :
+  /// The Region of the IAM Identity Center instance. If not provided, the
+  /// service defaults to the Region of the farm.
   Future<void> associateMemberToFarm({
     required String farmId,
     required String identityStoreId,
     required MembershipLevel membershipLevel,
     required String principalId,
     required DeadlinePrincipalType principalType,
+    String? identityCenterRegion,
   }) async {
     final $payload = <String, dynamic>{
       'identityStoreId': identityStoreId,
       'membershipLevel': membershipLevel.value,
       'principalType': principalType.value,
+      if (identityCenterRegion != null)
+        'identityCenterRegion': identityCenterRegion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2717,6 +2724,10 @@ class Deadline {
   ///
   /// Parameter [principalType] :
   /// The member's principal type to associate with the fleet.
+  ///
+  /// Parameter [identityCenterRegion] :
+  /// The Region of the IAM Identity Center instance. If not provided, the
+  /// service defaults to the Region of the farm.
   Future<void> associateMemberToFleet({
     required String farmId,
     required String fleetId,
@@ -2724,11 +2735,14 @@ class Deadline {
     required MembershipLevel membershipLevel,
     required String principalId,
     required DeadlinePrincipalType principalType,
+    String? identityCenterRegion,
   }) async {
     final $payload = <String, dynamic>{
       'identityStoreId': identityStoreId,
       'membershipLevel': membershipLevel.value,
       'principalType': principalType.value,
+      if (identityCenterRegion != null)
+        'identityCenterRegion': identityCenterRegion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3778,6 +3792,10 @@ class Deadline {
   ///
   /// Parameter [queueId] :
   /// The ID of the queue to associate to the member.
+  ///
+  /// Parameter [identityCenterRegion] :
+  /// The Region of the IAM Identity Center instance. If not provided, the
+  /// service defaults to the Region of the farm.
   Future<void> associateMemberToQueue({
     required String farmId,
     required String identityStoreId,
@@ -3785,11 +3803,14 @@ class Deadline {
     required String principalId,
     required DeadlinePrincipalType principalType,
     required String queueId,
+    String? identityCenterRegion,
   }) async {
     final $payload = <String, dynamic>{
       'identityStoreId': identityStoreId,
       'membershipLevel': membershipLevel.value,
       'principalType': principalType.value,
+      if (identityCenterRegion != null)
+        'identityCenterRegion': identityCenterRegion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4663,6 +4684,10 @@ class Deadline {
   ///
   /// Parameter [queueId] :
   /// The queue ID to associate to the member.
+  ///
+  /// Parameter [identityCenterRegion] :
+  /// The Region of the IAM Identity Center instance. If not provided, the
+  /// service defaults to the Region of the farm.
   Future<void> associateMemberToJob({
     required String farmId,
     required String identityStoreId,
@@ -4671,11 +4696,14 @@ class Deadline {
     required String principalId,
     required DeadlinePrincipalType principalType,
     required String queueId,
+    String? identityCenterRegion,
   }) async {
     final $payload = <String, dynamic>{
       'identityStoreId': identityStoreId,
       'membershipLevel': membershipLevel.value,
       'principalType': principalType.value,
+      if (identityCenterRegion != null)
+        'identityCenterRegion': identityCenterRegion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -15618,7 +15646,7 @@ class JobDetailsEntity {
   final String schemaVersion;
 
   /// The job attachment settings.
-  final JobAttachmentSettings? jobAttachmentSettings;
+  final JobDetailsJobAttachmentSettings? jobAttachmentSettings;
 
   /// The user name and group that the job uses when run.
   final JobRunAsUser? jobRunAsUser;
@@ -15649,7 +15677,7 @@ class JobDetailsEntity {
       logGroupName: (json['logGroupName'] as String?) ?? '',
       schemaVersion: (json['schemaVersion'] as String?) ?? '',
       jobAttachmentSettings: json['jobAttachmentSettings'] != null
-          ? JobAttachmentSettings.fromJson(
+          ? JobDetailsJobAttachmentSettings.fromJson(
               json['jobAttachmentSettings'] as Map<String, dynamic>)
           : null,
       jobRunAsUser: json['jobRunAsUser'] != null
@@ -15820,6 +15848,39 @@ class EnvironmentDetailsEntity {
       'jobId': jobId,
       'schemaVersion': schemaVersion,
       'template': template,
+    };
+  }
+}
+
+/// The job attachment settings returned to workers for a job. These are the
+/// Amazon S3 bucket name and the Amazon S3 prefix.
+///
+/// @nodoc
+class JobDetailsJobAttachmentSettings {
+  /// The root prefix.
+  final String rootPrefix;
+
+  /// The Amazon S3 bucket name.
+  final String s3BucketName;
+
+  JobDetailsJobAttachmentSettings({
+    required this.rootPrefix,
+    required this.s3BucketName,
+  });
+
+  factory JobDetailsJobAttachmentSettings.fromJson(Map<String, dynamic> json) {
+    return JobDetailsJobAttachmentSettings(
+      rootPrefix: (json['rootPrefix'] as String?) ?? '',
+      s3BucketName: (json['s3BucketName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rootPrefix = this.rootPrefix;
+    final s3BucketName = this.s3BucketName;
+    return {
+      'rootPrefix': rootPrefix,
+      's3BucketName': s3BucketName,
     };
   }
 }
@@ -20219,12 +20280,13 @@ class Statistics {
 class UsageType {
   static const compute = UsageType._('COMPUTE');
   static const license = UsageType._('LICENSE');
+  static const persistentVolume = UsageType._('PERSISTENT_VOLUME');
 
   final String value;
 
   const UsageType._(this.value);
 
-  static const values = [compute, license];
+  static const values = [compute, license, persistentVolume];
 
   static UsageType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => UsageType._(value));

@@ -15818,7 +15818,9 @@ class RegionName {
   static const euWest_3 = RegionName._('eu-west-3');
   static const euCentral_1 = RegionName._('eu-central-1');
   static const euNorth_1 = RegionName._('eu-north-1');
+  static const euSouth_2 = RegionName._('eu-south-2');
   static const caCentral_1 = RegionName._('ca-central-1');
+  static const apEast_1 = RegionName._('ap-east-1');
   static const apSouth_1 = RegionName._('ap-south-1');
   static const apSoutheast_1 = RegionName._('ap-southeast-1');
   static const apSoutheast_2 = RegionName._('ap-southeast-2');
@@ -15826,6 +15828,7 @@ class RegionName {
   static const apNortheast_2 = RegionName._('ap-northeast-2');
   static const apSoutheast_3 = RegionName._('ap-southeast-3');
   static const apSoutheast_5 = RegionName._('ap-southeast-5');
+  static const saEast_1 = RegionName._('sa-east-1');
 
   final String value;
 
@@ -15841,14 +15844,17 @@ class RegionName {
     euWest_3,
     euCentral_1,
     euNorth_1,
+    euSouth_2,
     caCentral_1,
+    apEast_1,
     apSouth_1,
     apSoutheast_1,
     apSoutheast_2,
     apNortheast_1,
     apNortheast_2,
     apSoutheast_3,
-    apSoutheast_5
+    apSoutheast_5,
+    saEast_1
   ];
 
   static RegionName fromString(String value) => values

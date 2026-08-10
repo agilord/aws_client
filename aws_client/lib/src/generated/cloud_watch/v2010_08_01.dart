@@ -22,22 +22,57 @@ import '../../shared/shared.dart'
 import 'v2010_08_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon CloudWatch monitors your Amazon Web Services (Amazon Web Services)
-/// resources and the applications you run on Amazon Web Services in real time.
-/// You can use CloudWatch to collect and track metrics, which are the variables
-/// you want to measure for your resources and applications.
+/// Amazon CloudWatch enables you to publish, monitor, and manage various
+/// metrics, as well as configure alarm actions based on data from metrics. This
+/// guide provides detailed information about CloudWatch actions, data types,
+/// parameters, and errors. For more information about CloudWatch features, see
+/// <a href="https://aws.amazon.com/cloudwatch">Amazon CloudWatch</a> and the
+/// <i>Amazon CloudWatch User Guide</i>.
 ///
-/// CloudWatch alarms send notifications or automatically change the resources
-/// you are monitoring based on rules that you define. For example, you can
-/// monitor the CPU usage and disk reads and writes of your Amazon EC2
-/// instances. Then, use this data to determine whether you should launch
-/// additional instances to handle increased load. You can also use this data to
-/// stop under-used instances to save money.
+/// For information about the metrics that other Amazon Web Services products
+/// send to CloudWatch, see the <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
+/// CloudWatch Metrics and Dimensions Reference</a> in the <i>Amazon CloudWatch
+/// User Guide</i>.
 ///
-/// In addition to monitoring the built-in metrics that come with Amazon Web
-/// Services, you can monitor your own custom metrics. With CloudWatch, you gain
-/// system-wide visibility into resource utilization, application performance,
-/// and operational health.
+/// Use the following links to get started using the CloudWatch Query API:
+///
+/// : An alphabetical list of all CloudWatch actions.
+///
+/// : An alphabetical list of all CloudWatch data types.
+///
+/// <a>CommonParameters</a>: Parameters that all Query actions can use.
+///
+/// <a>CommonErrors</a>: Client and server errors that all actions can return.
+///
+/// <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#cw_region">Regions
+/// and Endpoints</a>: Supported regions and endpoints for all Amazon Web
+/// Services products.
+///
+/// Alternatively, you can use one of the <a
+/// href="https://aws.amazon.com/tools/#sdk">Amazon Web Services SDKs</a> to
+/// access CloudWatch using an API tailored to your programming language or
+/// platform.
+///
+/// Developers in the Amazon Web Services developer community also provide their
+/// own libraries, which you can find at the following Amazon Web Services
+/// developer centers:
+///
+/// <a href="http://aws.amazon.com/java/">Java Developer Center</a>
+///
+/// <a href="http://aws.amazon.com/javascript/">JavaScript Developer Center</a>
+///
+/// <a href="http://aws.amazon.com/mobile/">Amazon Web Services Mobile
+/// Services</a>
+///
+/// <a href="http://aws.amazon.com/php/">PHP Developer Center</a>
+///
+/// <a href="http://aws.amazon.com/python/">Python Developer Center</a>
+///
+/// <a href="http://aws.amazon.com/ruby/">Ruby Developer Center</a>
+///
+/// <a href="http://aws.amazon.com/net/">Windows and .NET Developer Center</a>
 class CloudWatch {
   final _s.JsonProtocol _protocol;
   factory CloudWatch({
@@ -81,6 +116,125 @@ class CloudWatch {
     _protocol.close();
   }
 
+  /// Associates an Amazon Web Services Key Management Service (Amazon Web
+  /// Services KMS) customer managed key with the specified dataset. After this
+  /// operation completes, all data published to the dataset is encrypted at
+  /// rest using the specified KMS key. Callers must have
+  /// <code>kms:Decrypt</code> permission on the key to read the encrypted data.
+  ///
+  /// Only the <code>default</code> dataset is supported. The
+  /// <code>default</code> dataset is implicit for every account in every Region
+  /// — you do not need to create it before calling this operation.
+  ///
+  /// You can call <code>AssociateDatasetKmsKey</code> on a dataset that is
+  /// already associated with a KMS key to replace the existing key with a
+  /// different one. To replace a key, the caller must have
+  /// <code>kms:Decrypt</code> permission on both the current key and the new
+  /// key.
+  ///
+  /// The KMS key that you specify must meet all of the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// It must be a symmetric encryption KMS key (key spec
+  /// <code>SYMMETRIC_DEFAULT</code>, key usage <code>ENCRYPT_DECRYPT</code>).
+  /// Asymmetric keys, HMAC keys, and key material types other than
+  /// <code>SYMMETRIC_DEFAULT</code> are not supported.
+  /// </li>
+  /// <li>
+  /// It must be enabled and not pending deletion.
+  /// </li>
+  /// <li>
+  /// Its key policy must grant the CloudWatch service principal
+  /// (<code>cloudwatch.amazonaws.com</code>) these permissions:
+  /// <code>kms:DescribeKey</code>, <code>kms:GenerateDataKey</code>,
+  /// <code>kms:Encrypt</code>, <code>kms:Decrypt</code>, and
+  /// <code>kms:ReEncrypt*</code>. Amazon CloudWatch requires these permissions
+  /// to manage the data on your behalf.
+  /// </li>
+  /// <li>
+  /// The calling principal must have <code>kms:Decrypt</code> permission on the
+  /// key.
+  /// </li>
+  /// <li>
+  /// It must be specified as a fully qualified key ARN. Key IDs, aliases, and
+  /// alias ARNs are not accepted.
+  /// </li>
+  /// <li>
+  /// It must be in the same Amazon Web Services Region as the dataset.
+  /// </li>
+  /// </ul>
+  /// Before completing the association, Amazon CloudWatch validates the key by
+  /// performing a series of dry-run KMS operations. Service-principal checks
+  /// run first to verify that the key policy grants the required access to
+  /// Amazon CloudWatch. These checks include <code>kms:DescribeKey</code>,
+  /// <code>kms:GenerateDataKey</code>, <code>kms:Encrypt</code>,
+  /// <code>kms:Decrypt</code>, and <code>kms:ReEncrypt*</code>. After those
+  /// succeed, a <code>kms:Decrypt</code> dry-run is run with the caller's
+  /// credentials to verify that the calling principal can use the key. When you
+  /// are replacing an existing key, the caller's <code>kms:Decrypt</code>
+  /// dry-run is run on the current key first, and only then on the new key.
+  ///
+  /// If any of these checks fails, the operation fails and the existing key
+  /// association (if any) remains unchanged. Common failure causes include the
+  /// key being disabled, the key policy not granting the required permissions
+  /// to Amazon CloudWatch, or the caller lacking <code>kms:Decrypt</code>
+  /// permission on the key.
+  ///
+  /// For more information about using customer managed keys with Amazon
+  /// CloudWatch, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html">Encryption
+  /// at rest with customer managed keys</a> in the <i>Amazon CloudWatch User
+  /// Guide</i>.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsKeyDisabledException].
+  /// May throw [KmsKeyNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [datasetIdentifier] :
+  /// Specifies the identifier of the dataset that you want to associate the KMS
+  /// key with. For the <code>default</code> dataset, you can specify either
+  /// <code>default</code> or the full dataset Amazon Resource Name (ARN) in the
+  /// format
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:dataset/default</code>.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// Specifies the Amazon Resource Name (ARN) of the customer managed KMS key
+  /// to associate with the dataset. The key must be a symmetric encryption KMS
+  /// key (<code>SYMMETRIC_DEFAULT</code>) in the same Amazon Web Services
+  /// Region as the dataset.
+  ///
+  /// The ARN must be in the format
+  /// <code>arn:aws:kms:<i>Region</i>:<i>account-id</i>:key/<i>key-id</i>
+  /// </code>. Key IDs, aliases, and alias ARNs are not accepted.
+  ///
+  /// For more information about KMS key ARNs, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">Key
+  /// ARN</a> in the <i>Amazon Web Services Key Management Service Developer
+  /// Guide</i>.
+  Future<void> associateDatasetKmsKey({
+    required String datasetIdentifier,
+    required String kmsKeyArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.AssociateDatasetKmsKey'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatasetIdentifier': datasetIdentifier,
+        'KmsKeyArn': kmsKeyArn,
+      },
+    );
+  }
+
   /// Deletes a specific alarm mute rule.
   ///
   /// When you delete a mute rule, any alarms that are currently being muted by
@@ -121,7 +275,7 @@ class CloudWatch {
   /// operation. However, this total can include no more than one composite
   /// alarm. For example, you could delete 99 metric alarms and one composite
   /// alarms with one operation, but you can't delete two composite alarms with
-  /// one operation.
+  /// one operation. Log alarms cannot be batch deleted.
   ///
   /// If you specify any incorrect alarm names, the alarms you specify with
   /// correct names are still deleted. Other syntax errors might result in no
@@ -146,6 +300,7 @@ class CloudWatch {
   /// detects a cycle in the evaluation path.
   /// </note>
   ///
+  /// May throw [ResourceConflict].
   /// May throw [ResourceNotFound].
   ///
   /// Parameter [alarmNames] :
@@ -179,6 +334,11 @@ class CloudWatch {
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [anomalyDetectorId] :
+  /// Specifies the unique identifier of the anomaly detector to delete. If you
+  /// specify this parameter, you do not need to specify a metric to identify
+  /// the detector.
   ///
   /// Parameter [dimensions] :
   /// The metric dimensions associated with the anomaly detection model to
@@ -247,6 +407,7 @@ class CloudWatch {
   /// Parameter [stat] :
   /// The statistic associated with the anomaly detection model to delete.
   Future<void> deleteAnomalyDetector({
+    String? anomalyDetectorId,
     List<Dimension>? dimensions,
     MetricMathAnomalyDetector? metricMathAnomalyDetector,
     String? metricName,
@@ -265,6 +426,7 @@ class CloudWatch {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (anomalyDetectorId != null) 'AnomalyDetectorId': anomalyDetectorId,
         if (dimensions != null) 'Dimensions': dimensions,
         if (metricMathAnomalyDetector != null)
           'MetricMathAnomalyDetector': metricMathAnomalyDetector,
@@ -428,8 +590,8 @@ class CloudWatch {
   ///
   /// Parameter [alarmTypes] :
   /// Use this parameter to specify whether you want the operation to return
-  /// metric alarms or composite alarms. If you omit this parameter, only metric
-  /// alarms are returned.
+  /// metric alarms, composite alarms, or log alarms. If you omit this
+  /// parameter, only metric alarms are returned.
   ///
   /// Parameter [endDate] :
   /// The ending date to retrieve alarm history.
@@ -526,16 +688,21 @@ class CloudWatch {
   ///
   /// Parameter [alarmTypes] :
   /// Use this parameter to specify whether you want the operation to return
-  /// metric alarms or composite alarms. If you omit this parameter, only metric
-  /// alarms are returned, even if composite alarms exist in the account.
+  /// metric alarms, composite alarms, or log alarms. If you omit this
+  /// parameter, only metric alarms are returned, even if composite alarms or
+  /// log alarms exist in the account.
   ///
   /// For example, if you omit this parameter or specify
   /// <code>MetricAlarms</code>, the operation returns only a list of metric
-  /// alarms. It does not return any composite alarms, even if composite alarms
-  /// exist in the account.
+  /// alarms. It does not return any composite alarms or log alarms, even if
+  /// they exist in the account.
   ///
   /// If you specify <code>CompositeAlarms</code>, the operation returns only a
-  /// list of composite alarms, and does not return any metric alarms.
+  /// list of composite alarms, and does not return any metric alarms or log
+  /// alarms.
+  ///
+  /// If you specify <code>LogAlarms</code>, the operation returns only a list
+  /// of log alarms, and does not return any metric alarms or composite alarms.
   ///
   /// Parameter [childrenOfAlarmName] :
   /// If you use this parameter and specify the name of a composite alarm, the
@@ -715,6 +882,13 @@ class CloudWatch {
   /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
   ///
+  /// Parameter [anomalyDetectorIds] :
+  /// Specifies the unique identifiers of the anomaly detectors to describe. You
+  /// can specify up to 50 identifiers. If you specify this parameter, you
+  /// cannot also specify the <code>Namespace</code>, <code>MetricName</code>,
+  /// <code>Dimensions</code>, or <code>AnomalyDetectorTypes</code> metric
+  /// filters.
+  ///
   /// Parameter [anomalyDetectorTypes] :
   /// The anomaly detector types to request when using
   /// <code>DescribeAnomalyDetectorsInput</code>. If empty, defaults to
@@ -747,6 +921,7 @@ class CloudWatch {
   /// Use the token returned by the previous operation to request the next page
   /// of results.
   Future<DescribeAnomalyDetectorsOutput> describeAnomalyDetectors({
+    List<String>? anomalyDetectorIds,
     List<AnomalyDetectorType>? anomalyDetectorTypes,
     List<Dimension>? dimensions,
     int? maxResults,
@@ -771,6 +946,8 @@ class CloudWatch {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (anomalyDetectorIds != null)
+          'AnomalyDetectorIds': anomalyDetectorIds,
         if (anomalyDetectorTypes != null)
           'AnomalyDetectorTypes':
               anomalyDetectorTypes.map((e) => e.value).toList(),
@@ -882,6 +1059,67 @@ class CloudWatch {
     );
 
     return DisableInsightRulesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Removes the customer managed Amazon Web Services Key Management Service
+  /// (Amazon Web Services KMS) key association from the specified dataset.
+  /// After this operation completes, data that you publish to the dataset is
+  /// encrypted at rest using an Amazon Web Services owned key managed by Amazon
+  /// CloudWatch.
+  ///
+  /// Only the <code>default</code> dataset is supported. To call this
+  /// operation, the dataset must currently have a customer managed KMS key
+  /// associated with it. If the dataset has no associated KMS key, the
+  /// operation fails with <code>ResourceNotFoundException</code>.
+  ///
+  /// Amazon CloudWatch performs a dry-run <code>kms:Decrypt</code> call on the
+  /// key as part of this operation. This verifies that the caller is authorized
+  /// to use the currently associated key. The caller must have
+  /// <code>kms:Decrypt</code> permission on the currently associated key, and
+  /// the key must be enabled and accessible. If the key has been disabled or
+  /// scheduled for deletion, you must first re-enable or restore it before you
+  /// can disassociate it from the dataset.
+  /// <important>
+  /// Disassociating a KMS key from a dataset does not immediately remove the
+  /// <code>kms:Decrypt</code> requirement on data plane operations. For up to
+  /// three hours after disassociation, callers must continue to have
+  /// <code>kms:Decrypt</code> permission on the previously associated key. Some
+  /// data may still be encrypted with that key during this window. After this
+  /// enforcement window elapses, the <code>kms:Decrypt</code> requirement is
+  /// lifted.
+  /// </important>
+  /// For more information about using customer managed keys with Amazon
+  /// CloudWatch, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html">Encryption
+  /// at rest with customer managed keys</a> in the <i>Amazon CloudWatch User
+  /// Guide</i>.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [datasetIdentifier] :
+  /// Specifies the identifier of the dataset from which to remove the KMS key
+  /// association. For the <code>default</code> dataset, you can specify either
+  /// <code>default</code> or the full dataset Amazon Resource Name (ARN) in the
+  /// format
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:dataset/default</code>.
+  Future<void> disassociateDatasetKmsKey({
+    required String datasetIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DisassociateDatasetKmsKey'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatasetIdentifier': datasetIdentifier,
+      },
+    );
   }
 
   /// Enables the actions for the specified alarms.
@@ -1022,6 +1260,52 @@ class CloudWatch {
     );
 
     return GetDashboardOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about the specified dataset. This includes its
+  /// identifier, Amazon Resource Name (ARN), and any customer managed Amazon
+  /// Web Services Key Management Service (Amazon Web Services KMS) key that is
+  /// currently associated with it.
+  ///
+  /// Only the <code>default</code> dataset is supported. The
+  /// <code>default</code> dataset is implicit for every account in every Region
+  /// — you can call <code>GetDataset</code> for it without first creating it.
+  /// If no customer managed KMS key has been associated with the dataset, the
+  /// response omits the <code>KmsKeyArn</code> field, indicating that data is
+  /// encrypted at rest using an Amazon Web Services owned key managed by Amazon
+  /// CloudWatch.
+  ///
+  /// To associate a customer managed KMS key with a dataset, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html">AssociateDatasetKmsKey</a>.
+  /// To remove the association, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DisassociateDatasetKmsKey.html">DisassociateDatasetKmsKey</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [datasetIdentifier] :
+  /// Specifies the identifier of the dataset to retrieve. For the
+  /// <code>default</code> dataset, you can specify either <code>default</code>
+  /// or the full dataset Amazon Resource Name (ARN) in the format
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:dataset/default</code>.
+  Future<GetDatasetOutput> getDataset({
+    required String datasetIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetDataset'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatasetIdentifier': datasetIdentifier,
+      },
+    );
+
+    return GetDatasetOutput.fromJson(jsonResponse.body);
   }
 
   /// This operation returns the time series data collected by a Contributor
@@ -1660,7 +1944,7 @@ class CloudWatch {
   /// <code>GetMetricWidgetImage</code> call.
   ///
   /// For more information about the syntax of <code>MetricWidget</code> see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Metric-Widget-Structure.html">GetMetricWidgetImage:
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Metric-Widget-Structure.html">GetMetricWidgetImage:
   /// Metric Widget Structure and Syntax</a>.
   ///
   /// If any metric on the graph could not load all the requested data points,
@@ -2301,7 +2585,7 @@ class CloudWatch {
   ///
   /// Parameter [stat] :
   /// The statistic to use for the metric and the anomaly detection model.
-  Future<void> putAnomalyDetector({
+  Future<PutAnomalyDetectorOutput> putAnomalyDetector({
     AnomalyDetectorConfiguration? configuration,
     List<Dimension>? dimensions,
     MetricCharacteristics? metricCharacteristics,
@@ -2315,7 +2599,7 @@ class CloudWatch {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'GraniteServiceVersion20100801.PutAnomalyDetector'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2335,6 +2619,8 @@ class CloudWatch {
         if (stat != null) 'Stat': stat,
       },
     );
+
+    return PutAnomalyDetectorOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates a <i>composite alarm</i>. When you create a composite
@@ -2703,7 +2989,7 @@ class CloudWatch {
   /// required.
   ///
   /// For more information about the syntax, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Dashboard-Body-Structure.html">Dashboard
   /// Body Structure and Syntax</a>.
   ///
   /// Parameter [dashboardName] :
@@ -2838,6 +3124,262 @@ class CloudWatch {
           'ApplyOnTransformedLogs': applyOnTransformedLogs,
         if (ruleState != null) 'RuleState': ruleState,
         if (tags != null) 'Tags': tags,
+      },
+    );
+  }
+
+  /// Creates or updates a log alarm. A log alarm evaluates the results of a
+  /// CloudWatch Logs scheduled query against the configured threshold and
+  /// comparison operator to determine its state.
+  ///
+  /// When you create a log alarm, the operation creates a service-managed
+  /// CloudWatch Logs scheduled query that runs the query string you provide on
+  /// the schedule you configure. Each scheduled query execution returns one or
+  /// more aggregated values determined by the
+  /// <code>AggregationExpression</code>, and each aggregated value is compared
+  /// against the alarm <code>Threshold</code> to determine the alarm state. The
+  /// alarm uses M-out-of-N evaluation: if <code>QueryResultsToAlarm</code> out
+  /// of the most recent <code>QueryResultsToEvaluate</code> query results
+  /// breach the threshold, the alarm transitions to <code>ALARM</code>.
+  ///
+  /// Log alarms support the alarm states (<code>OK</code>, <code>ALARM</code>,
+  /// <code>INSUFFICIENT_DATA</code>). Configure transition actions using
+  /// <code>OKActions</code>, <code>AlarmActions</code>, and
+  /// <code>InsufficientDataActions</code>.
+  ///
+  /// If you call this operation with the name of an existing log alarm, the
+  /// operation replaces the previous configuration of that alarm.
+  ///
+  /// <b>Permissions</b>
+  ///
+  /// To create or update a log alarm, you must have the
+  /// <code>cloudwatch:PutLogAlarm</code> permission. The IAM role specified in
+  /// <code>ScheduledQueryRoleARN</code> must grant the CloudWatch Alarms
+  /// service permission to execute scheduled queries on the specified log
+  /// groups. If you set <code>ActionLogLineCount</code>, the role specified in
+  /// <code>ActionLogLineRoleArn</code> must grant permission to retrieve log
+  /// events for inclusion in alarm notifications.
+  ///
+  /// May throw [LimitExceededFault].
+  /// May throw [ResourceConflict].
+  ///
+  /// Parameter [alarmName] :
+  /// The name for the alarm. This name must be unique within the Amazon Web
+  /// Services account and Region.
+  ///
+  /// Parameter [comparisonOperator] :
+  /// The arithmetic operation to use when comparing the aggregated query result
+  /// and the threshold. The aggregated query result is used as the first
+  /// operand. Valid values are <code>GreaterThanThreshold</code>,
+  /// <code>GreaterThanOrEqualToThreshold</code>,
+  /// <code>LessThanThreshold</code>, and
+  /// <code>LessThanOrEqualToThreshold</code>.
+  ///
+  /// Parameter [queryResultsToAlarm] :
+  /// The number of query results, out of the most recent
+  /// <code>QueryResultsToEvaluate</code> results, that must breach the
+  /// threshold to trigger the alarm to transition to <code>ALARM</code> (the M
+  /// in M-of-N evaluation). Must be less than or equal to
+  /// <code>QueryResultsToEvaluate</code>.
+  ///
+  /// Parameter [queryResultsToEvaluate] :
+  /// The number of most recent scheduled query results to evaluate against the
+  /// threshold (the N in M-of-N evaluation). Valid range is 1 through 100.
+  ///
+  /// Parameter [scheduledQueryConfiguration] :
+  /// The configuration of the underlying CloudWatch Logs scheduled query that
+  /// this alarm evaluates, including the query string, log groups, schedule,
+  /// and aggregation expression.
+  ///
+  /// Parameter [threshold] :
+  /// The value to compare with the aggregated query result.
+  ///
+  /// Parameter [actionLogLineCount] :
+  /// The number of log lines from the most recent scheduled query execution to
+  /// include in alarm action notifications. Valid range is 0 through 50. The
+  /// default is 0, which means no log lines are included.
+  ///
+  /// Parameter [actionLogLineRoleArn] :
+  /// The Amazon Resource Name (ARN) of an IAM role that CloudWatch assumes to
+  /// retrieve log events for inclusion in alarm action notifications. Required
+  /// when <code>ActionLogLineCount</code> is greater than 0.
+  ///
+  /// Parameter [actionsEnabled] :
+  /// Indicates whether actions should be executed during any changes to the
+  /// alarm state. The default is <code>true</code>.
+  ///
+  /// Parameter [alarmActions] :
+  /// The actions to execute when this alarm transitions to the
+  /// <code>ALARM</code> state from any other state. Each action is specified as
+  /// an Amazon Resource Name (ARN).
+  ///
+  /// Valid Values:
+  ///
+  /// <b>Amazon SNS actions:</b>
+  ///
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
+  /// </code>
+  ///
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  /// <b>Systems Manager actions:</b>
+  ///
+  /// <code>arn:aws:ssm:<i>region</i>:<i>account-id</i>:opsitem:<i>severity</i>
+  /// </code>
+  ///
+  /// Parameter [alarmDescription] :
+  /// The description for the alarm.
+  ///
+  /// Parameter [insufficientDataActions] :
+  /// The actions to execute when this alarm transitions to the
+  /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
+  /// specified as an Amazon Resource Name (ARN).
+  ///
+  /// Valid Values:
+  ///
+  /// <b>Amazon SNS actions:</b>
+  ///
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
+  /// </code>
+  ///
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [oKActions] :
+  /// The actions to execute when this alarm transitions to the <code>OK</code>
+  /// state from any other state. Each action is specified as an Amazon Resource
+  /// Name (ARN).
+  ///
+  /// Valid Values:
+  ///
+  /// <b>Amazon SNS actions:</b>
+  ///
+  /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
+  /// </code>
+  ///
+  /// <b>Lambda actions:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Invoke the latest version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a specific version of a Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>version-number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// Invoke a function by using an alias Lambda function:
+  /// <code>arn:aws:lambda:<i>region</i>:<i>account-id</i>:function:<i>function-name</i>:<i>alias-name</i>
+  /// </code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the alarm. You can use tags to
+  /// categorize and manage your alarms.
+  ///
+  /// Parameter [treatMissingData] :
+  /// Sets how this alarm is to handle missing data points. Valid values are
+  /// <code>breaching</code>, <code>notBreaching</code>, <code>ignore</code>,
+  /// and <code>missing</code>. If this parameter is omitted, the default
+  /// behavior of <code>missing</code> is used.
+  Future<void> putLogAlarm({
+    required String alarmName,
+    required ComparisonOperator comparisonOperator,
+    required int queryResultsToAlarm,
+    required int queryResultsToEvaluate,
+    required ScheduledQueryConfiguration scheduledQueryConfiguration,
+    required double threshold,
+    int? actionLogLineCount,
+    String? actionLogLineRoleArn,
+    bool? actionsEnabled,
+    List<String>? alarmActions,
+    String? alarmDescription,
+    List<String>? insufficientDataActions,
+    List<String>? oKActions,
+    List<Tag>? tags,
+    String? treatMissingData,
+  }) async {
+    _s.validateNumRange(
+      'queryResultsToAlarm',
+      queryResultsToAlarm,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'queryResultsToEvaluate',
+      queryResultsToEvaluate,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutLogAlarm'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmName': alarmName,
+        'ComparisonOperator': comparisonOperator.value,
+        'QueryResultsToAlarm': queryResultsToAlarm,
+        'QueryResultsToEvaluate': queryResultsToEvaluate,
+        'ScheduledQueryConfiguration': scheduledQueryConfiguration,
+        'Threshold': _s.encodeJsonDouble(threshold),
+        if (actionLogLineCount != null)
+          'ActionLogLineCount': actionLogLineCount,
+        if (actionLogLineRoleArn != null)
+          'ActionLogLineRoleArn': actionLogLineRoleArn,
+        if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
+        if (alarmActions != null) 'AlarmActions': alarmActions,
+        if (alarmDescription != null) 'AlarmDescription': alarmDescription,
+        if (insufficientDataActions != null)
+          'InsufficientDataActions': insufficientDataActions,
+        if (oKActions != null) 'OKActions': oKActions,
+        if (tags != null) 'Tags': tags,
+        if (treatMissingData != null) 'TreatMissingData': treatMissingData,
       },
     );
   }
@@ -3115,6 +3657,23 @@ class CloudWatch {
   /// consecutive data points be breaching to trigger the alarm, this value
   /// specifies that number. If you are setting an "M out of N" alarm, this
   /// value is the N.
+  ///
+  /// Parameter [evaluationWindow] :
+  /// The evaluation window that the alarm uses to select the range of metric
+  /// data that it evaluates. Specify either a sliding window or a wall clock
+  /// window. If you omit this parameter, the alarm uses a sliding window.
+  ///
+  /// A sliding window advances each time the alarm is evaluated, forming a
+  /// rolling time window. A wall clock window aligns the evaluated range to
+  /// fixed clock boundaries, such as the top of the hour or the start of the
+  /// day.
+  ///
+  /// You can use <code>EvaluationWindow</code> with any type of metric alarm
+  /// except alarms that are based on a PromQL query.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html">Alarm
+  /// evaluation windows</a> in the <i>CloudWatch User Guide</i>.
   ///
   /// Parameter [extendedStatistic] :
   /// The extended statistic for the metric specified in
@@ -3494,6 +4053,7 @@ class CloudWatch {
     EvaluationCriteria? evaluationCriteria,
     int? evaluationInterval,
     int? evaluationPeriods,
+    EvaluationWindow? evaluationWindow,
     String? extendedStatistic,
     List<String>? insufficientDataActions,
     String? metricName,
@@ -3558,6 +4118,7 @@ class CloudWatch {
         if (evaluationInterval != null)
           'EvaluationInterval': evaluationInterval,
         if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
+        if (evaluationWindow != null) 'EvaluationWindow': evaluationWindow,
         if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
         if (insufficientDataActions != null)
           'InsufficientDataActions': insufficientDataActions,
@@ -4236,6 +4797,19 @@ class CloudWatch {
 }
 
 /// @nodoc
+class AssociateDatasetKmsKeyOutput {
+  AssociateDatasetKmsKeyOutput();
+
+  factory AssociateDatasetKmsKeyOutput.fromJson(Map<String, dynamic> _) {
+    return AssociateDatasetKmsKeyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class DeleteAnomalyDetectorOutput {
   DeleteAnomalyDetectorOutput();
 
@@ -4373,6 +4947,9 @@ class DescribeAlarmsOutput {
   /// The information about any composite alarms returned by the operation.
   final List<CompositeAlarm>? compositeAlarms;
 
+  /// The information about any log alarms returned by the operation.
+  final List<LogAlarm>? logAlarms;
+
   /// The information about any metric alarms returned by the operation.
   final List<MetricAlarm>? metricAlarms;
 
@@ -4381,6 +4958,7 @@ class DescribeAlarmsOutput {
 
   DescribeAlarmsOutput({
     this.compositeAlarms,
+    this.logAlarms,
     this.metricAlarms,
     this.nextToken,
   });
@@ -4390,6 +4968,10 @@ class DescribeAlarmsOutput {
       compositeAlarms: (json['CompositeAlarms'] as List?)
           ?.nonNulls
           .map((e) => CompositeAlarm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      logAlarms: (json['LogAlarms'] as List?)
+          ?.nonNulls
+          .map((e) => LogAlarm.fromJson(e as Map<String, dynamic>))
           .toList(),
       metricAlarms: (json['MetricAlarms'] as List?)
           ?.nonNulls
@@ -4401,10 +4983,12 @@ class DescribeAlarmsOutput {
 
   Map<String, dynamic> toJson() {
     final compositeAlarms = this.compositeAlarms;
+    final logAlarms = this.logAlarms;
     final metricAlarms = this.metricAlarms;
     final nextToken = this.nextToken;
     return {
       if (compositeAlarms != null) 'CompositeAlarms': compositeAlarms,
+      if (logAlarms != null) 'LogAlarms': logAlarms,
       if (metricAlarms != null) 'MetricAlarms': metricAlarms,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -4529,6 +5113,19 @@ class DisableInsightRulesOutput {
     return {
       if (failures != null) 'Failures': failures,
     };
+  }
+}
+
+/// @nodoc
+class DisassociateDatasetKmsKeyOutput {
+  DisassociateDatasetKmsKeyOutput();
+
+  factory DisassociateDatasetKmsKeyOutput.fromJson(Map<String, dynamic> _) {
+    return DisassociateDatasetKmsKeyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -4661,7 +5258,7 @@ class GetDashboardOutput {
   /// The detailed information about the dashboard, including what widgets are
   /// included and their location on the dashboard. For more information about the
   /// <code>DashboardBody</code> syntax, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Dashboard-Body-Structure.html">Dashboard
   /// Body Structure and Syntax</a>.
   final String? dashboardBody;
 
@@ -4690,6 +5287,49 @@ class GetDashboardOutput {
       if (dashboardArn != null) 'DashboardArn': dashboardArn,
       if (dashboardBody != null) 'DashboardBody': dashboardBody,
       if (dashboardName != null) 'DashboardName': dashboardName,
+    };
+  }
+}
+
+/// @nodoc
+class GetDatasetOutput {
+  /// Returns the Amazon Resource Name (ARN) of the dataset, in the format
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:dataset/<i>dataset-id</i>
+  /// </code>.
+  final String arn;
+
+  /// Returns the identifier of the dataset.
+  final String datasetId;
+
+  /// Returns the Amazon Resource Name (ARN) of the customer managed Amazon Web
+  /// Services KMS key that is currently associated with the dataset, if any. If
+  /// the dataset is not associated with a customer managed KMS key, this field is
+  /// not included in the response and the dataset is encrypted at rest using an
+  /// Amazon Web Services owned key.
+  final String? kmsKeyArn;
+
+  GetDatasetOutput({
+    required this.arn,
+    required this.datasetId,
+    this.kmsKeyArn,
+  });
+
+  factory GetDatasetOutput.fromJson(Map<String, dynamic> json) {
+    return GetDatasetOutput(
+      arn: (json['Arn'] as String?) ?? '',
+      datasetId: (json['DatasetId'] as String?) ?? '',
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final datasetId = this.datasetId;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'Arn': arn,
+      'DatasetId': datasetId,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
     };
   }
 }
@@ -5257,14 +5897,24 @@ class ListTagsForResourceOutput {
 
 /// @nodoc
 class PutAnomalyDetectorOutput {
-  PutAnomalyDetectorOutput();
+  /// The unique identifier of the anomaly detector that you created or updated.
+  final String? anomalyDetectorId;
 
-  factory PutAnomalyDetectorOutput.fromJson(Map<String, dynamic> _) {
-    return PutAnomalyDetectorOutput();
+  PutAnomalyDetectorOutput({
+    this.anomalyDetectorId,
+  });
+
+  factory PutAnomalyDetectorOutput.fromJson(Map<String, dynamic> json) {
+    return PutAnomalyDetectorOutput(
+      anomalyDetectorId: json['AnomalyDetectorId'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final anomalyDetectorId = this.anomalyDetectorId;
+    return {
+      if (anomalyDetectorId != null) 'AnomalyDetectorId': anomalyDetectorId,
+    };
   }
 }
 
@@ -6092,6 +6742,55 @@ class ComparisonOperator {
   String toString() => value;
 }
 
+/// The evaluation window that an alarm uses to select the range of metric data
+/// that it evaluates each time it runs. This is a union type. Set exactly one
+/// of its members, <code>SlidingWindow</code> or <code>WallClockWindow</code>.
+/// If you don't set <code>EvaluationWindow</code>, the alarm uses a
+/// <code>SlidingWindow</code> by default.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html">Alarm
+/// evaluation windows</a> in the <i>CloudWatch User Guide</i>.
+///
+/// @nodoc
+class EvaluationWindow {
+  /// A sliding window, which advances each time the alarm is evaluated, forming a
+  /// rolling time window. This is the default evaluation window.
+  final SlidingWindow? slidingWindow;
+
+  /// A wall clock window, which aligns the evaluated range to fixed clock
+  /// boundaries that match the alarm's period, such as the top of the hour,
+  /// midnight, or the start of the calendar week.
+  final WallClockWindow? wallClockWindow;
+
+  EvaluationWindow({
+    this.slidingWindow,
+    this.wallClockWindow,
+  });
+
+  factory EvaluationWindow.fromJson(Map<String, dynamic> json) {
+    return EvaluationWindow(
+      slidingWindow: json['SlidingWindow'] != null
+          ? SlidingWindow.fromJson(
+              json['SlidingWindow'] as Map<String, dynamic>)
+          : null,
+      wallClockWindow: json['WallClockWindow'] != null
+          ? WallClockWindow.fromJson(
+              json['WallClockWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final slidingWindow = this.slidingWindow;
+    final wallClockWindow = this.wallClockWindow;
+    return {
+      if (slidingWindow != null) 'SlidingWindow': slidingWindow,
+      if (wallClockWindow != null) 'WallClockWindow': wallClockWindow,
+    };
+  }
+}
+
 /// The evaluation criteria for an alarm. This is a union type that currently
 /// supports <code>PromQLCriteria</code>.
 ///
@@ -6163,6 +6862,72 @@ class AlarmPromQLCriteria {
       if (pendingPeriod != null) 'PendingPeriod': pendingPeriod,
       if (recoveryPeriod != null) 'RecoveryPeriod': recoveryPeriod,
     };
+  }
+}
+
+/// An evaluation window that aligns the evaluated range to fixed clock
+/// boundaries that match the alarm's period, such as the top of the hour,
+/// midnight, or the start of the calendar week, optionally in a specific time
+/// zone.
+///
+/// When you use a wall clock window, the alarm's period must be 1 minute (60
+/// seconds), 5 minutes (300 seconds), 1 hour (3,600 seconds), 1 day (86,400
+/// seconds), or 1 week (604,800 seconds). Other period values aren't supported
+/// with a wall clock window.
+///
+/// Choose a wall clock window when your monitoring is tied to a business or
+/// calendar period, such as daily reports, batch jobs, or backups, or when you
+/// want alarm evaluations to match the periods shown on a metric dashboard.
+///
+/// @nodoc
+class WallClockWindow {
+  /// The time zone to use when the alarm aligns the evaluation window to clock
+  /// boundaries. You can specify an IANA time zone name (for example,
+  /// <code>America/New_York</code>), a fixed UTC offset (for example,
+  /// <code>+05:30</code>), or an offset-prefixed identifier (for example,
+  /// <code>UTC+05:30</code>). The offset must be aligned to a multiple of 5
+  /// minutes. If you don't specify a time zone, CloudWatch uses <code>UTC</code>.
+  ///
+  /// The time zone affects window alignment for all periods, including periods of
+  /// one hour or shorter.
+  final String? timezone;
+
+  WallClockWindow({
+    this.timezone,
+  });
+
+  factory WallClockWindow.fromJson(Map<String, dynamic> json) {
+    return WallClockWindow(
+      timezone: json['Timezone'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timezone = this.timezone;
+    return {
+      if (timezone != null) 'Timezone': timezone,
+    };
+  }
+}
+
+/// An evaluation window that advances each time the alarm is evaluated, forming
+/// a rolling time window. This is the default evaluation window. A sliding
+/// window has no additional configuration options.
+///
+/// Choose a sliding window when you need the fastest detection and the calendar
+/// boundaries of the data don't matter, such as for continuous performance,
+/// latency, or resource-exhaustion monitoring.
+///
+/// @nodoc
+class SlidingWindow {
+  SlidingWindow();
+
+  factory SlidingWindow.fromJson(Map<String, dynamic> _) {
+    return SlidingWindow();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6531,6 +7296,141 @@ class ManagedRule {
       'ResourceARN': resourceARN,
       'TemplateName': templateName,
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// The configuration of the CloudWatch Logs scheduled query that backs a log
+/// alarm.
+///
+/// @nodoc
+class ScheduledQueryConfiguration {
+  /// The expression that defines how to aggregate query results into one or more
+  /// scalar values for alarm evaluation. For example, <code>count(*)</code> or
+  /// <code>avg(latency) by host | sort desc</code>. Length constraints: minimum 1
+  /// character, maximum 2048 characters.
+  final String aggregationExpression;
+
+  /// The CloudWatch Logs query to execute on each scheduled run. Length
+  /// constraints: maximum of 10,000 characters.
+  final String queryString;
+
+  /// The schedule and time-range offset configuration for the underlying
+  /// scheduled query.
+  final ScheduleConfiguration scheduleConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes when
+  /// executing the scheduled query against the configured log groups.
+  final String scheduledQueryRoleARN;
+
+  /// The log groups to query. Each entry can be a log group name or ARN. Use the
+  /// ARN form when querying log groups in a different account (for example, when
+  /// running cross-account queries from a monitoring account). The list must
+  /// contain between 1 and 50 entries.
+  final List<String>? logGroupIdentifiers;
+
+  /// The Amazon Resource Name (ARN) of the CloudWatch Logs scheduled query that
+  /// the alarm uses. This field is populated in <code>DescribeAlarms</code>
+  /// responses.
+  final String? queryARN;
+
+  /// A list of key-value pairs to associate with the underlying scheduled query
+  /// resource.
+  final List<Tag>? tags;
+
+  ScheduledQueryConfiguration({
+    required this.aggregationExpression,
+    required this.queryString,
+    required this.scheduleConfiguration,
+    required this.scheduledQueryRoleARN,
+    this.logGroupIdentifiers,
+    this.queryARN,
+    this.tags,
+  });
+
+  factory ScheduledQueryConfiguration.fromJson(Map<String, dynamic> json) {
+    return ScheduledQueryConfiguration(
+      aggregationExpression: (json['AggregationExpression'] as String?) ?? '',
+      queryString: (json['QueryString'] as String?) ?? '',
+      scheduleConfiguration: ScheduleConfiguration.fromJson(
+          (json['ScheduleConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      scheduledQueryRoleARN: (json['ScheduledQueryRoleARN'] as String?) ?? '',
+      logGroupIdentifiers: (json['LogGroupIdentifiers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      queryARN: json['QueryARN'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregationExpression = this.aggregationExpression;
+    final queryString = this.queryString;
+    final scheduleConfiguration = this.scheduleConfiguration;
+    final scheduledQueryRoleARN = this.scheduledQueryRoleARN;
+    final logGroupIdentifiers = this.logGroupIdentifiers;
+    final queryARN = this.queryARN;
+    final tags = this.tags;
+    return {
+      'AggregationExpression': aggregationExpression,
+      'QueryString': queryString,
+      'ScheduleConfiguration': scheduleConfiguration,
+      'ScheduledQueryRoleARN': scheduledQueryRoleARN,
+      if (logGroupIdentifiers != null)
+        'LogGroupIdentifiers': logGroupIdentifiers,
+      if (queryARN != null) 'QueryARN': queryARN,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Contains the schedule expression and time-range offsets that define when a
+/// scheduled query runs and what time range each execution covers.
+///
+/// @nodoc
+class ScheduleConfiguration {
+  /// The schedule expression that defines how often the underlying CloudWatch
+  /// Logs scheduled query runs. Specify a <code>rate()</code> expression, for
+  /// example <code>rate(5 minutes)</code>.
+  final String scheduleExpression;
+
+  /// The offset, in seconds, before the scheduled execution time at which the
+  /// query time range begins. For example, an offset of 360 (6 minutes) on a
+  /// query running at 12:05:00 starts the query time range at 11:59:00.
+  final int startTimeOffset;
+
+  /// The offset, in seconds, before the scheduled execution time at which the
+  /// query time range ends. Must be non-negative and less than
+  /// <code>StartTimeOffset</code>. The default is 0.
+  final int? endTimeOffset;
+
+  ScheduleConfiguration({
+    required this.scheduleExpression,
+    required this.startTimeOffset,
+    this.endTimeOffset,
+  });
+
+  factory ScheduleConfiguration.fromJson(Map<String, dynamic> json) {
+    return ScheduleConfiguration(
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
+      startTimeOffset: (json['StartTimeOffset'] as int?) ?? 0,
+      endTimeOffset: json['EndTimeOffset'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduleExpression = this.scheduleExpression;
+    final startTimeOffset = this.startTimeOffset;
+    final endTimeOffset = this.endTimeOffset;
+    return {
+      'ScheduleExpression': scheduleExpression,
+      'StartTimeOffset': startTimeOffset,
+      if (endTimeOffset != null) 'EndTimeOffset': endTimeOffset,
     };
   }
 }
@@ -7933,6 +8833,14 @@ class InsightRule {
 ///
 /// @nodoc
 class AnomalyDetector {
+  /// The unique identifier of the anomaly detector.
+  /// <note>
+  /// The identifier does not restrict access to a specific anomaly detector in an
+  /// IAM policy. Permissions for anomaly detector operations apply to all anomaly
+  /// detectors in the account.
+  /// </note>
+  final String? anomalyDetectorId;
+
   /// The configuration specifies details about how the anomaly detection model is
   /// to be trained, including time ranges to exclude from use for training the
   /// model, and the time zone to use for the metric.
@@ -7966,6 +8874,7 @@ class AnomalyDetector {
   final AnomalyDetectorStateValue? stateValue;
 
   AnomalyDetector({
+    this.anomalyDetectorId,
     this.configuration,
     this.dimensions,
     this.metricCharacteristics,
@@ -7979,6 +8888,7 @@ class AnomalyDetector {
 
   factory AnomalyDetector.fromJson(Map<String, dynamic> json) {
     return AnomalyDetector(
+      anomalyDetectorId: json['AnomalyDetectorId'] as String?,
       configuration: json['Configuration'] != null
           ? AnomalyDetectorConfiguration.fromJson(
               json['Configuration'] as Map<String, dynamic>)
@@ -8008,6 +8918,7 @@ class AnomalyDetector {
   }
 
   Map<String, dynamic> toJson() {
+    final anomalyDetectorId = this.anomalyDetectorId;
     final configuration = this.configuration;
     final dimensions = this.dimensions;
     final metricCharacteristics = this.metricCharacteristics;
@@ -8018,6 +8929,7 @@ class AnomalyDetector {
     final stat = this.stat;
     final stateValue = this.stateValue;
     return {
+      if (anomalyDetectorId != null) 'AnomalyDetectorId': anomalyDetectorId,
       if (configuration != null) 'Configuration': configuration,
       if (dimensions != null) 'Dimensions': dimensions,
       if (metricCharacteristics != null)
@@ -8156,6 +9068,13 @@ class MetricAlarm {
   /// is resolved
   final EvaluationState? evaluationState;
 
+  /// The evaluation window that the alarm uses to select the range of metric data
+  /// that it evaluates. This is either a sliding window or a wall clock window.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html">Alarm
+  /// evaluation windows</a> in the <i>CloudWatch User Guide</i>.
+  final EvaluationWindow? evaluationWindow;
+
   /// The percentile statistic for the metric associated with the alarm. Specify a
   /// value between p0.0 and p100.
   final String? extendedStatistic;
@@ -8247,6 +9166,7 @@ class MetricAlarm {
     this.evaluationInterval,
     this.evaluationPeriods,
     this.evaluationState,
+    this.evaluationWindow,
     this.extendedStatistic,
     this.insufficientDataActions,
     this.metricName,
@@ -8295,6 +9215,10 @@ class MetricAlarm {
       evaluationPeriods: json['EvaluationPeriods'] as int?,
       evaluationState:
           (json['EvaluationState'] as String?)?.let(EvaluationState.fromString),
+      evaluationWindow: json['EvaluationWindow'] != null
+          ? EvaluationWindow.fromJson(
+              json['EvaluationWindow'] as Map<String, dynamic>)
+          : null,
       extendedStatistic: json['ExtendedStatistic'] as String?,
       insufficientDataActions: (json['InsufficientDataActions'] as List?)
           ?.nonNulls
@@ -8342,6 +9266,7 @@ class MetricAlarm {
     final evaluationInterval = this.evaluationInterval;
     final evaluationPeriods = this.evaluationPeriods;
     final evaluationState = this.evaluationState;
+    final evaluationWindow = this.evaluationWindow;
     final extendedStatistic = this.extendedStatistic;
     final insufficientDataActions = this.insufficientDataActions;
     final metricName = this.metricName;
@@ -8378,6 +9303,7 @@ class MetricAlarm {
       if (evaluationInterval != null) 'EvaluationInterval': evaluationInterval,
       if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
       if (evaluationState != null) 'EvaluationState': evaluationState.value,
+      if (evaluationWindow != null) 'EvaluationWindow': evaluationWindow,
       if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
       if (insufficientDataActions != null)
         'InsufficientDataActions': insufficientDataActions,
@@ -8427,6 +9353,238 @@ class EvaluationState {
 
   @override
   String toString() => value;
+}
+
+/// The details about a log alarm.
+///
+/// @nodoc
+class LogAlarm {
+  /// The number of log lines from the most recent scheduled query execution that
+  /// are included in alarm action notifications. Valid range is 0 through 50. A
+  /// value of 0 means no log lines are included.
+  final int? actionLogLineCount;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes to
+  /// retrieve log events for inclusion in alarm action notifications. Set when
+  /// <code>ActionLogLineCount</code> is greater than 0.
+  final String? actionLogLineRoleArn;
+
+  /// Indicates whether actions should be executed during any changes to the alarm
+  /// state.
+  final bool? actionsEnabled;
+
+  /// The actions to execute when this alarm transitions to the <code>ALARM</code>
+  /// state from any other state. Each action is specified as an Amazon Resource
+  /// Name (ARN).
+  final List<String>? alarmActions;
+
+  /// The Amazon Resource Name (ARN) of the alarm.
+  final String? alarmArn;
+
+  /// The time stamp of the last update to the alarm configuration.
+  final DateTime? alarmConfigurationUpdatedTimestamp;
+
+  /// The description of the alarm.
+  final String? alarmDescription;
+
+  /// The name of the alarm.
+  final String? alarmName;
+
+  /// The arithmetic operation to use when comparing the aggregated query result
+  /// and the threshold. The aggregated query result is used as the first operand.
+  final ComparisonOperator? comparisonOperator;
+
+  /// If the value of this field is <code>EVALUATION_ERROR</code>, it indicates
+  /// configuration errors in the alarm setup that require review and correction.
+  /// Refer to the <code>StateReason</code> field of the alarm for more details.
+  ///
+  /// If the value of this field is <code>EVALUATION_FAILURE</code>, it indicates
+  /// temporary CloudWatch issues. We recommend manual monitoring until the issue
+  /// is resolved.
+  ///
+  /// If the value of this field is <code>PARTIAL_DATA</code>, it indicates that
+  /// the query returned the maximum 500 contributor groups but more matched. The
+  /// alarm evaluates the available contributors, but results might be incomplete.
+  final EvaluationState? evaluationState;
+
+  /// The actions to execute when this alarm transitions to the
+  /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
+  /// specified as an Amazon Resource Name (ARN).
+  final List<String>? insufficientDataActions;
+
+  /// The actions to execute when this alarm transitions to the <code>OK</code>
+  /// state from any other state. Each action is specified as an Amazon Resource
+  /// Name (ARN).
+  final List<String>? oKActions;
+
+  /// The number of query results, out of the most recent
+  /// <code>QueryResultsToEvaluate</code> results, that must breach the threshold
+  /// to trigger the alarm to transition to <code>ALARM</code> (the M in M-of-N
+  /// evaluation).
+  final int? queryResultsToAlarm;
+
+  /// The number of most recent scheduled query results that the alarm evaluates
+  /// against the threshold (the N in M-of-N evaluation).
+  final int? queryResultsToEvaluate;
+
+  /// The configuration of the underlying CloudWatch Logs scheduled query,
+  /// including the query string, log groups, schedule, aggregation expression,
+  /// and the ARN of the managed scheduled query.
+  final ScheduledQueryConfiguration? scheduledQueryConfiguration;
+
+  /// An explanation for the alarm state, in text format.
+  final String? stateReason;
+
+  /// An explanation for the alarm state, in JSON format.
+  final String? stateReasonData;
+
+  /// The date and time that the alarm's <code>StateValue</code> most recently
+  /// changed.
+  final DateTime? stateTransitionedTimestamp;
+
+  /// The time stamp of the last update to the value of either the
+  /// <code>StateValue</code> or <code>EvaluationState</code> parameters.
+  final DateTime? stateUpdatedTimestamp;
+
+  /// The state value for the alarm.
+  final StateValue? stateValue;
+
+  /// The value to compare with the aggregated query result.
+  final double? threshold;
+
+  /// How this alarm handles missing data points. Valid values are
+  /// <code>breaching</code>, <code>notBreaching</code>, <code>ignore</code>, and
+  /// <code>missing</code>.
+  final String? treatMissingData;
+
+  LogAlarm({
+    this.actionLogLineCount,
+    this.actionLogLineRoleArn,
+    this.actionsEnabled,
+    this.alarmActions,
+    this.alarmArn,
+    this.alarmConfigurationUpdatedTimestamp,
+    this.alarmDescription,
+    this.alarmName,
+    this.comparisonOperator,
+    this.evaluationState,
+    this.insufficientDataActions,
+    this.oKActions,
+    this.queryResultsToAlarm,
+    this.queryResultsToEvaluate,
+    this.scheduledQueryConfiguration,
+    this.stateReason,
+    this.stateReasonData,
+    this.stateTransitionedTimestamp,
+    this.stateUpdatedTimestamp,
+    this.stateValue,
+    this.threshold,
+    this.treatMissingData,
+  });
+
+  factory LogAlarm.fromJson(Map<String, dynamic> json) {
+    return LogAlarm(
+      actionLogLineCount: json['ActionLogLineCount'] as int?,
+      actionLogLineRoleArn: json['ActionLogLineRoleArn'] as String?,
+      actionsEnabled: json['ActionsEnabled'] as bool?,
+      alarmActions: (json['AlarmActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      alarmArn: json['AlarmArn'] as String?,
+      alarmConfigurationUpdatedTimestamp:
+          timeStampFromJson(json['AlarmConfigurationUpdatedTimestamp']),
+      alarmDescription: json['AlarmDescription'] as String?,
+      alarmName: json['AlarmName'] as String?,
+      comparisonOperator: (json['ComparisonOperator'] as String?)
+          ?.let(ComparisonOperator.fromString),
+      evaluationState:
+          (json['EvaluationState'] as String?)?.let(EvaluationState.fromString),
+      insufficientDataActions: (json['InsufficientDataActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      oKActions: (json['OKActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      queryResultsToAlarm: json['QueryResultsToAlarm'] as int?,
+      queryResultsToEvaluate: json['QueryResultsToEvaluate'] as int?,
+      scheduledQueryConfiguration: json['ScheduledQueryConfiguration'] != null
+          ? ScheduledQueryConfiguration.fromJson(
+              json['ScheduledQueryConfiguration'] as Map<String, dynamic>)
+          : null,
+      stateReason: json['StateReason'] as String?,
+      stateReasonData: json['StateReasonData'] as String?,
+      stateTransitionedTimestamp:
+          timeStampFromJson(json['StateTransitionedTimestamp']),
+      stateUpdatedTimestamp: timeStampFromJson(json['StateUpdatedTimestamp']),
+      stateValue: (json['StateValue'] as String?)?.let(StateValue.fromString),
+      threshold: _s.parseJsonDouble(json['Threshold']),
+      treatMissingData: json['TreatMissingData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionLogLineCount = this.actionLogLineCount;
+    final actionLogLineRoleArn = this.actionLogLineRoleArn;
+    final actionsEnabled = this.actionsEnabled;
+    final alarmActions = this.alarmActions;
+    final alarmArn = this.alarmArn;
+    final alarmConfigurationUpdatedTimestamp =
+        this.alarmConfigurationUpdatedTimestamp;
+    final alarmDescription = this.alarmDescription;
+    final alarmName = this.alarmName;
+    final comparisonOperator = this.comparisonOperator;
+    final evaluationState = this.evaluationState;
+    final insufficientDataActions = this.insufficientDataActions;
+    final oKActions = this.oKActions;
+    final queryResultsToAlarm = this.queryResultsToAlarm;
+    final queryResultsToEvaluate = this.queryResultsToEvaluate;
+    final scheduledQueryConfiguration = this.scheduledQueryConfiguration;
+    final stateReason = this.stateReason;
+    final stateReasonData = this.stateReasonData;
+    final stateTransitionedTimestamp = this.stateTransitionedTimestamp;
+    final stateUpdatedTimestamp = this.stateUpdatedTimestamp;
+    final stateValue = this.stateValue;
+    final threshold = this.threshold;
+    final treatMissingData = this.treatMissingData;
+    return {
+      if (actionLogLineCount != null) 'ActionLogLineCount': actionLogLineCount,
+      if (actionLogLineRoleArn != null)
+        'ActionLogLineRoleArn': actionLogLineRoleArn,
+      if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
+      if (alarmActions != null) 'AlarmActions': alarmActions,
+      if (alarmArn != null) 'AlarmArn': alarmArn,
+      if (alarmConfigurationUpdatedTimestamp != null)
+        'AlarmConfigurationUpdatedTimestamp':
+            unixTimestampToJson(alarmConfigurationUpdatedTimestamp),
+      if (alarmDescription != null) 'AlarmDescription': alarmDescription,
+      if (alarmName != null) 'AlarmName': alarmName,
+      if (comparisonOperator != null)
+        'ComparisonOperator': comparisonOperator.value,
+      if (evaluationState != null) 'EvaluationState': evaluationState.value,
+      if (insufficientDataActions != null)
+        'InsufficientDataActions': insufficientDataActions,
+      if (oKActions != null) 'OKActions': oKActions,
+      if (queryResultsToAlarm != null)
+        'QueryResultsToAlarm': queryResultsToAlarm,
+      if (queryResultsToEvaluate != null)
+        'QueryResultsToEvaluate': queryResultsToEvaluate,
+      if (scheduledQueryConfiguration != null)
+        'ScheduledQueryConfiguration': scheduledQueryConfiguration,
+      if (stateReason != null) 'StateReason': stateReason,
+      if (stateReasonData != null) 'StateReasonData': stateReasonData,
+      if (stateTransitionedTimestamp != null)
+        'StateTransitionedTimestamp':
+            unixTimestampToJson(stateTransitionedTimestamp),
+      if (stateUpdatedTimestamp != null)
+        'StateUpdatedTimestamp': unixTimestampToJson(stateUpdatedTimestamp),
+      if (stateValue != null) 'StateValue': stateValue.value,
+      if (threshold != null) 'Threshold': _s.encodeJsonDouble(threshold),
+      if (treatMissingData != null) 'TreatMissingData': treatMissingData,
+    };
+  }
 }
 
 /// The details about a composite alarm.
@@ -8667,12 +9825,13 @@ class ActionsSuppressedBy {
 class AlarmType {
   static const compositeAlarm = AlarmType._('CompositeAlarm');
   static const metricAlarm = AlarmType._('MetricAlarm');
+  static const logAlarm = AlarmType._('LogAlarm');
 
   final String value;
 
   const AlarmType._(this.value);
 
-  static const values = [compositeAlarm, metricAlarm];
+  static const values = [compositeAlarm, metricAlarm, logAlarm];
 
   static AlarmType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => AlarmType._(value));
@@ -8924,6 +10083,24 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class KmsAccessDeniedException extends _s.GenericAwsException {
+  KmsAccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'KmsAccessDeniedException', message: message);
+}
+
+/// @nodoc
+class KmsKeyDisabledException extends _s.GenericAwsException {
+  KmsKeyDisabledException({String? type, String? message})
+      : super(type: type, code: 'KmsKeyDisabledException', message: message);
+}
+
+/// @nodoc
+class KmsKeyNotFoundException extends _s.GenericAwsException {
+  KmsKeyNotFoundException({String? type, String? message})
+      : super(type: type, code: 'KmsKeyNotFoundException', message: message);
+}
+
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
@@ -8942,6 +10119,12 @@ class MissingRequiredParameterException extends _s.GenericAwsException {
             type: type,
             code: 'MissingRequiredParameterException',
             message: message);
+}
+
+/// @nodoc
+class ResourceConflict extends _s.GenericAwsException {
+  ResourceConflict({String? type, String? message})
+      : super(type: type, code: 'ResourceConflict', message: message);
 }
 
 /// @nodoc
@@ -8975,12 +10158,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidParameterCombinationException(type: type, message: message),
   'InvalidParameterValueException': (type, message) =>
       InvalidParameterValueException(type: type, message: message),
+  'KmsAccessDeniedException': (type, message) =>
+      KmsAccessDeniedException(type: type, message: message),
+  'KmsKeyDisabledException': (type, message) =>
+      KmsKeyDisabledException(type: type, message: message),
+  'KmsKeyNotFoundException': (type, message) =>
+      KmsKeyNotFoundException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
   'LimitExceededFault': (type, message) =>
       LimitExceededFault(type: type, message: message),
   'MissingRequiredParameterException': (type, message) =>
       MissingRequiredParameterException(type: type, message: message),
+  'ResourceConflict': (type, message) =>
+      ResourceConflict(type: type, message: message),
   'ResourceNotFound': (type, message) =>
       ResourceNotFound(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>

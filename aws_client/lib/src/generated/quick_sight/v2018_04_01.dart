@@ -783,7 +783,7 @@ class QuickSight {
   /// Parameter [sourceEntity] :
   /// A source entity to use for the analysis that you're creating. This
   /// metadata structure contains details that describe a source template and
-  /// one or more datasets.
+  /// one or more datasets or topics.
   ///
   /// Either a <code>SourceEntity</code> or a <code>Definition</code> must be
   /// provided in order for the request to be valid.
@@ -897,17 +897,26 @@ class QuickSight {
   /// Parameter [capabilities] :
   /// A set of actions to include in the custom permissions profile.
   ///
+  /// Parameter [governance] :
+  /// The governance configuration for the custom permissions profile. When
+  /// governance controls are defined for a category, any capabilities in that
+  /// category not explicitly set to <code>ALLOW</code> in
+  /// <code>Capabilities</code> are denied. Even newly added capabilities in the
+  /// category are implicitly disabled when Amazon Quick releases them.
+  ///
   /// Parameter [tags] :
   /// The tags to associate with the custom permissions profile.
   Future<CreateCustomPermissionsResponse> createCustomPermissions({
     required String awsAccountId,
     required String customPermissionsName,
     Capabilities? capabilities,
+    Governance? governance,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'CustomPermissionsName': customPermissionsName,
       if (capabilities != null) 'Capabilities': capabilities,
+      if (governance != null) 'Governance': governance,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -1044,7 +1053,9 @@ class QuickSight {
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> to list the replacement datasets for the
   /// placeholders listed in the original. The schema in each dataset must match
-  /// its placeholder.
+  /// its placeholder. Use the <code>TopicReferences</code> entity to list the
+  /// replacement topics for the topic placeholders listed in the original. The
+  /// schema in each topic must match its placeholder.
   ///
   /// Either a <code>SourceEntity</code> or a <code>Definition</code> must be
   /// provided in order for the request to be valid.
@@ -1745,6 +1756,115 @@ class QuickSight {
     return CreateIngestionResponse.fromJson(response);
   }
 
+  /// Creates a knowledge base from a specified data source. Supported data
+  /// source connector types include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>S3_KNOWLEDGE_BASE</code> – Uses an Amazon S3 bucket as the data
+  /// source.
+  /// </li>
+  /// <li>
+  /// <code>WEB_CRAWLER</code> – Uses web pages indexed by the built-in web
+  /// crawler as the data source.
+  /// </li>
+  /// <li>
+  /// <code>GOOGLE_DRIVE</code> – Uses Google Drive as the data source. Supports
+  /// service account authentication only.
+  /// </li>
+  /// <li>
+  /// <code>SHAREPOINT</code> – Uses SharePoint as the data source. Supports
+  /// two-legged OAuth only.
+  /// </li>
+  /// <li>
+  /// <code>ONE_DRIVE</code> – Uses OneDrive as the data source. Supports
+  /// two-legged OAuth only.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the knowledge
+  /// base.
+  ///
+  /// Parameter [dataSourceArn] :
+  /// The Amazon Resource Name (ARN) of the data source for the knowledge base.
+  ///
+  /// Parameter [knowledgeBaseId] :
+  /// The unique identifier for the knowledge base.
+  ///
+  /// Parameter [name] :
+  /// The name of the knowledge base.
+  ///
+  /// Parameter [accessControlConfiguration] :
+  /// The access control configuration for the knowledge base. If you don't
+  /// specify this parameter, document-level ACLs are disabled.
+  ///
+  /// Parameter [description] :
+  /// A description for the knowledge base. If you don't specify a description,
+  /// the knowledge base is created without one.
+  ///
+  /// Parameter [permissions] :
+  /// A list of resource permissions on the knowledge base. Each entry grants a
+  /// specified Amazon QuickSight principal either owner or viewer access. If
+  /// you don't specify permissions, only the primary owner (if provided)
+  /// receives owner access.
+  ///
+  /// Parameter [primaryOwnerArn] :
+  /// The Amazon Resource Name (ARN) of the primary owner for the knowledge
+  /// base. The specified user is always granted owner access, regardless of
+  /// what is specified in the <code>Permissions</code> field. If you don't
+  /// specify a primary owner, the knowledge base is created without one.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the knowledge base. If you don't specify tags, the
+  /// knowledge base is created without tags.
+  Future<CreateKnowledgeBaseResponse> createKnowledgeBase({
+    required String awsAccountId,
+    required String dataSourceArn,
+    required KnowledgeBaseConfiguration knowledgeBaseConfiguration,
+    required String knowledgeBaseId,
+    required String name,
+    AccessControlConfiguration? accessControlConfiguration,
+    String? description,
+    MediaExtractionConfiguration? mediaExtractionConfiguration,
+    List<ResourcePermission>? permissions,
+    String? primaryOwnerArn,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DataSourceArn': dataSourceArn,
+      'KnowledgeBaseConfiguration': knowledgeBaseConfiguration,
+      'KnowledgeBaseId': knowledgeBaseId,
+      'Name': name,
+      if (accessControlConfiguration != null)
+        'AccessControlConfiguration': accessControlConfiguration,
+      if (description != null) 'Description': description,
+      if (mediaExtractionConfiguration != null)
+        'MediaExtractionConfiguration': mediaExtractionConfiguration,
+      if (permissions != null) 'Permissions': permissions,
+      if (primaryOwnerArn != null) 'PrimaryOwnerArn': primaryOwnerArn,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/accounts/${Uri.encodeComponent(awsAccountId)}/knowledge-bases',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateKnowledgeBaseResponse.fromJson(response);
+  }
+
   /// (Enterprise edition only) Creates a new namespace for you to use with
   /// Amazon Quick Sight.
   ///
@@ -2078,7 +2198,10 @@ class QuickSight {
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> or <code>SourceAnalysis</code> to list the
   /// replacement datasets for the placeholders listed in the original. The
-  /// schema in each dataset must match its placeholder.
+  /// schema in each dataset must match its placeholder. Use the
+  /// <code>TopicReferences</code> entity to list the replacement topics for the
+  /// topic placeholders listed in the original. The schema in each topic must
+  /// match its placeholder.
   ///
   /// Either a <code>SourceEntity</code> or a <code>Definition</code> must be
   /// provided in order for the request to be valid.
@@ -2407,6 +2530,59 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return CreateTopicRefreshScheduleResponse.fromJson(response);
+  }
+
+  /// Creates a new Q topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that you want to create a topic
+  /// in.
+  ///
+  /// Parameter [topic] :
+  /// The definition of a topic to create.
+  ///
+  /// Parameter [topicId] :
+  /// The ID for the topic that you want to create. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  ///
+  /// Parameter [folderArns] :
+  /// The Amazon Resource Names (ARNs) of the folders that you want the topic to
+  /// reside in.
+  ///
+  /// Parameter [tags] :
+  /// Contains a map of the key-value pairs for the resource tag or tags that
+  /// are assigned to the topic.
+  Future<CreateTopicV2Response> createTopicV2({
+    required String awsAccountId,
+    required TopicV2Details topic,
+    required String topicId,
+    CustomInstructions? customInstructions,
+    List<String>? folderArns,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Topic': topic,
+      'TopicId': topicId,
+      if (customInstructions != null) 'CustomInstructions': customInstructions,
+      if (folderArns != null) 'FolderArns': folderArns,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}/topicsV2',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTopicV2Response.fromJson(response);
   }
 
   /// Creates a new VPC connection.
@@ -3719,6 +3895,36 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTopicRefreshScheduleResponse.fromJson(response);
+  }
+
+  /// Deletes a Q topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the topic that you
+  /// want to delete.
+  ///
+  /// Parameter [topicId] :
+  /// The ID of the topic that you want to delete. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  Future<DeleteTopicV2Response> deleteTopicV2({
+    required String awsAccountId,
+    required String topicId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topicsV2/${Uri.encodeComponent(topicId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteTopicV2Response.fromJson(response);
   }
 
   /// Deletes the Amazon Quick Sight user that is associated with the identity
@@ -6072,6 +6278,35 @@ class QuickSight {
     return DescribeTopicPermissionsResponse.fromJson(response);
   }
 
+  /// Describes the permissions of a topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the topic that you
+  /// want described.
+  ///
+  /// Parameter [topicId] :
+  /// The ID of the topic that you want to describe. This ID is unique per
+  /// Amazon Web Services Region for each Amazon Web Services account.
+  Future<DescribeTopicPermissionsV2Response> describeTopicPermissionsV2({
+    required String awsAccountId,
+    required String topicId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topicsV2/${Uri.encodeComponent(topicId)}/permissions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeTopicPermissionsV2Response.fromJson(response);
+  }
+
   /// Describes the status of a topic refresh.
   ///
   /// May throw [AccessDeniedException].
@@ -6140,6 +6375,35 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeTopicRefreshScheduleResponse.fromJson(response);
+  }
+
+  /// Describes a Q topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the topic that you
+  /// want to describe.
+  ///
+  /// Parameter [topicId] :
+  /// The ID of the topic that you want to describe. This ID is unique per
+  /// Amazon Web Services Region for each Amazon Web Services account.
+  Future<DescribeTopicV2Response> describeTopicV2({
+    required String awsAccountId,
+    required String topicId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topicsV2/${Uri.encodeComponent(topicId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeTopicV2Response.fromJson(response);
   }
 
   /// Returns information about a user, given the user name.
@@ -8819,6 +9083,50 @@ class QuickSight {
     return ListTopicsResponse.fromJson(response);
   }
 
+  /// Lists all of the Q topics in the specified Amazon Web Services account in
+  /// an Amazon Web Services Region.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the topics that
+  /// you want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no more
+  /// results.
+  Future<ListTopicsV2Response> listTopicsV2({
+    required String awsAccountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}/topicsV2',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTopicsV2Response.fromJson(response);
+  }
+
   /// Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a
   /// member of.
   ///
@@ -9976,6 +10284,7 @@ class QuickSight {
 
   /// Searches for any Q topic that exists in an Quick account.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalFailureException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterValueException].
@@ -10021,6 +10330,55 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return SearchTopicsResponse.fromJson(response);
+  }
+
+  /// Searches for any Q topic that exists in an Amazon Web Services account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the topic that you
+  /// want to search.
+  ///
+  /// Parameter [filters] :
+  /// The filters that you want to use to search for the topic.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no more
+  /// results.
+  Future<SearchTopicsV2Response> searchTopicsV2({
+    required String awsAccountId,
+    required List<TopicSearchFilter> filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/search/topicsV2',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchTopicsV2Response.fromJson(response);
   }
 
   /// Starts an Asset Bundle export job.
@@ -11110,7 +11468,7 @@ class QuickSight {
   /// Parameter [sourceEntity] :
   /// A source entity to use for the analysis that you're updating. This
   /// metadata structure contains details that describe a source template and
-  /// one or more datasets.
+  /// one or more datasets or topics.
   ///
   /// Parameter [themeArn] :
   /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that
@@ -11352,13 +11710,22 @@ class QuickSight {
   ///
   /// Parameter [capabilities] :
   /// A set of actions to include in the custom permissions profile.
+  ///
+  /// Parameter [governance] :
+  /// The governance configuration for the custom permissions profile. The
+  /// <code>UpdateCustomPermissions</code> operation replaces all existing
+  /// <code>Capabilities</code> and <code>Governance</code> values. If you omit
+  /// this parameter, Amazon Quick removes governance from the profile and the
+  /// existing custom permission behavior applies.
   Future<UpdateCustomPermissionsResponse> updateCustomPermissions({
     required String awsAccountId,
     required String customPermissionsName,
     Capabilities? capabilities,
+    Governance? governance,
   }) async {
     final $payload = <String, dynamic>{
       if (capabilities != null) 'Capabilities': capabilities,
+      if (governance != null) 'Governance': governance,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -11467,7 +11834,9 @@ class QuickSight {
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> to list the replacement datasets for the
   /// placeholders listed in the original. The schema in each dataset must match
-  /// its placeholder.
+  /// its placeholder. Use the <code>TopicReferences</code> entity to list the
+  /// replacement topics for the topic placeholders listed in the original. The
+  /// schema in each topic must match its placeholder.
   ///
   /// Parameter [themeArn] :
   /// The Amazon Resource Name (ARN) of the theme that is being used for this
@@ -12432,6 +12801,72 @@ class QuickSight {
     return UpdateKeyRegistrationResponse.fromJson(response);
   }
 
+  /// Updates the properties of an existing knowledge base.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the knowledge
+  /// base.
+  ///
+  /// Parameter [knowledgeBaseId] :
+  /// The unique identifier for the knowledge base.
+  ///
+  /// Parameter [accessControlConfiguration] :
+  /// The access control configuration for the knowledge base. If you don't
+  /// specify this parameter, the existing setting is retained.
+  ///
+  /// Parameter [description] :
+  /// A description for the knowledge base. If you don't specify a description,
+  /// the existing description is retained.
+  ///
+  /// Parameter [isEmailNotificationOptedForIngestionFailures] :
+  /// Specifies whether email notifications are enabled for ingestion failures.
+  ///
+  /// Parameter [name] :
+  /// The name of the knowledge base. If you don't specify a name, the existing
+  /// name is retained.
+  Future<UpdateKnowledgeBaseResponse> updateKnowledgeBase({
+    required String awsAccountId,
+    required String knowledgeBaseId,
+    AccessControlConfiguration? accessControlConfiguration,
+    String? description,
+    bool? isEmailNotificationOptedForIngestionFailures,
+    KnowledgeBaseConfiguration? knowledgeBaseConfiguration,
+    MediaExtractionConfiguration? mediaExtractionConfiguration,
+    String? name,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accessControlConfiguration != null)
+        'AccessControlConfiguration': accessControlConfiguration,
+      if (description != null) 'Description': description,
+      if (isEmailNotificationOptedForIngestionFailures != null)
+        'IsEmailNotificationOptedForIngestionFailures':
+            isEmailNotificationOptedForIngestionFailures,
+      if (knowledgeBaseConfiguration != null)
+        'KnowledgeBaseConfiguration': knowledgeBaseConfiguration,
+      if (mediaExtractionConfiguration != null)
+        'MediaExtractionConfiguration': mediaExtractionConfiguration,
+      if (name != null) 'Name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/accounts/${Uri.encodeComponent(awsAccountId)}/knowledge-bases/${Uri.encodeComponent(knowledgeBaseId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateKnowledgeBaseResponse.fromJson(response);
+  }
+
   /// Updates the resource permissions for a knowledge base.
   ///
   /// May throw [AccessDeniedException].
@@ -13061,7 +13496,10 @@ class QuickSight {
   /// Use the <code>DataSetReferences</code> entity within
   /// <code>SourceTemplate</code> or <code>SourceAnalysis</code> to list the
   /// replacement datasets for the placeholders listed in the original. The
-  /// schema in each dataset must match its placeholder.
+  /// schema in each dataset must match its placeholder. Use the
+  /// <code>TopicReferences</code> entity to list the replacement topics for the
+  /// topic placeholders listed in the original. The schema in each topic must
+  /// match its placeholder.
   ///
   /// Parameter [validationStrategy] :
   /// The option to relax the validation needed to update a template with
@@ -13490,6 +13928,50 @@ class QuickSight {
     return UpdateTopicPermissionsResponse.fromJson(response);
   }
 
+  /// Updates the permissions of a topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the topic that you
+  /// want to update the permissions for.
+  ///
+  /// Parameter [topicId] :
+  /// The ID of the topic that you want to modify. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  ///
+  /// Parameter [grantPermissions] :
+  /// The resource permissions that you want to grant to the topic.
+  ///
+  /// Parameter [revokePermissions] :
+  /// The resource permissions that you want to revoke from the topic.
+  Future<UpdateTopicPermissionsV2Response> updateTopicPermissionsV2({
+    required String awsAccountId,
+    required String topicId,
+    List<ResourcePermission>? grantPermissions,
+    List<ResourcePermission>? revokePermissions,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topicsV2/${Uri.encodeComponent(topicId)}/permissions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTopicPermissionsV2Response.fromJson(response);
+  }
+
   /// Updates a topic refresh schedule.
   ///
   /// May throw [AccessDeniedException].
@@ -13531,6 +14013,52 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTopicRefreshScheduleResponse.fromJson(response);
+  }
+
+  /// Updates the definition of a Q topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that contains the topic that you
+  /// want to update.
+  ///
+  /// Parameter [topic] :
+  /// The definition of the topic that you want to update.
+  ///
+  /// Parameter [topicId] :
+  /// The ID of the topic that you want to modify. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  ///
+  /// Parameter [publishOption] :
+  /// The publish option for the topic that you want to update.
+  Future<UpdateTopicV2Response> updateTopicV2({
+    required String awsAccountId,
+    required TopicV2Details topic,
+    required String topicId,
+    CustomInstructions? customInstructions,
+    TopicV2PublishOption? publishOption,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Topic': topic,
+      if (customInstructions != null) 'CustomInstructions': customInstructions,
+      if (publishOption != null) 'PublishOption': publishOption.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topicsV2/${Uri.encodeComponent(topicId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateTopicV2Response.fromJson(response);
   }
 
   /// Updates an Amazon Quick Sight user.
@@ -14885,6 +15413,57 @@ class CreateIngestionResponse {
 }
 
 /// @nodoc
+class CreateKnowledgeBaseResponse {
+  /// The creation status of the knowledge base.
+  final DataSetStatus creationStatus;
+
+  /// The Amazon Resource Name (ARN) of the knowledge base.
+  final String knowledgeBaseArn;
+
+  /// The unique identifier for the knowledge base.
+  final String knowledgeBaseId;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  CreateKnowledgeBaseResponse({
+    required this.creationStatus,
+    required this.knowledgeBaseArn,
+    required this.knowledgeBaseId,
+    this.requestId,
+    this.status,
+  });
+
+  factory CreateKnowledgeBaseResponse.fromJson(Map<String, dynamic> json) {
+    return CreateKnowledgeBaseResponse(
+      creationStatus:
+          DataSetStatus.fromString((json['CreationStatus'] as String?) ?? ''),
+      knowledgeBaseArn: (json['KnowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['KnowledgeBaseId'] as String?) ?? '',
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationStatus = this.creationStatus;
+    final knowledgeBaseArn = this.knowledgeBaseArn;
+    final knowledgeBaseId = this.knowledgeBaseId;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      'CreationStatus': creationStatus.value,
+      'KnowledgeBaseArn': knowledgeBaseArn,
+      'KnowledgeBaseId': knowledgeBaseId,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
+/// @nodoc
 class CreateNamespaceResponse {
   /// The ARN of the Quick Sight namespace you created.
   final String? arn;
@@ -15412,6 +15991,50 @@ class CreateTopicRefreshScheduleResponse {
       if (datasetArn != null) 'DatasetArn': datasetArn,
       if (requestId != null) 'RequestId': requestId,
       if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+/// @nodoc
+class CreateTopicV2Response {
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? arn;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The ID for the topic that you want to create. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  CreateTopicV2Response({
+    this.arn,
+    this.requestId,
+    this.status,
+    this.topicId,
+  });
+
+  factory CreateTopicV2Response.fromJson(Map<String, dynamic> json) {
+    return CreateTopicV2Response(
+      arn: json['Arn'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicId = this.topicId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (requestId != null) 'RequestId': requestId,
       if (topicId != null) 'TopicId': topicId,
     };
   }
@@ -16724,6 +17347,50 @@ class DeleteTopicRefreshScheduleResponse {
       if (datasetArn != null) 'DatasetArn': datasetArn,
       if (requestId != null) 'RequestId': requestId,
       if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteTopicV2Response {
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? arn;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The ID of the topic that you want to delete. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  DeleteTopicV2Response({
+    this.arn,
+    this.requestId,
+    this.status,
+    this.topicId,
+  });
+
+  factory DeleteTopicV2Response.fromJson(Map<String, dynamic> json) {
+    return DeleteTopicV2Response(
+      arn: json['Arn'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicId = this.topicId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (requestId != null) 'RequestId': requestId,
       if (topicId != null) 'TopicId': topicId,
     };
   }
@@ -20328,6 +20995,61 @@ class DescribeTopicPermissionsResponse {
 }
 
 /// @nodoc
+class DescribeTopicPermissionsV2Response {
+  /// A list of resource permissions that are configured to the topic.
+  final List<ResourcePermission>? permissions;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? topicArn;
+
+  /// The ID of the topic that you want to describe. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  DescribeTopicPermissionsV2Response({
+    this.permissions,
+    this.requestId,
+    this.status,
+    this.topicArn,
+    this.topicId,
+  });
+
+  factory DescribeTopicPermissionsV2Response.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeTopicPermissionsV2Response(
+      permissions: (json['Permissions'] as List?)
+          ?.nonNulls
+          .map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicArn: json['TopicArn'] as String?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicArn = this.topicArn;
+    final topicId = this.topicId;
+    return {
+      if (permissions != null) 'Permissions': permissions,
+      if (requestId != null) 'RequestId': requestId,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+/// @nodoc
 class DescribeTopicRefreshResponse {
   /// Details of the refresh, which is performed when the topic is created or
   /// updated.
@@ -20425,6 +21147,67 @@ class DescribeTopicRefreshScheduleResponse {
       if (refreshSchedule != null) 'RefreshSchedule': refreshSchedule,
       if (requestId != null) 'RequestId': requestId,
       if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeTopicV2Response {
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? arn;
+  final CustomInstructions? customInstructions;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The definition of a topic.
+  final TopicV2Details? topic;
+
+  /// The ID of the topic that you want to describe. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  DescribeTopicV2Response({
+    this.arn,
+    this.customInstructions,
+    this.requestId,
+    this.status,
+    this.topic,
+    this.topicId,
+  });
+
+  factory DescribeTopicV2Response.fromJson(Map<String, dynamic> json) {
+    return DescribeTopicV2Response(
+      arn: json['Arn'] as String?,
+      customInstructions: json['CustomInstructions'] != null
+          ? CustomInstructions.fromJson(
+              json['CustomInstructions'] as Map<String, dynamic>)
+          : null,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topic: json['Topic'] != null
+          ? TopicV2Details.fromJson(json['Topic'] as Map<String, dynamic>)
+          : null,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final customInstructions = this.customInstructions;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topic = this.topic;
+    final topicId = this.topicId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (customInstructions != null) 'CustomInstructions': customInstructions,
+      if (requestId != null) 'RequestId': requestId,
+      if (topic != null) 'Topic': topic,
       if (topicId != null) 'TopicId': topicId,
     };
   }
@@ -22737,6 +23520,52 @@ class ListTopicsResponse {
 }
 
 /// @nodoc
+class ListTopicsV2Response {
+  /// The token for the next set of results, or null if there are no more results.
+  final String? nextToken;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// A list of topic summaries.
+  final List<TopicV2Summary>? topicSummaryList;
+
+  ListTopicsV2Response({
+    this.nextToken,
+    this.requestId,
+    this.status,
+    this.topicSummaryList,
+  });
+
+  factory ListTopicsV2Response.fromJson(Map<String, dynamic> json) {
+    return ListTopicsV2Response(
+      nextToken: json['NextToken'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicSummaryList: (json['TopicSummaryList'] as List?)
+          ?.nonNulls
+          .map((e) => TopicV2Summary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicSummaryList = this.topicSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (requestId != null) 'RequestId': requestId,
+      if (topicSummaryList != null) 'TopicSummaryList': topicSummaryList,
+    };
+  }
+}
+
+/// @nodoc
 class ListUserGroupsResponse {
   /// The list of groups the user is a member of.
   final List<Group>? groupList;
@@ -23644,6 +24473,52 @@ class SearchTopicsResponse {
       topicSummaryList: (json['TopicSummaryList'] as List?)
           ?.nonNulls
           .map((e) => TopicSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicSummaryList = this.topicSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (requestId != null) 'RequestId': requestId,
+      if (topicSummaryList != null) 'TopicSummaryList': topicSummaryList,
+    };
+  }
+}
+
+/// @nodoc
+class SearchTopicsV2Response {
+  /// The token for the next set of results, or null if there are no more results.
+  final String? nextToken;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// A list of topic summaries that is returned by the search topic request.
+  final List<TopicV2Summary>? topicSummaryList;
+
+  SearchTopicsV2Response({
+    this.nextToken,
+    this.requestId,
+    this.status,
+    this.topicSummaryList,
+  });
+
+  factory SearchTopicsV2Response.fromJson(Map<String, dynamic> json) {
+    return SearchTopicsV2Response(
+      nextToken: json['NextToken'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicSummaryList: (json['TopicSummaryList'] as List?)
+          ?.nonNulls
+          .map((e) => TopicV2Summary.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -25495,6 +26370,49 @@ class UpdateKeyRegistrationResponse {
 }
 
 /// @nodoc
+class UpdateKnowledgeBaseResponse {
+  /// The Amazon Resource Name (ARN) of the knowledge base.
+  final String knowledgeBaseArn;
+
+  /// The unique identifier for the knowledge base.
+  final String knowledgeBaseId;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  UpdateKnowledgeBaseResponse({
+    required this.knowledgeBaseArn,
+    required this.knowledgeBaseId,
+    this.requestId,
+    this.status,
+  });
+
+  factory UpdateKnowledgeBaseResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateKnowledgeBaseResponse(
+      knowledgeBaseArn: (json['KnowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['KnowledgeBaseId'] as String?) ?? '',
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final knowledgeBaseArn = this.knowledgeBaseArn;
+    final knowledgeBaseId = this.knowledgeBaseId;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      'KnowledgeBaseArn': knowledgeBaseArn,
+      'KnowledgeBaseId': knowledgeBaseId,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
+/// @nodoc
 class UpdateKnowledgeBasePermissionsResponse {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String knowledgeBaseArn;
@@ -26423,6 +27341,60 @@ class UpdateTopicPermissionsResponse {
 }
 
 /// @nodoc
+class UpdateTopicPermissionsV2Response {
+  /// A list of resource permissions on the topic.
+  final List<ResourcePermission>? permissions;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? topicArn;
+
+  /// The ID of the topic that you want to modify. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  UpdateTopicPermissionsV2Response({
+    this.permissions,
+    this.requestId,
+    this.status,
+    this.topicArn,
+    this.topicId,
+  });
+
+  factory UpdateTopicPermissionsV2Response.fromJson(Map<String, dynamic> json) {
+    return UpdateTopicPermissionsV2Response(
+      permissions: (json['Permissions'] as List?)
+          ?.nonNulls
+          .map((e) => ResourcePermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicArn: json['TopicArn'] as String?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissions = this.permissions;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicArn = this.topicArn;
+    final topicId = this.topicId;
+    return {
+      if (permissions != null) 'Permissions': permissions,
+      if (requestId != null) 'RequestId': requestId,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+/// @nodoc
 class UpdateTopicRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? datasetArn;
@@ -26469,6 +27441,50 @@ class UpdateTopicRefreshScheduleResponse {
       if (datasetArn != null) 'DatasetArn': datasetArn,
       if (requestId != null) 'RequestId': requestId,
       if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateTopicV2Response {
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? arn;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The ID of the topic that you want to modify. This ID is unique per Amazon
+  /// Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  UpdateTopicV2Response({
+    this.arn,
+    this.requestId,
+    this.status,
+    this.topicId,
+  });
+
+  factory UpdateTopicV2Response.fromJson(Map<String, dynamic> json) {
+    return UpdateTopicV2Response(
+      arn: json['Arn'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicId = this.topicId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (requestId != null) 'RequestId': requestId,
       if (topicId != null) 'TopicId': topicId,
     };
   }
@@ -26906,6 +27922,217 @@ class IdentityType {
   String toString() => value;
 }
 
+/// The definition of a topic.
+///
+/// @nodoc
+class TopicV2Details {
+  /// The name of the topic.
+  final String name;
+
+  /// The relations between the data sets that the topic is associated with.
+  final List<TopicV2DataSetRelation>? dataSetRelations;
+
+  /// The data sets that the topic is associated with.
+  final List<TopicV2DataSetReference>? dataSets;
+
+  /// The description of the topic.
+  final String? description;
+
+  TopicV2Details({
+    required this.name,
+    this.dataSetRelations,
+    this.dataSets,
+    this.description,
+  });
+
+  factory TopicV2Details.fromJson(Map<String, dynamic> json) {
+    return TopicV2Details(
+      name: (json['Name'] as String?) ?? '',
+      dataSetRelations: (json['DataSetRelations'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => TopicV2DataSetRelation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataSets: (json['DataSets'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              TopicV2DataSetReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final dataSetRelations = this.dataSetRelations;
+    final dataSets = this.dataSets;
+    final description = this.description;
+    return {
+      'Name': name,
+      if (dataSetRelations != null) 'DataSetRelations': dataSetRelations,
+      if (dataSets != null) 'DataSets': dataSets,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// Instructions that provide additional guidance and context for response
+/// generation.
+///
+/// @nodoc
+class CustomInstructions {
+  /// A text field for providing additional guidance or context for response
+  /// generation.
+  final String customInstructionsString;
+
+  CustomInstructions({
+    required this.customInstructionsString,
+  });
+
+  factory CustomInstructions.fromJson(Map<String, dynamic> json) {
+    return CustomInstructions(
+      customInstructionsString:
+          (json['CustomInstructionsString'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customInstructionsString = this.customInstructionsString;
+    return {
+      'CustomInstructionsString': customInstructionsString,
+    };
+  }
+}
+
+/// @nodoc
+class TopicV2PublishOption {
+  static const draft = TopicV2PublishOption._('DRAFT');
+  static const publish = TopicV2PublishOption._('PUBLISH');
+
+  final String value;
+
+  const TopicV2PublishOption._(this.value);
+
+  static const values = [draft, publish];
+
+  static TopicV2PublishOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TopicV2PublishOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicV2PublishOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that represents a relation between two data sets of a topic.
+///
+/// @nodoc
+class TopicV2DataSetRelation {
+  /// The left endpoint of the data set relation.
+  final TopicV2DataSetRelationEndpoint left;
+
+  /// The right endpoint of the data set relation.
+  final TopicV2DataSetRelationEndpoint right;
+
+  TopicV2DataSetRelation({
+    required this.left,
+    required this.right,
+  });
+
+  factory TopicV2DataSetRelation.fromJson(Map<String, dynamic> json) {
+    return TopicV2DataSetRelation(
+      left: TopicV2DataSetRelationEndpoint.fromJson(
+          (json['Left'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      right: TopicV2DataSetRelationEndpoint.fromJson(
+          (json['Right'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final left = this.left;
+    final right = this.right;
+    return {
+      'Left': left,
+      'Right': right,
+    };
+  }
+}
+
+/// A structure that represents an endpoint of a data set relation of a topic.
+///
+/// @nodoc
+class TopicV2DataSetRelationEndpoint {
+  /// The names of the columns that are used in the data set relation.
+  final List<String> columnNames;
+
+  /// The Amazon Resource Name (ARN) of the data set at this endpoint of the
+  /// relation.
+  final String dataSetArn;
+
+  TopicV2DataSetRelationEndpoint({
+    required this.columnNames,
+    required this.dataSetArn,
+  });
+
+  factory TopicV2DataSetRelationEndpoint.fromJson(Map<String, dynamic> json) {
+    return TopicV2DataSetRelationEndpoint(
+      columnNames: ((json['ColumnNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      dataSetArn: (json['DataSetArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnNames = this.columnNames;
+    final dataSetArn = this.dataSetArn;
+    return {
+      'ColumnNames': columnNames,
+      'DataSetArn': dataSetArn,
+    };
+  }
+}
+
+/// A structure that represents a data set reference of a topic.
+///
+/// @nodoc
+class TopicV2DataSetReference {
+  /// The Amazon Resource Name (ARN) of the data set.
+  final String dataSetArn;
+
+  /// The name of the data set.
+  final String? dataSetName;
+
+  TopicV2DataSetReference({
+    required this.dataSetArn,
+    this.dataSetName,
+  });
+
+  factory TopicV2DataSetReference.fromJson(Map<String, dynamic> json) {
+    return TopicV2DataSetReference(
+      dataSetArn: (json['DataSetArn'] as String?) ?? '',
+      dataSetName: json['DataSetName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetArn = this.dataSetArn;
+    final dataSetName = this.dataSetName;
+    return {
+      'DataSetArn': dataSetArn,
+      if (dataSetName != null) 'DataSetName': dataSetName,
+    };
+  }
+}
+
 /// A structure that represents a topic refresh schedule.
 ///
 /// @nodoc
@@ -27114,34 +28341,6 @@ class TopicDetails {
   }
 }
 
-/// Instructions that provide additional guidance and context for response
-/// generation.
-///
-/// @nodoc
-class CustomInstructions {
-  /// A text field for providing additional guidance or context for response
-  /// generation.
-  final String customInstructionsString;
-
-  CustomInstructions({
-    required this.customInstructionsString,
-  });
-
-  factory CustomInstructions.fromJson(Map<String, dynamic> json) {
-    return CustomInstructions(
-      customInstructionsString:
-          (json['CustomInstructionsString'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customInstructionsString = this.customInstructionsString;
-    return {
-      'CustomInstructionsString': customInstructionsString,
-    };
-  }
-}
-
 /// @nodoc
 class TopicUserExperienceVersion {
   static const legacy = TopicUserExperienceVersion._('LEGACY');
@@ -27336,15 +28535,27 @@ class TopicNamedEntity {
   /// The other names or aliases for the named entity.
   final List<String>? entitySynonyms;
 
+  /// The presentation order of the named entity.
+  final int? presentationOrder;
+
+  /// The rank order of the named entity.
+  final int? rankOrder;
+
   /// The type of named entity that a topic represents.
   final SemanticEntityType? semanticEntityType;
+
+  /// The sort configuration of the named entity.
+  final List<NamedEntitySort>? sort;
 
   TopicNamedEntity({
     required this.entityName,
     this.definition,
     this.entityDescription,
     this.entitySynonyms,
+    this.presentationOrder,
+    this.rankOrder,
     this.semanticEntityType,
+    this.sort,
   });
 
   factory TopicNamedEntity.fromJson(Map<String, dynamic> json) {
@@ -27359,10 +28570,16 @@ class TopicNamedEntity {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      presentationOrder: json['PresentationOrder'] as int?,
+      rankOrder: json['RankOrder'] as int?,
       semanticEntityType: json['SemanticEntityType'] != null
           ? SemanticEntityType.fromJson(
               json['SemanticEntityType'] as Map<String, dynamic>)
           : null,
+      sort: (json['Sort'] as List?)
+          ?.nonNulls
+          .map((e) => NamedEntitySort.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -27371,13 +28588,19 @@ class TopicNamedEntity {
     final definition = this.definition;
     final entityDescription = this.entityDescription;
     final entitySynonyms = this.entitySynonyms;
+    final presentationOrder = this.presentationOrder;
+    final rankOrder = this.rankOrder;
     final semanticEntityType = this.semanticEntityType;
+    final sort = this.sort;
     return {
       'EntityName': entityName,
       if (definition != null) 'Definition': definition,
       if (entityDescription != null) 'EntityDescription': entityDescription,
       if (entitySynonyms != null) 'EntitySynonyms': entitySynonyms,
+      if (presentationOrder != null) 'PresentationOrder': presentationOrder,
+      if (rankOrder != null) 'RankOrder': rankOrder,
       if (semanticEntityType != null) 'SemanticEntityType': semanticEntityType,
+      if (sort != null) 'Sort': sort,
     };
   }
 }
@@ -27422,6 +28645,66 @@ class SemanticEntityType {
   }
 }
 
+/// A structure that represents a sort for a named entity.
+///
+/// @nodoc
+class NamedEntitySort {
+  /// The direction of the sort. Valid values are <code>ASCENDING</code> and
+  /// <code>DESCENDING</code>.
+  final TopicSortDirection direction;
+
+  /// The name of the field that is used for the sort.
+  final String fieldName;
+
+  NamedEntitySort({
+    required this.direction,
+    required this.fieldName,
+  });
+
+  factory NamedEntitySort.fromJson(Map<String, dynamic> json) {
+    return NamedEntitySort(
+      direction:
+          TopicSortDirection.fromString((json['Direction'] as String?) ?? ''),
+      fieldName: (json['FieldName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final direction = this.direction;
+    final fieldName = this.fieldName;
+    return {
+      'Direction': direction.value,
+      'FieldName': fieldName,
+    };
+  }
+}
+
+/// @nodoc
+class TopicSortDirection {
+  static const ascending = TopicSortDirection._('ASCENDING');
+  static const descending = TopicSortDirection._('DESCENDING');
+
+  final String value;
+
+  const TopicSortDirection._(this.value);
+
+  static const values = [ascending, descending];
+
+  static TopicSortDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TopicSortDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TopicSortDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A structure that represents a named entity.
 ///
 /// @nodoc
@@ -27429,8 +28712,15 @@ class NamedEntityDefinition {
   /// The name of the entity.
   final String? fieldName;
 
+  /// A Boolean value that indicates whether the named entity definition is
+  /// hidden.
+  final bool? isHidden;
+
   /// The definition of a metric.
   final NamedEntityDefinitionMetric? metric;
+
+  /// The presentation order of the named entity definition.
+  final int? presentationOrder;
 
   /// The property name to be used for the named entity.
   final String? propertyName;
@@ -27443,41 +28733,56 @@ class NamedEntityDefinition {
   /// <code>INHERIT</code>, <code>DIMENSION</code>, and <code>MEASURE</code>.
   final PropertyUsage? propertyUsage;
 
+  /// The rank order of the named entity definition.
+  final int? rankOrder;
+
   NamedEntityDefinition({
     this.fieldName,
+    this.isHidden,
     this.metric,
+    this.presentationOrder,
     this.propertyName,
     this.propertyRole,
     this.propertyUsage,
+    this.rankOrder,
   });
 
   factory NamedEntityDefinition.fromJson(Map<String, dynamic> json) {
     return NamedEntityDefinition(
       fieldName: json['FieldName'] as String?,
+      isHidden: json['IsHidden'] as bool?,
       metric: json['Metric'] != null
           ? NamedEntityDefinitionMetric.fromJson(
               json['Metric'] as Map<String, dynamic>)
           : null,
+      presentationOrder: json['PresentationOrder'] as int?,
       propertyName: json['PropertyName'] as String?,
       propertyRole:
           (json['PropertyRole'] as String?)?.let(PropertyRole.fromString),
       propertyUsage:
           (json['PropertyUsage'] as String?)?.let(PropertyUsage.fromString),
+      rankOrder: json['RankOrder'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final fieldName = this.fieldName;
+    final isHidden = this.isHidden;
     final metric = this.metric;
+    final presentationOrder = this.presentationOrder;
     final propertyName = this.propertyName;
     final propertyRole = this.propertyRole;
     final propertyUsage = this.propertyUsage;
+    final rankOrder = this.rankOrder;
     return {
       if (fieldName != null) 'FieldName': fieldName,
+      if (isHidden != null) 'IsHidden': isHidden,
       if (metric != null) 'Metric': metric,
+      if (presentationOrder != null) 'PresentationOrder': presentationOrder,
       if (propertyName != null) 'PropertyName': propertyName,
       if (propertyRole != null) 'PropertyRole': propertyRole.value,
       if (propertyUsage != null) 'PropertyUsage': propertyUsage.value,
+      if (rankOrder != null) 'RankOrder': rankOrder,
     };
   }
 }
@@ -28762,6 +30067,8 @@ class FilterClass {
   static const conditionalValueFilter =
       FilterClass._('CONDITIONAL_VALUE_FILTER');
   static const namedValueFilter = FilterClass._('NAMED_VALUE_FILTER');
+  static const dashboardDefaultFilter =
+      FilterClass._('DASHBOARD_DEFAULT_FILTER');
 
   final String value;
 
@@ -28770,7 +30077,8 @@ class FilterClass {
   static const values = [
     enforcedValueFilter,
     conditionalValueFilter,
-    namedValueFilter
+    namedValueFilter,
+    dashboardDefaultFilter
   ];
 
   static FilterClass fromString(String value) => values
@@ -28841,11 +30149,15 @@ class TopicCategoryFilter {
   /// A Boolean value that indicates if the filter is inverse.
   final bool? inverse;
 
+  /// The <code>null</code> filter that is applied to the category filter.
+  final NullFilterType? nullFilter;
+
   TopicCategoryFilter({
     this.categoryFilterFunction,
     this.categoryFilterType,
     this.constant,
     this.inverse,
+    this.nullFilter,
   });
 
   factory TopicCategoryFilter.fromJson(Map<String, dynamic> json) {
@@ -28859,6 +30171,8 @@ class TopicCategoryFilter {
               json['Constant'] as Map<String, dynamic>)
           : null,
       inverse: json['Inverse'] as bool?,
+      nullFilter:
+          (json['NullFilter'] as String?)?.let(NullFilterType.fromString),
     );
   }
 
@@ -28867,6 +30181,7 @@ class TopicCategoryFilter {
     final categoryFilterType = this.categoryFilterType;
     final constant = this.constant;
     final inverse = this.inverse;
+    final nullFilter = this.nullFilter;
     return {
       if (categoryFilterFunction != null)
         'CategoryFilterFunction': categoryFilterFunction.value,
@@ -28874,6 +30189,7 @@ class TopicCategoryFilter {
         'CategoryFilterType': categoryFilterType.value,
       if (constant != null) 'Constant': constant,
       if (inverse != null) 'Inverse': inverse,
+      if (nullFilter != null) 'NullFilter': nullFilter.value,
     };
   }
 }
@@ -28895,9 +30211,17 @@ class TopicNumericEqualityFilter {
   /// The constant used in a numeric equality filter.
   final TopicSingularFilterConstant? constant;
 
+  /// A Boolean value that indicates if the filter is inverse.
+  final bool? inverse;
+
+  /// The <code>null</code> filter that is applied to the numeric equality filter.
+  final NullFilterType? nullFilter;
+
   TopicNumericEqualityFilter({
     this.aggregation,
     this.constant,
+    this.inverse,
+    this.nullFilter,
   });
 
   factory TopicNumericEqualityFilter.fromJson(Map<String, dynamic> json) {
@@ -28908,15 +30232,22 @@ class TopicNumericEqualityFilter {
           ? TopicSingularFilterConstant.fromJson(
               json['Constant'] as Map<String, dynamic>)
           : null,
+      inverse: json['Inverse'] as bool?,
+      nullFilter:
+          (json['NullFilter'] as String?)?.let(NullFilterType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final aggregation = this.aggregation;
     final constant = this.constant;
+    final inverse = this.inverse;
+    final nullFilter = this.nullFilter;
     return {
       if (aggregation != null) 'Aggregation': aggregation.value,
       if (constant != null) 'Constant': constant,
+      if (inverse != null) 'Inverse': inverse,
+      if (nullFilter != null) 'NullFilter': nullFilter.value,
     };
   }
 }
@@ -28945,10 +30276,18 @@ class TopicNumericRangeFilter {
   /// be excluded from the filter.
   final bool? inclusive;
 
+  /// A Boolean value that indicates if the filter is inverse.
+  final bool? inverse;
+
+  /// The <code>null</code> filter that is applied to the numeric range filter.
+  final NullFilterType? nullFilter;
+
   TopicNumericRangeFilter({
     this.aggregation,
     this.constant,
     this.inclusive,
+    this.inverse,
+    this.nullFilter,
   });
 
   factory TopicNumericRangeFilter.fromJson(Map<String, dynamic> json) {
@@ -28960,6 +30299,9 @@ class TopicNumericRangeFilter {
               json['Constant'] as Map<String, dynamic>)
           : null,
       inclusive: json['Inclusive'] as bool?,
+      inverse: json['Inverse'] as bool?,
+      nullFilter:
+          (json['NullFilter'] as String?)?.let(NullFilterType.fromString),
     );
   }
 
@@ -28967,10 +30309,14 @@ class TopicNumericRangeFilter {
     final aggregation = this.aggregation;
     final constant = this.constant;
     final inclusive = this.inclusive;
+    final inverse = this.inverse;
+    final nullFilter = this.nullFilter;
     return {
       if (aggregation != null) 'Aggregation': aggregation.value,
       if (constant != null) 'Constant': constant,
       if (inclusive != null) 'Inclusive': inclusive,
+      if (inverse != null) 'Inverse': inverse,
+      if (nullFilter != null) 'NullFilter': nullFilter.value,
     };
   }
 }
@@ -28987,9 +30333,13 @@ class TopicDateRangeFilter {
   /// dates. If set to false, the filter excludes them.
   final bool? inclusive;
 
+  /// The <code>null</code> filter that is applied to the date range filter.
+  final NullFilterType? nullFilter;
+
   TopicDateRangeFilter({
     this.constant,
     this.inclusive,
+    this.nullFilter,
   });
 
   factory TopicDateRangeFilter.fromJson(Map<String, dynamic> json) {
@@ -28999,15 +30349,19 @@ class TopicDateRangeFilter {
               json['Constant'] as Map<String, dynamic>)
           : null,
       inclusive: json['Inclusive'] as bool?,
+      nullFilter:
+          (json['NullFilter'] as String?)?.let(NullFilterType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final constant = this.constant;
     final inclusive = this.inclusive;
+    final nullFilter = this.nullFilter;
     return {
       if (constant != null) 'Constant': constant,
       if (inclusive != null) 'Inclusive': inclusive,
+      if (nullFilter != null) 'NullFilter': nullFilter.value,
     };
   }
 }
@@ -29018,6 +30372,9 @@ class TopicDateRangeFilter {
 class TopicRelativeDateFilter {
   /// The constant used in a relative date filter.
   final TopicSingularFilterConstant? constant;
+
+  /// The <code>null</code> filter that is applied to the relative date filter.
+  final NullFilterType? nullFilter;
 
   /// The function to be used in a relative date filter to determine the range of
   /// dates to include in the results. Valid values for this structure are
@@ -29030,6 +30387,7 @@ class TopicRelativeDateFilter {
 
   TopicRelativeDateFilter({
     this.constant,
+    this.nullFilter,
     this.relativeDateFilterFunction,
     this.timeGranularity,
   });
@@ -29040,6 +30398,8 @@ class TopicRelativeDateFilter {
           ? TopicSingularFilterConstant.fromJson(
               json['Constant'] as Map<String, dynamic>)
           : null,
+      nullFilter:
+          (json['NullFilter'] as String?)?.let(NullFilterType.fromString),
       relativeDateFilterFunction:
           (json['RelativeDateFilterFunction'] as String?)
               ?.let(TopicRelativeDateFilterFunction.fromString),
@@ -29050,10 +30410,12 @@ class TopicRelativeDateFilter {
 
   Map<String, dynamic> toJson() {
     final constant = this.constant;
+    final nullFilter = this.nullFilter;
     final relativeDateFilterFunction = this.relativeDateFilterFunction;
     final timeGranularity = this.timeGranularity;
     return {
       if (constant != null) 'Constant': constant,
+      if (nullFilter != null) 'NullFilter': nullFilter.value,
       if (relativeDateFilterFunction != null)
         'RelativeDateFilterFunction': relativeDateFilterFunction.value,
       if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
@@ -30696,6 +32058,10 @@ class TemplateVersionDefinition {
   /// An array of tooltip sheet definitions for a template.
   final List<TooltipSheetDefinition>? tooltipSheets;
 
+  /// An array of topic configurations. These configurations define the required
+  /// columns for each topic used within a template.
+  final List<TopicConfiguration>? topicConfigurations;
+
   TemplateVersionDefinition({
     required this.dataSetConfigurations,
     this.analysisDefaults,
@@ -30708,6 +32074,7 @@ class TemplateVersionDefinition {
     this.sheets,
     this.staticFiles,
     this.tooltipSheets,
+    this.topicConfigurations,
   });
 
   factory TemplateVersionDefinition.fromJson(Map<String, dynamic> json) {
@@ -30757,6 +32124,10 @@ class TemplateVersionDefinition {
           .map(
               (e) => TooltipSheetDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
+      topicConfigurations: (json['TopicConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => TopicConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -30772,6 +32143,7 @@ class TemplateVersionDefinition {
     final sheets = this.sheets;
     final staticFiles = this.staticFiles;
     final tooltipSheets = this.tooltipSheets;
+    final topicConfigurations = this.topicConfigurations;
     return {
       'DataSetConfigurations': dataSetConfigurations,
       if (analysisDefaults != null) 'AnalysisDefaults': analysisDefaults,
@@ -30787,6 +32159,8 @@ class TemplateVersionDefinition {
       if (sheets != null) 'Sheets': sheets,
       if (staticFiles != null) 'StaticFiles': staticFiles,
       if (tooltipSheets != null) 'TooltipSheets': tooltipSheets,
+      if (topicConfigurations != null)
+        'TopicConfigurations': topicConfigurations,
     };
   }
 }
@@ -30886,6 +32260,10 @@ class AssetOptions {
   /// Determines the timezone for the analysis.
   final String? timezone;
 
+  /// The configuration options for the messages that are displayed on visuals in
+  /// the analysis.
+  final VisualMessages? visualMessages;
+
   /// Determines the week start day for an analysis.
   final DayOfTheWeek? weekStart;
 
@@ -30894,6 +32272,7 @@ class AssetOptions {
     this.excludedDataSetArns,
     this.qBusinessInsightsStatus,
     this.timezone,
+    this.visualMessages,
     this.weekStart,
   });
 
@@ -30910,6 +32289,10 @@ class AssetOptions {
       qBusinessInsightsStatus: (json['QBusinessInsightsStatus'] as String?)
           ?.let(QBusinessInsightsStatus.fromString),
       timezone: json['Timezone'] as String?,
+      visualMessages: json['VisualMessages'] != null
+          ? VisualMessages.fromJson(
+              json['VisualMessages'] as Map<String, dynamic>)
+          : null,
       weekStart: (json['WeekStart'] as String?)?.let(DayOfTheWeek.fromString),
     );
   }
@@ -30919,6 +32302,7 @@ class AssetOptions {
     final excludedDataSetArns = this.excludedDataSetArns;
     final qBusinessInsightsStatus = this.qBusinessInsightsStatus;
     final timezone = this.timezone;
+    final visualMessages = this.visualMessages;
     final weekStart = this.weekStart;
     return {
       if (customActionDefaults != null)
@@ -30928,6 +32312,7 @@ class AssetOptions {
       if (qBusinessInsightsStatus != null)
         'QBusinessInsightsStatus': qBusinessInsightsStatus.value,
       if (timezone != null) 'Timezone': timezone,
+      if (visualMessages != null) 'VisualMessages': visualMessages,
       if (weekStart != null) 'WeekStart': weekStart.value,
     };
   }
@@ -31286,6 +32671,143 @@ class VisualCustomActionDefaults {
       if (highlightOperation != null) 'highlightOperation': highlightOperation,
     };
   }
+}
+
+/// The messages that are displayed on a visual under specific conditions, such
+/// as when the visual returns no data.
+///
+/// @nodoc
+class VisualMessages {
+  /// The message that is displayed on a visual when there is no data to display.
+  final VisualMessageConfiguration? noDataMessage;
+
+  VisualMessages({
+    this.noDataMessage,
+  });
+
+  factory VisualMessages.fromJson(Map<String, dynamic> json) {
+    return VisualMessages(
+      noDataMessage: json['NoDataMessage'] != null
+          ? VisualMessageConfiguration.fromJson(
+              json['NoDataMessage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final noDataMessage = this.noDataMessage;
+    return {
+      if (noDataMessage != null) 'NoDataMessage': noDataMessage,
+    };
+  }
+}
+
+/// The configuration for a customizable message displayed on a visual. Supports
+/// parameter substitution in text fields.
+///
+/// @nodoc
+class VisualMessageConfiguration {
+  /// The description text of the message that is displayed on the visual.
+  final String? description;
+
+  /// Specifies whether the description of the message is displayed.
+  final Visibility? descriptionVisibility;
+
+  /// Specifies whether the custom message is displayed on the visual. When set to
+  /// <code>true</code>, the custom message appears in place of the default
+  /// message. When set to <code>false</code> or omitted, the default message is
+  /// displayed.
+  final bool? enabled;
+
+  /// The display text of the hyperlink that is shown in the message.
+  final String? linkText;
+
+  /// The destination URL of the hyperlink that is shown in the message. Only
+  /// valid <code>http</code>, <code>https</code>, and <code>mailto</code> URLs
+  /// are supported.
+  final String? linkUrl;
+
+  /// Specifies whether the hyperlink in the message is displayed.
+  final Visibility? linkVisibility;
+
+  /// The title text of the message that is displayed on the visual.
+  final String? title;
+
+  /// Specifies whether the title of the message is displayed.
+  final Visibility? titleVisibility;
+
+  VisualMessageConfiguration({
+    this.description,
+    this.descriptionVisibility,
+    this.enabled,
+    this.linkText,
+    this.linkUrl,
+    this.linkVisibility,
+    this.title,
+    this.titleVisibility,
+  });
+
+  factory VisualMessageConfiguration.fromJson(Map<String, dynamic> json) {
+    return VisualMessageConfiguration(
+      description: json['Description'] as String?,
+      descriptionVisibility: (json['DescriptionVisibility'] as String?)
+          ?.let(Visibility.fromString),
+      enabled: json['Enabled'] as bool?,
+      linkText: json['LinkText'] as String?,
+      linkUrl: json['LinkUrl'] as String?,
+      linkVisibility:
+          (json['LinkVisibility'] as String?)?.let(Visibility.fromString),
+      title: json['Title'] as String?,
+      titleVisibility:
+          (json['TitleVisibility'] as String?)?.let(Visibility.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final descriptionVisibility = this.descriptionVisibility;
+    final enabled = this.enabled;
+    final linkText = this.linkText;
+    final linkUrl = this.linkUrl;
+    final linkVisibility = this.linkVisibility;
+    final title = this.title;
+    final titleVisibility = this.titleVisibility;
+    return {
+      if (description != null) 'Description': description,
+      if (descriptionVisibility != null)
+        'DescriptionVisibility': descriptionVisibility.value,
+      if (enabled != null) 'Enabled': enabled,
+      if (linkText != null) 'LinkText': linkText,
+      if (linkUrl != null) 'LinkUrl': linkUrl,
+      if (linkVisibility != null) 'LinkVisibility': linkVisibility.value,
+      if (title != null) 'Title': title,
+      if (titleVisibility != null) 'TitleVisibility': titleVisibility.value,
+    };
+  }
+}
+
+/// @nodoc
+class Visibility {
+  static const hidden = Visibility._('HIDDEN');
+  static const visible = Visibility._('VISIBLE');
+
+  final String value;
+
+  const Visibility._(this.value);
+
+  static const values = [hidden, visible];
+
+  static Visibility fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Visibility._(value));
+
+  @override
+  bool operator ==(other) => other is Visibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines what initiates a highlight operation on a visual, such as a click or
@@ -32010,26 +33532,33 @@ class ColumnIdentifier {
   final String columnName;
 
   /// The data set that the column belongs to.
-  final String dataSetIdentifier;
+  final String? dataSetIdentifier;
+
+  /// The topic that the column belongs to.
+  final String? topicIdentifier;
 
   ColumnIdentifier({
     required this.columnName,
-    required this.dataSetIdentifier,
+    this.dataSetIdentifier,
+    this.topicIdentifier,
   });
 
   factory ColumnIdentifier.fromJson(Map<String, dynamic> json) {
     return ColumnIdentifier(
       columnName: (json['ColumnName'] as String?) ?? '',
-      dataSetIdentifier: (json['DataSetIdentifier'] as String?) ?? '',
+      dataSetIdentifier: json['DataSetIdentifier'] as String?,
+      topicIdentifier: json['TopicIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final columnName = this.columnName;
     final dataSetIdentifier = this.dataSetIdentifier;
+    final topicIdentifier = this.topicIdentifier;
     return {
       'ColumnName': columnName,
-      'DataSetIdentifier': dataSetIdentifier,
+      if (dataSetIdentifier != null) 'DataSetIdentifier': dataSetIdentifier,
+      if (topicIdentifier != null) 'TopicIdentifier': topicIdentifier,
     };
   }
 }
@@ -32305,30 +33834,6 @@ class DecalSettings {
       if (elementValue != null) 'ElementValue': elementValue,
     };
   }
-}
-
-/// @nodoc
-class Visibility {
-  static const hidden = Visibility._('HIDDEN');
-  static const visible = Visibility._('VISIBLE');
-
-  final String value;
-
-  const Visibility._(this.value);
-
-  static const values = [hidden, visible];
-
-  static Visibility fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Visibility._(value));
-
-  @override
-  bool operator ==(other) => other is Visibility && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// @nodoc
@@ -37776,37 +39281,44 @@ class StringValueWhenUnsetConfiguration {
 ///
 /// @nodoc
 class CalculatedField {
-  /// The data set that is used in this calculated field.
-  final String dataSetIdentifier;
-
   /// The expression of the calculated field.
   final String expression;
 
   /// The name of the calculated field.
   final String name;
 
+  /// The data set that is used in this calculated field.
+  final String? dataSetIdentifier;
+
+  /// The topic that is used in this calculated field.
+  final String? topicIdentifier;
+
   CalculatedField({
-    required this.dataSetIdentifier,
     required this.expression,
     required this.name,
+    this.dataSetIdentifier,
+    this.topicIdentifier,
   });
 
   factory CalculatedField.fromJson(Map<String, dynamic> json) {
     return CalculatedField(
-      dataSetIdentifier: (json['DataSetIdentifier'] as String?) ?? '',
       expression: (json['Expression'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
+      dataSetIdentifier: json['DataSetIdentifier'] as String?,
+      topicIdentifier: json['TopicIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataSetIdentifier = this.dataSetIdentifier;
     final expression = this.expression;
     final name = this.name;
+    final dataSetIdentifier = this.dataSetIdentifier;
+    final topicIdentifier = this.topicIdentifier;
     return {
-      'DataSetIdentifier': dataSetIdentifier,
       'Expression': expression,
       'Name': name,
+      if (dataSetIdentifier != null) 'DataSetIdentifier': dataSetIdentifier,
+      if (topicIdentifier != null) 'TopicIdentifier': topicIdentifier,
     };
   }
 }
@@ -41753,38 +43265,43 @@ class FilledMapVisual {
 ///
 /// @nodoc
 class LayerMapVisual {
-  /// The dataset that is used to create the layer map visual. You can't create a
-  /// visual without a dataset.
-  final String dataSetIdentifier;
-
   /// The ID of the visual.
   final String visualId;
 
   /// The configuration settings of the visual.
   final GeospatialLayerMapConfiguration? chartConfiguration;
+
+  /// The dataset that is used to create the layer map visual. You can't create a
+  /// visual without a dataset or a topic.
+  final String? dataSetIdentifier;
   final VisualSubtitleLabelOptions? subtitle;
   final VisualTitleLabelOptions? title;
+
+  /// The topic that is used in the layer map visual. You can't create a visual
+  /// without a dataset or a topic.
+  final String? topicIdentifier;
 
   /// The alt text for the visual.
   final String? visualContentAltText;
 
   LayerMapVisual({
-    required this.dataSetIdentifier,
     required this.visualId,
     this.chartConfiguration,
+    this.dataSetIdentifier,
     this.subtitle,
     this.title,
+    this.topicIdentifier,
     this.visualContentAltText,
   });
 
   factory LayerMapVisual.fromJson(Map<String, dynamic> json) {
     return LayerMapVisual(
-      dataSetIdentifier: (json['DataSetIdentifier'] as String?) ?? '',
       visualId: (json['VisualId'] as String?) ?? '',
       chartConfiguration: json['ChartConfiguration'] != null
           ? GeospatialLayerMapConfiguration.fromJson(
               json['ChartConfiguration'] as Map<String, dynamic>)
           : null,
+      dataSetIdentifier: json['DataSetIdentifier'] as String?,
       subtitle: json['Subtitle'] != null
           ? VisualSubtitleLabelOptions.fromJson(
               json['Subtitle'] as Map<String, dynamic>)
@@ -41793,23 +43310,26 @@ class LayerMapVisual {
           ? VisualTitleLabelOptions.fromJson(
               json['Title'] as Map<String, dynamic>)
           : null,
+      topicIdentifier: json['TopicIdentifier'] as String?,
       visualContentAltText: json['VisualContentAltText'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataSetIdentifier = this.dataSetIdentifier;
     final visualId = this.visualId;
     final chartConfiguration = this.chartConfiguration;
+    final dataSetIdentifier = this.dataSetIdentifier;
     final subtitle = this.subtitle;
     final title = this.title;
+    final topicIdentifier = this.topicIdentifier;
     final visualContentAltText = this.visualContentAltText;
     return {
-      'DataSetIdentifier': dataSetIdentifier,
       'VisualId': visualId,
       if (chartConfiguration != null) 'ChartConfiguration': chartConfiguration,
+      if (dataSetIdentifier != null) 'DataSetIdentifier': dataSetIdentifier,
       if (subtitle != null) 'Subtitle': subtitle,
       if (title != null) 'Title': title,
+      if (topicIdentifier != null) 'TopicIdentifier': topicIdentifier,
       if (visualContentAltText != null)
         'VisualContentAltText': visualContentAltText,
     };
@@ -42440,9 +43960,6 @@ class WordCloudVisual {
 ///
 /// @nodoc
 class InsightVisual {
-  /// The dataset that is used in the insight visual.
-  final String dataSetIdentifier;
-
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
   /// templates can have visuals with the same identifiers.
@@ -42450,6 +43967,9 @@ class InsightVisual {
 
   /// The list of custom actions that are configured for a visual.
   final List<VisualCustomAction>? actions;
+
+  /// The dataset that is used in the insight visual.
+  final String? dataSetIdentifier;
 
   /// The configuration of an insight visual.
   final InsightConfiguration? insightConfiguration;
@@ -42460,27 +43980,31 @@ class InsightVisual {
   /// The title that is displayed on the visual.
   final VisualTitleLabelOptions? title;
 
+  /// The topic that is used in the insight visual.
+  final String? topicIdentifier;
+
   /// The alt text for the visual.
   final String? visualContentAltText;
 
   InsightVisual({
-    required this.dataSetIdentifier,
     required this.visualId,
     this.actions,
+    this.dataSetIdentifier,
     this.insightConfiguration,
     this.subtitle,
     this.title,
+    this.topicIdentifier,
     this.visualContentAltText,
   });
 
   factory InsightVisual.fromJson(Map<String, dynamic> json) {
     return InsightVisual(
-      dataSetIdentifier: (json['DataSetIdentifier'] as String?) ?? '',
       visualId: (json['VisualId'] as String?) ?? '',
       actions: (json['Actions'] as List?)
           ?.nonNulls
           .map((e) => VisualCustomAction.fromJson(e as Map<String, dynamic>))
           .toList(),
+      dataSetIdentifier: json['DataSetIdentifier'] as String?,
       insightConfiguration: json['InsightConfiguration'] != null
           ? InsightConfiguration.fromJson(
               json['InsightConfiguration'] as Map<String, dynamic>)
@@ -42493,26 +44017,29 @@ class InsightVisual {
           ? VisualTitleLabelOptions.fromJson(
               json['Title'] as Map<String, dynamic>)
           : null,
+      topicIdentifier: json['TopicIdentifier'] as String?,
       visualContentAltText: json['VisualContentAltText'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataSetIdentifier = this.dataSetIdentifier;
     final visualId = this.visualId;
     final actions = this.actions;
+    final dataSetIdentifier = this.dataSetIdentifier;
     final insightConfiguration = this.insightConfiguration;
     final subtitle = this.subtitle;
     final title = this.title;
+    final topicIdentifier = this.topicIdentifier;
     final visualContentAltText = this.visualContentAltText;
     return {
-      'DataSetIdentifier': dataSetIdentifier,
       'VisualId': visualId,
       if (actions != null) 'Actions': actions,
+      if (dataSetIdentifier != null) 'DataSetIdentifier': dataSetIdentifier,
       if (insightConfiguration != null)
         'InsightConfiguration': insightConfiguration,
       if (subtitle != null) 'Subtitle': subtitle,
       if (title != null) 'Title': title,
+      if (topicIdentifier != null) 'TopicIdentifier': topicIdentifier,
       if (visualContentAltText != null)
         'VisualContentAltText': visualContentAltText,
     };
@@ -42606,10 +44133,6 @@ class SankeyDiagramVisual {
 ///
 /// @nodoc
 class CustomContentVisual {
-  /// The dataset that is used to create the custom content visual. You can't
-  /// create a visual without a dataset.
-  final String dataSetIdentifier;
-
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
   /// templates can have visuals with the same identifiers.
@@ -42621,28 +44144,36 @@ class CustomContentVisual {
   /// The configuration of a <code>CustomContentVisual</code>.
   final CustomContentConfiguration? chartConfiguration;
 
+  /// The dataset that is used to create the custom content visual. You can't
+  /// create a visual without a dataset or a topic.
+  final String? dataSetIdentifier;
+
   /// The subtitle that is displayed on the visual.
   final VisualSubtitleLabelOptions? subtitle;
 
   /// The title that is displayed on the visual.
   final VisualTitleLabelOptions? title;
 
+  /// The topic that is used in the custom content visual. You can't create a
+  /// visual without a dataset or a topic.
+  final String? topicIdentifier;
+
   /// The alt text for the visual.
   final String? visualContentAltText;
 
   CustomContentVisual({
-    required this.dataSetIdentifier,
     required this.visualId,
     this.actions,
     this.chartConfiguration,
+    this.dataSetIdentifier,
     this.subtitle,
     this.title,
+    this.topicIdentifier,
     this.visualContentAltText,
   });
 
   factory CustomContentVisual.fromJson(Map<String, dynamic> json) {
     return CustomContentVisual(
-      dataSetIdentifier: (json['DataSetIdentifier'] as String?) ?? '',
       visualId: (json['VisualId'] as String?) ?? '',
       actions: (json['Actions'] as List?)
           ?.nonNulls
@@ -42652,6 +44183,7 @@ class CustomContentVisual {
           ? CustomContentConfiguration.fromJson(
               json['ChartConfiguration'] as Map<String, dynamic>)
           : null,
+      dataSetIdentifier: json['DataSetIdentifier'] as String?,
       subtitle: json['Subtitle'] != null
           ? VisualSubtitleLabelOptions.fromJson(
               json['Subtitle'] as Map<String, dynamic>)
@@ -42660,25 +44192,28 @@ class CustomContentVisual {
           ? VisualTitleLabelOptions.fromJson(
               json['Title'] as Map<String, dynamic>)
           : null,
+      topicIdentifier: json['TopicIdentifier'] as String?,
       visualContentAltText: json['VisualContentAltText'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataSetIdentifier = this.dataSetIdentifier;
     final visualId = this.visualId;
     final actions = this.actions;
     final chartConfiguration = this.chartConfiguration;
+    final dataSetIdentifier = this.dataSetIdentifier;
     final subtitle = this.subtitle;
     final title = this.title;
+    final topicIdentifier = this.topicIdentifier;
     final visualContentAltText = this.visualContentAltText;
     return {
-      'DataSetIdentifier': dataSetIdentifier,
       'VisualId': visualId,
       if (actions != null) 'Actions': actions,
       if (chartConfiguration != null) 'ChartConfiguration': chartConfiguration,
+      if (dataSetIdentifier != null) 'DataSetIdentifier': dataSetIdentifier,
       if (subtitle != null) 'Subtitle': subtitle,
       if (title != null) 'Title': title,
+      if (topicIdentifier != null) 'TopicIdentifier': topicIdentifier,
       if (visualContentAltText != null)
         'VisualContentAltText': visualContentAltText,
     };
@@ -42693,10 +44228,6 @@ class CustomContentVisual {
 ///
 /// @nodoc
 class EmptyVisual {
-  /// The data set that is used in the empty visual. Every visual requires a
-  /// dataset to render.
-  final String dataSetIdentifier;
-
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
   /// templates can have visuals with the same identifiers.
@@ -42705,31 +44236,43 @@ class EmptyVisual {
   /// The list of custom actions that are configured for a visual.
   final List<VisualCustomAction>? actions;
 
+  /// The data set that is used in the empty visual. Every visual requires a
+  /// dataset or a topic to render.
+  final String? dataSetIdentifier;
+
+  /// The topic that is used in the empty visual. Every visual requires a dataset
+  /// or a topic to render.
+  final String? topicIdentifier;
+
   EmptyVisual({
-    required this.dataSetIdentifier,
     required this.visualId,
     this.actions,
+    this.dataSetIdentifier,
+    this.topicIdentifier,
   });
 
   factory EmptyVisual.fromJson(Map<String, dynamic> json) {
     return EmptyVisual(
-      dataSetIdentifier: (json['DataSetIdentifier'] as String?) ?? '',
       visualId: (json['VisualId'] as String?) ?? '',
       actions: (json['Actions'] as List?)
           ?.nonNulls
           .map((e) => VisualCustomAction.fromJson(e as Map<String, dynamic>))
           .toList(),
+      dataSetIdentifier: json['DataSetIdentifier'] as String?,
+      topicIdentifier: json['TopicIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataSetIdentifier = this.dataSetIdentifier;
     final visualId = this.visualId;
     final actions = this.actions;
+    final dataSetIdentifier = this.dataSetIdentifier;
+    final topicIdentifier = this.topicIdentifier;
     return {
-      'DataSetIdentifier': dataSetIdentifier,
       'VisualId': visualId,
       if (actions != null) 'Actions': actions,
+      if (dataSetIdentifier != null) 'DataSetIdentifier': dataSetIdentifier,
+      if (topicIdentifier != null) 'TopicIdentifier': topicIdentifier,
     };
   }
 }
@@ -64273,27 +65816,27 @@ class ParameterSelectableValues {
   }
 }
 
-/// Dataset configuration.
+/// The configuration of a topic.
 ///
 /// @nodoc
-class DataSetConfiguration {
-  /// A structure containing the list of column group schemas.
+class TopicConfiguration {
+  /// The list of column group schemas in the topic configuration.
   final List<ColumnGroupSchema>? columnGroupSchemaList;
 
-  /// Dataset schema.
+  /// Topic schema.
   final DataSetSchema? dataSetSchema;
 
-  /// Placeholder.
+  /// The placeholder for the topic configuration.
   final String? placeholder;
 
-  DataSetConfiguration({
+  TopicConfiguration({
     this.columnGroupSchemaList,
     this.dataSetSchema,
     this.placeholder,
   });
 
-  factory DataSetConfiguration.fromJson(Map<String, dynamic> json) {
-    return DataSetConfiguration(
+  factory TopicConfiguration.fromJson(Map<String, dynamic> json) {
+    return TopicConfiguration(
       columnGroupSchemaList: (json['ColumnGroupSchemaList'] as List?)
           ?.nonNulls
           .map((e) => ColumnGroupSchema.fromJson(e as Map<String, dynamic>))
@@ -64450,6 +65993,52 @@ class ColumnSchema {
   }
 }
 
+/// Dataset configuration.
+///
+/// @nodoc
+class DataSetConfiguration {
+  /// A structure containing the list of column group schemas.
+  final List<ColumnGroupSchema>? columnGroupSchemaList;
+
+  /// Dataset schema.
+  final DataSetSchema? dataSetSchema;
+
+  /// Placeholder.
+  final String? placeholder;
+
+  DataSetConfiguration({
+    this.columnGroupSchemaList,
+    this.dataSetSchema,
+    this.placeholder,
+  });
+
+  factory DataSetConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSetConfiguration(
+      columnGroupSchemaList: (json['ColumnGroupSchemaList'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnGroupSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataSetSchema: json['DataSetSchema'] != null
+          ? DataSetSchema.fromJson(
+              json['DataSetSchema'] as Map<String, dynamic>)
+          : null,
+      placeholder: json['Placeholder'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnGroupSchemaList = this.columnGroupSchemaList;
+    final dataSetSchema = this.dataSetSchema;
+    final placeholder = this.placeholder;
+    return {
+      if (columnGroupSchemaList != null)
+        'ColumnGroupSchemaList': columnGroupSchemaList,
+      if (dataSetSchema != null) 'DataSetSchema': dataSetSchema,
+      if (placeholder != null) 'Placeholder': placeholder,
+    };
+  }
+}
+
 /// The source analysis of the template.
 ///
 /// @nodoc
@@ -64461,17 +66050,24 @@ class TemplateSourceAnalysis {
   /// placeholders in the template.
   final List<DataSetReference> dataSetReferences;
 
+  /// A structure containing information about the topic references used as
+  /// placeholders in the template.
+  final List<TopicReference>? topicReferences;
+
   TemplateSourceAnalysis({
     required this.arn,
     required this.dataSetReferences,
+    this.topicReferences,
   });
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final dataSetReferences = this.dataSetReferences;
+    final topicReferences = this.topicReferences;
     return {
       'Arn': arn,
       'DataSetReferences': dataSetReferences,
+      if (topicReferences != null) 'TopicReferences': topicReferences,
     };
   }
 }
@@ -64491,6 +66087,31 @@ class TemplateSourceTemplate {
     final arn = this.arn;
     return {
       'Arn': arn,
+    };
+  }
+}
+
+/// Topic reference.
+///
+/// @nodoc
+class TopicReference {
+  /// Topic Amazon Resource Name (ARN).
+  final String topicArn;
+
+  /// Topic placeholder.
+  final String topicPlaceholder;
+
+  TopicReference({
+    required this.topicArn,
+    required this.topicPlaceholder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    final topicPlaceholder = this.topicPlaceholder;
+    return {
+      'TopicArn': topicArn,
+      'TopicPlaceholder': topicPlaceholder,
     };
   }
 }
@@ -64592,11 +66213,9 @@ class SpaceQuickSightResourceType {
   static const topic = SpaceQuickSightResourceType._('TOPIC');
   static const dashboard = SpaceQuickSightResourceType._('DASHBOARD');
   static const knowledgeBase = SpaceQuickSightResourceType._('KNOWLEDGE_BASE');
-  static const space = SpaceQuickSightResourceType._('SPACE');
   static const actionConnector =
       SpaceQuickSightResourceType._('ACTION_CONNECTOR');
   static const dataSet = SpaceQuickSightResourceType._('DATA_SET');
-  static const artifact = SpaceQuickSightResourceType._('ARTIFACT');
 
   final String value;
 
@@ -64606,10 +66225,8 @@ class SpaceQuickSightResourceType {
     topic,
     dashboard,
     knowledgeBase,
-    space,
     actionConnector,
-    dataSet,
-    artifact
+    dataSet
   ];
 
   static SpaceQuickSightResourceType fromString(String value) =>
@@ -65324,6 +66941,334 @@ class VpcConnectionProperties {
   }
 }
 
+/// The configuration settings for a knowledge base.
+///
+/// @nodoc
+class KnowledgeBaseConfiguration {
+  /// The template configuration for the knowledge base.
+  final KbTemplateConfiguration? templateConfiguration;
+
+  KnowledgeBaseConfiguration({
+    this.templateConfiguration,
+  });
+
+  factory KnowledgeBaseConfiguration.fromJson(Map<String, dynamic> json) {
+    return KnowledgeBaseConfiguration(
+      templateConfiguration: json['templateConfiguration'] != null
+          ? KbTemplateConfiguration.fromJson(
+              json['templateConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateConfiguration = this.templateConfiguration;
+    return {
+      if (templateConfiguration != null)
+        'templateConfiguration': templateConfiguration,
+    };
+  }
+}
+
+/// The configuration for media extraction from knowledge base documents.
+///
+/// @nodoc
+class MediaExtractionConfiguration {
+  /// The configuration for audio extraction.
+  final AudioExtractionConfiguration? audioExtractionConfiguration;
+
+  /// The configuration for image extraction.
+  final ImageExtractionConfiguration? imageExtractionConfiguration;
+
+  /// The configuration for video extraction.
+  final VideoExtractionConfiguration? videoExtractionConfiguration;
+
+  MediaExtractionConfiguration({
+    this.audioExtractionConfiguration,
+    this.imageExtractionConfiguration,
+    this.videoExtractionConfiguration,
+  });
+
+  factory MediaExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return MediaExtractionConfiguration(
+      audioExtractionConfiguration: json['audioExtractionConfiguration'] != null
+          ? AudioExtractionConfiguration.fromJson(
+              json['audioExtractionConfiguration'] as Map<String, dynamic>)
+          : null,
+      imageExtractionConfiguration: json['imageExtractionConfiguration'] != null
+          ? ImageExtractionConfiguration.fromJson(
+              json['imageExtractionConfiguration'] as Map<String, dynamic>)
+          : null,
+      videoExtractionConfiguration: json['videoExtractionConfiguration'] != null
+          ? VideoExtractionConfiguration.fromJson(
+              json['videoExtractionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioExtractionConfiguration = this.audioExtractionConfiguration;
+    final imageExtractionConfiguration = this.imageExtractionConfiguration;
+    final videoExtractionConfiguration = this.videoExtractionConfiguration;
+    return {
+      if (audioExtractionConfiguration != null)
+        'audioExtractionConfiguration': audioExtractionConfiguration,
+      if (imageExtractionConfiguration != null)
+        'imageExtractionConfiguration': imageExtractionConfiguration,
+      if (videoExtractionConfiguration != null)
+        'videoExtractionConfiguration': videoExtractionConfiguration,
+    };
+  }
+}
+
+/// The access control settings for a knowledge base. Use this structure to
+/// enable or disable document-level access control lists (ACLs) that filter
+/// query results based on the permissions from the source data connector.
+///
+/// @nodoc
+class AccessControlConfiguration {
+  /// Specifies whether ACLs are enabled for the knowledge base.
+  final bool? isACLEnabled;
+
+  AccessControlConfiguration({
+    this.isACLEnabled,
+  });
+
+  factory AccessControlConfiguration.fromJson(Map<String, dynamic> json) {
+    return AccessControlConfiguration(
+      isACLEnabled: json['isACLEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isACLEnabled = this.isACLEnabled;
+    return {
+      if (isACLEnabled != null) 'isACLEnabled': isACLEnabled,
+    };
+  }
+}
+
+/// The configuration for image extraction from knowledge base documents.
+///
+/// @nodoc
+class ImageExtractionConfiguration {
+  /// The status of image extraction. Valid values are ENABLED and DISABLED.
+  final ImageExtractionStatus imageExtractionStatus;
+
+  ImageExtractionConfiguration({
+    required this.imageExtractionStatus,
+  });
+
+  factory ImageExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ImageExtractionConfiguration(
+      imageExtractionStatus: ImageExtractionStatus.fromString(
+          (json['imageExtractionStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageExtractionStatus = this.imageExtractionStatus;
+    return {
+      'imageExtractionStatus': imageExtractionStatus.value,
+    };
+  }
+}
+
+/// The configuration for audio extraction from knowledge base documents.
+///
+/// @nodoc
+class AudioExtractionConfiguration {
+  /// The status of audio extraction. Valid values are ENABLED and DISABLED.
+  final AudioExtractionStatus audioExtractionStatus;
+
+  AudioExtractionConfiguration({
+    required this.audioExtractionStatus,
+  });
+
+  factory AudioExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return AudioExtractionConfiguration(
+      audioExtractionStatus: AudioExtractionStatus.fromString(
+          (json['audioExtractionStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioExtractionStatus = this.audioExtractionStatus;
+    return {
+      'audioExtractionStatus': audioExtractionStatus.value,
+    };
+  }
+}
+
+/// The configuration for video extraction from knowledge base documents.
+///
+/// @nodoc
+class VideoExtractionConfiguration {
+  /// The status of video extraction. Valid values are ENABLED and DISABLED.
+  final VideoExtractionStatus videoExtractionStatus;
+
+  /// The type of video extraction to perform.
+  final VideoExtractionType? videoExtractionType;
+
+  VideoExtractionConfiguration({
+    required this.videoExtractionStatus,
+    this.videoExtractionType,
+  });
+
+  factory VideoExtractionConfiguration.fromJson(Map<String, dynamic> json) {
+    return VideoExtractionConfiguration(
+      videoExtractionStatus: VideoExtractionStatus.fromString(
+          (json['videoExtractionStatus'] as String?) ?? ''),
+      videoExtractionType: (json['videoExtractionType'] as String?)
+          ?.let(VideoExtractionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final videoExtractionStatus = this.videoExtractionStatus;
+    final videoExtractionType = this.videoExtractionType;
+    return {
+      'videoExtractionStatus': videoExtractionStatus.value,
+      if (videoExtractionType != null)
+        'videoExtractionType': videoExtractionType.value,
+    };
+  }
+}
+
+/// @nodoc
+class VideoExtractionStatus {
+  static const enabled = VideoExtractionStatus._('ENABLED');
+  static const disabled = VideoExtractionStatus._('DISABLED');
+
+  final String value;
+
+  const VideoExtractionStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static VideoExtractionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VideoExtractionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VideoExtractionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class VideoExtractionType {
+  static const audioTranscriptionOnly =
+      VideoExtractionType._('AUDIO_TRANSCRIPTION_ONLY');
+  static const visualContentAndAudioTranscription =
+      VideoExtractionType._('VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION');
+
+  final String value;
+
+  const VideoExtractionType._(this.value);
+
+  static const values = [
+    audioTranscriptionOnly,
+    visualContentAndAudioTranscription
+  ];
+
+  static VideoExtractionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VideoExtractionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VideoExtractionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class AudioExtractionStatus {
+  static const enabled = AudioExtractionStatus._('ENABLED');
+  static const disabled = AudioExtractionStatus._('DISABLED');
+
+  final String value;
+
+  const AudioExtractionStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static AudioExtractionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AudioExtractionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AudioExtractionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ImageExtractionStatus {
+  static const enabled = ImageExtractionStatus._('ENABLED');
+  static const disabled = ImageExtractionStatus._('DISABLED');
+
+  final String value;
+
+  const ImageExtractionStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ImageExtractionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageExtractionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageExtractionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The template configuration for a knowledge base.
+///
+/// @nodoc
+class KbTemplateConfiguration {
+  /// The template document that defines the knowledge base behavior.
+  final Object? template;
+
+  KbTemplateConfiguration({
+    this.template,
+  });
+
+  factory KbTemplateConfiguration.fromJson(Map<String, dynamic> json) {
+    return KbTemplateConfiguration(
+      template: json['template'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final template = this.template;
+    return {
+      if (template != null) 'template': template,
+    };
+  }
+}
+
 /// A success entry that occurs when a <code>KeyRegistration</code> job is
 /// successfully applied to the Quick Sight account.
 ///
@@ -65461,12 +67406,13 @@ class ServiceType {
   static const redshift = ServiceType._('REDSHIFT');
   static const qbusiness = ServiceType._('QBUSINESS');
   static const athena = ServiceType._('ATHENA');
+  static const glueDataCatalog = ServiceType._('GLUE_DATA_CATALOG');
 
   final String value;
 
   const ServiceType._(this.value);
 
-  static const values = [redshift, qbusiness, athena];
+  static const values = [redshift, qbusiness, athena, glueDataCatalog];
 
   static ServiceType fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
@@ -65702,6 +67648,12 @@ class DataSourceParameters {
   /// The parameters for Exasol.
   final ExasolParameters? exasolParameters;
 
+  /// The parameters for a fully managed knowledge base data source.
+  final FMKBParameters? fMKBParameters;
+
+  /// The parameters for a Google Drive data source.
+  final GoogleDriveParameters? googleDriveParameters;
+
   /// The parameters for Impala.
   final ImpalaParameters? impalaParameters;
 
@@ -65713,6 +67665,9 @@ class DataSourceParameters {
 
   /// The parameters for MySQL.
   final MySqlParameters? mySqlParameters;
+
+  /// The parameters for an OneDrive data source.
+  final OneDriveParameters? oneDriveParameters;
 
   /// The parameters for Oracle.
   final OracleParameters? oracleParameters;
@@ -65743,6 +67698,9 @@ class DataSourceParameters {
 
   /// The parameters for ServiceNow.
   final ServiceNowParameters? serviceNowParameters;
+
+  /// The parameters for a SharePoint data source.
+  final SharePointParameters? sharePointParameters;
 
   /// The parameters for Snowflake.
   final SnowflakeParameters? snowflakeParameters;
@@ -65780,10 +67738,13 @@ class DataSourceParameters {
     this.customConnectionParameters,
     this.databricksParameters,
     this.exasolParameters,
+    this.fMKBParameters,
+    this.googleDriveParameters,
     this.impalaParameters,
     this.jiraParameters,
     this.mariaDbParameters,
     this.mySqlParameters,
+    this.oneDriveParameters,
     this.oracleParameters,
     this.postgreSqlParameters,
     this.prestoParameters,
@@ -65794,6 +67755,7 @@ class DataSourceParameters {
     this.s3Parameters,
     this.s3TablesParameters,
     this.serviceNowParameters,
+    this.sharePointParameters,
     this.snowflakeParameters,
     this.sparkParameters,
     this.sqlServerParameters,
@@ -65851,6 +67813,14 @@ class DataSourceParameters {
           ? ExasolParameters.fromJson(
               json['ExasolParameters'] as Map<String, dynamic>)
           : null,
+      fMKBParameters: json['FMKBParameters'] != null
+          ? FMKBParameters.fromJson(
+              json['FMKBParameters'] as Map<String, dynamic>)
+          : null,
+      googleDriveParameters: json['GoogleDriveParameters'] != null
+          ? GoogleDriveParameters.fromJson(
+              json['GoogleDriveParameters'] as Map<String, dynamic>)
+          : null,
       impalaParameters: json['ImpalaParameters'] != null
           ? ImpalaParameters.fromJson(
               json['ImpalaParameters'] as Map<String, dynamic>)
@@ -65866,6 +67836,10 @@ class DataSourceParameters {
       mySqlParameters: json['MySqlParameters'] != null
           ? MySqlParameters.fromJson(
               json['MySqlParameters'] as Map<String, dynamic>)
+          : null,
+      oneDriveParameters: json['OneDriveParameters'] != null
+          ? OneDriveParameters.fromJson(
+              json['OneDriveParameters'] as Map<String, dynamic>)
           : null,
       oracleParameters: json['OracleParameters'] != null
           ? OracleParameters.fromJson(
@@ -65905,6 +67879,10 @@ class DataSourceParameters {
       serviceNowParameters: json['ServiceNowParameters'] != null
           ? ServiceNowParameters.fromJson(
               json['ServiceNowParameters'] as Map<String, dynamic>)
+          : null,
+      sharePointParameters: json['SharePointParameters'] != null
+          ? SharePointParameters.fromJson(
+              json['SharePointParameters'] as Map<String, dynamic>)
           : null,
       snowflakeParameters: json['SnowflakeParameters'] != null
           ? SnowflakeParameters.fromJson(
@@ -65953,10 +67931,13 @@ class DataSourceParameters {
     final customConnectionParameters = this.customConnectionParameters;
     final databricksParameters = this.databricksParameters;
     final exasolParameters = this.exasolParameters;
+    final fMKBParameters = this.fMKBParameters;
+    final googleDriveParameters = this.googleDriveParameters;
     final impalaParameters = this.impalaParameters;
     final jiraParameters = this.jiraParameters;
     final mariaDbParameters = this.mariaDbParameters;
     final mySqlParameters = this.mySqlParameters;
+    final oneDriveParameters = this.oneDriveParameters;
     final oracleParameters = this.oracleParameters;
     final postgreSqlParameters = this.postgreSqlParameters;
     final prestoParameters = this.prestoParameters;
@@ -65967,6 +67948,7 @@ class DataSourceParameters {
     final s3Parameters = this.s3Parameters;
     final s3TablesParameters = this.s3TablesParameters;
     final serviceNowParameters = this.serviceNowParameters;
+    final sharePointParameters = this.sharePointParameters;
     final snowflakeParameters = this.snowflakeParameters;
     final sparkParameters = this.sparkParameters;
     final sqlServerParameters = this.sqlServerParameters;
@@ -65994,10 +67976,14 @@ class DataSourceParameters {
       if (databricksParameters != null)
         'DatabricksParameters': databricksParameters,
       if (exasolParameters != null) 'ExasolParameters': exasolParameters,
+      if (fMKBParameters != null) 'FMKBParameters': fMKBParameters,
+      if (googleDriveParameters != null)
+        'GoogleDriveParameters': googleDriveParameters,
       if (impalaParameters != null) 'ImpalaParameters': impalaParameters,
       if (jiraParameters != null) 'JiraParameters': jiraParameters,
       if (mariaDbParameters != null) 'MariaDbParameters': mariaDbParameters,
       if (mySqlParameters != null) 'MySqlParameters': mySqlParameters,
+      if (oneDriveParameters != null) 'OneDriveParameters': oneDriveParameters,
       if (oracleParameters != null) 'OracleParameters': oracleParameters,
       if (postgreSqlParameters != null)
         'PostgreSqlParameters': postgreSqlParameters,
@@ -66012,6 +67998,8 @@ class DataSourceParameters {
       if (s3TablesParameters != null) 'S3TablesParameters': s3TablesParameters,
       if (serviceNowParameters != null)
         'ServiceNowParameters': serviceNowParameters,
+      if (sharePointParameters != null)
+        'SharePointParameters': sharePointParameters,
       if (snowflakeParameters != null)
         'SnowflakeParameters': snowflakeParameters,
       if (sparkParameters != null) 'SparkParameters': sparkParameters,
@@ -67593,6 +69581,221 @@ class QBusinessParameters {
       'ApplicationArn': applicationArn,
     };
   }
+}
+
+/// The connection parameters for a SharePoint data source. Provide these
+/// parameters in the <code>DataSourceParameters</code> object when you create
+/// or update a data source that uses SharePoint.
+///
+/// @nodoc
+class SharePointParameters {
+  /// The SharePoint domain for the data source.
+  final String sharePointDomain;
+
+  /// The authentication type for the SharePoint data source. Valid values
+  /// include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TWO_LEGGED_OAUTH</code> – Server-to-server authentication using client
+  /// credentials that do not require user interaction.
+  /// </li>
+  /// <li>
+  /// <code>THREE_LEGGED_OAUTH</code> – Interactive OAuth that requires user
+  /// consent.
+  /// </li>
+  /// </ul>
+  final AuthType? authType;
+
+  /// The client ID for the SharePoint data source.
+  final String? clientId;
+
+  /// The tenant ID for the SharePoint data source.
+  final String? tenantId;
+
+  SharePointParameters({
+    required this.sharePointDomain,
+    this.authType,
+    this.clientId,
+    this.tenantId,
+  });
+
+  factory SharePointParameters.fromJson(Map<String, dynamic> json) {
+    return SharePointParameters(
+      sharePointDomain: (json['SharePointDomain'] as String?) ?? '',
+      authType: (json['AuthType'] as String?)?.let(AuthType.fromString),
+      clientId: json['ClientId'] as String?,
+      tenantId: json['TenantId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sharePointDomain = this.sharePointDomain;
+    final authType = this.authType;
+    final clientId = this.clientId;
+    final tenantId = this.tenantId;
+    return {
+      'SharePointDomain': sharePointDomain,
+      if (authType != null) 'AuthType': authType.value,
+      if (clientId != null) 'ClientId': clientId,
+      if (tenantId != null) 'TenantId': tenantId,
+    };
+  }
+}
+
+/// The connection parameters for a Google Drive data source. Provide these
+/// parameters in the <code>DataSourceParameters</code> object when you create
+/// or update a data source that uses Google Drive.
+///
+/// @nodoc
+class GoogleDriveParameters {
+  /// The authentication type for the Google Drive data source. Valid values
+  /// include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SERVICE_ACCOUNT</code> – Server-to-server authentication using a
+  /// Google service account key.
+  /// </li>
+  /// <li>
+  /// <code>THREE_LEGGED_OAUTH</code> – Interactive OAuth that requires user
+  /// consent.
+  /// </li>
+  /// </ul>
+  final AuthType? authType;
+
+  GoogleDriveParameters({
+    this.authType,
+  });
+
+  factory GoogleDriveParameters.fromJson(Map<String, dynamic> json) {
+    return GoogleDriveParameters(
+      authType: (json['AuthType'] as String?)?.let(AuthType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    return {
+      if (authType != null) 'AuthType': authType.value,
+    };
+  }
+}
+
+/// The connection parameters for an OneDrive data source. Provide these
+/// parameters in the <code>DataSourceParameters</code> object when you create
+/// or update a data source that uses OneDrive.
+///
+/// @nodoc
+class OneDriveParameters {
+  /// The authentication type for the OneDrive data source. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TWO_LEGGED_OAUTH</code> – Server-to-server authentication using client
+  /// credentials that do not require user interaction.
+  /// </li>
+  /// <li>
+  /// <code>THREE_LEGGED_OAUTH</code> – Interactive OAuth that requires user
+  /// consent.
+  /// </li>
+  /// </ul>
+  final AuthType? authType;
+
+  /// The client ID for the OneDrive data source.
+  final String? clientId;
+
+  /// The tenant ID for the OneDrive data source.
+  final String? tenantId;
+
+  OneDriveParameters({
+    this.authType,
+    this.clientId,
+    this.tenantId,
+  });
+
+  factory OneDriveParameters.fromJson(Map<String, dynamic> json) {
+    return OneDriveParameters(
+      authType: (json['AuthType'] as String?)?.let(AuthType.fromString),
+      clientId: json['ClientId'] as String?,
+      tenantId: json['TenantId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final clientId = this.clientId;
+    final tenantId = this.tenantId;
+    return {
+      if (authType != null) 'AuthType': authType.value,
+      if (clientId != null) 'ClientId': clientId,
+      if (tenantId != null) 'TenantId': tenantId,
+    };
+  }
+}
+
+/// The connection parameters for a fully managed knowledge base data source.
+/// Provide these parameters in the <code>DataSourceParameters</code> object
+/// when you create or update a data source that uses a fully managed knowledge
+/// base.
+///
+/// @nodoc
+class FMKBParameters {
+  /// The Amazon Resource Name (ARN) of the Amazon Bedrock knowledge base.
+  final String knowledgeBaseArn;
+
+  /// The IDs of the linked data sources.
+  final List<String>? linkedDataSourceIds;
+
+  FMKBParameters({
+    required this.knowledgeBaseArn,
+    this.linkedDataSourceIds,
+  });
+
+  factory FMKBParameters.fromJson(Map<String, dynamic> json) {
+    return FMKBParameters(
+      knowledgeBaseArn: (json['KnowledgeBaseArn'] as String?) ?? '',
+      linkedDataSourceIds: (json['LinkedDataSourceIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final knowledgeBaseArn = this.knowledgeBaseArn;
+    final linkedDataSourceIds = this.linkedDataSourceIds;
+    return {
+      'KnowledgeBaseArn': knowledgeBaseArn,
+      if (linkedDataSourceIds != null)
+        'LinkedDataSourceIds': linkedDataSourceIds,
+    };
+  }
+}
+
+/// @nodoc
+class AuthType {
+  static const threeLeggedOauth = AuthType._('THREE_LEGGED_OAUTH');
+  static const twoLeggedOauth = AuthType._('TWO_LEGGED_OAUTH');
+  static const serviceAccount = AuthType._('SERVICE_ACCOUNT');
+
+  final String value;
+
+  const AuthType._(this.value);
+
+  static const values = [threeLeggedOauth, twoLeggedOauth, serviceAccount];
+
+  static AuthType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -72413,10 +74616,13 @@ class PhysicalTable {
   /// A physical table type built from the results of the custom SQL query.
   final CustomSql? customSql;
 
+  /// A physical table type for a file data source.
+  final FileSource? fileSource;
+
   /// A physical table type for relational data sources.
   final RelationalTable? relationalTable;
 
-  /// A physical table type for as S3 data source.
+  /// A physical table type for an S3 data source.
   final S3Source? s3Source;
 
   /// A physical table type for Software-as-a-Service (SaaS) sources.
@@ -72424,6 +74630,7 @@ class PhysicalTable {
 
   PhysicalTable({
     this.customSql,
+    this.fileSource,
     this.relationalTable,
     this.s3Source,
     this.saaSTable,
@@ -72433,6 +74640,9 @@ class PhysicalTable {
     return PhysicalTable(
       customSql: json['CustomSql'] != null
           ? CustomSql.fromJson(json['CustomSql'] as Map<String, dynamic>)
+          : null,
+      fileSource: json['FileSource'] != null
+          ? FileSource.fromJson(json['FileSource'] as Map<String, dynamic>)
           : null,
       relationalTable: json['RelationalTable'] != null
           ? RelationalTable.fromJson(
@@ -72449,11 +74659,13 @@ class PhysicalTable {
 
   Map<String, dynamic> toJson() {
     final customSql = this.customSql;
+    final fileSource = this.fileSource;
     final relationalTable = this.relationalTable;
     final s3Source = this.s3Source;
     final saaSTable = this.saaSTable;
     return {
       if (customSql != null) 'CustomSql': customSql,
+      if (fileSource != null) 'FileSource': fileSource,
       if (relationalTable != null) 'RelationalTable': relationalTable,
       if (s3Source != null) 'S3Source': s3Source,
       if (saaSTable != null) 'SaaSTable': saaSTable,
@@ -72661,35 +74873,57 @@ class SaaSTable {
   }
 }
 
-/// An element in the hierarchical path to a table within a data source,
-/// containing both name and identifier.
+/// A physical table type that contains the schema and upload settings for a
+/// file-based data source.
 ///
 /// @nodoc
-class TablePathElement {
-  /// The unique identifier of the path element.
-  final String? id;
+class FileSource {
+  /// The Amazon Resource Name (ARN) for the data source.
+  final String dataSourceArn;
 
-  /// The name of the path element.
-  final String? name;
+  /// The column schema of the file.
+  final List<InputColumn> inputColumns;
 
-  TablePathElement({
-    this.id,
-    this.name,
+  /// The zero-based index of the sheet to use within the file. For files that
+  /// contain multiple sheets, this identifies which sheet to read. Files that
+  /// contain a single sheet, or that have no concept of sheets, use sheet 0.
+  final int sheetIndex;
+
+  /// Information about the format for the source file.
+  final UploadSettings? uploadSettings;
+
+  FileSource({
+    required this.dataSourceArn,
+    required this.inputColumns,
+    required this.sheetIndex,
+    this.uploadSettings,
   });
 
-  factory TablePathElement.fromJson(Map<String, dynamic> json) {
-    return TablePathElement(
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
+  factory FileSource.fromJson(Map<String, dynamic> json) {
+    return FileSource(
+      dataSourceArn: (json['DataSourceArn'] as String?) ?? '',
+      inputColumns: ((json['InputColumns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InputColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sheetIndex: (json['SheetIndex'] as int?) ?? 0,
+      uploadSettings: json['UploadSettings'] != null
+          ? UploadSettings.fromJson(
+              json['UploadSettings'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
+    final dataSourceArn = this.dataSourceArn;
+    final inputColumns = this.inputColumns;
+    final sheetIndex = this.sheetIndex;
+    final uploadSettings = this.uploadSettings;
     return {
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
+      'DataSourceArn': dataSourceArn,
+      'InputColumns': inputColumns,
+      'SheetIndex': sheetIndex,
+      if (uploadSettings != null) 'UploadSettings': uploadSettings,
     };
   }
 }
@@ -72808,6 +75042,39 @@ class TextQualifier {
 
   @override
   String toString() => value;
+}
+
+/// An element in the hierarchical path to a table within a data source,
+/// containing both name and identifier.
+///
+/// @nodoc
+class TablePathElement {
+  /// The unique identifier of the path element.
+  final String? id;
+
+  /// The name of the path element.
+  final String? name;
+
+  TablePathElement({
+    this.id,
+    this.name,
+  });
+
+  factory TablePathElement.fromJson(Map<String, dynamic> json) {
+    return TablePathElement(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// @nodoc
@@ -73176,6 +75443,11 @@ class DashboardVersionDefinition {
   /// An array of tooltip sheet definitions for a dashboard.
   final List<TooltipSheetDefinition>? tooltipSheets;
 
+  /// An array of topic identifier declarations. With this mapping, you can use
+  /// topic identifiers instead of topic Amazon Resource Names (ARNs) throughout
+  /// the dashboard's sub-structures.
+  final List<TopicIdentifierDeclaration>? topicIdentifierDeclarations;
+
   DashboardVersionDefinition({
     required this.dataSetIdentifierDeclarations,
     this.analysisDefaults,
@@ -73187,6 +75459,7 @@ class DashboardVersionDefinition {
     this.sheets,
     this.staticFiles,
     this.tooltipSheets,
+    this.topicIdentifierDeclarations,
   });
 
   factory DashboardVersionDefinition.fromJson(Map<String, dynamic> json) {
@@ -73234,6 +75507,12 @@ class DashboardVersionDefinition {
           .map(
               (e) => TooltipSheetDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
+      topicIdentifierDeclarations: (json['TopicIdentifierDeclarations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              TopicIdentifierDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -73248,6 +75527,7 @@ class DashboardVersionDefinition {
     final sheets = this.sheets;
     final staticFiles = this.staticFiles;
     final tooltipSheets = this.tooltipSheets;
+    final topicIdentifierDeclarations = this.topicIdentifierDeclarations;
     return {
       'DataSetIdentifierDeclarations': dataSetIdentifierDeclarations,
       if (analysisDefaults != null) 'AnalysisDefaults': analysisDefaults,
@@ -73261,6 +75541,40 @@ class DashboardVersionDefinition {
       if (sheets != null) 'Sheets': sheets,
       if (staticFiles != null) 'StaticFiles': staticFiles,
       if (tooltipSheets != null) 'TooltipSheets': tooltipSheets,
+      if (topicIdentifierDeclarations != null)
+        'TopicIdentifierDeclarations': topicIdentifierDeclarations,
+    };
+  }
+}
+
+/// A topic.
+///
+/// @nodoc
+class TopicIdentifierDeclaration {
+  /// The identifier of the topic, typically the topic's name.
+  final String identifier;
+
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String topicArn;
+
+  TopicIdentifierDeclaration({
+    required this.identifier,
+    required this.topicArn,
+  });
+
+  factory TopicIdentifierDeclaration.fromJson(Map<String, dynamic> json) {
+    return TopicIdentifierDeclaration(
+      identifier: (json['Identifier'] as String?) ?? '',
+      topicArn: (json['TopicArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final topicArn = this.topicArn;
+    return {
+      'Identifier': identifier,
+      'TopicArn': topicArn,
     };
   }
 }
@@ -73882,17 +76196,23 @@ class DashboardSourceTemplate {
   /// Dataset references.
   final List<DataSetReference> dataSetReferences;
 
+  /// The topic references for the source template of a dashboard.
+  final List<TopicReference>? topicReferences;
+
   DashboardSourceTemplate({
     required this.arn,
     required this.dataSetReferences,
+    this.topicReferences,
   });
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final dataSetReferences = this.dataSetReferences;
+    final topicReferences = this.topicReferences;
     return {
       'Arn': arn,
       'DataSetReferences': dataSetReferences,
+      if (topicReferences != null) 'TopicReferences': topicReferences,
     };
   }
 }
@@ -73941,9 +76261,11 @@ class Capabilities {
 
   /// The ability to perform actions using BambooHR connectors.
   final CapabilityState? bambooHRAction;
+  final CapabilityState? bedrockManagedKnowledgeBase;
 
   /// The ability to perform actions using Box Agent connectors.
   final CapabilityState? boxAgentAction;
+  final CapabilityState? boxKnowledgeBase;
 
   /// The ability to Build Calculation with AI
   final CapabilityState? buildCalculatedFieldWithQ;
@@ -73962,6 +76284,7 @@ class Capabilities {
 
   /// The ability to perform actions using Atlassian Confluence Cloud connectors.
   final CapabilityState? confluenceAction;
+  final CapabilityState? confluenceKnowledgeBase;
 
   /// The ability to create and update Bedrock Agent actions.
   final CapabilityState? createAndUpdateAmazonBedrockARSAction;
@@ -73983,9 +76306,11 @@ class Capabilities {
 
   /// The ability to create and update BambooHR actions.
   final CapabilityState? createAndUpdateBambooHRAction;
+  final CapabilityState? createAndUpdateBedrockManagedKnowledgeBase;
 
   /// The ability to create and update Box Agent actions.
   final CapabilityState? createAndUpdateBoxAgentAction;
+  final CapabilityState? createAndUpdateBoxKnowledgeBase;
 
   /// The ability to create and update Canva Agent actions.
   final CapabilityState? createAndUpdateCanvaAgentAction;
@@ -73998,6 +76323,7 @@ class Capabilities {
 
   /// The ability to create and update Atlassian Confluence Cloud actions.
   final CapabilityState? createAndUpdateConfluenceAction;
+  final CapabilityState? createAndUpdateConfluenceKnowledgeBase;
 
   /// The ability to create and update email reports.
   final CapabilityState? createAndUpdateDashboardEmailReports;
@@ -74019,18 +76345,21 @@ class Capabilities {
 
   /// The ability to create and update Google Calendar actions.
   final CapabilityState? createAndUpdateGoogleCalendarAction;
+  final CapabilityState? createAndUpdateGoogleDriveKnowledgeBase;
 
   /// The ability to create and update Hubspot actions.
   final CapabilityState? createAndUpdateHubspotAction;
 
   /// The ability to create and update HuggingFace actions.
   final CapabilityState? createAndUpdateHuggingFaceAction;
+  final CapabilityState? createAndUpdateIDCKnowledgeBase;
 
   /// The ability to create and update Intercom actions.
   final CapabilityState? createAndUpdateIntercomAction;
 
   /// The ability to create and update Jira actions.
   final CapabilityState? createAndUpdateJiraAction;
+  final CapabilityState? createAndUpdateKnowledgeBases;
 
   /// The ability to create and update Linear actions.
   final CapabilityState? createAndUpdateLinearAction;
@@ -74055,12 +76384,15 @@ class Capabilities {
 
   /// The ability to create and update Microsoft OneDrive actions.
   final CapabilityState? createAndUpdateOneDriveAction;
+  final CapabilityState? createAndUpdateOneDriveKnowledgeBase;
 
   /// The ability to create and update OpenAPI Specification actions.
   final CapabilityState? createAndUpdateOpenAPIAction;
 
   /// The ability to create and update PagerDuty Advance actions.
   final CapabilityState? createAndUpdatePagerDutyAction;
+  final CapabilityState? createAndUpdateQBusinessKnowledgeBase;
+  final CapabilityState? createAndUpdateS3KnowledgeBase;
 
   /// The ability to create and update SAP Bill of Materials actions.
   final CapabilityState? createAndUpdateSAPBillOfMaterialAction;
@@ -74091,6 +76423,7 @@ class Capabilities {
 
   /// The ability to create and update Microsoft SharePoint Online actions.
   final CapabilityState? createAndUpdateSharePointAction;
+  final CapabilityState? createAndUpdateSharePointKnowledgeBase;
 
   /// The ability to create and update Slack actions.
   final CapabilityState? createAndUpdateSlackAction;
@@ -74106,6 +76439,7 @@ class Capabilities {
 
   /// The ability to create and update threshold alerts.
   final CapabilityState? createAndUpdateThresholdAlerts;
+  final CapabilityState? createAndUpdateWebCrawlerKnowledgeBase;
 
   /// The ability to create and update Zendesk actions.
   final CapabilityState? createAndUpdateZendeskAction;
@@ -74169,12 +76503,18 @@ class Capabilities {
 
   /// The ability to perform actions using Google Calendar connectors.
   final CapabilityState? googleCalendarAction;
+  final CapabilityState? googleDriveKnowledgeBase;
 
   /// The ability to perform actions using Hubspot connectors.
   final CapabilityState? hubspotAction;
 
   /// The ability to perform actions using HuggingFace connectors.
   final CapabilityState? huggingFaceAction;
+  final CapabilityState? iDCKnowledgeBase;
+
+  /// The ability to create, view, edit, delete, and run inbound email triggers
+  /// for flows and automations.
+  final CapabilityState? inboundEmailTrigger;
 
   /// The ability to include content in scheduled email reports.
   final CapabilityState? includeContentInScheduledReportsEmail;
@@ -74223,6 +76563,7 @@ class Capabilities {
 
   /// The ability to perform actions using Microsoft OneDrive connectors.
   final CapabilityState? oneDriveAction;
+  final CapabilityState? oneDriveKnowledgeBase;
 
   /// The ability to perform actions using OpenAPI Specification connectors.
   final CapabilityState? openAPIAction;
@@ -74238,12 +76579,18 @@ class Capabilities {
 
   /// The ability to enable approvals for flow share.
   final CapabilityState? publishWithoutApproval;
+  final CapabilityState? qBusinessKnowledgeBase;
+
+  /// The ability to create, view, edit, delete, and run Quick event triggers for
+  /// flows and automations.
+  final CapabilityState? quickEventTrigger;
 
   /// The ability to rename shared folders.
   final CapabilityState? renameSharedFolders;
 
   /// The ability to perform research-related actions.
   final CapabilityState? research;
+  final CapabilityState? s3KnowledgeBase;
 
   /// The ability to perform actions using SAP Bill of Materials connectors.
   final CapabilityState? sAPBillOfMaterialAction;
@@ -74272,6 +76619,10 @@ class Capabilities {
 
   /// The ability to perform Scenario-related actions.
   final CapabilityState? scenario;
+
+  /// The ability to create, view, edit, delete, and run schedule triggers for
+  /// flows and automations.
+  final CapabilityState? scheduleTrigger;
 
   /// The ability to enable users to upgrade their user role.
   final CapabilityState? selfUpgradeUserRole;
@@ -74302,9 +76653,11 @@ class Capabilities {
 
   /// The ability to share BambooHR actions.
   final CapabilityState? shareBambooHRAction;
+  final CapabilityState? shareBedrockManagedKnowledgeBase;
 
   /// The ability to share Box Agent actions.
   final CapabilityState? shareBoxAgentAction;
+  final CapabilityState? shareBoxKnowledgeBase;
 
   /// The ability to share Canva Agent actions.
   final CapabilityState? shareCanvaAgentAction;
@@ -74320,6 +76673,7 @@ class Capabilities {
 
   /// The ability to share Atlassian Confluence Cloud actions.
   final CapabilityState? shareConfluenceAction;
+  final CapabilityState? shareConfluenceKnowledgeBase;
 
   /// The ability to share dashboards.
   final CapabilityState? shareDashboards;
@@ -74341,18 +76695,21 @@ class Capabilities {
 
   /// The ability to share Google Calendar actions.
   final CapabilityState? shareGoogleCalendarAction;
+  final CapabilityState? shareGoogleDriveKnowledgeBase;
 
   /// The ability to share Hubspot actions.
   final CapabilityState? shareHubspotAction;
 
   /// The ability to share HuggingFace actions.
   final CapabilityState? shareHuggingFaceAction;
+  final CapabilityState? shareIDCKnowledgeBase;
 
   /// The ability to share Intercom actions.
   final CapabilityState? shareIntercomAction;
 
   /// The ability to share Jira actions.
   final CapabilityState? shareJiraAction;
+  final CapabilityState? shareKnowledgeBases;
 
   /// The ability to share Linear actions.
   final CapabilityState? shareLinearAction;
@@ -74377,6 +76734,7 @@ class Capabilities {
 
   /// The ability to share Microsoft OneDrive actions.
   final CapabilityState? shareOneDriveAction;
+  final CapabilityState? shareOneDriveKnowledgeBase;
 
   /// The ability to share OpenAPI Specification actions.
   final CapabilityState? shareOpenAPIAction;
@@ -74386,6 +76744,9 @@ class Capabilities {
 
   /// The ability to perform actions using Microsoft SharePoint Online connectors.
   final CapabilityState? sharePointAction;
+  final CapabilityState? sharePointKnowledgeBase;
+  final CapabilityState? shareQBusinessKnowledgeBase;
+  final CapabilityState? shareS3KnowledgeBase;
 
   /// The ability to share SAP Bill of Materials actions.
   final CapabilityState? shareSAPBillOfMaterialAction;
@@ -74416,6 +76777,7 @@ class Capabilities {
 
   /// The ability to share Microsoft SharePoint Online actions.
   final CapabilityState? shareSharePointAction;
+  final CapabilityState? shareSharePointKnowledgeBase;
 
   /// The ability to share Slack actions.
   final CapabilityState? shareSlackAction;
@@ -74428,6 +76790,7 @@ class Capabilities {
 
   /// The ability to share Textract actions.
   final CapabilityState? shareTextractAction;
+  final CapabilityState? shareWebCrawlerKnowledgeBase;
 
   /// The ability to share Zendesk actions.
   final CapabilityState? shareZendeskAction;
@@ -74453,6 +76816,9 @@ class Capabilities {
   /// The ability to perform Topic-related actions.
   final CapabilityState? topic;
 
+  /// The ability to manage trigger-related settings for flows and automations.
+  final CapabilityState? trigger;
+
   /// The ability to use internet to enhance results in Chat Agents, Flows, and
   /// Quick Research. Web search queries will be processed securely in an Amazon
   /// Web Services region <code>us-east-1</code>.
@@ -74475,12 +76841,18 @@ class Capabilities {
 
   /// The ability to use BambooHR actions.
   final CapabilityState? useBambooHRAction;
+  final CapabilityState? useBedrockManagedKnowledgeBase;
 
   /// The ability to use Bedrock models for general knowledge step in flows.
   final CapabilityState? useBedrockModels;
 
   /// The ability to use Box Agent actions.
   final CapabilityState? useBoxAgentAction;
+  final CapabilityState? useBoxKnowledgeBase;
+
+  /// The ability to use Amazon Quick through the browser extension for Chrome,
+  /// Firefox, and Edge.
+  final CapabilityState? useBrowserExtension;
 
   /// The ability to use Canva Agent actions.
   final CapabilityState? useCanvaAgentAction;
@@ -74493,6 +76865,10 @@ class Capabilities {
 
   /// The ability to use Atlassian Confluence Cloud actions.
   final CapabilityState? useConfluenceAction;
+  final CapabilityState? useConfluenceKnowledgeBase;
+
+  /// The ability to use Amazon Quick through the Microsoft Excel add-in.
+  final CapabilityState? useExcelAddInExtension;
 
   /// The ability to use FactSet actions.
   final CapabilityState? useFactSetAction;
@@ -74505,12 +76881,14 @@ class Capabilities {
 
   /// The ability to use Google Calendar actions.
   final CapabilityState? useGoogleCalendarAction;
+  final CapabilityState? useGoogleDriveKnowledgeBase;
 
   /// The ability to use Hubspot actions.
   final CapabilityState? useHubspotAction;
 
   /// The ability to use HuggingFace actions.
   final CapabilityState? useHuggingFaceAction;
+  final CapabilityState? useIDCKnowledgeBase;
 
   /// The ability to use Intercom actions.
   final CapabilityState? useIntercomAction;
@@ -74541,12 +76919,21 @@ class Capabilities {
 
   /// The ability to use Microsoft OneDrive actions.
   final CapabilityState? useOneDriveAction;
+  final CapabilityState? useOneDriveKnowledgeBase;
 
   /// The ability to use OpenAPI Specification actions.
   final CapabilityState? useOpenAPIAction;
 
+  /// The ability to use Amazon Quick through the Microsoft Outlook add-in.
+  final CapabilityState? useOutlookAddInExtension;
+
   /// The ability to use PagerDuty Advance actions.
   final CapabilityState? usePagerDutyAction;
+
+  /// The ability to use Amazon Quick through the Microsoft PowerPoint add-in.
+  final CapabilityState? usePowerpointAddInExtension;
+  final CapabilityState? useQBusinessKnowledgeBase;
+  final CapabilityState? useS3KnowledgeBase;
 
   /// The ability to use SAP Bill of Materials actions.
   final CapabilityState? useSAPBillOfMaterialAction;
@@ -74577,6 +76964,7 @@ class Capabilities {
 
   /// The ability to use Microsoft SharePoint Online actions.
   final CapabilityState? useSharePointAction;
+  final CapabilityState? useSharePointKnowledgeBase;
 
   /// The ability to use Slack actions.
   final CapabilityState? useSlackAction;
@@ -74586,12 +76974,17 @@ class Capabilities {
 
   /// The ability to use Textract actions.
   final CapabilityState? useTextractAction;
+  final CapabilityState? useWebCrawlerKnowledgeBase;
+
+  /// The ability to use Amazon Quick through the Microsoft Word add-in.
+  final CapabilityState? useWordAddInExtension;
 
   /// The ability to use Zendesk actions.
   final CapabilityState? useZendeskAction;
 
   /// The ability to view account SPICE capacity.
   final CapabilityState? viewAccountSPICECapacity;
+  final CapabilityState? webCrawlerKnowledgeBase;
 
   /// The ability to perform actions using Zendesk connectors.
   final CapabilityState? zendeskAction;
@@ -74610,13 +77003,16 @@ class Capabilities {
     this.asanaAction,
     this.automate,
     this.bambooHRAction,
+    this.bedrockManagedKnowledgeBase,
     this.boxAgentAction,
+    this.boxKnowledgeBase,
     this.buildCalculatedFieldWithQ,
     this.canvaAgentAction,
     this.chatAgent,
     this.comprehendAction,
     this.comprehendMedicalAction,
     this.confluenceAction,
+    this.confluenceKnowledgeBase,
     this.createAndUpdateAmazonBedrockARSAction,
     this.createAndUpdateAmazonBedrockFSAction,
     this.createAndUpdateAmazonBedrockKRSAction,
@@ -74624,11 +77020,14 @@ class Capabilities {
     this.createAndUpdateApps,
     this.createAndUpdateAsanaAction,
     this.createAndUpdateBambooHRAction,
+    this.createAndUpdateBedrockManagedKnowledgeBase,
     this.createAndUpdateBoxAgentAction,
+    this.createAndUpdateBoxKnowledgeBase,
     this.createAndUpdateCanvaAgentAction,
     this.createAndUpdateComprehendAction,
     this.createAndUpdateComprehendMedicalAction,
     this.createAndUpdateConfluenceAction,
+    this.createAndUpdateConfluenceKnowledgeBase,
     this.createAndUpdateDashboardEmailReports,
     this.createAndUpdateDataSources,
     this.createAndUpdateDatasets,
@@ -74636,10 +77035,13 @@ class Capabilities {
     this.createAndUpdateGenericHTTPAction,
     this.createAndUpdateGithubAction,
     this.createAndUpdateGoogleCalendarAction,
+    this.createAndUpdateGoogleDriveKnowledgeBase,
     this.createAndUpdateHubspotAction,
     this.createAndUpdateHuggingFaceAction,
+    this.createAndUpdateIDCKnowledgeBase,
     this.createAndUpdateIntercomAction,
     this.createAndUpdateJiraAction,
+    this.createAndUpdateKnowledgeBases,
     this.createAndUpdateLinearAction,
     this.createAndUpdateMCPAction,
     this.createAndUpdateMSExchangeAction,
@@ -74648,8 +77050,11 @@ class Capabilities {
     this.createAndUpdateNewRelicAction,
     this.createAndUpdateNotionAction,
     this.createAndUpdateOneDriveAction,
+    this.createAndUpdateOneDriveKnowledgeBase,
     this.createAndUpdateOpenAPIAction,
     this.createAndUpdatePagerDutyAction,
+    this.createAndUpdateQBusinessKnowledgeBase,
+    this.createAndUpdateS3KnowledgeBase,
     this.createAndUpdateSAPBillOfMaterialAction,
     this.createAndUpdateSAPBusinessPartnerAction,
     this.createAndUpdateSAPMaterialStockAction,
@@ -74660,11 +77065,13 @@ class Capabilities {
     this.createAndUpdateSandPGlobalEnergyAction,
     this.createAndUpdateServiceNowAction,
     this.createAndUpdateSharePointAction,
+    this.createAndUpdateSharePointKnowledgeBase,
     this.createAndUpdateSlackAction,
     this.createAndUpdateSmartsheetAction,
     this.createAndUpdateTextractAction,
     this.createAndUpdateThemes,
     this.createAndUpdateThresholdAlerts,
+    this.createAndUpdateWebCrawlerKnowledgeBase,
     this.createAndUpdateZendeskAction,
     this.createChatAgents,
     this.createDashboardExecutiveSummaryWithQ,
@@ -74686,8 +77093,11 @@ class Capabilities {
     this.genericHTTPAction,
     this.githubAction,
     this.googleCalendarAction,
+    this.googleDriveKnowledgeBase,
     this.hubspotAction,
     this.huggingFaceAction,
+    this.iDCKnowledgeBase,
+    this.inboundEmailTrigger,
     this.includeContentInScheduledReportsEmail,
     this.intercomAction,
     this.invokeAppsAIInference,
@@ -74702,13 +77112,17 @@ class Capabilities {
     this.newRelicAction,
     this.notionAction,
     this.oneDriveAction,
+    this.oneDriveKnowledgeBase,
     this.openAPIAction,
     this.pagerDutyAction,
     this.performFlowUiTask,
     this.printReports,
     this.publishWithoutApproval,
+    this.qBusinessKnowledgeBase,
+    this.quickEventTrigger,
     this.renameSharedFolders,
     this.research,
+    this.s3KnowledgeBase,
     this.sAPBillOfMaterialAction,
     this.sAPBusinessPartnerAction,
     this.sAPMaterialStockAction,
@@ -74718,6 +77132,7 @@ class Capabilities {
     this.sandPGMIAction,
     this.sandPGlobalEnergyAction,
     this.scenario,
+    this.scheduleTrigger,
     this.selfUpgradeUserRole,
     this.serviceNowAction,
     this.shareAmazonBedrockARSAction,
@@ -74728,12 +77143,15 @@ class Capabilities {
     this.shareApps,
     this.shareAsanaAction,
     this.shareBambooHRAction,
+    this.shareBedrockManagedKnowledgeBase,
     this.shareBoxAgentAction,
+    this.shareBoxKnowledgeBase,
     this.shareCanvaAgentAction,
     this.shareChatAgents,
     this.shareComprehendAction,
     this.shareComprehendMedicalAction,
     this.shareConfluenceAction,
+    this.shareConfluenceKnowledgeBase,
     this.shareDashboards,
     this.shareDataSources,
     this.shareDatasets,
@@ -74741,10 +77159,13 @@ class Capabilities {
     this.shareGenericHTTPAction,
     this.shareGithubAction,
     this.shareGoogleCalendarAction,
+    this.shareGoogleDriveKnowledgeBase,
     this.shareHubspotAction,
     this.shareHuggingFaceAction,
+    this.shareIDCKnowledgeBase,
     this.shareIntercomAction,
     this.shareJiraAction,
+    this.shareKnowledgeBases,
     this.shareLinearAction,
     this.shareMCPAction,
     this.shareMSExchangeAction,
@@ -74753,9 +77174,13 @@ class Capabilities {
     this.shareNewRelicAction,
     this.shareNotionAction,
     this.shareOneDriveAction,
+    this.shareOneDriveKnowledgeBase,
     this.shareOpenAPIAction,
     this.sharePagerDutyAction,
     this.sharePointAction,
+    this.sharePointKnowledgeBase,
+    this.shareQBusinessKnowledgeBase,
+    this.shareS3KnowledgeBase,
     this.shareSAPBillOfMaterialAction,
     this.shareSAPBusinessPartnerAction,
     this.shareSAPMaterialStockAction,
@@ -74766,10 +77191,12 @@ class Capabilities {
     this.shareSandPGlobalEnergyAction,
     this.shareServiceNowAction,
     this.shareSharePointAction,
+    this.shareSharePointKnowledgeBase,
     this.shareSlackAction,
     this.shareSmartsheetAction,
     this.shareSpaces,
     this.shareTextractAction,
+    this.shareWebCrawlerKnowledgeBase,
     this.shareZendeskAction,
     this.slackAction,
     this.smartsheetAction,
@@ -74778,6 +77205,7 @@ class Capabilities {
     this.subscribeDashboardEmailReports,
     this.textractAction,
     this.topic,
+    this.trigger,
     this.useAgentWebSearch,
     this.useAmazonBedrockARSAction,
     this.useAmazonBedrockFSAction,
@@ -74785,18 +77213,25 @@ class Capabilities {
     this.useAmazonSThreeAction,
     this.useAsanaAction,
     this.useBambooHRAction,
+    this.useBedrockManagedKnowledgeBase,
     this.useBedrockModels,
     this.useBoxAgentAction,
+    this.useBoxKnowledgeBase,
+    this.useBrowserExtension,
     this.useCanvaAgentAction,
     this.useComprehendAction,
     this.useComprehendMedicalAction,
     this.useConfluenceAction,
+    this.useConfluenceKnowledgeBase,
+    this.useExcelAddInExtension,
     this.useFactSetAction,
     this.useGenericHTTPAction,
     this.useGithubAction,
     this.useGoogleCalendarAction,
+    this.useGoogleDriveKnowledgeBase,
     this.useHubspotAction,
     this.useHuggingFaceAction,
+    this.useIDCKnowledgeBase,
     this.useIntercomAction,
     this.useJiraAction,
     this.useLinearAction,
@@ -74807,8 +77242,13 @@ class Capabilities {
     this.useNewRelicAction,
     this.useNotionAction,
     this.useOneDriveAction,
+    this.useOneDriveKnowledgeBase,
     this.useOpenAPIAction,
+    this.useOutlookAddInExtension,
     this.usePagerDutyAction,
+    this.usePowerpointAddInExtension,
+    this.useQBusinessKnowledgeBase,
+    this.useS3KnowledgeBase,
     this.useSAPBillOfMaterialAction,
     this.useSAPBusinessPartnerAction,
     this.useSAPMaterialStockAction,
@@ -74819,11 +77259,15 @@ class Capabilities {
     this.useSandPGlobalEnergyAction,
     this.useServiceNowAction,
     this.useSharePointAction,
+    this.useSharePointKnowledgeBase,
     this.useSlackAction,
     this.useSmartsheetAction,
     this.useTextractAction,
+    this.useWebCrawlerKnowledgeBase,
+    this.useWordAddInExtension,
     this.useZendeskAction,
     this.viewAccountSPICECapacity,
+    this.webCrawlerKnowledgeBase,
     this.zendeskAction,
   });
 
@@ -74852,8 +77296,13 @@ class Capabilities {
       automate: (json['Automate'] as String?)?.let(CapabilityState.fromString),
       bambooHRAction:
           (json['BambooHRAction'] as String?)?.let(CapabilityState.fromString),
+      bedrockManagedKnowledgeBase:
+          (json['BedrockManagedKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       boxAgentAction:
           (json['BoxAgentAction'] as String?)?.let(CapabilityState.fromString),
+      boxKnowledgeBase: (json['BoxKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
       buildCalculatedFieldWithQ: (json['BuildCalculatedFieldWithQ'] as String?)
           ?.let(CapabilityState.fromString),
       canvaAgentAction: (json['CanvaAgentAction'] as String?)
@@ -74865,6 +77314,8 @@ class Capabilities {
       comprehendMedicalAction: (json['ComprehendMedicalAction'] as String?)
           ?.let(CapabilityState.fromString),
       confluenceAction: (json['ConfluenceAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      confluenceKnowledgeBase: (json['ConfluenceKnowledgeBase'] as String?)
           ?.let(CapabilityState.fromString),
       createAndUpdateAmazonBedrockARSAction:
           (json['CreateAndUpdateAmazonBedrockARSAction'] as String?)
@@ -74886,8 +77337,14 @@ class Capabilities {
       createAndUpdateBambooHRAction:
           (json['CreateAndUpdateBambooHRAction'] as String?)
               ?.let(CapabilityState.fromString),
+      createAndUpdateBedrockManagedKnowledgeBase:
+          (json['CreateAndUpdateBedrockManagedKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       createAndUpdateBoxAgentAction:
           (json['CreateAndUpdateBoxAgentAction'] as String?)
+              ?.let(CapabilityState.fromString),
+      createAndUpdateBoxKnowledgeBase:
+          (json['CreateAndUpdateBoxKnowledgeBase'] as String?)
               ?.let(CapabilityState.fromString),
       createAndUpdateCanvaAgentAction:
           (json['CreateAndUpdateCanvaAgentAction'] as String?)
@@ -74900,6 +77357,9 @@ class Capabilities {
               ?.let(CapabilityState.fromString),
       createAndUpdateConfluenceAction:
           (json['CreateAndUpdateConfluenceAction'] as String?)
+              ?.let(CapabilityState.fromString),
+      createAndUpdateConfluenceKnowledgeBase:
+          (json['CreateAndUpdateConfluenceKnowledgeBase'] as String?)
               ?.let(CapabilityState.fromString),
       createAndUpdateDashboardEmailReports:
           (json['CreateAndUpdateDashboardEmailReports'] as String?)
@@ -74921,17 +77381,26 @@ class Capabilities {
       createAndUpdateGoogleCalendarAction:
           (json['CreateAndUpdateGoogleCalendarAction'] as String?)
               ?.let(CapabilityState.fromString),
+      createAndUpdateGoogleDriveKnowledgeBase:
+          (json['CreateAndUpdateGoogleDriveKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       createAndUpdateHubspotAction:
           (json['CreateAndUpdateHubspotAction'] as String?)
               ?.let(CapabilityState.fromString),
       createAndUpdateHuggingFaceAction:
           (json['CreateAndUpdateHuggingFaceAction'] as String?)
               ?.let(CapabilityState.fromString),
+      createAndUpdateIDCKnowledgeBase:
+          (json['CreateAndUpdateIDCKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       createAndUpdateIntercomAction:
           (json['CreateAndUpdateIntercomAction'] as String?)
               ?.let(CapabilityState.fromString),
       createAndUpdateJiraAction: (json['CreateAndUpdateJiraAction'] as String?)
           ?.let(CapabilityState.fromString),
+      createAndUpdateKnowledgeBases:
+          (json['CreateAndUpdateKnowledgeBases'] as String?)
+              ?.let(CapabilityState.fromString),
       createAndUpdateLinearAction:
           (json['CreateAndUpdateLinearAction'] as String?)
               ?.let(CapabilityState.fromString),
@@ -74955,11 +77424,20 @@ class Capabilities {
       createAndUpdateOneDriveAction:
           (json['CreateAndUpdateOneDriveAction'] as String?)
               ?.let(CapabilityState.fromString),
+      createAndUpdateOneDriveKnowledgeBase:
+          (json['CreateAndUpdateOneDriveKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       createAndUpdateOpenAPIAction:
           (json['CreateAndUpdateOpenAPIAction'] as String?)
               ?.let(CapabilityState.fromString),
       createAndUpdatePagerDutyAction:
           (json['CreateAndUpdatePagerDutyAction'] as String?)
+              ?.let(CapabilityState.fromString),
+      createAndUpdateQBusinessKnowledgeBase:
+          (json['CreateAndUpdateQBusinessKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
+      createAndUpdateS3KnowledgeBase:
+          (json['CreateAndUpdateS3KnowledgeBase'] as String?)
               ?.let(CapabilityState.fromString),
       createAndUpdateSAPBillOfMaterialAction:
           (json['CreateAndUpdateSAPBillOfMaterialAction'] as String?)
@@ -74991,6 +77469,9 @@ class Capabilities {
       createAndUpdateSharePointAction:
           (json['CreateAndUpdateSharePointAction'] as String?)
               ?.let(CapabilityState.fromString),
+      createAndUpdateSharePointKnowledgeBase:
+          (json['CreateAndUpdateSharePointKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       createAndUpdateSlackAction:
           (json['CreateAndUpdateSlackAction'] as String?)
               ?.let(CapabilityState.fromString),
@@ -75004,6 +77485,9 @@ class Capabilities {
           ?.let(CapabilityState.fromString),
       createAndUpdateThresholdAlerts:
           (json['CreateAndUpdateThresholdAlerts'] as String?)
+              ?.let(CapabilityState.fromString),
+      createAndUpdateWebCrawlerKnowledgeBase:
+          (json['CreateAndUpdateWebCrawlerKnowledgeBase'] as String?)
               ?.let(CapabilityState.fromString),
       createAndUpdateZendeskAction:
           (json['CreateAndUpdateZendeskAction'] as String?)
@@ -75051,9 +77535,15 @@ class Capabilities {
           (json['GithubAction'] as String?)?.let(CapabilityState.fromString),
       googleCalendarAction: (json['GoogleCalendarAction'] as String?)
           ?.let(CapabilityState.fromString),
+      googleDriveKnowledgeBase: (json['GoogleDriveKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
       hubspotAction:
           (json['HubspotAction'] as String?)?.let(CapabilityState.fromString),
       huggingFaceAction: (json['HuggingFaceAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      iDCKnowledgeBase: (json['IDCKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
+      inboundEmailTrigger: (json['InboundEmailTrigger'] as String?)
           ?.let(CapabilityState.fromString),
       includeContentInScheduledReportsEmail:
           (json['IncludeContentInScheduledReportsEmail'] as String?)
@@ -75084,6 +77574,8 @@ class Capabilities {
           (json['NotionAction'] as String?)?.let(CapabilityState.fromString),
       oneDriveAction:
           (json['OneDriveAction'] as String?)?.let(CapabilityState.fromString),
+      oneDriveKnowledgeBase: (json['OneDriveKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
       openAPIAction:
           (json['OpenAPIAction'] as String?)?.let(CapabilityState.fromString),
       pagerDutyAction:
@@ -75094,9 +77586,15 @@ class Capabilities {
           (json['PrintReports'] as String?)?.let(CapabilityState.fromString),
       publishWithoutApproval: (json['PublishWithoutApproval'] as String?)
           ?.let(CapabilityState.fromString),
+      qBusinessKnowledgeBase: (json['QBusinessKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
+      quickEventTrigger: (json['QuickEventTrigger'] as String?)
+          ?.let(CapabilityState.fromString),
       renameSharedFolders: (json['RenameSharedFolders'] as String?)
           ?.let(CapabilityState.fromString),
       research: (json['Research'] as String?)?.let(CapabilityState.fromString),
+      s3KnowledgeBase:
+          (json['S3KnowledgeBase'] as String?)?.let(CapabilityState.fromString),
       sAPBillOfMaterialAction: (json['SAPBillOfMaterialAction'] as String?)
           ?.let(CapabilityState.fromString),
       sAPBusinessPartnerAction: (json['SAPBusinessPartnerAction'] as String?)
@@ -75116,6 +77614,8 @@ class Capabilities {
       sandPGlobalEnergyAction: (json['SandPGlobalEnergyAction'] as String?)
           ?.let(CapabilityState.fromString),
       scenario: (json['Scenario'] as String?)?.let(CapabilityState.fromString),
+      scheduleTrigger:
+          (json['ScheduleTrigger'] as String?)?.let(CapabilityState.fromString),
       selfUpgradeUserRole: (json['SelfUpgradeUserRole'] as String?)
           ?.let(CapabilityState.fromString),
       serviceNowAction: (json['ServiceNowAction'] as String?)
@@ -75139,7 +77639,12 @@ class Capabilities {
           ?.let(CapabilityState.fromString),
       shareBambooHRAction: (json['ShareBambooHRAction'] as String?)
           ?.let(CapabilityState.fromString),
+      shareBedrockManagedKnowledgeBase:
+          (json['ShareBedrockManagedKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       shareBoxAgentAction: (json['ShareBoxAgentAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      shareBoxKnowledgeBase: (json['ShareBoxKnowledgeBase'] as String?)
           ?.let(CapabilityState.fromString),
       shareCanvaAgentAction: (json['ShareCanvaAgentAction'] as String?)
           ?.let(CapabilityState.fromString),
@@ -75152,6 +77657,9 @@ class Capabilities {
               ?.let(CapabilityState.fromString),
       shareConfluenceAction: (json['ShareConfluenceAction'] as String?)
           ?.let(CapabilityState.fromString),
+      shareConfluenceKnowledgeBase:
+          (json['ShareConfluenceKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       shareDashboards:
           (json['ShareDashboards'] as String?)?.let(CapabilityState.fromString),
       shareDataSources: (json['ShareDataSources'] as String?)
@@ -75166,14 +77674,21 @@ class Capabilities {
           ?.let(CapabilityState.fromString),
       shareGoogleCalendarAction: (json['ShareGoogleCalendarAction'] as String?)
           ?.let(CapabilityState.fromString),
+      shareGoogleDriveKnowledgeBase:
+          (json['ShareGoogleDriveKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       shareHubspotAction: (json['ShareHubspotAction'] as String?)
           ?.let(CapabilityState.fromString),
       shareHuggingFaceAction: (json['ShareHuggingFaceAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      shareIDCKnowledgeBase: (json['ShareIDCKnowledgeBase'] as String?)
           ?.let(CapabilityState.fromString),
       shareIntercomAction: (json['ShareIntercomAction'] as String?)
           ?.let(CapabilityState.fromString),
       shareJiraAction:
           (json['ShareJiraAction'] as String?)?.let(CapabilityState.fromString),
+      shareKnowledgeBases: (json['ShareKnowledgeBases'] as String?)
+          ?.let(CapabilityState.fromString),
       shareLinearAction: (json['ShareLinearAction'] as String?)
           ?.let(CapabilityState.fromString),
       shareMCPAction:
@@ -75190,11 +77705,21 @@ class Capabilities {
           ?.let(CapabilityState.fromString),
       shareOneDriveAction: (json['ShareOneDriveAction'] as String?)
           ?.let(CapabilityState.fromString),
+      shareOneDriveKnowledgeBase:
+          (json['ShareOneDriveKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       shareOpenAPIAction: (json['ShareOpenAPIAction'] as String?)
           ?.let(CapabilityState.fromString),
       sharePagerDutyAction: (json['SharePagerDutyAction'] as String?)
           ?.let(CapabilityState.fromString),
       sharePointAction: (json['SharePointAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      sharePointKnowledgeBase: (json['SharePointKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
+      shareQBusinessKnowledgeBase:
+          (json['ShareQBusinessKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
+      shareS3KnowledgeBase: (json['ShareS3KnowledgeBase'] as String?)
           ?.let(CapabilityState.fromString),
       shareSAPBillOfMaterialAction:
           (json['ShareSAPBillOfMaterialAction'] as String?)
@@ -75222,6 +77747,9 @@ class Capabilities {
           ?.let(CapabilityState.fromString),
       shareSharePointAction: (json['ShareSharePointAction'] as String?)
           ?.let(CapabilityState.fromString),
+      shareSharePointKnowledgeBase:
+          (json['ShareSharePointKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       shareSlackAction: (json['ShareSlackAction'] as String?)
           ?.let(CapabilityState.fromString),
       shareSmartsheetAction: (json['ShareSmartsheetAction'] as String?)
@@ -75230,6 +77758,9 @@ class Capabilities {
           (json['ShareSpaces'] as String?)?.let(CapabilityState.fromString),
       shareTextractAction: (json['ShareTextractAction'] as String?)
           ?.let(CapabilityState.fromString),
+      shareWebCrawlerKnowledgeBase:
+          (json['ShareWebCrawlerKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       shareZendeskAction: (json['ShareZendeskAction'] as String?)
           ?.let(CapabilityState.fromString),
       slackAction:
@@ -75244,6 +77775,7 @@ class Capabilities {
       textractAction:
           (json['TextractAction'] as String?)?.let(CapabilityState.fromString),
       topic: (json['Topic'] as String?)?.let(CapabilityState.fromString),
+      trigger: (json['Trigger'] as String?)?.let(CapabilityState.fromString),
       useAgentWebSearch: (json['UseAgentWebSearch'] as String?)
           ?.let(CapabilityState.fromString),
       useAmazonBedrockARSAction: (json['UseAmazonBedrockARSAction'] as String?)
@@ -75258,9 +77790,16 @@ class Capabilities {
           (json['UseAsanaAction'] as String?)?.let(CapabilityState.fromString),
       useBambooHRAction: (json['UseBambooHRAction'] as String?)
           ?.let(CapabilityState.fromString),
+      useBedrockManagedKnowledgeBase:
+          (json['UseBedrockManagedKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       useBedrockModels: (json['UseBedrockModels'] as String?)
           ?.let(CapabilityState.fromString),
       useBoxAgentAction: (json['UseBoxAgentAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      useBoxKnowledgeBase: (json['UseBoxKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
+      useBrowserExtension: (json['UseBrowserExtension'] as String?)
           ?.let(CapabilityState.fromString),
       useCanvaAgentAction: (json['UseCanvaAgentAction'] as String?)
           ?.let(CapabilityState.fromString),
@@ -75271,6 +77810,11 @@ class Capabilities {
               ?.let(CapabilityState.fromString),
       useConfluenceAction: (json['UseConfluenceAction'] as String?)
           ?.let(CapabilityState.fromString),
+      useConfluenceKnowledgeBase:
+          (json['UseConfluenceKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
+      useExcelAddInExtension: (json['UseExcelAddInExtension'] as String?)
+          ?.let(CapabilityState.fromString),
       useFactSetAction: (json['UseFactSetAction'] as String?)
           ?.let(CapabilityState.fromString),
       useGenericHTTPAction: (json['UseGenericHTTPAction'] as String?)
@@ -75279,9 +77823,14 @@ class Capabilities {
           (json['UseGithubAction'] as String?)?.let(CapabilityState.fromString),
       useGoogleCalendarAction: (json['UseGoogleCalendarAction'] as String?)
           ?.let(CapabilityState.fromString),
+      useGoogleDriveKnowledgeBase:
+          (json['UseGoogleDriveKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       useHubspotAction: (json['UseHubspotAction'] as String?)
           ?.let(CapabilityState.fromString),
       useHuggingFaceAction: (json['UseHuggingFaceAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      useIDCKnowledgeBase: (json['UseIDCKnowledgeBase'] as String?)
           ?.let(CapabilityState.fromString),
       useIntercomAction: (json['UseIntercomAction'] as String?)
           ?.let(CapabilityState.fromString),
@@ -75303,9 +77852,20 @@ class Capabilities {
           (json['UseNotionAction'] as String?)?.let(CapabilityState.fromString),
       useOneDriveAction: (json['UseOneDriveAction'] as String?)
           ?.let(CapabilityState.fromString),
+      useOneDriveKnowledgeBase: (json['UseOneDriveKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
       useOpenAPIAction: (json['UseOpenAPIAction'] as String?)
           ?.let(CapabilityState.fromString),
+      useOutlookAddInExtension: (json['UseOutlookAddInExtension'] as String?)
+          ?.let(CapabilityState.fromString),
       usePagerDutyAction: (json['UsePagerDutyAction'] as String?)
+          ?.let(CapabilityState.fromString),
+      usePowerpointAddInExtension:
+          (json['UsePowerpointAddInExtension'] as String?)
+              ?.let(CapabilityState.fromString),
+      useQBusinessKnowledgeBase: (json['UseQBusinessKnowledgeBase'] as String?)
+          ?.let(CapabilityState.fromString),
+      useS3KnowledgeBase: (json['UseS3KnowledgeBase'] as String?)
           ?.let(CapabilityState.fromString),
       useSAPBillOfMaterialAction:
           (json['UseSAPBillOfMaterialAction'] as String?)
@@ -75332,15 +77892,25 @@ class Capabilities {
           ?.let(CapabilityState.fromString),
       useSharePointAction: (json['UseSharePointAction'] as String?)
           ?.let(CapabilityState.fromString),
+      useSharePointKnowledgeBase:
+          (json['UseSharePointKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
       useSlackAction:
           (json['UseSlackAction'] as String?)?.let(CapabilityState.fromString),
       useSmartsheetAction: (json['UseSmartsheetAction'] as String?)
           ?.let(CapabilityState.fromString),
       useTextractAction: (json['UseTextractAction'] as String?)
           ?.let(CapabilityState.fromString),
+      useWebCrawlerKnowledgeBase:
+          (json['UseWebCrawlerKnowledgeBase'] as String?)
+              ?.let(CapabilityState.fromString),
+      useWordAddInExtension: (json['UseWordAddInExtension'] as String?)
+          ?.let(CapabilityState.fromString),
       useZendeskAction: (json['UseZendeskAction'] as String?)
           ?.let(CapabilityState.fromString),
       viewAccountSPICECapacity: (json['ViewAccountSPICECapacity'] as String?)
+          ?.let(CapabilityState.fromString),
+      webCrawlerKnowledgeBase: (json['WebCrawlerKnowledgeBase'] as String?)
           ?.let(CapabilityState.fromString),
       zendeskAction:
           (json['ZendeskAction'] as String?)?.let(CapabilityState.fromString),
@@ -75362,13 +77932,16 @@ class Capabilities {
     final asanaAction = this.asanaAction;
     final automate = this.automate;
     final bambooHRAction = this.bambooHRAction;
+    final bedrockManagedKnowledgeBase = this.bedrockManagedKnowledgeBase;
     final boxAgentAction = this.boxAgentAction;
+    final boxKnowledgeBase = this.boxKnowledgeBase;
     final buildCalculatedFieldWithQ = this.buildCalculatedFieldWithQ;
     final canvaAgentAction = this.canvaAgentAction;
     final chatAgent = this.chatAgent;
     final comprehendAction = this.comprehendAction;
     final comprehendMedicalAction = this.comprehendMedicalAction;
     final confluenceAction = this.confluenceAction;
+    final confluenceKnowledgeBase = this.confluenceKnowledgeBase;
     final createAndUpdateAmazonBedrockARSAction =
         this.createAndUpdateAmazonBedrockARSAction;
     final createAndUpdateAmazonBedrockFSAction =
@@ -75380,7 +77953,11 @@ class Capabilities {
     final createAndUpdateApps = this.createAndUpdateApps;
     final createAndUpdateAsanaAction = this.createAndUpdateAsanaAction;
     final createAndUpdateBambooHRAction = this.createAndUpdateBambooHRAction;
+    final createAndUpdateBedrockManagedKnowledgeBase =
+        this.createAndUpdateBedrockManagedKnowledgeBase;
     final createAndUpdateBoxAgentAction = this.createAndUpdateBoxAgentAction;
+    final createAndUpdateBoxKnowledgeBase =
+        this.createAndUpdateBoxKnowledgeBase;
     final createAndUpdateCanvaAgentAction =
         this.createAndUpdateCanvaAgentAction;
     final createAndUpdateComprehendAction =
@@ -75389,6 +77966,8 @@ class Capabilities {
         this.createAndUpdateComprehendMedicalAction;
     final createAndUpdateConfluenceAction =
         this.createAndUpdateConfluenceAction;
+    final createAndUpdateConfluenceKnowledgeBase =
+        this.createAndUpdateConfluenceKnowledgeBase;
     final createAndUpdateDashboardEmailReports =
         this.createAndUpdateDashboardEmailReports;
     final createAndUpdateDataSources = this.createAndUpdateDataSources;
@@ -75399,11 +77978,16 @@ class Capabilities {
     final createAndUpdateGithubAction = this.createAndUpdateGithubAction;
     final createAndUpdateGoogleCalendarAction =
         this.createAndUpdateGoogleCalendarAction;
+    final createAndUpdateGoogleDriveKnowledgeBase =
+        this.createAndUpdateGoogleDriveKnowledgeBase;
     final createAndUpdateHubspotAction = this.createAndUpdateHubspotAction;
     final createAndUpdateHuggingFaceAction =
         this.createAndUpdateHuggingFaceAction;
+    final createAndUpdateIDCKnowledgeBase =
+        this.createAndUpdateIDCKnowledgeBase;
     final createAndUpdateIntercomAction = this.createAndUpdateIntercomAction;
     final createAndUpdateJiraAction = this.createAndUpdateJiraAction;
+    final createAndUpdateKnowledgeBases = this.createAndUpdateKnowledgeBases;
     final createAndUpdateLinearAction = this.createAndUpdateLinearAction;
     final createAndUpdateMCPAction = this.createAndUpdateMCPAction;
     final createAndUpdateMSExchangeAction =
@@ -75413,8 +77997,13 @@ class Capabilities {
     final createAndUpdateNewRelicAction = this.createAndUpdateNewRelicAction;
     final createAndUpdateNotionAction = this.createAndUpdateNotionAction;
     final createAndUpdateOneDriveAction = this.createAndUpdateOneDriveAction;
+    final createAndUpdateOneDriveKnowledgeBase =
+        this.createAndUpdateOneDriveKnowledgeBase;
     final createAndUpdateOpenAPIAction = this.createAndUpdateOpenAPIAction;
     final createAndUpdatePagerDutyAction = this.createAndUpdatePagerDutyAction;
+    final createAndUpdateQBusinessKnowledgeBase =
+        this.createAndUpdateQBusinessKnowledgeBase;
+    final createAndUpdateS3KnowledgeBase = this.createAndUpdateS3KnowledgeBase;
     final createAndUpdateSAPBillOfMaterialAction =
         this.createAndUpdateSAPBillOfMaterialAction;
     final createAndUpdateSAPBusinessPartnerAction =
@@ -75434,12 +78023,16 @@ class Capabilities {
         this.createAndUpdateServiceNowAction;
     final createAndUpdateSharePointAction =
         this.createAndUpdateSharePointAction;
+    final createAndUpdateSharePointKnowledgeBase =
+        this.createAndUpdateSharePointKnowledgeBase;
     final createAndUpdateSlackAction = this.createAndUpdateSlackAction;
     final createAndUpdateSmartsheetAction =
         this.createAndUpdateSmartsheetAction;
     final createAndUpdateTextractAction = this.createAndUpdateTextractAction;
     final createAndUpdateThemes = this.createAndUpdateThemes;
     final createAndUpdateThresholdAlerts = this.createAndUpdateThresholdAlerts;
+    final createAndUpdateWebCrawlerKnowledgeBase =
+        this.createAndUpdateWebCrawlerKnowledgeBase;
     final createAndUpdateZendeskAction = this.createAndUpdateZendeskAction;
     final createChatAgents = this.createChatAgents;
     final createDashboardExecutiveSummaryWithQ =
@@ -75463,8 +78056,11 @@ class Capabilities {
     final genericHTTPAction = this.genericHTTPAction;
     final githubAction = this.githubAction;
     final googleCalendarAction = this.googleCalendarAction;
+    final googleDriveKnowledgeBase = this.googleDriveKnowledgeBase;
     final hubspotAction = this.hubspotAction;
     final huggingFaceAction = this.huggingFaceAction;
+    final iDCKnowledgeBase = this.iDCKnowledgeBase;
+    final inboundEmailTrigger = this.inboundEmailTrigger;
     final includeContentInScheduledReportsEmail =
         this.includeContentInScheduledReportsEmail;
     final intercomAction = this.intercomAction;
@@ -75480,13 +78076,17 @@ class Capabilities {
     final newRelicAction = this.newRelicAction;
     final notionAction = this.notionAction;
     final oneDriveAction = this.oneDriveAction;
+    final oneDriveKnowledgeBase = this.oneDriveKnowledgeBase;
     final openAPIAction = this.openAPIAction;
     final pagerDutyAction = this.pagerDutyAction;
     final performFlowUiTask = this.performFlowUiTask;
     final printReports = this.printReports;
     final publishWithoutApproval = this.publishWithoutApproval;
+    final qBusinessKnowledgeBase = this.qBusinessKnowledgeBase;
+    final quickEventTrigger = this.quickEventTrigger;
     final renameSharedFolders = this.renameSharedFolders;
     final research = this.research;
+    final s3KnowledgeBase = this.s3KnowledgeBase;
     final sAPBillOfMaterialAction = this.sAPBillOfMaterialAction;
     final sAPBusinessPartnerAction = this.sAPBusinessPartnerAction;
     final sAPMaterialStockAction = this.sAPMaterialStockAction;
@@ -75496,6 +78096,7 @@ class Capabilities {
     final sandPGMIAction = this.sandPGMIAction;
     final sandPGlobalEnergyAction = this.sandPGlobalEnergyAction;
     final scenario = this.scenario;
+    final scheduleTrigger = this.scheduleTrigger;
     final selfUpgradeUserRole = this.selfUpgradeUserRole;
     final serviceNowAction = this.serviceNowAction;
     final shareAmazonBedrockARSAction = this.shareAmazonBedrockARSAction;
@@ -75506,12 +78107,16 @@ class Capabilities {
     final shareApps = this.shareApps;
     final shareAsanaAction = this.shareAsanaAction;
     final shareBambooHRAction = this.shareBambooHRAction;
+    final shareBedrockManagedKnowledgeBase =
+        this.shareBedrockManagedKnowledgeBase;
     final shareBoxAgentAction = this.shareBoxAgentAction;
+    final shareBoxKnowledgeBase = this.shareBoxKnowledgeBase;
     final shareCanvaAgentAction = this.shareCanvaAgentAction;
     final shareChatAgents = this.shareChatAgents;
     final shareComprehendAction = this.shareComprehendAction;
     final shareComprehendMedicalAction = this.shareComprehendMedicalAction;
     final shareConfluenceAction = this.shareConfluenceAction;
+    final shareConfluenceKnowledgeBase = this.shareConfluenceKnowledgeBase;
     final shareDashboards = this.shareDashboards;
     final shareDataSources = this.shareDataSources;
     final shareDatasets = this.shareDatasets;
@@ -75519,10 +78124,13 @@ class Capabilities {
     final shareGenericHTTPAction = this.shareGenericHTTPAction;
     final shareGithubAction = this.shareGithubAction;
     final shareGoogleCalendarAction = this.shareGoogleCalendarAction;
+    final shareGoogleDriveKnowledgeBase = this.shareGoogleDriveKnowledgeBase;
     final shareHubspotAction = this.shareHubspotAction;
     final shareHuggingFaceAction = this.shareHuggingFaceAction;
+    final shareIDCKnowledgeBase = this.shareIDCKnowledgeBase;
     final shareIntercomAction = this.shareIntercomAction;
     final shareJiraAction = this.shareJiraAction;
+    final shareKnowledgeBases = this.shareKnowledgeBases;
     final shareLinearAction = this.shareLinearAction;
     final shareMCPAction = this.shareMCPAction;
     final shareMSExchangeAction = this.shareMSExchangeAction;
@@ -75531,9 +78139,13 @@ class Capabilities {
     final shareNewRelicAction = this.shareNewRelicAction;
     final shareNotionAction = this.shareNotionAction;
     final shareOneDriveAction = this.shareOneDriveAction;
+    final shareOneDriveKnowledgeBase = this.shareOneDriveKnowledgeBase;
     final shareOpenAPIAction = this.shareOpenAPIAction;
     final sharePagerDutyAction = this.sharePagerDutyAction;
     final sharePointAction = this.sharePointAction;
+    final sharePointKnowledgeBase = this.sharePointKnowledgeBase;
+    final shareQBusinessKnowledgeBase = this.shareQBusinessKnowledgeBase;
+    final shareS3KnowledgeBase = this.shareS3KnowledgeBase;
     final shareSAPBillOfMaterialAction = this.shareSAPBillOfMaterialAction;
     final shareSAPBusinessPartnerAction = this.shareSAPBusinessPartnerAction;
     final shareSAPMaterialStockAction = this.shareSAPMaterialStockAction;
@@ -75546,10 +78158,12 @@ class Capabilities {
     final shareSandPGlobalEnergyAction = this.shareSandPGlobalEnergyAction;
     final shareServiceNowAction = this.shareServiceNowAction;
     final shareSharePointAction = this.shareSharePointAction;
+    final shareSharePointKnowledgeBase = this.shareSharePointKnowledgeBase;
     final shareSlackAction = this.shareSlackAction;
     final shareSmartsheetAction = this.shareSmartsheetAction;
     final shareSpaces = this.shareSpaces;
     final shareTextractAction = this.shareTextractAction;
+    final shareWebCrawlerKnowledgeBase = this.shareWebCrawlerKnowledgeBase;
     final shareZendeskAction = this.shareZendeskAction;
     final slackAction = this.slackAction;
     final smartsheetAction = this.smartsheetAction;
@@ -75558,6 +78172,7 @@ class Capabilities {
     final subscribeDashboardEmailReports = this.subscribeDashboardEmailReports;
     final textractAction = this.textractAction;
     final topic = this.topic;
+    final trigger = this.trigger;
     final useAgentWebSearch = this.useAgentWebSearch;
     final useAmazonBedrockARSAction = this.useAmazonBedrockARSAction;
     final useAmazonBedrockFSAction = this.useAmazonBedrockFSAction;
@@ -75565,18 +78180,25 @@ class Capabilities {
     final useAmazonSThreeAction = this.useAmazonSThreeAction;
     final useAsanaAction = this.useAsanaAction;
     final useBambooHRAction = this.useBambooHRAction;
+    final useBedrockManagedKnowledgeBase = this.useBedrockManagedKnowledgeBase;
     final useBedrockModels = this.useBedrockModels;
     final useBoxAgentAction = this.useBoxAgentAction;
+    final useBoxKnowledgeBase = this.useBoxKnowledgeBase;
+    final useBrowserExtension = this.useBrowserExtension;
     final useCanvaAgentAction = this.useCanvaAgentAction;
     final useComprehendAction = this.useComprehendAction;
     final useComprehendMedicalAction = this.useComprehendMedicalAction;
     final useConfluenceAction = this.useConfluenceAction;
+    final useConfluenceKnowledgeBase = this.useConfluenceKnowledgeBase;
+    final useExcelAddInExtension = this.useExcelAddInExtension;
     final useFactSetAction = this.useFactSetAction;
     final useGenericHTTPAction = this.useGenericHTTPAction;
     final useGithubAction = this.useGithubAction;
     final useGoogleCalendarAction = this.useGoogleCalendarAction;
+    final useGoogleDriveKnowledgeBase = this.useGoogleDriveKnowledgeBase;
     final useHubspotAction = this.useHubspotAction;
     final useHuggingFaceAction = this.useHuggingFaceAction;
+    final useIDCKnowledgeBase = this.useIDCKnowledgeBase;
     final useIntercomAction = this.useIntercomAction;
     final useJiraAction = this.useJiraAction;
     final useLinearAction = this.useLinearAction;
@@ -75587,8 +78209,13 @@ class Capabilities {
     final useNewRelicAction = this.useNewRelicAction;
     final useNotionAction = this.useNotionAction;
     final useOneDriveAction = this.useOneDriveAction;
+    final useOneDriveKnowledgeBase = this.useOneDriveKnowledgeBase;
     final useOpenAPIAction = this.useOpenAPIAction;
+    final useOutlookAddInExtension = this.useOutlookAddInExtension;
     final usePagerDutyAction = this.usePagerDutyAction;
+    final usePowerpointAddInExtension = this.usePowerpointAddInExtension;
+    final useQBusinessKnowledgeBase = this.useQBusinessKnowledgeBase;
+    final useS3KnowledgeBase = this.useS3KnowledgeBase;
     final useSAPBillOfMaterialAction = this.useSAPBillOfMaterialAction;
     final useSAPBusinessPartnerAction = this.useSAPBusinessPartnerAction;
     final useSAPMaterialStockAction = this.useSAPMaterialStockAction;
@@ -75599,11 +78226,15 @@ class Capabilities {
     final useSandPGlobalEnergyAction = this.useSandPGlobalEnergyAction;
     final useServiceNowAction = this.useServiceNowAction;
     final useSharePointAction = this.useSharePointAction;
+    final useSharePointKnowledgeBase = this.useSharePointKnowledgeBase;
     final useSlackAction = this.useSlackAction;
     final useSmartsheetAction = this.useSmartsheetAction;
     final useTextractAction = this.useTextractAction;
+    final useWebCrawlerKnowledgeBase = this.useWebCrawlerKnowledgeBase;
+    final useWordAddInExtension = this.useWordAddInExtension;
     final useZendeskAction = this.useZendeskAction;
     final viewAccountSPICECapacity = this.viewAccountSPICECapacity;
+    final webCrawlerKnowledgeBase = this.webCrawlerKnowledgeBase;
     final zendeskAction = this.zendeskAction;
     return {
       if (accessAppsNativeDataStore != null)
@@ -75627,7 +78258,10 @@ class Capabilities {
       if (asanaAction != null) 'AsanaAction': asanaAction.value,
       if (automate != null) 'Automate': automate.value,
       if (bambooHRAction != null) 'BambooHRAction': bambooHRAction.value,
+      if (bedrockManagedKnowledgeBase != null)
+        'BedrockManagedKnowledgeBase': bedrockManagedKnowledgeBase.value,
       if (boxAgentAction != null) 'BoxAgentAction': boxAgentAction.value,
+      if (boxKnowledgeBase != null) 'BoxKnowledgeBase': boxKnowledgeBase.value,
       if (buildCalculatedFieldWithQ != null)
         'BuildCalculatedFieldWithQ': buildCalculatedFieldWithQ.value,
       if (canvaAgentAction != null) 'CanvaAgentAction': canvaAgentAction.value,
@@ -75636,6 +78270,8 @@ class Capabilities {
       if (comprehendMedicalAction != null)
         'ComprehendMedicalAction': comprehendMedicalAction.value,
       if (confluenceAction != null) 'ConfluenceAction': confluenceAction.value,
+      if (confluenceKnowledgeBase != null)
+        'ConfluenceKnowledgeBase': confluenceKnowledgeBase.value,
       if (createAndUpdateAmazonBedrockARSAction != null)
         'CreateAndUpdateAmazonBedrockARSAction':
             createAndUpdateAmazonBedrockARSAction.value,
@@ -75654,8 +78290,14 @@ class Capabilities {
         'CreateAndUpdateAsanaAction': createAndUpdateAsanaAction.value,
       if (createAndUpdateBambooHRAction != null)
         'CreateAndUpdateBambooHRAction': createAndUpdateBambooHRAction.value,
+      if (createAndUpdateBedrockManagedKnowledgeBase != null)
+        'CreateAndUpdateBedrockManagedKnowledgeBase':
+            createAndUpdateBedrockManagedKnowledgeBase.value,
       if (createAndUpdateBoxAgentAction != null)
         'CreateAndUpdateBoxAgentAction': createAndUpdateBoxAgentAction.value,
+      if (createAndUpdateBoxKnowledgeBase != null)
+        'CreateAndUpdateBoxKnowledgeBase':
+            createAndUpdateBoxKnowledgeBase.value,
       if (createAndUpdateCanvaAgentAction != null)
         'CreateAndUpdateCanvaAgentAction':
             createAndUpdateCanvaAgentAction.value,
@@ -75668,6 +78310,9 @@ class Capabilities {
       if (createAndUpdateConfluenceAction != null)
         'CreateAndUpdateConfluenceAction':
             createAndUpdateConfluenceAction.value,
+      if (createAndUpdateConfluenceKnowledgeBase != null)
+        'CreateAndUpdateConfluenceKnowledgeBase':
+            createAndUpdateConfluenceKnowledgeBase.value,
       if (createAndUpdateDashboardEmailReports != null)
         'CreateAndUpdateDashboardEmailReports':
             createAndUpdateDashboardEmailReports.value,
@@ -75685,15 +78330,23 @@ class Capabilities {
       if (createAndUpdateGoogleCalendarAction != null)
         'CreateAndUpdateGoogleCalendarAction':
             createAndUpdateGoogleCalendarAction.value,
+      if (createAndUpdateGoogleDriveKnowledgeBase != null)
+        'CreateAndUpdateGoogleDriveKnowledgeBase':
+            createAndUpdateGoogleDriveKnowledgeBase.value,
       if (createAndUpdateHubspotAction != null)
         'CreateAndUpdateHubspotAction': createAndUpdateHubspotAction.value,
       if (createAndUpdateHuggingFaceAction != null)
         'CreateAndUpdateHuggingFaceAction':
             createAndUpdateHuggingFaceAction.value,
+      if (createAndUpdateIDCKnowledgeBase != null)
+        'CreateAndUpdateIDCKnowledgeBase':
+            createAndUpdateIDCKnowledgeBase.value,
       if (createAndUpdateIntercomAction != null)
         'CreateAndUpdateIntercomAction': createAndUpdateIntercomAction.value,
       if (createAndUpdateJiraAction != null)
         'CreateAndUpdateJiraAction': createAndUpdateJiraAction.value,
+      if (createAndUpdateKnowledgeBases != null)
+        'CreateAndUpdateKnowledgeBases': createAndUpdateKnowledgeBases.value,
       if (createAndUpdateLinearAction != null)
         'CreateAndUpdateLinearAction': createAndUpdateLinearAction.value,
       if (createAndUpdateMCPAction != null)
@@ -75711,10 +78364,18 @@ class Capabilities {
         'CreateAndUpdateNotionAction': createAndUpdateNotionAction.value,
       if (createAndUpdateOneDriveAction != null)
         'CreateAndUpdateOneDriveAction': createAndUpdateOneDriveAction.value,
+      if (createAndUpdateOneDriveKnowledgeBase != null)
+        'CreateAndUpdateOneDriveKnowledgeBase':
+            createAndUpdateOneDriveKnowledgeBase.value,
       if (createAndUpdateOpenAPIAction != null)
         'CreateAndUpdateOpenAPIAction': createAndUpdateOpenAPIAction.value,
       if (createAndUpdatePagerDutyAction != null)
         'CreateAndUpdatePagerDutyAction': createAndUpdatePagerDutyAction.value,
+      if (createAndUpdateQBusinessKnowledgeBase != null)
+        'CreateAndUpdateQBusinessKnowledgeBase':
+            createAndUpdateQBusinessKnowledgeBase.value,
+      if (createAndUpdateS3KnowledgeBase != null)
+        'CreateAndUpdateS3KnowledgeBase': createAndUpdateS3KnowledgeBase.value,
       if (createAndUpdateSAPBillOfMaterialAction != null)
         'CreateAndUpdateSAPBillOfMaterialAction':
             createAndUpdateSAPBillOfMaterialAction.value,
@@ -75744,6 +78405,9 @@ class Capabilities {
       if (createAndUpdateSharePointAction != null)
         'CreateAndUpdateSharePointAction':
             createAndUpdateSharePointAction.value,
+      if (createAndUpdateSharePointKnowledgeBase != null)
+        'CreateAndUpdateSharePointKnowledgeBase':
+            createAndUpdateSharePointKnowledgeBase.value,
       if (createAndUpdateSlackAction != null)
         'CreateAndUpdateSlackAction': createAndUpdateSlackAction.value,
       if (createAndUpdateSmartsheetAction != null)
@@ -75755,6 +78419,9 @@ class Capabilities {
         'CreateAndUpdateThemes': createAndUpdateThemes.value,
       if (createAndUpdateThresholdAlerts != null)
         'CreateAndUpdateThresholdAlerts': createAndUpdateThresholdAlerts.value,
+      if (createAndUpdateWebCrawlerKnowledgeBase != null)
+        'CreateAndUpdateWebCrawlerKnowledgeBase':
+            createAndUpdateWebCrawlerKnowledgeBase.value,
       if (createAndUpdateZendeskAction != null)
         'CreateAndUpdateZendeskAction': createAndUpdateZendeskAction.value,
       if (createChatAgents != null) 'CreateChatAgents': createChatAgents.value,
@@ -75787,9 +78454,14 @@ class Capabilities {
       if (githubAction != null) 'GithubAction': githubAction.value,
       if (googleCalendarAction != null)
         'GoogleCalendarAction': googleCalendarAction.value,
+      if (googleDriveKnowledgeBase != null)
+        'GoogleDriveKnowledgeBase': googleDriveKnowledgeBase.value,
       if (hubspotAction != null) 'HubspotAction': hubspotAction.value,
       if (huggingFaceAction != null)
         'HuggingFaceAction': huggingFaceAction.value,
+      if (iDCKnowledgeBase != null) 'IDCKnowledgeBase': iDCKnowledgeBase.value,
+      if (inboundEmailTrigger != null)
+        'InboundEmailTrigger': inboundEmailTrigger.value,
       if (includeContentInScheduledReportsEmail != null)
         'IncludeContentInScheduledReportsEmail':
             includeContentInScheduledReportsEmail.value,
@@ -75808,6 +78480,8 @@ class Capabilities {
       if (newRelicAction != null) 'NewRelicAction': newRelicAction.value,
       if (notionAction != null) 'NotionAction': notionAction.value,
       if (oneDriveAction != null) 'OneDriveAction': oneDriveAction.value,
+      if (oneDriveKnowledgeBase != null)
+        'OneDriveKnowledgeBase': oneDriveKnowledgeBase.value,
       if (openAPIAction != null) 'OpenAPIAction': openAPIAction.value,
       if (pagerDutyAction != null) 'PagerDutyAction': pagerDutyAction.value,
       if (performFlowUiTask != null)
@@ -75815,9 +78489,14 @@ class Capabilities {
       if (printReports != null) 'PrintReports': printReports.value,
       if (publishWithoutApproval != null)
         'PublishWithoutApproval': publishWithoutApproval.value,
+      if (qBusinessKnowledgeBase != null)
+        'QBusinessKnowledgeBase': qBusinessKnowledgeBase.value,
+      if (quickEventTrigger != null)
+        'QuickEventTrigger': quickEventTrigger.value,
       if (renameSharedFolders != null)
         'RenameSharedFolders': renameSharedFolders.value,
       if (research != null) 'Research': research.value,
+      if (s3KnowledgeBase != null) 'S3KnowledgeBase': s3KnowledgeBase.value,
       if (sAPBillOfMaterialAction != null)
         'SAPBillOfMaterialAction': sAPBillOfMaterialAction.value,
       if (sAPBusinessPartnerAction != null)
@@ -75833,6 +78512,7 @@ class Capabilities {
       if (sandPGlobalEnergyAction != null)
         'SandPGlobalEnergyAction': sandPGlobalEnergyAction.value,
       if (scenario != null) 'Scenario': scenario.value,
+      if (scheduleTrigger != null) 'ScheduleTrigger': scheduleTrigger.value,
       if (selfUpgradeUserRole != null)
         'SelfUpgradeUserRole': selfUpgradeUserRole.value,
       if (serviceNowAction != null) 'ServiceNowAction': serviceNowAction.value,
@@ -75849,8 +78529,13 @@ class Capabilities {
       if (shareAsanaAction != null) 'ShareAsanaAction': shareAsanaAction.value,
       if (shareBambooHRAction != null)
         'ShareBambooHRAction': shareBambooHRAction.value,
+      if (shareBedrockManagedKnowledgeBase != null)
+        'ShareBedrockManagedKnowledgeBase':
+            shareBedrockManagedKnowledgeBase.value,
       if (shareBoxAgentAction != null)
         'ShareBoxAgentAction': shareBoxAgentAction.value,
+      if (shareBoxKnowledgeBase != null)
+        'ShareBoxKnowledgeBase': shareBoxKnowledgeBase.value,
       if (shareCanvaAgentAction != null)
         'ShareCanvaAgentAction': shareCanvaAgentAction.value,
       if (shareChatAgents != null) 'ShareChatAgents': shareChatAgents.value,
@@ -75860,6 +78545,8 @@ class Capabilities {
         'ShareComprehendMedicalAction': shareComprehendMedicalAction.value,
       if (shareConfluenceAction != null)
         'ShareConfluenceAction': shareConfluenceAction.value,
+      if (shareConfluenceKnowledgeBase != null)
+        'ShareConfluenceKnowledgeBase': shareConfluenceKnowledgeBase.value,
       if (shareDashboards != null) 'ShareDashboards': shareDashboards.value,
       if (shareDataSources != null) 'ShareDataSources': shareDataSources.value,
       if (shareDatasets != null) 'ShareDatasets': shareDatasets.value,
@@ -75871,13 +78558,19 @@ class Capabilities {
         'ShareGithubAction': shareGithubAction.value,
       if (shareGoogleCalendarAction != null)
         'ShareGoogleCalendarAction': shareGoogleCalendarAction.value,
+      if (shareGoogleDriveKnowledgeBase != null)
+        'ShareGoogleDriveKnowledgeBase': shareGoogleDriveKnowledgeBase.value,
       if (shareHubspotAction != null)
         'ShareHubspotAction': shareHubspotAction.value,
       if (shareHuggingFaceAction != null)
         'ShareHuggingFaceAction': shareHuggingFaceAction.value,
+      if (shareIDCKnowledgeBase != null)
+        'ShareIDCKnowledgeBase': shareIDCKnowledgeBase.value,
       if (shareIntercomAction != null)
         'ShareIntercomAction': shareIntercomAction.value,
       if (shareJiraAction != null) 'ShareJiraAction': shareJiraAction.value,
+      if (shareKnowledgeBases != null)
+        'ShareKnowledgeBases': shareKnowledgeBases.value,
       if (shareLinearAction != null)
         'ShareLinearAction': shareLinearAction.value,
       if (shareMCPAction != null) 'ShareMCPAction': shareMCPAction.value,
@@ -75893,11 +78586,19 @@ class Capabilities {
         'ShareNotionAction': shareNotionAction.value,
       if (shareOneDriveAction != null)
         'ShareOneDriveAction': shareOneDriveAction.value,
+      if (shareOneDriveKnowledgeBase != null)
+        'ShareOneDriveKnowledgeBase': shareOneDriveKnowledgeBase.value,
       if (shareOpenAPIAction != null)
         'ShareOpenAPIAction': shareOpenAPIAction.value,
       if (sharePagerDutyAction != null)
         'SharePagerDutyAction': sharePagerDutyAction.value,
       if (sharePointAction != null) 'SharePointAction': sharePointAction.value,
+      if (sharePointKnowledgeBase != null)
+        'SharePointKnowledgeBase': sharePointKnowledgeBase.value,
+      if (shareQBusinessKnowledgeBase != null)
+        'ShareQBusinessKnowledgeBase': shareQBusinessKnowledgeBase.value,
+      if (shareS3KnowledgeBase != null)
+        'ShareS3KnowledgeBase': shareS3KnowledgeBase.value,
       if (shareSAPBillOfMaterialAction != null)
         'ShareSAPBillOfMaterialAction': shareSAPBillOfMaterialAction.value,
       if (shareSAPBusinessPartnerAction != null)
@@ -75920,12 +78621,16 @@ class Capabilities {
         'ShareServiceNowAction': shareServiceNowAction.value,
       if (shareSharePointAction != null)
         'ShareSharePointAction': shareSharePointAction.value,
+      if (shareSharePointKnowledgeBase != null)
+        'ShareSharePointKnowledgeBase': shareSharePointKnowledgeBase.value,
       if (shareSlackAction != null) 'ShareSlackAction': shareSlackAction.value,
       if (shareSmartsheetAction != null)
         'ShareSmartsheetAction': shareSmartsheetAction.value,
       if (shareSpaces != null) 'ShareSpaces': shareSpaces.value,
       if (shareTextractAction != null)
         'ShareTextractAction': shareTextractAction.value,
+      if (shareWebCrawlerKnowledgeBase != null)
+        'ShareWebCrawlerKnowledgeBase': shareWebCrawlerKnowledgeBase.value,
       if (shareZendeskAction != null)
         'ShareZendeskAction': shareZendeskAction.value,
       if (slackAction != null) 'SlackAction': slackAction.value,
@@ -75936,6 +78641,7 @@ class Capabilities {
         'SubscribeDashboardEmailReports': subscribeDashboardEmailReports.value,
       if (textractAction != null) 'TextractAction': textractAction.value,
       if (topic != null) 'Topic': topic.value,
+      if (trigger != null) 'Trigger': trigger.value,
       if (useAgentWebSearch != null)
         'UseAgentWebSearch': useAgentWebSearch.value,
       if (useAmazonBedrockARSAction != null)
@@ -75949,9 +78655,15 @@ class Capabilities {
       if (useAsanaAction != null) 'UseAsanaAction': useAsanaAction.value,
       if (useBambooHRAction != null)
         'UseBambooHRAction': useBambooHRAction.value,
+      if (useBedrockManagedKnowledgeBase != null)
+        'UseBedrockManagedKnowledgeBase': useBedrockManagedKnowledgeBase.value,
       if (useBedrockModels != null) 'UseBedrockModels': useBedrockModels.value,
       if (useBoxAgentAction != null)
         'UseBoxAgentAction': useBoxAgentAction.value,
+      if (useBoxKnowledgeBase != null)
+        'UseBoxKnowledgeBase': useBoxKnowledgeBase.value,
+      if (useBrowserExtension != null)
+        'UseBrowserExtension': useBrowserExtension.value,
       if (useCanvaAgentAction != null)
         'UseCanvaAgentAction': useCanvaAgentAction.value,
       if (useComprehendAction != null)
@@ -75960,15 +78672,23 @@ class Capabilities {
         'UseComprehendMedicalAction': useComprehendMedicalAction.value,
       if (useConfluenceAction != null)
         'UseConfluenceAction': useConfluenceAction.value,
+      if (useConfluenceKnowledgeBase != null)
+        'UseConfluenceKnowledgeBase': useConfluenceKnowledgeBase.value,
+      if (useExcelAddInExtension != null)
+        'UseExcelAddInExtension': useExcelAddInExtension.value,
       if (useFactSetAction != null) 'UseFactSetAction': useFactSetAction.value,
       if (useGenericHTTPAction != null)
         'UseGenericHTTPAction': useGenericHTTPAction.value,
       if (useGithubAction != null) 'UseGithubAction': useGithubAction.value,
       if (useGoogleCalendarAction != null)
         'UseGoogleCalendarAction': useGoogleCalendarAction.value,
+      if (useGoogleDriveKnowledgeBase != null)
+        'UseGoogleDriveKnowledgeBase': useGoogleDriveKnowledgeBase.value,
       if (useHubspotAction != null) 'UseHubspotAction': useHubspotAction.value,
       if (useHuggingFaceAction != null)
         'UseHuggingFaceAction': useHuggingFaceAction.value,
+      if (useIDCKnowledgeBase != null)
+        'UseIDCKnowledgeBase': useIDCKnowledgeBase.value,
       if (useIntercomAction != null)
         'UseIntercomAction': useIntercomAction.value,
       if (useJiraAction != null) 'UseJiraAction': useJiraAction.value,
@@ -75983,9 +78703,19 @@ class Capabilities {
       if (useNotionAction != null) 'UseNotionAction': useNotionAction.value,
       if (useOneDriveAction != null)
         'UseOneDriveAction': useOneDriveAction.value,
+      if (useOneDriveKnowledgeBase != null)
+        'UseOneDriveKnowledgeBase': useOneDriveKnowledgeBase.value,
       if (useOpenAPIAction != null) 'UseOpenAPIAction': useOpenAPIAction.value,
+      if (useOutlookAddInExtension != null)
+        'UseOutlookAddInExtension': useOutlookAddInExtension.value,
       if (usePagerDutyAction != null)
         'UsePagerDutyAction': usePagerDutyAction.value,
+      if (usePowerpointAddInExtension != null)
+        'UsePowerpointAddInExtension': usePowerpointAddInExtension.value,
+      if (useQBusinessKnowledgeBase != null)
+        'UseQBusinessKnowledgeBase': useQBusinessKnowledgeBase.value,
+      if (useS3KnowledgeBase != null)
+        'UseS3KnowledgeBase': useS3KnowledgeBase.value,
       if (useSAPBillOfMaterialAction != null)
         'UseSAPBillOfMaterialAction': useSAPBillOfMaterialAction.value,
       if (useSAPBusinessPartnerAction != null)
@@ -76006,28 +78736,125 @@ class Capabilities {
         'UseServiceNowAction': useServiceNowAction.value,
       if (useSharePointAction != null)
         'UseSharePointAction': useSharePointAction.value,
+      if (useSharePointKnowledgeBase != null)
+        'UseSharePointKnowledgeBase': useSharePointKnowledgeBase.value,
       if (useSlackAction != null) 'UseSlackAction': useSlackAction.value,
       if (useSmartsheetAction != null)
         'UseSmartsheetAction': useSmartsheetAction.value,
       if (useTextractAction != null)
         'UseTextractAction': useTextractAction.value,
+      if (useWebCrawlerKnowledgeBase != null)
+        'UseWebCrawlerKnowledgeBase': useWebCrawlerKnowledgeBase.value,
+      if (useWordAddInExtension != null)
+        'UseWordAddInExtension': useWordAddInExtension.value,
       if (useZendeskAction != null) 'UseZendeskAction': useZendeskAction.value,
       if (viewAccountSPICECapacity != null)
         'ViewAccountSPICECapacity': viewAccountSPICECapacity.value,
+      if (webCrawlerKnowledgeBase != null)
+        'WebCrawlerKnowledgeBase': webCrawlerKnowledgeBase.value,
       if (zendeskAction != null) 'ZendeskAction': zendeskAction.value,
     };
   }
 }
 
+/// Contains the governance configuration for a custom permissions profile. When
+/// governance controls are defined for a category, any capabilities in that
+/// category not explicitly set to <code>ALLOW</code> in
+/// <code>Capabilities</code> are denied. Even newly added capabilities in the
+/// category are implicitly disabled when Amazon Quick releases them.
+///
+/// @nodoc
+class Governance {
+  /// A map of <code>DefaultCategoryEffects</code>.
+  final Map<String, DefaultCategoryEffect>? defaultCategoryEffects;
+
+  Governance({
+    this.defaultCategoryEffects,
+  });
+
+  factory Governance.fromJson(Map<String, dynamic> json) {
+    return Governance(
+      defaultCategoryEffects:
+          (json['DefaultCategoryEffects'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, DefaultCategoryEffect.fromString((e as String)))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultCategoryEffects = this.defaultCategoryEffects;
+    return {
+      if (defaultCategoryEffects != null)
+        'DefaultCategoryEffects':
+            defaultCategoryEffects.map((k, e) => MapEntry(k, e.value)),
+    };
+  }
+}
+
+/// The default effect that Amazon Quick applies to capabilities in a governed
+/// category when you do not explicitly list those capabilities in
+/// <code>Capabilities</code>. Valid values:
+///
+/// <ul>
+/// <li>
+/// <code>DENY_BY_DEFAULT</code> – Amazon Quick denies any capability access in
+/// the given category that the profile does not explicitly set to
+/// <code>ALLOW</code>.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class DefaultCategoryEffect {
+  static const denyByDefault = DefaultCategoryEffect._('DENY_BY_DEFAULT');
+
+  final String value;
+
+  const DefaultCategoryEffect._(this.value);
+
+  static const values = [denyByDefault];
+
+  static DefaultCategoryEffect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefaultCategoryEffect._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultCategoryEffect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The permission state of a capability in a custom permissions profile. Valid
+/// values:
+///
+/// <ul>
+/// <li>
+/// <code>DENY</code> – Amazon Quick denies this capability for users assigned
+/// to the profile.
+/// </li>
+/// <li>
+/// <code>ALLOW</code> – Amazon Quick grants this capability to users assigned
+/// to the profile. This value is only relevant when governance is enabled for
+/// the capability's category. Without governance, the default effect is always
+/// <code>ALLOW</code>. In a governed category, this value overrides the
+/// category-level deny-by-default behavior for that capability only.
+/// </li>
+/// </ul>
+///
 /// @nodoc
 class CapabilityState {
   static const deny = CapabilityState._('DENY');
+  static const allow = CapabilityState._('ALLOW');
 
   final String value;
 
   const CapabilityState._(this.value);
 
-  static const values = [deny];
+  static const values = [deny, allow];
 
   static CapabilityState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -76906,6 +79733,10 @@ class AnalysisDefinition {
   /// tooltip sheet within this analysis.
   final List<TooltipSheetDefinition>? tooltipSheets;
 
+  /// An array of topic identifier declarations. This mapping allows the usage of
+  /// topic identifiers instead of topic ARNs throughout analysis sub-structures.
+  final List<TopicIdentifierDeclaration>? topicIdentifierDeclarations;
+
   AnalysisDefinition({
     required this.dataSetIdentifierDeclarations,
     this.analysisDefaults,
@@ -76918,6 +79749,7 @@ class AnalysisDefinition {
     this.sheets,
     this.staticFiles,
     this.tooltipSheets,
+    this.topicIdentifierDeclarations,
   });
 
   factory AnalysisDefinition.fromJson(Map<String, dynamic> json) {
@@ -76969,6 +79801,12 @@ class AnalysisDefinition {
           .map(
               (e) => TooltipSheetDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
+      topicIdentifierDeclarations: (json['TopicIdentifierDeclarations']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              TopicIdentifierDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -76984,6 +79822,7 @@ class AnalysisDefinition {
     final sheets = this.sheets;
     final staticFiles = this.staticFiles;
     final tooltipSheets = this.tooltipSheets;
+    final topicIdentifierDeclarations = this.topicIdentifierDeclarations;
     return {
       'DataSetIdentifierDeclarations': dataSetIdentifierDeclarations,
       if (analysisDefaults != null) 'AnalysisDefaults': analysisDefaults,
@@ -76999,6 +79838,8 @@ class AnalysisDefinition {
       if (sheets != null) 'Sheets': sheets,
       if (staticFiles != null) 'StaticFiles': staticFiles,
       if (tooltipSheets != null) 'TooltipSheets': tooltipSheets,
+      if (topicIdentifierDeclarations != null)
+        'TopicIdentifierDeclarations': topicIdentifierDeclarations,
     };
   }
 }
@@ -77013,17 +79854,23 @@ class AnalysisSourceTemplate {
   /// The dataset references of the source template of an analysis.
   final List<DataSetReference> dataSetReferences;
 
+  /// The topic references of the source template of an analysis.
+  final List<TopicReference>? topicReferences;
+
   AnalysisSourceTemplate({
     required this.arn,
     required this.dataSetReferences,
+    this.topicReferences,
   });
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final dataSetReferences = this.dataSetReferences;
+    final topicReferences = this.topicReferences;
     return {
       'Arn': arn,
       'DataSetReferences': dataSetReferences,
+      if (topicReferences != null) 'TopicReferences': topicReferences,
     };
   }
 }
@@ -80779,37 +83626,31 @@ class AssetBundleExportJobVPCConnectionPropertyToOverride {
   String toString() => value;
 }
 
-/// A topic summary.
+/// A summary of the topic.
 ///
 /// @nodoc
-class TopicSummary {
+class TopicV2Summary {
   /// The Amazon Resource Name (ARN) of the topic.
   final String? arn;
 
   /// The name of the topic.
   final String? name;
 
-  /// The ID for the topic. This ID is unique per Amazon Web Services Region for
+  /// The ID of the topic. This ID is unique per Amazon Web Services Region for
   /// each Amazon Web Services account.
   final String? topicId;
 
-  /// The user experience version of the topic.
-  final TopicUserExperienceVersion? userExperienceVersion;
-
-  TopicSummary({
+  TopicV2Summary({
     this.arn,
     this.name,
     this.topicId,
-    this.userExperienceVersion,
   });
 
-  factory TopicSummary.fromJson(Map<String, dynamic> json) {
-    return TopicSummary(
+  factory TopicV2Summary.fromJson(Map<String, dynamic> json) {
+    return TopicV2Summary(
       arn: json['Arn'] as String?,
       name: json['Name'] as String?,
       topicId: json['TopicId'] as String?,
-      userExperienceVersion: (json['UserExperienceVersion'] as String?)
-          ?.let(TopicUserExperienceVersion.fromString),
     );
   }
 
@@ -80817,13 +83658,10 @@ class TopicSummary {
     final arn = this.arn;
     final name = this.name;
     final topicId = this.topicId;
-    final userExperienceVersion = this.userExperienceVersion;
     return {
       if (arn != null) 'Arn': arn,
       if (name != null) 'Name': name,
       if (topicId != null) 'TopicId': topicId,
-      if (userExperienceVersion != null)
-        'UserExperienceVersion': userExperienceVersion.value,
     };
   }
 }
@@ -80926,6 +83764,55 @@ class TopicFilterAttribute {
 
   @override
   String toString() => value;
+}
+
+/// A topic summary.
+///
+/// @nodoc
+class TopicSummary {
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? arn;
+
+  /// The name of the topic.
+  final String? name;
+
+  /// The ID for the topic. This ID is unique per Amazon Web Services Region for
+  /// each Amazon Web Services account.
+  final String? topicId;
+
+  /// The user experience version of the topic.
+  final TopicUserExperienceVersion? userExperienceVersion;
+
+  TopicSummary({
+    this.arn,
+    this.name,
+    this.topicId,
+    this.userExperienceVersion,
+  });
+
+  factory TopicSummary.fromJson(Map<String, dynamic> json) {
+    return TopicSummary(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      topicId: json['TopicId'] as String?,
+      userExperienceVersion: (json['UserExperienceVersion'] as String?)
+          ?.let(TopicUserExperienceVersion.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final topicId = this.topicId;
+    final userExperienceVersion = this.userExperienceVersion;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+      if (topicId != null) 'TopicId': topicId,
+      if (userExperienceVersion != null)
+        'UserExperienceVersion': userExperienceVersion.value,
+    };
+  }
 }
 
 /// A summary of an Amazon QuickSight space.
@@ -81368,6 +84255,43 @@ class KnowledgeBaseSearchFilter {
   }
 }
 
+/// The name of a field that you can use to filter knowledge base search
+/// results. Valid values include:
+///
+/// <ul>
+/// <li>
+/// <code>DATASOURCE_ARN</code> – The Amazon Resource Name (ARN) of the
+/// associated data source.
+/// </li>
+/// <li>
+/// <code>DIRECT_QUICKSIGHT_OWNER</code> – An Amazon QuickSight user or group
+/// with direct owner permissions.
+/// </li>
+/// <li>
+/// <code>DIRECT_QUICKSIGHT_SOLE_OWNER</code> – An Amazon QuickSight user or
+/// group that is the sole direct owner.
+/// </li>
+/// <li>
+/// <code>DIRECT_QUICKSIGHT_VIEWER_OR_OWNER</code> – An Amazon QuickSight user
+/// or group with direct viewer or owner permissions.
+/// </li>
+/// <li>
+/// <code>KNOWLEDGE_BASE_ID</code> – The unique identifier of the knowledge
+/// base.
+/// </li>
+/// <li>
+/// <code>KNOWLEDGE_BASE_NAME</code> – The display name of the knowledge base.
+/// </li>
+/// <li>
+/// <code>KNOWLEDGE_BASE_SIZE_BYTES</code> – The size of the knowledge base in
+/// bytes.
+/// </li>
+/// <li>
+/// <code>PRIMARY_OWNER</code> – The Amazon Resource Name (ARN) of the primary
+/// owner of the knowledge base.
+/// </li>
+/// </ul>
+///
 /// @nodoc
 class KnowledgeBaseSearchFilterName {
   static const knowledgeBaseId =
@@ -81383,6 +84307,8 @@ class KnowledgeBaseSearchFilterName {
   static const knowledgeBaseSizeBytes =
       KnowledgeBaseSearchFilterName._('KNOWLEDGE_BASE_SIZE_BYTES');
   static const primaryOwner = KnowledgeBaseSearchFilterName._('PRIMARY_OWNER');
+  static const datasourceArn =
+      KnowledgeBaseSearchFilterName._('DATASOURCE_ARN');
 
   final String value;
 
@@ -81395,7 +84321,8 @@ class KnowledgeBaseSearchFilterName {
     directQuicksightViewerOrOwner,
     directQuicksightSoleOwner,
     knowledgeBaseSizeBytes,
-    primaryOwner
+    primaryOwner,
+    datasourceArn
   ];
 
   static KnowledgeBaseSearchFilterName fromString(String value) =>
@@ -85067,32 +87994,6 @@ class AggType {
   String toString() => value;
 }
 
-/// @nodoc
-class TopicSortDirection {
-  static const ascending = TopicSortDirection._('ASCENDING');
-  static const descending = TopicSortDirection._('DESCENDING');
-
-  final String value;
-
-  const TopicSortDirection._(this.value);
-
-  static const values = [ascending, descending];
-
-  static TopicSortDirection fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TopicSortDirection._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TopicSortDirection && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// The definition of the Anchor.
 ///
 /// @nodoc
@@ -86928,6 +89829,21 @@ class DataSource {
   /// The time that this data source was created.
   final DateTime? createdTime;
 
+  /// The credential verification status of the data source. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONNECTED</code> – Credential validation succeeded.
+  /// </li>
+  /// <li>
+  /// <code>AUTH_FAILED</code> – Credential validation failed.
+  /// </li>
+  /// <li>
+  /// <code>NOT_VERIFIED</code> – Credential validation has not been performed.
+  /// </li>
+  /// </ul>
+  final CredentialStatus? credentialStatus;
+
   /// The ID of the data source. This ID is unique per Amazon Web Services Region
   /// for each Amazon Web Services account.
   final String? dataSourceId;
@@ -86939,6 +89855,9 @@ class DataSource {
 
   /// Error information from the last update or the creation of the data source.
   final DataSourceErrorInfo? errorInfo;
+
+  /// The time that the credentials were last verified.
+  final DateTime? lastCredentialVerifiedAt;
 
   /// The last time that this data source was updated.
   final DateTime? lastUpdatedTime;
@@ -86970,9 +89889,11 @@ class DataSource {
     this.alternateDataSourceParameters,
     this.arn,
     this.createdTime,
+    this.credentialStatus,
     this.dataSourceId,
     this.dataSourceParameters,
     this.errorInfo,
+    this.lastCredentialVerifiedAt,
     this.lastUpdatedTime,
     this.name,
     this.secretArn,
@@ -86991,6 +89912,8 @@ class DataSource {
           .toList(),
       arn: json['Arn'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
+      credentialStatus: (json['CredentialStatus'] as String?)
+          ?.let(CredentialStatus.fromString),
       dataSourceId: json['DataSourceId'] as String?,
       dataSourceParameters: json['DataSourceParameters'] != null
           ? DataSourceParameters.fromJson(
@@ -87000,6 +89923,8 @@ class DataSource {
           ? DataSourceErrorInfo.fromJson(
               json['ErrorInfo'] as Map<String, dynamic>)
           : null,
+      lastCredentialVerifiedAt:
+          timeStampFromJson(json['LastCredentialVerifiedAt']),
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       secretArn: json['SecretArn'] as String?,
@@ -87020,9 +89945,11 @@ class DataSource {
     final alternateDataSourceParameters = this.alternateDataSourceParameters;
     final arn = this.arn;
     final createdTime = this.createdTime;
+    final credentialStatus = this.credentialStatus;
     final dataSourceId = this.dataSourceId;
     final dataSourceParameters = this.dataSourceParameters;
     final errorInfo = this.errorInfo;
+    final lastCredentialVerifiedAt = this.lastCredentialVerifiedAt;
     final lastUpdatedTime = this.lastUpdatedTime;
     final name = this.name;
     final secretArn = this.secretArn;
@@ -87035,10 +89962,14 @@ class DataSource {
         'AlternateDataSourceParameters': alternateDataSourceParameters,
       if (arn != null) 'Arn': arn,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (credentialStatus != null) 'CredentialStatus': credentialStatus.value,
       if (dataSourceId != null) 'DataSourceId': dataSourceId,
       if (dataSourceParameters != null)
         'DataSourceParameters': dataSourceParameters,
       if (errorInfo != null) 'ErrorInfo': errorInfo,
+      if (lastCredentialVerifiedAt != null)
+        'LastCredentialVerifiedAt':
+            unixTimestampToJson(lastCredentialVerifiedAt),
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
@@ -87082,6 +90013,32 @@ class DataSourceErrorInfo {
       if (type != null) 'Type': type.value,
     };
   }
+}
+
+/// @nodoc
+class CredentialStatus {
+  static const connected = CredentialStatus._('CONNECTED');
+  static const authFailed = CredentialStatus._('AUTH_FAILED');
+  static const notVerified = CredentialStatus._('NOT_VERIFIED');
+
+  final String value;
+
+  const CredentialStatus._(this.value);
+
+  static const values = [connected, authFailed, notVerified];
+
+  static CredentialStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CredentialStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CredentialStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -87201,10 +90158,17 @@ class CustomPermissions {
   /// The name of the custom permissions profile.
   final String? customPermissionsName;
 
+  /// The governance configuration for the custom permissions profile. When you
+  /// enable governance for a category, Amazon Quick denies access to any current
+  /// or new capability in that category unless you explicitly set that capability
+  /// to <code>ALLOW</code> in <code>Capabilities</code>.
+  final Governance? governance;
+
   CustomPermissions({
     this.arn,
     this.capabilities,
     this.customPermissionsName,
+    this.governance,
   });
 
   factory CustomPermissions.fromJson(Map<String, dynamic> json) {
@@ -87214,6 +90178,9 @@ class CustomPermissions {
           ? Capabilities.fromJson(json['Capabilities'] as Map<String, dynamic>)
           : null,
       customPermissionsName: json['CustomPermissionsName'] as String?,
+      governance: json['Governance'] != null
+          ? Governance.fromJson(json['Governance'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -87221,11 +90188,13 @@ class CustomPermissions {
     final arn = this.arn;
     final capabilities = this.capabilities;
     final customPermissionsName = this.customPermissionsName;
+    final governance = this.governance;
     return {
       if (arn != null) 'Arn': arn,
       if (capabilities != null) 'Capabilities': capabilities,
       if (customPermissionsName != null)
         'CustomPermissionsName': customPermissionsName,
+      if (governance != null) 'Governance': governance,
     };
   }
 }
@@ -89193,6 +92162,11 @@ class TemplateVersion {
   /// The ARN of the theme associated with this version of the template.
   final String? themeArn;
 
+  /// Schema of the topic identified by the placeholder. Any dashboard created
+  /// from this template should be bound to new topics matching the same schema
+  /// described through this API operation.
+  final List<TopicConfiguration>? topicConfigurations;
+
   /// The version number of the template version.
   final int? versionNumber;
 
@@ -89205,6 +92179,7 @@ class TemplateVersion {
     this.sourceEntityArn,
     this.status,
     this.themeArn,
+    this.topicConfigurations,
     this.versionNumber,
   });
 
@@ -89227,6 +92202,10 @@ class TemplateVersion {
       sourceEntityArn: json['SourceEntityArn'] as String?,
       status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       themeArn: json['ThemeArn'] as String?,
+      topicConfigurations: (json['TopicConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => TopicConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       versionNumber: json['VersionNumber'] as int?,
     );
   }
@@ -89240,6 +92219,7 @@ class TemplateVersion {
     final sourceEntityArn = this.sourceEntityArn;
     final status = this.status;
     final themeArn = this.themeArn;
+    final topicConfigurations = this.topicConfigurations;
     final versionNumber = this.versionNumber;
     return {
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
@@ -89251,6 +92231,8 @@ class TemplateVersion {
       if (sourceEntityArn != null) 'SourceEntityArn': sourceEntityArn,
       if (status != null) 'Status': status.value,
       if (themeArn != null) 'ThemeArn': themeArn,
+      if (topicConfigurations != null)
+        'TopicConfigurations': topicConfigurations,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
@@ -89642,6 +92624,9 @@ class KnowledgeBase {
   /// The status of the knowledge base.
   final DataSetStatus status;
 
+  /// The access control configuration for the knowledge base.
+  final AccessControlConfiguration? accessControlConfiguration;
+
   /// The date and time that the knowledge base was created.
   final DateTime? createdAt;
 
@@ -89657,7 +92642,7 @@ class KnowledgeBase {
   /// A summary of the first incomplete ingestion for the knowledge base.
   final KnowledgeBaseIngestionSummary? firstIncompleteIngestionSummary;
 
-  /// Indicates whether email notifications are enabled for ingestion failures.
+  /// Specifies whether email notifications are enabled for ingestion failures.
   final bool? isEmailNotificationOptedForIngestionFailures;
 
   /// The size of the knowledge base in bytes.
@@ -89688,6 +92673,7 @@ class KnowledgeBase {
     required this.knowledgeBaseId,
     required this.name,
     required this.status,
+    this.accessControlConfiguration,
     this.createdAt,
     this.description,
     this.documentCount,
@@ -89713,6 +92699,10 @@ class KnowledgeBase {
       knowledgeBaseId: (json['KnowledgeBaseId'] as String?) ?? '',
       name: (json['Name'] as String?) ?? '',
       status: DataSetStatus.fromString((json['Status'] as String?) ?? ''),
+      accessControlConfiguration: json['AccessControlConfiguration'] != null
+          ? AccessControlConfiguration.fromJson(
+              json['AccessControlConfiguration'] as Map<String, dynamic>)
+          : null,
       createdAt: timeStampFromJson(json['CreatedAt']),
       description: json['Description'] as String?,
       documentCount: json['DocumentCount'] as int?,
@@ -89752,6 +92742,7 @@ class KnowledgeBase {
     final knowledgeBaseId = this.knowledgeBaseId;
     final name = this.name;
     final status = this.status;
+    final accessControlConfiguration = this.accessControlConfiguration;
     final createdAt = this.createdAt;
     final description = this.description;
     final documentCount = this.documentCount;
@@ -89774,6 +92765,8 @@ class KnowledgeBase {
       'KnowledgeBaseId': knowledgeBaseId,
       'Name': name,
       'Status': status.value,
+      if (accessControlConfiguration != null)
+        'AccessControlConfiguration': accessControlConfiguration,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (description != null) 'Description': description,
       if (documentCount != null) 'DocumentCount': documentCount,
@@ -89795,93 +92788,6 @@ class KnowledgeBase {
         'PrimaryOwnerUsername': primaryOwnerUsername,
       if (type != null) 'Type': type,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// The configuration settings for a knowledge base.
-///
-/// @nodoc
-class KnowledgeBaseConfiguration {
-  /// Indicates whether event notifications are enabled for the knowledge base.
-  final bool? eventEnabled;
-
-  /// The template configuration for the knowledge base.
-  final KbTemplateConfiguration? templateConfiguration;
-
-  KnowledgeBaseConfiguration({
-    this.eventEnabled,
-    this.templateConfiguration,
-  });
-
-  factory KnowledgeBaseConfiguration.fromJson(Map<String, dynamic> json) {
-    return KnowledgeBaseConfiguration(
-      eventEnabled: json['eventEnabled'] as bool?,
-      templateConfiguration: json['templateConfiguration'] != null
-          ? KbTemplateConfiguration.fromJson(
-              json['templateConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventEnabled = this.eventEnabled;
-    final templateConfiguration = this.templateConfiguration;
-    return {
-      if (eventEnabled != null) 'eventEnabled': eventEnabled,
-      if (templateConfiguration != null)
-        'templateConfiguration': templateConfiguration,
-    };
-  }
-}
-
-/// The configuration for media extraction from knowledge base documents.
-///
-/// @nodoc
-class MediaExtractionConfiguration {
-  /// The configuration for audio extraction.
-  final AudioExtractionConfiguration? audioExtractionConfiguration;
-
-  /// The configuration for image extraction.
-  final ImageExtractionConfiguration? imageExtractionConfiguration;
-
-  /// The configuration for video extraction.
-  final VideoExtractionConfiguration? videoExtractionConfiguration;
-
-  MediaExtractionConfiguration({
-    this.audioExtractionConfiguration,
-    this.imageExtractionConfiguration,
-    this.videoExtractionConfiguration,
-  });
-
-  factory MediaExtractionConfiguration.fromJson(Map<String, dynamic> json) {
-    return MediaExtractionConfiguration(
-      audioExtractionConfiguration: json['audioExtractionConfiguration'] != null
-          ? AudioExtractionConfiguration.fromJson(
-              json['audioExtractionConfiguration'] as Map<String, dynamic>)
-          : null,
-      imageExtractionConfiguration: json['imageExtractionConfiguration'] != null
-          ? ImageExtractionConfiguration.fromJson(
-              json['imageExtractionConfiguration'] as Map<String, dynamic>)
-          : null,
-      videoExtractionConfiguration: json['videoExtractionConfiguration'] != null
-          ? VideoExtractionConfiguration.fromJson(
-              json['videoExtractionConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final audioExtractionConfiguration = this.audioExtractionConfiguration;
-    final imageExtractionConfiguration = this.imageExtractionConfiguration;
-    final videoExtractionConfiguration = this.videoExtractionConfiguration;
-    return {
-      if (audioExtractionConfiguration != null)
-        'audioExtractionConfiguration': audioExtractionConfiguration,
-      if (imageExtractionConfiguration != null)
-        'imageExtractionConfiguration': imageExtractionConfiguration,
-      if (videoExtractionConfiguration != null)
-        'videoExtractionConfiguration': videoExtractionConfiguration,
     };
   }
 }
@@ -89971,227 +92877,6 @@ class KbIngestionStatus {
 
   @override
   String toString() => value;
-}
-
-/// The configuration for image extraction from knowledge base documents.
-///
-/// @nodoc
-class ImageExtractionConfiguration {
-  /// The status of image extraction. Valid values are ENABLED and DISABLED.
-  final ImageExtractionStatus imageExtractionStatus;
-
-  ImageExtractionConfiguration({
-    required this.imageExtractionStatus,
-  });
-
-  factory ImageExtractionConfiguration.fromJson(Map<String, dynamic> json) {
-    return ImageExtractionConfiguration(
-      imageExtractionStatus: ImageExtractionStatus.fromString(
-          (json['imageExtractionStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final imageExtractionStatus = this.imageExtractionStatus;
-    return {
-      'imageExtractionStatus': imageExtractionStatus.value,
-    };
-  }
-}
-
-/// The configuration for audio extraction from knowledge base documents.
-///
-/// @nodoc
-class AudioExtractionConfiguration {
-  /// The status of audio extraction. Valid values are ENABLED and DISABLED.
-  final AudioExtractionStatus audioExtractionStatus;
-
-  AudioExtractionConfiguration({
-    required this.audioExtractionStatus,
-  });
-
-  factory AudioExtractionConfiguration.fromJson(Map<String, dynamic> json) {
-    return AudioExtractionConfiguration(
-      audioExtractionStatus: AudioExtractionStatus.fromString(
-          (json['audioExtractionStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final audioExtractionStatus = this.audioExtractionStatus;
-    return {
-      'audioExtractionStatus': audioExtractionStatus.value,
-    };
-  }
-}
-
-/// The configuration for video extraction from knowledge base documents.
-///
-/// @nodoc
-class VideoExtractionConfiguration {
-  /// The status of video extraction. Valid values are ENABLED and DISABLED.
-  final VideoExtractionStatus videoExtractionStatus;
-
-  /// The type of video extraction to perform.
-  final VideoExtractionType? videoExtractionType;
-
-  VideoExtractionConfiguration({
-    required this.videoExtractionStatus,
-    this.videoExtractionType,
-  });
-
-  factory VideoExtractionConfiguration.fromJson(Map<String, dynamic> json) {
-    return VideoExtractionConfiguration(
-      videoExtractionStatus: VideoExtractionStatus.fromString(
-          (json['videoExtractionStatus'] as String?) ?? ''),
-      videoExtractionType: (json['videoExtractionType'] as String?)
-          ?.let(VideoExtractionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final videoExtractionStatus = this.videoExtractionStatus;
-    final videoExtractionType = this.videoExtractionType;
-    return {
-      'videoExtractionStatus': videoExtractionStatus.value,
-      if (videoExtractionType != null)
-        'videoExtractionType': videoExtractionType.value,
-    };
-  }
-}
-
-/// @nodoc
-class VideoExtractionStatus {
-  static const enabled = VideoExtractionStatus._('ENABLED');
-  static const disabled = VideoExtractionStatus._('DISABLED');
-
-  final String value;
-
-  const VideoExtractionStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static VideoExtractionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VideoExtractionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VideoExtractionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class VideoExtractionType {
-  static const audioTranscriptionOnly =
-      VideoExtractionType._('AUDIO_TRANSCRIPTION_ONLY');
-  static const visualContentAndAudioTranscription =
-      VideoExtractionType._('VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION');
-
-  final String value;
-
-  const VideoExtractionType._(this.value);
-
-  static const values = [
-    audioTranscriptionOnly,
-    visualContentAndAudioTranscription
-  ];
-
-  static VideoExtractionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VideoExtractionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VideoExtractionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class AudioExtractionStatus {
-  static const enabled = AudioExtractionStatus._('ENABLED');
-  static const disabled = AudioExtractionStatus._('DISABLED');
-
-  final String value;
-
-  const AudioExtractionStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static AudioExtractionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AudioExtractionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AudioExtractionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// @nodoc
-class ImageExtractionStatus {
-  static const enabled = ImageExtractionStatus._('ENABLED');
-  static const disabled = ImageExtractionStatus._('DISABLED');
-
-  final String value;
-
-  const ImageExtractionStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ImageExtractionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageExtractionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ImageExtractionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The template configuration for a knowledge base.
-///
-/// @nodoc
-class KbTemplateConfiguration {
-  /// The template document that defines the knowledge base behavior.
-  final Object? template;
-
-  KbTemplateConfiguration({
-    this.template,
-  });
-
-  factory KbTemplateConfiguration.fromJson(Map<String, dynamic> json) {
-    return KbTemplateConfiguration(
-      template: json['template'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final template = this.template;
-    return {
-      if (template != null) 'template': template,
-    };
-  }
 }
 
 /// A structure that contains information about the <code>QDataKey</code>.
@@ -91354,7 +94039,7 @@ class DashboardVersion {
   /// The time that this dashboard version was created.
   final DateTime? createdTime;
 
-  /// The Amazon Resource Numbers (ARNs) for the datasets that are associated with
+  /// The Amazon Resource Names (ARNs) for the datasets that are associated with
   /// this version of the dashboard.
   final List<String>? dataSetArns;
 
@@ -91377,6 +94062,10 @@ class DashboardVersion {
   /// The ARN of the theme associated with a version of the dashboard.
   final String? themeArn;
 
+  /// The Amazon Resource Names (ARNs) for the topics that are associated with
+  /// this version of the dashboard.
+  final List<String>? topicArns;
+
   /// Version number for this version of the dashboard.
   final int? versionNumber;
 
@@ -91390,6 +94079,7 @@ class DashboardVersion {
     this.sourceEntityArn,
     this.status,
     this.themeArn,
+    this.topicArns,
     this.versionNumber,
   });
 
@@ -91413,6 +94103,10 @@ class DashboardVersion {
       sourceEntityArn: json['SourceEntityArn'] as String?,
       status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       themeArn: json['ThemeArn'] as String?,
+      topicArns: (json['TopicArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       versionNumber: json['VersionNumber'] as int?,
     );
   }
@@ -91427,6 +94121,7 @@ class DashboardVersion {
     final sourceEntityArn = this.sourceEntityArn;
     final status = this.status;
     final themeArn = this.themeArn;
+    final topicArns = this.topicArns;
     final versionNumber = this.versionNumber;
     return {
       if (arn != null) 'Arn': arn,
@@ -91438,6 +94133,7 @@ class DashboardVersion {
       if (sourceEntityArn != null) 'SourceEntityArn': sourceEntityArn,
       if (status != null) 'Status': status.value,
       if (themeArn != null) 'ThemeArn': themeArn,
+      if (topicArns != null) 'TopicArns': topicArns,
       if (versionNumber != null) 'VersionNumber': versionNumber,
     };
   }
@@ -91780,6 +94476,9 @@ class Analysis {
   /// The ARN of the theme of the analysis.
   final String? themeArn;
 
+  /// The ARNs of the topics associated with the analysis.
+  final List<String>? topicArns;
+
   Analysis({
     this.analysisId,
     this.arn,
@@ -91791,6 +94490,7 @@ class Analysis {
     this.sheets,
     this.status,
     this.themeArn,
+    this.topicArns,
   });
 
   factory Analysis.fromJson(Map<String, dynamic> json) {
@@ -91814,6 +94514,10 @@ class Analysis {
           .toList(),
       status: (json['Status'] as String?)?.let(ResourceStatus.fromString),
       themeArn: json['ThemeArn'] as String?,
+      topicArns: (json['TopicArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -91828,6 +94532,7 @@ class Analysis {
     final sheets = this.sheets;
     final status = this.status;
     final themeArn = this.themeArn;
+    final topicArns = this.topicArns;
     return {
       if (analysisId != null) 'AnalysisId': analysisId,
       if (arn != null) 'Arn': arn,
@@ -91840,6 +94545,7 @@ class Analysis {
       if (sheets != null) 'Sheets': sheets,
       if (status != null) 'Status': status.value,
       if (themeArn != null) 'ThemeArn': themeArn,
+      if (topicArns != null) 'TopicArns': topicArns,
     };
   }
 }

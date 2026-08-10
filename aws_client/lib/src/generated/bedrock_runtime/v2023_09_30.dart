@@ -274,6 +274,40 @@ class BedrockRuntime {
     return ApplyGuardrailResponse.fromJson(response);
   }
 
+  /// Evaluates messages against inline guardrail checks. You specify the check
+  /// configurations directly in the request, and Amazon Bedrock returns
+  /// per-check results with severity or confidence scores.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [checks] :
+  /// The inline check configurations that specify which guardrail checks to run
+  /// against the messages.
+  ///
+  /// Parameter [messages] :
+  /// The messages to evaluate against the specified guardrail checks. Each
+  /// message includes a role and one or more content blocks.
+  Future<InvokeGuardrailChecksResponse> invokeGuardrailChecks({
+    required GuardrailChecksConfig checks,
+    required List<GuardrailChecksMessage> messages,
+  }) async {
+    final $payload = <String, dynamic>{
+      'checks': checks,
+      'messages': messages,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/guardrail-checks/invoke',
+      exceptionFnMap: _exceptionFns,
+    );
+    return InvokeGuardrailChecksResponse.fromJson(response);
+  }
+
   /// Sends messages to the specified Amazon Bedrock model.
   /// <code>Converse</code> provides a consistent interface that works with all
   /// models that support messages. This allows you to write code once and use
@@ -1567,6 +1601,40 @@ class ApplyGuardrailResponse {
 }
 
 /// @nodoc
+class InvokeGuardrailChecksResponse {
+  /// The per-check results containing findings from the guardrail evaluation.
+  final GuardrailChecksResults results;
+
+  /// The per-check text unit consumption for the guardrail evaluation.
+  final GuardrailChecksUsageResults usage;
+
+  InvokeGuardrailChecksResponse({
+    required this.results,
+    required this.usage,
+  });
+
+  factory InvokeGuardrailChecksResponse.fromJson(Map<String, dynamic> json) {
+    return InvokeGuardrailChecksResponse(
+      results: GuardrailChecksResults.fromJson(
+          (json['results'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      usage: GuardrailChecksUsageResults.fromJson(
+          (json['usage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final usage = this.usage;
+    return {
+      'results': results,
+      'usage': usage,
+    };
+  }
+}
+
+/// @nodoc
 class ConverseResponse {
   /// Metrics for the call to <code>Converse</code>.
   final ConverseMetrics metrics;
@@ -2646,6 +2714,8 @@ class ContentBlock {
 
   /// Text to include in the message.
   final String? text;
+  final ToolAdditionBlock? toolAddition;
+  final ToolRemovalBlock? toolRemoval;
 
   /// The result for a tool request that a model makes.
   final ToolResultBlock? toolResult;
@@ -2666,6 +2736,8 @@ class ContentBlock {
     this.reasoningContent,
     this.searchResult,
     this.text,
+    this.toolAddition,
+    this.toolRemoval,
     this.toolResult,
     this.toolUse,
     this.video,
@@ -2702,6 +2774,14 @@ class ContentBlock {
               json['searchResult'] as Map<String, dynamic>)
           : null,
       text: json['text'] as String?,
+      toolAddition: json['toolAddition'] != null
+          ? ToolAdditionBlock.fromJson(
+              json['toolAddition'] as Map<String, dynamic>)
+          : null,
+      toolRemoval: json['toolRemoval'] != null
+          ? ToolRemovalBlock.fromJson(
+              json['toolRemoval'] as Map<String, dynamic>)
+          : null,
       toolResult: json['toolResult'] != null
           ? ToolResultBlock.fromJson(json['toolResult'] as Map<String, dynamic>)
           : null,
@@ -2724,6 +2804,8 @@ class ContentBlock {
     final reasoningContent = this.reasoningContent;
     final searchResult = this.searchResult;
     final text = this.text;
+    final toolAddition = this.toolAddition;
+    final toolRemoval = this.toolRemoval;
     final toolResult = this.toolResult;
     final toolUse = this.toolUse;
     final video = this.video;
@@ -2737,6 +2819,8 @@ class ContentBlock {
       if (reasoningContent != null) 'reasoningContent': reasoningContent,
       if (searchResult != null) 'searchResult': searchResult,
       if (text != null) 'text': text,
+      if (toolAddition != null) 'toolAddition': toolAddition,
+      if (toolRemoval != null) 'toolRemoval': toolRemoval,
       if (toolResult != null) 'toolResult': toolResult,
       if (toolUse != null) 'toolUse': toolUse,
       if (video != null) 'video': video,
@@ -3192,6 +3276,107 @@ class SearchResultBlock {
       'source': source,
       'title': title,
       if (citations != null) 'citations': citations,
+    };
+  }
+}
+
+/// A content block for adding a tool to the available tool set
+/// mid-conversation. Each block references a single tool via its
+/// <code>tool</code> field. Use within a <code>system</code> role message to
+/// make a tool available without re-sending the full tool configuration.
+///
+/// @nodoc
+class ToolAdditionBlock {
+  /// A reference to the tool to add to the available tool set.
+  final ToolReference tool;
+
+  ToolAdditionBlock({
+    required this.tool,
+  });
+
+  factory ToolAdditionBlock.fromJson(Map<String, dynamic> json) {
+    return ToolAdditionBlock(
+      tool: ToolReference.fromJson(
+          (json['tool'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tool = this.tool;
+    return {
+      'tool': tool,
+    };
+  }
+}
+
+/// A content block for removing a tool from the available tool set
+/// mid-conversation. Each block references a single tool via its
+/// <code>tool</code> field. Use within a <code>system</code> role message to
+/// remove a tool without re-sending the full tool configuration.
+///
+/// @nodoc
+class ToolRemovalBlock {
+  /// A reference to the tool to remove from the available tool set.
+  final ToolReference tool;
+
+  ToolRemovalBlock({
+    required this.tool,
+  });
+
+  factory ToolRemovalBlock.fromJson(Map<String, dynamic> json) {
+    return ToolRemovalBlock(
+      tool: ToolReference.fromJson(
+          (json['tool'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tool = this.tool;
+    return {
+      'tool': tool,
+    };
+  }
+}
+
+/// A reference to a tool in the tool configuration. Used with
+/// <code>ToolAdditionBlock</code> and <code>ToolRemovalBlock</code> to identify
+/// which tool to add or remove mid-conversation.
+///
+/// @nodoc
+class ToolReference {
+  /// The name of the tool. Must match the name of a tool declared in the
+  /// top-level tool configuration.
+  final String? name;
+
+  /// The name of the MCP server that provides the tool. Required when referencing
+  /// an MCP tool.
+  final String? serverName;
+
+  /// The type of tool reference.
+  final String? type;
+
+  ToolReference({
+    this.name,
+    this.serverName,
+    this.type,
+  });
+
+  factory ToolReference.fromJson(Map<String, dynamic> json) {
+    return ToolReference(
+      name: json['name'] as String?,
+      serverName: json['serverName'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final serverName = this.serverName;
+    final type = this.type;
+    return {
+      if (name != null) 'name': name,
+      if (serverName != null) 'serverName': serverName,
+      if (type != null) 'type': type,
     };
   }
 }
@@ -7996,16 +8181,30 @@ class GuardrailStreamConfiguration {
 ///
 /// @nodoc
 class OutputConfig {
+  /// The effort level for the model to use when generating a response. Higher
+  /// effort levels allow the model to spend more time reasoning before
+  /// responding. Supported values are <code>low</code>, <code>medium</code>,
+  /// <code>high</code>, <code>xhigh</code>, and <code>max</code>.
+  /// <note>
+  /// When extended thinking is disabled, the effort level is capped at
+  /// <code>high</code>. Use effort <code>high</code> or below, or enable thinking
+  /// to use higher effort levels.
+  /// </note>
+  final String? effort;
+
   /// Structured output parameters to control the model's text response.
   final OutputFormat? textFormat;
 
   OutputConfig({
+    this.effort,
     this.textFormat,
   });
 
   Map<String, dynamic> toJson() {
+    final effort = this.effort;
     final textFormat = this.textFormat;
     return {
+      if (effort != null) 'effort': effort,
       if (textFormat != null) 'textFormat': textFormat,
     };
   }
@@ -8312,6 +8511,829 @@ class GuardrailConfiguration {
         'guardrailIdentifier': guardrailIdentifier,
       if (guardrailVersion != null) 'guardrailVersion': guardrailVersion,
       if (trace != null) 'trace': trace.value,
+    };
+  }
+}
+
+/// The results from the guardrail checks evaluation, organized by check type.
+///
+/// @nodoc
+class GuardrailChecksResults {
+  /// The content filter check results.
+  final GuardrailChecksContentFilterResult? contentFilter;
+
+  /// The prompt attack check results.
+  final GuardrailChecksPromptAttackResult? promptAttack;
+
+  /// The sensitive information check results.
+  final GuardrailChecksSensitiveInformationResult? sensitiveInformation;
+
+  GuardrailChecksResults({
+    this.contentFilter,
+    this.promptAttack,
+    this.sensitiveInformation,
+  });
+
+  factory GuardrailChecksResults.fromJson(Map<String, dynamic> json) {
+    return GuardrailChecksResults(
+      contentFilter: json['contentFilter'] != null
+          ? GuardrailChecksContentFilterResult.fromJson(
+              json['contentFilter'] as Map<String, dynamic>)
+          : null,
+      promptAttack: json['promptAttack'] != null
+          ? GuardrailChecksPromptAttackResult.fromJson(
+              json['promptAttack'] as Map<String, dynamic>)
+          : null,
+      sensitiveInformation: json['sensitiveInformation'] != null
+          ? GuardrailChecksSensitiveInformationResult.fromJson(
+              json['sensitiveInformation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentFilter = this.contentFilter;
+    final promptAttack = this.promptAttack;
+    final sensitiveInformation = this.sensitiveInformation;
+    return {
+      if (contentFilter != null) 'contentFilter': contentFilter,
+      if (promptAttack != null) 'promptAttack': promptAttack,
+      if (sensitiveInformation != null)
+        'sensitiveInformation': sensitiveInformation,
+    };
+  }
+}
+
+/// The text unit usage for the guardrail checks evaluation, organized by check
+/// type.
+///
+/// @nodoc
+class GuardrailChecksUsageResults {
+  /// The text unit usage for the content filter check.
+  final GuardrailChecksContentFilterUsage? contentFilter;
+
+  /// The text unit usage for the prompt attack check.
+  final GuardrailChecksPromptAttackUsage? promptAttack;
+
+  /// The text unit usage for the sensitive information check.
+  final GuardrailChecksSensitiveInformationUsage? sensitiveInformation;
+
+  GuardrailChecksUsageResults({
+    this.contentFilter,
+    this.promptAttack,
+    this.sensitiveInformation,
+  });
+
+  factory GuardrailChecksUsageResults.fromJson(Map<String, dynamic> json) {
+    return GuardrailChecksUsageResults(
+      contentFilter: json['contentFilter'] != null
+          ? GuardrailChecksContentFilterUsage.fromJson(
+              json['contentFilter'] as Map<String, dynamic>)
+          : null,
+      promptAttack: json['promptAttack'] != null
+          ? GuardrailChecksPromptAttackUsage.fromJson(
+              json['promptAttack'] as Map<String, dynamic>)
+          : null,
+      sensitiveInformation: json['sensitiveInformation'] != null
+          ? GuardrailChecksSensitiveInformationUsage.fromJson(
+              json['sensitiveInformation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentFilter = this.contentFilter;
+    final promptAttack = this.promptAttack;
+    final sensitiveInformation = this.sensitiveInformation;
+    return {
+      if (contentFilter != null) 'contentFilter': contentFilter,
+      if (promptAttack != null) 'promptAttack': promptAttack,
+      if (sensitiveInformation != null)
+        'sensitiveInformation': sensitiveInformation,
+    };
+  }
+}
+
+/// The text unit usage for the content filter check.
+///
+/// @nodoc
+class GuardrailChecksContentFilterUsage {
+  /// The number of text units consumed by the content filter check.
+  final int textUnits;
+
+  GuardrailChecksContentFilterUsage({
+    required this.textUnits,
+  });
+
+  factory GuardrailChecksContentFilterUsage.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksContentFilterUsage(
+      textUnits: (json['textUnits'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textUnits = this.textUnits;
+    return {
+      'textUnits': textUnits,
+    };
+  }
+}
+
+/// The text unit usage for the prompt attack check.
+///
+/// @nodoc
+class GuardrailChecksPromptAttackUsage {
+  /// The number of text units consumed by the prompt attack check.
+  final int textUnits;
+
+  GuardrailChecksPromptAttackUsage({
+    required this.textUnits,
+  });
+
+  factory GuardrailChecksPromptAttackUsage.fromJson(Map<String, dynamic> json) {
+    return GuardrailChecksPromptAttackUsage(
+      textUnits: (json['textUnits'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textUnits = this.textUnits;
+    return {
+      'textUnits': textUnits,
+    };
+  }
+}
+
+/// The text unit usage for the sensitive information check.
+///
+/// @nodoc
+class GuardrailChecksSensitiveInformationUsage {
+  /// The number of text units consumed by the sensitive information check.
+  final int textUnits;
+
+  GuardrailChecksSensitiveInformationUsage({
+    required this.textUnits,
+  });
+
+  factory GuardrailChecksSensitiveInformationUsage.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksSensitiveInformationUsage(
+      textUnits: (json['textUnits'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textUnits = this.textUnits;
+    return {
+      'textUnits': textUnits,
+    };
+  }
+}
+
+/// The content filter check results.
+///
+/// @nodoc
+class GuardrailChecksContentFilterResult {
+  /// The per-category content filter results.
+  final List<GuardrailChecksContentFilterResultEntry> results;
+
+  GuardrailChecksContentFilterResult({
+    required this.results,
+  });
+
+  factory GuardrailChecksContentFilterResult.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksContentFilterResult(
+      results: ((json['results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => GuardrailChecksContentFilterResultEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    return {
+      'results': results,
+    };
+  }
+}
+
+/// The prompt attack check results.
+///
+/// @nodoc
+class GuardrailChecksPromptAttackResult {
+  /// The per-category prompt attack results.
+  final List<GuardrailChecksPromptAttackResultEntry> results;
+
+  GuardrailChecksPromptAttackResult({
+    required this.results,
+  });
+
+  factory GuardrailChecksPromptAttackResult.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksPromptAttackResult(
+      results: ((json['results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => GuardrailChecksPromptAttackResultEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    return {
+      'results': results,
+    };
+  }
+}
+
+/// The sensitive information check results.
+///
+/// @nodoc
+class GuardrailChecksSensitiveInformationResult {
+  /// The detected sensitive information entities.
+  final List<GuardrailChecksSensitiveInformationResultEntry> results;
+
+  /// Specifies whether the results were truncated because the number of detected
+  /// entities exceeded the maximum limit.
+  final bool? truncated;
+
+  GuardrailChecksSensitiveInformationResult({
+    required this.results,
+    this.truncated,
+  });
+
+  factory GuardrailChecksSensitiveInformationResult.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksSensitiveInformationResult(
+      results: ((json['results'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => GuardrailChecksSensitiveInformationResultEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      truncated: json['truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final truncated = this.truncated;
+    return {
+      'results': results,
+      if (truncated != null) 'truncated': truncated,
+    };
+  }
+}
+
+/// The detection result for a single sensitive information entity found in the
+/// evaluated messages.
+///
+/// @nodoc
+class GuardrailChecksSensitiveInformationResultEntry {
+  /// The start character offset of the detected entity within the content block.
+  final int beginOffset;
+
+  /// The confidence score for the detection, ranging from 0.0 to 1.0. Higher
+  /// values indicate greater confidence.
+  final double confidenceScore;
+
+  /// The zero-based index of the content block within the message where the
+  /// entity was detected.
+  final int contentIndex;
+
+  /// The end character offset of the detected entity within the content block.
+  final int endOffset;
+
+  /// The zero-based index of the message in the input messages array where the
+  /// entity was detected.
+  final int messageIndex;
+
+  /// The PII entity type that was detected.
+  final GuardrailChecksSensitiveInformationEntityType type;
+
+  GuardrailChecksSensitiveInformationResultEntry({
+    required this.beginOffset,
+    required this.confidenceScore,
+    required this.contentIndex,
+    required this.endOffset,
+    required this.messageIndex,
+    required this.type,
+  });
+
+  factory GuardrailChecksSensitiveInformationResultEntry.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksSensitiveInformationResultEntry(
+      beginOffset: (json['beginOffset'] as int?) ?? 0,
+      confidenceScore: _s.parseJsonDouble(json['confidenceScore']) ?? 0,
+      contentIndex: (json['contentIndex'] as int?) ?? 0,
+      endOffset: (json['endOffset'] as int?) ?? 0,
+      messageIndex: (json['messageIndex'] as int?) ?? 0,
+      type: GuardrailChecksSensitiveInformationEntityType.fromString(
+          (json['type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final confidenceScore = this.confidenceScore;
+    final contentIndex = this.contentIndex;
+    final endOffset = this.endOffset;
+    final messageIndex = this.messageIndex;
+    final type = this.type;
+    return {
+      'beginOffset': beginOffset,
+      'confidenceScore': _s.encodeJsonDouble(confidenceScore),
+      'contentIndex': contentIndex,
+      'endOffset': endOffset,
+      'messageIndex': messageIndex,
+      'type': type.value,
+    };
+  }
+}
+
+/// The type of personally identifiable information (PII) entity to detect.
+///
+/// @nodoc
+class GuardrailChecksSensitiveInformationEntityType {
+  static const address =
+      GuardrailChecksSensitiveInformationEntityType._('ADDRESS');
+  static const age = GuardrailChecksSensitiveInformationEntityType._('AGE');
+  static const awsAccessKey =
+      GuardrailChecksSensitiveInformationEntityType._('AWS_ACCESS_KEY');
+  static const awsSecretKey =
+      GuardrailChecksSensitiveInformationEntityType._('AWS_SECRET_KEY');
+  static const caHealthNumber =
+      GuardrailChecksSensitiveInformationEntityType._('CA_HEALTH_NUMBER');
+  static const caSocialInsuranceNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'CA_SOCIAL_INSURANCE_NUMBER');
+  static const creditDebitCardCvv =
+      GuardrailChecksSensitiveInformationEntityType._('CREDIT_DEBIT_CARD_CVV');
+  static const creditDebitCardExpiry =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'CREDIT_DEBIT_CARD_EXPIRY');
+  static const creditDebitCardNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'CREDIT_DEBIT_CARD_NUMBER');
+  static const driverId =
+      GuardrailChecksSensitiveInformationEntityType._('DRIVER_ID');
+  static const email = GuardrailChecksSensitiveInformationEntityType._('EMAIL');
+  static const internationalBankAccountNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'INTERNATIONAL_BANK_ACCOUNT_NUMBER');
+  static const ipAddress =
+      GuardrailChecksSensitiveInformationEntityType._('IP_ADDRESS');
+  static const licensePlate =
+      GuardrailChecksSensitiveInformationEntityType._('LICENSE_PLATE');
+  static const macAddress =
+      GuardrailChecksSensitiveInformationEntityType._('MAC_ADDRESS');
+  static const name = GuardrailChecksSensitiveInformationEntityType._('NAME');
+  static const password =
+      GuardrailChecksSensitiveInformationEntityType._('PASSWORD');
+  static const phone = GuardrailChecksSensitiveInformationEntityType._('PHONE');
+  static const pin = GuardrailChecksSensitiveInformationEntityType._('PIN');
+  static const swiftCode =
+      GuardrailChecksSensitiveInformationEntityType._('SWIFT_CODE');
+  static const ukNationalHealthServiceNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'UK_NATIONAL_HEALTH_SERVICE_NUMBER');
+  static const ukNationalInsuranceNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'UK_NATIONAL_INSURANCE_NUMBER');
+  static const ukUniqueTaxpayerReferenceNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER');
+  static const url = GuardrailChecksSensitiveInformationEntityType._('URL');
+  static const username =
+      GuardrailChecksSensitiveInformationEntityType._('USERNAME');
+  static const usBankAccountNumber =
+      GuardrailChecksSensitiveInformationEntityType._('US_BANK_ACCOUNT_NUMBER');
+  static const usBankRoutingNumber =
+      GuardrailChecksSensitiveInformationEntityType._('US_BANK_ROUTING_NUMBER');
+  static const usIndividualTaxIdentificationNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER');
+  static const usPassportNumber =
+      GuardrailChecksSensitiveInformationEntityType._('US_PASSPORT_NUMBER');
+  static const usSocialSecurityNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'US_SOCIAL_SECURITY_NUMBER');
+  static const vehicleIdentificationNumber =
+      GuardrailChecksSensitiveInformationEntityType._(
+          'VEHICLE_IDENTIFICATION_NUMBER');
+
+  final String value;
+
+  const GuardrailChecksSensitiveInformationEntityType._(this.value);
+
+  static const values = [
+    address,
+    age,
+    awsAccessKey,
+    awsSecretKey,
+    caHealthNumber,
+    caSocialInsuranceNumber,
+    creditDebitCardCvv,
+    creditDebitCardExpiry,
+    creditDebitCardNumber,
+    driverId,
+    email,
+    internationalBankAccountNumber,
+    ipAddress,
+    licensePlate,
+    macAddress,
+    name,
+    password,
+    phone,
+    pin,
+    swiftCode,
+    ukNationalHealthServiceNumber,
+    ukNationalInsuranceNumber,
+    ukUniqueTaxpayerReferenceNumber,
+    url,
+    username,
+    usBankAccountNumber,
+    usBankRoutingNumber,
+    usIndividualTaxIdentificationNumber,
+    usPassportNumber,
+    usSocialSecurityNumber,
+    vehicleIdentificationNumber
+  ];
+
+  static GuardrailChecksSensitiveInformationEntityType fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailChecksSensitiveInformationEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailChecksSensitiveInformationEntityType &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The evaluation result for a single prompt attack category.
+///
+/// @nodoc
+class GuardrailChecksPromptAttackResultEntry {
+  /// The prompt attack category that was evaluated.
+  final GuardrailChecksPromptAttackCategory category;
+
+  /// The severity score for the category, ranging from 0.0 to 1.0. Higher values
+  /// indicate greater severity.
+  final double severityScore;
+
+  GuardrailChecksPromptAttackResultEntry({
+    required this.category,
+    required this.severityScore,
+  });
+
+  factory GuardrailChecksPromptAttackResultEntry.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksPromptAttackResultEntry(
+      category: GuardrailChecksPromptAttackCategory.fromString(
+          (json['category'] as String?) ?? ''),
+      severityScore: _s.parseJsonDouble(json['severityScore']) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final severityScore = this.severityScore;
+    return {
+      'category': category.value,
+      'severityScore': _s.encodeJsonDouble(severityScore),
+    };
+  }
+}
+
+/// The category for prompt attack evaluation.
+///
+/// @nodoc
+class GuardrailChecksPromptAttackCategory {
+  static const jailbreak = GuardrailChecksPromptAttackCategory._('JAILBREAK');
+  static const promptInjection =
+      GuardrailChecksPromptAttackCategory._('PROMPT_INJECTION');
+  static const promptLeakage =
+      GuardrailChecksPromptAttackCategory._('PROMPT_LEAKAGE');
+
+  final String value;
+
+  const GuardrailChecksPromptAttackCategory._(this.value);
+
+  static const values = [jailbreak, promptInjection, promptLeakage];
+
+  static GuardrailChecksPromptAttackCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailChecksPromptAttackCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailChecksPromptAttackCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The evaluation result for a single content filter category.
+///
+/// @nodoc
+class GuardrailChecksContentFilterResultEntry {
+  /// The content filter category that was evaluated.
+  final GuardrailChecksContentFilterCategory category;
+
+  /// The severity score for the category, ranging from 0.0 to 1.0. Higher values
+  /// indicate greater severity.
+  final double severityScore;
+
+  GuardrailChecksContentFilterResultEntry({
+    required this.category,
+    required this.severityScore,
+  });
+
+  factory GuardrailChecksContentFilterResultEntry.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailChecksContentFilterResultEntry(
+      category: GuardrailChecksContentFilterCategory.fromString(
+          (json['category'] as String?) ?? ''),
+      severityScore: _s.parseJsonDouble(json['severityScore']) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final severityScore = this.severityScore;
+    return {
+      'category': category.value,
+      'severityScore': _s.encodeJsonDouble(severityScore),
+    };
+  }
+}
+
+/// The category for content filter evaluation.
+///
+/// @nodoc
+class GuardrailChecksContentFilterCategory {
+  static const violence = GuardrailChecksContentFilterCategory._('VIOLENCE');
+  static const hate = GuardrailChecksContentFilterCategory._('HATE');
+  static const sexual = GuardrailChecksContentFilterCategory._('SEXUAL');
+  static const misconduct =
+      GuardrailChecksContentFilterCategory._('MISCONDUCT');
+  static const insults = GuardrailChecksContentFilterCategory._('INSULTS');
+
+  final String value;
+
+  const GuardrailChecksContentFilterCategory._(this.value);
+
+  static const values = [violence, hate, sexual, misconduct, insults];
+
+  static GuardrailChecksContentFilterCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailChecksContentFilterCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailChecksContentFilterCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for inline guardrail checks. Specify one or more check
+/// types to run against the messages.
+///
+/// @nodoc
+class GuardrailChecksConfig {
+  /// The content filter check configuration.
+  final GuardrailChecksContentFilterConfig? contentFilter;
+
+  /// The prompt attack check configuration.
+  final GuardrailChecksPromptAttackConfig? promptAttack;
+
+  /// The sensitive information check configuration.
+  final GuardrailChecksSensitiveInformationConfig? sensitiveInformation;
+
+  GuardrailChecksConfig({
+    this.contentFilter,
+    this.promptAttack,
+    this.sensitiveInformation,
+  });
+
+  Map<String, dynamic> toJson() {
+    final contentFilter = this.contentFilter;
+    final promptAttack = this.promptAttack;
+    final sensitiveInformation = this.sensitiveInformation;
+    return {
+      if (contentFilter != null) 'contentFilter': contentFilter,
+      if (promptAttack != null) 'promptAttack': promptAttack,
+      if (sensitiveInformation != null)
+        'sensitiveInformation': sensitiveInformation,
+    };
+  }
+}
+
+/// The configuration for the content filter check, specifying which categories
+/// to evaluate.
+///
+/// @nodoc
+class GuardrailChecksContentFilterConfig {
+  /// The content filter categories to evaluate.
+  final List<GuardrailChecksContentFilterCategoryConfig> categories;
+
+  GuardrailChecksContentFilterConfig({
+    required this.categories,
+  });
+
+  Map<String, dynamic> toJson() {
+    final categories = this.categories;
+    return {
+      'categories': categories,
+    };
+  }
+}
+
+/// The configuration for the prompt attack check, specifying which categories
+/// to evaluate.
+///
+/// @nodoc
+class GuardrailChecksPromptAttackConfig {
+  /// The prompt attack categories to evaluate.
+  final List<GuardrailChecksPromptAttackCategoryConfig> categories;
+
+  GuardrailChecksPromptAttackConfig({
+    required this.categories,
+  });
+
+  Map<String, dynamic> toJson() {
+    final categories = this.categories;
+    return {
+      'categories': categories,
+    };
+  }
+}
+
+/// The configuration for the sensitive information check, specifying which
+/// entity types to detect.
+///
+/// @nodoc
+class GuardrailChecksSensitiveInformationConfig {
+  /// The sensitive information entity types to detect.
+  final List<GuardrailChecksSensitiveInformationEntityConfig> entities;
+
+  GuardrailChecksSensitiveInformationConfig({
+    required this.entities,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    return {
+      'entities': entities,
+    };
+  }
+}
+
+/// The configuration for a single sensitive information entity type to detect.
+///
+/// @nodoc
+class GuardrailChecksSensitiveInformationEntityConfig {
+  /// The PII entity type to detect.
+  final GuardrailChecksSensitiveInformationEntityType type;
+
+  GuardrailChecksSensitiveInformationEntityConfig({
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'type': type.value,
+    };
+  }
+}
+
+/// The configuration for a single prompt attack category to evaluate.
+///
+/// @nodoc
+class GuardrailChecksPromptAttackCategoryConfig {
+  /// The prompt attack category to evaluate.
+  final GuardrailChecksPromptAttackCategory category;
+
+  GuardrailChecksPromptAttackCategoryConfig({
+    required this.category,
+  });
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    return {
+      'category': category.value,
+    };
+  }
+}
+
+/// The configuration for a single content filter category to evaluate.
+///
+/// @nodoc
+class GuardrailChecksContentFilterCategoryConfig {
+  /// The content filter category to evaluate.
+  final GuardrailChecksContentFilterCategory category;
+
+  GuardrailChecksContentFilterCategoryConfig({
+    required this.category,
+  });
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    return {
+      'category': category.value,
+    };
+  }
+}
+
+/// A message to evaluate against guardrail checks, containing a role and
+/// content blocks.
+///
+/// @nodoc
+class GuardrailChecksMessage {
+  /// The content blocks for the message.
+  final List<GuardrailChecksContentBlock> content;
+
+  /// The role of the message sender.
+  final GuardrailChecksRole role;
+
+  GuardrailChecksMessage({
+    required this.content,
+    required this.role,
+  });
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final role = this.role;
+    return {
+      'content': content,
+      'role': role.value,
+    };
+  }
+}
+
+/// The role of the message sender in the conversation.
+///
+/// @nodoc
+class GuardrailChecksRole {
+  static const user = GuardrailChecksRole._('user');
+  static const assistant = GuardrailChecksRole._('assistant');
+  static const system = GuardrailChecksRole._('system');
+
+  final String value;
+
+  const GuardrailChecksRole._(this.value);
+
+  static const values = [user, assistant, system];
+
+  static GuardrailChecksRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GuardrailChecksRole._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GuardrailChecksRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A content block within a message to evaluate.
+///
+/// @nodoc
+class GuardrailChecksContentBlock {
+  /// The text content to evaluate.
+  final String? text;
+
+  GuardrailChecksContentBlock({
+    this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
     };
   }
 }

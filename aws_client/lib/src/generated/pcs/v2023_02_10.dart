@@ -282,8 +282,12 @@ class Pcs {
     return CreateClusterResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates a cluster configuration. You can modify Slurm scheduler settings,
-  /// accounting configuration, and security groups for an existing cluster.
+  /// Updates a cluster configuration. You can update the scheduler version,
+  /// modify scheduler settings, and update accounting configuration for an
+  /// existing cluster. For more information about updating the scheduler
+  /// version, see <a
+  /// href="https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html">Updating
+  /// the scheduler version on a cluster</a> in the <i>PCS User Guide</i>.
   /// <note>
   /// You can only update clusters that are in <code>ACTIVE</code>,
   /// <code>UPDATE_FAILED</code>, or <code>SUSPENDED</code> state. All
@@ -310,11 +314,18 @@ class Pcs {
   /// additional effect. If you don't specify a client token, the CLI and SDK
   /// automatically generate 1 for you.
   ///
+  /// Parameter [scheduler] :
+  /// The scheduler configuration to update for the cluster. Use this to update
+  /// the scheduler version. For more information, see <a
+  /// href="https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html">Updating
+  /// the scheduler version on a cluster</a> in the <i>PCS User Guide</i>.
+  ///
   /// Parameter [slurmConfiguration] :
   /// Additional options related to the Slurm scheduler.
   Future<UpdateClusterResponse> updateCluster({
     required String clusterIdentifier,
     String? clientToken,
+    UpdateSchedulerRequest? scheduler,
     UpdateClusterSlurmConfigurationRequest? slurmConfiguration,
   }) async {
     final headers = <String, String>{
@@ -330,6 +341,7 @@ class Pcs {
       payload: {
         'clusterIdentifier': clusterIdentifier,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (scheduler != null) 'scheduler': scheduler,
         if (slurmConfiguration != null)
           'slurmConfiguration': slurmConfiguration,
       },
@@ -567,6 +579,12 @@ class Pcs {
   /// additional effect. If you don't specify a client token, the CLI and SDK
   /// automatically generate 1 for you.
   ///
+  /// Parameter [nodeLifecycleActions] :
+  /// The lifecycle actions to run on compute nodes in the compute node group.
+  /// Use lifecycle actions to run custom scripts at defined stages of a compute
+  /// node's lifecycle, such as when a compute node finishes bootstrapping or
+  /// becomes ready to accept jobs.
+  ///
   /// Parameter [purchaseOption] :
   /// Specifies how EC2 instances are purchased on your behalf. PCS supports
   /// On-Demand Instances, Spot Instances, Interruptible Capacity Reservations,
@@ -604,6 +622,7 @@ class Pcs {
     required List<String> subnetIds,
     String? amiId,
     String? clientToken,
+    NodeLifecycleActionsRequest? nodeLifecycleActions,
     PurchaseOption? purchaseOption,
     ComputeNodeGroupSlurmConfigurationRequest? slurmConfiguration,
     SpotOptions? spotOptions,
@@ -629,6 +648,8 @@ class Pcs {
         'subnetIds': subnetIds,
         if (amiId != null) 'amiId': amiId,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (nodeLifecycleActions != null)
+          'nodeLifecycleActions': nodeLifecycleActions,
         if (purchaseOption != null) 'purchaseOption': purchaseOption.value,
         if (slurmConfiguration != null)
           'slurmConfiguration': slurmConfiguration,
@@ -681,6 +702,12 @@ class Pcs {
   /// href="https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html">IAM
   /// instance profiles for PCS</a> in the <i>PCS User Guide</i>.
   ///
+  /// Parameter [nodeLifecycleActions] :
+  /// The lifecycle actions to run on compute nodes in the compute node group.
+  /// Use lifecycle actions to run custom scripts at defined stages of a compute
+  /// node's lifecycle, such as when a compute node finishes bootstrapping or
+  /// becomes ready to accept jobs.
+  ///
   /// Parameter [purchaseOption] :
   /// Specifies how EC2 instances are purchased on your behalf. PCS supports
   /// On-Demand Instances, Spot Instances, Interruptible Capacity Reservations,
@@ -718,6 +745,7 @@ class Pcs {
     String? clientToken,
     CustomLaunchTemplate? customLaunchTemplate,
     String? iamInstanceProfileArn,
+    UpdateNodeLifecycleActionsRequest? nodeLifecycleActions,
     PurchaseOption? purchaseOption,
     ScalingConfigurationRequest? scalingConfiguration,
     UpdateComputeNodeGroupSlurmConfigurationRequest? slurmConfiguration,
@@ -743,6 +771,8 @@ class Pcs {
           'customLaunchTemplate': customLaunchTemplate,
         if (iamInstanceProfileArn != null)
           'iamInstanceProfileArn': iamInstanceProfileArn,
+        if (nodeLifecycleActions != null)
+          'nodeLifecycleActions': nodeLifecycleActions,
         if (purchaseOption != null) 'purchaseOption': purchaseOption.value,
         if (scalingConfiguration != null)
           'scalingConfiguration': scalingConfiguration,
@@ -1323,10 +1353,28 @@ class RegisterComputeNodeGroupInstanceResponse {
   /// authenticate compute node group instances.
   final String sharedSecret;
 
+  /// The name of the cluster that the compute node registered into.
+  final String? clusterName;
+
+  /// The ID of the compute node group that the compute node registered into.
+  final String? computeNodeGroupId;
+
+  /// The name of the compute node group that the compute node registered into.
+  final String? computeNodeGroupName;
+
+  /// The node lifecycle actions configured for the node group, including scripts
+  /// to run when a compute node finishes bootstrapping or becomes ready to accept
+  /// jobs.
+  final NodeLifecycleActions? nodeLifecycleActions;
+
   RegisterComputeNodeGroupInstanceResponse({
     required this.endpoints,
     required this.nodeID,
     required this.sharedSecret,
+    this.clusterName,
+    this.computeNodeGroupId,
+    this.computeNodeGroupName,
+    this.nodeLifecycleActions,
   });
 
   factory RegisterComputeNodeGroupInstanceResponse.fromJson(
@@ -1338,6 +1386,13 @@ class RegisterComputeNodeGroupInstanceResponse {
           .toList(),
       nodeID: (json['nodeID'] as String?) ?? '',
       sharedSecret: (json['sharedSecret'] as String?) ?? '',
+      clusterName: json['clusterName'] as String?,
+      computeNodeGroupId: json['computeNodeGroupId'] as String?,
+      computeNodeGroupName: json['computeNodeGroupName'] as String?,
+      nodeLifecycleActions: json['nodeLifecycleActions'] != null
+          ? NodeLifecycleActions.fromJson(
+              json['nodeLifecycleActions'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -1345,10 +1400,20 @@ class RegisterComputeNodeGroupInstanceResponse {
     final endpoints = this.endpoints;
     final nodeID = this.nodeID;
     final sharedSecret = this.sharedSecret;
+    final clusterName = this.clusterName;
+    final computeNodeGroupId = this.computeNodeGroupId;
+    final computeNodeGroupName = this.computeNodeGroupName;
+    final nodeLifecycleActions = this.nodeLifecycleActions;
     return {
       'endpoints': endpoints,
       'nodeID': nodeID,
       'sharedSecret': sharedSecret,
+      if (clusterName != null) 'clusterName': clusterName,
+      if (computeNodeGroupId != null) 'computeNodeGroupId': computeNodeGroupId,
+      if (computeNodeGroupName != null)
+        'computeNodeGroupName': computeNodeGroupName,
+      if (nodeLifecycleActions != null)
+        'nodeLifecycleActions': nodeLifecycleActions,
     };
   }
 }
@@ -2242,6 +2307,12 @@ class ComputeNodeGroup {
   /// The list of errors that occurred during compute node group provisioning.
   final List<ErrorInfo>? errorInfo;
 
+  /// The lifecycle actions to run on compute nodes in the compute node group. Use
+  /// lifecycle actions to run custom scripts at defined stages of a compute
+  /// node's lifecycle, such as when a compute node finishes bootstrapping or
+  /// becomes ready to accept jobs.
+  final NodeLifecycleActions? nodeLifecycleActions;
+
   /// Specifies how EC2 instances are purchased on your behalf. PCS supports
   /// On-Demand Instances, Spot Instances, Interruptible Capacity Reservations,
   /// On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For
@@ -2280,6 +2351,7 @@ class ComputeNodeGroup {
     required this.subnetIds,
     this.amiId,
     this.errorInfo,
+    this.nodeLifecycleActions,
     this.purchaseOption,
     this.slurmConfiguration,
     this.spotOptions,
@@ -2315,6 +2387,10 @@ class ComputeNodeGroup {
           ?.nonNulls
           .map((e) => ErrorInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
+      nodeLifecycleActions: json['nodeLifecycleActions'] != null
+          ? NodeLifecycleActions.fromJson(
+              json['nodeLifecycleActions'] as Map<String, dynamic>)
+          : null,
       purchaseOption:
           (json['purchaseOption'] as String?)?.let(PurchaseOption.fromString),
       slurmConfiguration: json['slurmConfiguration'] != null
@@ -2342,6 +2418,7 @@ class ComputeNodeGroup {
     final subnetIds = this.subnetIds;
     final amiId = this.amiId;
     final errorInfo = this.errorInfo;
+    final nodeLifecycleActions = this.nodeLifecycleActions;
     final purchaseOption = this.purchaseOption;
     final slurmConfiguration = this.slurmConfiguration;
     final spotOptions = this.spotOptions;
@@ -2360,6 +2437,8 @@ class ComputeNodeGroup {
       'subnetIds': subnetIds,
       if (amiId != null) 'amiId': amiId,
       if (errorInfo != null) 'errorInfo': errorInfo,
+      if (nodeLifecycleActions != null)
+        'nodeLifecycleActions': nodeLifecycleActions,
       if (purchaseOption != null) 'purchaseOption': purchaseOption.value,
       if (slurmConfiguration != null) 'slurmConfiguration': slurmConfiguration,
       if (spotOptions != null) 'spotOptions': spotOptions,
@@ -2545,6 +2624,350 @@ class ComputeNodeGroupSlurmConfiguration {
   }
 }
 
+/// The lifecycle actions configured on a compute node group. Lifecycle actions
+/// define scripts that PCS runs on compute nodes at specific stages of their
+/// lifecycle.
+///
+/// @nodoc
+class NodeLifecycleActions {
+  /// The lifecycle stages where you configure scripts to run.
+  final NodeLifecycleStages stages;
+
+  /// The caching policy for node lifecycle scripts. The default value is
+  /// <code>CACHE_ONCE</code>. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CACHE_ONCE</code> – Downloads each script once and reuses it on
+  /// subsequent boots.
+  /// </li>
+  /// <li>
+  /// <code>REFRESH_ON_REBOOT</code> – Downloads each script on every boot.
+  /// </li>
+  /// </ul>
+  final ScriptCachingPolicy? scriptCachingPolicy;
+
+  NodeLifecycleActions({
+    required this.stages,
+    this.scriptCachingPolicy,
+  });
+
+  factory NodeLifecycleActions.fromJson(Map<String, dynamic> json) {
+    return NodeLifecycleActions(
+      stages: NodeLifecycleStages.fromJson(
+          (json['stages'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      scriptCachingPolicy: (json['scriptCachingPolicy'] as String?)
+          ?.let(ScriptCachingPolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stages = this.stages;
+    final scriptCachingPolicy = this.scriptCachingPolicy;
+    return {
+      'stages': stages,
+      if (scriptCachingPolicy != null)
+        'scriptCachingPolicy': scriptCachingPolicy.value,
+    };
+  }
+}
+
+/// The stages of a compute node's lifecycle where you can configure scripts to
+/// run.
+///
+/// @nodoc
+class NodeLifecycleStages {
+  /// The scripts to run after PCS finishes setting up the compute node and before
+  /// the Slurm daemon (<code>slurmd</code>) starts. Use this stage for tasks that
+  /// must complete before the node accepts jobs, such as mounting shared storage,
+  /// configuring networking, or installing software packages.
+  final List<NodeLifecycleScript>? nodeBootstrapped;
+
+  /// The scripts to run after the Slurm daemon (<code>slurmd</code>) starts and
+  /// the compute node registers with the Slurm controller. Use this stage for
+  /// tasks that require Slurm to be running, such as running Slurm commands.
+  final List<NodeLifecycleScript>? nodeReady;
+
+  NodeLifecycleStages({
+    this.nodeBootstrapped,
+    this.nodeReady,
+  });
+
+  factory NodeLifecycleStages.fromJson(Map<String, dynamic> json) {
+    return NodeLifecycleStages(
+      nodeBootstrapped: (json['nodeBootstrapped'] as List?)
+          ?.nonNulls
+          .map((e) => NodeLifecycleScript.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nodeReady: (json['nodeReady'] as List?)
+          ?.nonNulls
+          .map((e) => NodeLifecycleScript.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeBootstrapped = this.nodeBootstrapped;
+    final nodeReady = this.nodeReady;
+    return {
+      if (nodeBootstrapped != null) 'nodeBootstrapped': nodeBootstrapped,
+      if (nodeReady != null) 'nodeReady': nodeReady,
+    };
+  }
+}
+
+/// The caching policy for a node lifecycle script. Valid values:
+///
+/// <ul>
+/// <li>
+/// <code>CACHE_ONCE</code> – Downloads the script once and reuses it on
+/// subsequent boots.
+/// </li>
+/// <li>
+/// <code>REFRESH_ON_REBOOT</code> – Downloads the script on every boot.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ScriptCachingPolicy {
+  static const cacheOnce = ScriptCachingPolicy._('CACHE_ONCE');
+  static const refreshOnReboot = ScriptCachingPolicy._('REFRESH_ON_REBOOT');
+
+  final String value;
+
+  const ScriptCachingPolicy._(this.value);
+
+  static const values = [cacheOnce, refreshOnReboot];
+
+  static ScriptCachingPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScriptCachingPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScriptCachingPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A script to run during a compute node lifecycle stage.
+///
+/// @nodoc
+class NodeLifecycleScript {
+  /// A unique name for the script. The name can be up to 64 characters long.
+  /// Valid characters are letters, numbers, spaces, underscores (<code>_</code>),
+  /// and hyphens (<code>-</code>). The first character must be a letter or a
+  /// number.
+  final String name;
+
+  /// The source location and integrity information for the script.
+  final ScriptSource scriptSource;
+
+  /// The command-line arguments to pass to the script. You can specify up to 20
+  /// arguments, and each argument can be up to 256 characters long.
+  final List<String>? arguments;
+
+  /// The policy that determines when the script runs. The default value is
+  /// <code>FIRST_BOOT_ONLY</code>. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FIRST_BOOT_ONLY</code> – Runs the script only the first time the
+  /// compute node boots.
+  /// </li>
+  /// <li>
+  /// <code>EVERY_BOOT</code> – Runs the script every time the compute node boots,
+  /// including reboots.
+  /// </li>
+  /// </ul>
+  final ExecutionPolicy? executionPolicy;
+
+  /// The behavior when the script fails. The default value is
+  /// <code>TERMINATE</code>. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – Terminates the compute node.
+  /// </li>
+  /// <li>
+  /// <code>STOP_SEQUENCE</code> – Stops running subsequent scripts in the
+  /// sequence but doesn't terminate the compute node.
+  /// </li>
+  /// <li>
+  /// <code>CONTINUE</code> – Ignores the error and continues running the next
+  /// script.
+  /// </li>
+  /// </ul>
+  final OnError? onError;
+
+  NodeLifecycleScript({
+    required this.name,
+    required this.scriptSource,
+    this.arguments,
+    this.executionPolicy,
+    this.onError,
+  });
+
+  factory NodeLifecycleScript.fromJson(Map<String, dynamic> json) {
+    return NodeLifecycleScript(
+      name: (json['name'] as String?) ?? '',
+      scriptSource: ScriptSource.fromJson(
+          (json['scriptSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      arguments: (json['arguments'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      executionPolicy:
+          (json['executionPolicy'] as String?)?.let(ExecutionPolicy.fromString),
+      onError: (json['onError'] as String?)?.let(OnError.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final scriptSource = this.scriptSource;
+    final arguments = this.arguments;
+    final executionPolicy = this.executionPolicy;
+    final onError = this.onError;
+    return {
+      'name': name,
+      'scriptSource': scriptSource,
+      if (arguments != null) 'arguments': arguments,
+      if (executionPolicy != null) 'executionPolicy': executionPolicy.value,
+      if (onError != null) 'onError': onError.value,
+    };
+  }
+}
+
+/// The source location and integrity information for a node lifecycle script.
+///
+/// @nodoc
+class ScriptSource {
+  /// The location of the script. Specify either an Amazon S3 URI in the format
+  /// <code>s3://bucket-name/key</code> or an HTTPS URL.
+  final String scriptLocation;
+
+  /// The SHA-256 checksum of the script content, as a 64-character hexadecimal
+  /// string. This value is optional. When specified, PCS uses this value to
+  /// verify the integrity of the downloaded script.
+  final String? checksum;
+
+  /// The Amazon S3 version ID of the script. Use this value to pin the script to
+  /// a specific version in a versioned Amazon S3 bucket. This value is only valid
+  /// when <code>scriptLocation</code> is an Amazon S3 URI.
+  final String? s3VersionId;
+
+  ScriptSource({
+    required this.scriptLocation,
+    this.checksum,
+    this.s3VersionId,
+  });
+
+  factory ScriptSource.fromJson(Map<String, dynamic> json) {
+    return ScriptSource(
+      scriptLocation: (json['scriptLocation'] as String?) ?? '',
+      checksum: json['checksum'] as String?,
+      s3VersionId: json['s3VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scriptLocation = this.scriptLocation;
+    final checksum = this.checksum;
+    final s3VersionId = this.s3VersionId;
+    return {
+      'scriptLocation': scriptLocation,
+      if (checksum != null) 'checksum': checksum,
+      if (s3VersionId != null) 's3VersionId': s3VersionId,
+    };
+  }
+}
+
+/// The behavior when a node lifecycle script fails. Valid values:
+///
+/// <ul>
+/// <li>
+/// <code>TERMINATE</code> – Terminates the compute node.
+/// </li>
+/// <li>
+/// <code>STOP_SEQUENCE</code> – Stops running subsequent scripts in the
+/// sequence but doesn't terminate the compute node.
+/// </li>
+/// <li>
+/// <code>CONTINUE</code> – Ignores the error and continues running the next
+/// script.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class OnError {
+  static const terminate = OnError._('TERMINATE');
+  static const stopSequence = OnError._('STOP_SEQUENCE');
+  static const $continue = OnError._('CONTINUE');
+
+  final String value;
+
+  const OnError._(this.value);
+
+  static const values = [terminate, stopSequence, $continue];
+
+  static OnError fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OnError._(value));
+
+  @override
+  bool operator ==(other) => other is OnError && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The policy that determines when a node lifecycle script runs. Valid values:
+///
+/// <ul>
+/// <li>
+/// <code>FIRST_BOOT_ONLY</code> – Runs the script only the first time the
+/// compute node boots.
+/// </li>
+/// <li>
+/// <code>EVERY_BOOT</code> – Runs the script every time the compute node boots,
+/// including reboots.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ExecutionPolicy {
+  static const firstBootOnly = ExecutionPolicy._('FIRST_BOOT_ONLY');
+  static const everyBoot = ExecutionPolicy._('EVERY_BOOT');
+
+  final String value;
+
+  const ExecutionPolicy._(this.value);
+
+  static const values = [firstBootOnly, everyBoot];
+
+  static ExecutionPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// @nodoc
 class SpotAllocationStrategy {
   static const lowestPrice = SpotAllocationStrategy._('lowest-price');
@@ -2662,6 +3085,45 @@ class UpdateComputeNodeGroupSlurmConfigurationRequest {
   }
 }
 
+/// The lifecycle actions to configure on a compute node group when you update
+/// it. Lifecycle actions define scripts that PCS runs on compute nodes at
+/// specific stages of their lifecycle.
+///
+/// @nodoc
+class UpdateNodeLifecycleActionsRequest {
+  /// The lifecycle stages where you configure scripts to run.
+  final NodeLifecycleStages stages;
+
+  /// The caching policy for node lifecycle scripts. The default value is
+  /// <code>CACHE_ONCE</code>. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CACHE_ONCE</code> – Downloads each script once and reuses it on
+  /// subsequent boots.
+  /// </li>
+  /// <li>
+  /// <code>REFRESH_ON_REBOOT</code> – Downloads each script on every boot.
+  /// </li>
+  /// </ul>
+  final ScriptCachingPolicy? scriptCachingPolicy;
+
+  UpdateNodeLifecycleActionsRequest({
+    required this.stages,
+    this.scriptCachingPolicy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final stages = this.stages;
+    final scriptCachingPolicy = this.scriptCachingPolicy;
+    return {
+      'stages': stages,
+      if (scriptCachingPolicy != null)
+        'scriptCachingPolicy': scriptCachingPolicy.value,
+    };
+  }
+}
+
 /// Additional options related to the Slurm scheduler.
 ///
 /// @nodoc
@@ -2690,6 +3152,45 @@ class ComputeNodeGroupSlurmConfigurationRequest {
         'scaleDownIdleTimeInSeconds': scaleDownIdleTimeInSeconds,
       if (slurmCustomSettings != null)
         'slurmCustomSettings': slurmCustomSettings,
+    };
+  }
+}
+
+/// The lifecycle actions to configure on a compute node group when you create
+/// it. Lifecycle actions define scripts that PCS runs on compute nodes at
+/// specific stages of their lifecycle.
+///
+/// @nodoc
+class NodeLifecycleActionsRequest {
+  /// The lifecycle stages where you configure scripts to run.
+  final NodeLifecycleStages stages;
+
+  /// The caching policy for node lifecycle scripts. The default value is
+  /// <code>CACHE_ONCE</code>. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CACHE_ONCE</code> – Downloads each script once and reuses it on
+  /// subsequent boots.
+  /// </li>
+  /// <li>
+  /// <code>REFRESH_ON_REBOOT</code> – Downloads each script on every boot.
+  /// </li>
+  /// </ul>
+  final ScriptCachingPolicy? scriptCachingPolicy;
+
+  NodeLifecycleActionsRequest({
+    required this.stages,
+    this.scriptCachingPolicy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final stages = this.stages;
+    final scriptCachingPolicy = this.scriptCachingPolicy;
+    return {
+      'stages': stages,
+      if (scriptCachingPolicy != null)
+        'scriptCachingPolicy': scriptCachingPolicy.value,
     };
   }
 }
@@ -3044,7 +3545,10 @@ class Scheduler {
   final SchedulerType type;
 
   /// The version of the specified scheduling software that PCS uses to manage
-  /// cluster scaling and job scheduling. For more information, see <a
+  /// cluster scaling and job scheduling. You can update this version using the
+  /// <code>UpdateCluster</code> API action. For more information, see <a
+  /// href="https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html">Updating
+  /// the scheduler version on a cluster</a> and <a
   /// href="https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html">Slurm
   /// versions in PCS</a> in the <i>PCS User Guide</i>.
   ///
@@ -3702,6 +4206,32 @@ class UpdateClusterSlurmConfigurationRequest {
       if (slurmRest != null) 'slurmRest': slurmRest,
       if (slurmdbdCustomSettings != null)
         'slurmdbdCustomSettings': slurmdbdCustomSettings,
+    };
+  }
+}
+
+/// The scheduler configuration for updating a cluster. Use this to specify the
+/// scheduler version to update to.
+///
+/// @nodoc
+class UpdateSchedulerRequest {
+  /// The scheduler version to update the cluster to. You can only update to a
+  /// newer version. For more information about supported versions and update
+  /// paths, see <a
+  /// href="https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html">Updating
+  /// the scheduler version on a cluster</a> in the <i>PCS User Guide</i>.
+  ///
+  /// Valid Values: <code>24.05 | 24.11 | 25.05 | 25.11</code>
+  final String version;
+
+  UpdateSchedulerRequest({
+    required this.version,
+  });
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      'version': version,
     };
   }
 }

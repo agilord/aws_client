@@ -387,6 +387,44 @@ class DocumentClient {
     );
   }
 
+  /// Performs a vector similarity search on a vector index by delegating to
+  /// DynamoDB.searchVectors().
+  Future<SearchVectorsOutputDC> searchVectors({
+    required String tableName,
+    required String indexName,
+    required List<num> searchVector,
+    required int topK,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, dynamic>? expressionAttributeValues,
+    String? projectionExpression,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    String? searchConditionExpression,
+  }) async {
+    final svr = await dynamoDB.searchVectors(
+      tableName: tableName,
+      indexName: indexName,
+      searchVector: searchVector.map(toAttributeValue).toList(),
+      topK: topK,
+      expressionAttributeNames: expressionAttributeNames,
+      expressionAttributeValues:
+          expressionAttributeValues?.fromJsonToAttributeValue(),
+      projectionExpression: projectionExpression,
+      returnConsumedCapacity: returnConsumedCapacity,
+      searchConditionExpression: searchConditionExpression,
+    );
+
+    return SearchVectorsOutputDC(
+      consumedCapacity: svr.consumedCapacity,
+      searchResults: svr.searchResults
+              ?.map((e) => SearchResultDC(
+                    item: e.item.toJson() ?? {},
+                    score: e.score,
+                  ))
+              .toList() ??
+          [],
+    );
+  }
+
   /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist by delegating to AWS.DynamoDB.updateItem().
   Future<OperationOutput> update({
     required Map<String, dynamic> key,
@@ -624,6 +662,26 @@ class QueryOutputDC {
     required this.items,
     required this.lastEvaluatedKey,
     required this.scannedCount,
+  });
+}
+
+class SearchVectorsOutputDC {
+  final VectorCapacity? consumedCapacity;
+  final List<SearchResultDC> searchResults;
+
+  SearchVectorsOutputDC({
+    required this.consumedCapacity,
+    required this.searchResults,
+  });
+}
+
+class SearchResultDC {
+  final Map<String, dynamic> item;
+  final double? score;
+
+  SearchResultDC({
+    required this.item,
+    required this.score,
   });
 }
 

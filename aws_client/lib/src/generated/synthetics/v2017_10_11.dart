@@ -200,6 +200,11 @@ class Synthetics {
   /// A structure that contains information about how often the canary is to run
   /// and when these test runs are to stop.
   ///
+  /// Parameter [addReplicaLocations] :
+  /// A list of locations (Amazon Web Services Regions) to add as replicas for
+  /// the canary. Each location specifies a Region and optional VPC
+  /// configuration for the replica. You can add up to 50 replica locations.
+  ///
   /// Parameter [artifactConfig] :
   /// A structure that contains the configuration for canary artifacts,
   /// including the encryption-at-rest settings for artifacts that the canary
@@ -224,6 +229,12 @@ class Synthetics {
   /// This setting affects the range of information returned by <a
   /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html">GetCanaryRuns</a>,
   /// as well as the range of information displayed in the Synthetics console.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management
+  /// Service (AWS KMS) key used to encrypt the canary's AWS Lambda function
+  /// environment variables at rest. If you don't specify a value, the service
+  /// uses an AWS-managed key.
   ///
   /// Parameter [provisionedResourceCleanup] :
   /// Specifies whether to also delete the Lambda functions and layers used by
@@ -288,9 +299,11 @@ class Synthetics {
     required String name,
     required String runtimeVersion,
     required CanaryScheduleInput schedule,
+    List<AddReplicaLocationInput>? addReplicaLocations,
     ArtifactConfigInput? artifactConfig,
     List<BrowserConfig>? browserConfigs,
     int? failureRetentionPeriodInDays,
+    String? kmsKeyArn,
     ProvisionedResourceCleanupSetting? provisionedResourceCleanup,
     List<ResourceToTag>? resourcesToReplicateTags,
     CanaryRunConfigInput? runConfig,
@@ -317,10 +330,13 @@ class Synthetics {
       'Name': name,
       'RuntimeVersion': runtimeVersion,
       'Schedule': schedule,
+      if (addReplicaLocations != null)
+        'AddReplicaLocations': addReplicaLocations,
       if (artifactConfig != null) 'ArtifactConfig': artifactConfig,
       if (browserConfigs != null) 'BrowserConfigs': browserConfigs,
       if (failureRetentionPeriodInDays != null)
         'FailureRetentionPeriodInDays': failureRetentionPeriodInDays,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (provisionedResourceCleanup != null)
         'ProvisionedResourceCleanup': provisionedResourceCleanup.value,
       if (resourcesToReplicateTags != null)
@@ -1305,6 +1321,11 @@ class Synthetics {
   ///
   /// You cannot change the name of a canary that has already been created.
   ///
+  /// Parameter [addReplicaLocations] :
+  /// A list of locations (Amazon Web Services Regions) to add as replicas for
+  /// the canary. Each location specifies a Region and optional VPC
+  /// configuration for the replica. You can add up to 50 replica locations.
+  ///
   /// Parameter [artifactConfig] :
   /// A structure that contains the configuration for canary artifacts,
   /// including the encryption-at-rest settings for artifacts that the canary
@@ -1374,6 +1395,14 @@ class Synthetics {
   /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html">GetCanaryRuns</a>,
   /// as well as the range of information displayed in the Synthetics console.
   ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management
+  /// Service (AWS KMS) key used to encrypt the canary's AWS Lambda function
+  /// environment variables at rest. If you don't specify a value, the service
+  /// uses an AWS-managed key. If you omit this parameter, the service retains
+  /// the existing value. To revert to the AWS-managed key, set this parameter
+  /// to an empty string.
+  ///
   /// Parameter [provisionedResourceCleanup] :
   /// Specifies whether to also delete the Lambda functions and layers used by
   /// this canary when the canary is deleted.
@@ -1383,6 +1412,12 @@ class Synthetics {
   /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html">DeleteCanary</a>
   /// operation determines whether the Lambda functions and layers will be
   /// deleted.
+  ///
+  /// Parameter [removeReplicaLocations] :
+  /// A list of locations (Amazon Web Services Regions) to remove as replicas
+  /// for the canary. You must specify at least one location to remove. All
+  /// replicas can be removed in a single API call and you cannot remove the
+  /// primary location.
   ///
   /// Parameter [runConfig] :
   /// A structure that contains the timeout value that is used for each
@@ -1458,6 +1493,7 @@ class Synthetics {
   /// Running a Canary in a VPC</a>.
   Future<void> updateCanary({
     required String name,
+    List<AddReplicaLocationInput>? addReplicaLocations,
     ArtifactConfigInput? artifactConfig,
     String? artifactS3Location,
     List<BrowserConfig>? browserConfigs,
@@ -1465,7 +1501,9 @@ class Synthetics {
     String? dryRunId,
     String? executionRoleArn,
     int? failureRetentionPeriodInDays,
+    String? kmsKeyArn,
     ProvisionedResourceCleanupSetting? provisionedResourceCleanup,
+    List<String>? removeReplicaLocations,
     CanaryRunConfigInput? runConfig,
     String? runtimeVersion,
     CanaryScheduleInput? schedule,
@@ -1487,6 +1525,8 @@ class Synthetics {
       1024,
     );
     final $payload = <String, dynamic>{
+      if (addReplicaLocations != null)
+        'AddReplicaLocations': addReplicaLocations,
       if (artifactConfig != null) 'ArtifactConfig': artifactConfig,
       if (artifactS3Location != null) 'ArtifactS3Location': artifactS3Location,
       if (browserConfigs != null) 'BrowserConfigs': browserConfigs,
@@ -1495,8 +1535,11 @@ class Synthetics {
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (failureRetentionPeriodInDays != null)
         'FailureRetentionPeriodInDays': failureRetentionPeriodInDays,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (provisionedResourceCleanup != null)
         'ProvisionedResourceCleanup': provisionedResourceCleanup.value,
+      if (removeReplicaLocations != null)
+        'RemoveReplicaLocations': removeReplicaLocations,
       if (runConfig != null) 'RunConfig': runConfig,
       if (runtimeVersion != null) 'RuntimeVersion': runtimeVersion,
       if (schedule != null) 'Schedule': schedule,
@@ -2071,9 +2114,9 @@ class CanaryCodeInput {
   ///
   /// Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in
   /// authentication schemes (Basic, API Key, OAuth, SigV4) and assertion
-  /// capabilities. When you specify <code>BlueprintTypes</code>, the Handler
-  /// field cannot be specified since the blueprint provides a pre-defined entry
-  /// point.
+  /// capabilities. When you specify <code>BlueprintTypes</code>, the
+  /// <code>Handler</code> field cannot be specified since the blueprint provides
+  /// a pre-defined entry point.
   ///
   /// <code>BlueprintTypes</code> is supported only on canaries for syn-nodejs-3.0
   /// runtime or later.
@@ -2420,6 +2463,43 @@ class ProvisionedResourceCleanupSetting {
 
   @override
   String toString() => value;
+}
+
+/// A structure that specifies a replica location for a canary, including the
+/// Region and optional VPC configuration.
+///
+/// @nodoc
+class AddReplicaLocationInput {
+  /// The Amazon Web Services Region where the canary replica should be created,
+  /// for example <code>us-east-1</code>.
+  final String location;
+
+  /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management
+  /// Service (AWS KMS) key used to encrypt the canary replica's AWS Lambda
+  /// function environment variables at rest. If you don't specify a value, the
+  /// service uses an AWS-managed key.
+  final String? kmsKeyArn;
+
+  /// The VPC configuration to use for the canary replica in this location. If not
+  /// specified, the replica runs without VPC connectivity.
+  final VpcConfigInput? vpcConfig;
+
+  AddReplicaLocationInput({
+    required this.location,
+    this.kmsKeyArn,
+    this.vpcConfig,
+  });
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final kmsKeyArn = this.kmsKeyArn;
+    final vpcConfig = this.vpcConfig;
+    return {
+      'Location': location,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 /// A structure that specifies the browser type to use for a canary run.
@@ -2824,6 +2904,9 @@ class CanaryRun {
   /// A unique ID that identifies this canary run.
   final String? id;
 
+  /// The Amazon Web Services Region where this canary run was executed.
+  final String? location;
+
   /// The name of the canary.
   final String? name;
 
@@ -2844,6 +2927,7 @@ class CanaryRun {
     this.browserType,
     this.dryRunConfig,
     this.id,
+    this.location,
     this.name,
     this.retryAttempt,
     this.scheduledRunId,
@@ -2861,6 +2945,7 @@ class CanaryRun {
               json['DryRunConfig'] as Map<String, dynamic>)
           : null,
       id: json['Id'] as String?,
+      location: json['Location'] as String?,
       name: json['Name'] as String?,
       retryAttempt: json['RetryAttempt'] as int?,
       scheduledRunId: json['ScheduledRunId'] as String?,
@@ -2878,6 +2963,7 @@ class CanaryRun {
     final browserType = this.browserType;
     final dryRunConfig = this.dryRunConfig;
     final id = this.id;
+    final location = this.location;
     final name = this.name;
     final retryAttempt = this.retryAttempt;
     final scheduledRunId = this.scheduledRunId;
@@ -2888,6 +2974,7 @@ class CanaryRun {
       if (browserType != null) 'BrowserType': browserType.value,
       if (dryRunConfig != null) 'DryRunConfig': dryRunConfig,
       if (id != null) 'Id': id,
+      if (location != null) 'Location': location,
       if (name != null) 'Name': name,
       if (retryAttempt != null) 'RetryAttempt': retryAttempt,
       if (scheduledRunId != null) 'ScheduledRunId': scheduledRunId,
@@ -3191,6 +3278,17 @@ class Canary {
   /// The unique ID of this canary.
   final String? id;
 
+  /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management
+  /// Service (AWS KMS) key used to encrypt the canary's AWS Lambda function
+  /// environment variables at rest. If you don't specify a value, the service
+  /// uses an AWS-managed key.
+  final String? kmsKeyArn;
+
+  /// If this canary is part of a multi-location configuration, this structure
+  /// contains information about the canary's location type, primary location, and
+  /// replicas.
+  final MultiLocationConfig? multiLocationConfig;
+
   /// The name of the canary.
   final String? name;
 
@@ -3266,6 +3364,8 @@ class Canary {
     this.executionRoleArn,
     this.failureRetentionPeriodInDays,
     this.id,
+    this.kmsKeyArn,
+    this.multiLocationConfig,
     this.name,
     this.provisionedResourceCleanup,
     this.runConfig,
@@ -3307,6 +3407,11 @@ class Canary {
       failureRetentionPeriodInDays:
           json['FailureRetentionPeriodInDays'] as int?,
       id: json['Id'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      multiLocationConfig: json['MultiLocationConfig'] != null
+          ? MultiLocationConfig.fromJson(
+              json['MultiLocationConfig'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       provisionedResourceCleanup:
           (json['ProvisionedResourceCleanup'] as String?)
@@ -3355,6 +3460,8 @@ class Canary {
     final executionRoleArn = this.executionRoleArn;
     final failureRetentionPeriodInDays = this.failureRetentionPeriodInDays;
     final id = this.id;
+    final kmsKeyArn = this.kmsKeyArn;
+    final multiLocationConfig = this.multiLocationConfig;
     final name = this.name;
     final provisionedResourceCleanup = this.provisionedResourceCleanup;
     final runConfig = this.runConfig;
@@ -3379,6 +3486,9 @@ class Canary {
       if (failureRetentionPeriodInDays != null)
         'FailureRetentionPeriodInDays': failureRetentionPeriodInDays,
       if (id != null) 'Id': id,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (multiLocationConfig != null)
+        'MultiLocationConfig': multiLocationConfig,
       if (name != null) 'Name': name,
       if (provisionedResourceCleanup != null)
         'ProvisionedResourceCleanup': provisionedResourceCleanup.value,
@@ -3409,9 +3519,9 @@ class CanaryCodeOutput {
   ///
   /// Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in
   /// authentication schemes (Basic, API Key, OAuth, SigV4) and assertion
-  /// capabilities. When you specify <code>BlueprintTypes</code>, the Handler
-  /// field cannot be specified since the blueprint provides a pre-defined entry
-  /// point.
+  /// capabilities. When you specify <code>BlueprintTypes</code>, the
+  /// <code>Handler</code> field cannot be specified since the blueprint provides
+  /// a pre-defined entry point.
   ///
   /// <code>BlueprintTypes</code> is supported only on canaries for syn-nodejs-3.0
   /// runtime or later.
@@ -3780,6 +3890,63 @@ class VisualReferenceOutput {
   }
 }
 
+/// A structure that contains information about the multi-location configuration
+/// of a canary, including whether it is a primary or replica, the primary
+/// location, and the list of replicas.
+///
+/// @nodoc
+class MultiLocationConfig {
+  /// Indicates whether this canary is the <code>Primary</code> or a
+  /// <code>Replica</code> in the multi-location configuration.
+  final LocationType? locationType;
+
+  /// The Amazon Web Services Region where the primary canary is located.
+  final String? primaryLocation;
+
+  /// A list of replicas for this canary. This field is present only for the
+  /// primary location canary.
+  final List<Replica>? replicas;
+
+  /// The overall replication state of the canary across all replica locations.
+  /// This field is present only for the primary location canary. Valid values are
+  /// <code>InProgress</code>, <code>InSync</code>, and <code>Inconsistent</code>.
+  final ReplicationState? replicationState;
+
+  MultiLocationConfig({
+    this.locationType,
+    this.primaryLocation,
+    this.replicas,
+    this.replicationState,
+  });
+
+  factory MultiLocationConfig.fromJson(Map<String, dynamic> json) {
+    return MultiLocationConfig(
+      locationType:
+          (json['LocationType'] as String?)?.let(LocationType.fromString),
+      primaryLocation: json['PrimaryLocation'] as String?,
+      replicas: (json['Replicas'] as List?)
+          ?.nonNulls
+          .map((e) => Replica.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      replicationState: (json['ReplicationState'] as String?)
+          ?.let(ReplicationState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationType = this.locationType;
+    final primaryLocation = this.primaryLocation;
+    final replicas = this.replicas;
+    final replicationState = this.replicationState;
+    return {
+      if (locationType != null) 'LocationType': locationType.value,
+      if (primaryLocation != null) 'PrimaryLocation': primaryLocation,
+      if (replicas != null) 'Replicas': replicas,
+      if (replicationState != null) 'ReplicationState': replicationState.value,
+    };
+  }
+}
+
 /// A structure that contains the configuration for canary artifacts, including
 /// the encryption-at-rest settings for artifacts that the canary uploads to
 /// Amazon S3.
@@ -3811,37 +3978,155 @@ class ArtifactConfigOutput {
   }
 }
 
-/// A structure of engine configurations for the canary, one for each browser
-/// type that the canary is configured to run on.
+/// @nodoc
+class LocationType {
+  static const primary = LocationType._('Primary');
+  static const replica = LocationType._('Replica');
+
+  final String value;
+
+  const LocationType._(this.value);
+
+  static const values = [primary, replica];
+
+  static LocationType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocationType._(value));
+
+  @override
+  bool operator ==(other) => other is LocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ReplicationState {
+  static const inProgress = ReplicationState._('InProgress');
+  static const inSync = ReplicationState._('InSync');
+  static const inconsistent = ReplicationState._('Inconsistent');
+
+  final String value;
+
+  const ReplicationState._(this.value);
+
+  static const values = [inProgress, inSync, inconsistent];
+
+  static ReplicationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationState._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains information about a canary replica in a specific
+/// location.
 ///
 /// @nodoc
-class EngineConfig {
-  /// The browser type associated with this engine configuration.
-  final BrowserType? browserType;
+class Replica {
+  /// The current state of the canary in this replica location.
+  final CanaryState? canaryState;
 
-  /// Each engine configuration contains the ARN of the Lambda function that is
-  /// used as the canary's engine for a specific browser type.
-  final String? engineArn;
+  /// The date and time that the replica was last modified.
+  final DateTime? lastModified;
 
-  EngineConfig({
-    this.browserType,
-    this.engineArn,
+  /// The Amazon Web Services Region where this replica is located.
+  final String? location;
+
+  /// A structure that contains information about the replication status of this
+  /// replica.
+  final ReplicationStatus? replicationStatus;
+
+  /// The VPC configuration for the canary replica in this location.
+  final VpcConfigOutput? vpcConfig;
+
+  Replica({
+    this.canaryState,
+    this.lastModified,
+    this.location,
+    this.replicationStatus,
+    this.vpcConfig,
   });
 
-  factory EngineConfig.fromJson(Map<String, dynamic> json) {
-    return EngineConfig(
-      browserType:
-          (json['BrowserType'] as String?)?.let(BrowserType.fromString),
-      engineArn: json['EngineArn'] as String?,
+  factory Replica.fromJson(Map<String, dynamic> json) {
+    return Replica(
+      canaryState:
+          (json['CanaryState'] as String?)?.let(CanaryState.fromString),
+      lastModified: timeStampFromJson(json['LastModified']),
+      location: json['Location'] as String?,
+      replicationStatus: json['ReplicationStatus'] != null
+          ? ReplicationStatus.fromJson(
+              json['ReplicationStatus'] as Map<String, dynamic>)
+          : null,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfigOutput.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final browserType = this.browserType;
-    final engineArn = this.engineArn;
+    final canaryState = this.canaryState;
+    final lastModified = this.lastModified;
+    final location = this.location;
+    final replicationStatus = this.replicationStatus;
+    final vpcConfig = this.vpcConfig;
     return {
-      if (browserType != null) 'BrowserType': browserType.value,
-      if (engineArn != null) 'EngineArn': engineArn,
+      if (canaryState != null) 'CanaryState': canaryState.value,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (location != null) 'Location': location,
+      if (replicationStatus != null) 'ReplicationStatus': replicationStatus,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
+}
+
+/// A structure that contains information about the replication status of a
+/// canary replica.
+///
+/// @nodoc
+class ReplicationStatus {
+  /// The replication state of the replica. Valid values are
+  /// <code>InProgress</code>, <code>InSync</code>, and <code>Inconsistent</code>.
+  final ReplicationState? state;
+
+  /// A description that provides more detail about the current replication state.
+  final String? stateReason;
+
+  /// A code that provides more detail about the current replication state.
+  final String? stateReasonCode;
+
+  ReplicationStatus({
+    this.state,
+    this.stateReason,
+    this.stateReasonCode,
+  });
+
+  factory ReplicationStatus.fromJson(Map<String, dynamic> json) {
+    return ReplicationStatus(
+      state: (json['State'] as String?)?.let(ReplicationState.fromString),
+      stateReason: json['StateReason'] as String?,
+      stateReasonCode: json['StateReasonCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateReason = this.stateReason;
+    final stateReasonCode = this.stateReasonCode;
+    return {
+      if (state != null) 'State': state.value,
+      if (stateReason != null) 'StateReason': stateReason,
+      if (stateReasonCode != null) 'StateReasonCode': stateReasonCode,
     };
   }
 }
@@ -3885,6 +4170,41 @@ class CanaryState {
 
   @override
   String toString() => value;
+}
+
+/// A structure of engine configurations for the canary, one for each browser
+/// type that the canary is configured to run on.
+///
+/// @nodoc
+class EngineConfig {
+  /// The browser type associated with this engine configuration.
+  final BrowserType? browserType;
+
+  /// Each engine configuration contains the ARN of the Lambda function that is
+  /// used as the canary's engine for a specific browser type.
+  final String? engineArn;
+
+  EngineConfig({
+    this.browserType,
+    this.engineArn,
+  });
+
+  factory EngineConfig.fromJson(Map<String, dynamic> json) {
+    return EngineConfig(
+      browserType:
+          (json['BrowserType'] as String?)?.let(BrowserType.fromString),
+      engineArn: json['EngineArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final browserType = this.browserType;
+    final engineArn = this.engineArn;
+    return {
+      if (browserType != null) 'BrowserType': browserType.value,
+      if (engineArn != null) 'EngineArn': engineArn,
+    };
+  }
 }
 
 /// @nodoc

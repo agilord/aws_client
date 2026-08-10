@@ -9584,10 +9584,6 @@ class Session {
   /// The Amazon Web Services account ID that owns the session.
   final String? accountId;
 
-  /// The certificate authority used to establish an mTLS connection to the Spark
-  /// Connect server when connecting directly over VPC peering.
-  final CertificateAuthority? certificateAuthority;
-
   /// The date and time that the session was created.
   final DateTime? createdAt;
 
@@ -9641,7 +9637,6 @@ class Session {
     required this.id,
     required this.state,
     this.accountId,
-    this.certificateAuthority,
     this.createdAt,
     this.endedAt,
     this.engineConfigurations,
@@ -9665,10 +9660,6 @@ class Session {
       id: (json['Id'] as String?) ?? '',
       state: SessionState.fromString((json['State'] as String?) ?? ''),
       accountId: json['AccountId'] as String?,
-      certificateAuthority: json['CertificateAuthority'] != null
-          ? CertificateAuthority.fromJson(
-              json['CertificateAuthority'] as Map<String, dynamic>)
-          : null,
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
       engineConfigurations: (json['EngineConfigurations'] as List?)
@@ -9701,7 +9692,6 @@ class Session {
     final id = this.id;
     final state = this.state;
     final accountId = this.accountId;
-    final certificateAuthority = this.certificateAuthority;
     final createdAt = this.createdAt;
     final endedAt = this.endedAt;
     final engineConfigurations = this.engineConfigurations;
@@ -9722,8 +9712,6 @@ class Session {
       'Id': id,
       'State': state.value,
       if (accountId != null) 'AccountId': accountId,
-      if (certificateAuthority != null)
-        'CertificateAuthority': certificateAuthority,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (endedAt != null) 'EndedAt': unixTimestampToJson(endedAt),
       if (engineConfigurations != null)
@@ -9741,42 +9729,6 @@ class Session {
       if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
       if (tags != null) 'Tags': tags,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// Describes the certificate authority used to establish an mTLS connection to
-/// the Spark Connect server when connecting directly over VPC peering.
-///
-/// @nodoc
-class CertificateAuthority {
-  /// The Amazon Resource Name (ARN) of the certificate authority in Amazon Web
-  /// Services Private CA that issued the Spark Connect server certificate.
-  final String? certificateArn;
-
-  /// The PEM-encoded root CA certificate data. Provide this certificate to your
-  /// client's trust store when connecting directly to the Spark Connect server
-  /// over VPC peering.
-  final String? certificateData;
-
-  CertificateAuthority({
-    this.certificateArn,
-    this.certificateData,
-  });
-
-  factory CertificateAuthority.fromJson(Map<String, dynamic> json) {
-    return CertificateAuthority(
-      certificateArn: json['CertificateArn'] as String?,
-      certificateData: json['CertificateData'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final certificateData = this.certificateData;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (certificateData != null) 'CertificateData': certificateData,
     };
   }
 }

@@ -767,9 +767,9 @@ class SesV2 {
   /// The primary region is going to be the AWS-Region where the operation is
   /// executed. The secondary region has to be provided in request's parameters.
   /// From the data flow standpoint there is no difference between primary and
-  /// secondary regions - sending traffic will be split equally between the two.
-  /// The primary region is the region where the resource has been created and
-  /// where it can be managed.
+  /// secondary regions - sending traffic is divided between the two. The
+  /// primary region is the region where the resource has been created and where
+  /// it can be managed.
   ///
   /// May throw [AlreadyExistsException].
   /// May throw [BadRequestException].
@@ -2811,6 +2811,50 @@ class SesV2 {
       payload: $payload,
       method: 'POST',
       requestUri: '/v2/email/account/details',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Set the pricing plan for your Amazon SES account. Use this operation to
+  /// choose a billing plan that packages multiple Amazon SES features at a
+  /// single rate.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [plan] :
+  /// The pricing plan to apply to your Amazon SES account. Can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> – No pricing plan is applied; billing follows
+  /// per-feature pricing.
+  /// </li>
+  /// <li>
+  /// <code>ESSENTIALS</code> – Baseline Amazon SES capabilities and select
+  /// premium features.
+  /// </li>
+  /// <li>
+  /// <code>PRO</code> – Includes everything in <code>ESSENTIALS</code>, plus
+  /// additional premium features for growing senders.
+  /// </li>
+  /// <li>
+  /// <code>ENTERPRISE</code> – Includes everything in <code>PRO</code>, plus
+  /// features intended for large-scale senders.
+  /// </li>
+  /// </ul>
+  Future<void> putAccountPricingAttributes({
+    required PricingPlan plan,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Plan': plan.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v2/email/account/pricing-attributes',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5211,6 +5255,10 @@ class GetAccountResponse {
   /// </ul>
   final String? enforcementStatus;
 
+  /// The pricing attributes that apply to your Amazon SES account, including the
+  /// currently active pricing plan and any scheduled change.
+  final PricingAttributes? pricingAttributes;
+
   /// Indicates whether or not your account has production access in the current
   /// Amazon Web Services Region.
   ///
@@ -5244,6 +5292,7 @@ class GetAccountResponse {
     this.dedicatedIpAutoWarmupEnabled,
     this.details,
     this.enforcementStatus,
+    this.pricingAttributes,
     this.productionAccessEnabled,
     this.sendQuota,
     this.sendingEnabled,
@@ -5259,6 +5308,10 @@ class GetAccountResponse {
           ? AccountDetails.fromJson(json['Details'] as Map<String, dynamic>)
           : null,
       enforcementStatus: json['EnforcementStatus'] as String?,
+      pricingAttributes: json['PricingAttributes'] != null
+          ? PricingAttributes.fromJson(
+              json['PricingAttributes'] as Map<String, dynamic>)
+          : null,
       productionAccessEnabled: json['ProductionAccessEnabled'] as bool?,
       sendQuota: json['SendQuota'] != null
           ? SendQuota.fromJson(json['SendQuota'] as Map<String, dynamic>)
@@ -5279,6 +5332,7 @@ class GetAccountResponse {
     final dedicatedIpAutoWarmupEnabled = this.dedicatedIpAutoWarmupEnabled;
     final details = this.details;
     final enforcementStatus = this.enforcementStatus;
+    final pricingAttributes = this.pricingAttributes;
     final productionAccessEnabled = this.productionAccessEnabled;
     final sendQuota = this.sendQuota;
     final sendingEnabled = this.sendingEnabled;
@@ -5289,6 +5343,7 @@ class GetAccountResponse {
         'DedicatedIpAutoWarmupEnabled': dedicatedIpAutoWarmupEnabled,
       if (details != null) 'Details': details,
       if (enforcementStatus != null) 'EnforcementStatus': enforcementStatus,
+      if (pricingAttributes != null) 'PricingAttributes': pricingAttributes,
       if (productionAccessEnabled != null)
         'ProductionAccessEnabled': productionAccessEnabled,
       if (sendQuota != null) 'SendQuota': sendQuota,
@@ -7457,6 +7512,22 @@ class PutAccountDetailsResponse {
 
   factory PutAccountDetailsResponse.fromJson(Map<String, dynamic> _) {
     return PutAccountDetailsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error response if the
+/// request fails.
+///
+/// @nodoc
+class PutAccountPricingAttributesResponse {
+  PutAccountPricingAttributesResponse();
+
+  factory PutAccountPricingAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return PutAccountPricingAttributesResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -9983,6 +10054,10 @@ class DkimSigningAttributesOrigin {
       DkimSigningAttributesOrigin._('AWS_SES_AP_SOUTHEAST_5');
   static const awsSesCaWest_1 =
       DkimSigningAttributesOrigin._('AWS_SES_CA_WEST_1');
+  static const awsSesUsGovEast_1 =
+      DkimSigningAttributesOrigin._('AWS_SES_US_GOV_EAST_1');
+  static const awsSesUsGovWest_1 =
+      DkimSigningAttributesOrigin._('AWS_SES_US_GOV_WEST_1');
 
   final String value;
 
@@ -10017,7 +10092,9 @@ class DkimSigningAttributesOrigin {
     awsSesApSouth_2,
     awsSesEuCentral_2,
     awsSesApSoutheast_5,
-    awsSesCaWest_1
+    awsSesCaWest_1,
+    awsSesUsGovEast_1,
+    awsSesUsGovWest_1
   ];
 
   static DkimSigningAttributesOrigin fromString(String value) =>
@@ -10204,6 +10281,16 @@ class DkimSigningAttributes {
   /// <li>
   /// <code>AWS_SES_US_WEST_2</code> – Configure DKIM for the identity by
   /// replicating from a parent identity in US West (Oregon) region using
+  /// Deterministic Easy-DKIM (DEED).
+  /// </li>
+  /// <li>
+  /// <code>AWS_SES_US_GOV_EAST_1</code> – Configure DKIM for the identity by
+  /// replicating from a parent identity in AWS GovCloud (US-East) region using
+  /// Deterministic Easy-DKIM (DEED).
+  /// </li>
+  /// <li>
+  /// <code>AWS_SES_US_GOV_WEST_1</code> – Configure DKIM for the identity by
+  /// replicating from a parent identity in AWS GovCloud (US-West) region using
   /// Deterministic Easy-DKIM (DEED).
   /// </li>
   /// </ul>
@@ -10902,6 +10989,36 @@ class SuppressionValidationAttributes {
       'ConditionThreshold': conditionThreshold,
     };
   }
+}
+
+/// Identifies an Amazon SES pricing plan. See
+/// <code>PutAccountPricingAttributesRequest$Plan</code> for the list of
+/// supported values and their meanings.
+///
+/// @nodoc
+class PricingPlan {
+  static const none = PricingPlan._('NONE');
+  static const essentials = PricingPlan._('ESSENTIALS');
+  static const pro = PricingPlan._('PRO');
+  static const enterprise = PricingPlan._('ENTERPRISE');
+
+  final String value;
+
+  const PricingPlan._(this.value);
+
+  static const values = [none, essentials, pro, enterprise];
+
+  static PricingPlan fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PricingPlan._(value));
+
+  @override
+  bool operator ==(other) => other is PricingPlan && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -14271,6 +14388,16 @@ class DkimAttributes {
   /// identity by replicating signing attributes from a parent identity in US West
   /// (Oregon) region using Deterministic Easy-DKIM (DEED).
   /// </li>
+  /// <li>
+  /// <code>AWS_SES_US_GOV_EAST_1</code> – Indicates that DKIM was configured for
+  /// the identity by replicating signing attributes from a parent identity in AWS
+  /// GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).
+  /// </li>
+  /// <li>
+  /// <code>AWS_SES_US_GOV_WEST_1</code> – Indicates that DKIM was configured for
+  /// the identity by replicating signing attributes from a parent identity in AWS
+  /// GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).
+  /// </li>
   /// </ul>
   final DkimSigningAttributesOrigin? signingAttributesOrigin;
 
@@ -16060,6 +16187,43 @@ class AccountDetails {
       if (reviewDetails != null) 'ReviewDetails': reviewDetails,
       if (useCaseDescription != null) 'UseCaseDescription': useCaseDescription,
       if (websiteURL != null) 'WebsiteURL': websiteURL,
+    };
+  }
+}
+
+/// The pricing attributes that apply to your Amazon SES account, including the
+/// currently active pricing plan and any scheduled change for the next billing
+/// cycle.
+///
+/// @nodoc
+class PricingAttributes {
+  /// The pricing plan that is currently active on your Amazon SES account.
+  final PricingPlan? currentPlan;
+
+  /// The pricing plan that will become active at the start of the next billing
+  /// cycle, if a scheduled change has been requested. This field is empty when no
+  /// scheduled change is pending.
+  final PricingPlan? nextPlan;
+
+  PricingAttributes({
+    this.currentPlan,
+    this.nextPlan,
+  });
+
+  factory PricingAttributes.fromJson(Map<String, dynamic> json) {
+    return PricingAttributes(
+      currentPlan:
+          (json['CurrentPlan'] as String?)?.let(PricingPlan.fromString),
+      nextPlan: (json['NextPlan'] as String?)?.let(PricingPlan.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentPlan = this.currentPlan;
+    final nextPlan = this.nextPlan;
+    return {
+      if (currentPlan != null) 'CurrentPlan': currentPlan.value,
+      if (nextPlan != null) 'NextPlan': nextPlan.value,
     };
   }
 }

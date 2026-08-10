@@ -2741,8 +2741,8 @@ class RuleStatus {
 ///
 /// @nodoc
 class ResourceTagsCriteriaCondition {
-  /// The comparison operator used to evaluate the tag criteria, such as equals,
-  /// not equals, or contains.
+  /// The comparison operator used to evaluate the attribute against the specified
+  /// values.
   final ComparisonOperator? comparison;
 
   /// The tag key to use for comparison when filtering resources.
@@ -2797,6 +2797,29 @@ class ComparisonOperator {
   static const numericGreaterThan = ComparisonOperator._('NumericGreaterThan');
   static const numericGreaterThanEquals =
       ComparisonOperator._('NumericGreaterThanEquals');
+  static const stringEqualsIfExists =
+      ComparisonOperator._('StringEqualsIfExists');
+  static const stringNotEqualsIfExists =
+      ComparisonOperator._('StringNotEqualsIfExists');
+  static const stringEqualsIgnoreCaseIfExists =
+      ComparisonOperator._('StringEqualsIgnoreCaseIfExists');
+  static const stringNotEqualsIgnoreCaseIfExists =
+      ComparisonOperator._('StringNotEqualsIgnoreCaseIfExists');
+  static const stringLikeIfExists = ComparisonOperator._('StringLikeIfExists');
+  static const stringNotLikeIfExists =
+      ComparisonOperator._('StringNotLikeIfExists');
+  static const numericEqualsIfExists =
+      ComparisonOperator._('NumericEqualsIfExists');
+  static const numericNotEqualsIfExists =
+      ComparisonOperator._('NumericNotEqualsIfExists');
+  static const numericLessThanIfExists =
+      ComparisonOperator._('NumericLessThanIfExists');
+  static const numericLessThanEqualsIfExists =
+      ComparisonOperator._('NumericLessThanEqualsIfExists');
+  static const numericGreaterThanIfExists =
+      ComparisonOperator._('NumericGreaterThanIfExists');
+  static const numericGreaterThanEqualsIfExists =
+      ComparisonOperator._('NumericGreaterThanEqualsIfExists');
 
   final String value;
 
@@ -2814,7 +2837,19 @@ class ComparisonOperator {
     numericLessThan,
     numericLessThanEquals,
     numericGreaterThan,
-    numericGreaterThanEquals
+    numericGreaterThanEquals,
+    stringEqualsIfExists,
+    stringNotEqualsIfExists,
+    stringEqualsIgnoreCaseIfExists,
+    stringNotEqualsIgnoreCaseIfExists,
+    stringLikeIfExists,
+    stringNotLikeIfExists,
+    numericEqualsIfExists,
+    numericNotEqualsIfExists,
+    numericLessThanIfExists,
+    numericLessThanEqualsIfExists,
+    numericGreaterThanIfExists,
+    numericGreaterThanEqualsIfExists
   ];
 
   static ComparisonOperator fromString(String value) =>
@@ -2837,8 +2872,8 @@ class ComparisonOperator {
 ///
 /// @nodoc
 class DoubleCriteriaCondition {
-  /// The comparison operator to use, such as equals, greater than, less than,
-  /// etc.
+  /// The comparison operator used to evaluate the attribute against the specified
+  /// values.
   final ComparisonOperator? comparison;
 
   /// The list of double values to compare against using the specified comparison
@@ -2876,8 +2911,8 @@ class DoubleCriteriaCondition {
 ///
 /// @nodoc
 class IntegerCriteriaCondition {
-  /// The comparison operator to use, such as equals, greater than, less than,
-  /// etc.
+  /// The comparison operator used to evaluate the attribute against the specified
+  /// values.
   final ComparisonOperator? comparison;
 
   /// The list of integer values to compare against using the specified comparison
@@ -2912,8 +2947,8 @@ class IntegerCriteriaCondition {
 ///
 /// @nodoc
 class StringCriteriaCondition {
-  /// The comparison operator used to evaluate the string criteria, such as
-  /// equals, not equals, or contains.
+  /// The comparison operator used to evaluate the attribute against the specified
+  /// values.
   final ComparisonOperator? comparison;
 
   /// List of string values to compare against when applying the criteria

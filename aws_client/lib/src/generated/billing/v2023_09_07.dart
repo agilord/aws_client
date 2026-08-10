@@ -263,6 +263,62 @@ class Billing {
     return DisassociateSourceViewsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves billing preferences for the specified feature. Each feature
+  /// controls a distinct billing capability: which accounts can share Reserved
+  /// Instances or credits, whether billing alerts are enabled, the historical
+  /// record of sharing changes, and per-credit options.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [features] :
+  /// The feature to retrieve. Specify exactly one value. Valid values:
+  /// <code>BILLING_ALERTS</code>, <code>RI_SHARING</code>,
+  /// <code>RI_SHARING_HISTORY</code>, <code>CREDIT_SHARING</code>,
+  /// <code>CREDIT_SHARING_HISTORY</code>, <code>CREDIT_LEVEL_SHARING</code>,
+  /// <code>CREDIT_PREFERENCE_OPTIONS</code>.
+  ///
+  /// Parameter [filters] :
+  /// Filters to narrow results. Specify exactly one filter when supplied. The
+  /// supported filter name is <code>PREFERENCE_KEY</code>, which accepts 1 to
+  /// 10 values to match preference keys.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of records to return per page. Range: 1 to 50. Default:
+  /// 50.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous response. Pass the value returned in
+  /// <code>nextToken</code> to retrieve the next page of results.
+  Future<GetBillingPreferencesResponse> getBillingPreferences({
+    required List<BillingFeature> features,
+    List<BillingFeatureFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.GetBillingPreferences'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'features': features.map((e) => e.value).toList(),
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetBillingPreferencesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the metadata associated to the specified billing view ARN.
   ///
   /// May throw [AccessDeniedException].
@@ -293,6 +349,197 @@ class Billing {
     );
 
     return GetBillingViewResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the per-billing-month allocation history for credits applied to an
+  /// Amazon Web Services account's bills. Traverses the consolidated billing
+  /// family to capture cross-account credit applications. Supports pagination
+  /// and optional filtering to a single credit.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID whose allocation history to retrieve.
+  /// Must be a 12-digit numeric string.
+  ///
+  /// Parameter [endDate] :
+  /// Inclusive end date as Unix epoch seconds.
+  ///
+  /// Parameter [startDate] :
+  /// Inclusive start date as Unix epoch seconds. Must be on or before
+  /// <code>endDate</code>. The range from <code>startDate</code> to
+  /// <code>endDate</code> cannot exceed 24 billing months.
+  ///
+  /// Parameter [creditId] :
+  /// Filters the result to a single credit. When omitted, returns allocation
+  /// entries for all credits.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of records to return per page. Range: 1 to 1000.
+  /// Default: 100.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from a previous response. Pass the value returned in
+  /// <code>nextToken</code> to retrieve the next page of results.
+  Future<GetCreditAllocationHistoryResponse> getCreditAllocationHistory({
+    required String accountId,
+    required DateTime endDate,
+    required DateTime startDate,
+    int? creditId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.GetCreditAllocationHistory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'accountId': accountId,
+        'endDate': unixTimestampToJson(endDate),
+        'startDate': unixTimestampToJson(startDate),
+        if (creditId != null) 'creditId': creditId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetCreditAllocationHistoryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the list of Amazon Web Services account credits for the specified
+  /// account. Each credit includes its identifier, type, monetary amounts,
+  /// applicable products, expiration, sharing configuration, and current
+  /// enabled status.
+  ///
+  /// When the caller is the management account of a consolidated billing family
+  /// and <code>payerAccountFlag</code> is <code>true</code>, the response
+  /// aggregates credits across the entire family. Otherwise, the response
+  /// includes only credits owned by the account specified in
+  /// <code>accountId</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID. Must be a 12-digit numeric string.
+  ///
+  /// Parameter [startDate] :
+  /// The start date for the credit period as Unix epoch seconds. Must be a past
+  /// date that is not more than one year before the current date.
+  ///
+  /// Parameter [endDate] :
+  /// The end date for the credit period as Unix epoch seconds. Must not be a
+  /// future date and must be on or after <code>startDate</code>. Defaults to
+  /// the current date when omitted.
+  ///
+  /// Parameter [payerAccountFlag] :
+  /// When <code>true</code> and the caller is the management account, the
+  /// response aggregates credits across the entire consolidated billing family.
+  /// When <code>false</code> or omitted, returns only credits for the specified
+  /// <code>accountId</code>.
+  Future<GetCreditsResponse> getCredits({
+    required String accountId,
+    required DateTime startDate,
+    DateTime? endDate,
+    bool? payerAccountFlag,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.GetCredits'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'accountId': accountId,
+        'startDate': unixTimestampToJson(startDate),
+        if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+        if (payerAccountFlag != null) 'payerAccountFlag': payerAccountFlag,
+      },
+    );
+
+    return GetCreditsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a summary of Enterprise Support data aggregated across all
+  /// accounts in the Enterprise Support profile.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [billingMonth] :
+  /// The billing month in YYYY-MM format. This must be a month in the past.
+  Future<GetEnterpriseSupportChargeSummaryResponse>
+      getEnterpriseSupportChargeSummary({
+    required String billingMonth,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.GetEnterpriseSupportChargeSummary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'billingMonth': billingMonth,
+      },
+    );
+
+    return GetEnterpriseSupportChargeSummaryResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns Enterprise Support contract details.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [billingMonth] :
+  /// The billing month in YYYY-MM format. This must be a month in the past.
+  Future<GetEnterpriseSupportContractDetailsResponse>
+      getEnterpriseSupportContractDetails({
+    required String billingMonth,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.GetEnterpriseSupportContractDetails'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'billingMonth': billingMonth,
+      },
+    );
+
+    return GetEnterpriseSupportContractDetailsResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns the resource-based policy document attached to the resource in
@@ -413,6 +660,54 @@ class Billing {
     return ListBillingViewsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns Support-eligible spend broken down at linked account level.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [billingMonth] :
+  /// The billing month in YYYY-MM format. This must be a month in the past.
+  ///
+  /// Parameter [accountId] :
+  /// An optional linked account ID to filter results to a specific account.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token for the next page of results.
+  Future<ListEnterpriseSupportLinkedAccountChargesResponse>
+      listEnterpriseSupportLinkedAccountCharges({
+    required String billingMonth,
+    String? accountId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.ListEnterpriseSupportLinkedAccountCharges'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'billingMonth': billingMonth,
+        if (accountId != null) 'accountId': accountId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListEnterpriseSupportLinkedAccountChargesResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists the source views (managed Amazon Web Services billing views)
   /// associated with the billing view.
   ///
@@ -494,6 +789,38 @@ class Billing {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Redeems an Amazon Web Services promotional credit code on behalf of the
+  /// calling account. On success, a new credit is added to the account's credit
+  /// ledger with the amount, validity period, and applicable products defined
+  /// by the promotion. The credit is then automatically applied to subsequent
+  /// bills according to the standard credit application order.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [promoCode] :
+  /// The promotional credit code to redeem.
+  Future<void> redeemCredits({
+    required String promoCode,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.RedeemCredits'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'promoCode': promoCode,
+      },
+    );
+  }
+
   /// An API operation for adding one or more tags (key-value pairs) to a
   /// resource.
   ///
@@ -560,6 +887,57 @@ class Billing {
       payload: {
         'resourceArn': resourceArn,
         'resourceTagKeys': resourceTagKeys,
+      },
+    );
+  }
+
+  /// Updates billing preferences for the specified feature. Each feature
+  /// targets a distinct billing capability and has its own set of supported
+  /// keys. The action sets the value for each provided key; keys not present in
+  /// the request are unchanged.
+  ///
+  /// Sharing keys (<code>RI_SHARING</code>, <code>CREDIT_SHARING</code>,
+  /// <code>CREDIT_LEVEL_SHARING</code>, and sharing keys under
+  /// <code>CREDIT_PREFERENCE_OPTIONS</code>) may only be set by the management
+  /// account of a consolidated billing family. The
+  /// <code>credit/{creditId}/status</code> key may be set by member accounts
+  /// for credits they own, or by the management account for any credit in the
+  /// family.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [billingPreferencesPerKey] :
+  /// Key/value pairs to apply. All keys in a single request must be valid for
+  /// the specified <code>feature</code> and must not be duplicated. For
+  /// <code>CREDIT_PREFERENCE_OPTIONS</code>, all keys must reference the same
+  /// <code>creditId</code>.
+  ///
+  /// Parameter [feature] :
+  /// The feature to update. Valid values: <code>BILLING_ALERTS</code>,
+  /// <code>RI_SHARING</code>, <code>CREDIT_SHARING</code>,
+  /// <code>CREDIT_LEVEL_SHARING</code>, <code>CREDIT_PREFERENCE_OPTIONS</code>.
+  /// The history features (<code>RI_SHARING_HISTORY</code> and
+  /// <code>CREDIT_SHARING_HISTORY</code>) are read-only and cannot be updated.
+  Future<void> updateBillingPreferences({
+    required List<BillingPreferenceForKey> billingPreferencesPerKey,
+    required BillingFeature feature,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSBilling.UpdateBillingPreferences'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'billingPreferencesPerKey': billingPreferencesPerKey,
+        'feature': feature.value,
       },
     );
   }
@@ -721,6 +1099,41 @@ class DisassociateSourceViewsResponse {
 }
 
 /// @nodoc
+class GetBillingPreferencesResponse {
+  /// The list of preference entries matching the request.
+  final List<BillingPreferenceSummary> billingPreferences;
+
+  /// Pagination token. Present when more pages are available; <code>null</code>
+  /// when there are no more results.
+  final String? nextToken;
+
+  GetBillingPreferencesResponse({
+    required this.billingPreferences,
+    this.nextToken,
+  });
+
+  factory GetBillingPreferencesResponse.fromJson(Map<String, dynamic> json) {
+    return GetBillingPreferencesResponse(
+      billingPreferences: ((json['billingPreferences'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              BillingPreferenceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingPreferences = this.billingPreferences;
+    final nextToken = this.nextToken;
+    return {
+      'billingPreferences': billingPreferences,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class GetBillingViewResponse {
   /// The billing view element associated with the specified ARN.
   final BillingViewElement billingView;
@@ -741,6 +1154,406 @@ class GetBillingViewResponse {
     final billingView = this.billingView;
     return {
       'billingView': billingView,
+    };
+  }
+}
+
+/// @nodoc
+class GetCreditAllocationHistoryResponse {
+  /// <code>true</code> when data could not be retrieved for one or more billing
+  /// months. The <code>failedMonths</code> field lists which months are missing.
+  final bool partialResults;
+
+  /// Allocation entries sorted by <code>billingMonth</code> in descending order.
+  final List<CreditAllocationHistoryEntry>? creditAllocationHistoryList;
+
+  /// Billing months in <code>YYYY-MM</code> format that failed to return data.
+  /// Non-empty only when <code>partialResults</code> is <code>true</code>.
+  final List<String>? failedMonths;
+
+  /// Pagination token. Present when more pages are available; <code>null</code>
+  /// when there are no more results.
+  final String? nextToken;
+
+  GetCreditAllocationHistoryResponse({
+    required this.partialResults,
+    this.creditAllocationHistoryList,
+    this.failedMonths,
+    this.nextToken,
+  });
+
+  factory GetCreditAllocationHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCreditAllocationHistoryResponse(
+      partialResults: (json['partialResults'] as bool?) ?? false,
+      creditAllocationHistoryList: (json['creditAllocationHistoryList']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              CreditAllocationHistoryEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedMonths: (json['failedMonths'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final partialResults = this.partialResults;
+    final creditAllocationHistoryList = this.creditAllocationHistoryList;
+    final failedMonths = this.failedMonths;
+    final nextToken = this.nextToken;
+    return {
+      'partialResults': partialResults,
+      if (creditAllocationHistoryList != null)
+        'creditAllocationHistoryList': creditAllocationHistoryList,
+      if (failedMonths != null) 'failedMonths': failedMonths,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class GetCreditsResponse {
+  /// The list of credits matching the request. Returns an empty list when no
+  /// credits exist.
+  final List<CreditData>? credits;
+
+  GetCreditsResponse({
+    this.credits,
+  });
+
+  factory GetCreditsResponse.fromJson(Map<String, dynamic> json) {
+    return GetCreditsResponse(
+      credits: (json['credits'] as List?)
+          ?.nonNulls
+          .map((e) => CreditData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final credits = this.credits;
+    return {
+      if (credits != null) 'credits': credits,
+    };
+  }
+}
+
+/// The response structure for GetEnterpriseSupportChargeSummary.
+///
+/// @nodoc
+class GetEnterpriseSupportChargeSummaryResponse {
+  /// The date the bill was generated.
+  final DateTime billDate;
+
+  /// The billing month in YYYY-MM format. This must be a month in the past.
+  final String billingMonth;
+
+  /// The end date of the billing period.
+  final DateTime billingPeriodEndDate;
+
+  /// The start date of the billing period.
+  final DateTime billingPeriodStartDate;
+
+  /// When true, the Support charge amount is estimated. When false, the Support
+  /// charge amount is finalized.
+  final bool isEstimated;
+
+  /// The payer account ID that is authorized to view Enterprise Support data for
+  /// all accounts in its Support profile.
+  final String payerAccountId;
+
+  /// The Support charge amount for the account.
+  final String supportCharge;
+
+  /// The percentage applied to the total Support-eligible spend to calculate the
+  /// total Support charge across all accounts in the Support profile.
+  final String supportChargePercentage;
+
+  /// The support discount amount.
+  final String supportDiscount;
+
+  /// The effective pricing plan used for the support charge calculation.
+  final PricingPlan supportEffectivePricingPlan;
+
+  /// The total Support charge amount for all accounts in the Support profile.
+  final String totalSupportCharge;
+
+  /// The total Support-eligible Reserved Instance spend from all accounts in the
+  /// Support profile.
+  final String totalSupportEligibleReservedInstanceSpend;
+
+  /// The total Support-eligible Savings Plan spend from all accounts in the
+  /// Support profile.
+  final String totalSupportEligibleSavingsPlanSpend;
+
+  /// The total Support-eligible Spend from all accounts in the Support profile.
+  /// This includes eligible spend from usage of Amazon Web Services, Reserved
+  /// Instances, and Savings Plans.
+  final String totalSupportEligibleSpend;
+
+  /// The total Support-eligible spend from usage of Amazon Web Services from all
+  /// accounts in the Support profile.
+  final String totalSupportEligibleUsageSpend;
+
+  GetEnterpriseSupportChargeSummaryResponse({
+    required this.billDate,
+    required this.billingMonth,
+    required this.billingPeriodEndDate,
+    required this.billingPeriodStartDate,
+    required this.isEstimated,
+    required this.payerAccountId,
+    required this.supportCharge,
+    required this.supportChargePercentage,
+    required this.supportDiscount,
+    required this.supportEffectivePricingPlan,
+    required this.totalSupportCharge,
+    required this.totalSupportEligibleReservedInstanceSpend,
+    required this.totalSupportEligibleSavingsPlanSpend,
+    required this.totalSupportEligibleSpend,
+    required this.totalSupportEligibleUsageSpend,
+  });
+
+  factory GetEnterpriseSupportChargeSummaryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEnterpriseSupportChargeSummaryResponse(
+      billDate: nonNullableTimeStampFromJson(json['billDate'] ?? 0),
+      billingMonth: (json['billingMonth'] as String?) ?? '',
+      billingPeriodEndDate:
+          nonNullableTimeStampFromJson(json['billingPeriodEndDate'] ?? 0),
+      billingPeriodStartDate:
+          nonNullableTimeStampFromJson(json['billingPeriodStartDate'] ?? 0),
+      isEstimated: (json['isEstimated'] as bool?) ?? false,
+      payerAccountId: (json['payerAccountId'] as String?) ?? '',
+      supportCharge: (json['supportCharge'] as String?) ?? '',
+      supportChargePercentage:
+          (json['supportChargePercentage'] as String?) ?? '',
+      supportDiscount: (json['supportDiscount'] as String?) ?? '',
+      supportEffectivePricingPlan: PricingPlan.fromJson(
+          (json['supportEffectivePricingPlan'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      totalSupportCharge: (json['totalSupportCharge'] as String?) ?? '',
+      totalSupportEligibleReservedInstanceSpend:
+          (json['totalSupportEligibleReservedInstanceSpend'] as String?) ?? '',
+      totalSupportEligibleSavingsPlanSpend:
+          (json['totalSupportEligibleSavingsPlanSpend'] as String?) ?? '',
+      totalSupportEligibleSpend:
+          (json['totalSupportEligibleSpend'] as String?) ?? '',
+      totalSupportEligibleUsageSpend:
+          (json['totalSupportEligibleUsageSpend'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billDate = this.billDate;
+    final billingMonth = this.billingMonth;
+    final billingPeriodEndDate = this.billingPeriodEndDate;
+    final billingPeriodStartDate = this.billingPeriodStartDate;
+    final isEstimated = this.isEstimated;
+    final payerAccountId = this.payerAccountId;
+    final supportCharge = this.supportCharge;
+    final supportChargePercentage = this.supportChargePercentage;
+    final supportDiscount = this.supportDiscount;
+    final supportEffectivePricingPlan = this.supportEffectivePricingPlan;
+    final totalSupportCharge = this.totalSupportCharge;
+    final totalSupportEligibleReservedInstanceSpend =
+        this.totalSupportEligibleReservedInstanceSpend;
+    final totalSupportEligibleSavingsPlanSpend =
+        this.totalSupportEligibleSavingsPlanSpend;
+    final totalSupportEligibleSpend = this.totalSupportEligibleSpend;
+    final totalSupportEligibleUsageSpend = this.totalSupportEligibleUsageSpend;
+    return {
+      'billDate': unixTimestampToJson(billDate),
+      'billingMonth': billingMonth,
+      'billingPeriodEndDate': unixTimestampToJson(billingPeriodEndDate),
+      'billingPeriodStartDate': unixTimestampToJson(billingPeriodStartDate),
+      'isEstimated': isEstimated,
+      'payerAccountId': payerAccountId,
+      'supportCharge': supportCharge,
+      'supportChargePercentage': supportChargePercentage,
+      'supportDiscount': supportDiscount,
+      'supportEffectivePricingPlan': supportEffectivePricingPlan,
+      'totalSupportCharge': totalSupportCharge,
+      'totalSupportEligibleReservedInstanceSpend':
+          totalSupportEligibleReservedInstanceSpend,
+      'totalSupportEligibleSavingsPlanSpend':
+          totalSupportEligibleSavingsPlanSpend,
+      'totalSupportEligibleSpend': totalSupportEligibleSpend,
+      'totalSupportEligibleUsageSpend': totalSupportEligibleUsageSpend,
+    };
+  }
+}
+
+/// The response structure for GetEnterpriseSupportContractDetails.
+///
+/// @nodoc
+class GetEnterpriseSupportContractDetailsResponse {
+  /// The list of payer accounts and their charge allocation percentages.
+  final List<ChargeAccount> chargedPayerAccountIds;
+
+  /// The list of accounts covered by the Enterprise Support contract.
+  final List<ContractAccount> contractPayerAccountIds;
+
+  /// The pricing plans associated with this Enterprise Support contract.
+  final List<PricingPlan> pricingPlans;
+
+  /// The method used to distribute the total Support charge amount across each
+  /// account in the Support profile. Valid values: Proportional,
+  /// Fixed_Percentage. Proportional means support charges are distributed to each
+  /// account in proportion to its eligible Spend. Fixed_Percentage means support
+  /// charges are distributed across accounts according to pre-configured
+  /// percentages from the contract.
+  final String supportAllocationMethod;
+
+  /// Any Additional support charges applied to the contract.
+  final List<AdditionalCharge>? additionalSupportCharge;
+
+  /// Any Additional support-eligible usage spend charges.
+  final List<AdditionalCharge>? additionalSupportEligibleUsageSpend;
+
+  /// When true, the Enterprise Support contract is active. When false, the
+  /// Enterprise Support Contract is inactive.
+  final bool? isContractActive;
+
+  /// The start date for accounts subscribed or unsubscribed to Support billing
+  /// during the billing month.
+  final DateTime? supportProrateStartDate;
+
+  /// When supportReservedInstanceTreatmentMethod = AmortizedCustom, only
+  /// amortized fees for Reserved Instances purchased on or after this date are
+  /// included in the calculation. This field is Null for all other treatment
+  /// methods.
+  final DateTime? supportReservedInstanceAmortizationStartDate;
+
+  /// The method used to include Reserved Instance (RI) fees in the Enterprise
+  /// Support charge calculation. Valid values: None (RI fees excluded from
+  /// Support-eligible spend), Upfront (full upfront RI fees included in month of
+  /// purchase), Amortized (RI fees spread over commitment term for RIs purchased
+  /// on or after Support subscription start date), AmortizedCustom (same as
+  /// Amortized but only for RIs purchased on or after a specified custom start
+  /// date), AmortizedAll (RI fees amortized for all active RIs including those
+  /// purchased before Support subscription started).
+  final String? supportReservedInstanceTreatmentMethod;
+
+  /// This is applicable when supportSavingsPlansTreatmentMethod = Amortized and
+  /// is Null for all other methods. It shows the start date from which Savings
+  /// Plan fees are included in Support Eligible Spend.
+  final DateTime? supportSavingsPlansAmortizationStartDate;
+
+  /// The method used to include Savings Plans fees in Enterprise Support charge
+  /// calculations. Valid values: None (Savings Plan fees excluded from
+  /// Support-eligible spend), Upfront (full upfront Savings Plan fees included in
+  /// month of purchase), Amortized (Savings Plan fees spread over commitment term
+  /// for Savings Plans purchased on or after Support subscription start date),
+  /// AmortizedCustom (same as Amortized but only for Savings Plans purchased on
+  /// or after a specified custom start date), AmortizedAll (Savings Plan fees
+  /// amortized for all active Savings Plans including those purchased before
+  /// Support subscription started).
+  final String? supportSavingsPlansTreatmentMethod;
+
+  GetEnterpriseSupportContractDetailsResponse({
+    required this.chargedPayerAccountIds,
+    required this.contractPayerAccountIds,
+    required this.pricingPlans,
+    required this.supportAllocationMethod,
+    this.additionalSupportCharge,
+    this.additionalSupportEligibleUsageSpend,
+    this.isContractActive,
+    this.supportProrateStartDate,
+    this.supportReservedInstanceAmortizationStartDate,
+    this.supportReservedInstanceTreatmentMethod,
+    this.supportSavingsPlansAmortizationStartDate,
+    this.supportSavingsPlansTreatmentMethod,
+  });
+
+  factory GetEnterpriseSupportContractDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEnterpriseSupportContractDetailsResponse(
+      chargedPayerAccountIds:
+          ((json['chargedPayerAccountIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ChargeAccount.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      contractPayerAccountIds:
+          ((json['contractPayerAccountIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ContractAccount.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      pricingPlans: ((json['pricingPlans'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PricingPlan.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportAllocationMethod:
+          (json['supportAllocationMethod'] as String?) ?? '',
+      additionalSupportCharge: (json['additionalSupportCharge'] as List?)
+          ?.nonNulls
+          .map((e) => AdditionalCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      additionalSupportEligibleUsageSpend:
+          (json['additionalSupportEligibleUsageSpend'] as List?)
+              ?.nonNulls
+              .map((e) => AdditionalCharge.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      isContractActive: json['isContractActive'] as bool?,
+      supportProrateStartDate:
+          timeStampFromJson(json['supportProrateStartDate']),
+      supportReservedInstanceAmortizationStartDate: timeStampFromJson(
+          json['supportReservedInstanceAmortizationStartDate']),
+      supportReservedInstanceTreatmentMethod:
+          json['supportReservedInstanceTreatmentMethod'] as String?,
+      supportSavingsPlansAmortizationStartDate:
+          timeStampFromJson(json['supportSavingsPlansAmortizationStartDate']),
+      supportSavingsPlansTreatmentMethod:
+          json['supportSavingsPlansTreatmentMethod'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final chargedPayerAccountIds = this.chargedPayerAccountIds;
+    final contractPayerAccountIds = this.contractPayerAccountIds;
+    final pricingPlans = this.pricingPlans;
+    final supportAllocationMethod = this.supportAllocationMethod;
+    final additionalSupportCharge = this.additionalSupportCharge;
+    final additionalSupportEligibleUsageSpend =
+        this.additionalSupportEligibleUsageSpend;
+    final isContractActive = this.isContractActive;
+    final supportProrateStartDate = this.supportProrateStartDate;
+    final supportReservedInstanceAmortizationStartDate =
+        this.supportReservedInstanceAmortizationStartDate;
+    final supportReservedInstanceTreatmentMethod =
+        this.supportReservedInstanceTreatmentMethod;
+    final supportSavingsPlansAmortizationStartDate =
+        this.supportSavingsPlansAmortizationStartDate;
+    final supportSavingsPlansTreatmentMethod =
+        this.supportSavingsPlansTreatmentMethod;
+    return {
+      'chargedPayerAccountIds': chargedPayerAccountIds,
+      'contractPayerAccountIds': contractPayerAccountIds,
+      'pricingPlans': pricingPlans,
+      'supportAllocationMethod': supportAllocationMethod,
+      if (additionalSupportCharge != null)
+        'additionalSupportCharge': additionalSupportCharge,
+      if (additionalSupportEligibleUsageSpend != null)
+        'additionalSupportEligibleUsageSpend':
+            additionalSupportEligibleUsageSpend,
+      if (isContractActive != null) 'isContractActive': isContractActive,
+      if (supportProrateStartDate != null)
+        'supportProrateStartDate': unixTimestampToJson(supportProrateStartDate),
+      if (supportReservedInstanceAmortizationStartDate != null)
+        'supportReservedInstanceAmortizationStartDate':
+            unixTimestampToJson(supportReservedInstanceAmortizationStartDate),
+      if (supportReservedInstanceTreatmentMethod != null)
+        'supportReservedInstanceTreatmentMethod':
+            supportReservedInstanceTreatmentMethod,
+      if (supportSavingsPlansAmortizationStartDate != null)
+        'supportSavingsPlansAmortizationStartDate':
+            unixTimestampToJson(supportSavingsPlansAmortizationStartDate),
+      if (supportSavingsPlansTreatmentMethod != null)
+        'supportSavingsPlansTreatmentMethod':
+            supportSavingsPlansTreatmentMethod,
     };
   }
 }
@@ -811,6 +1624,42 @@ class ListBillingViewsResponse {
   }
 }
 
+/// The response structure for ListEnterpriseSupportLinkedAccountCharges.
+///
+/// @nodoc
+class ListEnterpriseSupportLinkedAccountChargesResponse {
+  /// The list of Enterprise Support charges per linked account.
+  final List<LinkedAccountCharge> linkedAccount;
+
+  /// The pagination token for the next page of results.
+  final String? nextToken;
+
+  ListEnterpriseSupportLinkedAccountChargesResponse({
+    required this.linkedAccount,
+    this.nextToken,
+  });
+
+  factory ListEnterpriseSupportLinkedAccountChargesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListEnterpriseSupportLinkedAccountChargesResponse(
+      linkedAccount: ((json['linkedAccount'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => LinkedAccountCharge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linkedAccount = this.linkedAccount;
+    final nextToken = this.nextToken;
+    return {
+      'linkedAccount': linkedAccount,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// @nodoc
 class ListSourceViewsForBillingViewResponse {
   /// A list of billing views used as the data source for the custom billing view.
@@ -872,6 +1721,19 @@ class ListTagsForResourceResponse {
 }
 
 /// @nodoc
+class RedeemCreditsResponse {
+  RedeemCreditsResponse();
+
+  factory RedeemCreditsResponse.fromJson(Map<String, dynamic> _) {
+    return RedeemCreditsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -890,6 +1752,19 @@ class UntagResourceResponse {
 
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class UpdateBillingPreferencesResponse {
+  UpdateBillingPreferencesResponse();
+
+  factory UpdateBillingPreferencesResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateBillingPreferencesResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1149,6 +2024,97 @@ class Dimension {
   String toString() => value;
 }
 
+/// @nodoc
+class BillingFeature {
+  static const riSharing = BillingFeature._('RI_SHARING');
+  static const riSharingHistory = BillingFeature._('RI_SHARING_HISTORY');
+  static const creditSharing = BillingFeature._('CREDIT_SHARING');
+  static const creditSharingHistory =
+      BillingFeature._('CREDIT_SHARING_HISTORY');
+  static const creditLevelSharing = BillingFeature._('CREDIT_LEVEL_SHARING');
+  static const billingAlerts = BillingFeature._('BILLING_ALERTS');
+  static const creditPreferenceOptions =
+      BillingFeature._('CREDIT_PREFERENCE_OPTIONS');
+
+  final String value;
+
+  const BillingFeature._(this.value);
+
+  static const values = [
+    riSharing,
+    riSharingHistory,
+    creditSharing,
+    creditSharingHistory,
+    creditLevelSharing,
+    billingAlerts,
+    creditPreferenceOptions
+  ];
+
+  static BillingFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BillingFeature._(value));
+
+  @override
+  bool operator ==(other) => other is BillingFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single key/value entry used to update a billing preference.
+///
+/// @nodoc
+class BillingPreferenceForKey {
+  /// The preference key. Format depends on the feature being updated.
+  final String key;
+
+  /// The preference value. Valid values: <code>ENABLED</code> or
+  /// <code>DISABLED</code>.
+  final PreferenceValue value;
+
+  BillingPreferenceForKey({
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value.value,
+    };
+  }
+}
+
+/// @nodoc
+class PreferenceValue {
+  static const enabled = PreferenceValue._('ENABLED');
+  static const disabled = PreferenceValue._('DISABLED');
+
+  final String value;
+
+  const PreferenceValue._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static PreferenceValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PreferenceValue._(value));
+
+  @override
+  bool operator ==(other) => other is PreferenceValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The tag structure that contains a tag key and value.
 ///
 /// @nodoc
@@ -1177,6 +2143,202 @@ class ResourceTag {
     return {
       'key': key,
       if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Enterprise Support charges for a linked account.
+///
+/// @nodoc
+class LinkedAccountCharge {
+  /// The linked account ID.
+  final String accountId;
+
+  /// The number of billable seconds in the billing period based on when the
+  /// account was subscribed to Enterprise Support.
+  final int billableSeconds;
+
+  /// The payer account ID that is authorized to view Enterprise Support data for
+  /// all accounts in its Support profile.
+  final String payerAccountId;
+
+  /// The prorated total support-eligible spend based on when the account was
+  /// subscribed to Enterprise Support.
+  final String proratedTotalSupportEligibleSpend;
+
+  /// The total number of seconds in the billing period.
+  final int totalSeconds;
+
+  /// The total support-eligible spend for this account.
+  final String totalSupportEligibleSpend;
+
+  /// The type of account.
+  final String? accountType;
+
+  /// The time periods during which this account was linked.
+  final List<EnterpriseSupportTimePeriod>? linkedTimePeriods;
+
+  /// The subscription time periods for this account.
+  final List<EnterpriseSupportTimePeriod>? subscriptionTimePeriods;
+
+  /// The support-eligible spend broken down by service.
+  final List<ServiceLevelAccountUsage>? supportEligibleSpendByService;
+
+  /// The total support-eligible Reserved Instance spend for this account.
+  final String? totalSupportEligibleReservedInstanceSpend;
+
+  /// The total support-eligible Savings Plan spend for this account.
+  final String? totalSupportEligibleSavingsPlanSpend;
+
+  LinkedAccountCharge({
+    required this.accountId,
+    required this.billableSeconds,
+    required this.payerAccountId,
+    required this.proratedTotalSupportEligibleSpend,
+    required this.totalSeconds,
+    required this.totalSupportEligibleSpend,
+    this.accountType,
+    this.linkedTimePeriods,
+    this.subscriptionTimePeriods,
+    this.supportEligibleSpendByService,
+    this.totalSupportEligibleReservedInstanceSpend,
+    this.totalSupportEligibleSavingsPlanSpend,
+  });
+
+  factory LinkedAccountCharge.fromJson(Map<String, dynamic> json) {
+    return LinkedAccountCharge(
+      accountId: (json['accountId'] as String?) ?? '',
+      billableSeconds: (json['billableSeconds'] as int?) ?? 0,
+      payerAccountId: (json['payerAccountId'] as String?) ?? '',
+      proratedTotalSupportEligibleSpend:
+          (json['proratedTotalSupportEligibleSpend'] as String?) ?? '',
+      totalSeconds: (json['totalSeconds'] as int?) ?? 0,
+      totalSupportEligibleSpend:
+          (json['totalSupportEligibleSpend'] as String?) ?? '',
+      accountType: json['accountType'] as String?,
+      linkedTimePeriods: (json['linkedTimePeriods'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EnterpriseSupportTimePeriod.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subscriptionTimePeriods: (json['subscriptionTimePeriods'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EnterpriseSupportTimePeriod.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportEligibleSpendByService:
+          (json['supportEligibleSpendByService'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  ServiceLevelAccountUsage.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      totalSupportEligibleReservedInstanceSpend:
+          json['totalSupportEligibleReservedInstanceSpend'] as String?,
+      totalSupportEligibleSavingsPlanSpend:
+          json['totalSupportEligibleSavingsPlanSpend'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final billableSeconds = this.billableSeconds;
+    final payerAccountId = this.payerAccountId;
+    final proratedTotalSupportEligibleSpend =
+        this.proratedTotalSupportEligibleSpend;
+    final totalSeconds = this.totalSeconds;
+    final totalSupportEligibleSpend = this.totalSupportEligibleSpend;
+    final accountType = this.accountType;
+    final linkedTimePeriods = this.linkedTimePeriods;
+    final subscriptionTimePeriods = this.subscriptionTimePeriods;
+    final supportEligibleSpendByService = this.supportEligibleSpendByService;
+    final totalSupportEligibleReservedInstanceSpend =
+        this.totalSupportEligibleReservedInstanceSpend;
+    final totalSupportEligibleSavingsPlanSpend =
+        this.totalSupportEligibleSavingsPlanSpend;
+    return {
+      'accountId': accountId,
+      'billableSeconds': billableSeconds,
+      'payerAccountId': payerAccountId,
+      'proratedTotalSupportEligibleSpend': proratedTotalSupportEligibleSpend,
+      'totalSeconds': totalSeconds,
+      'totalSupportEligibleSpend': totalSupportEligibleSpend,
+      if (accountType != null) 'accountType': accountType,
+      if (linkedTimePeriods != null) 'linkedTimePeriods': linkedTimePeriods,
+      if (subscriptionTimePeriods != null)
+        'subscriptionTimePeriods': subscriptionTimePeriods,
+      if (supportEligibleSpendByService != null)
+        'supportEligibleSpendByService': supportEligibleSpendByService,
+      if (totalSupportEligibleReservedInstanceSpend != null)
+        'totalSupportEligibleReservedInstanceSpend':
+            totalSupportEligibleReservedInstanceSpend,
+      if (totalSupportEligibleSavingsPlanSpend != null)
+        'totalSupportEligibleSavingsPlanSpend':
+            totalSupportEligibleSavingsPlanSpend,
+    };
+  }
+}
+
+/// Service-level usage details by account.
+///
+/// @nodoc
+class ServiceLevelAccountUsage {
+  /// The service code for which to return Support-eligible spend data.
+  final String? serviceCode;
+
+  /// The total support-eligible spend for the service.
+  final String? totalSupportEligibleSpend;
+
+  ServiceLevelAccountUsage({
+    this.serviceCode,
+    this.totalSupportEligibleSpend,
+  });
+
+  factory ServiceLevelAccountUsage.fromJson(Map<String, dynamic> json) {
+    return ServiceLevelAccountUsage(
+      serviceCode: json['serviceCode'] as String?,
+      totalSupportEligibleSpend: json['totalSupportEligibleSpend'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceCode = this.serviceCode;
+    final totalSupportEligibleSpend = this.totalSupportEligibleSpend;
+    return {
+      if (serviceCode != null) 'serviceCode': serviceCode,
+      if (totalSupportEligibleSpend != null)
+        'totalSupportEligibleSpend': totalSupportEligibleSpend,
+    };
+  }
+}
+
+/// A time period for Enterprise Support billing.
+///
+/// @nodoc
+class EnterpriseSupportTimePeriod {
+  /// The begin date of the time period.
+  final DateTime beginDate;
+
+  /// The end date of the time period.
+  final DateTime? endDate;
+
+  EnterpriseSupportTimePeriod({
+    required this.beginDate,
+    this.endDate,
+  });
+
+  factory EnterpriseSupportTimePeriod.fromJson(Map<String, dynamic> json) {
+    return EnterpriseSupportTimePeriod(
+      beginDate: nonNullableTimeStampFromJson(json['beginDate'] ?? 0),
+      endDate: timeStampFromJson(json['endDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginDate = this.beginDate;
+    final endDate = this.endDate;
+    return {
+      'beginDate': unixTimestampToJson(beginDate),
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
     };
   }
 }
@@ -1478,6 +2640,662 @@ class SearchOption {
   String toString() => value;
 }
 
+/// A pricing plan for Enterprise Support billing.
+///
+/// @nodoc
+class PricingPlan {
+  /// The pricing tiers within this plan.
+  final List<PricingPlanTier> tiers;
+
+  /// A description of the pricing plan.
+  final String? description;
+
+  /// Whether the discount applies to the minimum Support charge.
+  final bool? discountAppliesToMinimumCharge;
+
+  /// The end date of the pricing plan.
+  final DateTime? endDate;
+
+  /// The minimum Support charge amount for this pricing plan.
+  final String? minimumCharge;
+
+  /// The name of the pricing plan.
+  final String? name;
+
+  /// The discount percentage applied by this pricing plan.
+  final String? planDiscountPercent;
+
+  /// The unique identifier for the pricing plan.
+  final String? pricingPlanId;
+
+  /// The start date of the pricing plan.
+  final DateTime? startDate;
+
+  /// Whether the pricing plan uses tiered pricing.
+  final String? tiered;
+
+  PricingPlan({
+    required this.tiers,
+    this.description,
+    this.discountAppliesToMinimumCharge,
+    this.endDate,
+    this.minimumCharge,
+    this.name,
+    this.planDiscountPercent,
+    this.pricingPlanId,
+    this.startDate,
+    this.tiered,
+  });
+
+  factory PricingPlan.fromJson(Map<String, dynamic> json) {
+    return PricingPlan(
+      tiers: ((json['tiers'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PricingPlanTier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      discountAppliesToMinimumCharge:
+          json['discountAppliesToMinimumCharge'] as bool?,
+      endDate: timeStampFromJson(json['endDate']),
+      minimumCharge: json['minimumCharge'] as String?,
+      name: json['name'] as String?,
+      planDiscountPercent: json['planDiscountPercent'] as String?,
+      pricingPlanId: json['pricingPlanId'] as String?,
+      startDate: timeStampFromJson(json['startDate']),
+      tiered: json['tiered'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tiers = this.tiers;
+    final description = this.description;
+    final discountAppliesToMinimumCharge = this.discountAppliesToMinimumCharge;
+    final endDate = this.endDate;
+    final minimumCharge = this.minimumCharge;
+    final name = this.name;
+    final planDiscountPercent = this.planDiscountPercent;
+    final pricingPlanId = this.pricingPlanId;
+    final startDate = this.startDate;
+    final tiered = this.tiered;
+    return {
+      'tiers': tiers,
+      if (description != null) 'description': description,
+      if (discountAppliesToMinimumCharge != null)
+        'discountAppliesToMinimumCharge': discountAppliesToMinimumCharge,
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      if (minimumCharge != null) 'minimumCharge': minimumCharge,
+      if (name != null) 'name': name,
+      if (planDiscountPercent != null)
+        'planDiscountPercent': planDiscountPercent,
+      if (pricingPlanId != null) 'pricingPlanId': pricingPlanId,
+      if (startDate != null) 'startDate': unixTimestampToJson(startDate),
+      if (tiered != null) 'tiered': tiered,
+    };
+  }
+}
+
+/// A tier within an Enterprise Support pricing plan.
+///
+/// @nodoc
+class PricingPlanTier {
+  /// The additional percentage applied to aggregate charges in this tier.
+  final String additionalPercentageOfAggregateCharges;
+
+  /// The adjustment applied to aggregate charges.
+  final String aggregateChargesAdjustment;
+
+  /// The base charge for this tier.
+  final String baseCharge;
+
+  /// Whether the tier charges are calculated incrementally.
+  final bool incremental;
+
+  /// The minimum spend threshold for this tier.
+  final String tierMinimum;
+
+  /// The increment amount for incremental tier calculations.
+  final String? increment;
+
+  /// The charge per increment.
+  final String? incrementCharge;
+
+  /// The maximum spend threshold for this tier.
+  final String? tierMaximum;
+
+  PricingPlanTier({
+    required this.additionalPercentageOfAggregateCharges,
+    required this.aggregateChargesAdjustment,
+    required this.baseCharge,
+    required this.incremental,
+    required this.tierMinimum,
+    this.increment,
+    this.incrementCharge,
+    this.tierMaximum,
+  });
+
+  factory PricingPlanTier.fromJson(Map<String, dynamic> json) {
+    return PricingPlanTier(
+      additionalPercentageOfAggregateCharges:
+          (json['additionalPercentageOfAggregateCharges'] as String?) ?? '',
+      aggregateChargesAdjustment:
+          (json['aggregateChargesAdjustment'] as String?) ?? '',
+      baseCharge: (json['baseCharge'] as String?) ?? '',
+      incremental: (json['incremental'] as bool?) ?? false,
+      tierMinimum: (json['tierMinimum'] as String?) ?? '',
+      increment: json['increment'] as String?,
+      incrementCharge: json['incrementCharge'] as String?,
+      tierMaximum: json['tierMaximum'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalPercentageOfAggregateCharges =
+        this.additionalPercentageOfAggregateCharges;
+    final aggregateChargesAdjustment = this.aggregateChargesAdjustment;
+    final baseCharge = this.baseCharge;
+    final incremental = this.incremental;
+    final tierMinimum = this.tierMinimum;
+    final increment = this.increment;
+    final incrementCharge = this.incrementCharge;
+    final tierMaximum = this.tierMaximum;
+    return {
+      'additionalPercentageOfAggregateCharges':
+          additionalPercentageOfAggregateCharges,
+      'aggregateChargesAdjustment': aggregateChargesAdjustment,
+      'baseCharge': baseCharge,
+      'incremental': incremental,
+      'tierMinimum': tierMinimum,
+      if (increment != null) 'increment': increment,
+      if (incrementCharge != null) 'incrementCharge': incrementCharge,
+      if (tierMaximum != null) 'tierMaximum': tierMaximum,
+    };
+  }
+}
+
+/// An additional charge applied to an Enterprise Support contract.
+///
+/// @nodoc
+class AdditionalCharge {
+  /// A description of the additional charge.
+  final String description;
+
+  /// The charge amount.
+  final String? amount;
+
+  /// The type of additional charge.
+  final String? chargeType;
+
+  AdditionalCharge({
+    required this.description,
+    this.amount,
+    this.chargeType,
+  });
+
+  factory AdditionalCharge.fromJson(Map<String, dynamic> json) {
+    return AdditionalCharge(
+      description: (json['description'] as String?) ?? '',
+      amount: json['amount'] as String?,
+      chargeType: json['chargeType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final amount = this.amount;
+    final chargeType = this.chargeType;
+    return {
+      'description': description,
+      if (amount != null) 'amount': amount,
+      if (chargeType != null) 'chargeType': chargeType,
+    };
+  }
+}
+
+/// An account that is charged all or a portion of the total Support charge and
+/// the percentage of the charge allocated to it.
+///
+/// @nodoc
+class ChargeAccount {
+  /// The account ID.
+  final String accountId;
+
+  /// The percentage of the total Support charge allocated to this account. This
+  /// is 0.0 when supportAllocationMethod = Proportional.
+  final String chargePercentage;
+
+  ChargeAccount({
+    required this.accountId,
+    required this.chargePercentage,
+  });
+
+  factory ChargeAccount.fromJson(Map<String, dynamic> json) {
+    return ChargeAccount(
+      accountId: (json['accountId'] as String?) ?? '',
+      chargePercentage: (json['chargePercentage'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final chargePercentage = this.chargePercentage;
+    return {
+      'accountId': accountId,
+      'chargePercentage': chargePercentage,
+    };
+  }
+}
+
+/// An account that is covered by the Enterprise Support contract.
+///
+/// @nodoc
+class ContractAccount {
+  /// The account ID.
+  final String accountId;
+
+  /// When true, Support charges are calculated on charges before private
+  /// discounts. When false, they are calculated after private discounts.
+  final bool isGdn;
+
+  ContractAccount({
+    required this.accountId,
+    required this.isGdn,
+  });
+
+  factory ContractAccount.fromJson(Map<String, dynamic> json) {
+    return ContractAccount(
+      accountId: (json['accountId'] as String?) ?? '',
+      isGdn: (json['isGdn'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final isGdn = this.isGdn;
+    return {
+      'accountId': accountId,
+      'isGdn': isGdn,
+    };
+  }
+}
+
+/// Detailed information about an Amazon Web Services credit, including its
+/// identifier, type, monetary amounts, applicable products, sharing
+/// configuration, and current enabled status.
+///
+/// @nodoc
+class CreditData {
+  /// The Amazon Web Services account ID that owns the credit.
+  final String accountId;
+
+  /// The unique identifier for the credit.
+  final String creditId;
+
+  /// The type of credit. Examples: <code>Promotion</code>, <code>Refund</code>,
+  /// <code>TrueUp</code>.
+  final String creditType;
+
+  /// A human-readable description of the credit.
+  final String description;
+
+  /// The initial amount of the credit when it was issued.
+  final Amount initialAmount;
+
+  /// The unused balance of the credit.
+  final Amount remainingAmount;
+
+  /// The date the credit becomes valid, as Unix epoch seconds.
+  final DateTime startDate;
+
+  /// Whether the owning account has account-level credit sharing turned on.
+  final bool? accountHasCreditSharingEnabled;
+
+  /// The names of Amazon Web Services services this credit applies to.
+  final List<String>? applicableProductNames;
+
+  /// When the credit is applied during bill computation. Valid values:
+  /// <code>BEFORE_CROSS_SERVICE_DISCOUNTS</code>, <code>AFTER_DISCOUNTS</code>.
+  final ApplicationType? applicationType;
+
+  /// The Amazon Resource Name (ARN) of the Cost Category controlling the credit's
+  /// sharing scope. Present only when <code>creditSharingType</code> is
+  /// <code>COST_CATEGORY_RULE</code>.
+  final String? costCategoryArn;
+
+  /// The display configuration for the credit in the Amazon Web Services Billing
+  /// console.
+  final String? creditConsoleVisibility;
+
+  /// The sharing configuration for the credit. Valid values:
+  /// <code>DEFAULT</code>, <code>DISABLED</code>, <code>CUSTOM</code>,
+  /// <code>COST_CATEGORY_RULE</code>.
+  final CreditSharingType? creditSharingType;
+
+  /// Whether the credit participates in billing runs. Valid values:
+  /// <code>ENABLED</code>, <code>DISABLED</code>.
+  final CreditStatus? creditStatus;
+
+  /// The date the credit expires, as Unix epoch seconds.
+  final DateTime? endDate;
+
+  /// The estimated remaining balance, including in-flight (open) bills that have
+  /// not yet been finalized.
+  final Amount? estimatedAmount;
+
+  /// The date the credit balance reached zero, as Unix epoch seconds.
+  final DateTime? exhaustDate;
+
+  /// Restricts which purchase types this credit applies to. When
+  /// <code>null</code> or omitted, the credit applies to all purchase types.
+  final List<String>? purchaseTypeApplications;
+
+  /// The rule name within the Cost Category. Present only when
+  /// <code>creditSharingType</code> is <code>COST_CATEGORY_RULE</code>.
+  final String? ruleName;
+
+  /// The Amazon Web Services account IDs entitled to apply this credit.
+  final List<String>? shareableAccounts;
+
+  CreditData({
+    required this.accountId,
+    required this.creditId,
+    required this.creditType,
+    required this.description,
+    required this.initialAmount,
+    required this.remainingAmount,
+    required this.startDate,
+    this.accountHasCreditSharingEnabled,
+    this.applicableProductNames,
+    this.applicationType,
+    this.costCategoryArn,
+    this.creditConsoleVisibility,
+    this.creditSharingType,
+    this.creditStatus,
+    this.endDate,
+    this.estimatedAmount,
+    this.exhaustDate,
+    this.purchaseTypeApplications,
+    this.ruleName,
+    this.shareableAccounts,
+  });
+
+  factory CreditData.fromJson(Map<String, dynamic> json) {
+    return CreditData(
+      accountId: (json['accountId'] as String?) ?? '',
+      creditId: (json['creditId'] as String?) ?? '',
+      creditType: (json['creditType'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      initialAmount: Amount.fromJson(
+          (json['initialAmount'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      remainingAmount: Amount.fromJson(
+          (json['remainingAmount'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
+      accountHasCreditSharingEnabled:
+          json['accountHasCreditSharingEnabled'] as bool?,
+      applicableProductNames: (json['applicableProductNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      applicationType:
+          (json['applicationType'] as String?)?.let(ApplicationType.fromString),
+      costCategoryArn: json['costCategoryArn'] as String?,
+      creditConsoleVisibility: json['creditConsoleVisibility'] as String?,
+      creditSharingType: (json['creditSharingType'] as String?)
+          ?.let(CreditSharingType.fromString),
+      creditStatus:
+          (json['creditStatus'] as String?)?.let(CreditStatus.fromString),
+      endDate: timeStampFromJson(json['endDate']),
+      estimatedAmount: json['estimatedAmount'] != null
+          ? Amount.fromJson(json['estimatedAmount'] as Map<String, dynamic>)
+          : null,
+      exhaustDate: timeStampFromJson(json['exhaustDate']),
+      purchaseTypeApplications: (json['purchaseTypeApplications'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ruleName: json['ruleName'] as String?,
+      shareableAccounts: (json['shareableAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final creditId = this.creditId;
+    final creditType = this.creditType;
+    final description = this.description;
+    final initialAmount = this.initialAmount;
+    final remainingAmount = this.remainingAmount;
+    final startDate = this.startDate;
+    final accountHasCreditSharingEnabled = this.accountHasCreditSharingEnabled;
+    final applicableProductNames = this.applicableProductNames;
+    final applicationType = this.applicationType;
+    final costCategoryArn = this.costCategoryArn;
+    final creditConsoleVisibility = this.creditConsoleVisibility;
+    final creditSharingType = this.creditSharingType;
+    final creditStatus = this.creditStatus;
+    final endDate = this.endDate;
+    final estimatedAmount = this.estimatedAmount;
+    final exhaustDate = this.exhaustDate;
+    final purchaseTypeApplications = this.purchaseTypeApplications;
+    final ruleName = this.ruleName;
+    final shareableAccounts = this.shareableAccounts;
+    return {
+      'accountId': accountId,
+      'creditId': creditId,
+      'creditType': creditType,
+      'description': description,
+      'initialAmount': initialAmount,
+      'remainingAmount': remainingAmount,
+      'startDate': unixTimestampToJson(startDate),
+      if (accountHasCreditSharingEnabled != null)
+        'accountHasCreditSharingEnabled': accountHasCreditSharingEnabled,
+      if (applicableProductNames != null)
+        'applicableProductNames': applicableProductNames,
+      if (applicationType != null) 'applicationType': applicationType.value,
+      if (costCategoryArn != null) 'costCategoryArn': costCategoryArn,
+      if (creditConsoleVisibility != null)
+        'creditConsoleVisibility': creditConsoleVisibility,
+      if (creditSharingType != null)
+        'creditSharingType': creditSharingType.value,
+      if (creditStatus != null) 'creditStatus': creditStatus.value,
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      if (estimatedAmount != null) 'estimatedAmount': estimatedAmount,
+      if (exhaustDate != null) 'exhaustDate': unixTimestampToJson(exhaustDate),
+      if (purchaseTypeApplications != null)
+        'purchaseTypeApplications': purchaseTypeApplications,
+      if (ruleName != null) 'ruleName': ruleName,
+      if (shareableAccounts != null) 'shareableAccounts': shareableAccounts,
+    };
+  }
+}
+
+/// A monetary amount with a currency code. Used throughout the Billing API to
+/// represent credit balances, allocations, and adjustments.
+///
+/// @nodoc
+class Amount {
+  /// The amount as a decimal string (for example, <code>"743.21"</code>).
+  /// Negative values represent credits that reduce a bill.
+  final String currencyAmount;
+
+  /// The ISO 4217 currency code for the amount (for example, <code>USD</code>).
+  final String currencyCode;
+
+  Amount({
+    required this.currencyAmount,
+    required this.currencyCode,
+  });
+
+  factory Amount.fromJson(Map<String, dynamic> json) {
+    return Amount(
+      currencyAmount: (json['currencyAmount'] as String?) ?? '',
+      currencyCode: (json['currencyCode'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyAmount = this.currencyAmount;
+    final currencyCode = this.currencyCode;
+    return {
+      'currencyAmount': currencyAmount,
+      'currencyCode': currencyCode,
+    };
+  }
+}
+
+/// @nodoc
+class ApplicationType {
+  static const beforeCrossServiceDiscounts =
+      ApplicationType._('BEFORE_CROSS_SERVICE_DISCOUNTS');
+  static const afterDiscounts = ApplicationType._('AFTER_DISCOUNTS');
+
+  final String value;
+
+  const ApplicationType._(this.value);
+
+  static const values = [beforeCrossServiceDiscounts, afterDiscounts];
+
+  static ApplicationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationType._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class CreditSharingType {
+  static const $default = CreditSharingType._('DEFAULT');
+  static const disabled = CreditSharingType._('DISABLED');
+  static const custom = CreditSharingType._('CUSTOM');
+  static const costCategoryRule = CreditSharingType._('COST_CATEGORY_RULE');
+
+  final String value;
+
+  const CreditSharingType._(this.value);
+
+  static const values = [$default, disabled, custom, costCategoryRule];
+
+  static CreditSharingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CreditSharingType._(value));
+
+  @override
+  bool operator ==(other) => other is CreditSharingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class CreditStatus {
+  static const enabled = CreditStatus._('ENABLED');
+  static const disabled = CreditStatus._('DISABLED');
+
+  final String value;
+
+  const CreditStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static CreditStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CreditStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CreditStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single entry in the credit allocation history, representing how a credit
+/// was applied to a specific service during a billing month.
+///
+/// @nodoc
+class CreditAllocationHistoryEntry {
+  /// The Amazon Web Services account the credit was applied to.
+  final String accountId;
+
+  /// The Amazon Web Services service the credit was applied to.
+  final String appliedServiceName;
+
+  /// The billing month of the application in <code>YYYY-MM</code> format.
+  final String billingMonth;
+
+  /// The amount of credit applied. Negative values represent credits that reduced
+  /// the bill.
+  final Amount creditAmount;
+
+  /// The identifier of the credit that was applied.
+  final String creditId;
+
+  /// <code>true</code> when the entry was applied to an in-flight bill that has
+  /// not yet been finalized.
+  final bool isEstimatedBill;
+
+  /// A human-readable description of the credit allocation.
+  final String? description;
+
+  CreditAllocationHistoryEntry({
+    required this.accountId,
+    required this.appliedServiceName,
+    required this.billingMonth,
+    required this.creditAmount,
+    required this.creditId,
+    required this.isEstimatedBill,
+    this.description,
+  });
+
+  factory CreditAllocationHistoryEntry.fromJson(Map<String, dynamic> json) {
+    return CreditAllocationHistoryEntry(
+      accountId: (json['accountId'] as String?) ?? '',
+      appliedServiceName: (json['appliedServiceName'] as String?) ?? '',
+      billingMonth: (json['billingMonth'] as String?) ?? '',
+      creditAmount: Amount.fromJson(
+          (json['creditAmount'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      creditId: (json['creditId'] as String?) ?? '',
+      isEstimatedBill: (json['isEstimatedBill'] as bool?) ?? false,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final appliedServiceName = this.appliedServiceName;
+    final billingMonth = this.billingMonth;
+    final creditAmount = this.creditAmount;
+    final creditId = this.creditId;
+    final isEstimatedBill = this.isEstimatedBill;
+    final description = this.description;
+    return {
+      'accountId': accountId,
+      'appliedServiceName': appliedServiceName,
+      'billingMonth': billingMonth,
+      'creditAmount': creditAmount,
+      'creditId': creditId,
+      'isEstimatedBill': isEstimatedBill,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
 /// The metadata associated to the billing view.
 ///
 /// @nodoc
@@ -1601,6 +3419,160 @@ class BillingViewElement {
             unixTimestampToJson(viewDefinitionLastUpdatedAt),
     };
   }
+}
+
+/// A single billing preference entry returned by
+/// <code>GetBillingPreferences</code>.
+///
+/// @nodoc
+class BillingPreferenceSummary {
+  /// The feature this preference belongs to.
+  final BillingFeature feature;
+
+  /// The preference key. Format depends on the feature.
+  final String key;
+
+  /// The preference value. Valid values: <code>ENABLED</code> or
+  /// <code>DISABLED</code>.
+  final PreferenceValue value;
+
+  /// The associated Amazon Web Services account ID. Populated for account-list
+  /// keys; <code>null</code> otherwise.
+  final String? accountId;
+
+  /// The display name of the account. Populated together with
+  /// <code>accountId</code>; <code>null</code> otherwise.
+  final String? accountName;
+
+  /// The billing period associated with the preference change. Populated only for
+  /// the history features <code>RI_SHARING_HISTORY</code> and
+  /// <code>CREDIT_SHARING_HISTORY</code>.
+  final BillingPeriod? billingPeriod;
+
+  BillingPreferenceSummary({
+    required this.feature,
+    required this.key,
+    required this.value,
+    this.accountId,
+    this.accountName,
+    this.billingPeriod,
+  });
+
+  factory BillingPreferenceSummary.fromJson(Map<String, dynamic> json) {
+    return BillingPreferenceSummary(
+      feature: BillingFeature.fromString((json['feature'] as String?) ?? ''),
+      key: (json['key'] as String?) ?? '',
+      value: PreferenceValue.fromString((json['value'] as String?) ?? ''),
+      accountId: json['accountId'] as String?,
+      accountName: json['accountName'] as String?,
+      billingPeriod: json['billingPeriod'] != null
+          ? BillingPeriod.fromJson(
+              json['billingPeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final feature = this.feature;
+    final key = this.key;
+    final value = this.value;
+    final accountId = this.accountId;
+    final accountName = this.accountName;
+    final billingPeriod = this.billingPeriod;
+    return {
+      'feature': feature.value,
+      'key': key,
+      'value': value.value,
+      if (accountId != null) 'accountId': accountId,
+      if (accountName != null) 'accountName': accountName,
+      if (billingPeriod != null) 'billingPeriod': billingPeriod,
+    };
+  }
+}
+
+/// A specific billing period identified by year and month.
+///
+/// @nodoc
+class BillingPeriod {
+  /// The month of the billing period as an integer between 1 and 12.
+  final int month;
+
+  /// The four-digit year of the billing period.
+  final int year;
+
+  BillingPeriod({
+    required this.month,
+    required this.year,
+  });
+
+  factory BillingPeriod.fromJson(Map<String, dynamic> json) {
+    return BillingPeriod(
+      month: (json['month'] as int?) ?? 0,
+      year: (json['year'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final month = this.month;
+    final year = this.year;
+    return {
+      'month': month,
+      'year': year,
+    };
+  }
+}
+
+/// A filter that narrows the set of preferences returned by
+/// <code>GetBillingPreferences</code>.
+///
+/// @nodoc
+class BillingFeatureFilter {
+  /// The filter name. Currently the only supported value is
+  /// <code>PREFERENCE_KEY</code>.
+  final BillingFeatureFilterName? name;
+
+  /// The filter values to match. For <code>PREFERENCE_KEY</code>, supply 1 to 10
+  /// preference key values to match.
+  final List<String>? value;
+
+  BillingFeatureFilter({
+    this.name,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// @nodoc
+class BillingFeatureFilterName {
+  static const preferenceKey = BillingFeatureFilterName._('PREFERENCE_KEY');
+
+  final String value;
+
+  const BillingFeatureFilterName._(this.value);
+
+  static const values = [preferenceKey];
+
+  static BillingFeatureFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BillingFeatureFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BillingFeatureFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc

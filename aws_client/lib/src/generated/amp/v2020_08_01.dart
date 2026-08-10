@@ -204,14 +204,14 @@ class Amp {
     );
   }
 
-  /// The <code>CreateScraper</code> operation creates a scraper to collect
-  /// metrics. A scraper pulls metrics from Prometheus-compatible sources and
-  /// sends them to your Amazon Managed Service for Prometheus workspace. You
-  /// can configure scrapers to collect metrics from Amazon EKS clusters, Amazon
-  /// MSK clusters, or from VPC-based sources that support DNS-based service
-  /// discovery. Scrapers are flexible, and can be configured to control what
-  /// metrics are collected, the frequency of collection, what transformations
-  /// are applied to the metrics, and more.
+  /// Creates a scraper to collect metrics from Prometheus-compatible sources.
+  /// The scraper sends the collected metrics to Amazon Managed Service for
+  /// Prometheus workspaces or CloudWatch datasets. You can configure scrapers
+  /// to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from
+  /// VPC-based sources that support DNS-based service discovery. Scrapers are
+  /// flexible. You can configure a scraper to control which metrics to collect,
+  /// the frequency of collection, which transformations to apply to the
+  /// metrics, and more.
   ///
   /// An IAM role will be created for you that Amazon Managed Service for
   /// Prometheus uses to access the metrics in your source. You must configure
@@ -245,7 +245,9 @@ class Amp {
   /// May throw [ValidationException].
   ///
   /// Parameter [destination] :
-  /// The Amazon Managed Service for Prometheus workspace to send metrics to.
+  /// The destination where the scraper sends the collected metrics. Valid
+  /// destinations are Amazon Managed Service for Prometheus workspaces and
+  /// CloudWatch datasets.
   ///
   /// Parameter [scrapeConfiguration] :
   /// The configuration file to use in the new scraper. For more information,
@@ -266,6 +268,11 @@ class Amp {
   /// (Optional) A unique, case-sensitive identifier that you can provide to
   /// ensure the idempotency of the request.
   ///
+  /// Parameter [exporters] :
+  /// The exporter configurations for the scraper. You can configure at most one
+  /// Amazon OpenSearch Service domain. If you don't specify a value, the
+  /// scraper is created without an exporter configuration.
+  ///
   /// Parameter [roleConfiguration] :
   /// Use this structure to enable cross-account access, so that you can use a
   /// target account to access Prometheus metrics from source accounts.
@@ -278,6 +285,7 @@ class Amp {
     required Source source,
     String? alias,
     String? clientToken,
+    List<ExporterConfiguration>? exporters,
     RoleConfiguration? roleConfiguration,
     Map<String, String>? tags,
   }) async {
@@ -287,6 +295,7 @@ class Amp {
       'source': source,
       if (alias != null) 'alias': alias,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (exporters != null) 'exporters': exporters,
       if (roleConfiguration != null) 'roleConfiguration': roleConfiguration,
       if (tags != null) 'tags': tags,
     };
@@ -347,8 +356,14 @@ class Amp {
   /// request. Case-sensitive.
   ///
   /// Parameter [destination] :
-  /// The new Amazon Managed Service for Prometheus workspace to send metrics
-  /// to.
+  /// The new destination where the scraper sends metrics. Valid destinations
+  /// are Amazon Managed Service for Prometheus workspaces and CloudWatch
+  /// datasets.
+  ///
+  /// Parameter [exporters] :
+  /// The exporter configurations for the scraper. You can configure at most one
+  /// Amazon OpenSearch Service domain. If you don't specify a value, the
+  /// existing exporter configuration remains unchanged.
   ///
   /// Parameter [roleConfiguration] :
   /// Use this structure to enable cross-account access, so that you can use a
@@ -367,6 +382,7 @@ class Amp {
     String? alias,
     String? clientToken,
     Destination? destination,
+    List<ExporterConfiguration>? exporters,
     RoleConfiguration? roleConfiguration,
     ScrapeConfiguration? scrapeConfiguration,
   }) async {
@@ -374,6 +390,7 @@ class Amp {
       if (alias != null) 'alias': alias,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (destination != null) 'destination': destination,
+      if (exporters != null) 'exporters': exporters,
       if (roleConfiguration != null) 'roleConfiguration': roleConfiguration,
       if (scrapeConfiguration != null)
         'scrapeConfiguration': scrapeConfiguration,
@@ -1740,19 +1757,34 @@ class Amp {
   /// for the workspace, and defines the active time series limit for each of
   /// those label sets. Each label name in a label set must be unique.
   ///
+  /// Parameter [outOfOrderTimeWindowInSeconds] :
+  /// Specifies the time window in seconds for accepting out of order samples.
+  /// Out of order samples older than this window are rejected.
+  ///
   /// Parameter [retentionPeriodInDays] :
   /// Specifies how many days that metrics will be retained in the workspace.
+  ///
+  /// Parameter [ruleQueryOffsetInSeconds] :
+  /// Specifies the duration in seconds to offset rule evaluation queries into
+  /// the past. This allows ingested samples to be available before rule
+  /// evaluation.
   Future<UpdateWorkspaceConfigurationResponse> updateWorkspaceConfiguration({
     required String workspaceId,
     String? clientToken,
     List<LimitsPerLabelSet>? limitsPerLabelSet,
+    int? outOfOrderTimeWindowInSeconds,
     int? retentionPeriodInDays,
+    int? ruleQueryOffsetInSeconds,
   }) async {
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (limitsPerLabelSet != null) 'limitsPerLabelSet': limitsPerLabelSet,
+      if (outOfOrderTimeWindowInSeconds != null)
+        'outOfOrderTimeWindowInSeconds': outOfOrderTimeWindowInSeconds,
       if (retentionPeriodInDays != null)
         'retentionPeriodInDays': retentionPeriodInDays,
+      if (ruleQueryOffsetInSeconds != null)
+        'ruleQueryOffsetInSeconds': ruleQueryOffsetInSeconds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3259,14 +3291,24 @@ class WorkspaceConfigurationDescription {
   /// for the workspace and the limits for that label set.
   final List<LimitsPerLabelSet>? limitsPerLabelSet;
 
+  /// This field displays the out of order time window in seconds for accepting
+  /// out of order samples.
+  final int? outOfOrderTimeWindowInSeconds;
+
   /// This field displays how many days that metrics are retained in the
   /// workspace.
   final int? retentionPeriodInDays;
 
+  /// This field displays the duration in seconds that rule evaluation queries are
+  /// offset into the past.
+  final int? ruleQueryOffsetInSeconds;
+
   WorkspaceConfigurationDescription({
     required this.status,
     this.limitsPerLabelSet,
+    this.outOfOrderTimeWindowInSeconds,
     this.retentionPeriodInDays,
+    this.ruleQueryOffsetInSeconds,
   });
 
   factory WorkspaceConfigurationDescription.fromJson(
@@ -3279,19 +3321,28 @@ class WorkspaceConfigurationDescription {
           ?.nonNulls
           .map((e) => LimitsPerLabelSet.fromJson(e as Map<String, dynamic>))
           .toList(),
+      outOfOrderTimeWindowInSeconds:
+          json['outOfOrderTimeWindowInSeconds'] as int?,
       retentionPeriodInDays: json['retentionPeriodInDays'] as int?,
+      ruleQueryOffsetInSeconds: json['ruleQueryOffsetInSeconds'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     final limitsPerLabelSet = this.limitsPerLabelSet;
+    final outOfOrderTimeWindowInSeconds = this.outOfOrderTimeWindowInSeconds;
     final retentionPeriodInDays = this.retentionPeriodInDays;
+    final ruleQueryOffsetInSeconds = this.ruleQueryOffsetInSeconds;
     return {
       'status': status,
       if (limitsPerLabelSet != null) 'limitsPerLabelSet': limitsPerLabelSet,
+      if (outOfOrderTimeWindowInSeconds != null)
+        'outOfOrderTimeWindowInSeconds': outOfOrderTimeWindowInSeconds,
       if (retentionPeriodInDays != null)
         'retentionPeriodInDays': retentionPeriodInDays,
+      if (ruleQueryOffsetInSeconds != null)
+        'ruleQueryOffsetInSeconds': ruleQueryOffsetInSeconds,
     };
   }
 }
@@ -4832,8 +4883,8 @@ class ScraperSummary {
   /// The date and time that the scraper was created.
   final DateTime createdAt;
 
-  /// The Amazon Managed Service for Prometheus workspace the scraper sends
-  /// metrics to.
+  /// The destination where the scraper sends metrics. Valid destinations are
+  /// Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
   final Destination destination;
 
   /// The date and time that the scraper was last modified.
@@ -4855,6 +4906,10 @@ class ScraperSummary {
   /// (Optional) A name associated with the scraper.
   final String? alias;
 
+  /// The exporter configurations for the scraper, if configured. The list
+  /// contains at most one configuration for an Amazon OpenSearch Service domain.
+  final List<ExporterConfiguration>? exporters;
+
   /// This structure displays information about the IAM roles used for
   /// cross-account scraping configuration.
   final RoleConfiguration? roleConfiguration;
@@ -4875,6 +4930,7 @@ class ScraperSummary {
     required this.source,
     required this.status,
     this.alias,
+    this.exporters,
     this.roleConfiguration,
     this.statusReason,
     this.tags,
@@ -4896,6 +4952,10 @@ class ScraperSummary {
           (json['status'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       alias: json['alias'] as String?,
+      exporters: (json['exporters'] as List?)
+          ?.nonNulls
+          .map((e) => ExporterConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       roleConfiguration: json['roleConfiguration'] != null
           ? RoleConfiguration.fromJson(
               json['roleConfiguration'] as Map<String, dynamic>)
@@ -4916,6 +4976,7 @@ class ScraperSummary {
     final source = this.source;
     final status = this.status;
     final alias = this.alias;
+    final exporters = this.exporters;
     final roleConfiguration = this.roleConfiguration;
     final statusReason = this.statusReason;
     final tags = this.tags;
@@ -4929,6 +4990,7 @@ class ScraperSummary {
       'source': source,
       'status': status,
       if (alias != null) 'alias': alias,
+      if (exporters != null) 'exporters': exporters,
       if (roleConfiguration != null) 'roleConfiguration': roleConfiguration,
       if (statusReason != null) 'statusReason': statusReason,
       if (tags != null) 'tags': tags,
@@ -5011,8 +5073,12 @@ class Destination {
   /// The Amazon Managed Service for Prometheus workspace to send metrics to.
   final AmpConfiguration? ampConfiguration;
 
+  /// The CloudWatch dataset to send metrics to.
+  final CloudWatchConfiguration? cloudWatchConfiguration;
+
   Destination({
     this.ampConfiguration,
+    this.cloudWatchConfiguration,
   });
 
   factory Destination.fromJson(Map<String, dynamic> json) {
@@ -5021,13 +5087,20 @@ class Destination {
           ? AmpConfiguration.fromJson(
               json['ampConfiguration'] as Map<String, dynamic>)
           : null,
+      cloudWatchConfiguration: json['cloudWatchConfiguration'] != null
+          ? CloudWatchConfiguration.fromJson(
+              json['cloudWatchConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final ampConfiguration = this.ampConfiguration;
+    final cloudWatchConfiguration = this.cloudWatchConfiguration;
     return {
       if (ampConfiguration != null) 'ampConfiguration': ampConfiguration,
+      if (cloudWatchConfiguration != null)
+        'cloudWatchConfiguration': cloudWatchConfiguration,
     };
   }
 }
@@ -5073,6 +5146,62 @@ class RoleConfiguration {
   }
 }
 
+/// Contains the configuration for an exporter managed by the scraper.
+///
+/// @nodoc
+class ExporterConfiguration {
+  /// The configuration that the scraper uses to export metrics to an Amazon
+  /// OpenSearch Service domain.
+  final OpenSearchExporterConfiguration? openSearchConfiguration;
+
+  ExporterConfiguration({
+    this.openSearchConfiguration,
+  });
+
+  factory ExporterConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExporterConfiguration(
+      openSearchConfiguration: json['openSearchConfiguration'] != null
+          ? OpenSearchExporterConfiguration.fromJson(
+              json['openSearchConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openSearchConfiguration = this.openSearchConfiguration;
+    return {
+      if (openSearchConfiguration != null)
+        'openSearchConfiguration': openSearchConfiguration,
+    };
+  }
+}
+
+/// The configuration for exporting metrics to an Amazon OpenSearch Service
+/// domain.
+///
+/// @nodoc
+class OpenSearchExporterConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain.
+  final String domainArn;
+
+  OpenSearchExporterConfiguration({
+    required this.domainArn,
+  });
+
+  factory OpenSearchExporterConfiguration.fromJson(Map<String, dynamic> json) {
+    return OpenSearchExporterConfiguration(
+      domainArn: (json['domainArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainArn = this.domainArn;
+    return {
+      'domainArn': domainArn,
+    };
+  }
+}
+
 /// The <code>AmpConfiguration</code> structure defines the Amazon Managed
 /// Service for Prometheus instance a scraper should send metrics to.
 ///
@@ -5095,6 +5224,34 @@ class AmpConfiguration {
     final workspaceArn = this.workspaceArn;
     return {
       'workspaceArn': workspaceArn,
+    };
+  }
+}
+
+/// The configuration identifies the CloudWatch dataset used as a scraper
+/// destination.
+///
+/// @nodoc
+class CloudWatchConfiguration {
+  /// The Amazon Resource Name (ARN) of the CloudWatch dataset. To use the default
+  /// dataset, specify
+  /// <code>arn:aws:cloudwatch:&lt;region&gt;:&lt;account-id&gt;:dataset/default</code>.
+  final String datasetArn;
+
+  CloudWatchConfiguration({
+    required this.datasetArn,
+  });
+
+  factory CloudWatchConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudWatchConfiguration(
+      datasetArn: (json['datasetArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    return {
+      'datasetArn': datasetArn,
     };
   }
 }
@@ -5274,8 +5431,8 @@ class ScraperDescription {
   /// The date and time that the scraper was created.
   final DateTime createdAt;
 
-  /// The Amazon Managed Service for Prometheus workspace the scraper sends
-  /// metrics to.
+  /// The destination where the scraper sends metrics. Valid destinations are
+  /// Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
   final Destination destination;
 
   /// The date and time that the scraper was last modified.
@@ -5304,6 +5461,10 @@ class ScraperDescription {
   /// (Optional) A name associated with the scraper.
   final String? alias;
 
+  /// The exporter configurations for the scraper, if configured. The list
+  /// contains at most one configuration for an Amazon OpenSearch Service domain.
+  final List<ExporterConfiguration>? exporters;
+
   /// This structure displays information about the IAM roles used for
   /// cross-account scraping configuration.
   final RoleConfiguration? roleConfiguration;
@@ -5325,6 +5486,7 @@ class ScraperDescription {
     required this.source,
     required this.status,
     this.alias,
+    this.exporters,
     this.roleConfiguration,
     this.statusReason,
     this.tags,
@@ -5349,6 +5511,10 @@ class ScraperDescription {
           (json['status'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
       alias: json['alias'] as String?,
+      exporters: (json['exporters'] as List?)
+          ?.nonNulls
+          .map((e) => ExporterConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       roleConfiguration: json['roleConfiguration'] != null
           ? RoleConfiguration.fromJson(
               json['roleConfiguration'] as Map<String, dynamic>)
@@ -5370,6 +5536,7 @@ class ScraperDescription {
     final source = this.source;
     final status = this.status;
     final alias = this.alias;
+    final exporters = this.exporters;
     final roleConfiguration = this.roleConfiguration;
     final statusReason = this.statusReason;
     final tags = this.tags;
@@ -5384,6 +5551,7 @@ class ScraperDescription {
       'source': source,
       'status': status,
       if (alias != null) 'alias': alias,
+      if (exporters != null) 'exporters': exporters,
       if (roleConfiguration != null) 'roleConfiguration': roleConfiguration,
       if (statusReason != null) 'statusReason': statusReason,
       if (tags != null) 'tags': tags,

@@ -140,6 +140,83 @@ class Backup {
     );
   }
 
+  /// Creates a backup access point for an Amazon S3 recovery point. A backup
+  /// access point provides on-demand, read-only access to the backup data in a
+  /// recovery point through an Amazon S3 access point, without initiating a
+  /// restore.
+  ///
+  /// While a backup access point is active for a recovery point, Backup pauses
+  /// lifecycle transitions and blocks deletion of that recovery point.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [name] :
+  /// The name of the backup access point. This name is shared with the Amazon
+  /// S3 access point namespace. It must be unique within your account and
+  /// Region and cannot conflict with an existing Amazon S3 access point. For
+  /// more information about access point naming, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-restrictions-limitations-naming-rules.html">Access
+  /// points naming rules, restrictions, and limitations</a> in the <i>Amazon S3
+  /// User Guide</i>.
+  ///
+  /// Parameter [recoveryPointArn] :
+  /// The Amazon Resource Name (ARN) of the recovery point for which to create
+  /// the backup access point. The recovery point must be an Amazon S3 recovery
+  /// point in the <code>AVAILABLE</code>, <code>STOPPED</code>, or
+  /// <code>COMPLETED</code> state.
+  ///
+  /// Parameter [accessPointMetadata] :
+  /// Metadata for the backup access point. For continuous (point-in-time)
+  /// recovery points, you must include an <code>AccessPointInTime</code>
+  /// timestamp (in format <code>2021-11-27T03:30:27Z</code>). The access point
+  /// provides access to the content present in the backup at that specific
+  /// time. You can specify any time within the continuous backup's retention
+  /// period, up to the latest restorable time. For snapshot recovery points, do
+  /// not include <code>AccessPointInTime</code>.
+  ///
+  /// Parameter [accessPointPolicy] :
+  /// An optional resource-based policy, in JSON format, to apply to the
+  /// underlying Amazon S3 access point. The policy controls how backup data can
+  /// be accessed through the access point. If you do not specify a policy,
+  /// access is governed by the caller's IAM permissions. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html">Configuring
+  /// IAM policies for using access points</a> in the <i>Amazon S3 User
+  /// Guide</i>.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the backup access point.
+  Future<CreateBackupAccessPointResponse> createBackupAccessPoint({
+    required String name,
+    required String recoveryPointArn,
+    Map<String, String>? accessPointMetadata,
+    String? accessPointPolicy,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'RecoveryPointArn': recoveryPointArn,
+      if (accessPointMetadata != null)
+        'AccessPointMetadata': accessPointMetadata,
+      if (accessPointPolicy != null) 'AccessPointPolicy': accessPointPolicy,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/backup-access-point/create',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateBackupAccessPointResponse.fromJson(response);
+  }
+
   /// Creates a backup plan using a backup plan name and backup rules. A backup
   /// plan is a document that contains information that Backup uses to schedule
   /// tasks that create recovery points for resources.
@@ -778,6 +855,33 @@ class Backup {
     return CreateTieringConfigurationOutput.fromJson(response);
   }
 
+  /// Deletes a backup access point. This deletes the underlying Amazon S3
+  /// access point and, if no other backup access points remain for the recovery
+  /// point, resumes lifecycle transitions for that recovery point.
+  ///
+  /// Always delete backup access points using this operation rather than
+  /// deleting the underlying Amazon S3 access point directly.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [accessPointArn] :
+  /// The Amazon Resource Name (ARN) of the backup access point to delete.
+  Future<void> deleteBackupAccessPoint({
+    required String accessPointArn,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/backup-access-point/delete/${Uri.encodeComponent(accessPointArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a backup plan. A backup plan can only be deleted after all
   /// associated selections of resources have been deleted. Deleting a backup
   /// plan deletes the current version of a backup plan. Previous versions, if
@@ -1092,6 +1196,33 @@ class Backup {
           '/tiering-configurations/${Uri.encodeComponent(tieringConfigurationName)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Returns metadata about a backup access point, including its status and the
+  /// details of the underlying Amazon S3 access point.
+  ///
+  /// After a backup access point reaches the <code>AVAILABLE</code> status, use
+  /// this operation to retrieve the Amazon S3 access point ARN and alias that
+  /// you need to read the backup data.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [accessPointArn] :
+  /// The Amazon Resource Name (ARN) of the backup access point to describe.
+  Future<DescribeBackupAccessPointResponse> describeBackupAccessPoint({
+    required String accessPointArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/backup-access-point/${Uri.encodeComponent(accessPointArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeBackupAccessPointResponse.fromJson(response);
   }
 
   /// Returns backup job details for the specified <code>BackupJobId</code>.
@@ -1963,6 +2094,136 @@ class Backup {
       exceptionFnMap: _exceptionFns,
     );
     return GetTieringConfigurationOutput.fromJson(response);
+  }
+
+  /// Returns a list of the backup access points in your account and Region.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned items. For example, if
+  /// a request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list
+  /// starting at the location pointed to by the next token.
+  Future<ListBackupAccessPointsResponse> listBackupAccessPoints({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/backup-access-point',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBackupAccessPointsResponse.fromJson(response);
+  }
+
+  /// Returns the backup access points associated with the specified recovery
+  /// point.
+  ///
+  /// If you own the recovery point and have shared it with other accounts, the
+  /// response includes backup access points created by those accounts.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [recoveryPointArn] :
+  /// The Amazon Resource Name (ARN) of the recovery point whose backup access
+  /// points you want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned items. For example, if
+  /// a request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list
+  /// starting at the location pointed to by the next token.
+  Future<ListBackupAccessPointsByRecoveryPointResponse>
+      listBackupAccessPointsByRecoveryPoint({
+    required String recoveryPointArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/backup-access-point/recovery-point/${Uri.encodeComponent(recoveryPointArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBackupAccessPointsByRecoveryPointResponse.fromJson(response);
+  }
+
+  /// Returns the backup access points associated with the specified resource,
+  /// such as an Amazon S3 bucket.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource whose backup access points
+  /// you want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to be returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned items. For example, if
+  /// a request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list
+  /// starting at the location pointed to by the next token.
+  Future<ListBackupAccessPointsByResourceResponse>
+      listBackupAccessPointsByResource({
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/backup-access-point/resource/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBackupAccessPointsByResourceResponse.fromJson(response);
   }
 
   /// Returns a list of existing backup jobs for an authenticated account for
@@ -2978,9 +3239,11 @@ class Backup {
     return ListLegalHoldsOutput.fromJson(response);
   }
 
-  /// Returns an array of resources successfully backed up by Backup, including
-  /// the time the resource was saved, an Amazon Resource Name (ARN) of the
-  /// resource, and a resource type.
+  /// Returns an array of resources with recovery points created by Backup
+  /// (regardless of the recovery point's <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_DescribeRecoveryPoint.html#Backup-DescribeRecoveryPoint-response-Status">status</a>),
+  /// including the time the resource was saved, an Amazon Resource Name (ARN)
+  /// of the resource, and a resource type.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [ServiceUnavailableException].
@@ -3287,7 +3550,8 @@ class Backup {
   /// points associated with the selected resources that are managed by Backup.
   ///
   /// If this is set to <code>FALSE</code>, the response will contain all
-  /// recovery points associated with the selected resource.
+  /// recovery points associated with the selected resource, except for EBS
+  /// snapshots copied within the same Region and account.
   ///
   /// Type: Boolean
   ///
@@ -5671,6 +5935,39 @@ class CancelLegalHoldOutput {
 }
 
 /// @nodoc
+class CreateBackupAccessPointResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the created backup
+  /// access point.
+  final String accessPointArn;
+
+  /// The current status of the backup access point. A newly created backup access
+  /// point begins in the <code>CREATING</code> state and becomes usable when it
+  /// reaches <code>AVAILABLE</code>.
+  final AccessPointStatus status;
+
+  CreateBackupAccessPointResponse({
+    required this.accessPointArn,
+    required this.status,
+  });
+
+  factory CreateBackupAccessPointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackupAccessPointResponse(
+      accessPointArn: (json['AccessPointArn'] as String?) ?? '',
+      status: AccessPointStatus.fromString((json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final status = this.status;
+    return {
+      'AccessPointArn': accessPointArn,
+      'Status': status.value,
+    };
+  }
+}
+
+/// @nodoc
 class CreateBackupPlanOutput {
   /// The settings for a resource type. This option is only available for Windows
   /// Volume Shadow Copy Service (VSS) backup jobs.
@@ -6276,6 +6573,119 @@ class DeleteTieringConfigurationOutput {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class DescribeBackupAccessPointResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the backup access
+  /// point.
+  final String accessPointArn;
+
+  /// The name of the backup vault that contains the recovery point.
+  final String backupVaultName;
+
+  /// The date and time that the backup access point was created, in Unix format
+  /// and Coordinated Universal Time (UTC). The value of <code>CreationTime</code>
+  /// is accurate to milliseconds. For example, the value 1516925490.087
+  /// represents Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime creationTime;
+
+  /// The name of the backup access point.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the recovery point that the backup access
+  /// point provides access to.
+  final String recoveryPointArn;
+
+  /// The Amazon Resource Name (ARN) of the resource that was backed up, such as
+  /// an Amazon S3 bucket.
+  final String resourceArn;
+
+  /// The type of Amazon Web Services resource associated with the recovery point.
+  /// For example, <code>S3</code> for Amazon Simple Storage Service.
+  final String resourceType;
+
+  /// The current status of the backup access point.
+  final AccessPointStatus status;
+
+  /// Metadata for the backup access point. After the backup access point reaches
+  /// the <code>AVAILABLE</code> status, this map contains
+  /// <code>S3AccessPointArn</code> and <code>S3AccessPointAlias</code>, which you
+  /// use with standard Amazon S3 read APIs to access the backup data. For
+  /// continuous recovery points, this map also contains
+  /// <code>AccessPointInTime</code> (in format
+  /// <code>2021-11-27T03:30:27Z</code>). The access point provides access to the
+  /// content present in the backup at that specific time.
+  final Map<String, String>? accessPointMetadata;
+
+  /// The Amazon Resource Name (ARN) of the backup vault that contains the
+  /// recovery point.
+  final String? backupVaultArn;
+
+  /// A message that provides additional detail about the status of the backup
+  /// access point, such as the reason a creation or deletion attempt failed.
+  final String? statusMessage;
+
+  DescribeBackupAccessPointResponse({
+    required this.accessPointArn,
+    required this.backupVaultName,
+    required this.creationTime,
+    required this.name,
+    required this.recoveryPointArn,
+    required this.resourceArn,
+    required this.resourceType,
+    required this.status,
+    this.accessPointMetadata,
+    this.backupVaultArn,
+    this.statusMessage,
+  });
+
+  factory DescribeBackupAccessPointResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeBackupAccessPointResponse(
+      accessPointArn: (json['AccessPointArn'] as String?) ?? '',
+      backupVaultName: (json['BackupVaultName'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
+      recoveryPointArn: (json['RecoveryPointArn'] as String?) ?? '',
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
+      status: AccessPointStatus.fromString((json['Status'] as String?) ?? ''),
+      accessPointMetadata:
+          (json['AccessPointMetadata'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final backupVaultName = this.backupVaultName;
+    final creationTime = this.creationTime;
+    final name = this.name;
+    final recoveryPointArn = this.recoveryPointArn;
+    final resourceArn = this.resourceArn;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final accessPointMetadata = this.accessPointMetadata;
+    final backupVaultArn = this.backupVaultArn;
+    final statusMessage = this.statusMessage;
+    return {
+      'AccessPointArn': accessPointArn,
+      'BackupVaultName': backupVaultName,
+      'CreationTime': unixTimestampToJson(creationTime),
+      'Name': name,
+      'RecoveryPointArn': recoveryPointArn,
+      'ResourceArn': resourceArn,
+      'ResourceType': resourceType,
+      'Status': status.value,
+      if (accessPointMetadata != null)
+        'AccessPointMetadata': accessPointMetadata,
+      if (backupVaultArn != null) 'BackupVaultArn': backupVaultArn,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
   }
 }
 
@@ -8862,6 +9272,122 @@ class GetTieringConfigurationOutput {
     return {
       if (tieringConfiguration != null)
         'TieringConfiguration': tieringConfiguration,
+    };
+  }
+}
+
+/// @nodoc
+class ListBackupAccessPointsResponse {
+  /// A list of backup access points, each containing metadata such as its name,
+  /// ARN, status, and associated recovery point.
+  final List<ListAccessPointsMember> backupAccessPoints;
+
+  /// The next item following a partial list of returned items. For example, if a
+  /// request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  ListBackupAccessPointsResponse({
+    required this.backupAccessPoints,
+    this.nextToken,
+  });
+
+  factory ListBackupAccessPointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBackupAccessPointsResponse(
+      backupAccessPoints: ((json['BackupAccessPoints'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => ListAccessPointsMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupAccessPoints = this.backupAccessPoints;
+    final nextToken = this.nextToken;
+    return {
+      'BackupAccessPoints': backupAccessPoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListBackupAccessPointsByRecoveryPointResponse {
+  /// A list of backup access points, each containing metadata such as its name,
+  /// ARN, status, and associated recovery point.
+  final List<ListAccessPointsMember> backupAccessPoints;
+
+  /// The next item following a partial list of returned items. For example, if a
+  /// request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  ListBackupAccessPointsByRecoveryPointResponse({
+    required this.backupAccessPoints,
+    this.nextToken,
+  });
+
+  factory ListBackupAccessPointsByRecoveryPointResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListBackupAccessPointsByRecoveryPointResponse(
+      backupAccessPoints: ((json['BackupAccessPoints'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => ListAccessPointsMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupAccessPoints = this.backupAccessPoints;
+    final nextToken = this.nextToken;
+    return {
+      'BackupAccessPoints': backupAccessPoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListBackupAccessPointsByResourceResponse {
+  /// A list of backup access points, each containing metadata such as its name,
+  /// ARN, status, and associated recovery point.
+  final List<ListAccessPointsMember> backupAccessPoints;
+
+  /// The next item following a partial list of returned items. For example, if a
+  /// request is made to return <code>MaxResults</code> number of items,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  ListBackupAccessPointsByResourceResponse({
+    required this.backupAccessPoints,
+    this.nextToken,
+  });
+
+  factory ListBackupAccessPointsByResourceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListBackupAccessPointsByResourceResponse(
+      backupAccessPoints: ((json['BackupAccessPoints'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => ListAccessPointsMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupAccessPoints = this.backupAccessPoints;
+    final nextToken = this.nextToken;
+    return {
+      'BackupAccessPoints': backupAccessPoints,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -12104,6 +12630,16 @@ class BackupVaultEvent {
       BackupVaultEvent._('EKS_RESTORE_OBJECT_SKIPPED');
   static const eksBackupObjectFailed =
       BackupVaultEvent._('EKS_BACKUP_OBJECT_FAILED');
+  static const accessPointAvailable =
+      BackupVaultEvent._('ACCESS_POINT_AVAILABLE');
+  static const accessPointCreationFailed =
+      BackupVaultEvent._('ACCESS_POINT_CREATION_FAILED');
+  static const accessPointDeleted = BackupVaultEvent._('ACCESS_POINT_DELETED');
+  static const accessPointDeletionFailed =
+      BackupVaultEvent._('ACCESS_POINT_DELETION_FAILED');
+  static const accessPointExpired = BackupVaultEvent._('ACCESS_POINT_EXPIRED');
+  static const accessPointDisassociated =
+      BackupVaultEvent._('ACCESS_POINT_DISASSOCIATED');
 
   final String value;
 
@@ -12133,7 +12669,13 @@ class BackupVaultEvent {
     recoveryPointIndexingFailed,
     eksRestoreObjectFailed,
     eksRestoreObjectSkipped,
-    eksBackupObjectFailed
+    eksBackupObjectFailed,
+    accessPointAvailable,
+    accessPointCreationFailed,
+    accessPointDeleted,
+    accessPointDeletionFailed,
+    accessPointExpired,
+    accessPointDisassociated
   ];
 
   static BackupVaultEvent fromString(String value) =>
@@ -15425,7 +15967,8 @@ class BackupVaultListMember {
   /// already stored in the vault prior to Vault Lock are not affected.
   final int? minRetentionDays;
 
-  /// The number of recovery points that are stored in a backup vault.
+  /// The number of recovery points that are stored in a backup vault. Recovery
+  /// point count value displayed in the console can be an approximation.
   final int? numberOfRecoveryPoints;
 
   /// The current state of the vault.
@@ -16235,6 +16778,158 @@ class BackupJobState {
 
   @override
   bool operator ==(other) => other is BackupJobState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains metadata about a backup access point.
+///
+/// @nodoc
+class ListAccessPointsMember {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the backup access
+  /// point.
+  final String accessPointArn;
+
+  /// Metadata for the backup access point. After the backup access point reaches
+  /// the <code>AVAILABLE</code> status, this map contains
+  /// <code>S3AccessPointArn</code> and <code>S3AccessPointAlias</code>, which you
+  /// use with standard Amazon S3 read APIs to access the backup data. For
+  /// continuous recovery points, this map also contains
+  /// <code>AccessPointInTime</code> (in format
+  /// <code>2021-11-27T03:30:27Z</code>). The access point provides access to the
+  /// content present in the backup at that specific time.
+  final Map<String, String> accessPointMetadata;
+
+  /// The name of the backup vault that contains the recovery point.
+  final String backupVaultName;
+
+  /// The date and time that the backup access point was created, in Unix format
+  /// and Coordinated Universal Time (UTC). The value of <code>CreationTime</code>
+  /// is accurate to milliseconds. For example, the value 1516925490.087
+  /// represents Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime creationTime;
+
+  /// The name of the backup access point.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the recovery point that the backup access
+  /// point provides access to.
+  final String recoveryPointArn;
+
+  /// The Amazon Resource Name (ARN) of the resource that was backed up, such as
+  /// an Amazon S3 bucket.
+  final String resourceArn;
+
+  /// The type of Amazon Web Services resource associated with the recovery point.
+  /// For example, <code>S3</code> for Amazon Simple Storage Service.
+  final String resourceType;
+
+  /// The current status of the backup access point.
+  final AccessPointStatus status;
+
+  /// The Amazon Resource Name (ARN) of the backup vault that contains the
+  /// recovery point.
+  final String? backupVaultArn;
+
+  /// A message that provides additional detail about the status of the backup
+  /// access point, such as the reason a creation or deletion attempt failed.
+  final String? statusMessage;
+
+  ListAccessPointsMember({
+    required this.accessPointArn,
+    required this.accessPointMetadata,
+    required this.backupVaultName,
+    required this.creationTime,
+    required this.name,
+    required this.recoveryPointArn,
+    required this.resourceArn,
+    required this.resourceType,
+    required this.status,
+    this.backupVaultArn,
+    this.statusMessage,
+  });
+
+  factory ListAccessPointsMember.fromJson(Map<String, dynamic> json) {
+    return ListAccessPointsMember(
+      accessPointArn: (json['AccessPointArn'] as String?) ?? '',
+      accessPointMetadata:
+          ((json['AccessPointMetadata'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      backupVaultName: (json['BackupVaultName'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
+      recoveryPointArn: (json['RecoveryPointArn'] as String?) ?? '',
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
+      status: AccessPointStatus.fromString((json['Status'] as String?) ?? ''),
+      backupVaultArn: json['BackupVaultArn'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final accessPointMetadata = this.accessPointMetadata;
+    final backupVaultName = this.backupVaultName;
+    final creationTime = this.creationTime;
+    final name = this.name;
+    final recoveryPointArn = this.recoveryPointArn;
+    final resourceArn = this.resourceArn;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final backupVaultArn = this.backupVaultArn;
+    final statusMessage = this.statusMessage;
+    return {
+      'AccessPointArn': accessPointArn,
+      'AccessPointMetadata': accessPointMetadata,
+      'BackupVaultName': backupVaultName,
+      'CreationTime': unixTimestampToJson(creationTime),
+      'Name': name,
+      'RecoveryPointArn': recoveryPointArn,
+      'ResourceArn': resourceArn,
+      'ResourceType': resourceType,
+      'Status': status.value,
+      if (backupVaultArn != null) 'BackupVaultArn': backupVaultArn,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// @nodoc
+class AccessPointStatus {
+  static const available = AccessPointStatus._('AVAILABLE');
+  static const creating = AccessPointStatus._('CREATING');
+  static const deleting = AccessPointStatus._('DELETING');
+  static const disassociated = AccessPointStatus._('DISASSOCIATED');
+  static const disassociating = AccessPointStatus._('DISASSOCIATING');
+  static const expired = AccessPointStatus._('EXPIRED');
+  static const failed = AccessPointStatus._('FAILED');
+
+  final String value;
+
+  const AccessPointStatus._(this.value);
+
+  static const values = [
+    available,
+    creating,
+    deleting,
+    disassociated,
+    disassociating,
+    expired,
+    failed
+  ];
+
+  static AccessPointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessPointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccessPointStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

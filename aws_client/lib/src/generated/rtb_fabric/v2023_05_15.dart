@@ -2972,9 +2972,6 @@ class GetResponderGatewayResponse {
   /// <code>INTERNAL</code>.
   final GatewayType? gatewayType;
 
-  /// Deprecated. Use 'linksRequestedCount' instead.
-  final int? inboundLinksCount;
-
   /// The count of requested links waiting for the responder gateway to accept or
   /// reject.
   final int? linksRequestedCount;
@@ -3012,7 +3009,6 @@ class GetResponderGatewayResponse {
     this.domainName,
     this.externalInboundEndpoint,
     this.gatewayType,
-    this.inboundLinksCount,
     this.linksRequestedCount,
     this.listenerConfig,
     this.managedEndpointConfiguration,
@@ -3045,7 +3041,6 @@ class GetResponderGatewayResponse {
       externalInboundEndpoint: json['externalInboundEndpoint'] as String?,
       gatewayType:
           (json['gatewayType'] as String?)?.let(GatewayType.fromString),
-      inboundLinksCount: json['inboundLinksCount'] as int?,
       linksRequestedCount: json['linksRequestedCount'] as int?,
       listenerConfig: json['listenerConfig'] != null
           ? ListenerConfig.fromJson(
@@ -3080,7 +3075,6 @@ class GetResponderGatewayResponse {
     final domainName = this.domainName;
     final externalInboundEndpoint = this.externalInboundEndpoint;
     final gatewayType = this.gatewayType;
-    final inboundLinksCount = this.inboundLinksCount;
     final linksRequestedCount = this.linksRequestedCount;
     final listenerConfig = this.listenerConfig;
     final managedEndpointConfiguration = this.managedEndpointConfiguration;
@@ -3103,7 +3097,6 @@ class GetResponderGatewayResponse {
       if (externalInboundEndpoint != null)
         'externalInboundEndpoint': externalInboundEndpoint,
       if (gatewayType != null) 'gatewayType': gatewayType.value,
-      if (inboundLinksCount != null) 'inboundLinksCount': inboundLinksCount,
       if (linksRequestedCount != null)
         'linksRequestedCount': linksRequestedCount,
       if (listenerConfig != null) 'listenerConfig': listenerConfig,

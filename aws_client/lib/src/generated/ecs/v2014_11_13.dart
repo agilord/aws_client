@@ -84,6 +84,11 @@ class Ecs {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceDeployments.html">DescribeServiceDeployments</a>
   /// and inspect the <code>lifecycleHookDetails</code> field.
   ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/continue-service-deployment.html">Continuing
+  /// Amazon ECS service deployments</a> in the <i>Amazon Elastic Container
+  /// Service Developer Guide</i>.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [ClientException].
   /// May throw [InvalidParameterException].
@@ -3467,8 +3472,8 @@ class Ecs {
   /// are returned.
   ///
   /// Parameter [clusterArn] :
-  /// The Amazon Resource Name (ARN) of the cluster to filter daemons by. If not
-  /// specified, daemons from all clusters are returned.
+  /// The Amazon Resource Name (ARN) of the cluster to filter daemons by. If you
+  /// do not specify a cluster, the default cluster is assumed.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of daemon results that <code>ListDaemons</code>
@@ -3870,9 +3875,31 @@ class Ecs {
   /// that pull container images from Amazon ECR or send container logs to
   /// CloudWatch.
   ///
+  /// Parameter [ipcMode] :
+  /// The IPC namespace mode for the daemon. The valid values are
+  /// <code>none</code> and <code>shared</code>. The default is
+  /// <code>none</code>.
+  ///
+  /// If <code>none</code> is specified or no value is provided, the daemon runs
+  /// with its own IPC namespace, isolated from other tasks. If
+  /// <code>shared</code> is specified, the daemon joins the host IPC namespace,
+  /// making it accessible to non-daemon tasks that use <code>ipcMode:
+  /// "host"</code> or other daemons that use <code>ipcMode: "shared"</code>.
+  ///
   /// Parameter [memory] :
   /// The amount of memory (in MiB) used by the daemon task. It can be expressed
   /// as an integer using MiB (for example, <code>1024</code>).
+  ///
+  /// Parameter [pidMode] :
+  /// The PID namespace mode for the daemon. The valid values are
+  /// <code>none</code> and <code>shared</code>. The default is
+  /// <code>none</code>.
+  ///
+  /// If <code>none</code> is specified or no value is provided, the daemon runs
+  /// with its own PID namespace, isolated from other tasks. If
+  /// <code>shared</code> is specified, the daemon joins the host PID namespace,
+  /// making it accessible to non-daemon tasks that use <code>pidMode:
+  /// "host"</code> or other daemons that use <code>pidMode: "shared"</code>.
   ///
   /// Parameter [tags] :
   /// The metadata that you apply to the daemon task definition to help you
@@ -3926,7 +3953,9 @@ class Ecs {
     required String family,
     String? cpu,
     String? executionRoleArn,
+    DaemonIpcMode? ipcMode,
     String? memory,
+    DaemonPidMode? pidMode,
     List<Tag>? tags,
     String? taskRoleArn,
     List<DaemonVolume>? volumes,
@@ -3947,7 +3976,9 @@ class Ecs {
         'family': family,
         if (cpu != null) 'cpu': cpu,
         if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+        if (ipcMode != null) 'ipcMode': ipcMode.value,
         if (memory != null) 'memory': memory,
+        if (pidMode != null) 'pidMode': pidMode.value,
         if (tags != null) 'tags': tags,
         if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
         if (volumes != null) 'volumes': volumes,
@@ -4077,19 +4108,6 @@ class Ecs {
   /// May throw [ServerException].
   /// May throw [UnsupportedFeatureException].
   ///
-  /// Parameter [executionRoleArn] :
-  /// The Amazon Resource Name (ARN) of the task execution role that grants the
-  /// Amazon ECS container agent permission to make Amazon Web Services API
-  /// calls on your behalf. This role is required for Amazon ECS to pull
-  /// container images from Amazon ECR, send container logs to Amazon CloudWatch
-  /// Logs, and retrieve sensitive data from Amazon Web Services Systems Manager
-  /// Parameter Store or Amazon Web Services Secrets Manager.
-  ///
-  /// The execution role must include the
-  /// <code>AmazonECSTaskExecutionRolePolicy</code> managed policy or equivalent
-  /// permissions. For Express services, this role is used during task startup
-  /// and runtime for container management operations.
-  ///
   /// Parameter [infrastructureRoleArn] :
   /// The Amazon Resource Name (ARN) of the infrastructure role that grants
   /// Amazon ECS permission to create and manage Amazon Web Services resources
@@ -4103,17 +4121,6 @@ class Ecs {
   /// other services required for managed infrastructure. This role is only used
   /// during Express service creation, updates, and deletion operations.
   ///
-  /// Parameter [primaryContainer] :
-  /// The primary container configuration for the Express service. This defines
-  /// the main application container that will receive traffic from the
-  /// Application Load Balancer.
-  ///
-  /// The primary container must specify at minimum a container image. You can
-  /// also configure the container port (defaults to 80), logging configuration,
-  /// environment variables, secrets, and startup commands. The container image
-  /// can be from Amazon ECR, Docker Hub, or any other container registry
-  /// accessible to your execution role.
-  ///
   /// Parameter [cluster] :
   /// The short name or full Amazon Resource Name (ARN) of the cluster on which
   /// to create the Express service. If you do not specify a cluster, the
@@ -4123,6 +4130,19 @@ class Ecs {
   /// The number of CPU units used by the task. This parameter determines the
   /// CPU allocation for each task in the Express service. The default value for
   /// an Express service is 256 (.25 vCPU).
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The Amazon Resource Name (ARN) of the task execution role that grants the
+  /// Amazon ECS container agent permission to make Amazon Web Services API
+  /// calls on your behalf. This role is required for Amazon ECS to pull
+  /// container images from Amazon ECR, send container logs to Amazon CloudWatch
+  /// Logs, and retrieve sensitive data from Amazon Web Services Systems Manager
+  /// Parameter Store or Amazon Web Services Secrets Manager.
+  ///
+  /// The execution role must include the
+  /// <code>AmazonECSTaskExecutionRolePolicy</code> managed policy or equivalent
+  /// permissions. For Express services, this role is used during task startup
+  /// and runtime for container management operations.
   ///
   /// Parameter [healthCheckPath] :
   /// The path on the container that the Application Load Balancer uses for
@@ -4149,6 +4169,17 @@ class Ecs {
   /// configuration determines how your service integrates with your VPC and
   /// what network access it has.
   ///
+  /// Parameter [primaryContainer] :
+  /// The primary container configuration for the Express service. This defines
+  /// the main application container that will receive traffic from the
+  /// Application Load Balancer.
+  ///
+  /// The primary container must specify at minimum a container image. You can
+  /// also configure the container port (defaults to 80), logging configuration,
+  /// environment variables, secrets, and startup commands. The container image
+  /// can be from Amazon ECR, Docker Hub, or any other container registry
+  /// accessible to your execution role.
+  ///
   /// Parameter [scalingTarget] :
   /// The auto-scaling configuration for the Express service. This defines how
   /// the service automatically adjusts the number of running tasks based on
@@ -4174,6 +4205,20 @@ class Ecs {
   /// organize it. Each tag consists of a key and an optional value. You can
   /// apply up to 50 tags to a service.
   ///
+  /// Parameter [taskDefinitionArn] :
+  /// The Amazon Resource Name (ARN) of a task definition to use to create the
+  /// Express Gateway service. This allows you to manage your own task
+  /// definition, giving you more control over the service configuration such as
+  /// adding sidecar containers.
+  ///
+  /// The task definition must have a container named <code>Main</code> with a
+  /// single TCP port mapping that includes a container port and port name. The
+  /// task definition must also have <code>FARGATE</code> compatibility.
+  ///
+  /// If you provide a task definition ARN, you cannot also specify
+  /// <code>primaryContainer</code>, <code>executionRoleArn</code>,
+  /// <code>taskRoleArn</code>, <code>cpu</code>, or <code>memory</code>.
+  ///
   /// Parameter [taskRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role that containers in this
   /// task can assume. This role allows your application code to access other
@@ -4185,17 +4230,18 @@ class Ecs {
   /// Web Services API calls. If your application doesn't need to access Amazon
   /// Web Services services, you can omit this parameter.
   Future<CreateExpressGatewayServiceResponse> createExpressGatewayService({
-    required String executionRoleArn,
     required String infrastructureRoleArn,
-    required ExpressGatewayContainer primaryContainer,
     String? cluster,
     String? cpu,
+    String? executionRoleArn,
     String? healthCheckPath,
     String? memory,
     ExpressGatewayServiceNetworkConfiguration? networkConfiguration,
+    ExpressGatewayContainer? primaryContainer,
     ExpressGatewayScalingTarget? scalingTarget,
     String? serviceName,
     List<Tag>? tags,
+    String? taskDefinitionArn,
     String? taskRoleArn,
   }) async {
     final headers = <String, String>{
@@ -4210,18 +4256,19 @@ class Ecs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'executionRoleArn': executionRoleArn,
         'infrastructureRoleArn': infrastructureRoleArn,
-        'primaryContainer': primaryContainer,
         if (cluster != null) 'cluster': cluster,
         if (cpu != null) 'cpu': cpu,
+        if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
         if (healthCheckPath != null) 'healthCheckPath': healthCheckPath,
         if (memory != null) 'memory': memory,
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
+        if (primaryContainer != null) 'primaryContainer': primaryContainer,
         if (scalingTarget != null) 'scalingTarget': scalingTarget,
         if (serviceName != null) 'serviceName': serviceName,
         if (tags != null) 'tags': tags,
+        if (taskDefinitionArn != null) 'taskDefinitionArn': taskDefinitionArn,
         if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
       },
     );
@@ -4673,6 +4720,13 @@ class Ecs {
   /// This is because tasks that use the <code>awsvpc</code> network mode are
   /// associated with an elastic network interface, not an Amazon EC2 instance.
   ///
+  /// Parameter [monitoring] :
+  /// The optional monitoring configuration for the service, which defines the
+  /// resolution for the service-level <code>CPUUtilization</code> and
+  /// <code>MemoryUtilization</code> Amazon CloudWatch metrics. When not
+  /// specified, Amazon ECS uses the default resolution of <code>60</code>
+  /// seconds.
+  ///
   /// Parameter [networkConfiguration] :
   /// The network configuration for the service. This parameter is required for
   /// task definitions that use the <code>awsvpc</code> network mode to receive
@@ -4875,6 +4929,7 @@ class Ecs {
     int? healthCheckGracePeriodSeconds,
     LaunchType? launchType,
     List<LoadBalancer>? loadBalancers,
+    MonitoringConfiguration? monitoring,
     NetworkConfiguration? networkConfiguration,
     List<PlacementConstraint>? placementConstraints,
     List<PlacementStrategy>? placementStrategy,
@@ -4920,6 +4975,7 @@ class Ecs {
           'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
         if (launchType != null) 'launchType': launchType.value,
         if (loadBalancers != null) 'loadBalancers': loadBalancers,
+        if (monitoring != null) 'monitoring': monitoring,
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
         if (placementConstraints != null)
@@ -5434,6 +5490,20 @@ class Ecs {
   /// Parameter [scalingTarget] :
   /// The auto-scaling configuration for the Express service.
   ///
+  /// Parameter [taskDefinitionArn] :
+  /// The Amazon Resource Name (ARN) of a task definition to use to update the
+  /// Express Gateway service. This allows you to manage your own task
+  /// definition, giving you more control over the service configuration such as
+  /// adding sidecar containers.
+  ///
+  /// The task definition must have a container named <code>Main</code> with a
+  /// single TCP port mapping that includes a container port and port name. The
+  /// task definition must also have <code>FARGATE</code> compatibility.
+  ///
+  /// If you provide a task definition ARN, you cannot also specify
+  /// <code>primaryContainer</code>, <code>executionRoleArn</code>,
+  /// <code>taskRoleArn</code>, <code>cpu</code>, or <code>memory</code>.
+  ///
   /// Parameter [taskRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role for containers in this
   /// task.
@@ -5446,6 +5516,7 @@ class Ecs {
     ExpressGatewayServiceNetworkConfiguration? networkConfiguration,
     ExpressGatewayContainer? primaryContainer,
     ExpressGatewayScalingTarget? scalingTarget,
+    String? taskDefinitionArn,
     String? taskRoleArn,
   }) async {
     final headers = <String, String>{
@@ -5469,6 +5540,7 @@ class Ecs {
           'networkConfiguration': networkConfiguration,
         if (primaryContainer != null) 'primaryContainer': primaryContainer,
         if (scalingTarget != null) 'scalingTarget': scalingTarget,
+        if (taskDefinitionArn != null) 'taskDefinitionArn': taskDefinitionArn,
         if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
       },
     );
@@ -5829,6 +5901,13 @@ class Ecs {
   ///
   /// This parameter triggers a new service deployment.
   ///
+  /// Parameter [monitoring] :
+  /// The optional monitoring configuration for the service, which defines the
+  /// resolution for the service-level <code>CPUUtilization</code> and
+  /// <code>MemoryUtilization</code> Amazon CloudWatch metrics. When not
+  /// specified, Amazon ECS uses the default resolution of <code>60</code>
+  /// seconds.
+  ///
   /// Parameter [networkConfiguration] :
   /// An object representing the network configuration for the service.
   ///
@@ -5962,6 +6041,7 @@ class Ecs {
     bool? forceNewDeployment,
     int? healthCheckGracePeriodSeconds,
     List<LoadBalancer>? loadBalancers,
+    MonitoringConfiguration? monitoring,
     NetworkConfiguration? networkConfiguration,
     List<PlacementConstraint>? placementConstraints,
     List<PlacementStrategy>? placementStrategy,
@@ -6004,6 +6084,7 @@ class Ecs {
         if (healthCheckGracePeriodSeconds != null)
           'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
         if (loadBalancers != null) 'loadBalancers': loadBalancers,
+        if (monitoring != null) 'monitoring': monitoring,
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
         if (placementConstraints != null)
@@ -12196,6 +12277,7 @@ class TaskStopCode {
       TaskStopCode._('ServiceSchedulerInitiated');
   static const spotInterruption = TaskStopCode._('SpotInterruption');
   static const terminationNotice = TaskStopCode._('TerminationNotice');
+  static const infrastructureHealth = TaskStopCode._('InfrastructureHealth');
 
   final String value;
 
@@ -12207,7 +12289,8 @@ class TaskStopCode {
     userInitiated,
     serviceSchedulerInitiated,
     spotInterruption,
-    terminationNotice
+    terminationNotice,
+    infrastructureHealth
   ];
 
   static TaskStopCode fromString(String value) => values
@@ -18416,7 +18499,19 @@ class ServiceRevision {
 
   /// The load balancers the service revision uses.
   final List<LoadBalancer>? loadBalancers;
+
+  /// The optional monitoring configuration for the service, which defines the
+  /// resolution for the service-level <code>CPUUtilization</code> and
+  /// <code>MemoryUtilization</code> Amazon CloudWatch metrics. When not
+  /// specified, Amazon ECS uses the default resolution of <code>60</code>
+  /// seconds.
+  final MonitoringConfiguration? monitoring;
   final NetworkConfiguration? networkConfiguration;
+
+  /// The effective runtime overrides that Amazon ECS applies to this service
+  /// revision. This value is present only when Amazon ECS detects a difference
+  /// between the task definition and the actual runtime configuration.
+  final ServiceRevisionOverrides? overrides;
 
   /// The platform family the service revision uses.
   final String? platformFamily;
@@ -18459,7 +18554,9 @@ class ServiceRevision {
     this.guardDutyEnabled,
     this.launchType,
     this.loadBalancers,
+    this.monitoring,
     this.networkConfiguration,
+    this.overrides,
     this.platformFamily,
     this.platformVersion,
     this.resolvedConfiguration,
@@ -18499,9 +18596,17 @@ class ServiceRevision {
           ?.nonNulls
           .map((e) => LoadBalancer.fromJson(e as Map<String, dynamic>))
           .toList(),
+      monitoring: json['monitoring'] != null
+          ? MonitoringConfiguration.fromJson(
+              json['monitoring'] as Map<String, dynamic>)
+          : null,
       networkConfiguration: json['networkConfiguration'] != null
           ? NetworkConfiguration.fromJson(
               json['networkConfiguration'] as Map<String, dynamic>)
+          : null,
+      overrides: json['overrides'] != null
+          ? ServiceRevisionOverrides.fromJson(
+              json['overrides'] as Map<String, dynamic>)
           : null,
       platformFamily: json['platformFamily'] as String?,
       platformVersion: json['platformVersion'] as String?,
@@ -18543,7 +18648,9 @@ class ServiceRevision {
     final guardDutyEnabled = this.guardDutyEnabled;
     final launchType = this.launchType;
     final loadBalancers = this.loadBalancers;
+    final monitoring = this.monitoring;
     final networkConfiguration = this.networkConfiguration;
+    final overrides = this.overrides;
     final platformFamily = this.platformFamily;
     final platformVersion = this.platformVersion;
     final resolvedConfiguration = this.resolvedConfiguration;
@@ -18567,8 +18674,10 @@ class ServiceRevision {
       if (guardDutyEnabled != null) 'guardDutyEnabled': guardDutyEnabled,
       if (launchType != null) 'launchType': launchType.value,
       if (loadBalancers != null) 'loadBalancers': loadBalancers,
+      if (monitoring != null) 'monitoring': monitoring,
       if (networkConfiguration != null)
         'networkConfiguration': networkConfiguration,
+      if (overrides != null) 'overrides': overrides,
       if (platformFamily != null) 'platformFamily': platformFamily,
       if (platformVersion != null) 'platformVersion': platformVersion,
       if (resolvedConfiguration != null)
@@ -18785,6 +18894,149 @@ class ECSManagedResources {
       if (metricAlarms != null) 'metricAlarms': metricAlarms,
       if (serviceSecurityGroups != null)
         'serviceSecurityGroups': serviceSecurityGroups,
+    };
+  }
+}
+
+/// Contains the runtime overrides that Amazon ECS automatically applies to a
+/// service revision when the effective runtime configuration differs from the
+/// task definition. This value is read-only.
+///
+/// @nodoc
+class ServiceRevisionOverrides {
+  /// The runtime platform override that Amazon ECS automatically applies to the
+  /// service revision. You can't set this value.
+  final RuntimePlatformOverride? runtimePlatform;
+
+  ServiceRevisionOverrides({
+    this.runtimePlatform,
+  });
+
+  factory ServiceRevisionOverrides.fromJson(Map<String, dynamic> json) {
+    return ServiceRevisionOverrides(
+      runtimePlatform: json['runtimePlatform'] != null
+          ? RuntimePlatformOverride.fromJson(
+              json['runtimePlatform'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runtimePlatform = this.runtimePlatform;
+    return {
+      if (runtimePlatform != null) 'runtimePlatform': runtimePlatform,
+    };
+  }
+}
+
+/// The optional monitoring configuration for a service, which defines the
+/// resolution for the service-level <code>CPUUtilization</code> and
+/// <code>MemoryUtilization</code> Amazon CloudWatch metrics. When not
+/// specified, Amazon ECS uses the default resolution of <code>60</code>
+/// seconds.
+///
+/// @nodoc
+class MonitoringConfiguration {
+  /// The list of metric configurations for the service monitoring.
+  final List<MetricConfiguration>? metricConfigurations;
+
+  MonitoringConfiguration({
+    this.metricConfigurations,
+  });
+
+  factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return MonitoringConfiguration(
+      metricConfigurations: (json['metricConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => MetricConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricConfigurations = this.metricConfigurations;
+    return {
+      if (metricConfigurations != null)
+        'metricConfigurations': metricConfigurations,
+    };
+  }
+}
+
+/// The configuration for a specific set of metrics to collect for a service.
+///
+/// @nodoc
+class MetricConfiguration {
+  /// The list of metric names to configure. The supported metric names are
+  /// <code>CPUUtilization</code> and <code>MemoryUtilization</code>.
+  final List<String> metricNames;
+
+  /// The resolution, in seconds, at which to collect the metrics. The valid
+  /// values are <code>20</code> and <code>60</code>.
+  final int resolutionSeconds;
+
+  MetricConfiguration({
+    required this.metricNames,
+    required this.resolutionSeconds,
+  });
+
+  factory MetricConfiguration.fromJson(Map<String, dynamic> json) {
+    return MetricConfiguration(
+      metricNames: ((json['metricNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resolutionSeconds: (json['resolutionSeconds'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricNames = this.metricNames;
+    final resolutionSeconds = this.resolutionSeconds;
+    return {
+      'metricNames': metricNames,
+      'resolutionSeconds': resolutionSeconds,
+    };
+  }
+}
+
+/// The runtime platform that Amazon ECS applies to a service revision. This
+/// value overrides the runtime platform specified in the task definition. You
+/// can't set this value.
+///
+/// @nodoc
+class RuntimePlatformOverride {
+  /// The CPU architecture that tasks in this service revision run on. This value
+  /// might differ from the architecture declared in the task definition—for
+  /// example, when Amazon ECS detects an architecture mismatch during an Amazon
+  /// ECS Express deployment and runs tasks on a different architecture. You can't
+  /// set this value.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>X86_64</code> - The x86 64-bit architecture.
+  /// </li>
+  /// <li>
+  /// <code>ARM64</code> - The 64-bit ARM architecture.
+  /// </li>
+  /// </ul>
+  final String? cpuArchitecture;
+
+  RuntimePlatformOverride({
+    this.cpuArchitecture,
+  });
+
+  factory RuntimePlatformOverride.fromJson(Map<String, dynamic> json) {
+    return RuntimePlatformOverride(
+      cpuArchitecture: json['cpuArchitecture'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cpuArchitecture = this.cpuArchitecture;
+    return {
+      if (cpuArchitecture != null) 'cpuArchitecture': cpuArchitecture,
     };
   }
 }
@@ -21012,8 +21264,8 @@ class DeploymentConfiguration {
   /// update</a> in the <i>Amazon Elastic Container Service Developer Guide</i>
   final DeploymentCircuitBreaker? deploymentCircuitBreaker;
 
-  /// An array of deployment lifecycle hook objects to run custom logic at
-  /// specific stages of the deployment lifecycle.
+  /// An array of deployment lifecycle hook objects to run custom logic or pause
+  /// the deployment at specific stages of the deployment lifecycle.
   final List<DeploymentLifecycleHook>? lifecycleHooks;
 
   /// Configuration for linear deployment strategy. Only valid when the deployment
@@ -21961,24 +22213,49 @@ class DeploymentCircuitBreaker {
   /// successfully.
   final bool rollback;
 
+  /// Specifies whether the deployment circuit breaker resets its failure count
+  /// when a task reaches a healthy state. When set to <code>true</code>, a task
+  /// that reaches a healthy state resets the failure count to <code>0</code>.
+  /// When set to <code>false</code>, Amazon ECS does not reset the failure count.
+  /// The default is <code>true</code>.
+  final bool? resetOnHealthyTask;
+
+  /// The threshold configuration that controls when the deployment circuit
+  /// breaker triggers. The <code>type</code> and <code>value</code> together
+  /// determine how many task failures are tolerated before the circuit breaker
+  /// activates.
+  final ThresholdConfiguration? thresholdConfiguration;
+
   DeploymentCircuitBreaker({
     required this.enable,
     required this.rollback,
+    this.resetOnHealthyTask,
+    this.thresholdConfiguration,
   });
 
   factory DeploymentCircuitBreaker.fromJson(Map<String, dynamic> json) {
     return DeploymentCircuitBreaker(
       enable: (json['enable'] as bool?) ?? false,
       rollback: (json['rollback'] as bool?) ?? false,
+      resetOnHealthyTask: json['resetOnHealthyTask'] as bool?,
+      thresholdConfiguration: json['thresholdConfiguration'] != null
+          ? ThresholdConfiguration.fromJson(
+              json['thresholdConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final enable = this.enable;
     final rollback = this.rollback;
+    final resetOnHealthyTask = this.resetOnHealthyTask;
+    final thresholdConfiguration = this.thresholdConfiguration;
     return {
       'enable': enable,
       'rollback': rollback,
+      if (resetOnHealthyTask != null) 'resetOnHealthyTask': resetOnHealthyTask,
+      if (thresholdConfiguration != null)
+        'thresholdConfiguration': thresholdConfiguration,
     };
   }
 }
@@ -22160,8 +22437,9 @@ class CanaryConfiguration {
   }
 }
 
-/// A deployment lifecycle hook runs custom logic at specific stages of the
-/// deployment process. Currently, you can use Lambda functions as hook targets.
+/// A deployment lifecycle hook runs custom logic or pauses the deployment at
+/// specific stages of the deployment process. You can use Lambda functions or
+/// pause hooks as hook targets.
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html">Lifecycle
@@ -22170,15 +22448,17 @@ class CanaryConfiguration {
 ///
 /// @nodoc
 class DeploymentLifecycleHook {
-  /// Use this field to specify custom parameters that Amazon ECS will pass to
-  /// your hook target invocations (such as a Lambda function).
+  /// Use this field to specify custom parameters that Amazon ECS passes to your
+  /// Lambda function on each invocation. This field is not used for
+  /// <code>PAUSE</code> hooks.
   final Object? hookDetails;
 
-  /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda
-  /// function ARNs are supported.
+  /// The Amazon Resource Name (ARN) of the hook target. For
+  /// <code>AWS_LAMBDA</code> hooks, this is the Lambda function ARN. This field
+  /// is not applicable for <code>PAUSE</code> hooks.
   ///
-  /// You must provide this parameter when configuring a deployment lifecycle
-  /// hook.
+  /// You must provide this parameter when configuring an <code>AWS_LAMBDA</code>
+  /// lifecycle hook.
   final String? hookTargetArn;
 
   /// The lifecycle stages at which to run the hook. Choose from these valid
@@ -22227,10 +22507,20 @@ class DeploymentLifecycleHook {
   /// You can use a lifecycle hook for this stage.
   /// </li>
   /// <li>
+  /// PRE_PRODUCTION_TRAFFIC_SHIFT
+  ///
+  /// Occurs before production traffic shift. For linear and canary deployments,
+  /// this stage is invoked before every traffic shift step.
+  ///
+  /// You can use a lifecycle hook for this stage.
+  /// </li>
+  /// <li>
   /// PRODUCTION_TRAFFIC_SHIFT
   ///
   /// Production traffic is shifting to the green service revision. The green
-  /// service revision is migrating from 0% to 100% of production traffic.
+  /// service revision is migrating from 0% to 100% of production traffic. For
+  /// linear and canary deployments, this stage is invoked at every traffic shift
+  /// step.
   ///
   /// You can use a lifecycle hook for this stage.
   /// </li>
@@ -22241,7 +22531,11 @@ class DeploymentLifecycleHook {
   ///
   /// You can use a lifecycle hook for this stage.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// <code>PAUSE</code> hooks cannot be configured at
+  /// <code>TEST_TRAFFIC_SHIFT</code> or <code>PRODUCTION_TRAFFIC_SHIFT</code>
+  /// stages. These stages are only valid for <code>AWS_LAMBDA</code> hooks.
+  /// </note>
   /// You must provide this parameter when configuring a deployment lifecycle
   /// hook.
   final List<DeploymentLifecycleHookStage>? lifecycleStages;
@@ -22368,10 +22662,13 @@ class DeploymentLifecycleHookTimeoutConfiguration {
   /// revision.
   /// </li>
   /// </ul>
+  /// Default: <code>ROLLBACK</code>
   final DeploymentLifecycleHookAction? action;
 
   /// The number of minutes Amazon ECS waits for the lifecycle hook to complete
   /// before taking the timeout action.
+  ///
+  /// Default: 1440 (24 hours)
   final int? timeoutInMinutes;
 
   DeploymentLifecycleHookTimeoutConfiguration({
@@ -22463,6 +22760,83 @@ class DeploymentLifecycleHookStage {
   @override
   bool operator ==(other) =>
       other is DeploymentLifecycleHookStage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the failure threshold that the deployment circuit breaker uses to
+/// monitor a deployment. The <code>type</code> and <code>value</code> together
+/// determine the number of task failures that are tolerated before the circuit
+/// breaker triggers.
+///
+/// By default, the threshold configuration uses a <code>type</code> of
+/// <code>BOUNDED_PERCENT</code> with a <code>value</code> of <code>50</code>.
+///
+/// @nodoc
+class ThresholdConfiguration {
+  /// Determines how Amazon ECS uses <code>value</code> to calculate the failure
+  /// threshold. For the percentage types (<code>BOUNDED_PERCENT</code> and
+  /// <code>UNBOUNDED_PERCENT</code>), Amazon ECS multiplies <code>value</code> by
+  /// the latest service desired count. For <code>COUNT</code>, Amazon ECS uses
+  /// <code>value</code> directly as the threshold. The default is
+  /// <code>BOUNDED_PERCENT</code>.
+  final ThresholdType type;
+
+  /// Specifies the integer that Amazon ECS uses to calculate the failure
+  /// threshold. When <code>type</code> is <code>COUNT</code>, this value is the
+  /// failure threshold itself. When <code>type</code> is a percentage type,
+  /// Amazon ECS multiplies this value by the latest service desired count to
+  /// produce the failure threshold. The default is <code>50</code>.
+  final int value;
+
+  ThresholdConfiguration({
+    required this.type,
+    required this.value,
+  });
+
+  factory ThresholdConfiguration.fromJson(Map<String, dynamic> json) {
+    return ThresholdConfiguration(
+      type: ThresholdType.fromString((json['type'] as String?) ?? ''),
+      value: (json['value'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'type': type.value,
+      'value': value,
+    };
+  }
+}
+
+/// Determines how the deployment circuit breaker calculates the number of task
+/// failures tolerated before it triggers, based on the configured
+/// <code>value</code>.
+///
+/// @nodoc
+class ThresholdType {
+  static const count = ThresholdType._('COUNT');
+  static const boundedPercent = ThresholdType._('BOUNDED_PERCENT');
+  static const unboundedPercent = ThresholdType._('UNBOUNDED_PERCENT');
+
+  final String value;
+
+  const ThresholdType._(this.value);
+
+  static const values = [count, boundedPercent, unboundedPercent];
+
+  static ThresholdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThresholdType._(value));
+
+  @override
+  bool operator ==(other) => other is ThresholdType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -22616,6 +22990,11 @@ class ExpressGatewayServiceConfiguration {
   /// The ARN of the service revision.
   final String? serviceRevisionArn;
 
+  /// The ARN of the task definition used by this service revision. This is
+  /// present for all Express services and reflects the task definition in use,
+  /// whether managed by Amazon ECS or provided by the customer.
+  final String? taskDefinitionArn;
+
   /// The ARN of the task role for the service revision.
   final String? taskRoleArn;
 
@@ -22630,6 +23009,7 @@ class ExpressGatewayServiceConfiguration {
     this.primaryContainer,
     this.scalingTarget,
     this.serviceRevisionArn,
+    this.taskDefinitionArn,
     this.taskRoleArn,
   });
 
@@ -22658,6 +23038,7 @@ class ExpressGatewayServiceConfiguration {
               json['scalingTarget'] as Map<String, dynamic>)
           : null,
       serviceRevisionArn: json['serviceRevisionArn'] as String?,
+      taskDefinitionArn: json['taskDefinitionArn'] as String?,
       taskRoleArn: json['taskRoleArn'] as String?,
     );
   }
@@ -22673,6 +23054,7 @@ class ExpressGatewayServiceConfiguration {
     final primaryContainer = this.primaryContainer;
     final scalingTarget = this.scalingTarget;
     final serviceRevisionArn = this.serviceRevisionArn;
+    final taskDefinitionArn = this.taskDefinitionArn;
     final taskRoleArn = this.taskRoleArn;
     return {
       if (cpu != null) 'cpu': cpu,
@@ -22686,6 +23068,7 @@ class ExpressGatewayServiceConfiguration {
       if (primaryContainer != null) 'primaryContainer': primaryContainer,
       if (scalingTarget != null) 'scalingTarget': scalingTarget,
       if (serviceRevisionArn != null) 'serviceRevisionArn': serviceRevisionArn,
+      if (taskDefinitionArn != null) 'taskDefinitionArn': taskDefinitionArn,
       if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
     };
   }
@@ -23466,10 +23849,18 @@ class ServiceDeployment {
   /// of the test traffic.
   /// </li>
   /// <li>
+  /// PRE_PRODUCTION_TRAFFIC_SHIFT
+  ///
+  /// Occurs before production traffic shift. For linear and canary deployments,
+  /// this stage is invoked before every traffic shift step.
+  /// </li>
+  /// <li>
   /// PRODUCTION_TRAFFIC_SHIFT
   ///
   /// Production traffic is shifting to the green service revision. The green
-  /// service revision is migrating from 0% to 100% of production traffic.
+  /// service revision is migrating from 0% to 100% of production traffic. For
+  /// linear and canary deployments, this stage is invoked at every traffic shift
+  /// step.
   /// </li>
   /// <li>
   /// POST_PRODUCTION_TRAFFIC_SHIFT
@@ -23982,18 +24373,9 @@ class DeploymentLifecycleHookDetail {
   /// deployment.
   final String? hookId;
 
-  /// The status of the lifecycle hook. Valid values depend on the hook type:
-  ///
-  /// <ul>
-  /// <li>
-  /// For <code>AWS_LAMBDA</code> hooks: <code>IN_PROGRESS</code>,
+  /// The status of the lifecycle hook. Valid values include
+  /// <code>AWAITING_ACTION</code>, <code>IN_PROGRESS</code>,
   /// <code>SUCCEEDED</code>, <code>FAILED</code>, and <code>TIMED_OUT</code>.
-  /// </li>
-  /// <li>
-  /// For <code>PAUSE</code> hooks: <code>AWAITING_ACTION</code>,
-  /// <code>SUCCEEDED</code>, <code>FAILED</code>, and <code>TIMED_OUT</code>.
-  /// </li>
-  /// </ul>
   final DeploymentLifecycleHookStatus? status;
 
   /// The Amazon Resource Name (ARN) of the hook target. For
@@ -24078,6 +24460,56 @@ class DeploymentLifecycleHookStatus {
   @override
   bool operator ==(other) =>
       other is DeploymentLifecycleHookStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DaemonPidMode {
+  static const none = DaemonPidMode._('none');
+  static const shared = DaemonPidMode._('shared');
+
+  final String value;
+
+  const DaemonPidMode._(this.value);
+
+  static const values = [none, shared];
+
+  static DaemonPidMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DaemonPidMode._(value));
+
+  @override
+  bool operator ==(other) => other is DaemonPidMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DaemonIpcMode {
+  static const none = DaemonIpcMode._('none');
+  static const shared = DaemonIpcMode._('shared');
+
+  final String value;
+
+  const DaemonIpcMode._(this.value);
+
+  static const values = [none, shared];
+
+  static DaemonIpcMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DaemonIpcMode._(value));
+
+  @override
+  bool operator ==(other) => other is DaemonIpcMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -24637,8 +25069,28 @@ class DaemonTaskDefinition {
   /// The name of a family that this daemon task definition is registered to.
   final String? family;
 
+  /// The IPC namespace mode for the daemon. The valid values are
+  /// <code>none</code> and <code>shared</code>. The default is <code>none</code>.
+  ///
+  /// If <code>none</code> is specified or no value is provided, the daemon runs
+  /// with its own IPC namespace, isolated from other tasks. If
+  /// <code>shared</code> is specified, the daemon joins the host IPC namespace,
+  /// making it accessible to non-daemon tasks that use <code>ipcMode:
+  /// "host"</code> or other daemons that use <code>ipcMode: "shared"</code>.
+  final DaemonIpcMode? ipcMode;
+
   /// The amount of memory (in MiB) used by the daemon task.
   final String? memory;
+
+  /// The PID namespace mode for the daemon. The valid values are
+  /// <code>none</code> and <code>shared</code>. The default is <code>none</code>.
+  ///
+  /// If <code>none</code> is specified or no value is provided, the daemon runs
+  /// with its own PID namespace, isolated from other tasks. If
+  /// <code>shared</code> is specified, the daemon joins the host PID namespace,
+  /// making it accessible to non-daemon tasks that use <code>pidMode:
+  /// "host"</code> or other daemons that use <code>pidMode: "shared"</code>.
+  final DaemonPidMode? pidMode;
 
   /// The Unix timestamp for the time when the daemon task definition was
   /// registered.
@@ -24674,7 +25126,9 @@ class DaemonTaskDefinition {
     this.deleteRequestedAt,
     this.executionRoleArn,
     this.family,
+    this.ipcMode,
     this.memory,
+    this.pidMode,
     this.registeredAt,
     this.registeredBy,
     this.revision,
@@ -24695,7 +25149,9 @@ class DaemonTaskDefinition {
       deleteRequestedAt: timeStampFromJson(json['deleteRequestedAt']),
       executionRoleArn: json['executionRoleArn'] as String?,
       family: json['family'] as String?,
+      ipcMode: (json['ipcMode'] as String?)?.let(DaemonIpcMode.fromString),
       memory: json['memory'] as String?,
+      pidMode: (json['pidMode'] as String?)?.let(DaemonPidMode.fromString),
       registeredAt: timeStampFromJson(json['registeredAt']),
       registeredBy: json['registeredBy'] as String?,
       revision: json['revision'] as int?,
@@ -24716,7 +25172,9 @@ class DaemonTaskDefinition {
     final deleteRequestedAt = this.deleteRequestedAt;
     final executionRoleArn = this.executionRoleArn;
     final family = this.family;
+    final ipcMode = this.ipcMode;
     final memory = this.memory;
+    final pidMode = this.pidMode;
     final registeredAt = this.registeredAt;
     final registeredBy = this.registeredBy;
     final revision = this.revision;
@@ -24733,7 +25191,9 @@ class DaemonTaskDefinition {
         'deleteRequestedAt': unixTimestampToJson(deleteRequestedAt),
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
       if (family != null) 'family': family,
+      if (ipcMode != null) 'ipcMode': ipcMode.value,
       if (memory != null) 'memory': memory,
+      if (pidMode != null) 'pidMode': pidMode.value,
       if (registeredAt != null)
         'registeredAt': unixTimestampToJson(registeredAt),
       if (registeredBy != null) 'registeredBy': registeredBy,
@@ -26228,12 +26688,19 @@ class InstanceHealthCheckType {
   static const acceleratedCompute =
       InstanceHealthCheckType._('ACCELERATED_COMPUTE');
   static const daemon = InstanceHealthCheckType._('DAEMON');
+  static const agentConnectivity =
+      InstanceHealthCheckType._('AGENT_CONNECTIVITY');
 
   final String value;
 
   const InstanceHealthCheckType._(this.value);
 
-  static const values = [containerRuntime, acceleratedCompute, daemon];
+  static const values = [
+    containerRuntime,
+    acceleratedCompute,
+    daemon,
+    agentConnectivity
+  ];
 
   static InstanceHealthCheckType fromString(String value) =>
       values.firstWhere((e) => e.value == value,

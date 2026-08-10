@@ -26,10 +26,64 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Amazon Web Services accounts into an <i>organization</i> and centrally
 /// manage your accounts and their resources.
 ///
-/// This guide provides descriptions of the Organizations operations. For more
+/// This guide provides descriptions of the Organizations API. For more
 /// information about using this service, see the <a
 /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">Organizations
 /// User Guide</a>.
+///
+/// <b>API version</b>
+///
+/// This version of the Organizations API Reference documents the Organizations
+/// API version 2016-11-28.
+/// <note>
+/// As an alternative to using the API directly, you can use one of the Amazon
+/// Web Services SDKs, which consist of libraries and sample code for various
+/// programming languages and platforms (Java, Ruby, .NET, iOS, Android, and
+/// more). The SDKs provide a convenient way to create programmatic access to
+/// Organizations. For example, the SDKs take care of cryptographically signing
+/// requests, managing errors, and retrying requests automatically. For more
+/// information about the Amazon Web Services SDKs, including how to download
+/// and install them, see <a href="http://aws.amazon.com/tools/">Tools for
+/// Amazon Web Services</a>.
+/// </note>
+/// We recommend that you use the Amazon Web Services SDKs to make programmatic
+/// API calls to Organizations. However, you also can use the Organizations
+/// Query API to make direct calls to the Organizations web service. To learn
+/// more about the Organizations Query API, see <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_query-requests.html">Calling
+/// the API by making HTTP Query requests</a> in the <i>Organizations User
+/// Guide</i>. Organizations supports GET and POST requests for all actions.
+/// That is, the API doesn't require you to use GET for some actions and POST
+/// for others. However, GET requests are subject to the limitation size of a
+/// URL. Therefore, for operations that require larger sizes, use a POST
+/// request.
+///
+/// <b>Signing requests</b>
+///
+/// When you send HTTP requests to Amazon Web Services, sign the requests so
+/// that Amazon Web Services can identify who sent them. You sign requests with
+/// your Amazon Web Services access key, which consists of an access key ID and
+/// a secret access key. We strongly recommend that you don't create an access
+/// key for your root account. Anyone who has the access key for your root
+/// account has unrestricted access to all the resources in your account.
+/// Instead, create an access key for an IAM user that has administrative
+/// permissions. As another option, use Amazon Web Services Security Token
+/// Service (Amazon Web Services STS) to generate temporary security
+/// credentials, and use those credentials to sign requests.
+///
+/// To sign requests, we recommend that you use <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+/// Version 4</a>. If you have an existing application that uses Signature
+/// Version 2, you don't have to update it to use Signature Version 4. However,
+/// some operations now require Signature Version 4. The documentation for
+/// operations that require version 4 indicate this requirement.
+///
+/// When you use the Command Line Interface (CLI) or one of the Amazon Web
+/// Services SDKs to make requests to Amazon Web Services, these tools
+/// automatically sign the requests for you with the access key that you specify
+/// when you configure the tools.
+///
+/// In this release, each organization can have only one root.
 ///
 /// <b>Support and feedback for Organizations</b>
 ///
@@ -86,6 +140,16 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// China)</i>
 /// </li>
 /// </ul>
+/// <b>How examples are presented</b>
+///
+/// The JSON returned by the Organizations service as response to your requests
+/// arrives as a single long string without line breaks or formatting
+/// whitespace. The examples in this guide include both line breaks and
+/// whitespace to improve readability. When example input parameters also would
+/// result in long strings that would extend beyond the screen, we insert line
+/// breaks to enhance readability. Always submit the input as a single JSON text
+/// string.
+///
 /// <b>Recording API Requests</b>
 ///
 /// Organizations supports CloudTrail, a service that records Amazon Web
@@ -94,7 +158,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// you can determine which requests the Organizations service received, who
 /// made the request and when, and so on. For more about Organizations and its
 /// support for CloudTrail, see <a
-/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_incident-response.html#orgs_cloudtrail-integration">Logging
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration">Logging
 /// Organizations API calls with CloudTrail</a> in the <i>Organizations User
 /// Guide</i>. To learn more about CloudTrail, including how to turn it on and
 /// find your log files, see the <a
@@ -184,12 +248,12 @@ class Organizations {
   /// CloudTrail, available only in the management account's event history. If
   /// the account was standalone and joined a new organization, an
   /// <code>AccountJoinedOrganization</code> event is logged with
-  /// <code>joinedMethod:Invited</code> and <code>joinedTime</code> fields. If
+  /// <code>joinedMethod:INVITED</code> and <code>joinedTime</code> fields. If
   /// the account departed one organization and joined another, both an
   /// <code>AccountDepartedOrganization</code> event with
-  /// <code>departedMethod:Left</code> and <code>departedTime</code> and an
+  /// <code>departureMethod:LEFT</code> and <code>departureTime</code> and an
   /// <code>AccountJoinedOrganization</code> event with
-  /// <code>joinedMethod:Invited</code> and <code>joinedTime</code> are logged
+  /// <code>joinedMethod:INVITED</code> and <code>joinedTime</code> are logged
   /// in their respective management accounts.
   ///
   /// May throw [AccessDeniedException].
@@ -477,7 +541,7 @@ class Organizations {
   /// After the permanent termination of the account after the 90-day waiting
   /// period, Organizations logs a membership event in CloudTrail. The event is
   /// an <code>AccountDepartedOrganization</code> event with
-  /// <code>departedMethod:Cleaned</code> and <code>departedTime</code>. This
+  /// <code>departureMethod:CLEANED</code> and <code>departureTime</code>. This
   /// event is available only in the management account's event history.
   ///
   /// May throw [AccessDeniedException].
@@ -1095,7 +1159,7 @@ class Organizations {
   ///
   /// The <code>AccountJoinedOrganization</code> event is logged in CloudTrail
   /// and is available only in the management account's event history. This
-  /// event includes <code>joinedMethod:Invited</code> and
+  /// event includes <code>joinedMethod:INVITED</code> and
   /// <code>joinedTime</code> fields to provide context on how and when the
   /// account joined the organization.
   ///
@@ -1432,8 +1496,8 @@ class Organizations {
   ///
   /// When an organization is deleted, Organizations logs a membership event in
   /// CloudTrail. The event is an <code>AccountDepartedOrganization</code> event
-  /// with <code>departedMethod:Left</code> and <code>departedTime</code>. This
-  /// event is available only in the management account's event history.
+  /// with <code>departureMethod:LEFT</code> and <code>departureTime</code>.
+  /// This event is available only in the management account's event history.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2792,8 +2856,8 @@ class Organizations {
   /// When an account leaves an organization, Organizations logs a membership
   /// event in CloudTrail. The event is an
   /// <code>AccountDepartedOrganization</code> event with
-  /// <code>departedMethod:Left</code> and <code>departedTime</code>. This event
-  /// is available only in the management account's event history.
+  /// <code>departureMethod:LEFT</code> and <code>departureTime</code>. This
+  /// event is available only in the management account's event history.
   /// <important>
   /// <ul>
   /// <li>
@@ -4752,7 +4816,7 @@ class Organizations {
   /// When an account is removed from an organization, Organizations logs a
   /// membership event in CloudTrail. The event is an
   /// <code>AccountDepartedOrganization</code> event with
-  /// <code>departedMethod:Removed</code> and <code>departedTime</code>. This
+  /// <code>departureMethod:REMOVED</code> and <code>departureTime</code>. This
   /// event is available only in the management account's event history.
   /// <important>
   /// <ul>

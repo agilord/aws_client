@@ -443,7 +443,7 @@ class BedrockAgentCoreControl {
     return UpdateAgentRuntimeEndpointResponse.fromJson(response);
   }
 
-  /// Deletes an AAgentCore Runtime endpoint.
+  /// Deletes an AgentCore Runtime endpoint.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -535,14 +535,17 @@ class BedrockAgentCoreControl {
   /// Parameter [agentRuntimeName] :
   /// The name of the AgentCore Runtime.
   ///
-  /// Parameter [networkConfiguration] :
-  /// The network configuration for the AgentCore Runtime.
-  ///
   /// Parameter [roleArn] :
   /// The IAM role ARN that provides permissions for the AgentCore Runtime.
   ///
   /// Parameter [authorizerConfiguration] :
   /// The authorizer configuration for the AgentCore Runtime.
+  ///
+  /// Parameter [capacityProviderConfiguration] :
+  /// The capacity provider configuration for the AgentCore Runtime. Use a
+  /// capacity provider to run the AgentCore Runtime on the Instances compute
+  /// type, which provisions Amazon Web Services managed compute in your
+  /// account.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier to ensure idempotency of the request.
@@ -561,6 +564,9 @@ class BedrockAgentCoreControl {
   /// Parameter [lifecycleConfiguration] :
   /// The life cycle configuration for the AgentCore Runtime.
   ///
+  /// Parameter [networkConfiguration] :
+  /// The network configuration for the AgentCore Runtime.
+  ///
   /// Parameter [requestHeaderConfiguration] :
   /// Configuration for HTTP request headers that will be passed through to the
   /// runtime.
@@ -572,14 +578,15 @@ class BedrockAgentCoreControl {
   Future<CreateAgentRuntimeResponse> createAgentRuntime({
     required AgentRuntimeArtifact agentRuntimeArtifact,
     required String agentRuntimeName,
-    required NetworkConfiguration networkConfiguration,
     required String roleArn,
     AuthorizerConfiguration? authorizerConfiguration,
+    CapacityProviderConfiguration? capacityProviderConfiguration,
     String? clientToken,
     String? description,
     Map<String, String>? environmentVariables,
     List<FilesystemConfiguration>? filesystemConfigurations,
     LifecycleConfiguration? lifecycleConfiguration,
+    NetworkConfiguration? networkConfiguration,
     ProtocolConfiguration? protocolConfiguration,
     RequestHeaderConfiguration? requestHeaderConfiguration,
     Map<String, String>? tags,
@@ -587,10 +594,11 @@ class BedrockAgentCoreControl {
     final $payload = <String, dynamic>{
       'agentRuntimeArtifact': agentRuntimeArtifact,
       'agentRuntimeName': agentRuntimeName,
-      'networkConfiguration': networkConfiguration,
       'roleArn': roleArn,
       if (authorizerConfiguration != null)
         'authorizerConfiguration': authorizerConfiguration,
+      if (capacityProviderConfiguration != null)
+        'capacityProviderConfiguration': capacityProviderConfiguration,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (environmentVariables != null)
@@ -599,6 +607,8 @@ class BedrockAgentCoreControl {
         'filesystemConfigurations': filesystemConfigurations,
       if (lifecycleConfiguration != null)
         'lifecycleConfiguration': lifecycleConfiguration,
+      if (networkConfiguration != null)
+        'networkConfiguration': networkConfiguration,
       if (protocolConfiguration != null)
         'protocolConfiguration': protocolConfiguration,
       if (requestHeaderConfiguration != null)
@@ -660,15 +670,15 @@ class BedrockAgentCoreControl {
   /// Parameter [agentRuntimeId] :
   /// The unique identifier of the AgentCore Runtime to update.
   ///
-  /// Parameter [networkConfiguration] :
-  /// The updated network configuration for the AgentCore Runtime.
-  ///
   /// Parameter [roleArn] :
   /// The updated IAM role ARN that provides permissions for the AgentCore
   /// Runtime.
   ///
   /// Parameter [authorizerConfiguration] :
   /// The updated authorizer configuration for the AgentCore Runtime.
+  ///
+  /// Parameter [capacityProviderConfiguration] :
+  /// The updated capacity provider configuration for the AgentCore Runtime.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier to ensure idempotency of the request.
@@ -689,30 +699,35 @@ class BedrockAgentCoreControl {
   /// The updated configuration for microVM Metadata Service (MMDS) settings for
   /// the AgentCore Runtime.
   ///
+  /// Parameter [networkConfiguration] :
+  /// The updated network configuration for the AgentCore Runtime.
+  ///
   /// Parameter [requestHeaderConfiguration] :
   /// The updated configuration for HTTP request headers that will be passed
   /// through to the runtime.
   Future<UpdateAgentRuntimeResponse> updateAgentRuntime({
     required AgentRuntimeArtifact agentRuntimeArtifact,
     required String agentRuntimeId,
-    required NetworkConfiguration networkConfiguration,
     required String roleArn,
     AuthorizerConfiguration? authorizerConfiguration,
+    CapacityProviderConfiguration? capacityProviderConfiguration,
     String? clientToken,
     String? description,
     Map<String, String>? environmentVariables,
     List<FilesystemConfiguration>? filesystemConfigurations,
     LifecycleConfiguration? lifecycleConfiguration,
     RuntimeMetadataConfiguration? metadataConfiguration,
+    NetworkConfiguration? networkConfiguration,
     ProtocolConfiguration? protocolConfiguration,
     RequestHeaderConfiguration? requestHeaderConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'agentRuntimeArtifact': agentRuntimeArtifact,
-      'networkConfiguration': networkConfiguration,
       'roleArn': roleArn,
       if (authorizerConfiguration != null)
         'authorizerConfiguration': authorizerConfiguration,
+      if (capacityProviderConfiguration != null)
+        'capacityProviderConfiguration': capacityProviderConfiguration,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (environmentVariables != null)
@@ -723,6 +738,8 @@ class BedrockAgentCoreControl {
         'lifecycleConfiguration': lifecycleConfiguration,
       if (metadataConfiguration != null)
         'metadataConfiguration': metadataConfiguration,
+      if (networkConfiguration != null)
+        'networkConfiguration': networkConfiguration,
       if (protocolConfiguration != null)
         'protocolConfiguration': protocolConfiguration,
       if (requestHeaderConfiguration != null)
@@ -737,7 +754,8 @@ class BedrockAgentCoreControl {
     return UpdateAgentRuntimeResponse.fromJson(response);
   }
 
-  /// Deletes an Amazon Bedrock AgentCore Runtime.
+  /// Deletes an Amazon Bedrock AgentCore Runtime, or a single version of an
+  /// AgentCore Runtime when you provide the version qualifier.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -748,15 +766,22 @@ class BedrockAgentCoreControl {
   /// Parameter [agentRuntimeId] :
   /// The unique identifier of the AgentCore Runtime to delete.
   ///
+  /// Parameter [agentRuntimeVersion] :
+  /// The version of the AgentCore Runtime to delete. When you provide this
+  /// value, only that version is deleted. When you omit it, the entire
+  /// AgentCore Runtime and all of its versions are deleted.
+  ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier to ensure that the operation completes
   /// no more than one time. If this token matches a previous request, the
   /// service ignores the request but does not return an error.
   Future<DeleteAgentRuntimeResponse> deleteAgentRuntime({
     required String agentRuntimeId,
+    String? agentRuntimeVersion,
     String? clientToken,
   }) async {
     final $query = <String, List<String>>{
+      if (agentRuntimeVersion != null) 'version': [agentRuntimeVersion],
       if (clientToken != null) 'clientToken': [clientToken],
     };
     final response = await _protocol.send(
@@ -869,15 +894,15 @@ class BedrockAgentCoreControl {
   /// securely.
   ///
   /// Parameter [apiKeySecretConfig] :
-  /// A reference to the AWS Secrets Manager secret that stores the API key.
-  /// This includes the secret ID and the JSON key used to extract the API key
-  /// value from the secret. Required when <code>apiKeySecretSource</code> is
-  /// set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the API key. This includes the secret ID and the JSON key used to extract
+  /// the API key value from the secret. Required when
+  /// <code>apiKeySecretSource</code> is set to <code>EXTERNAL</code>.
   ///
   /// Parameter [apiKeySecretSource] :
   /// The source type of the API key secret. Use <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if you manage
-  /// the secret yourself in AWS Secrets Manager.
+  /// the secret yourself in Amazon Web Services Secrets Manager.
   ///
   /// Parameter [tags] :
   /// A map of tag keys and values to assign to the API key credential provider.
@@ -956,15 +981,15 @@ class BedrockAgentCoreControl {
   /// existing API key and is encrypted and stored securely.
   ///
   /// Parameter [apiKeySecretConfig] :
-  /// A reference to the AWS Secrets Manager secret that stores the API key.
-  /// This includes the secret ID and the JSON key used to extract the API key
-  /// value from the secret. Required when <code>apiKeySecretSource</code> is
-  /// set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the API key. This includes the secret ID and the JSON key used to extract
+  /// the API key value from the secret. Required when
+  /// <code>apiKeySecretSource</code> is set to <code>EXTERNAL</code>.
   ///
   /// Parameter [apiKeySecretSource] :
   /// The source type of the API key secret. Use <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if you manage
-  /// the secret yourself in AWS Secrets Manager.
+  /// the secret yourself in Amazon Web Services Secrets Manager.
   Future<UpdateApiKeyCredentialProviderResponse>
       updateApiKeyCredentialProvider({
     required String name,
@@ -1234,6 +1259,13 @@ class BedrockAgentCoreControl {
   /// The Amazon Resource Name (ARN) of the IAM role that provides permissions
   /// for the browser to access Amazon Web Services services.
   ///
+  /// Parameter [filesystemConfigurations] :
+  /// The file system configurations to mount into the browser. Use these
+  /// configurations to mount your own Amazon Simple Storage Service (Amazon S3)
+  /// Files or Amazon Elastic File System (Amazon EFS) access points. Your
+  /// sessions can then access your data. If you don't specify this field, no
+  /// file systems are mounted.
+  ///
   /// Parameter [recording] :
   /// The recording configuration for the browser. When enabled, browser
   /// sessions are recorded and stored in the specified Amazon S3 location.
@@ -1251,6 +1283,7 @@ class BedrockAgentCoreControl {
     String? description,
     List<BrowserEnterprisePolicy>? enterprisePolicies,
     String? executionRoleArn,
+    List<ToolsFileSystemConfiguration>? filesystemConfigurations,
     RecordingConfig? recording,
     Map<String, String>? tags,
   }) async {
@@ -1263,6 +1296,8 @@ class BedrockAgentCoreControl {
       if (description != null) 'description': description,
       if (enterprisePolicies != null) 'enterprisePolicies': enterprisePolicies,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
       if (recording != null) 'recording': recording,
       if (tags != null) 'tags': tags,
     };
@@ -1373,6 +1408,287 @@ class BedrockAgentCoreControl {
     return ListBrowsersResponse.fromJson(response);
   }
 
+  /// Creates a capacity provider. A capacity provider defines the Amazon EC2
+  /// infrastructure for AgentCore Runtime, including the operating system,
+  /// allowed instance types, networking, and storage. It also specifies the IAM
+  /// permissions that AgentCore uses to manage those instances.
+  ///
+  /// The capacity provider name must be unique within your account. After you
+  /// create the capacity provider, it enters a <code>CREATING</code> state and
+  /// transitions to <code>READY</code> when it is available for use.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [computeConfiguration] :
+  /// The compute configuration for the capacity provider. This defines the
+  /// Amazon EC2 compute resources used to launch instances: the operating
+  /// system, allowed instance types, networking, and storage.
+  ///
+  /// Parameter [name] :
+  /// The name of the capacity provider. The name must be unique within your
+  /// account.
+  ///
+  /// Parameter [permissionsConfiguration] :
+  /// The permissions configuration for the capacity provider. This specifies
+  /// the IAM role that AgentCore uses to manage the Amazon EC2 instances on
+  /// your behalf.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If you don't specify this field, a value
+  /// is randomly generated for you. If this token matches a previous request,
+  /// the service ignores the request, but doesn't return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// An optional description of the capacity provider. If you don't specify a
+  /// description, the service creates the capacity provider without one.
+  ///
+  /// Parameter [tags] :
+  /// A map of tag keys and values to associate with the capacity provider. If
+  /// you don't specify tags, the capacity provider is created with no tags.
+  Future<CreateCapacityProviderOutput> createCapacityProvider({
+    required ComputeConfiguration computeConfiguration,
+    required String name,
+    required PermissionsConfiguration permissionsConfiguration,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'computeConfiguration': computeConfiguration,
+      'name': name,
+      'permissionsConfiguration': permissionsConfiguration,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/capacity-providers',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCapacityProviderOutput.fromJson(response);
+  }
+
+  /// Retrieves information about a capacity provider, including its status,
+  /// permissions configuration, and compute configuration.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [capacityProviderId] :
+  /// The unique identifier of the capacity provider.
+  Future<GetCapacityProviderOutput> getCapacityProvider({
+    required String capacityProviderId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/capacity-providers/${Uri.encodeComponent(capacityProviderId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCapacityProviderOutput.fromJson(response);
+  }
+
+  /// Updates a capacity provider. Only the description can be changed. To
+  /// change other configuration, such as instance types, networking, or
+  /// storage, create a new capacity provider.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [capacityProviderId] :
+  /// The unique identifier of the capacity provider to update.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If you don't specify this field, a value
+  /// is randomly generated for you. If this token matches a previous request,
+  /// the service ignores the request, but doesn't return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// The updated description of the capacity provider.
+  Future<UpdateCapacityProviderOutput> updateCapacityProvider({
+    required String capacityProviderId,
+    String? clientToken,
+    UpdatedDescription? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/capacity-providers/${Uri.encodeComponent(capacityProviderId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCapacityProviderOutput.fromJson(response);
+  }
+
+  /// Deletes a capacity provider. Before you delete a capacity provider,
+  /// disassociate all agent runtimes and runtime versions that reference it. If
+  /// any references remain, the operation fails.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [capacityProviderId] :
+  /// The unique identifier of the capacity provider to delete.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If you don't specify this field, a value
+  /// is randomly generated for you. If this token matches a previous request,
+  /// the service ignores the request, but doesn't return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  Future<DeleteCapacityProviderOutput> deleteCapacityProvider({
+    required String capacityProviderId,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/capacity-providers/${Uri.encodeComponent(capacityProviderId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteCapacityProviderOutput.fromJson(response);
+  }
+
+  /// Lists the capacity providers in your account and returns summary
+  /// information for each one. To retrieve the full configuration for a
+  /// specific capacity provider, use <code>GetCapacityProvider</code>. Results
+  /// are paginated; use the <code>nextToken</code> parameter to retrieve
+  /// additional results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  Future<ListCapacityProvidersOutput> listCapacityProviders({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/capacity-providers',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCapacityProvidersOutput.fromJson(response);
+  }
+
+  /// Lists the agent runtime versions that are associated with a capacity
+  /// provider. Use this operation to identify the runtimes you must
+  /// disassociate before you can delete the capacity provider. Results are
+  /// paginated; use the <code>nextToken</code> parameter to retrieve additional
+  /// results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [capacityProviderId] :
+  /// The unique identifier of the capacity provider.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  Future<ListAgentRuntimeVersionsByCapacityProviderOutput>
+      listAgentRuntimeVersionsByCapacityProvider({
+    required String capacityProviderId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/capacity-providers/${Uri.encodeComponent(capacityProviderId)}/runtime-versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAgentRuntimeVersionsByCapacityProviderOutput.fromJson(response);
+  }
+
   /// Creates a custom code interpreter.
   ///
   /// May throw [AccessDeniedException].
@@ -1405,6 +1721,13 @@ class BedrockAgentCoreControl {
   /// The Amazon Resource Name (ARN) of the IAM role that provides permissions
   /// for the code interpreter to access Amazon Web Services services.
   ///
+  /// Parameter [filesystemConfigurations] :
+  /// The file system configurations to mount into the code interpreter. Use
+  /// these configurations to mount your own Amazon Simple Storage Service
+  /// (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access
+  /// points. Your sessions can then access your data. If you don't specify this
+  /// field, no file systems are mounted.
+  ///
   /// Parameter [tags] :
   /// A map of tag keys and values to assign to the code interpreter. Tags
   /// enable you to categorize your resources in different ways, for example, by
@@ -1416,6 +1739,7 @@ class BedrockAgentCoreControl {
     String? clientToken,
     String? description,
     String? executionRoleArn,
+    List<ToolsFileSystemConfiguration>? filesystemConfigurations,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -1425,6 +1749,8 @@ class BedrockAgentCoreControl {
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1575,6 +1901,9 @@ class BedrockAgentCoreControl {
   /// Parameter [description] :
   /// The description for the configuration bundle.
   ///
+  /// Parameter [kmsKeyArn] :
+  /// Optional KMS key ARN for encrypting component configurations.
+  ///
   /// Parameter [tags] :
   /// A map of tag keys and values to assign to the configuration bundle. Tags
   /// enable you to categorize your resources in different ways, for example, by
@@ -1587,6 +1916,7 @@ class BedrockAgentCoreControl {
     String? commitMessage,
     VersionCreatedBySource? createdBy,
     String? description,
+    String? kmsKeyArn,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -1597,6 +1927,7 @@ class BedrockAgentCoreControl {
       if (commitMessage != null) 'commitMessage': commitMessage,
       if (createdBy != null) 'createdBy': createdBy,
       if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1685,6 +2016,11 @@ class BedrockAgentCoreControl {
   /// Parameter [description] :
   /// The updated description for the configuration bundle.
   ///
+  /// Parameter [kmsKeyArn] :
+  /// Optional KMS key ARN for encrypting component configurations. If provided,
+  /// components will be encrypted with this key. If the bundle already has a
+  /// KMS key, this rotates to the new key.
+  ///
   /// Parameter [parentVersionIds] :
   /// A list of parent version identifiers for lineage tracking. Regular commits
   /// have a single parent. Merge commits have two parents: the target branch
@@ -1699,6 +2035,7 @@ class BedrockAgentCoreControl {
     Map<String, ComponentConfiguration>? components,
     VersionCreatedBySource? createdBy,
     String? description,
+    String? kmsKeyArn,
     List<String>? parentVersionIds,
   }) async {
     final $payload = <String, dynamic>{
@@ -1709,6 +2046,7 @@ class BedrockAgentCoreControl {
       if (components != null) 'components': components,
       if (createdBy != null) 'createdBy': createdBy,
       if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (parentVersionIds != null) 'parentVersionIds': parentVersionIds,
     };
     final response = await _protocol.send(
@@ -1859,9 +2197,9 @@ class BedrockAgentCoreControl {
     return ListConfigurationBundleVersionsResponse.fromJson(response);
   }
 
-  /// Creates a new Dataset resource asynchronously. Returns immediately with
-  /// status CREATING. Poll GetDataset until status transitions to ACTIVE or
-  /// CREATE_FAILED (with failureReason).
+  /// Creates a new dataset resource asynchronously. Returns immediately with
+  /// status CREATING. Poll <code>GetDataset</code> until status transitions to
+  /// ACTIVE or CREATE_FAILED.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -1871,8 +2209,8 @@ class BedrockAgentCoreControl {
   /// May throw [ValidationException].
   ///
   /// Parameter [datasetName] :
-  /// Human-readable name for the dataset. Unique within the account
-  /// (case-insensitive). Immutable after creation.
+  /// Human-readable name for the dataset. Must be unique within the account.
+  /// Immutable after creation.
   ///
   /// Parameter [schemaType] :
   /// Versioned schema type governing the structure of examples. Immutable after
@@ -1883,13 +2221,20 @@ class BedrockAgentCoreControl {
   /// pointing to a JSONL file.
   ///
   /// Parameter [clientToken] :
-  /// Optional idempotency token.
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If you don't specify this field, a value
+  /// is randomly generated for you. If this token matches a previous request,
+  /// the service ignores the request, but doesn't return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
   ///
   /// Parameter [description] :
   /// A description of the dataset.
   ///
   /// Parameter [kmsKeyArn] :
-  /// Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+  /// Optional KMS key ARN for server-side encryption on service Amazon S3
+  /// writes.
   ///
   /// Parameter [tags] :
   /// A map of tag keys and values to assign to the dataset.
@@ -1920,21 +2265,10 @@ class BedrockAgentCoreControl {
     return CreateDatasetResponse.fromJson(response);
   }
 
-  /// Retrieves dataset metadata only. Use `?datasetVersion=DRAFT` or
-  /// `?datasetVersion=N` to retrieve a specific version's metadata. If absent,
-  /// defaults to DRAFT (the mutable working copy). Returns
-  /// ResourceNotFoundException if the specified version is not found. **Initial
-  /// state after CreateDataset:** When CreateDataset completes successfully
-  /// (status transitions to ACTIVE), only a DRAFT working copy exists. No
-  /// published versions exist until CreateDatasetVersion is called. At this
-  /// point draftStatus is MODIFIED because the DRAFT has content that has never
-  /// been published. **Default version behavior:** When `datasetVersion` is
-  /// omitted, the operation returns the DRAFT working copy. To retrieve a
-  /// specific published version, pass the version number as a string (e.g.
-  /// `?datasetVersion=1`). **State guard:** Allowed for all statuses including
-  /// DELETING. Returns the dataset record with its current status so callers
-  /// can observe the deletion in progress. For paginated example IDs use
-  /// ListDatasetExamples.
+  /// Retrieves dataset metadata. Use the <code>datasetVersion</code> query
+  /// parameter to retrieve a specific version's metadata. If absent, defaults
+  /// to DRAFT. For paginated example content, use
+  /// <code>ListDatasetExamples</code>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -1968,8 +2302,8 @@ class BedrockAgentCoreControl {
 
   /// Updates a dataset's metadata. Synchronous operation. Only provided fields
   /// are updated; omitted fields remain unchanged. To modify dataset content,
-  /// use AddDatasetExamples, UpdateDatasetExamples, or DeleteDatasetExamples.
-  /// Cannot update: name, schemaType, kmsKeyArn (immutable after creation).
+  /// use <code>AddDatasetExamples</code>, <code>UpdateDatasetExamples</code>,
+  /// or <code>DeleteDatasetExamples</code>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2010,25 +2344,9 @@ class BedrockAgentCoreControl {
     return UpdateDatasetResponse.fromJson(response);
   }
 
-  /// Deletes a dataset version or an entire dataset (all versions + name
-  /// claim). Asynchronous 202. **State transitions:** - If `datasetVersion` is
-  /// absent (full delete): status transitions to DELETING immediately. - If
-  /// `datasetVersion` is provided (version-specific delete): status transitions
-  /// to UPDATING. **State guard (full delete):** Returns ConflictException
-  /// (DATASET_NOT_READY) if the dataset status is in {CREATING, UPDATING}.
-  /// Deletion is allowed from ACTIVE, CREATE_FAILED, UPDATE_FAILED, and
-  /// DELETE_FAILED states. **State guard (version-specific delete):** Returns
-  /// ConflictException (DATASET_NOT_READY) if the dataset status is not in
-  /// {ACTIVE, CREATE_FAILED, UPDATE_FAILED}. Fails with ConflictException
-  /// (REFERENCED_BY_EVAL_JOB) if referenced by an active evaluation job (full
-  /// delete only). If the delete workflow fails after retries, status is set to
-  /// DELETE_FAILED (full delete) or UPDATE_FAILED (version-specific delete).
-  /// Calling DeleteDataset on a DELETE_FAILED dataset re-triggers the delete
-  /// workflow (idempotent retry path). **Version parameter:** - If
-  /// `datasetVersion` is absent: deletes ALL versions and the Dataset record
-  /// itself. - If `datasetVersion` is provided: deletes only that specific
-  /// DatasetVersion. Returns ResourceNotFoundException if the specified version
-  /// does not exist.
+  /// Deletes a dataset version or an entire dataset asynchronously. If
+  /// <code>datasetVersion</code> is absent, deletes all versions and the
+  /// dataset record itself. If provided, deletes only that specific version.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2041,8 +2359,8 @@ class BedrockAgentCoreControl {
   /// The unique identifier of the dataset to delete.
   ///
   /// Parameter [datasetVersion] :
-  /// Optional version to delete. Use "DRAFT" or omit to delete the draft.
-  /// Returns ResourceNotFoundException if the specified version does not exist.
+  /// Optional version to delete. If absent, deletes the entire dataset. If
+  /// provided, deletes only that specific version.
   Future<DeleteDatasetResponse> deleteDataset({
     required String datasetId,
     String? datasetVersion,
@@ -2060,8 +2378,7 @@ class BedrockAgentCoreControl {
     return DeleteDatasetResponse.fromJson(response);
   }
 
-  /// Lists all datasets in the caller's account, paginated. No presigned URLs
-  /// in list results.
+  /// Lists all datasets in the caller's account, paginated.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2091,15 +2408,9 @@ class BedrockAgentCoreControl {
     return ListDatasetsResponse.fromJson(response);
   }
 
-  /// Adds examples to the dataset's DRAFT. **Validation:** All examples are
-  /// validated against the dataset's schemaType before any writes occur. If any
-  /// example fails validation, the entire batch is rejected with
-  /// ValidationException — no examples are written (all-or-nothing semantics).
-  /// **Asynchronous:** Operates in-place on DRAFT. No version bump occurs. Use
-  /// CreateDatasetVersion to publish DRAFT as a new numbered version. **State
-  /// guard:** Returns ConflictException (DATASET_NOT_READY) if the dataset
-  /// status is not in {DRAFT, ACTIVE}. **Request size limit:** Max 5 MB total
-  /// request body. Max 1000 examples per call.
+  /// Adds examples to the dataset's DRAFT. All examples are validated against
+  /// the dataset's schema type before any writes occur. If any example fails
+  /// validation, the entire batch is rejected (all-or-nothing semantics).
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2142,15 +2453,10 @@ class BedrockAgentCoreControl {
     return AddDatasetExamplesResponse.fromJson(response);
   }
 
-  /// Publishes the current DRAFT as a new numbered version. Snapshots the DRAFT
-  /// examples as the next version (1, 2, 3, ...). The DRAFT is preserved and
-  /// remains editable after publishing. Returns immediately with status
-  /// UPDATING. Poll GetDataset until status transitions to ACTIVE
-  /// (draftStatus=UNMODIFIED) or UPDATE_FAILED. **State guard:** Returns
-  /// ConflictException (DATASET_NOT_READY) if status is in {CREATING, UPDATING,
-  /// DELETING}, or DATASET_IN_FAILED_STATE if status is in {CREATE_FAILED,
-  /// DELETE_FAILED}. **Quota:** MAX_VERSIONS_PER_DATASET applies to published
-  /// versions only (not DRAFT).
+  /// Publishes the current DRAFT as a new numbered version. The DRAFT is
+  /// preserved and remains editable after publishing. Returns immediately with
+  /// status UPDATING. Poll <code>GetDataset</code> until status transitions to
+  /// ACTIVE or UPDATE_FAILED.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2187,14 +2493,9 @@ class BedrockAgentCoreControl {
     return CreateDatasetVersionResponse.fromJson(response);
   }
 
-  /// Deletes specific examples by ID from DRAFT. **Validation:** All example
-  /// IDs are validated before any deletes occur. If any ID does not exist in
-  /// DRAFT, the entire batch is rejected with ResourceNotFoundException — no
-  /// examples are deleted (all-or-nothing semantics). **Asynchronous:**
-  /// Operates in-place on DRAFT. No version bump occurs. Use
-  /// CreateDatasetVersion to publish DRAFT as a new numbered version. **State
-  /// guard:** Returns ConflictException (DATASET_NOT_READY) if the dataset
-  /// status is not in {DRAFT, ACTIVE}.
+  /// Deletes specific examples by ID from DRAFT. All example IDs are validated
+  /// before any deletes occur. If any ID does not exist in DRAFT, the entire
+  /// batch is rejected (all-or-nothing semantics).
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2235,13 +2536,10 @@ class BedrockAgentCoreControl {
     return DeleteDatasetExamplesResponse.fromJson(response);
   }
 
-  /// Returns paginated examples from the dataset. **Version-pinned
-  /// pagination:** The server embeds the resolved version in the `nextToken`.
-  /// Once pagination begins, all subsequent pages are pinned to that version
-  /// regardless of concurrent mutations or whether `datasetVersion` is passed
-  /// on subsequent requests. The `datasetVersion` query parameter is only used
-  /// for the first request (when `nextToken` is absent); if omitted, defaults
-  /// to DRAFT. **State guard:** Allowed for all statuses including DELETING.
+  /// Returns paginated examples from the dataset. The server embeds the
+  /// resolved version in the pagination token. Once pagination begins, all
+  /// subsequent pages are pinned to that version regardless of concurrent
+  /// mutations.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2255,14 +2553,11 @@ class BedrockAgentCoreControl {
   ///
   /// Parameter [datasetVersion] :
   /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if
-  /// absent. Only used on the first request (when nextToken is absent). For
-  /// subsequent pages, the version is extracted from the nextToken and this
-  /// parameter is ignored.
+  /// absent. Only used on the first request; for subsequent pages, the version
+  /// is extracted from the pagination token.
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of examples to return per page. Default: 1000. Min: 1, max:
-  /// 1000. Response size is validated against 5 MB limit after reading. For
-  /// bulk access to all examples, use the `downloadUrl` field from GetDataset.
+  /// Maximum number of examples to return per page.
   ///
   /// Parameter [nextToken] :
   /// The token for the next page of results.
@@ -2289,7 +2584,6 @@ class BedrockAgentCoreControl {
 
   /// Lists all published versions of a dataset, sorted by version number
   /// descending (newest first). Does not include the DRAFT working copy.
-  /// **State guard:** Allowed for all statuses including DELETING.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2324,17 +2618,10 @@ class BedrockAgentCoreControl {
     return ListDatasetVersionsResponse.fromJson(response);
   }
 
-  /// Updates multiple existing examples in-place on DRAFT. **Validation:** All
-  /// examples are validated against the dataset's schemaType before any writes
-  /// occur. If any example fails validation, the entire batch is rejected with
-  /// ValidationException — no examples are updated (all-or-nothing semantics).
-  /// **Asynchronous:** Operates in-place on DRAFT. No version bump occurs. Use
-  /// CreateDatasetVersion to publish DRAFT as a new numbered version. Fails
-  /// with ResourceNotFoundException if any exampleId does not exist in DRAFT.
-  /// To add new examples, use AddDatasetExamples instead. **State guard:**
-  /// Returns ConflictException (DATASET_NOT_READY) if the dataset status is not
-  /// in {DRAFT, ACTIVE}. **Request size limit:** Max 5 MB total request body.
-  /// Max 1000 examples per call.
+  /// Updates multiple existing examples in-place on DRAFT. All examples are
+  /// validated against the dataset's schema type before any writes occur. If
+  /// any example fails validation, the entire batch is rejected (all-or-nothing
+  /// semantics).
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2349,11 +2636,8 @@ class BedrockAgentCoreControl {
   ///
   /// Parameter [examples] :
   /// Examples to update. Each element is a JSON object containing a required
-  /// `exampleId` string field identifying the existing example, plus the
-  /// replacement fields. The `exampleId` is extracted and removed before
-  /// persistence; the remaining document is validated against the dataset's
-  /// schemaType. Max 1000 examples per call. Total request body must not exceed
-  /// 5 MB.
+  /// <code>exampleId</code> field identifying the existing example, plus the
+  /// replacement fields. Maximum 1000 examples per call.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier to ensure that the API request
@@ -2627,6 +2911,258 @@ class BedrockAgentCoreControl {
     return ListEvaluatorsResponse.fromJson(response);
   }
 
+  /// Atomically creates or updates multiple rate limits for a gateway. The
+  /// operation updates existing limits with matching keys and creates new
+  /// limits for new keys. If the operation fails, the service applies no
+  /// changes. Retry the request after resolving the issue.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [gatewayIdentifier] :
+  /// The unique identifier of the gateway.
+  ///
+  /// Parameter [rateLimits] :
+  /// Complete set of rate limits for this gateway. Replaces all existing limits
+  /// atomically.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If you don't specify this field, a value
+  /// is randomly generated for you. If this token matches a previous request,
+  /// the service ignores the request, but doesn't return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  Future<BatchPutGatewayRateLimitsResponse> batchPutGatewayRateLimits({
+    required String gatewayIdentifier,
+    required List<BatchPutLimitEntry> rateLimits,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'rateLimits': rateLimits,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/gateways/${Uri.encodeComponent(gatewayIdentifier)}/rate-limits/batch',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchPutGatewayRateLimitsResponse.fromJson(response);
+  }
+
+  /// Creates a rate limit for a gateway. Rate limits define throttling rules
+  /// for each dimension that control request rates, token consumption rates,
+  /// and concurrent connections through the gateway.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dimensionKeys] :
+  /// Ordered list of dimension names defining the scope of this limit. Unique
+  /// per gateway — no two limits can share the same dimensionKeys.
+  ///
+  /// Parameter [entries] :
+  /// Rule entries mapping dimension values to rate configurations.
+  ///
+  /// Parameter [gatewayIdentifier] :
+  /// The unique identifier of the gateway to create the rate limit for.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If you don't specify this field, a value
+  /// is randomly generated for you. If this token matches a previous request,
+  /// the service ignores the request, but doesn't return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// Optional human-readable description for this limit.
+  ///
+  /// Parameter [rateLimitId] :
+  /// Optional customer-defined limit ID. If not provided, system generates one.
+  Future<CreateGatewayRateLimitResponse> createGatewayRateLimit({
+    required List<String> dimensionKeys,
+    required List<LimitEntry> entries,
+    required String gatewayIdentifier,
+    String? clientToken,
+    String? description,
+    String? rateLimitId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'dimensionKeys': dimensionKeys,
+      'entries': entries,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (rateLimitId != null) 'rateLimitId': rateLimitId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/gateways/${Uri.encodeComponent(gatewayIdentifier)}/rate-limits',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateGatewayRateLimitResponse.fromJson(response);
+  }
+
+  /// Deletes a gateway rate limit.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [gatewayIdentifier] :
+  /// The unique identifier of the gateway.
+  ///
+  /// Parameter [rateLimitId] :
+  /// The unique identifier of the rate limit to delete.
+  Future<DeleteGatewayRateLimitResponse> deleteGatewayRateLimit({
+    required String gatewayIdentifier,
+    required String rateLimitId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/gateways/${Uri.encodeComponent(gatewayIdentifier)}/rate-limits/${Uri.encodeComponent(rateLimitId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteGatewayRateLimitResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a gateway rate limit.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [gatewayIdentifier] :
+  /// The unique identifier of the gateway.
+  ///
+  /// Parameter [rateLimitId] :
+  /// The unique identifier of the rate limit to retrieve.
+  Future<GetGatewayRateLimitResponse> getGatewayRateLimit({
+    required String gatewayIdentifier,
+    required String rateLimitId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/gateways/${Uri.encodeComponent(gatewayIdentifier)}/rate-limits/${Uri.encodeComponent(rateLimitId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetGatewayRateLimitResponse.fromJson(response);
+  }
+
+  /// Lists all rate limits for a gateway. Results are paginated. Use the
+  /// <code>nextToken</code> parameter to retrieve additional results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [gatewayIdentifier] :
+  /// The unique identifier of the gateway.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. Use the value
+  /// returned in a previous <code>ListGatewayRateLimits</code> response.
+  Future<ListGatewayRateLimitsResponse> listGatewayRateLimits({
+    required String gatewayIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/gateways/${Uri.encodeComponent(gatewayIdentifier)}/rate-limits',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGatewayRateLimitsResponse.fromJson(response);
+  }
+
+  /// Updates the entries of a gateway rate limit. The dimension keys are
+  /// immutable after creation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [entries] :
+  /// Updated rule entries. key and dimensionKeys are immutable and cannot be
+  /// changed.
+  ///
+  /// Parameter [gatewayIdentifier] :
+  /// The unique identifier of the gateway.
+  ///
+  /// Parameter [rateLimitId] :
+  /// The unique identifier of the rate limit to update.
+  ///
+  /// Parameter [description] :
+  /// Optional human-readable description for this limit.
+  Future<UpdateGatewayRateLimitResponse> updateGatewayRateLimit({
+    required List<LimitEntry> entries,
+    required String gatewayIdentifier,
+    required String rateLimitId,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'entries': entries,
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/gateways/${Uri.encodeComponent(gatewayIdentifier)}/rate-limits/${Uri.encodeComponent(rateLimitId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateGatewayRateLimitResponse.fromJson(response);
+  }
+
   /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an
   /// integration point between your agent and external services.
   ///
@@ -2873,6 +3409,10 @@ class BedrockAgentCoreControl {
   /// Parameter [authorizerConfiguration] :
   /// The updated authorizer configuration for the gateway.
   ///
+  /// Parameter [customTransformConfiguration] :
+  /// The updated custom transformation configuration for the gateway. This
+  /// configuration defines how the gateway transforms requests and responses.
+  ///
   /// Parameter [description] :
   /// The updated description for the gateway.
   ///
@@ -2905,12 +3445,16 @@ class BedrockAgentCoreControl {
   ///
   /// Parameter [protocolType] :
   /// The updated protocol type for the gateway.
+  ///
+  /// Parameter [wafConfiguration] :
+  /// The updated Amazon Web Services WAF configuration for the gateway.
   Future<UpdateGatewayResponse> updateGateway({
     required AuthorizerType authorizerType,
     required String gatewayIdentifier,
     required String name,
     required String roleArn,
     AuthorizerConfiguration? authorizerConfiguration,
+    CustomTransformConfiguration? customTransformConfiguration,
     String? description,
     ExceptionLevel? exceptionLevel,
     List<GatewayInterceptorConfiguration>? interceptorConfigurations,
@@ -2918,6 +3462,7 @@ class BedrockAgentCoreControl {
     GatewayPolicyEngineConfiguration? policyEngineConfiguration,
     GatewayProtocolConfiguration? protocolConfiguration,
     GatewayProtocolType? protocolType,
+    WafConfiguration? wafConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'authorizerType': authorizerType.value,
@@ -2925,6 +3470,8 @@ class BedrockAgentCoreControl {
       'roleArn': roleArn,
       if (authorizerConfiguration != null)
         'authorizerConfiguration': authorizerConfiguration,
+      if (customTransformConfiguration != null)
+        'customTransformConfiguration': customTransformConfiguration,
       if (description != null) 'description': description,
       if (exceptionLevel != null) 'exceptionLevel': exceptionLevel.value,
       if (interceptorConfigurations != null)
@@ -2935,6 +3482,7 @@ class BedrockAgentCoreControl {
       if (protocolConfiguration != null)
         'protocolConfiguration': protocolConfiguration,
       if (protocolType != null) 'protocolType': protocolType.value,
+      if (wafConfiguration != null) 'wafConfiguration': wafConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3183,10 +3731,6 @@ class BedrockAgentCoreControl {
   /// Parameter [gatewayIdentifier] :
   /// The identifier of the gateway to create a target for.
   ///
-  /// Parameter [name] :
-  /// The name of the gateway target. The name must be unique within the
-  /// gateway.
-  ///
   /// Parameter [targetConfiguration] :
   /// The configuration settings for the target, including endpoint information
   /// and schema definitions.
@@ -3212,21 +3756,24 @@ class BedrockAgentCoreControl {
   /// Optional configuration for HTTP header and query parameter propagation to
   /// and from the gateway target.
   ///
+  /// Parameter [name] :
+  /// The name of the gateway target. The name must be unique within the
+  /// gateway.
+  ///
   /// Parameter [privateEndpoint] :
   /// The private endpoint configuration for the gateway target. Use this to
   /// connect the gateway to private resources in your VPC.
   Future<CreateGatewayTargetResponse> createGatewayTarget({
     required String gatewayIdentifier,
-    required String name,
     required TargetConfiguration targetConfiguration,
     String? clientToken,
     List<CredentialProviderConfiguration>? credentialProviderConfigurations,
     String? description,
     MetadataConfiguration? metadataConfiguration,
+    String? name,
     PrivateEndpoint? privateEndpoint,
   }) async {
     final $payload = <String, dynamic>{
-      'name': name,
       'targetConfiguration': targetConfiguration,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (credentialProviderConfigurations != null)
@@ -3234,6 +3781,7 @@ class BedrockAgentCoreControl {
       if (description != null) 'description': description,
       if (metadataConfiguration != null)
         'metadataConfiguration': metadataConfiguration,
+      if (name != null) 'name': name,
       if (privateEndpoint != null) 'privateEndpoint': privateEndpoint,
     };
     final response = await _protocol.send(
@@ -3310,6 +3858,7 @@ class BedrockAgentCoreControl {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -3414,9 +3963,6 @@ class BedrockAgentCoreControl {
   /// Parameter [gatewayIdentifier] :
   /// The unique identifier of the gateway associated with the target.
   ///
-  /// Parameter [name] :
-  /// The updated name for the gateway target.
-  ///
   /// Parameter [targetId] :
   /// The unique identifier of the gateway target to update.
   ///
@@ -3430,27 +3976,30 @@ class BedrockAgentCoreControl {
   /// Configuration for HTTP header and query parameter propagation to the
   /// gateway target.
   ///
+  /// Parameter [name] :
+  /// The updated name for the gateway target.
+  ///
   /// Parameter [privateEndpoint] :
   /// The private endpoint configuration for the gateway target. Use this to
   /// connect the gateway to private resources in your VPC.
   Future<UpdateGatewayTargetResponse> updateGatewayTarget({
     required String gatewayIdentifier,
-    required String name,
     required TargetConfiguration targetConfiguration,
     required String targetId,
     List<CredentialProviderConfiguration>? credentialProviderConfigurations,
     String? description,
     MetadataConfiguration? metadataConfiguration,
+    String? name,
     PrivateEndpoint? privateEndpoint,
   }) async {
     final $payload = <String, dynamic>{
-      'name': name,
       'targetConfiguration': targetConfiguration,
       if (credentialProviderConfigurations != null)
         'credentialProviderConfigurations': credentialProviderConfigurations,
       if (description != null) 'description': description,
       if (metadataConfiguration != null)
         'metadataConfiguration': metadataConfiguration,
+      if (name != null) 'name': name,
       if (privateEndpoint != null) 'privateEndpoint': privateEndpoint,
     };
     final response = await _protocol.send(
@@ -3463,7 +4012,212 @@ class BedrockAgentCoreControl {
     return UpdateGatewayTargetResponse.fromJson(response);
   }
 
-  /// Operation to create a Harness.
+  /// Operation to create a harness endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [endpointName] :
+  /// The name of the endpoint. Must start with a letter and contain only
+  /// alphanumeric characters and underscores.
+  ///
+  /// Parameter [harnessId] :
+  /// The ID of the harness to create an endpoint for.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// A description of the endpoint.
+  ///
+  /// Parameter [tags] :
+  /// Tags to apply to the endpoint resource.
+  ///
+  /// Parameter [targetVersion] :
+  /// The harness version that the endpoint points to and serves invocations
+  /// from.
+  Future<CreateHarnessEndpointResponse> createHarnessEndpoint({
+    required String endpointName,
+    required String harnessId,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+    String? targetVersion,
+  }) async {
+    final $payload = <String, dynamic>{
+      'endpointName': endpointName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+      if (targetVersion != null) 'targetVersion': targetVersion,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/harnesses/${Uri.encodeComponent(harnessId)}/endpoints',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateHarnessEndpointResponse.fromJson(response);
+  }
+
+  /// Operation to delete a harness endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [endpointName] :
+  /// The name of the endpoint to delete.
+  ///
+  /// Parameter [harnessId] :
+  /// The ID of the harness that the endpoint belongs to.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  Future<DeleteHarnessEndpointResponse> deleteHarnessEndpoint({
+    required String endpointName,
+    required String harnessId,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/harnesses/${Uri.encodeComponent(harnessId)}/endpoints/${Uri.encodeComponent(endpointName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteHarnessEndpointResponse.fromJson(response);
+  }
+
+  /// Operation to get a single harness endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [endpointName] :
+  /// The name of the endpoint to retrieve.
+  ///
+  /// Parameter [harnessId] :
+  /// The ID of the harness that the endpoint belongs to.
+  Future<GetHarnessEndpointResponse> getHarnessEndpoint({
+    required String endpointName,
+    required String harnessId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/harnesses/${Uri.encodeComponent(harnessId)}/endpoints/${Uri.encodeComponent(endpointName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetHarnessEndpointResponse.fromJson(response);
+  }
+
+  /// Operation to list the endpoints of a harness.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [harnessId] :
+  /// The ID of the harness whose endpoints are listed.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<ListHarnessEndpointsResponse> listHarnessEndpoints({
+    required String harnessId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/harnesses/${Uri.encodeComponent(harnessId)}/endpoints',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListHarnessEndpointsResponse.fromJson(response);
+  }
+
+  /// Operation to update a harness endpoint.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [endpointName] :
+  /// The name of the endpoint to update.
+  ///
+  /// Parameter [harnessId] :
+  /// The ID of the harness that the endpoint belongs to.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// A description of the endpoint. If not specified, the existing value is
+  /// retained.
+  ///
+  /// Parameter [targetVersion] :
+  /// The harness version that the endpoint points to. If not specified, the
+  /// existing value is retained.
+  Future<UpdateHarnessEndpointResponse> updateHarnessEndpoint({
+    required String endpointName,
+    required String harnessId,
+    String? clientToken,
+    String? description,
+    String? targetVersion,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (targetVersion != null) 'targetVersion': targetVersion,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/harnesses/${Uri.encodeComponent(harnessId)}/endpoints/${Uri.encodeComponent(endpointName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateHarnessEndpointResponse.fromJson(response);
+  }
+
+  /// Operation to create a harness.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -3603,12 +4357,20 @@ class BedrockAgentCoreControl {
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [deleteManagedMemory] :
+  /// Whether to delete the managed memory on harness deletion. Default: true.
+  /// If false, the memory is disassociated and becomes a regular customer-owned
+  /// resource.
   Future<DeleteHarnessResponse> deleteHarness({
     required String harnessId,
     String? clientToken,
+    bool? deleteManagedMemory,
   }) async {
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
+      if (deleteManagedMemory != null)
+        'deleteManagedMemory': [deleteManagedMemory.toString()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3620,7 +4382,7 @@ class BedrockAgentCoreControl {
     return DeleteHarnessResponse.fromJson(response);
   }
 
-  /// Operation to get a single Harness.
+  /// Operation to get a single harness.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -3630,19 +4392,28 @@ class BedrockAgentCoreControl {
   ///
   /// Parameter [harnessId] :
   /// The ID of the harness to retrieve.
+  ///
+  /// Parameter [harnessVersion] :
+  /// Specific version of the harness to retrieve. If omitted, returns the
+  /// current Harness configuration, including its status.
   Future<GetHarnessResponse> getHarness({
     required String harnessId,
+    String? harnessVersion,
   }) async {
+    final $query = <String, List<String>>{
+      if (harnessVersion != null) 'harnessVersion': [harnessVersion],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/harnesses/${Uri.encodeComponent(harnessId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetHarnessResponse.fromJson(response);
   }
 
-  /// Operation to list Harnesses.
+  /// Operation to list harnesses.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -3678,7 +4449,48 @@ class BedrockAgentCoreControl {
     return ListHarnessesResponse.fromJson(response);
   }
 
-  /// Operation to update a Harness.
+  /// Operation to list the versions of a Harness.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [harnessId] :
+  /// The ID of the harness whose versions are listed.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<ListHarnessVersionsResponse> listHarnessVersions({
+    required String harnessId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/harnesses/${Uri.encodeComponent(harnessId)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListHarnessVersionsResponse.fromJson(response);
+  }
+
+  /// Operation to update a harness.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -4256,11 +5068,6 @@ class BedrockAgentCoreControl {
   /// href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/evaluations-encryption.html">Encryption
   /// at rest for AgentCore Evaluations</a>.
   ///
-  /// Parameter [evaluators] :
-  /// The list of evaluators to apply during online evaluation. Can include both
-  /// built-in evaluators and custom evaluators created with
-  /// <code>CreateEvaluator</code>.
-  ///
   /// Parameter [onlineEvaluationConfigName] :
   /// The name of the online evaluation configuration. Must be unique within
   /// your account.
@@ -4278,9 +5085,20 @@ class BedrockAgentCoreControl {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
   /// idempotency</a>.
   ///
+  /// Parameter [clusteringConfig] :
+  /// Configuration for periodic batch evaluation clustering of insight results.
+  ///
   /// Parameter [description] :
   /// The description of the online evaluation configuration that explains its
   /// monitoring purpose and scope.
+  ///
+  /// Parameter [evaluators] :
+  /// The list of evaluators to apply during online evaluation. Can include both
+  /// built-in evaluators and custom evaluators created with
+  /// <code>CreateEvaluator</code>.
+  ///
+  /// Parameter [insights] :
+  /// The list of insight types to run against agent sessions.
   ///
   /// Parameter [tags] :
   /// A map of tag keys and values to assign to an AgentCore Online Evaluation
@@ -4290,22 +5108,26 @@ class BedrockAgentCoreControl {
     required DataSourceConfig dataSourceConfig,
     required bool enableOnCreate,
     required String evaluationExecutionRoleArn,
-    required List<EvaluatorReference> evaluators,
     required String onlineEvaluationConfigName,
     required Rule rule,
     String? clientToken,
+    ClusteringConfig? clusteringConfig,
     String? description,
+    List<EvaluatorReference>? evaluators,
+    List<Insight>? insights,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'dataSourceConfig': dataSourceConfig,
       'enableOnCreate': enableOnCreate,
       'evaluationExecutionRoleArn': evaluationExecutionRoleArn,
-      'evaluators': evaluators,
       'onlineEvaluationConfigName': onlineEvaluationConfigName,
       'rule': rule,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (clusteringConfig != null) 'clusteringConfig': clusteringConfig,
       if (description != null) 'description': description,
+      if (evaluators != null) 'evaluators': evaluators,
+      if (insights != null) 'insights': insights,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -4365,6 +5187,9 @@ class BedrockAgentCoreControl {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
   /// idempotency</a>.
   ///
+  /// Parameter [clusteringConfig] :
+  /// The updated clustering configuration for periodic batch evaluation.
+  ///
   /// Parameter [dataSourceConfig] :
   /// The updated data source configuration specifying CloudWatch log groups and
   /// service names to monitor.
@@ -4382,27 +5207,34 @@ class BedrockAgentCoreControl {
   /// Parameter [executionStatus] :
   /// The updated execution status to enable or disable the online evaluation.
   ///
+  /// Parameter [insights] :
+  /// The updated list of insight types to run against agent sessions.
+  ///
   /// Parameter [rule] :
   /// The updated evaluation rule containing sampling configuration, filters,
   /// and session settings.
   Future<UpdateOnlineEvaluationConfigResponse> updateOnlineEvaluationConfig({
     required String onlineEvaluationConfigId,
     String? clientToken,
+    ClusteringConfig? clusteringConfig,
     DataSourceConfig? dataSourceConfig,
     String? description,
     String? evaluationExecutionRoleArn,
     List<EvaluatorReference>? evaluators,
     OnlineEvaluationExecutionStatus? executionStatus,
+    List<Insight>? insights,
     Rule? rule,
   }) async {
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (clusteringConfig != null) 'clusteringConfig': clusteringConfig,
       if (dataSourceConfig != null) 'dataSourceConfig': dataSourceConfig,
       if (description != null) 'description': description,
       if (evaluationExecutionRoleArn != null)
         'evaluationExecutionRoleArn': evaluationExecutionRoleArn,
       if (evaluators != null) 'evaluators': evaluators,
       if (executionStatus != null) 'executionStatus': executionStatus.value,
+      if (insights != null) 'insights': insights,
       if (rule != null) 'rule': rule,
     };
     final response = await _protocol.send(
@@ -5758,6 +6590,12 @@ class BedrockAgentCoreControl {
   /// and any special considerations for maintenance. Clear descriptions are
   /// essential for policy governance, auditing, and troubleshooting.
   ///
+  /// Parameter [enforcementMode] :
+  /// The enforcement mode for the policy. Run this policy in
+  /// <code>LOG_ONLY</code> mode to collect data on how it affects your
+  /// application. Once you are satisfied with the data gathered, switch the
+  /// policy to <code>ACTIVE</code>. Defaults to <code>ACTIVE</code>.
+  ///
   /// Parameter [validationMode] :
   /// The validation mode for the policy creation. Determines how Cedar analyzer
   /// validation results are handled during policy creation.
@@ -5775,6 +6613,7 @@ class BedrockAgentCoreControl {
     required String policyEngineId,
     String? clientToken,
     String? description,
+    EnforcementMode? enforcementMode,
     PolicyValidationMode? validationMode,
   }) async {
     final $payload = <String, dynamic>{
@@ -5782,6 +6621,7 @@ class BedrockAgentCoreControl {
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
       if (validationMode != null) 'validationMode': validationMode.value,
     };
     final response = await _protocol.send(
@@ -5837,6 +6677,7 @@ class BedrockAgentCoreControl {
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -5859,6 +6700,13 @@ class BedrockAgentCoreControl {
   /// allows updating the policy's documentation while keeping the same policy
   /// logic.
   ///
+  /// Parameter [enforcementMode] :
+  /// The enforcement mode for the policy. Run this policy in
+  /// <code>LOG_ONLY</code> mode to collect data on how it affects your
+  /// application. Once you are satisfied with the data gathered, switch the
+  /// policy to <code>ACTIVE</code>. If you omit this field, the policy's
+  /// existing enforcement mode is unchanged.
+  ///
   /// Parameter [validationMode] :
   /// The validation mode for the policy update. Determines how Cedar analyzer
   /// validation results are handled during policy updates. FAIL_ON_ANY_FINDINGS
@@ -5873,11 +6721,13 @@ class BedrockAgentCoreControl {
     required String policyId,
     PolicyDefinition? definition,
     UpdatedDescription? description,
+    EnforcementMode? enforcementMode,
     PolicyValidationMode? validationMode,
   }) async {
     final $payload = <String, dynamic>{
       if (definition != null) 'definition': definition,
       if (description != null) 'description': description,
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
       if (validationMode != null) 'validationMode': validationMode.value,
     };
     final response = await _protocol.send(
@@ -7478,6 +8328,9 @@ class GetAgentRuntimeResponse {
   /// The authorizer configuration for the AgentCore Runtime.
   final AuthorizerConfiguration? authorizerConfiguration;
 
+  /// The capacity provider configuration for the AgentCore Runtime.
+  final CapacityProviderConfiguration? capacityProviderConfiguration;
+
   /// The description of the AgentCore Runtime.
   final String? description;
 
@@ -7515,6 +8368,7 @@ class GetAgentRuntimeResponse {
     required this.status,
     this.agentRuntimeArtifact,
     this.authorizerConfiguration,
+    this.capacityProviderConfiguration,
     this.description,
     this.environmentVariables,
     this.failureReason,
@@ -7549,6 +8403,11 @@ class GetAgentRuntimeResponse {
           ? AuthorizerConfiguration.fromJson(
               json['authorizerConfiguration'] as Map<String, dynamic>)
           : null,
+      capacityProviderConfiguration:
+          json['capacityProviderConfiguration'] != null
+              ? CapacityProviderConfiguration.fromJson(
+                  json['capacityProviderConfiguration'] as Map<String, dynamic>)
+              : null,
       description: json['description'] as String?,
       environmentVariables:
           (json['environmentVariables'] as Map<String, dynamic>?)
@@ -7591,6 +8450,7 @@ class GetAgentRuntimeResponse {
     final status = this.status;
     final agentRuntimeArtifact = this.agentRuntimeArtifact;
     final authorizerConfiguration = this.authorizerConfiguration;
+    final capacityProviderConfiguration = this.capacityProviderConfiguration;
     final description = this.description;
     final environmentVariables = this.environmentVariables;
     final failureReason = this.failureReason;
@@ -7614,6 +8474,8 @@ class GetAgentRuntimeResponse {
         'agentRuntimeArtifact': agentRuntimeArtifact,
       if (authorizerConfiguration != null)
         'authorizerConfiguration': authorizerConfiguration,
+      if (capacityProviderConfiguration != null)
+        'capacityProviderConfiguration': capacityProviderConfiguration,
       if (description != null) 'description': description,
       if (environmentVariables != null)
         'environmentVariables': environmentVariables,
@@ -7709,24 +8571,33 @@ class DeleteAgentRuntimeResponse {
   /// The unique identifier of the AgentCore Runtime.
   final String? agentRuntimeId;
 
+  /// The version of the AgentCore Runtime that was deleted. This value is present
+  /// only when you delete a single version.
+  final String? agentRuntimeVersion;
+
   DeleteAgentRuntimeResponse({
     required this.status,
     this.agentRuntimeId,
+    this.agentRuntimeVersion,
   });
 
   factory DeleteAgentRuntimeResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAgentRuntimeResponse(
       status: AgentRuntimeStatus.fromString((json['status'] as String?) ?? ''),
       agentRuntimeId: json['agentRuntimeId'] as String?,
+      agentRuntimeVersion: json['agentRuntimeVersion'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final status = this.status;
     final agentRuntimeId = this.agentRuntimeId;
+    final agentRuntimeVersion = this.agentRuntimeVersion;
     return {
       'status': status.value,
       if (agentRuntimeId != null) 'agentRuntimeId': agentRuntimeId,
+      if (agentRuntimeVersion != null)
+        'agentRuntimeVersion': agentRuntimeVersion,
     };
   }
 }
@@ -7808,13 +8679,13 @@ class CreateApiKeyCredentialProviderResponse {
   /// The name of the created API key credential provider.
   final String name;
 
-  /// The JSON key used to extract the API key value from the AWS Secrets Manager
-  /// secret.
+  /// The JSON key used to extract the API key value from the Amazon Web Services
+  /// Secrets Manager secret.
   final String? apiKeySecretJsonKey;
 
   /// The source type of the API key secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? apiKeySecretSource;
 
   CreateApiKeyCredentialProviderResponse({
@@ -7859,7 +8730,8 @@ class CreateApiKeyCredentialProviderResponse {
 
 /// @nodoc
 class GetApiKeyCredentialProviderResponse {
-  /// The Amazon Resource Name (ARN) of the API key secret in AWS Secrets Manager.
+  /// The Amazon Resource Name (ARN) of the API key secret in Amazon Web Services
+  /// Secrets Manager.
   final Secret apiKeySecretArn;
 
   /// The timestamp when the API key credential provider was created.
@@ -7874,13 +8746,13 @@ class GetApiKeyCredentialProviderResponse {
   /// The name of the API key credential provider.
   final String name;
 
-  /// The JSON key used to extract the API key value from the AWS Secrets Manager
-  /// secret.
+  /// The JSON key used to extract the API key value from the Amazon Web Services
+  /// Secrets Manager secret.
   final String? apiKeySecretJsonKey;
 
   /// The source type of the API key secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? apiKeySecretSource;
 
   GetApiKeyCredentialProviderResponse({
@@ -7934,7 +8806,8 @@ class GetApiKeyCredentialProviderResponse {
 
 /// @nodoc
 class UpdateApiKeyCredentialProviderResponse {
-  /// The Amazon Resource Name (ARN) of the API key secret in AWS Secrets Manager.
+  /// The Amazon Resource Name (ARN) of the API key secret in Amazon Web Services
+  /// Secrets Manager.
   final Secret apiKeySecretArn;
 
   /// The timestamp when the API key credential provider was created.
@@ -7949,13 +8822,13 @@ class UpdateApiKeyCredentialProviderResponse {
   /// The name of the API key credential provider.
   final String name;
 
-  /// The JSON key used to extract the API key value from the AWS Secrets Manager
-  /// secret.
+  /// The JSON key used to extract the API key value from the Amazon Web Services
+  /// Secrets Manager secret.
   final String? apiKeySecretJsonKey;
 
   /// The source type of the API key secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? apiKeySecretSource;
 
   UpdateApiKeyCredentialProviderResponse({
@@ -8360,6 +9233,10 @@ class GetBrowserResponse {
 
   /// The reason for failure if the browser is in a failed state.
   final String? failureReason;
+
+  /// The file system configurations mounted into the browser. Each entry
+  /// describes an access point and its mount path.
+  final List<ToolsFileSystemConfiguration>? filesystemConfigurations;
   final RecordingConfig? recording;
 
   GetBrowserResponse({
@@ -8376,6 +9253,7 @@ class GetBrowserResponse {
     this.enterprisePolicies,
     this.executionRoleArn,
     this.failureReason,
+    this.filesystemConfigurations,
     this.recording,
   });
 
@@ -8406,6 +9284,11 @@ class GetBrowserResponse {
           .toList(),
       executionRoleArn: json['executionRoleArn'] as String?,
       failureReason: json['failureReason'] as String?,
+      filesystemConfigurations: (json['filesystemConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ToolsFileSystemConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       recording: json['recording'] != null
           ? RecordingConfig.fromJson(json['recording'] as Map<String, dynamic>)
           : null,
@@ -8426,6 +9309,7 @@ class GetBrowserResponse {
     final enterprisePolicies = this.enterprisePolicies;
     final executionRoleArn = this.executionRoleArn;
     final failureReason = this.failureReason;
+    final filesystemConfigurations = this.filesystemConfigurations;
     final recording = this.recording;
     return {
       'browserArn': browserArn,
@@ -8441,6 +9325,8 @@ class GetBrowserResponse {
       if (enterprisePolicies != null) 'enterprisePolicies': enterprisePolicies,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
       if (failureReason != null) 'failureReason': failureReason,
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
       if (recording != null) 'recording': recording,
     };
   }
@@ -8511,6 +9397,321 @@ class ListBrowsersResponse {
     final nextToken = this.nextToken;
     return {
       'browserSummaries': browserSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class CreateCapacityProviderOutput {
+  /// The Amazon Resource Name (ARN) of the capacity provider.
+  final String capacityProviderArn;
+
+  /// The unique identifier of the created capacity provider.
+  final String capacityProviderId;
+
+  /// The name of the capacity provider.
+  final String name;
+
+  /// The current status of the capacity provider. For possible values, see
+  /// <code>CapacityProviderStatus</code>.
+  final CapacityProviderStatus status;
+
+  CreateCapacityProviderOutput({
+    required this.capacityProviderArn,
+    required this.capacityProviderId,
+    required this.name,
+    required this.status,
+  });
+
+  factory CreateCapacityProviderOutput.fromJson(Map<String, dynamic> json) {
+    return CreateCapacityProviderOutput(
+      capacityProviderArn: (json['capacityProviderArn'] as String?) ?? '',
+      capacityProviderId: (json['capacityProviderId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      status:
+          CapacityProviderStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderArn = this.capacityProviderArn;
+    final capacityProviderId = this.capacityProviderId;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'capacityProviderArn': capacityProviderArn,
+      'capacityProviderId': capacityProviderId,
+      'name': name,
+      'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class GetCapacityProviderOutput {
+  /// The Amazon Resource Name (ARN) of the capacity provider.
+  final String capacityProviderArn;
+
+  /// The unique identifier of the capacity provider.
+  final String capacityProviderId;
+
+  /// The compute configuration for the capacity provider.
+  final ComputeConfiguration computeConfiguration;
+
+  /// The timestamp when the capacity provider was created.
+  final DateTime createdAt;
+
+  /// The timestamp when the capacity provider was last updated.
+  final DateTime lastUpdatedAt;
+
+  /// The name of the capacity provider.
+  final String name;
+
+  /// The permissions configuration for the capacity provider.
+  final PermissionsConfiguration permissionsConfiguration;
+
+  /// The current status of the capacity provider. For possible values, see
+  /// <code>CapacityProviderStatus</code>.
+  final CapacityProviderStatus status;
+
+  /// The description of the capacity provider, if one was provided.
+  final String? description;
+
+  /// A reason code for a capacity provider that is not in the <code>READY</code>
+  /// state. Use this code for programmatic error handling.
+  final CapacityProviderStatusCode? statusCode;
+
+  /// A human-readable message that describes why the capacity provider is not in
+  /// the <code>READY</code> state. Because these messages can change, use
+  /// <code>statusCode</code> for programmatic error handling.
+  final String? statusReason;
+
+  GetCapacityProviderOutput({
+    required this.capacityProviderArn,
+    required this.capacityProviderId,
+    required this.computeConfiguration,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.name,
+    required this.permissionsConfiguration,
+    required this.status,
+    this.description,
+    this.statusCode,
+    this.statusReason,
+  });
+
+  factory GetCapacityProviderOutput.fromJson(Map<String, dynamic> json) {
+    return GetCapacityProviderOutput(
+      capacityProviderArn: (json['capacityProviderArn'] as String?) ?? '',
+      capacityProviderId: (json['capacityProviderId'] as String?) ?? '',
+      computeConfiguration: ComputeConfiguration.fromJson(
+          (json['computeConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      permissionsConfiguration: PermissionsConfiguration.fromJson(
+          (json['permissionsConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status:
+          CapacityProviderStatus.fromString((json['status'] as String?) ?? ''),
+      description: json['description'] as String?,
+      statusCode: (json['statusCode'] as String?)
+          ?.let(CapacityProviderStatusCode.fromString),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderArn = this.capacityProviderArn;
+    final capacityProviderId = this.capacityProviderId;
+    final computeConfiguration = this.computeConfiguration;
+    final createdAt = this.createdAt;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final name = this.name;
+    final permissionsConfiguration = this.permissionsConfiguration;
+    final status = this.status;
+    final description = this.description;
+    final statusCode = this.statusCode;
+    final statusReason = this.statusReason;
+    return {
+      'capacityProviderArn': capacityProviderArn,
+      'capacityProviderId': capacityProviderId,
+      'computeConfiguration': computeConfiguration,
+      'createdAt': iso8601ToJson(createdAt),
+      'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
+      'name': name,
+      'permissionsConfiguration': permissionsConfiguration,
+      'status': status.value,
+      if (description != null) 'description': description,
+      if (statusCode != null) 'statusCode': statusCode.value,
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateCapacityProviderOutput {
+  /// The Amazon Resource Name (ARN) of the capacity provider.
+  final String capacityProviderArn;
+
+  /// The unique identifier of the capacity provider.
+  final String capacityProviderId;
+
+  /// The timestamp when the capacity provider was created.
+  final DateTime createdAt;
+
+  /// The timestamp when the capacity provider was last updated.
+  final DateTime lastUpdatedAt;
+
+  /// The name of the capacity provider.
+  final String name;
+
+  /// The current status of the capacity provider. For possible values, see
+  /// <code>CapacityProviderStatus</code>.
+  final CapacityProviderStatus status;
+
+  UpdateCapacityProviderOutput({
+    required this.capacityProviderArn,
+    required this.capacityProviderId,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.name,
+    required this.status,
+  });
+
+  factory UpdateCapacityProviderOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateCapacityProviderOutput(
+      capacityProviderArn: (json['capacityProviderArn'] as String?) ?? '',
+      capacityProviderId: (json['capacityProviderId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status:
+          CapacityProviderStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderArn = this.capacityProviderArn;
+    final capacityProviderId = this.capacityProviderId;
+    final createdAt = this.createdAt;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'capacityProviderArn': capacityProviderArn,
+      'capacityProviderId': capacityProviderId,
+      'createdAt': iso8601ToJson(createdAt),
+      'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
+      'name': name,
+      'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteCapacityProviderOutput {
+  /// The unique identifier of the deleted capacity provider.
+  final String capacityProviderId;
+
+  /// The current status of the capacity provider. For possible values, see
+  /// <code>CapacityProviderStatus</code>.
+  final CapacityProviderStatus status;
+
+  DeleteCapacityProviderOutput({
+    required this.capacityProviderId,
+    required this.status,
+  });
+
+  factory DeleteCapacityProviderOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteCapacityProviderOutput(
+      capacityProviderId: (json['capacityProviderId'] as String?) ?? '',
+      status:
+          CapacityProviderStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderId = this.capacityProviderId;
+    final status = this.status;
+    return {
+      'capacityProviderId': capacityProviderId,
+      'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class ListCapacityProvidersOutput {
+  /// The list of capacity provider summaries.
+  final List<CapacityProviderSummary> capacityProviders;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListCapacityProvidersOutput({
+    required this.capacityProviders,
+    this.nextToken,
+  });
+
+  factory ListCapacityProvidersOutput.fromJson(Map<String, dynamic> json) {
+    return ListCapacityProvidersOutput(
+      capacityProviders: ((json['capacityProviders'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              CapacityProviderSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviders = this.capacityProviders;
+    final nextToken = this.nextToken;
+    return {
+      'capacityProviders': capacityProviders,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListAgentRuntimeVersionsByCapacityProviderOutput {
+  /// The list of agent runtime versions that are associated with the capacity
+  /// provider.
+  final List<AgentRuntimeVersionSummary> agentRuntimes;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListAgentRuntimeVersionsByCapacityProviderOutput({
+    required this.agentRuntimes,
+    this.nextToken,
+  });
+
+  factory ListAgentRuntimeVersionsByCapacityProviderOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListAgentRuntimeVersionsByCapacityProviderOutput(
+      agentRuntimes: ((json['agentRuntimes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              AgentRuntimeVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentRuntimes = this.agentRuntimes;
+    final nextToken = this.nextToken;
+    return {
+      'agentRuntimes': agentRuntimes,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -8594,6 +9795,10 @@ class GetCodeInterpreterResponse {
   /// The reason for failure if the code interpreter is in a failed state.
   final String? failureReason;
 
+  /// The file system configurations mounted into the code interpreter. Each entry
+  /// describes an access point and its mount path.
+  final List<ToolsFileSystemConfiguration>? filesystemConfigurations;
+
   GetCodeInterpreterResponse({
     required this.codeInterpreterArn,
     required this.codeInterpreterId,
@@ -8606,6 +9811,7 @@ class GetCodeInterpreterResponse {
     this.description,
     this.executionRoleArn,
     this.failureReason,
+    this.filesystemConfigurations,
   });
 
   factory GetCodeInterpreterResponse.fromJson(Map<String, dynamic> json) {
@@ -8627,6 +9833,11 @@ class GetCodeInterpreterResponse {
       description: json['description'] as String?,
       executionRoleArn: json['executionRoleArn'] as String?,
       failureReason: json['failureReason'] as String?,
+      filesystemConfigurations: (json['filesystemConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ToolsFileSystemConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -8642,6 +9853,7 @@ class GetCodeInterpreterResponse {
     final description = this.description;
     final executionRoleArn = this.executionRoleArn;
     final failureReason = this.failureReason;
+    final filesystemConfigurations = this.filesystemConfigurations;
     return {
       'codeInterpreterArn': codeInterpreterArn,
       'codeInterpreterId': codeInterpreterId,
@@ -8654,6 +9866,8 @@ class GetCodeInterpreterResponse {
       if (description != null) 'description': description,
       if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
       if (failureReason != null) 'failureReason': failureReason,
+      if (filesystemConfigurations != null)
+        'filesystemConfigurations': filesystemConfigurations,
     };
   }
 }
@@ -8802,6 +10016,9 @@ class GetConfigurationBundleResponse {
   /// The description of the configuration bundle.
   final String? description;
 
+  /// KMS key ARN used to encrypt component configurations, if CMK was provided.
+  final String? kmsKeyArn;
+
   /// The version lineage metadata, including parent versions, branch name, and
   /// creation source.
   final VersionLineageMetadata? lineageMetadata;
@@ -8815,6 +10032,7 @@ class GetConfigurationBundleResponse {
     required this.updatedAt,
     required this.versionId,
     this.description,
+    this.kmsKeyArn,
     this.lineageMetadata,
   });
 
@@ -8831,6 +10049,7 @@ class GetConfigurationBundleResponse {
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       versionId: (json['versionId'] as String?) ?? '',
       description: json['description'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
       lineageMetadata: json['lineageMetadata'] != null
           ? VersionLineageMetadata.fromJson(
               json['lineageMetadata'] as Map<String, dynamic>)
@@ -8847,6 +10066,7 @@ class GetConfigurationBundleResponse {
     final updatedAt = this.updatedAt;
     final versionId = this.versionId;
     final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
     final lineageMetadata = this.lineageMetadata;
     return {
       'bundleArn': bundleArn,
@@ -8857,6 +10077,7 @@ class GetConfigurationBundleResponse {
       'updatedAt': unixTimestampToJson(updatedAt),
       'versionId': versionId,
       if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lineageMetadata != null) 'lineageMetadata': lineageMetadata,
     };
   }
@@ -9001,6 +10222,9 @@ class GetConfigurationBundleVersionResponse {
   /// The description of the configuration bundle.
   final String? description;
 
+  /// KMS key ARN used to encrypt component configurations, if CMK was provided.
+  final String? kmsKeyArn;
+
   /// The version lineage metadata, including parent versions, branch name, and
   /// creation source.
   final VersionLineageMetadata? lineageMetadata;
@@ -9014,6 +10238,7 @@ class GetConfigurationBundleVersionResponse {
     required this.versionCreatedAt,
     required this.versionId,
     this.description,
+    this.kmsKeyArn,
     this.lineageMetadata,
   });
 
@@ -9032,6 +10257,7 @@ class GetConfigurationBundleVersionResponse {
           nonNullableTimeStampFromJson(json['versionCreatedAt'] ?? 0),
       versionId: (json['versionId'] as String?) ?? '',
       description: json['description'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
       lineageMetadata: json['lineageMetadata'] != null
           ? VersionLineageMetadata.fromJson(
               json['lineageMetadata'] as Map<String, dynamic>)
@@ -9048,6 +10274,7 @@ class GetConfigurationBundleVersionResponse {
     final versionCreatedAt = this.versionCreatedAt;
     final versionId = this.versionId;
     final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
     final lineageMetadata = this.lineageMetadata;
     return {
       'bundleArn': bundleArn,
@@ -9058,6 +10285,7 @@ class GetConfigurationBundleVersionResponse {
       'versionCreatedAt': unixTimestampToJson(versionCreatedAt),
       'versionId': versionId,
       if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lineageMetadata != null) 'lineageMetadata': lineageMetadata,
     };
   }
@@ -9111,8 +10339,8 @@ class CreateDatasetResponse {
   /// The unique identifier of the created dataset.
   final String datasetId;
 
-  /// Always CREATING immediately after this call. Poll GetDataset until status ==
-  /// ACTIVE (draftStatus=MODIFIED) or CREATE_FAILED.
+  /// Always CREATING immediately after this call. Poll <code>GetDataset</code>
+  /// until status transitions to ACTIVE or CREATE_FAILED.
   final DatasetStatus status;
 
   CreateDatasetResponse({
@@ -9162,7 +10390,7 @@ class GetDatasetResponse {
   /// The resolved version: "DRAFT" (default) or the requested version number.
   final String datasetVersion;
 
-  /// Example count for DRAFT.
+  /// The number of examples in the DRAFT.
   final int exampleCount;
 
   /// The schema type declared at create time. Immutable after creation.
@@ -9177,23 +10405,25 @@ class GetDatasetResponse {
   /// The description of the dataset.
   final String? description;
 
-  /// Presigned S3 URL to download the consolidated dataset.jsonl file for the
-  /// resolved version (DRAFT or published). TTL: 5 minutes. Omitted if the file
-  /// does not yet exist (e.g. during CREATING) or on presign failure.
+  /// Presigned Amazon S3 URL to download the consolidated dataset file for the
+  /// resolved version. Expires after 5 minutes. Omitted if the file does not yet
+  /// exist.
   final String? downloadUrl;
 
-  /// Expiry timestamp for downloadUrl.
+  /// Expiry timestamp for the download URL.
   final DateTime? downloadUrlExpiresAt;
 
-  /// Publish synchronization state. Only authoritative when status == ACTIVE.
-  /// MODIFIED — DRAFT has unpublished changes (or no published versions yet).
-  /// UNMODIFIED — DRAFT matches the latest published version exactly.
+  /// Publish synchronization state. Only authoritative when status is ACTIVE.
+  /// MODIFIED indicates DRAFT has unpublished changes. UNMODIFIED indicates DRAFT
+  /// matches the latest published version.
   final DraftStatus? draftStatus;
 
   /// Populated when status is CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED.
+  /// Describes the reason for the failure.
   final String? failureReason;
 
-  /// AWS KMS key ARN used for SSE-KMS on service S3 writes, if configured.
+  /// KMS key ARN used for server-side encryption on service Amazon S3 writes, if
+  /// configured.
   final String? kmsKeyArn;
 
   /// The tags associated with the dataset.
@@ -9326,7 +10556,7 @@ class DeleteDatasetResponse {
   /// The unique identifier of the dataset.
   final String datasetId;
 
-  /// The version deleted.
+  /// The version that was deleted.
   final String datasetVersion;
 
   /// The current status of the dataset after the delete request.
@@ -9475,11 +10705,11 @@ class CreateDatasetVersionResponse {
   /// The unique identifier of the dataset.
   final String datasetId;
 
-  /// The version being created.
+  /// The version number being created.
   final String datasetVersion;
 
-  /// Always UPDATING immediately after this call. Poll GetDataset until status ==
-  /// ACTIVE (draftStatus=UNMODIFIED) or UPDATE_FAILED.
+  /// Always UPDATING immediately after this call. Poll <code>GetDataset</code>
+  /// until status transitions to ACTIVE or UPDATE_FAILED.
   final DatasetStatus status;
 
   CreateDatasetVersionResponse({
@@ -9579,7 +10809,7 @@ class ListDatasetExamplesResponse {
   final String datasetVersion;
 
   /// Paginated example content. Each element is a JSON object containing at least
-  /// an `exampleId` field plus the schema-specific content fields.
+  /// an <code>exampleId</code> field plus the schema-specific content fields.
   final List<Object> examples;
 
   /// The token for the next page of results, or null if there are no more
@@ -9967,6 +11197,316 @@ class ListEvaluatorsResponse {
 }
 
 /// @nodoc
+class BatchPutGatewayRateLimitsResponse {
+  /// The resulting set of rate limits after the batch operation.
+  final List<GatewayRateLimitDetail> rateLimits;
+
+  BatchPutGatewayRateLimitsResponse({
+    required this.rateLimits,
+  });
+
+  factory BatchPutGatewayRateLimitsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchPutGatewayRateLimitsResponse(
+      rateLimits: ((json['rateLimits'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => GatewayRateLimitDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rateLimits = this.rateLimits;
+    return {
+      'rateLimits': rateLimits,
+    };
+  }
+}
+
+/// Shared fields for GatewayRateLimit responses
+///
+/// @nodoc
+class CreateGatewayRateLimitResponse {
+  /// The timestamp when the rate limit was created.
+  final DateTime createdAt;
+  final List<String> dimensionKeys;
+  final List<LimitEntry> entries;
+
+  /// The unique identifier of the gateway.
+  final String gatewayIdentifier;
+  final String rateLimitId;
+  final GatewayRateLimitStatus status;
+
+  /// The timestamp when the rate limit was last updated.
+  final DateTime updatedAt;
+
+  /// Optional human-readable description for this limit.
+  final String? description;
+
+  CreateGatewayRateLimitResponse({
+    required this.createdAt,
+    required this.dimensionKeys,
+    required this.entries,
+    required this.gatewayIdentifier,
+    required this.rateLimitId,
+    required this.status,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory CreateGatewayRateLimitResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGatewayRateLimitResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dimensionKeys: ((json['dimensionKeys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      entries: ((json['entries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => LimitEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayIdentifier: (json['gatewayIdentifier'] as String?) ?? '',
+      rateLimitId: (json['rateLimitId'] as String?) ?? '',
+      status:
+          GatewayRateLimitStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final dimensionKeys = this.dimensionKeys;
+    final entries = this.entries;
+    final gatewayIdentifier = this.gatewayIdentifier;
+    final rateLimitId = this.rateLimitId;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'dimensionKeys': dimensionKeys,
+      'entries': entries,
+      'gatewayIdentifier': gatewayIdentifier,
+      'rateLimitId': rateLimitId,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteGatewayRateLimitResponse {
+  final String rateLimitId;
+  final GatewayRateLimitStatus status;
+
+  DeleteGatewayRateLimitResponse({
+    required this.rateLimitId,
+    required this.status,
+  });
+
+  factory DeleteGatewayRateLimitResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteGatewayRateLimitResponse(
+      rateLimitId: (json['rateLimitId'] as String?) ?? '',
+      status:
+          GatewayRateLimitStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rateLimitId = this.rateLimitId;
+    final status = this.status;
+    return {
+      'rateLimitId': rateLimitId,
+      'status': status.value,
+    };
+  }
+}
+
+/// Shared fields for GatewayRateLimit responses
+///
+/// @nodoc
+class GetGatewayRateLimitResponse {
+  /// The timestamp when the rate limit was created.
+  final DateTime createdAt;
+  final List<String> dimensionKeys;
+  final List<LimitEntry> entries;
+
+  /// The unique identifier of the gateway.
+  final String gatewayIdentifier;
+  final String rateLimitId;
+  final GatewayRateLimitStatus status;
+
+  /// The timestamp when the rate limit was last updated.
+  final DateTime updatedAt;
+
+  /// Optional human-readable description for this limit.
+  final String? description;
+
+  GetGatewayRateLimitResponse({
+    required this.createdAt,
+    required this.dimensionKeys,
+    required this.entries,
+    required this.gatewayIdentifier,
+    required this.rateLimitId,
+    required this.status,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory GetGatewayRateLimitResponse.fromJson(Map<String, dynamic> json) {
+    return GetGatewayRateLimitResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dimensionKeys: ((json['dimensionKeys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      entries: ((json['entries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => LimitEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayIdentifier: (json['gatewayIdentifier'] as String?) ?? '',
+      rateLimitId: (json['rateLimitId'] as String?) ?? '',
+      status:
+          GatewayRateLimitStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final dimensionKeys = this.dimensionKeys;
+    final entries = this.entries;
+    final gatewayIdentifier = this.gatewayIdentifier;
+    final rateLimitId = this.rateLimitId;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'dimensionKeys': dimensionKeys,
+      'entries': entries,
+      'gatewayIdentifier': gatewayIdentifier,
+      'rateLimitId': rateLimitId,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// @nodoc
+class ListGatewayRateLimitsResponse {
+  /// The list of rate limits for the gateway.
+  final List<GatewayRateLimitDetail> rateLimits;
+
+  /// The token for the next page of results. If this value is absent, there are
+  /// no more results to retrieve.
+  final String? nextToken;
+
+  ListGatewayRateLimitsResponse({
+    required this.rateLimits,
+    this.nextToken,
+  });
+
+  factory ListGatewayRateLimitsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGatewayRateLimitsResponse(
+      rateLimits: ((json['rateLimits'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => GatewayRateLimitDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rateLimits = this.rateLimits;
+    final nextToken = this.nextToken;
+    return {
+      'rateLimits': rateLimits,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Shared fields for GatewayRateLimit responses
+///
+/// @nodoc
+class UpdateGatewayRateLimitResponse {
+  /// The timestamp when the rate limit was created.
+  final DateTime createdAt;
+  final List<String> dimensionKeys;
+  final List<LimitEntry> entries;
+
+  /// The unique identifier of the gateway.
+  final String gatewayIdentifier;
+  final String rateLimitId;
+  final GatewayRateLimitStatus status;
+
+  /// The timestamp when the rate limit was last updated.
+  final DateTime updatedAt;
+
+  /// Optional human-readable description for this limit.
+  final String? description;
+
+  UpdateGatewayRateLimitResponse({
+    required this.createdAt,
+    required this.dimensionKeys,
+    required this.entries,
+    required this.gatewayIdentifier,
+    required this.rateLimitId,
+    required this.status,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory UpdateGatewayRateLimitResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGatewayRateLimitResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dimensionKeys: ((json['dimensionKeys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      entries: ((json['entries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => LimitEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayIdentifier: (json['gatewayIdentifier'] as String?) ?? '',
+      rateLimitId: (json['rateLimitId'] as String?) ?? '',
+      status:
+          GatewayRateLimitStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final dimensionKeys = this.dimensionKeys;
+    final entries = this.entries;
+    final gatewayIdentifier = this.gatewayIdentifier;
+    final rateLimitId = this.rateLimitId;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'dimensionKeys': dimensionKeys,
+      'entries': entries,
+      'gatewayIdentifier': gatewayIdentifier,
+      'rateLimitId': rateLimitId,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// @nodoc
 class CreateGatewayResponse {
   /// The type of authorizer used by the gateway.
   final AuthorizerType authorizerType;
@@ -9991,6 +11531,10 @@ class CreateGatewayResponse {
 
   /// The authorizer configuration for the created gateway.
   final AuthorizerConfiguration? authorizerConfiguration;
+
+  /// The custom transformation configuration for the gateway. This configuration
+  /// defines how the gateway transforms requests and responses.
+  final CustomTransformConfiguration? customTransformConfiguration;
 
   /// The description of the gateway.
   final String? description;
@@ -10034,6 +11578,13 @@ class CreateGatewayResponse {
   /// The reasons for the current status of the gateway.
   final List<String>? statusReasons;
 
+  /// The Amazon Web Services WAF configuration for the gateway.
+  final WafConfiguration? wafConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services WAF web ACL
+  /// associated with the gateway.
+  final String? webAclArn;
+
   /// The workload identity details for the created gateway.
   final WorkloadIdentityDetails? workloadIdentityDetails;
 
@@ -10046,6 +11597,7 @@ class CreateGatewayResponse {
     required this.status,
     required this.updatedAt,
     this.authorizerConfiguration,
+    this.customTransformConfiguration,
     this.description,
     this.exceptionLevel,
     this.gatewayUrl,
@@ -10056,6 +11608,8 @@ class CreateGatewayResponse {
     this.protocolType,
     this.roleArn,
     this.statusReasons,
+    this.wafConfiguration,
+    this.webAclArn,
     this.workloadIdentityDetails,
   });
 
@@ -10072,6 +11626,10 @@ class CreateGatewayResponse {
       authorizerConfiguration: json['authorizerConfiguration'] != null
           ? AuthorizerConfiguration.fromJson(
               json['authorizerConfiguration'] as Map<String, dynamic>)
+          : null,
+      customTransformConfiguration: json['customTransformConfiguration'] != null
+          ? CustomTransformConfiguration.fromJson(
+              json['customTransformConfiguration'] as Map<String, dynamic>)
           : null,
       description: json['description'] as String?,
       exceptionLevel:
@@ -10098,6 +11656,11 @@ class CreateGatewayResponse {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      wafConfiguration: json['wafConfiguration'] != null
+          ? WafConfiguration.fromJson(
+              json['wafConfiguration'] as Map<String, dynamic>)
+          : null,
+      webAclArn: json['webAclArn'] as String?,
       workloadIdentityDetails: json['workloadIdentityDetails'] != null
           ? WorkloadIdentityDetails.fromJson(
               json['workloadIdentityDetails'] as Map<String, dynamic>)
@@ -10114,6 +11677,7 @@ class CreateGatewayResponse {
     final status = this.status;
     final updatedAt = this.updatedAt;
     final authorizerConfiguration = this.authorizerConfiguration;
+    final customTransformConfiguration = this.customTransformConfiguration;
     final description = this.description;
     final exceptionLevel = this.exceptionLevel;
     final gatewayUrl = this.gatewayUrl;
@@ -10124,6 +11688,8 @@ class CreateGatewayResponse {
     final protocolType = this.protocolType;
     final roleArn = this.roleArn;
     final statusReasons = this.statusReasons;
+    final wafConfiguration = this.wafConfiguration;
+    final webAclArn = this.webAclArn;
     final workloadIdentityDetails = this.workloadIdentityDetails;
     return {
       'authorizerType': authorizerType.value,
@@ -10135,6 +11701,8 @@ class CreateGatewayResponse {
       'updatedAt': iso8601ToJson(updatedAt),
       if (authorizerConfiguration != null)
         'authorizerConfiguration': authorizerConfiguration,
+      if (customTransformConfiguration != null)
+        'customTransformConfiguration': customTransformConfiguration,
       if (description != null) 'description': description,
       if (exceptionLevel != null) 'exceptionLevel': exceptionLevel.value,
       if (gatewayUrl != null) 'gatewayUrl': gatewayUrl,
@@ -10148,6 +11716,8 @@ class CreateGatewayResponse {
       if (protocolType != null) 'protocolType': protocolType.value,
       if (roleArn != null) 'roleArn': roleArn,
       if (statusReasons != null) 'statusReasons': statusReasons,
+      if (wafConfiguration != null) 'wafConfiguration': wafConfiguration,
+      if (webAclArn != null) 'webAclArn': webAclArn,
       if (workloadIdentityDetails != null)
         'workloadIdentityDetails': workloadIdentityDetails,
     };
@@ -10220,6 +11790,10 @@ class GetGatewayResponse {
   /// The authorizer configuration for the gateway.
   final AuthorizerConfiguration? authorizerConfiguration;
 
+  /// The custom transformation configuration for the gateway. This configuration
+  /// defines how the gateway transforms requests and responses.
+  final CustomTransformConfiguration? customTransformConfiguration;
+
   /// The description of the gateway.
   final String? description;
 
@@ -10259,6 +11833,13 @@ class GetGatewayResponse {
   /// The reasons for the current status of the gateway.
   final List<String>? statusReasons;
 
+  /// The Amazon Web Services WAF configuration for the gateway.
+  final WafConfiguration? wafConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services WAF web ACL
+  /// associated with the gateway.
+  final String? webAclArn;
+
   /// The workload identity details for the gateway.
   final WorkloadIdentityDetails? workloadIdentityDetails;
 
@@ -10271,6 +11852,7 @@ class GetGatewayResponse {
     required this.status,
     required this.updatedAt,
     this.authorizerConfiguration,
+    this.customTransformConfiguration,
     this.description,
     this.exceptionLevel,
     this.gatewayUrl,
@@ -10281,6 +11863,8 @@ class GetGatewayResponse {
     this.protocolType,
     this.roleArn,
     this.statusReasons,
+    this.wafConfiguration,
+    this.webAclArn,
     this.workloadIdentityDetails,
   });
 
@@ -10297,6 +11881,10 @@ class GetGatewayResponse {
       authorizerConfiguration: json['authorizerConfiguration'] != null
           ? AuthorizerConfiguration.fromJson(
               json['authorizerConfiguration'] as Map<String, dynamic>)
+          : null,
+      customTransformConfiguration: json['customTransformConfiguration'] != null
+          ? CustomTransformConfiguration.fromJson(
+              json['customTransformConfiguration'] as Map<String, dynamic>)
           : null,
       description: json['description'] as String?,
       exceptionLevel:
@@ -10323,6 +11911,11 @@ class GetGatewayResponse {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      wafConfiguration: json['wafConfiguration'] != null
+          ? WafConfiguration.fromJson(
+              json['wafConfiguration'] as Map<String, dynamic>)
+          : null,
+      webAclArn: json['webAclArn'] as String?,
       workloadIdentityDetails: json['workloadIdentityDetails'] != null
           ? WorkloadIdentityDetails.fromJson(
               json['workloadIdentityDetails'] as Map<String, dynamic>)
@@ -10339,6 +11932,7 @@ class GetGatewayResponse {
     final status = this.status;
     final updatedAt = this.updatedAt;
     final authorizerConfiguration = this.authorizerConfiguration;
+    final customTransformConfiguration = this.customTransformConfiguration;
     final description = this.description;
     final exceptionLevel = this.exceptionLevel;
     final gatewayUrl = this.gatewayUrl;
@@ -10349,6 +11943,8 @@ class GetGatewayResponse {
     final protocolType = this.protocolType;
     final roleArn = this.roleArn;
     final statusReasons = this.statusReasons;
+    final wafConfiguration = this.wafConfiguration;
+    final webAclArn = this.webAclArn;
     final workloadIdentityDetails = this.workloadIdentityDetails;
     return {
       'authorizerType': authorizerType.value,
@@ -10360,6 +11956,8 @@ class GetGatewayResponse {
       'updatedAt': iso8601ToJson(updatedAt),
       if (authorizerConfiguration != null)
         'authorizerConfiguration': authorizerConfiguration,
+      if (customTransformConfiguration != null)
+        'customTransformConfiguration': customTransformConfiguration,
       if (description != null) 'description': description,
       if (exceptionLevel != null) 'exceptionLevel': exceptionLevel.value,
       if (gatewayUrl != null) 'gatewayUrl': gatewayUrl,
@@ -10373,6 +11971,8 @@ class GetGatewayResponse {
       if (protocolType != null) 'protocolType': protocolType.value,
       if (roleArn != null) 'roleArn': roleArn,
       if (statusReasons != null) 'statusReasons': statusReasons,
+      if (wafConfiguration != null) 'wafConfiguration': wafConfiguration,
+      if (webAclArn != null) 'webAclArn': webAclArn,
       if (workloadIdentityDetails != null)
         'workloadIdentityDetails': workloadIdentityDetails,
     };
@@ -10440,6 +12040,10 @@ class UpdateGatewayResponse {
   /// The updated authorizer configuration for the gateway.
   final AuthorizerConfiguration? authorizerConfiguration;
 
+  /// The custom transformation configuration for the gateway. This configuration
+  /// defines how the gateway transforms requests and responses.
+  final CustomTransformConfiguration? customTransformConfiguration;
+
   /// The updated description of the gateway.
   final String? description;
 
@@ -10479,6 +12083,13 @@ class UpdateGatewayResponse {
   /// The reasons for the current status of the updated gateway.
   final List<String>? statusReasons;
 
+  /// The Amazon Web Services WAF configuration for the gateway.
+  final WafConfiguration? wafConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services WAF web ACL
+  /// associated with the gateway.
+  final String? webAclArn;
+
   /// The workload identity details for the updated gateway.
   final WorkloadIdentityDetails? workloadIdentityDetails;
 
@@ -10491,6 +12102,7 @@ class UpdateGatewayResponse {
     required this.status,
     required this.updatedAt,
     this.authorizerConfiguration,
+    this.customTransformConfiguration,
     this.description,
     this.exceptionLevel,
     this.gatewayUrl,
@@ -10501,6 +12113,8 @@ class UpdateGatewayResponse {
     this.protocolType,
     this.roleArn,
     this.statusReasons,
+    this.wafConfiguration,
+    this.webAclArn,
     this.workloadIdentityDetails,
   });
 
@@ -10517,6 +12131,10 @@ class UpdateGatewayResponse {
       authorizerConfiguration: json['authorizerConfiguration'] != null
           ? AuthorizerConfiguration.fromJson(
               json['authorizerConfiguration'] as Map<String, dynamic>)
+          : null,
+      customTransformConfiguration: json['customTransformConfiguration'] != null
+          ? CustomTransformConfiguration.fromJson(
+              json['customTransformConfiguration'] as Map<String, dynamic>)
           : null,
       description: json['description'] as String?,
       exceptionLevel:
@@ -10543,6 +12161,11 @@ class UpdateGatewayResponse {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      wafConfiguration: json['wafConfiguration'] != null
+          ? WafConfiguration.fromJson(
+              json['wafConfiguration'] as Map<String, dynamic>)
+          : null,
+      webAclArn: json['webAclArn'] as String?,
       workloadIdentityDetails: json['workloadIdentityDetails'] != null
           ? WorkloadIdentityDetails.fromJson(
               json['workloadIdentityDetails'] as Map<String, dynamic>)
@@ -10559,6 +12182,7 @@ class UpdateGatewayResponse {
     final status = this.status;
     final updatedAt = this.updatedAt;
     final authorizerConfiguration = this.authorizerConfiguration;
+    final customTransformConfiguration = this.customTransformConfiguration;
     final description = this.description;
     final exceptionLevel = this.exceptionLevel;
     final gatewayUrl = this.gatewayUrl;
@@ -10569,6 +12193,8 @@ class UpdateGatewayResponse {
     final protocolType = this.protocolType;
     final roleArn = this.roleArn;
     final statusReasons = this.statusReasons;
+    final wafConfiguration = this.wafConfiguration;
+    final webAclArn = this.webAclArn;
     final workloadIdentityDetails = this.workloadIdentityDetails;
     return {
       'authorizerType': authorizerType.value,
@@ -10580,6 +12206,8 @@ class UpdateGatewayResponse {
       'updatedAt': iso8601ToJson(updatedAt),
       if (authorizerConfiguration != null)
         'authorizerConfiguration': authorizerConfiguration,
+      if (customTransformConfiguration != null)
+        'customTransformConfiguration': customTransformConfiguration,
       if (description != null) 'description': description,
       if (exceptionLevel != null) 'exceptionLevel': exceptionLevel.value,
       if (gatewayUrl != null) 'gatewayUrl': gatewayUrl,
@@ -10593,6 +12221,8 @@ class UpdateGatewayResponse {
       if (protocolType != null) 'protocolType': protocolType.value,
       if (roleArn != null) 'roleArn': roleArn,
       if (statusReasons != null) 'statusReasons': statusReasons,
+      if (wafConfiguration != null) 'wafConfiguration': wafConfiguration,
+      if (webAclArn != null) 'webAclArn': webAclArn,
       if (workloadIdentityDetails != null)
         'workloadIdentityDetails': workloadIdentityDetails,
     };
@@ -11536,6 +13166,139 @@ class UpdateGatewayTargetResponse {
 }
 
 /// @nodoc
+class CreateHarnessEndpointResponse {
+  /// The endpoint that was created.
+  final HarnessEndpoint endpoint;
+
+  CreateHarnessEndpointResponse({
+    required this.endpoint,
+  });
+
+  factory CreateHarnessEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHarnessEndpointResponse(
+      endpoint: HarnessEndpoint.fromJson(
+          (json['endpoint'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      'endpoint': endpoint,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteHarnessEndpointResponse {
+  /// The endpoint that was deleted.
+  final HarnessEndpoint endpoint;
+
+  DeleteHarnessEndpointResponse({
+    required this.endpoint,
+  });
+
+  factory DeleteHarnessEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteHarnessEndpointResponse(
+      endpoint: HarnessEndpoint.fromJson(
+          (json['endpoint'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      'endpoint': endpoint,
+    };
+  }
+}
+
+/// @nodoc
+class GetHarnessEndpointResponse {
+  /// The endpoint resource.
+  final HarnessEndpoint endpoint;
+
+  GetHarnessEndpointResponse({
+    required this.endpoint,
+  });
+
+  factory GetHarnessEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return GetHarnessEndpointResponse(
+      endpoint: HarnessEndpoint.fromJson(
+          (json['endpoint'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      'endpoint': endpoint,
+    };
+  }
+}
+
+/// @nodoc
+class ListHarnessEndpointsResponse {
+  /// The list of harness endpoints.
+  final List<HarnessEndpoint> endpoints;
+
+  /// The token for the next set of results.
+  final String? nextToken;
+
+  ListHarnessEndpointsResponse({
+    required this.endpoints,
+    this.nextToken,
+  });
+
+  factory ListHarnessEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHarnessEndpointsResponse(
+      endpoints: ((json['endpoints'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HarnessEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final nextToken = this.nextToken;
+    return {
+      'endpoints': endpoints,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateHarnessEndpointResponse {
+  /// The updated endpoint.
+  final HarnessEndpoint endpoint;
+
+  UpdateHarnessEndpointResponse({
+    required this.endpoint,
+  });
+
+  factory UpdateHarnessEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateHarnessEndpointResponse(
+      endpoint: HarnessEndpoint.fromJson(
+          (json['endpoint'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      'endpoint': endpoint,
+    };
+  }
+}
+
+/// @nodoc
 class CreateHarnessResponse {
   /// The harness that was created.
   final Harness harness;
@@ -11636,6 +13399,39 @@ class ListHarnessesResponse {
     final nextToken = this.nextToken;
     return {
       'harnesses': harnesses,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListHarnessVersionsResponse {
+  /// The list of harness version summaries.
+  final List<HarnessVersionSummary> harnessVersions;
+
+  /// The token for the next set of results.
+  final String? nextToken;
+
+  ListHarnessVersionsResponse({
+    required this.harnessVersions,
+    this.nextToken,
+  });
+
+  factory ListHarnessVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHarnessVersionsResponse(
+      harnessVersions: ((json['harnessVersions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HarnessVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final harnessVersions = this.harnessVersions;
+    final nextToken = this.nextToken;
+    return {
+      'harnessVersions': harnessVersions,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -11805,7 +13601,8 @@ class ListMemoriesOutput {
 
 /// @nodoc
 class CreateOauth2CredentialProviderResponse {
-  /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
+  /// The Amazon Resource Name (ARN) of the client secret in Amazon Web Services
+  /// Secrets Manager.
   final Secret clientSecretArn;
 
   /// The Amazon Resource Name (ARN) of the OAuth2 credential provider.
@@ -11819,13 +13616,13 @@ class CreateOauth2CredentialProviderResponse {
   /// users after they complete the authorization flow.
   final String? callbackUrl;
 
-  /// The JSON key used to extract the client secret value from the AWS Secrets
-  /// Manager secret.
+  /// The JSON key used to extract the client secret value from the Amazon Web
+  /// Services Secrets Manager secret.
   final String? clientSecretJsonKey;
 
   /// The source type of the client secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
   final Oauth2ProviderConfigOutput? oauth2ProviderConfigOutput;
 
@@ -11890,7 +13687,8 @@ class CreateOauth2CredentialProviderResponse {
 
 /// @nodoc
 class GetOauth2CredentialProviderResponse {
-  /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
+  /// The Amazon Resource Name (ARN) of the client secret in Amazon Web Services
+  /// Secrets Manager.
   final Secret clientSecretArn;
 
   /// The timestamp when the OAuth2 credential provider was created.
@@ -11916,13 +13714,13 @@ class GetOauth2CredentialProviderResponse {
   /// users after they complete the authorization flow.
   final String? callbackUrl;
 
-  /// The JSON key used to extract the client secret value from the AWS Secrets
-  /// Manager secret.
+  /// The JSON key used to extract the client secret value from the Amazon Web
+  /// Services Secrets Manager secret.
   final String? clientSecretJsonKey;
 
   /// The source type of the client secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   /// The reason for failure if the OAuth2 credential provider is in a failed
@@ -12006,7 +13804,8 @@ class GetOauth2CredentialProviderResponse {
 
 /// @nodoc
 class UpdateOauth2CredentialProviderResponse {
-  /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
+  /// The Amazon Resource Name (ARN) of the client secret in Amazon Web Services
+  /// Secrets Manager.
   final Secret clientSecretArn;
 
   /// The timestamp when the OAuth2 credential provider was created.
@@ -12032,13 +13831,13 @@ class UpdateOauth2CredentialProviderResponse {
   /// users after they complete the authorization flow.
   final String? callbackUrl;
 
-  /// The JSON key used to extract the client secret value from the AWS Secrets
-  /// Manager secret.
+  /// The JSON key used to extract the client secret value from the Amazon Web
+  /// Services Secrets Manager secret.
   final String? clientSecretJsonKey;
 
   /// The source type of the client secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   /// The current status of the updated OAuth2 credential provider.
@@ -12243,9 +14042,6 @@ class GetOnlineEvaluationConfigResponse {
   /// names to monitor.
   final DataSourceConfig dataSourceConfig;
 
-  /// The list of evaluators applied during online evaluation.
-  final List<EvaluatorReference> evaluators;
-
   /// The execution status indicating whether the online evaluation is currently
   /// running.
   final OnlineEvaluationExecutionStatus executionStatus;
@@ -12269,6 +14065,9 @@ class GetOnlineEvaluationConfigResponse {
   /// The timestamp when the online evaluation configuration was last updated.
   final DateTime updatedAt;
 
+  /// The clustering configuration for periodic batch evaluation.
+  final ClusteringConfig? clusteringConfig;
+
   /// The description of the online evaluation configuration.
   final String? description;
 
@@ -12276,9 +14075,15 @@ class GetOnlineEvaluationConfigResponse {
   /// execution.
   final String? evaluationExecutionRoleArn;
 
+  /// The list of evaluators applied during online evaluation.
+  final List<EvaluatorReference>? evaluators;
+
   /// The reason for failure if the online evaluation configuration execution
   /// failed.
   final String? failureReason;
+
+  /// The list of insight types configured for this evaluation.
+  final List<Insight>? insights;
 
   /// The output configuration specifying where evaluation results are written.
   final OutputConfig? outputConfig;
@@ -12286,7 +14091,6 @@ class GetOnlineEvaluationConfigResponse {
   GetOnlineEvaluationConfigResponse({
     required this.createdAt,
     required this.dataSourceConfig,
-    required this.evaluators,
     required this.executionStatus,
     required this.onlineEvaluationConfigArn,
     required this.onlineEvaluationConfigId,
@@ -12294,9 +14098,12 @@ class GetOnlineEvaluationConfigResponse {
     required this.rule,
     required this.status,
     required this.updatedAt,
+    this.clusteringConfig,
     this.description,
     this.evaluationExecutionRoleArn,
+    this.evaluators,
     this.failureReason,
+    this.insights,
     this.outputConfig,
   });
 
@@ -12307,10 +14114,6 @@ class GetOnlineEvaluationConfigResponse {
       dataSourceConfig: DataSourceConfig.fromJson(
           (json['dataSourceConfig'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      evaluators: ((json['evaluators'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EvaluatorReference.fromJson(e as Map<String, dynamic>))
-          .toList(),
       executionStatus: OnlineEvaluationExecutionStatus.fromString(
           (json['executionStatus'] as String?) ?? ''),
       onlineEvaluationConfigArn:
@@ -12324,9 +14127,21 @@ class GetOnlineEvaluationConfigResponse {
       status: OnlineEvaluationConfigStatus.fromString(
           (json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      clusteringConfig: json['clusteringConfig'] != null
+          ? ClusteringConfig.fromJson(
+              json['clusteringConfig'] as Map<String, dynamic>)
+          : null,
       description: json['description'] as String?,
       evaluationExecutionRoleArn: json['evaluationExecutionRoleArn'] as String?,
+      evaluators: (json['evaluators'] as List?)
+          ?.nonNulls
+          .map((e) => EvaluatorReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
       failureReason: json['failureReason'] as String?,
+      insights: (json['insights'] as List?)
+          ?.nonNulls
+          .map((e) => Insight.fromJson(e as Map<String, dynamic>))
+          .toList(),
       outputConfig: json['outputConfig'] != null
           ? OutputConfig.fromJson(json['outputConfig'] as Map<String, dynamic>)
           : null,
@@ -12336,7 +14151,6 @@ class GetOnlineEvaluationConfigResponse {
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
     final dataSourceConfig = this.dataSourceConfig;
-    final evaluators = this.evaluators;
     final executionStatus = this.executionStatus;
     final onlineEvaluationConfigArn = this.onlineEvaluationConfigArn;
     final onlineEvaluationConfigId = this.onlineEvaluationConfigId;
@@ -12344,14 +14158,16 @@ class GetOnlineEvaluationConfigResponse {
     final rule = this.rule;
     final status = this.status;
     final updatedAt = this.updatedAt;
+    final clusteringConfig = this.clusteringConfig;
     final description = this.description;
     final evaluationExecutionRoleArn = this.evaluationExecutionRoleArn;
+    final evaluators = this.evaluators;
     final failureReason = this.failureReason;
+    final insights = this.insights;
     final outputConfig = this.outputConfig;
     return {
       'createdAt': unixTimestampToJson(createdAt),
       'dataSourceConfig': dataSourceConfig,
-      'evaluators': evaluators,
       'executionStatus': executionStatus.value,
       'onlineEvaluationConfigArn': onlineEvaluationConfigArn,
       'onlineEvaluationConfigId': onlineEvaluationConfigId,
@@ -12359,10 +14175,13 @@ class GetOnlineEvaluationConfigResponse {
       'rule': rule,
       'status': status.value,
       'updatedAt': unixTimestampToJson(updatedAt),
+      if (clusteringConfig != null) 'clusteringConfig': clusteringConfig,
       if (description != null) 'description': description,
       if (evaluationExecutionRoleArn != null)
         'evaluationExecutionRoleArn': evaluationExecutionRoleArn,
+      if (evaluators != null) 'evaluators': evaluators,
       if (failureReason != null) 'failureReason': failureReason,
+      if (insights != null) 'insights': insights,
       if (outputConfig != null) 'outputConfig': outputConfig,
     };
   }
@@ -14361,6 +16180,9 @@ class CreatePolicyResponse {
   /// This helps administrators understand and manage the policy.
   final String? description;
 
+  /// The enforcement mode of the created policy.
+  final EnforcementMode? enforcementMode;
+
   CreatePolicyResponse({
     required this.createdAt,
     required this.definition,
@@ -14372,6 +16194,7 @@ class CreatePolicyResponse {
     required this.statusReasons,
     required this.updatedAt,
     this.description,
+    this.enforcementMode,
   });
 
   factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) {
@@ -14391,6 +16214,8 @@ class CreatePolicyResponse {
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
+      enforcementMode:
+          (json['enforcementMode'] as String?)?.let(EnforcementMode.fromString),
     );
   }
 
@@ -14405,6 +16230,7 @@ class CreatePolicyResponse {
     final statusReasons = this.statusReasons;
     final updatedAt = this.updatedAt;
     final description = this.description;
+    final enforcementMode = this.enforcementMode;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'definition': definition,
@@ -14416,6 +16242,7 @@ class CreatePolicyResponse {
       'statusReasons': statusReasons,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
     };
   }
 }
@@ -14462,6 +16289,9 @@ class GetPolicyResponse {
   /// This helps administrators understand and manage the policy.
   final String? description;
 
+  /// The current enforcement mode of the policy.
+  final EnforcementMode? enforcementMode;
+
   GetPolicyResponse({
     required this.createdAt,
     required this.definition,
@@ -14473,6 +16303,7 @@ class GetPolicyResponse {
     required this.statusReasons,
     required this.updatedAt,
     this.description,
+    this.enforcementMode,
   });
 
   factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
@@ -14492,6 +16323,8 @@ class GetPolicyResponse {
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
+      enforcementMode:
+          (json['enforcementMode'] as String?)?.let(EnforcementMode.fromString),
     );
   }
 
@@ -14506,6 +16339,7 @@ class GetPolicyResponse {
     final statusReasons = this.statusReasons;
     final updatedAt = this.updatedAt;
     final description = this.description;
+    final enforcementMode = this.enforcementMode;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'definition': definition,
@@ -14517,6 +16351,7 @@ class GetPolicyResponse {
       'statusReasons': statusReasons,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
     };
   }
 }
@@ -14553,6 +16388,9 @@ class UpdatePolicyResponse {
   /// The updated description of the policy.
   final String? description;
 
+  /// The current enforcement mode of the updated policy.
+  final EnforcementMode? enforcementMode;
+
   UpdatePolicyResponse({
     required this.createdAt,
     required this.definition,
@@ -14564,6 +16402,7 @@ class UpdatePolicyResponse {
     required this.statusReasons,
     required this.updatedAt,
     this.description,
+    this.enforcementMode,
   });
 
   factory UpdatePolicyResponse.fromJson(Map<String, dynamic> json) {
@@ -14583,6 +16422,8 @@ class UpdatePolicyResponse {
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
+      enforcementMode:
+          (json['enforcementMode'] as String?)?.let(EnforcementMode.fromString),
     );
   }
 
@@ -14597,6 +16438,7 @@ class UpdatePolicyResponse {
     final statusReasons = this.statusReasons;
     final updatedAt = this.updatedAt;
     final description = this.description;
+    final enforcementMode = this.enforcementMode;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'definition': definition,
@@ -14608,6 +16450,7 @@ class UpdatePolicyResponse {
       'statusReasons': statusReasons,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
     };
   }
 }
@@ -14651,6 +16494,9 @@ class DeletePolicyResponse {
   /// The human-readable description of the deleted policy.
   final String? description;
 
+  /// The enforcement mode of the deleted policy.
+  final EnforcementMode? enforcementMode;
+
   DeletePolicyResponse({
     required this.createdAt,
     required this.definition,
@@ -14662,6 +16508,7 @@ class DeletePolicyResponse {
     required this.statusReasons,
     required this.updatedAt,
     this.description,
+    this.enforcementMode,
   });
 
   factory DeletePolicyResponse.fromJson(Map<String, dynamic> json) {
@@ -14681,6 +16528,8 @@ class DeletePolicyResponse {
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
+      enforcementMode:
+          (json['enforcementMode'] as String?)?.let(EnforcementMode.fromString),
     );
   }
 
@@ -14695,6 +16544,7 @@ class DeletePolicyResponse {
     final statusReasons = this.statusReasons;
     final updatedAt = this.updatedAt;
     final description = this.description;
+    final enforcementMode = this.enforcementMode;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'definition': definition,
@@ -14706,6 +16556,7 @@ class DeletePolicyResponse {
       'statusReasons': statusReasons,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
     };
   }
 }
@@ -14770,6 +16621,9 @@ class GetPolicySummaryResponse {
   /// The timestamp when the policy was last modified.
   final DateTime updatedAt;
 
+  /// The current enforcement mode of the policy.
+  final EnforcementMode? enforcementMode;
+
   GetPolicySummaryResponse({
     required this.createdAt,
     required this.name,
@@ -14778,6 +16632,7 @@ class GetPolicySummaryResponse {
     required this.policyId,
     required this.status,
     required this.updatedAt,
+    this.enforcementMode,
   });
 
   factory GetPolicySummaryResponse.fromJson(Map<String, dynamic> json) {
@@ -14789,6 +16644,8 @@ class GetPolicySummaryResponse {
       policyId: (json['policyId'] as String?) ?? '',
       status: PolicyStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      enforcementMode:
+          (json['enforcementMode'] as String?)?.let(EnforcementMode.fromString),
     );
   }
 
@@ -14800,6 +16657,7 @@ class GetPolicySummaryResponse {
     final policyId = this.policyId;
     final status = this.status;
     final updatedAt = this.updatedAt;
+    final enforcementMode = this.enforcementMode;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'name': name,
@@ -14808,6 +16666,7 @@ class GetPolicySummaryResponse {
       'policyId': policyId,
       'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
     };
   }
 }
@@ -16105,6 +17964,17 @@ class CustomJWTAuthorizerConfiguration {
   /// server metadata for validating incoming tokens.
   final String discoveryUrl;
 
+  /// A map that associates each scope in <code>allowedScopes</code> with a
+  /// corresponding advertised scope value. The advertised scope appears in OAuth
+  /// protected resource metadata and <code>WWW-Authenticate</code> response
+  /// headers. Use this parameter when the scope that clients request from your
+  /// identity provider differs from the scope in the validated token. Each key is
+  /// a scope from <code>allowedScopes</code> that the service uses for token
+  /// validation. Each value is the corresponding scope that the service
+  /// advertises to clients. Scopes without a mapping entry appear unchanged to
+  /// clients.
+  final Map<String, String>? advertisedScopeMapping;
+
   /// Represents individual audience values that are validated in the incoming JWT
   /// token validation process.
   final List<String>? allowedAudience;
@@ -16116,6 +17986,12 @@ class CustomJWTAuthorizerConfiguration {
   /// An array of scopes that are allowed to access the token.
   final List<String>? allowedScopes;
 
+  /// The configuration that restricts which workloads in the request's identity
+  /// chain are allowed to invoke the target, identified by their hosting
+  /// environments and workload identities. At launch, this is supported only for
+  /// AgentCore Runtime targets, and the allowed workloads are AgentCore Gateways.
+  final AllowedWorkloadConfiguration? allowedWorkloadConfiguration;
+
   /// An array of objects that define a custom claim validation name, value, and
   /// operation
   final List<CustomClaimValidationType>? customClaims;
@@ -16126,9 +18002,11 @@ class CustomJWTAuthorizerConfiguration {
 
   CustomJWTAuthorizerConfiguration({
     required this.discoveryUrl,
+    this.advertisedScopeMapping,
     this.allowedAudience,
     this.allowedClients,
     this.allowedScopes,
+    this.allowedWorkloadConfiguration,
     this.customClaims,
     this.privateEndpoint,
     this.privateEndpointOverrides,
@@ -16137,6 +18015,9 @@ class CustomJWTAuthorizerConfiguration {
   factory CustomJWTAuthorizerConfiguration.fromJson(Map<String, dynamic> json) {
     return CustomJWTAuthorizerConfiguration(
       discoveryUrl: (json['discoveryUrl'] as String?) ?? '',
+      advertisedScopeMapping:
+          (json['advertisedScopeMapping'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
       allowedAudience: (json['allowedAudience'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -16149,6 +18030,10 @@ class CustomJWTAuthorizerConfiguration {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      allowedWorkloadConfiguration: json['allowedWorkloadConfiguration'] != null
+          ? AllowedWorkloadConfiguration.fromJson(
+              json['allowedWorkloadConfiguration'] as Map<String, dynamic>)
+          : null,
       customClaims: (json['customClaims'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -16168,17 +18053,23 @@ class CustomJWTAuthorizerConfiguration {
 
   Map<String, dynamic> toJson() {
     final discoveryUrl = this.discoveryUrl;
+    final advertisedScopeMapping = this.advertisedScopeMapping;
     final allowedAudience = this.allowedAudience;
     final allowedClients = this.allowedClients;
     final allowedScopes = this.allowedScopes;
+    final allowedWorkloadConfiguration = this.allowedWorkloadConfiguration;
     final customClaims = this.customClaims;
     final privateEndpoint = this.privateEndpoint;
     final privateEndpointOverrides = this.privateEndpointOverrides;
     return {
       'discoveryUrl': discoveryUrl,
+      if (advertisedScopeMapping != null)
+        'advertisedScopeMapping': advertisedScopeMapping,
       if (allowedAudience != null) 'allowedAudience': allowedAudience,
       if (allowedClients != null) 'allowedClients': allowedClients,
       if (allowedScopes != null) 'allowedScopes': allowedScopes,
+      if (allowedWorkloadConfiguration != null)
+        'allowedWorkloadConfiguration': allowedWorkloadConfiguration,
       if (customClaims != null) 'customClaims': customClaims,
       if (privateEndpoint != null) 'privateEndpoint': privateEndpoint,
       if (privateEndpointOverrides != null)
@@ -16226,6 +18117,76 @@ class PrivateEndpoint {
       if (managedVpcResource != null) 'managedVpcResource': managedVpcResource,
       if (selfManagedLatticeResource != null)
         'selfManagedLatticeResource': selfManagedLatticeResource,
+    };
+  }
+}
+
+/// The configuration that restricts which workloads in the request's identity
+/// chain are allowed to invoke the target, identified by their hosting
+/// environments and workload identities. At launch, this is supported only for
+/// AgentCore Runtime targets, and the allowed workloads are AgentCore Gateways.
+///
+/// @nodoc
+class AllowedWorkloadConfiguration {
+  /// The list of hosting environments whose workloads are allowed to invoke the
+  /// target. At launch, the only supported hosting environment is AgentCore
+  /// Gateway.
+  final List<HostingEnvironment>? hostingEnvironments;
+
+  /// The list of workload identities that are allowed to invoke the target.
+  final List<String>? workloadIdentities;
+
+  AllowedWorkloadConfiguration({
+    this.hostingEnvironments,
+    this.workloadIdentities,
+  });
+
+  factory AllowedWorkloadConfiguration.fromJson(Map<String, dynamic> json) {
+    return AllowedWorkloadConfiguration(
+      hostingEnvironments: (json['hostingEnvironments'] as List?)
+          ?.nonNulls
+          .map((e) => HostingEnvironment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workloadIdentities: (json['workloadIdentities'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostingEnvironments = this.hostingEnvironments;
+    final workloadIdentities = this.workloadIdentities;
+    return {
+      if (hostingEnvironments != null)
+        'hostingEnvironments': hostingEnvironments,
+      if (workloadIdentities != null) 'workloadIdentities': workloadIdentities,
+    };
+  }
+}
+
+/// A hosting environment whose workloads are allowed to invoke the target. At
+/// launch, the only supported hosting environment is AgentCore Gateway.
+///
+/// @nodoc
+class HostingEnvironment {
+  /// The Amazon Resource Name (ARN) of the hosting environment.
+  final String arn;
+
+  HostingEnvironment({
+    required this.arn,
+  });
+
+  factory HostingEnvironment.fromJson(Map<String, dynamic> json) {
+    return HostingEnvironment(
+      arn: (json['arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
     };
   }
 }
@@ -17886,6 +19847,9 @@ class PolicySummary {
   /// The timestamp when the policy was last modified.
   final DateTime updatedAt;
 
+  /// The current enforcement mode of the policy.
+  final EnforcementMode? enforcementMode;
+
   PolicySummary({
     required this.createdAt,
     required this.name,
@@ -17894,6 +19858,7 @@ class PolicySummary {
     required this.policyId,
     required this.status,
     required this.updatedAt,
+    this.enforcementMode,
   });
 
   factory PolicySummary.fromJson(Map<String, dynamic> json) {
@@ -17905,6 +19870,8 @@ class PolicySummary {
       policyId: (json['policyId'] as String?) ?? '',
       status: PolicyStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      enforcementMode:
+          (json['enforcementMode'] as String?)?.let(EnforcementMode.fromString),
     );
   }
 
@@ -17916,6 +19883,7 @@ class PolicySummary {
     final policyId = this.policyId;
     final status = this.status;
     final updatedAt = this.updatedAt;
+    final enforcementMode = this.enforcementMode;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'name': name,
@@ -17924,6 +19892,7 @@ class PolicySummary {
       'policyId': policyId,
       'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
     };
   }
 }
@@ -17957,6 +19926,35 @@ class PolicyStatus {
 
   @override
   bool operator ==(other) => other is PolicyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The enforcement mode for a policy. Run this policy in <code>LOG_ONLY</code>
+/// mode to collect data on how it affects your application. Once you are
+/// satisfied with the data gathered, switch the policy to <code>ACTIVE</code>.
+///
+/// @nodoc
+class EnforcementMode {
+  static const active = EnforcementMode._('ACTIVE');
+  static const logOnly = EnforcementMode._('LOG_ONLY');
+
+  final String value;
+
+  const EnforcementMode._(this.value);
+
+  static const values = [active, logOnly];
+
+  static EnforcementMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnforcementMode._(value));
+
+  @override
+  bool operator ==(other) => other is EnforcementMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -18023,6 +20021,9 @@ class Policy {
   /// the policy.
   final String? description;
 
+  /// The current enforcement mode of the policy.
+  final EnforcementMode? enforcementMode;
+
   Policy({
     required this.createdAt,
     required this.definition,
@@ -18034,6 +20035,7 @@ class Policy {
     required this.statusReasons,
     required this.updatedAt,
     this.description,
+    this.enforcementMode,
   });
 
   factory Policy.fromJson(Map<String, dynamic> json) {
@@ -18053,6 +20055,8 @@ class Policy {
           .toList(),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
+      enforcementMode:
+          (json['enforcementMode'] as String?)?.let(EnforcementMode.fromString),
     );
   }
 
@@ -18067,6 +20071,7 @@ class Policy {
     final statusReasons = this.statusReasons;
     final updatedAt = this.updatedAt;
     final description = this.description;
+    final enforcementMode = this.enforcementMode;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'definition': definition,
@@ -18078,6 +20083,7 @@ class Policy {
       'statusReasons': statusReasons,
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
+      if (enforcementMode != null) 'enforcementMode': enforcementMode.value,
     };
   }
 }
@@ -18100,6 +20106,10 @@ class PolicyDefinition {
   /// permit policies.
   final CedarPolicy? cedar;
 
+  /// An AgentCore policy statement that defines the access control rules. The
+  /// statement can be a Cedar policy or a guardrails definition.
+  final PolicyStatement? policy;
+
   /// The generated policy asset information within the policy definition
   /// structure. This contains information identifying a generated policy asset
   /// from the AI-powered policy generation process within the AgentCore Policy
@@ -18110,6 +20120,7 @@ class PolicyDefinition {
 
   PolicyDefinition({
     this.cedar,
+    this.policy,
     this.policyGeneration,
   });
 
@@ -18117,6 +20128,9 @@ class PolicyDefinition {
     return PolicyDefinition(
       cedar: json['cedar'] != null
           ? CedarPolicy.fromJson(json['cedar'] as Map<String, dynamic>)
+          : null,
+      policy: json['policy'] != null
+          ? PolicyStatement.fromJson(json['policy'] as Map<String, dynamic>)
           : null,
       policyGeneration: json['policyGeneration'] != null
           ? PolicyGenerationDetails.fromJson(
@@ -18127,9 +20141,11 @@ class PolicyDefinition {
 
   Map<String, dynamic> toJson() {
     final cedar = this.cedar;
+    final policy = this.policy;
     final policyGeneration = this.policyGeneration;
     return {
       if (cedar != null) 'cedar': cedar,
+      if (policy != null) 'policy': policy,
       if (policyGeneration != null) 'policyGeneration': policyGeneration,
     };
   }
@@ -18199,6 +20215,33 @@ class PolicyGenerationDetails {
     return {
       'policyGenerationAssetId': policyGenerationAssetId,
       'policyGenerationId': policyGenerationId,
+    };
+  }
+}
+
+/// An AgentCore policy statement, which supports plain Cedar policies as well
+/// as guardrails definitions.
+///
+/// @nodoc
+class PolicyStatement {
+  /// The body of the AgentCore policy statement. Contains the policy logic, which
+  /// can be a Cedar policy or a guardrails definition.
+  final String statement;
+
+  PolicyStatement({
+    required this.statement,
+  });
+
+  factory PolicyStatement.fromJson(Map<String, dynamic> json) {
+    return PolicyStatement(
+      statement: (json['statement'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    return {
+      'statement': statement,
     };
   }
 }
@@ -19385,22 +21428,22 @@ class CoinbaseCdpConfigurationOutput {
   final Secret apiKeySecretArn;
   final Secret walletSecretArn;
 
-  /// The JSON key used to extract the API key secret value from the AWS Secrets
-  /// Manager secret.
+  /// The JSON key used to extract the API key secret value from the Amazon Web
+  /// Services Secrets Manager secret.
   final String? apiKeySecretJsonKey;
 
   /// The source type of the API key secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? apiKeySecretSource;
 
-  /// The JSON key used to extract the wallet secret value from the AWS Secrets
-  /// Manager secret.
+  /// The JSON key used to extract the wallet secret value from the Amazon Web
+  /// Services Secrets Manager secret.
   final String? walletSecretJsonKey;
 
   /// The source type of the wallet secret. Either <code>MANAGED</code> if the
   /// secret is managed by the service, or <code>EXTERNAL</code> if managed by the
-  /// user in AWS Secrets Manager.
+  /// user in Amazon Web Services Secrets Manager.
   final SecretSourceType? walletSecretSource;
 
   CoinbaseCdpConfigurationOutput({
@@ -19467,22 +21510,23 @@ class StripePrivyConfigurationOutput {
   final String authorizationId;
   final Secret authorizationPrivateKeyArn;
 
-  /// The JSON key used to extract the app secret value from the AWS Secrets
-  /// Manager secret.
+  /// The JSON key used to extract the app secret value from the Amazon Web
+  /// Services Secrets Manager secret.
   final String? appSecretJsonKey;
 
   /// The source type of the app secret. Either <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if managed by the user
-  /// in AWS Secrets Manager.
+  /// in Amazon Web Services Secrets Manager.
   final SecretSourceType? appSecretSource;
 
   /// The JSON key used to extract the authorization private key value from the
-  /// AWS Secrets Manager secret.
+  /// Amazon Web Services Secrets Manager secret.
   final String? authorizationPrivateKeyJsonKey;
 
   /// The source type of the authorization private key. Either
   /// <code>MANAGED</code> if the secret is managed by the service, or
-  /// <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.
+  /// <code>EXTERNAL</code> if managed by the user in Amazon Web Services Secrets
+  /// Manager.
   final SecretSourceType? authorizationPrivateKeySource;
 
   StripePrivyConfigurationOutput({
@@ -19541,11 +21585,12 @@ class StripePrivyConfigurationOutput {
   }
 }
 
-/// Contains information about a secret in AWS Secrets Manager.
+/// Contains information about a secret in Amazon Web Services Secrets Manager.
 ///
 /// @nodoc
 class Secret {
-  /// The Amazon Resource Name (ARN) of the secret in AWS Secrets Manager.
+  /// The Amazon Resource Name (ARN) of the secret in Amazon Web Services Secrets
+  /// Manager.
   final String secretArn;
 
   Secret({
@@ -19630,31 +21675,31 @@ class CoinbaseCdpConfigurationInput {
   /// The API key secret provided by Coinbase Developer Platform.
   final String? apiKeySecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the API key
-  /// secret. This includes the secret ID and the JSON key used to extract the API
-  /// key secret value from the secret. Required when
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the API key secret. This includes the secret ID and the JSON key used to
+  /// extract the API key secret value from the secret. Required when
   /// <code>apiKeySecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? apiKeySecretConfig;
 
   /// The source type of the API key secret for the Coinbase Developer Platform.
   /// Use <code>MANAGED</code> if the secret is managed by the service, or
-  /// <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets
-  /// Manager.
+  /// <code>EXTERNAL</code> if you manage the secret yourself in Amazon Web
+  /// Services Secrets Manager.
   final SecretSourceType? apiKeySecretSource;
 
   /// The wallet secret provided by Coinbase Developer Platform.
   final String? walletSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the wallet secret.
-  /// This includes the secret ID and the JSON key used to extract the wallet
-  /// secret value from the secret. Required when <code>walletSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the wallet secret. This includes the secret ID and the JSON key used to
+  /// extract the wallet secret value from the secret. Required when
+  /// <code>walletSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? walletSecretConfig;
 
   /// The source type of the wallet secret for the Coinbase Developer Platform.
   /// Use <code>MANAGED</code> if the secret is managed by the service, or
-  /// <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets
-  /// Manager.
+  /// <code>EXTERNAL</code> if you manage the secret yourself in Amazon Web
+  /// Services Secrets Manager.
   final SecretSourceType? walletSecretSource;
 
   CoinbaseCdpConfigurationInput({
@@ -19702,29 +21747,30 @@ class StripePrivyConfigurationInput {
   /// The app secret provided by Privy.
   final String? appSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the app secret.
-  /// This includes the secret ID and the JSON key used to extract the app secret
-  /// value from the secret. Required when <code>appSecretSource</code> is set to
-  /// <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the app secret. This includes the secret ID and the JSON key used to extract
+  /// the app secret value from the secret. Required when
+  /// <code>appSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? appSecretConfig;
 
   /// The source type of the app secret. Use <code>MANAGED</code> if the secret is
   /// managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? appSecretSource;
 
   /// The authorization private key for the Stripe Privy integration.
   final String? authorizationPrivateKey;
 
-  /// A reference to the AWS Secrets Manager secret that stores the authorization
-  /// private key. This includes the secret ID and the JSON key used to extract
-  /// the authorization private key value from the secret. Required when
-  /// <code>authorizationPrivateKeySource</code> is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the authorization private key. This includes the secret ID and the JSON key
+  /// used to extract the authorization private key value from the secret.
+  /// Required when <code>authorizationPrivateKeySource</code> is set to
+  /// <code>EXTERNAL</code>.
   final SecretReference? authorizationPrivateKeyConfig;
 
   /// The source type of the authorization private key. Use <code>MANAGED</code>
   /// if the secret is managed by the service, or <code>EXTERNAL</code> if you
-  /// manage the secret yourself in AWS Secrets Manager.
+  /// manage the secret yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? authorizationPrivateKeySource;
 
   StripePrivyConfigurationInput({
@@ -19763,15 +21809,17 @@ class StripePrivyConfigurationInput {
   }
 }
 
-/// Contains a reference to a secret stored in AWS Secrets Manager.
+/// Contains a reference to a secret stored in Amazon Web Services Secrets
+/// Manager.
 ///
 /// @nodoc
 class SecretReference {
-  /// The JSON key used to extract the secret value from the AWS Secrets Manager
-  /// secret.
+  /// The JSON key used to extract the secret value from the Amazon Web Services
+  /// Secrets Manager secret.
   final String jsonKey;
 
-  /// The ID of the AWS Secrets Manager secret that stores the secret value.
+  /// The ID of the Amazon Web Services Secrets Manager secret that stores the
+  /// secret value.
   final String secretId;
 
   SecretReference({
@@ -19816,12 +21864,18 @@ class OnlineEvaluationConfigSummary {
   /// The timestamp when the online evaluation configuration was last updated.
   final DateTime updatedAt;
 
+  /// The clustering configuration for periodic batch evaluation.
+  final ClusteringConfig? clusteringConfig;
+
   /// The description of the online evaluation configuration.
   final String? description;
 
   /// The reason for failure if the online evaluation configuration execution
   /// failed.
   final String? failureReason;
+
+  /// The list of insight types configured for this evaluation.
+  final List<Insight>? insights;
 
   OnlineEvaluationConfigSummary({
     required this.createdAt,
@@ -19831,8 +21885,10 @@ class OnlineEvaluationConfigSummary {
     required this.onlineEvaluationConfigName,
     required this.status,
     required this.updatedAt,
+    this.clusteringConfig,
     this.description,
     this.failureReason,
+    this.insights,
   });
 
   factory OnlineEvaluationConfigSummary.fromJson(Map<String, dynamic> json) {
@@ -19849,8 +21905,16 @@ class OnlineEvaluationConfigSummary {
       status: OnlineEvaluationConfigStatus.fromString(
           (json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      clusteringConfig: json['clusteringConfig'] != null
+          ? ClusteringConfig.fromJson(
+              json['clusteringConfig'] as Map<String, dynamic>)
+          : null,
       description: json['description'] as String?,
       failureReason: json['failureReason'] as String?,
+      insights: (json['insights'] as List?)
+          ?.nonNulls
+          .map((e) => Insight.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -19862,8 +21926,10 @@ class OnlineEvaluationConfigSummary {
     final onlineEvaluationConfigName = this.onlineEvaluationConfigName;
     final status = this.status;
     final updatedAt = this.updatedAt;
+    final clusteringConfig = this.clusteringConfig;
     final description = this.description;
     final failureReason = this.failureReason;
+    final insights = this.insights;
     return {
       'createdAt': unixTimestampToJson(createdAt),
       'executionStatus': executionStatus.value,
@@ -19872,8 +21938,10 @@ class OnlineEvaluationConfigSummary {
       'onlineEvaluationConfigName': onlineEvaluationConfigName,
       'status': status.value,
       'updatedAt': unixTimestampToJson(updatedAt),
+      if (clusteringConfig != null) 'clusteringConfig': clusteringConfig,
       if (description != null) 'description': description,
       if (failureReason != null) 'failureReason': failureReason,
+      if (insights != null) 'insights': insights,
     };
   }
 }
@@ -19941,6 +22009,90 @@ class OnlineEvaluationExecutionStatus {
 
   @override
   String toString() => value;
+}
+
+/// Configuration for periodic batch evaluation clustering, specifying how often
+/// clustering jobs run.
+///
+/// @nodoc
+class ClusteringConfig {
+  /// The list of frequencies at which clustering batch evaluations are triggered.
+  final List<ClusteringFrequency> frequencies;
+
+  ClusteringConfig({
+    required this.frequencies,
+  });
+
+  factory ClusteringConfig.fromJson(Map<String, dynamic> json) {
+    return ClusteringConfig(
+      frequencies: ((json['frequencies'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ClusteringFrequency.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frequencies = this.frequencies;
+    return {
+      'frequencies': frequencies.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// @nodoc
+class ClusteringFrequency {
+  static const daily = ClusteringFrequency._('DAILY');
+  static const weekly = ClusteringFrequency._('WEEKLY');
+  static const monthly = ClusteringFrequency._('MONTHLY');
+
+  final String value;
+
+  const ClusteringFrequency._(this.value);
+
+  static const values = [daily, weekly, monthly];
+
+  static ClusteringFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClusteringFrequency._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ClusteringFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A reference to an insight analysis to run against sessions during
+/// evaluation. Insights provide deeper analysis beyond individual evaluator
+/// scores, including failure detection, user intent clustering, and execution
+/// summarization.
+///
+/// @nodoc
+class Insight {
+  /// The unique identifier of the insight to run.
+  final String insightId;
+
+  Insight({
+    required this.insightId,
+  });
+
+  factory Insight.fromJson(Map<String, dynamic> json) {
+    return Insight(
+      insightId: (json['insightId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final insightId = this.insightId;
+    return {
+      'insightId': insightId,
+    };
+  }
 }
 
 /// The evaluation rule that defines sampling configuration, filtering criteria,
@@ -20641,6 +22793,7 @@ class CustomOauth2ProviderConfigOutput {
 
   /// The private endpoint overrides for the custom OAuth2 provider configuration.
   final List<PrivateEndpointOverride>? privateEndpointOverrides;
+  final PrivateKeyJwtConfig? privateKeyJwtConfig;
 
   CustomOauth2ProviderConfigOutput({
     required this.oauthDiscovery,
@@ -20649,6 +22802,7 @@ class CustomOauth2ProviderConfigOutput {
     this.onBehalfOfTokenExchangeConfig,
     this.privateEndpoint,
     this.privateEndpointOverrides,
+    this.privateKeyJwtConfig,
   });
 
   factory CustomOauth2ProviderConfigOutput.fromJson(Map<String, dynamic> json) {
@@ -20674,6 +22828,10 @@ class CustomOauth2ProviderConfigOutput {
           .map((e) =>
               PrivateEndpointOverride.fromJson(e as Map<String, dynamic>))
           .toList(),
+      privateKeyJwtConfig: json['privateKeyJwtConfig'] != null
+          ? PrivateKeyJwtConfig.fromJson(
+              json['privateKeyJwtConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -20684,6 +22842,7 @@ class CustomOauth2ProviderConfigOutput {
     final onBehalfOfTokenExchangeConfig = this.onBehalfOfTokenExchangeConfig;
     final privateEndpoint = this.privateEndpoint;
     final privateEndpointOverrides = this.privateEndpointOverrides;
+    final privateKeyJwtConfig = this.privateKeyJwtConfig;
     return {
       'oauthDiscovery': oauthDiscovery,
       if (clientAuthenticationMethod != null)
@@ -20694,6 +22853,8 @@ class CustomOauth2ProviderConfigOutput {
       if (privateEndpoint != null) 'privateEndpoint': privateEndpoint,
       if (privateEndpointOverrides != null)
         'privateEndpointOverrides': privateEndpointOverrides,
+      if (privateKeyJwtConfig != null)
+        'privateKeyJwtConfig': privateKeyJwtConfig,
     };
   }
 }
@@ -21120,12 +23281,19 @@ class ClientAuthenticationMethodType {
       ClientAuthenticationMethodType._('CLIENT_SECRET_POST');
   static const awsIamIdTokenJwt =
       ClientAuthenticationMethodType._('AWS_IAM_ID_TOKEN_JWT');
+  static const privateKeyJwt =
+      ClientAuthenticationMethodType._('PRIVATE_KEY_JWT');
 
   final String value;
 
   const ClientAuthenticationMethodType._(this.value);
 
-  static const values = [clientSecretBasic, clientSecretPost, awsIamIdTokenJwt];
+  static const values = [
+    clientSecretBasic,
+    clientSecretPost,
+    awsIamIdTokenJwt,
+    privateKeyJwt
+  ];
 
   static ClientAuthenticationMethodType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -21140,6 +23308,151 @@ class ClientAuthenticationMethodType {
 
   @override
   String toString() => value;
+}
+
+/// Configuration for private_key_jwt client authentication (RFC 7523). On
+/// Create: privateKeySource and signingAlgorithm are required (enforced
+/// server-side). On Update: all fields are optional — only provided fields are
+/// updated.
+///
+/// @nodoc
+class PrivateKeyJwtConfig {
+  /// A map of additional claims to include in the JWT client assertion header.
+  /// Standard header claims such as <code>alg</code> and <code>typ</code> cannot
+  /// be added.
+  final Map<String, String>? additionalHeaderClaims;
+
+  /// A map of additional claims to include in the JWT client assertion payload.
+  /// Payload claims generated by the service, such as <code>iss</code>,
+  /// <code>sub</code>, <code>jti</code>, and <code>exp</code>, cannot be added.
+  final Map<String, String>? additionalPayloadClaims;
+
+  /// The private key source for the JWT client assertion.
+  final PrivateKeySource? privateKeySource;
+
+  /// The algorithm used to sign the JWT client assertion. Valid values are
+  /// <code>RS256</code>, <code>PS256</code>, and <code>ES256</code>.
+  final SigningAlgorithm? signingAlgorithm;
+
+  PrivateKeyJwtConfig({
+    this.additionalHeaderClaims,
+    this.additionalPayloadClaims,
+    this.privateKeySource,
+    this.signingAlgorithm,
+  });
+
+  factory PrivateKeyJwtConfig.fromJson(Map<String, dynamic> json) {
+    return PrivateKeyJwtConfig(
+      additionalHeaderClaims:
+          (json['additionalHeaderClaims'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      additionalPayloadClaims:
+          (json['additionalPayloadClaims'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      privateKeySource: json['privateKeySource'] != null
+          ? PrivateKeySource.fromJson(
+              json['privateKeySource'] as Map<String, dynamic>)
+          : null,
+      signingAlgorithm: (json['signingAlgorithm'] as String?)
+          ?.let(SigningAlgorithm.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalHeaderClaims = this.additionalHeaderClaims;
+    final additionalPayloadClaims = this.additionalPayloadClaims;
+    final privateKeySource = this.privateKeySource;
+    final signingAlgorithm = this.signingAlgorithm;
+    return {
+      if (additionalHeaderClaims != null)
+        'additionalHeaderClaims': additionalHeaderClaims,
+      if (additionalPayloadClaims != null)
+        'additionalPayloadClaims': additionalPayloadClaims,
+      if (privateKeySource != null) 'privateKeySource': privateKeySource,
+      if (signingAlgorithm != null) 'signingAlgorithm': signingAlgorithm.value,
+    };
+  }
+}
+
+/// Contains the private key source configuration for a JWT client assertion.
+///
+/// @nodoc
+class PrivateKeySource {
+  /// The KMS key source for the JWT client assertion.
+  final KmsKeySourceType? kmsKeySource;
+
+  PrivateKeySource({
+    this.kmsKeySource,
+  });
+
+  factory PrivateKeySource.fromJson(Map<String, dynamic> json) {
+    return PrivateKeySource(
+      kmsKeySource: json['kmsKeySource'] != null
+          ? KmsKeySourceType.fromJson(
+              json['kmsKeySource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeySource = this.kmsKeySource;
+    return {
+      if (kmsKeySource != null) 'kmsKeySource': kmsKeySource,
+    };
+  }
+}
+
+/// @nodoc
+class SigningAlgorithm {
+  static const rs256 = SigningAlgorithm._('RS256');
+  static const ps256 = SigningAlgorithm._('PS256');
+  static const es256 = SigningAlgorithm._('ES256');
+
+  final String value;
+
+  const SigningAlgorithm._(this.value);
+
+  static const values = [rs256, ps256, es256];
+
+  static SigningAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SigningAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is SigningAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the KMS key configuration for a JWT client assertion.
+///
+/// @nodoc
+class KmsKeySourceType {
+  /// The Amazon Resource Name (ARN) of the KMS key used to sign the JWT client
+  /// assertion. The key must be an asymmetric key with key usage SIGN_VERIFY and
+  /// a key spec compatible with the configured signing algorithm.
+  final String kmsKeyArn;
+
+  KmsKeySourceType({
+    required this.kmsKeyArn,
+  });
+
+  factory KmsKeySourceType.fromJson(Map<String, dynamic> json) {
+    return KmsKeySourceType(
+      kmsKeyArn: (json['kmsKeyArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'kmsKeyArn': kmsKeyArn,
+    };
+  }
 }
 
 /// @nodoc
@@ -21328,15 +23641,15 @@ class CustomOauth2ProviderConfigInput {
   /// The client secret for the custom OAuth2 provider.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   /// The configuration for on-behalf-of token exchange. This enables
@@ -21350,6 +23663,7 @@ class CustomOauth2ProviderConfigInput {
 
   /// The private endpoint overrides for the custom OAuth2 provider configuration.
   final List<PrivateEndpointOverride>? privateEndpointOverrides;
+  final PrivateKeyJwtConfig? privateKeyJwtConfig;
 
   CustomOauth2ProviderConfigInput({
     required this.oauthDiscovery,
@@ -21361,6 +23675,7 @@ class CustomOauth2ProviderConfigInput {
     this.onBehalfOfTokenExchangeConfig,
     this.privateEndpoint,
     this.privateEndpointOverrides,
+    this.privateKeyJwtConfig,
   });
 
   Map<String, dynamic> toJson() {
@@ -21373,6 +23688,7 @@ class CustomOauth2ProviderConfigInput {
     final onBehalfOfTokenExchangeConfig = this.onBehalfOfTokenExchangeConfig;
     final privateEndpoint = this.privateEndpoint;
     final privateEndpointOverrides = this.privateEndpointOverrides;
+    final privateKeyJwtConfig = this.privateKeyJwtConfig;
     return {
       'oauthDiscovery': oauthDiscovery,
       if (clientAuthenticationMethod != null)
@@ -21387,6 +23703,8 @@ class CustomOauth2ProviderConfigInput {
       if (privateEndpoint != null) 'privateEndpoint': privateEndpoint,
       if (privateEndpointOverrides != null)
         'privateEndpointOverrides': privateEndpointOverrides,
+      if (privateKeyJwtConfig != null)
+        'privateKeyJwtConfig': privateKeyJwtConfig,
     };
   }
 }
@@ -21401,15 +23719,15 @@ class GoogleOauth2ProviderConfigInput {
   /// The client secret for the Google OAuth2 provider.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   GoogleOauth2ProviderConfigInput({
@@ -21444,15 +23762,15 @@ class GithubOauth2ProviderConfigInput {
   /// The client secret for the GitHub OAuth2 provider.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   GithubOauth2ProviderConfigInput({
@@ -21487,15 +23805,15 @@ class SlackOauth2ProviderConfigInput {
   /// The client secret for the Slack OAuth2 provider.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   SlackOauth2ProviderConfigInput({
@@ -21530,15 +23848,15 @@ class SalesforceOauth2ProviderConfigInput {
   /// The client secret for the Salesforce OAuth2 provider.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   SalesforceOauth2ProviderConfigInput({
@@ -21573,15 +23891,15 @@ class MicrosoftOauth2ProviderConfigInput {
   /// The client secret for the Microsoft OAuth2 provider.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   /// The Microsoft Entra ID (formerly Azure AD) tenant ID for your organization.
@@ -21629,16 +23947,16 @@ class AtlassianOauth2ProviderConfigInput {
   /// application.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret for the Atlassian OAuth2 provider. Use
   /// <code>MANAGED</code> if the secret is managed by the service, or
-  /// <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets
-  /// Manager.
+  /// <code>EXTERNAL</code> if you manage the secret yourself in Amazon Web
+  /// Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   AtlassianOauth2ProviderConfigInput({
@@ -21678,15 +23996,15 @@ class LinkedinOauth2ProviderConfigInput {
   /// application.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   LinkedinOauth2ProviderConfigInput({
@@ -21731,15 +24049,15 @@ class IncludedOauth2ProviderConfigInput {
   /// your application.
   final String? clientSecret;
 
-  /// A reference to the AWS Secrets Manager secret that stores the client secret.
-  /// This includes the secret ID and the JSON key used to extract the client
-  /// secret value from the secret. Required when <code>clientSecretSource</code>
-  /// is set to <code>EXTERNAL</code>.
+  /// A reference to the Amazon Web Services Secrets Manager secret that stores
+  /// the client secret. This includes the secret ID and the JSON key used to
+  /// extract the client secret value from the secret. Required when
+  /// <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.
   final SecretReference? clientSecretConfig;
 
   /// The source type of the client secret. Use <code>MANAGED</code> if the secret
   /// is managed by the service, or <code>EXTERNAL</code> if you manage the secret
-  /// yourself in AWS Secrets Manager.
+  /// yourself in Amazon Web Services Secrets Manager.
   final SecretSourceType? clientSecretSource;
 
   /// Token issuer of your isolated OAuth2 application tenant. This URL identifies
@@ -21798,6 +24116,10 @@ class MemorySummary {
   /// The unique identifier of the memory.
   final String? id;
 
+  /// ARN of the resource managing this memory (e.g. a harness). Null if not
+  /// managed.
+  final String? managedByResourceArn;
+
   /// The current status of the memory.
   final MemoryStatus? status;
 
@@ -21806,6 +24128,7 @@ class MemorySummary {
     required this.updatedAt,
     this.arn,
     this.id,
+    this.managedByResourceArn,
     this.status,
   });
 
@@ -21815,6 +24138,7 @@ class MemorySummary {
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       arn: json['arn'] as String?,
       id: json['id'] as String?,
+      managedByResourceArn: json['managedByResourceArn'] as String?,
       status: (json['status'] as String?)?.let(MemoryStatus.fromString),
     );
   }
@@ -21824,12 +24148,15 @@ class MemorySummary {
     final updatedAt = this.updatedAt;
     final arn = this.arn;
     final id = this.id;
+    final managedByResourceArn = this.managedByResourceArn;
     final status = this.status;
     return {
       'createdAt': unixTimestampToJson(createdAt),
       'updatedAt': unixTimestampToJson(updatedAt),
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
+      if (managedByResourceArn != null)
+        'managedByResourceArn': managedByResourceArn,
       if (status != null) 'status': status.value,
     };
   }
@@ -21841,12 +24168,13 @@ class MemoryStatus {
   static const active = MemoryStatus._('ACTIVE');
   static const failed = MemoryStatus._('FAILED');
   static const deleting = MemoryStatus._('DELETING');
+  static const updating = MemoryStatus._('UPDATING');
 
   final String value;
 
   const MemoryStatus._(this.value);
 
-  static const values = [creating, active, failed, deleting];
+  static const values = [creating, active, failed, deleting, updating];
 
   static MemoryStatus fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => MemoryStatus._(value));
@@ -21899,6 +24227,11 @@ class Memory {
   /// metadata filters.
   final List<IndexedKey>? indexedKeys;
 
+  /// ARN of the resource managing this memory (e.g. a harness). When set,
+  /// strategy modifications and deletion are only allowed through the managing
+  /// resource.
+  final String? managedByResourceArn;
+
   /// The ARN of the IAM role that provides permissions for the memory.
   final String? memoryExecutionRoleArn;
 
@@ -21920,6 +24253,7 @@ class Memory {
     this.encryptionKeyArn,
     this.failureReason,
     this.indexedKeys,
+    this.managedByResourceArn,
     this.memoryExecutionRoleArn,
     this.strategies,
     this.streamDeliveryResources,
@@ -21941,6 +24275,7 @@ class Memory {
           ?.nonNulls
           .map((e) => IndexedKey.fromJson(e as Map<String, dynamic>))
           .toList(),
+      managedByResourceArn: json['managedByResourceArn'] as String?,
       memoryExecutionRoleArn: json['memoryExecutionRoleArn'] as String?,
       strategies: (json['strategies'] as List?)
           ?.nonNulls
@@ -21965,6 +24300,7 @@ class Memory {
     final encryptionKeyArn = this.encryptionKeyArn;
     final failureReason = this.failureReason;
     final indexedKeys = this.indexedKeys;
+    final managedByResourceArn = this.managedByResourceArn;
     final memoryExecutionRoleArn = this.memoryExecutionRoleArn;
     final strategies = this.strategies;
     final streamDeliveryResources = this.streamDeliveryResources;
@@ -21980,6 +24316,8 @@ class Memory {
       if (encryptionKeyArn != null) 'encryptionKeyArn': encryptionKeyArn,
       if (failureReason != null) 'failureReason': failureReason,
       if (indexedKeys != null) 'indexedKeys': indexedKeys,
+      if (managedByResourceArn != null)
+        'managedByResourceArn': managedByResourceArn,
       if (memoryExecutionRoleArn != null)
         'memoryExecutionRoleArn': memoryExecutionRoleArn,
       if (strategies != null) 'strategies': strategies,
@@ -22492,8 +24830,12 @@ class MetadataSchemaEntry {
   final String key;
 
   /// Configuration for extracting this metadata value from conversational
-  /// content.
+  /// content. Applicable only if extractionType is LLM inferred.
   final ExtractionConfig? extractionConfig;
+
+  /// Specifies whether the metadata value is extracted by the LLM or passed
+  /// through deterministically from the event.
+  final ExtractionType? extractionType;
 
   /// The MetadataValueType.
   final MetadataValueType? type;
@@ -22501,6 +24843,7 @@ class MetadataSchemaEntry {
   MetadataSchemaEntry({
     required this.key,
     this.extractionConfig,
+    this.extractionType,
     this.type,
   });
 
@@ -22511,6 +24854,8 @@ class MetadataSchemaEntry {
           ? ExtractionConfig.fromJson(
               json['extractionConfig'] as Map<String, dynamic>)
           : null,
+      extractionType:
+          (json['extractionType'] as String?)?.let(ExtractionType.fromString),
       type: (json['type'] as String?)?.let(MetadataValueType.fromString),
     );
   }
@@ -22518,13 +24863,43 @@ class MetadataSchemaEntry {
   Map<String, dynamic> toJson() {
     final key = this.key;
     final extractionConfig = this.extractionConfig;
+    final extractionType = this.extractionType;
     final type = this.type;
     return {
       'key': key,
       if (extractionConfig != null) 'extractionConfig': extractionConfig,
+      if (extractionType != null) 'extractionType': extractionType.value,
       if (type != null) 'type': type.value,
     };
   }
+}
+
+/// The extraction type for a metadata field, determining how the value is
+/// obtained during memory processing.
+///
+/// @nodoc
+class ExtractionType {
+  static const llmInferred = ExtractionType._('LLM_INFERRED');
+  static const strictlyConsistent = ExtractionType._('STRICTLY_CONSISTENT');
+
+  final String value;
+
+  const ExtractionType._(this.value);
+
+  static const values = [llmInferred, strictlyConsistent];
+
+  static ExtractionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExtractionType._(value));
+
+  @override
+  bool operator ==(other) => other is ExtractionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for metadata extraction from conversational content.
@@ -24822,62 +27197,65 @@ class MemoryView {
   String toString() => value;
 }
 
-/// Representation of a Harness.
+/// Representation of a harness.
 ///
 /// @nodoc
 class Harness {
-  /// The allowed tools of the Harness. All tools are allowed by default.
+  /// The allowed tools of the harness. All tools are allowed by default.
   final List<String> allowedTools;
 
-  /// The ARN of the Harness.
+  /// The ARN of the harness.
   final String arn;
 
-  /// The createdAt time of the Harness.
+  /// The createdAt time of the harness.
   final DateTime createdAt;
 
   /// The compute environment on which the Harness runs.
   final HarnessEnvironmentProvider environment;
 
-  /// IAM role the Harness assumes when running.
+  /// IAM role the harness assumes when running.
   final String executionRoleArn;
 
-  /// The ID of the Harness.
+  /// The ID of the harness.
   final String harnessId;
 
-  /// The name of the Harness.
+  /// The name of the harness.
   final String harnessName;
 
   /// The configuration of the default model used by the Harness.
   final HarnessModelConfiguration model;
 
-  /// The skills of the Harness.
+  /// The skills of the harness.
   final List<HarnessSkill> skills;
 
-  /// The status of the Harness.
+  /// The status of the harness.
   final HarnessStatus status;
 
-  /// The system prompt of the Harness.
+  /// The system prompt of the harness.
   final List<HarnessSystemContentBlock> systemPrompt;
 
-  /// The tools of the Harness.
+  /// The tools of the harness.
   final List<HarnessTool> tools;
 
   /// Configuration for truncating model context.
   final HarnessTruncationConfiguration truncation;
 
-  /// The updatedAt time of the Harness.
+  /// The updatedAt time of the harness.
   final DateTime updatedAt;
   final AuthorizerConfiguration? authorizerConfiguration;
 
   /// The environment artifact (e.g., container) in which the Harness operates.
   final HarnessEnvironmentArtifact? environmentArtifact;
 
-  /// Environment variables exposed in the environment in which the Harness
+  /// Environment variables exposed in the environment in which the harness
   /// operates.
   final Map<String, String>? environmentVariables;
 
   /// Reason why create or update operations fail.
   final String? failureReason;
+
+  /// The version of the harness. Incremented on every successful UpdateHarness.
+  final String? harnessVersion;
 
   /// The maximum number of iterations in the agent loop allowed before exiting
   /// per invocation.
@@ -24912,6 +27290,7 @@ class Harness {
     this.environmentArtifact,
     this.environmentVariables,
     this.failureReason,
+    this.harnessVersion,
     this.maxIterations,
     this.maxTokens,
     this.memory,
@@ -24965,6 +27344,7 @@ class Harness {
           (json['environmentVariables'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
       failureReason: json['failureReason'] as String?,
+      harnessVersion: json['harnessVersion'] as String?,
       maxIterations: json['maxIterations'] as int?,
       maxTokens: json['maxTokens'] as int?,
       memory: json['memory'] != null
@@ -24994,6 +27374,7 @@ class Harness {
     final environmentArtifact = this.environmentArtifact;
     final environmentVariables = this.environmentVariables;
     final failureReason = this.failureReason;
+    final harnessVersion = this.harnessVersion;
     final maxIterations = this.maxIterations;
     final maxTokens = this.maxTokens;
     final memory = this.memory;
@@ -25020,6 +27401,7 @@ class Harness {
       if (environmentVariables != null)
         'environmentVariables': environmentVariables,
       if (failureReason != null) 'failureReason': failureReason,
+      if (harnessVersion != null) 'harnessVersion': harnessVersion,
       if (maxIterations != null) 'maxIterations': maxIterations,
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (memory != null) 'memory': memory,
@@ -25227,8 +27609,16 @@ class HarnessMemoryConfiguration {
   /// The AgentCore Memory configuration.
   final HarnessAgentCoreMemoryConfiguration? agentCoreMemoryConfiguration;
 
+  /// Explicitly opt out of memory.
+  final HarnessDisabledMemoryConfiguration? disabled;
+
+  /// Harness creates and manages a memory resource in the customer's account.
+  final HarnessManagedMemoryConfiguration? managedMemoryConfiguration;
+
   HarnessMemoryConfiguration({
     this.agentCoreMemoryConfiguration,
+    this.disabled,
+    this.managedMemoryConfiguration,
   });
 
   factory HarnessMemoryConfiguration.fromJson(Map<String, dynamic> json) {
@@ -25237,14 +27627,27 @@ class HarnessMemoryConfiguration {
           ? HarnessAgentCoreMemoryConfiguration.fromJson(
               json['agentCoreMemoryConfiguration'] as Map<String, dynamic>)
           : null,
+      disabled: json['disabled'] != null
+          ? HarnessDisabledMemoryConfiguration.fromJson(
+              json['disabled'] as Map<String, dynamic>)
+          : null,
+      managedMemoryConfiguration: json['managedMemoryConfiguration'] != null
+          ? HarnessManagedMemoryConfiguration.fromJson(
+              json['managedMemoryConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final agentCoreMemoryConfiguration = this.agentCoreMemoryConfiguration;
+    final disabled = this.disabled;
+    final managedMemoryConfiguration = this.managedMemoryConfiguration;
     return {
       if (agentCoreMemoryConfiguration != null)
         'agentCoreMemoryConfiguration': agentCoreMemoryConfiguration,
+      if (disabled != null) 'disabled': disabled,
+      if (managedMemoryConfiguration != null)
+        'managedMemoryConfiguration': managedMemoryConfiguration,
     };
   }
 }
@@ -25299,6 +27702,106 @@ class HarnessAgentCoreMemoryConfiguration {
       if (retrievalConfig != null) 'retrievalConfig': retrievalConfig,
     };
   }
+}
+
+/// Configuration for managed memory creation.
+///
+/// @nodoc
+class HarnessManagedMemoryConfiguration {
+  /// The ARN of the managed AgentCore Memory resource. Read-only on Get, ignored
+  /// on Create/Update input.
+  final String? arn;
+
+  /// Customer-managed KMS key. Defaults to AWS-owned key. Not updatable after
+  /// creation.
+  final String? encryptionKeyArn;
+
+  /// Event retention in days. Defaults to 30.
+  final int? eventExpiryDuration;
+
+  /// Strategy types to enable. Defaults to \[SEMANTIC, SUMMARIZATION\].
+  final List<HarnessManagedMemoryStrategyType>? strategies;
+
+  HarnessManagedMemoryConfiguration({
+    this.arn,
+    this.encryptionKeyArn,
+    this.eventExpiryDuration,
+    this.strategies,
+  });
+
+  factory HarnessManagedMemoryConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return HarnessManagedMemoryConfiguration(
+      arn: json['arn'] as String?,
+      encryptionKeyArn: json['encryptionKeyArn'] as String?,
+      eventExpiryDuration: json['eventExpiryDuration'] as int?,
+      strategies: (json['strategies'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => HarnessManagedMemoryStrategyType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final encryptionKeyArn = this.encryptionKeyArn;
+    final eventExpiryDuration = this.eventExpiryDuration;
+    final strategies = this.strategies;
+    return {
+      if (arn != null) 'arn': arn,
+      if (encryptionKeyArn != null) 'encryptionKeyArn': encryptionKeyArn,
+      if (eventExpiryDuration != null)
+        'eventExpiryDuration': eventExpiryDuration,
+      if (strategies != null)
+        'strategies': strategies.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Explicitly opt out of memory.
+///
+/// @nodoc
+class HarnessDisabledMemoryConfiguration {
+  HarnessDisabledMemoryConfiguration();
+
+  factory HarnessDisabledMemoryConfiguration.fromJson(Map<String, dynamic> _) {
+    return HarnessDisabledMemoryConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class HarnessManagedMemoryStrategyType {
+  static const semantic = HarnessManagedMemoryStrategyType._('SEMANTIC');
+  static const summarization =
+      HarnessManagedMemoryStrategyType._('SUMMARIZATION');
+  static const userPreference =
+      HarnessManagedMemoryStrategyType._('USER_PREFERENCE');
+  static const episodic = HarnessManagedMemoryStrategyType._('EPISODIC');
+
+  final String value;
+
+  const HarnessManagedMemoryStrategyType._(this.value);
+
+  static const values = [semantic, summarization, userPreference, episodic];
+
+  static HarnessManagedMemoryStrategyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HarnessManagedMemoryStrategyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HarnessManagedMemoryStrategyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Configuration for memory retrieval within a namespace.
@@ -25513,6 +28016,11 @@ class NetworkConfiguration {
 ///
 /// @nodoc
 class FilesystemConfiguration {
+  /// Configuration for a capacity provider volume to mount into the AgentCore
+  /// Runtime. This mounts a persistent volume that is defined on the capacity
+  /// provider, referenced by its logical name.
+  final CapacityProviderVolumeConfiguration? capacityProviderVolume;
+
   /// Configuration for an Amazon EFS access point to mount into the AgentCore
   /// Runtime.
   final EfsAccessPointConfiguration? efsAccessPoint;
@@ -25526,6 +28034,7 @@ class FilesystemConfiguration {
   final SessionStorageConfiguration? sessionStorage;
 
   FilesystemConfiguration({
+    this.capacityProviderVolume,
     this.efsAccessPoint,
     this.s3FilesAccessPoint,
     this.sessionStorage,
@@ -25533,6 +28042,10 @@ class FilesystemConfiguration {
 
   factory FilesystemConfiguration.fromJson(Map<String, dynamic> json) {
     return FilesystemConfiguration(
+      capacityProviderVolume: json['capacityProviderVolume'] != null
+          ? CapacityProviderVolumeConfiguration.fromJson(
+              json['capacityProviderVolume'] as Map<String, dynamic>)
+          : null,
       efsAccessPoint: json['efsAccessPoint'] != null
           ? EfsAccessPointConfiguration.fromJson(
               json['efsAccessPoint'] as Map<String, dynamic>)
@@ -25549,10 +28062,13 @@ class FilesystemConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final capacityProviderVolume = this.capacityProviderVolume;
     final efsAccessPoint = this.efsAccessPoint;
     final s3FilesAccessPoint = this.s3FilesAccessPoint;
     final sessionStorage = this.sessionStorage;
     return {
+      if (capacityProviderVolume != null)
+        'capacityProviderVolume': capacityProviderVolume,
       if (efsAccessPoint != null) 'efsAccessPoint': efsAccessPoint,
       if (s3FilesAccessPoint != null) 's3FilesAccessPoint': s3FilesAccessPoint,
       if (sessionStorage != null) 'sessionStorage': sessionStorage,
@@ -25657,6 +28173,44 @@ class EfsAccessPointConfiguration {
     return {
       'accessPointArn': accessPointArn,
       'mountPath': mountPath,
+    };
+  }
+}
+
+/// Configuration for a capacity provider volume mounted into the AgentCore
+/// Runtime. This references a persistent volume by its logical name, as defined
+/// in the capacity provider's list of volumes.
+///
+/// @nodoc
+class CapacityProviderVolumeConfiguration {
+  /// The mount path for the capacity provider volume inside the AgentCore
+  /// Runtime. The path must be under <code>/mnt</code> with exactly one
+  /// subdirectory level (for example, <code>/mnt/data</code>).
+  final String mountPath;
+
+  /// The logical name of the capacity provider volume to mount. This name must
+  /// match a volume that is defined in the capacity provider's list of volumes.
+  final String volumeName;
+
+  CapacityProviderVolumeConfiguration({
+    required this.mountPath,
+    required this.volumeName,
+  });
+
+  factory CapacityProviderVolumeConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CapacityProviderVolumeConfiguration(
+      mountPath: (json['mountPath'] as String?) ?? '',
+      volumeName: (json['volumeName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mountPath = this.mountPath;
+    final volumeName = this.volumeName;
+    return {
+      'mountPath': mountPath,
+      'volumeName': volumeName,
     };
   }
 }
@@ -25899,6 +28453,9 @@ class HarnessSummarizationConfiguration {
 ///
 /// @nodoc
 class HarnessSkill {
+  /// AWS Skills baked into the harness's underlying Runtime.
+  final HarnessSkillAwsSkillsSource? awsSkills;
+
   /// A git repository containing the skill.
   final HarnessSkillGitSource? git;
 
@@ -25909,6 +28466,7 @@ class HarnessSkill {
   final HarnessSkillS3Source? s3;
 
   HarnessSkill({
+    this.awsSkills,
     this.git,
     this.path,
     this.s3,
@@ -25916,6 +28474,10 @@ class HarnessSkill {
 
   factory HarnessSkill.fromJson(Map<String, dynamic> json) {
     return HarnessSkill(
+      awsSkills: json['awsSkills'] != null
+          ? HarnessSkillAwsSkillsSource.fromJson(
+              json['awsSkills'] as Map<String, dynamic>)
+          : null,
       git: json['git'] != null
           ? HarnessSkillGitSource.fromJson(json['git'] as Map<String, dynamic>)
           : null,
@@ -25927,10 +28489,12 @@ class HarnessSkill {
   }
 
   Map<String, dynamic> toJson() {
+    final awsSkills = this.awsSkills;
     final git = this.git;
     final path = this.path;
     final s3 = this.s3;
     return {
+      if (awsSkills != null) 'awsSkills': awsSkills,
       if (git != null) 'git': git,
       if (path != null) 'path': path,
       if (s3 != null) 's3': s3,
@@ -26001,6 +28565,33 @@ class HarnessSkillGitSource {
       'url': url,
       if (auth != null) 'auth': auth,
       if (path != null) 'path': path,
+    };
+  }
+}
+
+/// Passed to show that AWS Skills should be included.
+///
+/// @nodoc
+class HarnessSkillAwsSkillsSource {
+  /// Optionally filter allowed skills with glob syntax, e.g.,
+  /// \['core-skills/*'\].
+  final List<String>? paths;
+
+  HarnessSkillAwsSkillsSource({
+    this.paths,
+  });
+
+  factory HarnessSkillAwsSkillsSource.fromJson(Map<String, dynamic> json) {
+    return HarnessSkillAwsSkillsSource(
+      paths:
+          (json['paths'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final paths = this.paths;
+    return {
+      if (paths != null) 'paths': paths,
     };
   }
 }
@@ -26660,6 +29251,10 @@ class HarnessGeminiModelConfig {
   /// The Gemini model ID.
   final String modelId;
 
+  /// Provider-specific parameters passed through to the Gemini model provider
+  /// unchanged.
+  final Document? additionalParams;
+
   /// The maximum number of tokens to allow in the generated response per model
   /// call.
   final int? maxTokens;
@@ -26676,6 +29271,7 @@ class HarnessGeminiModelConfig {
   HarnessGeminiModelConfig({
     required this.apiKeyArn,
     required this.modelId,
+    this.additionalParams,
     this.maxTokens,
     this.temperature,
     this.topK,
@@ -26686,6 +29282,9 @@ class HarnessGeminiModelConfig {
     return HarnessGeminiModelConfig(
       apiKeyArn: (json['apiKeyArn'] as String?) ?? '',
       modelId: (json['modelId'] as String?) ?? '',
+      additionalParams: json['additionalParams'] != null
+          ? Document.fromJson(json['additionalParams'] as Map<String, dynamic>)
+          : null,
       maxTokens: json['maxTokens'] as int?,
       temperature: _s.parseJsonDouble(json['temperature']),
       topK: json['topK'] as int?,
@@ -26696,6 +29295,7 @@ class HarnessGeminiModelConfig {
   Map<String, dynamic> toJson() {
     final apiKeyArn = this.apiKeyArn;
     final modelId = this.modelId;
+    final additionalParams = this.additionalParams;
     final maxTokens = this.maxTokens;
     final temperature = this.temperature;
     final topK = this.topK;
@@ -26703,6 +29303,7 @@ class HarnessGeminiModelConfig {
     return {
       'apiKeyArn': apiKeyArn,
       'modelId': modelId,
+      if (additionalParams != null) 'additionalParams': additionalParams,
       if (maxTokens != null) 'maxTokens': maxTokens,
       if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
       if (topK != null) 'topK': topK,
@@ -26926,6 +29527,80 @@ class HarnessAgentCoreRuntimeEnvironmentRequest {
   }
 }
 
+/// Summary information about a single version of a harness.
+///
+/// @nodoc
+class HarnessVersionSummary {
+  /// The ARN of the harness.
+  final String arn;
+
+  /// The timestamp when this harness version was created.
+  final DateTime createdAt;
+
+  /// The ID of the harness.
+  final String harnessId;
+
+  /// The name of the harness.
+  final String harnessName;
+
+  /// The version of the harness that this summary describes.
+  final String harnessVersion;
+
+  /// The status of this harness version.
+  final HarnessStatus status;
+
+  /// The timestamp when this harness version was last updated.
+  final DateTime updatedAt;
+
+  /// Reason why the create or update operation for this harness version failed.
+  final String? failureReason;
+
+  HarnessVersionSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.harnessId,
+    required this.harnessName,
+    required this.harnessVersion,
+    required this.status,
+    required this.updatedAt,
+    this.failureReason,
+  });
+
+  factory HarnessVersionSummary.fromJson(Map<String, dynamic> json) {
+    return HarnessVersionSummary(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      harnessId: (json['harnessId'] as String?) ?? '',
+      harnessName: (json['harnessName'] as String?) ?? '',
+      harnessVersion: (json['harnessVersion'] as String?) ?? '',
+      status: HarnessStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      failureReason: json['failureReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final harnessId = this.harnessId;
+    final harnessName = this.harnessName;
+    final harnessVersion = this.harnessVersion;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final failureReason = this.failureReason;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'harnessId': harnessId,
+      'harnessName': harnessName,
+      'harnessVersion': harnessVersion,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (failureReason != null) 'failureReason': failureReason,
+    };
+  }
+}
+
 /// Summary information about a harness.
 ///
 /// @nodoc
@@ -26948,6 +29623,9 @@ class HarnessSummary {
   /// The timestamp when the harness was last updated.
   final DateTime updatedAt;
 
+  /// The latest version of the harness.
+  final String? harnessVersion;
+
   HarnessSummary({
     required this.arn,
     required this.createdAt,
@@ -26955,6 +29633,7 @@ class HarnessSummary {
     required this.harnessName,
     required this.status,
     required this.updatedAt,
+    this.harnessVersion,
   });
 
   factory HarnessSummary.fromJson(Map<String, dynamic> json) {
@@ -26965,6 +29644,7 @@ class HarnessSummary {
       harnessName: (json['harnessName'] as String?) ?? '',
       status: HarnessStatus.fromString((json['status'] as String?) ?? ''),
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      harnessVersion: json['harnessVersion'] as String?,
     );
   }
 
@@ -26975,6 +29655,7 @@ class HarnessSummary {
     final harnessName = this.harnessName;
     final status = this.status;
     final updatedAt = this.updatedAt;
+    final harnessVersion = this.harnessVersion;
     return {
       'arn': arn,
       'createdAt': iso8601ToJson(createdAt),
@@ -26982,8 +29663,149 @@ class HarnessSummary {
       'harnessName': harnessName,
       'status': status.value,
       'updatedAt': iso8601ToJson(updatedAt),
+      if (harnessVersion != null) 'harnessVersion': harnessVersion,
     };
   }
+}
+
+/// Representation of a harness endpoint. An endpoint is a named, stable
+/// reference to a specific version of a harness that callers invoke, allowing
+/// the underlying version to be updated without changing how the agent is
+/// invoked.
+///
+/// @nodoc
+class HarnessEndpoint {
+  /// The ARN of the endpoint.
+  final String arn;
+
+  /// The timestamp when the endpoint was created.
+  final DateTime createdAt;
+
+  /// The name of the endpoint.
+  final String endpointName;
+
+  /// The ID of the harness that the endpoint belongs to.
+  final String harnessId;
+
+  /// The name of the harness that the endpoint belongs to.
+  final String harnessName;
+
+  /// The status of the endpoint.
+  final HarnessEndpointStatus status;
+
+  /// The timestamp when the endpoint was last updated.
+  final DateTime updatedAt;
+
+  /// The description of the endpoint.
+  final String? description;
+
+  /// The reason the endpoint's last create or update operation failed.
+  final String? failureReason;
+
+  /// The harness version that the endpoint is currently serving.
+  final String? liveVersion;
+
+  /// The harness version that the endpoint points to. While an update is in
+  /// progress, this can differ from the live version until the endpoint finishes
+  /// transitioning.
+  final String? targetVersion;
+
+  HarnessEndpoint({
+    required this.arn,
+    required this.createdAt,
+    required this.endpointName,
+    required this.harnessId,
+    required this.harnessName,
+    required this.status,
+    required this.updatedAt,
+    this.description,
+    this.failureReason,
+    this.liveVersion,
+    this.targetVersion,
+  });
+
+  factory HarnessEndpoint.fromJson(Map<String, dynamic> json) {
+    return HarnessEndpoint(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      endpointName: (json['endpointName'] as String?) ?? '',
+      harnessId: (json['harnessId'] as String?) ?? '',
+      harnessName: (json['harnessName'] as String?) ?? '',
+      status:
+          HarnessEndpointStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      description: json['description'] as String?,
+      failureReason: json['failureReason'] as String?,
+      liveVersion: json['liveVersion'] as String?,
+      targetVersion: json['targetVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final endpointName = this.endpointName;
+    final harnessId = this.harnessId;
+    final harnessName = this.harnessName;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    final failureReason = this.failureReason;
+    final liveVersion = this.liveVersion;
+    final targetVersion = this.targetVersion;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'endpointName': endpointName,
+      'harnessId': harnessId,
+      'harnessName': harnessName,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (liveVersion != null) 'liveVersion': liveVersion,
+      if (targetVersion != null) 'targetVersion': targetVersion,
+    };
+  }
+}
+
+/// @nodoc
+class HarnessEndpointStatus {
+  static const creating = HarnessEndpointStatus._('CREATING');
+  static const createFailed = HarnessEndpointStatus._('CREATE_FAILED');
+  static const updating = HarnessEndpointStatus._('UPDATING');
+  static const updateFailed = HarnessEndpointStatus._('UPDATE_FAILED');
+  static const ready = HarnessEndpointStatus._('READY');
+  static const deleting = HarnessEndpointStatus._('DELETING');
+  static const deleteFailed = HarnessEndpointStatus._('DELETE_FAILED');
+
+  final String value;
+
+  const HarnessEndpointStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    updating,
+    updateFailed,
+    ready,
+    deleting,
+    deleteFailed
+  ];
+
+  static HarnessEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HarnessEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HarnessEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -27042,6 +29864,10 @@ class TargetConfiguration {
   /// HTTP-based endpoint such as an AgentCore Runtime.
   final HttpTargetConfiguration? http;
 
+  /// The inference configuration for the target. This configuration routes
+  /// requests to a large language model (LLM) provider.
+  final InferenceTargetConfiguration? inference;
+
   /// The Model Context Protocol (MCP) configuration for the target. This
   /// configuration defines how the gateway uses MCP to communicate with the
   /// target.
@@ -27049,6 +29875,7 @@ class TargetConfiguration {
 
   TargetConfiguration({
     this.http,
+    this.inference,
     this.mcp,
   });
 
@@ -27058,6 +29885,10 @@ class TargetConfiguration {
           ? HttpTargetConfiguration.fromJson(
               json['http'] as Map<String, dynamic>)
           : null,
+      inference: json['inference'] != null
+          ? InferenceTargetConfiguration.fromJson(
+              json['inference'] as Map<String, dynamic>)
+          : null,
       mcp: json['mcp'] != null
           ? McpTargetConfiguration.fromJson(json['mcp'] as Map<String, dynamic>)
           : null,
@@ -27066,9 +29897,11 @@ class TargetConfiguration {
 
   Map<String, dynamic> toJson() {
     final http = this.http;
+    final inference = this.inference;
     final mcp = this.mcp;
     return {
       if (http != null) 'http': http,
+      if (inference != null) 'inference': inference,
       if (mcp != null) 'mcp': mcp,
     };
   }
@@ -27517,6 +30350,11 @@ class McpTargetConfiguration {
   /// The configuration for an Amazon API Gateway target.
   final ApiGatewayTargetConfiguration? apiGateway;
 
+  /// The connector integration configuration for the Model Context Protocol
+  /// target. This configuration defines how the gateway uses a pre-built
+  /// connector to communicate with the target.
+  final ConnectorTargetConfiguration? connector;
+
   /// The Lambda configuration for the Model Context Protocol target. This
   /// configuration defines how the gateway uses a Lambda function to communicate
   /// with the target.
@@ -27535,6 +30373,7 @@ class McpTargetConfiguration {
 
   McpTargetConfiguration({
     this.apiGateway,
+    this.connector,
     this.lambda,
     this.mcpServer,
     this.openApiSchema,
@@ -27546,6 +30385,10 @@ class McpTargetConfiguration {
       apiGateway: json['apiGateway'] != null
           ? ApiGatewayTargetConfiguration.fromJson(
               json['apiGateway'] as Map<String, dynamic>)
+          : null,
+      connector: json['connector'] != null
+          ? ConnectorTargetConfiguration.fromJson(
+              json['connector'] as Map<String, dynamic>)
           : null,
       lambda: json['lambda'] != null
           ? McpLambdaTargetConfiguration.fromJson(
@@ -27568,12 +30411,14 @@ class McpTargetConfiguration {
 
   Map<String, dynamic> toJson() {
     final apiGateway = this.apiGateway;
+    final connector = this.connector;
     final lambda = this.lambda;
     final mcpServer = this.mcpServer;
     final openApiSchema = this.openApiSchema;
     final smithyModel = this.smithyModel;
     return {
       if (apiGateway != null) 'apiGateway': apiGateway,
+      if (connector != null) 'connector': connector,
       if (lambda != null) 'lambda': lambda,
       if (mcpServer != null) 'mcpServer': mcpServer,
       if (openApiSchema != null) 'openApiSchema': openApiSchema,
@@ -27591,8 +30436,19 @@ class HttpTargetConfiguration {
   /// an agent runtime.
   final RuntimeTargetConfiguration? agentcoreRuntime;
 
+  /// The connector-based configuration for the HTTP target. Use this
+  /// configuration when you want to route HTTP requests through a managed
+  /// connector.
+  final HttpConnectorTargetConfiguration? connector;
+
+  /// The passthrough configuration for the HTTP target. A passthrough target
+  /// forwards requests directly to an external HTTP endpoint.
+  final PassthroughTargetConfiguration? passthrough;
+
   HttpTargetConfiguration({
     this.agentcoreRuntime,
+    this.connector,
+    this.passthrough,
   });
 
   factory HttpTargetConfiguration.fromJson(Map<String, dynamic> json) {
@@ -27601,13 +30457,314 @@ class HttpTargetConfiguration {
           ? RuntimeTargetConfiguration.fromJson(
               json['agentcoreRuntime'] as Map<String, dynamic>)
           : null,
+      connector: json['connector'] != null
+          ? HttpConnectorTargetConfiguration.fromJson(
+              json['connector'] as Map<String, dynamic>)
+          : null,
+      passthrough: json['passthrough'] != null
+          ? PassthroughTargetConfiguration.fromJson(
+              json['passthrough'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final agentcoreRuntime = this.agentcoreRuntime;
+    final connector = this.connector;
+    final passthrough = this.passthrough;
     return {
       if (agentcoreRuntime != null) 'agentcoreRuntime': agentcoreRuntime,
+      if (connector != null) 'connector': connector,
+      if (passthrough != null) 'passthrough': passthrough,
+    };
+  }
+}
+
+/// The configuration for an inference target. An inference target routes
+/// requests to a large language model (LLM) provider, either through a built-in
+/// connector or an explicitly configured provider.
+///
+/// @nodoc
+class InferenceTargetConfiguration {
+  /// The connector-based inference configuration. Use this option to route
+  /// requests to an LLM provider through a built-in connector that includes
+  /// predefined provider rules.
+  final InferenceConnectorTargetConfiguration? connector;
+
+  /// The provider-based inference configuration. Use this option to explicitly
+  /// configure the endpoint, model mapping, and operations for an LLM provider.
+  final InferenceProviderTargetConfiguration? provider;
+
+  InferenceTargetConfiguration({
+    this.connector,
+    this.provider,
+  });
+
+  factory InferenceTargetConfiguration.fromJson(Map<String, dynamic> json) {
+    return InferenceTargetConfiguration(
+      connector: json['connector'] != null
+          ? InferenceConnectorTargetConfiguration.fromJson(
+              json['connector'] as Map<String, dynamic>)
+          : null,
+      provider: json['provider'] != null
+          ? InferenceProviderTargetConfiguration.fromJson(
+              json['provider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connector = this.connector;
+    final provider = this.provider;
+    return {
+      if (connector != null) 'connector': connector,
+      if (provider != null) 'provider': provider,
+    };
+  }
+}
+
+/// The configuration for a connector-based inference target. This configuration
+/// uses a built-in connector that provides predefined rules for a large
+/// language model (LLM) provider.
+///
+/// @nodoc
+class InferenceConnectorTargetConfiguration {
+  /// The source configuration identifying which inference connector to use.
+  final InferenceConnectorSource source;
+
+  InferenceConnectorTargetConfiguration({
+    required this.source,
+  });
+
+  factory InferenceConnectorTargetConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return InferenceConnectorTargetConfiguration(
+      source: InferenceConnectorSource.fromJson(
+          (json['source'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    return {
+      'source': source,
+    };
+  }
+}
+
+/// The configuration for a provider-based inference target. This configuration
+/// explicitly defines the endpoint, model mapping, and operations used to route
+/// requests to a large language model (LLM) provider.
+///
+/// @nodoc
+class InferenceProviderTargetConfiguration {
+  /// The HTTPS endpoint of the inference provider that the gateway forwards
+  /// requests to.
+  final String endpoint;
+
+  /// The configuration that translates client-facing model IDs to the model IDs
+  /// expected by the provider.
+  final ModelMapping? modelMapping;
+
+  /// A list of per-operation configurations that map request paths to the models
+  /// supported for each operation.
+  final List<InferenceOperationConfiguration>? operations;
+
+  InferenceProviderTargetConfiguration({
+    required this.endpoint,
+    this.modelMapping,
+    this.operations,
+  });
+
+  factory InferenceProviderTargetConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return InferenceProviderTargetConfiguration(
+      endpoint: (json['endpoint'] as String?) ?? '',
+      modelMapping: json['modelMapping'] != null
+          ? ModelMapping.fromJson(json['modelMapping'] as Map<String, dynamic>)
+          : null,
+      operations: (json['operations'] as List?)
+          ?.nonNulls
+          .map((e) => InferenceOperationConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final modelMapping = this.modelMapping;
+    final operations = this.operations;
+    return {
+      'endpoint': endpoint,
+      if (modelMapping != null) 'modelMapping': modelMapping,
+      if (operations != null) 'operations': operations,
+    };
+  }
+}
+
+/// The configuration that translates model IDs between client-facing names and
+/// provider model IDs.
+///
+/// @nodoc
+class ModelMapping {
+  /// The provider prefix configuration used for model ID translation.
+  final ProviderPrefix? providerPrefix;
+
+  ModelMapping({
+    this.providerPrefix,
+  });
+
+  factory ModelMapping.fromJson(Map<String, dynamic> json) {
+    return ModelMapping(
+      providerPrefix: json['providerPrefix'] != null
+          ? ProviderPrefix.fromJson(
+              json['providerPrefix'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final providerPrefix = this.providerPrefix;
+    return {
+      if (providerPrefix != null) 'providerPrefix': providerPrefix,
+    };
+  }
+}
+
+/// The configuration for a specific inference operation, including its request
+/// path and the models that the operation supports.
+///
+/// @nodoc
+class InferenceOperationConfiguration {
+  /// The request path for this operation (for example, <code>/v1/messages</code>
+  /// or <code>/v1/responses</code>).
+  final String path;
+
+  /// The list of models supported for this operation.
+  final List<ModelEntry>? models;
+
+  /// The provider path to forward requests to, if it differs from the request
+  /// path. For example, <code>/anthropic/v1/messages</code> when the provider
+  /// expects a different path than the client-facing <code>/v1/messages</code>.
+  final String? providerPath;
+
+  InferenceOperationConfiguration({
+    required this.path,
+    this.models,
+    this.providerPath,
+  });
+
+  factory InferenceOperationConfiguration.fromJson(Map<String, dynamic> json) {
+    return InferenceOperationConfiguration(
+      path: (json['path'] as String?) ?? '',
+      models: (json['models'] as List?)
+          ?.nonNulls
+          .map((e) => ModelEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      providerPath: json['providerPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final models = this.models;
+    final providerPath = this.providerPath;
+    return {
+      'path': path,
+      if (models != null) 'models': models,
+      if (providerPath != null) 'providerPath': providerPath,
+    };
+  }
+}
+
+/// A model entry that specifies a model supported for an inference operation.
+///
+/// @nodoc
+class ModelEntry {
+  /// The model ID or glob pattern that identifies the model (for example,
+  /// <code>anthropic.claude-opus-*</code> or <code>openai.gpt-oss-*</code>).
+  final String model;
+
+  ModelEntry({
+    required this.model,
+  });
+
+  factory ModelEntry.fromJson(Map<String, dynamic> json) {
+    return ModelEntry(
+      model: (json['model'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final model = this.model;
+    return {
+      'model': model,
+    };
+  }
+}
+
+/// The configuration that controls how a provider prefix is applied to model
+/// IDs during translation.
+///
+/// @nodoc
+class ProviderPrefix {
+  /// The single character that separates the provider prefix from the model name
+  /// (for example, <code>.</code>). The default is <code>.</code>.
+  final String? separator;
+
+  /// Whether clients can omit the provider prefix from model IDs. If
+  /// <code>true</code>, the gateway accepts model IDs without the prefix and
+  /// restores the full prefixed form before forwarding to the provider. The
+  /// default is <code>false</code>.
+  final bool? strip;
+
+  ProviderPrefix({
+    this.separator,
+    this.strip,
+  });
+
+  factory ProviderPrefix.fromJson(Map<String, dynamic> json) {
+    return ProviderPrefix(
+      separator: json['separator'] as String?,
+      strip: json['strip'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final separator = this.separator;
+    final strip = this.strip;
+    return {
+      if (separator != null) 'separator': separator,
+      if (strip != null) 'strip': strip,
+    };
+  }
+}
+
+/// The source identifying the inference connector.
+///
+/// @nodoc
+class InferenceConnectorSource {
+  /// The identifier for the inference connector (for example,
+  /// <code>bedrock-mantle</code>, <code>openai</code>, or
+  /// <code>anthropic</code>).
+  final String connectorId;
+
+  InferenceConnectorSource({
+    required this.connectorId,
+  });
+
+  factory InferenceConnectorSource.fromJson(Map<String, dynamic> json) {
+    return InferenceConnectorSource(
+      connectorId: (json['connectorId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorId = this.connectorId;
+    return {
+      'connectorId': connectorId,
     };
   }
 }
@@ -27625,24 +30782,264 @@ class RuntimeTargetConfiguration {
   /// version. If not specified, the default endpoint is used.
   final String? qualifier;
 
+  /// The API schema configuration that defines the structure of the runtime
+  /// target's API.
+  final HttpApiSchemaConfiguration? schema;
+
   RuntimeTargetConfiguration({
     required this.arn,
     this.qualifier,
+    this.schema,
   });
 
   factory RuntimeTargetConfiguration.fromJson(Map<String, dynamic> json) {
     return RuntimeTargetConfiguration(
       arn: (json['arn'] as String?) ?? '',
       qualifier: json['qualifier'] as String?,
+      schema: json['schema'] != null
+          ? HttpApiSchemaConfiguration.fromJson(
+              json['schema'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final qualifier = this.qualifier;
+    final schema = this.schema;
     return {
       'arn': arn,
       if (qualifier != null) 'qualifier': qualifier,
+      if (schema != null) 'schema': schema,
+    };
+  }
+}
+
+/// The configuration for an HTTP passthrough target. A passthrough target
+/// forwards requests directly to an external HTTP endpoint.
+///
+/// @nodoc
+class PassthroughTargetConfiguration {
+  /// The HTTPS endpoint that the gateway forwards requests to for this
+  /// passthrough target.
+  final String endpoint;
+
+  /// The application protocol that the passthrough target implements. This value
+  /// is required for passthrough targets:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MCP</code> - The Model Context Protocol.
+  /// </li>
+  /// <li>
+  /// <code>A2A</code> - The Agent-to-Agent protocol.
+  /// </li>
+  /// <li>
+  /// <code>INFERENCE</code> - The protocol for routing requests to a large
+  /// language model (LLM) provider.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM</code> - A custom application protocol.
+  /// </li>
+  /// </ul>
+  final PassthroughProtocolType protocolType;
+
+  /// The API schema configuration that defines the structure of the passthrough
+  /// target's API.
+  final HttpApiSchemaConfiguration? schema;
+
+  /// The session stickiness configuration for the passthrough target. This
+  /// configuration routes requests within the same session to the same target.
+  final StickinessConfiguration? stickinessConfiguration;
+
+  PassthroughTargetConfiguration({
+    required this.endpoint,
+    required this.protocolType,
+    this.schema,
+    this.stickinessConfiguration,
+  });
+
+  factory PassthroughTargetConfiguration.fromJson(Map<String, dynamic> json) {
+    return PassthroughTargetConfiguration(
+      endpoint: (json['endpoint'] as String?) ?? '',
+      protocolType: PassthroughProtocolType.fromString(
+          (json['protocolType'] as String?) ?? ''),
+      schema: json['schema'] != null
+          ? HttpApiSchemaConfiguration.fromJson(
+              json['schema'] as Map<String, dynamic>)
+          : null,
+      stickinessConfiguration: json['stickinessConfiguration'] != null
+          ? StickinessConfiguration.fromJson(
+              json['stickinessConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final protocolType = this.protocolType;
+    final schema = this.schema;
+    final stickinessConfiguration = this.stickinessConfiguration;
+    return {
+      'endpoint': endpoint,
+      'protocolType': protocolType.value,
+      if (schema != null) 'schema': schema,
+      if (stickinessConfiguration != null)
+        'stickinessConfiguration': stickinessConfiguration,
+    };
+  }
+}
+
+/// The configuration for an HTTP connector target. Use this configuration when
+/// you want to route HTTP requests through a managed connector.
+///
+/// @nodoc
+class HttpConnectorTargetConfiguration {
+  /// The source configuration identifying which HTTP connector to use.
+  final HttpConnectorSource source;
+
+  /// The resource parameters for this connector (for example,
+  /// <code>memoryId</code>). The service validates these parameters against the
+  /// request path at runtime.
+  final Map<String, String>? parameters;
+
+  HttpConnectorTargetConfiguration({
+    required this.source,
+    this.parameters,
+  });
+
+  factory HttpConnectorTargetConfiguration.fromJson(Map<String, dynamic> json) {
+    return HttpConnectorTargetConfiguration(
+      source: HttpConnectorSource.fromJson(
+          (json['source'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final parameters = this.parameters;
+    return {
+      'source': source,
+      if (parameters != null) 'parameters': parameters,
+    };
+  }
+}
+
+/// The source identifying the HTTP connector integration.
+///
+/// @nodoc
+class HttpConnectorSource {
+  /// The identifier for the HTTP connector integration.
+  final String connectorId;
+
+  HttpConnectorSource({
+    required this.connectorId,
+  });
+
+  factory HttpConnectorSource.fromJson(Map<String, dynamic> json) {
+    return HttpConnectorSource(
+      connectorId: (json['connectorId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorId = this.connectorId;
+    return {
+      'connectorId': connectorId,
+    };
+  }
+}
+
+/// @nodoc
+class PassthroughProtocolType {
+  static const mcp = PassthroughProtocolType._('MCP');
+  static const a2a = PassthroughProtocolType._('A2A');
+  static const inference = PassthroughProtocolType._('INFERENCE');
+  static const custom = PassthroughProtocolType._('CUSTOM');
+
+  final String value;
+
+  const PassthroughProtocolType._(this.value);
+
+  static const values = [mcp, a2a, inference, custom];
+
+  static PassthroughProtocolType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PassthroughProtocolType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PassthroughProtocolType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The API schema configuration for an HTTP target. This schema defines the API
+/// structure that the target exposes.
+///
+/// @nodoc
+class HttpApiSchemaConfiguration {
+  final ApiSchemaConfiguration source;
+
+  HttpApiSchemaConfiguration({
+    required this.source,
+  });
+
+  factory HttpApiSchemaConfiguration.fromJson(Map<String, dynamic> json) {
+    return HttpApiSchemaConfiguration(
+      source: ApiSchemaConfiguration.fromJson(
+          (json['source'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    return {
+      'source': source,
+    };
+  }
+}
+
+/// The configuration for session-sticky routing to a target. Session stickiness
+/// routes requests that share a session identifier to the same target.
+///
+/// @nodoc
+class StickinessConfiguration {
+  /// The expression that identifies where to extract the session identifier from
+  /// the request (for example, <code>$context.header.x-session-id</code>).
+  final String identifier;
+
+  /// The session stickiness timeout, in seconds. After this duration of
+  /// inactivity, the session affinity expires. Valid values range from 1 to
+  /// 86400.
+  final int? timeout;
+
+  StickinessConfiguration({
+    required this.identifier,
+    this.timeout,
+  });
+
+  factory StickinessConfiguration.fromJson(Map<String, dynamic> json) {
+    return StickinessConfiguration(
+      identifier: (json['identifier'] as String?) ?? '',
+      timeout: json['timeout'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final timeout = this.timeout;
+    return {
+      'identifier': identifier,
+      if (timeout != null) 'timeout': timeout,
     };
   }
 }
@@ -27675,6 +31072,42 @@ class ApiSchemaConfiguration {
     return {
       if (inlinePayload != null) 'inlinePayload': inlinePayload,
       if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+/// The Amazon S3 configuration for a gateway. This structure defines how the
+/// gateway accesses files in Amazon S3.
+///
+/// @nodoc
+class S3Configuration {
+  /// The account ID of the Amazon S3 bucket owner. This ID is used for
+  /// cross-account access to the bucket.
+  final String? bucketOwnerAccountId;
+
+  /// The URI of the Amazon S3 object. This URI specifies the location of the
+  /// object in Amazon S3.
+  final String? uri;
+
+  S3Configuration({
+    this.bucketOwnerAccountId,
+    this.uri,
+  });
+
+  factory S3Configuration.fromJson(Map<String, dynamic> json) {
+    return S3Configuration(
+      bucketOwnerAccountId: json['bucketOwnerAccountId'] as String?,
+      uri: json['uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketOwnerAccountId = this.bucketOwnerAccountId;
+    final uri = this.uri;
+    return {
+      if (bucketOwnerAccountId != null)
+        'bucketOwnerAccountId': bucketOwnerAccountId,
+      if (uri != null) 'uri': uri,
     };
   }
 }
@@ -27812,6 +31245,185 @@ class ApiGatewayTargetConfiguration {
       'apiGatewayToolConfiguration': apiGatewayToolConfiguration,
       'restApiId': restApiId,
       'stage': stage,
+    };
+  }
+}
+
+/// Configuration for a connector integration target. Connectors provide
+/// pre-built integrations with Amazon Web Services services and third-party
+/// tools.
+///
+/// @nodoc
+class ConnectorTargetConfiguration {
+  /// The source configuration identifying which connector to use.
+  final ConnectorSource source;
+
+  /// A list of per-tool configurations for the connector.
+  final List<ConnectorConfiguration>? configurations;
+
+  /// A list of tool names to enable from this connector. If absent, all tools
+  /// provided by the connector are enabled.
+  final List<String>? enabled;
+
+  ConnectorTargetConfiguration({
+    required this.source,
+    this.configurations,
+    this.enabled,
+  });
+
+  factory ConnectorTargetConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectorTargetConfiguration(
+      source: ConnectorSource.fromJson(
+          (json['source'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      configurations: (json['configurations'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ConnectorConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      enabled:
+          (json['enabled'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final configurations = this.configurations;
+    final enabled = this.enabled;
+    return {
+      'source': source,
+      if (configurations != null) 'configurations': configurations,
+      if (enabled != null) 'enabled': enabled,
+    };
+  }
+}
+
+/// The source identifying the connector integration.
+///
+/// @nodoc
+class ConnectorSource {
+  /// The identifier for the connector integration (for example,
+  /// <code>bedrock-knowledge-bases</code>).
+  final String connectorId;
+
+  /// The version of the connector to use (for example, <code>1.1.0</code>). If
+  /// you don't specify a version, the service uses the latest available version.
+  final String? version;
+
+  ConnectorSource({
+    required this.connectorId,
+    this.version,
+  });
+
+  factory ConnectorSource.fromJson(Map<String, dynamic> json) {
+    return ConnectorSource(
+      connectorId: (json['connectorId'] as String?) ?? '',
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorId = this.connectorId;
+    final version = this.version;
+    return {
+      'connectorId': connectorId,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Configuration for a single tool within a connector.
+///
+/// @nodoc
+class ConnectorConfiguration {
+  /// The tool or operation name (for example, <code>retrieve</code> or
+  /// <code>webSearch</code>).
+  final String name;
+
+  /// An agent-facing description override for this tool.
+  final String? description;
+
+  /// Parameters to expose to the agent at runtime, with optional description
+  /// overrides.
+  final List<ConnectorParameterOverride>? parameterOverrides;
+
+  /// Parameters to set as fixed or default values when provisioning this tool.
+  final Document? parameterValues;
+
+  ConnectorConfiguration({
+    required this.name,
+    this.description,
+    this.parameterOverrides,
+    this.parameterValues,
+  });
+
+  factory ConnectorConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectorConfiguration(
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+      parameterOverrides: (json['parameterOverrides'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConnectorParameterOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      parameterValues: json['parameterValues'] != null
+          ? Document.fromJson(json['parameterValues'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    final parameterOverrides = this.parameterOverrides;
+    final parameterValues = this.parameterValues;
+    return {
+      'name': name,
+      if (description != null) 'description': description,
+      if (parameterOverrides != null) 'parameterOverrides': parameterOverrides,
+      if (parameterValues != null) 'parameterValues': parameterValues,
+    };
+  }
+}
+
+/// Specifies a parameter override for a connector tool, allowing you to control
+/// parameter visibility and descriptions.
+///
+/// @nodoc
+class ConnectorParameterOverride {
+  /// A JSON Pointer path identifying the parameter (for example,
+  /// <code>/numberOfResults</code> or <code>/filter</code>).
+  final String path;
+
+  /// An agent-facing description override for this parameter.
+  final String? description;
+
+  /// Whether this parameter is visible to the agent. If not specified, uses the
+  /// service default.
+  final bool? visible;
+
+  ConnectorParameterOverride({
+    required this.path,
+    this.description,
+    this.visible,
+  });
+
+  factory ConnectorParameterOverride.fromJson(Map<String, dynamic> json) {
+    return ConnectorParameterOverride(
+      path: (json['path'] as String?) ?? '',
+      description: json['description'] as String?,
+      visible: json['visible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final description = this.description;
+    final visible = this.visible;
+    return {
+      'path': path,
+      if (description != null) 'description': description,
+      if (visible != null) 'visible': visible,
     };
   }
 }
@@ -28035,42 +31647,6 @@ class ListingMode {
 
   @override
   String toString() => value;
-}
-
-/// The Amazon S3 configuration for a gateway. This structure defines how the
-/// gateway accesses files in Amazon S3.
-///
-/// @nodoc
-class S3Configuration {
-  /// The account ID of the Amazon S3 bucket owner. This ID is used for
-  /// cross-account access to the bucket.
-  final String? bucketOwnerAccountId;
-
-  /// The URI of the Amazon S3 object. This URI specifies the location of the
-  /// object in Amazon S3.
-  final String? uri;
-
-  S3Configuration({
-    this.bucketOwnerAccountId,
-    this.uri,
-  });
-
-  factory S3Configuration.fromJson(Map<String, dynamic> json) {
-    return S3Configuration(
-      bucketOwnerAccountId: json['bucketOwnerAccountId'] as String?,
-      uri: json['uri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketOwnerAccountId = this.bucketOwnerAccountId;
-    final uri = this.uri;
-    return {
-      if (bucketOwnerAccountId != null)
-        'bucketOwnerAccountId': bucketOwnerAccountId,
-      if (uri != null) 'uri': uri,
-    };
-  }
 }
 
 /// A tool schema for a gateway target. This structure defines the schema for a
@@ -28442,13 +32018,25 @@ class TargetSummary {
 
   /// The timestamp when the target was last updated.
   final DateTime updatedAt;
+  final AuthorizationData? authorizationData;
 
   /// The description of the target.
   final String? description;
 
+  /// The timestamp when the target was last synchronized.
+  final DateTime? lastSynchronizedAt;
+
+  /// The listing mode for the target. MCP resources for <code>DEFAULT</code>
+  /// targets are cached at the control plane for faster access. MCP resources for
+  /// <code>DYNAMIC</code> targets are retrieved dynamically when listing tools.
+  final ListingMode? listingMode;
+
   /// Priority for resolving resource URI conflicts across targets. Lower values
   /// take precedence. Defaults to 1000 when not set.
   final int? resourcePriority;
+
+  /// The type of the target.
+  final TargetType? targetType;
 
   TargetSummary({
     required this.createdAt,
@@ -28456,8 +32044,12 @@ class TargetSummary {
     required this.status,
     required this.targetId,
     required this.updatedAt,
+    this.authorizationData,
     this.description,
+    this.lastSynchronizedAt,
+    this.listingMode,
     this.resourcePriority,
+    this.targetType,
   });
 
   factory TargetSummary.fromJson(Map<String, dynamic> json) {
@@ -28467,8 +32059,16 @@ class TargetSummary {
       status: TargetStatus.fromString((json['status'] as String?) ?? ''),
       targetId: (json['targetId'] as String?) ?? '',
       updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      authorizationData: json['authorizationData'] != null
+          ? AuthorizationData.fromJson(
+              json['authorizationData'] as Map<String, dynamic>)
+          : null,
       description: json['description'] as String?,
+      lastSynchronizedAt: timeStampFromJson(json['lastSynchronizedAt']),
+      listingMode:
+          (json['listingMode'] as String?)?.let(ListingMode.fromString),
       resourcePriority: json['resourcePriority'] as int?,
+      targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
     );
   }
 
@@ -28478,18 +32078,70 @@ class TargetSummary {
     final status = this.status;
     final targetId = this.targetId;
     final updatedAt = this.updatedAt;
+    final authorizationData = this.authorizationData;
     final description = this.description;
+    final lastSynchronizedAt = this.lastSynchronizedAt;
+    final listingMode = this.listingMode;
     final resourcePriority = this.resourcePriority;
+    final targetType = this.targetType;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'name': name,
       'status': status.value,
       'targetId': targetId,
       'updatedAt': iso8601ToJson(updatedAt),
+      if (authorizationData != null) 'authorizationData': authorizationData,
       if (description != null) 'description': description,
+      if (lastSynchronizedAt != null)
+        'lastSynchronizedAt': iso8601ToJson(lastSynchronizedAt),
+      if (listingMode != null) 'listingMode': listingMode.value,
       if (resourcePriority != null) 'resourcePriority': resourcePriority,
+      if (targetType != null) 'targetType': targetType.value,
     };
   }
+}
+
+/// @nodoc
+class TargetType {
+  static const openApiSchema = TargetType._('OPEN_API_SCHEMA');
+  static const smithyModel = TargetType._('SMITHY_MODEL');
+  static const mcpServer = TargetType._('MCP_SERVER');
+  static const lambda = TargetType._('LAMBDA');
+  static const apiGateway = TargetType._('API_GATEWAY');
+  static const connector = TargetType._('CONNECTOR');
+  static const agentcoreRuntime = TargetType._('AGENTCORE_RUNTIME');
+  static const passthrough = TargetType._('PASSTHROUGH');
+  static const provider = TargetType._('PROVIDER');
+  static const httpConnector = TargetType._('HTTP_CONNECTOR');
+
+  final String value;
+
+  const TargetType._(this.value);
+
+  static const values = [
+    openApiSchema,
+    smithyModel,
+    mcpServer,
+    lambda,
+    apiGateway,
+    connector,
+    agentcoreRuntime,
+    passthrough,
+    provider,
+    httpConnector
+  ];
+
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -29326,6 +32978,37 @@ class AuthorizerType {
   String toString() => value;
 }
 
+/// The configuration for custom transformations applied to requests and
+/// responses through the gateway. This structure defines how the gateway
+/// transforms data.
+///
+/// @nodoc
+class CustomTransformConfiguration {
+  /// The Lambda configuration for custom transformations. This configuration
+  /// defines how the gateway uses a Lambda function to transform data.
+  final LambdaTransformConfiguration? lambda;
+
+  CustomTransformConfiguration({
+    this.lambda,
+  });
+
+  factory CustomTransformConfiguration.fromJson(Map<String, dynamic> json) {
+    return CustomTransformConfiguration(
+      lambda: json['lambda'] != null
+          ? LambdaTransformConfiguration.fromJson(
+              json['lambda'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambda = this.lambda;
+    return {
+      if (lambda != null) 'lambda': lambda,
+    };
+  }
+}
+
 /// The configuration for a policy engine associated with a gateway. A policy
 /// engine is a collection of policies that evaluates and authorizes agent tool
 /// calls. When associated with a gateway, the policy engine intercepts all
@@ -29396,6 +33079,71 @@ class ExceptionLevel {
 
   @override
   bool operator ==(other) => other is ExceptionLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon Web Services WAF configuration for the gateway. This
+/// configuration controls how the gateway behaves when the associated web ACL
+/// cannot be evaluated.
+///
+/// @nodoc
+class WafConfiguration {
+  /// The failure mode that determines how the gateway handles requests when
+  /// Amazon Web Services WAF is unreachable or times out. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FAIL_CLOSE</code> - The gateway blocks requests when Amazon Web
+  /// Services WAF cannot be evaluated.
+  /// </li>
+  /// <li>
+  /// <code>FAIL_OPEN</code> - The gateway allows requests when Amazon Web
+  /// Services WAF cannot be evaluated.
+  /// </li>
+  /// </ul>
+  final WafFailureMode? failureMode;
+
+  WafConfiguration({
+    this.failureMode,
+  });
+
+  factory WafConfiguration.fromJson(Map<String, dynamic> json) {
+    return WafConfiguration(
+      failureMode:
+          (json['failureMode'] as String?)?.let(WafFailureMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureMode = this.failureMode;
+    return {
+      if (failureMode != null) 'failureMode': failureMode.value,
+    };
+  }
+}
+
+/// @nodoc
+class WafFailureMode {
+  static const failClose = WafFailureMode._('FAIL_CLOSE');
+  static const failOpen = WafFailureMode._('FAIL_OPEN');
+
+  final String value;
+
+  const WafFailureMode._(this.value);
+
+  static const values = [failClose, failOpen];
+
+  static WafFailureMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WafFailureMode._(value));
+
+  @override
+  bool operator ==(other) => other is WafFailureMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -29518,22 +33266,117 @@ class InterceptorInputConfiguration {
   /// When set to true, request headers will be passed.
   final bool passRequestHeaders;
 
+  /// The filter that determines which parts of the request or response payload
+  /// are passed as input to the interceptor.
+  final InterceptorPayloadFilter? payloadFilter;
+
   InterceptorInputConfiguration({
     required this.passRequestHeaders,
+    this.payloadFilter,
   });
 
   factory InterceptorInputConfiguration.fromJson(Map<String, dynamic> json) {
     return InterceptorInputConfiguration(
       passRequestHeaders: (json['passRequestHeaders'] as bool?) ?? false,
+      payloadFilter: json['payloadFilter'] != null
+          ? InterceptorPayloadFilter.fromJson(
+              json['payloadFilter'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final passRequestHeaders = this.passRequestHeaders;
+    final payloadFilter = this.payloadFilter;
     return {
       'passRequestHeaders': passRequestHeaders,
+      if (payloadFilter != null) 'payloadFilter': payloadFilter,
     };
   }
+}
+
+/// The filter that controls which fields of the request or response payload are
+/// included in the input to the interceptor.
+///
+/// @nodoc
+class InterceptorPayloadFilter {
+  /// The list of selectors that identify payload fields to exclude from the
+  /// interceptor input.
+  final List<InterceptorPayloadExclusionSelector> exclude;
+
+  InterceptorPayloadFilter({
+    required this.exclude,
+  });
+
+  factory InterceptorPayloadFilter.fromJson(Map<String, dynamic> json) {
+    return InterceptorPayloadFilter(
+      exclude: ((json['exclude'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InterceptorPayloadExclusionSelector.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exclude = this.exclude;
+    return {
+      'exclude': exclude,
+    };
+  }
+}
+
+/// A selector that identifies a payload field to exclude from the interceptor
+/// input.
+///
+/// @nodoc
+class InterceptorPayloadExclusionSelector {
+  /// The field to exclude from the interceptor input.
+  final InterceptorPayloadExclusion? field;
+
+  InterceptorPayloadExclusionSelector({
+    this.field,
+  });
+
+  factory InterceptorPayloadExclusionSelector.fromJson(
+      Map<String, dynamic> json) {
+    return InterceptorPayloadExclusionSelector(
+      field: (json['field'] as String?)
+          ?.let(InterceptorPayloadExclusion.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    return {
+      if (field != null) 'field': field.value,
+    };
+  }
+}
+
+/// @nodoc
+class InterceptorPayloadExclusion {
+  static const responseBody = InterceptorPayloadExclusion._('RESPONSE_BODY');
+
+  final String value;
+
+  const InterceptorPayloadExclusion._(this.value);
+
+  static const values = [responseBody];
+
+  static InterceptorPayloadExclusion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InterceptorPayloadExclusion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InterceptorPayloadExclusion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc
@@ -29583,6 +33426,33 @@ class LambdaInterceptorConfiguration {
     final arn = this.arn;
     return {
       'arn': arn,
+    };
+  }
+}
+
+/// The Lambda configuration for custom transformations. This structure defines
+/// the Lambda function that the gateway invokes to transform data.
+///
+/// @nodoc
+class LambdaTransformConfiguration {
+  /// The Amazon Resource Name (ARN) of the Lambda function. This function is
+  /// invoked by the gateway to transform data.
+  final String? arn;
+
+  LambdaTransformConfiguration({
+    this.arn,
+  });
+
+  factory LambdaTransformConfiguration.fromJson(Map<String, dynamic> json) {
+    return LambdaTransformConfiguration(
+      arn: json['arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'arn': arn,
     };
   }
 }
@@ -29811,6 +33681,265 @@ class GatewaySummary {
       'updatedAt': iso8601ToJson(updatedAt),
       if (description != null) 'description': description,
       if (protocolType != null) 'protocolType': protocolType.value,
+    };
+  }
+}
+
+/// Status of a gateway limit
+///
+/// @nodoc
+class GatewayRateLimitStatus {
+  static const creating = GatewayRateLimitStatus._('CREATING');
+  static const active = GatewayRateLimitStatus._('ACTIVE');
+  static const updating = GatewayRateLimitStatus._('UPDATING');
+  static const deleting = GatewayRateLimitStatus._('DELETING');
+
+  final String value;
+
+  const GatewayRateLimitStatus._(this.value);
+
+  static const values = [creating, active, updating, deleting];
+
+  static GatewayRateLimitStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GatewayRateLimitStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GatewayRateLimitStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single rule entry within a limit, mapping dimension values to rate
+/// configurations
+///
+/// @nodoc
+class LimitEntry {
+  /// Map of dimension name to dimension value, matching the parent limit's
+  /// dimensionKeys. Keys must exactly match the dimensionKeys. Values may be "*"
+  /// as a wildcard. "*" may only appear at trailing positions (based on
+  /// dimensionKeys ordering).
+  final Map<String, String> dimensions;
+
+  /// Connection rate limits (per second only). Limited to 1 entry for now. — P2
+  final List<RateConfig>? connections;
+
+  /// Request rate limits (RPS or RPM). Limited to 1 entry for now.
+  final List<RateConfig>? requests;
+
+  /// Token rate limits (TPM). Limited to 1 entry for now. — P1
+  final List<RateConfig>? tokens;
+
+  LimitEntry({
+    required this.dimensions,
+    this.connections,
+    this.requests,
+    this.tokens,
+  });
+
+  factory LimitEntry.fromJson(Map<String, dynamic> json) {
+    return LimitEntry(
+      dimensions: ((json['dimensions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k, e as String)),
+      connections: (json['connections'] as List?)
+          ?.nonNulls
+          .map((e) => RateConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requests: (json['requests'] as List?)
+          ?.nonNulls
+          .map((e) => RateConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tokens: (json['tokens'] as List?)
+          ?.nonNulls
+          .map((e) => RateConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final connections = this.connections;
+    final requests = this.requests;
+    final tokens = this.tokens;
+    return {
+      'dimensions': dimensions,
+      if (connections != null) 'connections': connections,
+      if (requests != null) 'requests': requests,
+      if (tokens != null) 'tokens': tokens,
+    };
+  }
+}
+
+/// Rate configuration for a metric (requests or tokens)
+///
+/// @nodoc
+class RateConfig {
+  final Period period;
+
+  /// The rate value for the limit. For request limits, this is the number of
+  /// requests allowed per period. For token limits, this is the number of tokens
+  /// allowed per period. For connection limits, this is the number of concurrent
+  /// connections allowed.
+  final double rate;
+
+  RateConfig({
+    required this.period,
+    required this.rate,
+  });
+
+  factory RateConfig.fromJson(Map<String, dynamic> json) {
+    return RateConfig(
+      period: Period.fromString((json['period'] as String?) ?? ''),
+      rate: _s.parseJsonDouble(json['rate']) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final period = this.period;
+    final rate = this.rate;
+    return {
+      'period': period.value,
+      'rate': _s.encodeJsonDouble(rate),
+    };
+  }
+}
+
+/// Time period for rate limiting
+///
+/// @nodoc
+class Period {
+  static const second = Period._('second');
+  static const minute = Period._('minute');
+
+  final String value;
+
+  const Period._(this.value);
+
+  static const values = [second, minute];
+
+  static Period fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Period._(value));
+
+  @override
+  bool operator ==(other) => other is Period && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Shared fields for GatewayRateLimit responses
+///
+/// @nodoc
+class GatewayRateLimitDetail {
+  /// The timestamp when the rate limit was created.
+  final DateTime createdAt;
+  final List<String> dimensionKeys;
+  final List<LimitEntry> entries;
+
+  /// The unique identifier of the gateway.
+  final String gatewayIdentifier;
+  final String rateLimitId;
+  final GatewayRateLimitStatus status;
+
+  /// The timestamp when the rate limit was last updated.
+  final DateTime updatedAt;
+
+  /// Optional human-readable description for this limit.
+  final String? description;
+
+  GatewayRateLimitDetail({
+    required this.createdAt,
+    required this.dimensionKeys,
+    required this.entries,
+    required this.gatewayIdentifier,
+    required this.rateLimitId,
+    required this.status,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory GatewayRateLimitDetail.fromJson(Map<String, dynamic> json) {
+    return GatewayRateLimitDetail(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dimensionKeys: ((json['dimensionKeys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      entries: ((json['entries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => LimitEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayIdentifier: (json['gatewayIdentifier'] as String?) ?? '',
+      rateLimitId: (json['rateLimitId'] as String?) ?? '',
+      status:
+          GatewayRateLimitStatus.fromString((json['status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final dimensionKeys = this.dimensionKeys;
+    final entries = this.entries;
+    final gatewayIdentifier = this.gatewayIdentifier;
+    final rateLimitId = this.rateLimitId;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'dimensionKeys': dimensionKeys,
+      'entries': entries,
+      'gatewayIdentifier': gatewayIdentifier,
+      'rateLimitId': rateLimitId,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// A limit definition within a BatchPut request (rateLimitId used for upsert
+/// matching)
+///
+/// @nodoc
+class BatchPutLimitEntry {
+  final List<String> dimensionKeys;
+  final List<LimitEntry> entries;
+
+  /// Optional human-readable description for this limit.
+  final String? description;
+
+  /// Optional — if provided, used for upsert matching against existing limits.
+  final String? rateLimitId;
+
+  BatchPutLimitEntry({
+    required this.dimensionKeys,
+    required this.entries,
+    this.description,
+    this.rateLimitId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dimensionKeys = this.dimensionKeys;
+    final entries = this.entries;
+    final description = this.description;
+    final rateLimitId = this.rateLimitId;
+    return {
+      'dimensionKeys': dimensionKeys,
+      'entries': entries,
+      if (description != null) 'description': description,
+      if (rateLimitId != null) 'rateLimitId': rateLimitId,
     };
   }
 }
@@ -30209,8 +34338,12 @@ class EvaluatorModelConfig {
   /// The Amazon Bedrock model configuration for evaluation.
   final BedrockEvaluatorModelConfig? bedrockEvaluatorModelConfig;
 
+  /// The OpenResponses model configuration for evaluation.
+  final OpenResponsesEvaluatorModelConfig? responsesEvaluatorModelConfig;
+
   EvaluatorModelConfig({
     this.bedrockEvaluatorModelConfig,
+    this.responsesEvaluatorModelConfig,
   });
 
   factory EvaluatorModelConfig.fromJson(Map<String, dynamic> json) {
@@ -30219,14 +34352,22 @@ class EvaluatorModelConfig {
           ? BedrockEvaluatorModelConfig.fromJson(
               json['bedrockEvaluatorModelConfig'] as Map<String, dynamic>)
           : null,
+      responsesEvaluatorModelConfig:
+          json['responsesEvaluatorModelConfig'] != null
+              ? OpenResponsesEvaluatorModelConfig.fromJson(
+                  json['responsesEvaluatorModelConfig'] as Map<String, dynamic>)
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final bedrockEvaluatorModelConfig = this.bedrockEvaluatorModelConfig;
+    final responsesEvaluatorModelConfig = this.responsesEvaluatorModelConfig;
     return {
       if (bedrockEvaluatorModelConfig != null)
         'bedrockEvaluatorModelConfig': bedrockEvaluatorModelConfig,
+      if (responsesEvaluatorModelConfig != null)
+        'responsesEvaluatorModelConfig': responsesEvaluatorModelConfig,
     };
   }
 }
@@ -30274,6 +34415,95 @@ class BedrockEvaluatorModelConfig {
       if (additionalModelRequestFields != null)
         'additionalModelRequestFields': additionalModelRequestFields,
       if (inferenceConfig != null) 'inferenceConfig': inferenceConfig,
+    };
+  }
+}
+
+/// The configuration for using models served through the OpenResponses API in
+/// evaluator assessments, including model selection and inference parameters.
+///
+/// @nodoc
+class OpenResponsesEvaluatorModelConfig {
+  /// The identifier of the model to use for evaluation.
+  final String modelId;
+
+  /// The maximum number of tokens to generate in the model response, including
+  /// visible output and reasoning tokens.
+  final int? maxOutputTokens;
+
+  /// The reasoning configuration for reasoning models. Non-reasoning models
+  /// ignore this configuration.
+  final ReasoningConfiguration? reasoning;
+
+  /// The temperature value that controls randomness in the model's responses.
+  /// Lower values produce more deterministic outputs.
+  final double? temperature;
+
+  /// The top-p sampling parameter that controls the diversity of the model's
+  /// responses by limiting the cumulative probability of token choices.
+  final double? topP;
+
+  OpenResponsesEvaluatorModelConfig({
+    required this.modelId,
+    this.maxOutputTokens,
+    this.reasoning,
+    this.temperature,
+    this.topP,
+  });
+
+  factory OpenResponsesEvaluatorModelConfig.fromJson(
+      Map<String, dynamic> json) {
+    return OpenResponsesEvaluatorModelConfig(
+      modelId: (json['modelId'] as String?) ?? '',
+      maxOutputTokens: json['maxOutputTokens'] as int?,
+      reasoning: json['reasoning'] != null
+          ? ReasoningConfiguration.fromJson(
+              json['reasoning'] as Map<String, dynamic>)
+          : null,
+      temperature: _s.parseJsonDouble(json['temperature']),
+      topP: _s.parseJsonDouble(json['topP']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelId = this.modelId;
+    final maxOutputTokens = this.maxOutputTokens;
+    final reasoning = this.reasoning;
+    final temperature = this.temperature;
+    final topP = this.topP;
+    return {
+      'modelId': modelId,
+      if (maxOutputTokens != null) 'maxOutputTokens': maxOutputTokens,
+      if (reasoning != null) 'reasoning': reasoning,
+      if (temperature != null) 'temperature': _s.encodeJsonDouble(temperature),
+      if (topP != null) 'topP': _s.encodeJsonDouble(topP),
+    };
+  }
+}
+
+/// The reasoning configuration that controls how a reasoning model allocates
+/// effort during evaluation.
+///
+/// @nodoc
+class ReasoningConfiguration {
+  /// The level of reasoning effort the model applies when generating a response.
+  /// For supported values, see the model provider's documentation.
+  final String? effort;
+
+  ReasoningConfiguration({
+    this.effort,
+  });
+
+  factory ReasoningConfiguration.fromJson(Map<String, dynamic> json) {
+    return ReasoningConfiguration(
+      effort: json['effort'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effort = this.effort;
+    return {
+      if (effort != null) 'effort': effort,
     };
   }
 }
@@ -30431,35 +34661,7 @@ class IncludedData {
   String toString() => value;
 }
 
-/// Dataset lifecycle / operation status. Two-column status model:
-/// `DatasetStatus` tracks lifecycle state independently from `DraftStatus`
-/// which tracks publish synchronization. IN-FLIGHT states (busy — all writes
-/// blocked): CREATING — CreateDataset async ingestion in progress. UPDATING —
-/// Example mutation (Add/Update/Delete) or CreateDatasetVersion in progress.
-/// DELETING — Full or version-specific delete in progress. TERMINAL states
-/// (stable — operations allowed per guards below): ACTIVE — Dataset is stable.
-/// failureReason cleared. CREATE_FAILED — Initial ingestion failed. DRAFT
-/// record exists but has no examples. failureReason populated. UPDATE_FAILED —
-/// Last example mutation or CreateDatasetVersion failed. DRAFT may be partially
-/// modified. failureReason populated. DELETE_FAILED — Delete failed after
-/// retries. Dataset/S3 may be in inconsistent state. Sev-2 ticket filed
-/// (full-delete only). failureReason populated. State transitions:
-/// CreateDataset → CREATING → ACTIVE (draftStatus=MODIFIED) | CREATE_FAILED
-/// Add/Update/DeleteDatasetExamples → UPDATING → ACTIVE (draftStatus=MODIFIED)
-/// | UPDATE_FAILED CreateDatasetVersion → UPDATING → ACTIVE
-/// (draftStatus=UNMODIFIED) | UPDATE_FAILED DeleteDataset (version-specific) →
-/// DELETING → ACTIVE (draftStatus unchanged) | DELETE_FAILED DeleteDataset
-/// (full) → DELETING → (record deleted) | DELETE_FAILED \[auto Sev-2\]
-/// Operation guards (ConflictException codes): GetDataset /
-/// ListDatasetExamples: — Allowed for all statuses (no guard) UpdateDataset,
-/// AddDatasetExamples, DeleteDatasetExamples: — DATASET_NOT_READY if status in
-/// {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status ==
-/// DELETE_FAILED UpdateDatasetExamples: — DATASET_NOT_READY if status in
-/// {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in
-/// {CREATE_FAILED, DELETE_FAILED} CreateDatasetVersion: — DATASET_NOT_READY if
-/// status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status
-/// in {CREATE_FAILED, DELETE_FAILED} DeleteDataset: — DATASET_NOT_READY if
-/// status in {CREATING, UPDATING, DELETING}
+/// Dataset lifecycle and operation status.
 ///
 /// @nodoc
 class DatasetStatus {
@@ -30505,6 +34707,8 @@ class DatasetStatus {
 class DatasetVersionSummary {
   /// The timestamp when this version was published.
   final DateTime createdAt;
+
+  /// The version number of this published snapshot.
   final String datasetVersion;
 
   /// The number of examples in this version.
@@ -30543,8 +34747,7 @@ class DataSourceType {
   /// Inline examples provided directly in the request body.
   final InlineExamplesSource? inlineExamples;
 
-  /// S3 URI pointing to a JSONL file in the customer's bucket. The service reads
-  /// this file using the caller's FAS credentials.
+  /// Amazon S3 URI pointing to a JSONL file in the customer's bucket.
   final S3Source? s3Source;
 
   DataSourceType({
@@ -30581,11 +34784,12 @@ class InlineExamplesSource {
   }
 }
 
-/// S3 location of a JSONL file containing dataset examples.
+/// Amazon S3 location of a JSONL file containing dataset examples.
 ///
 /// @nodoc
 class S3Source {
-  /// S3 URI of the JSONL file (e.g. s3://my-bucket/path/to/examples.jsonl).
+  /// Amazon S3 URI of the JSONL file (for example,
+  /// <code>s3://my-bucket/path/to/examples.jsonl</code>).
   final String s3Uri;
 
   S3Source({
@@ -30631,7 +34835,7 @@ class DatasetSummary {
   /// The description of the dataset.
   final String? description;
 
-  /// Publish synchronization state. Only authoritative when status == ACTIVE.
+  /// Publish synchronization state. Only authoritative when status is ACTIVE.
   final DraftStatus? draftStatus;
 
   DatasetSummary({
@@ -30690,13 +34894,7 @@ class DatasetSummary {
   }
 }
 
-/// Publish synchronization state of the DRAFT working copy. Tracks whether the
-/// current DRAFT content has been published as a version. Only authoritative
-/// when DatasetStatus == ACTIVE. Not meaningful during in-flight or failed
-/// states. Transitions: CreateDataset succeeds → MODIFIED (DRAFT has content
-/// with no published version yet) Add/Update/DeleteExamples succeed → MODIFIED
-/// (DRAFT differs from last published version) CreateDatasetVersion succeeds →
-/// UNMODIFIED (DRAFT matches the version just published)
+/// Publish synchronization state of the DRAFT working copy.
 ///
 /// @nodoc
 class DraftStatus {
@@ -30722,20 +34920,8 @@ class DraftStatus {
   String toString() => value;
 }
 
-/// Format of a customer-provided source file. **JSONL** (JSON Lines, one object
-/// per line) is the service's native ingestion and storage format — it can be
-/// streamed line-by-line without loading the entire file into memory, which is
-/// important as the row-count cap is extended. **JSON array (`\[{...},{...}\]`)
-/// is intentionally not supported** at launch: it cannot be streamed (requires
-/// loading the full file into memory to parse), and all major eval frameworks
-/// (LangSmith, Ragas, DeepEval, Arize Phoenix) export as JSONL or CSV — not
-/// JSON arrays. Customers with JSON array files can Versioned schema type for
-/// dataset examples. Each value identifies both the source format and the
-/// version of that format's schema. Schema definitions (required/optional
-/// fields) are stored as constants in SchemaRegistry. The schemaType on a
-/// Dataset is immutable after creation. When a framework changes its format, a
-/// new version is added (e.g., RAGAS_V2) without breaking existing datasets
-/// using the old version. Content is always stored as-is.
+/// Versioned schema type for dataset examples. Each value identifies both the
+/// source format and the version of that format's schema.
 ///
 /// @nodoc
 class DatasetSchemaType {
@@ -31238,6 +35424,147 @@ class CodeInterpreterNetworkConfiguration {
   }
 }
 
+/// Specifies a file system to mount into the session by providing exactly one
+/// of the following:
+///
+/// <ul>
+/// <li>
+/// <code>s3FilesConfiguration</code> - Mounts an Amazon Simple Storage Service
+/// (Amazon S3) Files access point.
+/// </li>
+/// <li>
+/// <code>efsConfiguration</code> - Mounts an Amazon Elastic File System (Amazon
+/// EFS) access point.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ToolsFileSystemConfiguration {
+  /// The configuration for mounting your own Amazon Elastic File System (Amazon
+  /// EFS) access point into the session.
+  final EfsConfiguration? efsConfiguration;
+
+  /// The configuration for mounting your own Amazon Simple Storage Service
+  /// (Amazon S3) Files access point into the session.
+  final S3FilesConfiguration? s3FilesConfiguration;
+
+  ToolsFileSystemConfiguration({
+    this.efsConfiguration,
+    this.s3FilesConfiguration,
+  });
+
+  factory ToolsFileSystemConfiguration.fromJson(Map<String, dynamic> json) {
+    return ToolsFileSystemConfiguration(
+      efsConfiguration: json['efsConfiguration'] != null
+          ? EfsConfiguration.fromJson(
+              json['efsConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3FilesConfiguration: json['s3FilesConfiguration'] != null
+          ? S3FilesConfiguration.fromJson(
+              json['s3FilesConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final efsConfiguration = this.efsConfiguration;
+    final s3FilesConfiguration = this.s3FilesConfiguration;
+    return {
+      if (efsConfiguration != null) 'efsConfiguration': efsConfiguration,
+      if (s3FilesConfiguration != null)
+        's3FilesConfiguration': s3FilesConfiguration,
+    };
+  }
+}
+
+/// The configuration for mounting an Amazon Simple Storage Service (Amazon S3)
+/// Files access point that you own into a session.
+///
+/// @nodoc
+class S3FilesConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon
+  /// S3) Files access point to mount.
+  final String accessPointArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Simple Storage Service (Amazon
+  /// S3) Files file system that owns the access point.
+  final String fileSystemArn;
+
+  /// The absolute path within the session at which the access point is mounted,
+  /// for example <code>/mnt/s3data</code>. Each mount path must be unique across
+  /// all file system configurations in the session.
+  final String mountPath;
+
+  S3FilesConfiguration({
+    required this.accessPointArn,
+    required this.fileSystemArn,
+    required this.mountPath,
+  });
+
+  factory S3FilesConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3FilesConfiguration(
+      accessPointArn: (json['accessPointArn'] as String?) ?? '',
+      fileSystemArn: (json['fileSystemArn'] as String?) ?? '',
+      mountPath: (json['mountPath'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final fileSystemArn = this.fileSystemArn;
+    final mountPath = this.mountPath;
+    return {
+      'accessPointArn': accessPointArn,
+      'fileSystemArn': fileSystemArn,
+      'mountPath': mountPath,
+    };
+  }
+}
+
+/// The configuration for mounting an Amazon Elastic File System (Amazon EFS)
+/// access point that you own into a session.
+///
+/// @nodoc
+class EfsConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon
+  /// EFS) access point to mount.
+  final String accessPointArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Elastic File System (Amazon
+  /// EFS) file system that owns the access point.
+  final String fileSystemArn;
+
+  /// The absolute path within the session at which the access point is mounted,
+  /// for example <code>/mnt/efs</code>. Each mount path must be unique across all
+  /// file system configurations in the session.
+  final String mountPath;
+
+  EfsConfiguration({
+    required this.accessPointArn,
+    required this.fileSystemArn,
+    required this.mountPath,
+  });
+
+  factory EfsConfiguration.fromJson(Map<String, dynamic> json) {
+    return EfsConfiguration(
+      accessPointArn: (json['accessPointArn'] as String?) ?? '',
+      fileSystemArn: (json['fileSystemArn'] as String?) ?? '',
+      mountPath: (json['mountPath'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointArn = this.accessPointArn;
+    final fileSystemArn = this.fileSystemArn;
+    final mountPath = this.mountPath;
+    return {
+      'accessPointArn': accessPointArn,
+      'fileSystemArn': fileSystemArn,
+      'mountPath': mountPath,
+    };
+  }
+}
+
 /// A certificate to install in the browser or code interpreter.
 ///
 /// @nodoc
@@ -31344,6 +35671,1198 @@ class CodeInterpreterNetworkMode {
 
   @override
   String toString() => value;
+}
+
+/// Summary information about an agent runtime version associated with a
+/// capacity provider. This is returned by
+/// <code>ListAgentRuntimeVersionsByCapacityProvider</code>.
+///
+/// @nodoc
+class AgentRuntimeVersionSummary {
+  /// The Amazon Resource Name (ARN) of the agent runtime.
+  final String agentRuntimeArn;
+
+  /// The version of the agent runtime.
+  final String agentRuntimeVersion;
+
+  /// The current status of the agent runtime version.
+  final AgentRuntimeStatus status;
+
+  AgentRuntimeVersionSummary({
+    required this.agentRuntimeArn,
+    required this.agentRuntimeVersion,
+    required this.status,
+  });
+
+  factory AgentRuntimeVersionSummary.fromJson(Map<String, dynamic> json) {
+    return AgentRuntimeVersionSummary(
+      agentRuntimeArn: (json['agentRuntimeArn'] as String?) ?? '',
+      agentRuntimeVersion: (json['agentRuntimeVersion'] as String?) ?? '',
+      status: AgentRuntimeStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentRuntimeArn = this.agentRuntimeArn;
+    final agentRuntimeVersion = this.agentRuntimeVersion;
+    final status = this.status;
+    return {
+      'agentRuntimeArn': agentRuntimeArn,
+      'agentRuntimeVersion': agentRuntimeVersion,
+      'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class AgentRuntimeStatus {
+  static const creating = AgentRuntimeStatus._('CREATING');
+  static const createFailed = AgentRuntimeStatus._('CREATE_FAILED');
+  static const updating = AgentRuntimeStatus._('UPDATING');
+  static const updateFailed = AgentRuntimeStatus._('UPDATE_FAILED');
+  static const ready = AgentRuntimeStatus._('READY');
+  static const deleting = AgentRuntimeStatus._('DELETING');
+
+  final String value;
+
+  const AgentRuntimeStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    updating,
+    updateFailed,
+    ready,
+    deleting
+  ];
+
+  static AgentRuntimeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgentRuntimeStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AgentRuntimeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of a capacity provider, as returned by
+/// <code>ListCapacityProviders</code>. Each summary includes the capacity
+/// provider identifier, Amazon Resource Name (ARN), name, status, and
+/// last-updated timestamp.
+///
+/// @nodoc
+class CapacityProviderSummary {
+  /// The Amazon Resource Name (ARN) of the capacity provider.
+  final String capacityProviderArn;
+
+  /// The unique identifier of the capacity provider.
+  final String capacityProviderId;
+
+  /// The timestamp when the capacity provider was last updated.
+  final DateTime lastUpdatedAt;
+
+  /// The name of the capacity provider.
+  final String name;
+
+  /// The current status of the capacity provider. For possible values, see
+  /// <code>CapacityProviderStatus</code>.
+  final CapacityProviderStatus status;
+
+  CapacityProviderSummary({
+    required this.capacityProviderArn,
+    required this.capacityProviderId,
+    required this.lastUpdatedAt,
+    required this.name,
+    required this.status,
+  });
+
+  factory CapacityProviderSummary.fromJson(Map<String, dynamic> json) {
+    return CapacityProviderSummary(
+      capacityProviderArn: (json['capacityProviderArn'] as String?) ?? '',
+      capacityProviderId: (json['capacityProviderId'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status:
+          CapacityProviderStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderArn = this.capacityProviderArn;
+    final capacityProviderId = this.capacityProviderId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'capacityProviderArn': capacityProviderArn,
+      'capacityProviderId': capacityProviderId,
+      'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      'name': name,
+      'status': status.value,
+    };
+  }
+}
+
+/// The status of a capacity provider. Possible values:
+///
+/// <ul>
+/// <li>
+/// <code>CREATING</code> – The service is creating the capacity provider and
+/// validating its configuration.
+/// </li>
+/// <li>
+/// <code>CREATE_FAILED</code> – The service could not create the capacity
+/// provider. For details, see <code>statusCode</code> and
+/// <code>statusReason</code>.
+/// </li>
+/// <li>
+/// <code>UPDATING</code> – The service is updating the capacity provider.
+/// </li>
+/// <li>
+/// <code>UPDATE_FAILED</code> – The service could not update the capacity
+/// provider. For details, see <code>statusCode</code> and
+/// <code>statusReason</code>.
+/// </li>
+/// <li>
+/// <code>READY</code> – The capacity provider is available for use.
+/// </li>
+/// <li>
+/// <code>DELETING</code> – The service is deleting the capacity provider.
+/// </li>
+/// <li>
+/// <code>DELETE_FAILED</code> – The service could not delete the capacity
+/// provider. You can retry the deletion.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class CapacityProviderStatus {
+  static const creating = CapacityProviderStatus._('CREATING');
+  static const createFailed = CapacityProviderStatus._('CREATE_FAILED');
+  static const updating = CapacityProviderStatus._('UPDATING');
+  static const updateFailed = CapacityProviderStatus._('UPDATE_FAILED');
+  static const ready = CapacityProviderStatus._('READY');
+  static const deleting = CapacityProviderStatus._('DELETING');
+  static const deleteFailed = CapacityProviderStatus._('DELETE_FAILED');
+
+  final String value;
+
+  const CapacityProviderStatus._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    updating,
+    updateFailed,
+    ready,
+    deleting,
+    deleteFailed
+  ];
+
+  static CapacityProviderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityProviderStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A reason code for a capacity provider that is not in the <code>READY</code>
+/// state. Possible values:
+///
+/// <ul>
+/// <li>
+/// <code>VALIDATION_ERROR</code> – A configuration error prevented the
+/// operation. For example, missing permissions, invalid parameters, or a naming
+/// conflict.
+/// </li>
+/// <li>
+/// <code>QUOTA_EXCEEDED</code> – An Amazon EC2 resource quota was exceeded.
+/// Request a limit increase or remove unused resources.
+/// </li>
+/// <li>
+/// <code>THROTTLED</code> – The request was throttled. Retry after a short
+/// delay.
+/// </li>
+/// <li>
+/// <code>INTERNAL_SERVER_EXCEPTION</code> – An internal error occurred.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class CapacityProviderStatusCode {
+  static const validationError =
+      CapacityProviderStatusCode._('VALIDATION_ERROR');
+  static const quotaExceeded = CapacityProviderStatusCode._('QUOTA_EXCEEDED');
+  static const throttled = CapacityProviderStatusCode._('THROTTLED');
+  static const internalServerException =
+      CapacityProviderStatusCode._('INTERNAL_SERVER_EXCEPTION');
+
+  final String value;
+
+  const CapacityProviderStatusCode._(this.value);
+
+  static const values = [
+    validationError,
+    quotaExceeded,
+    throttled,
+    internalServerException
+  ];
+
+  static CapacityProviderStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityProviderStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityProviderStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The permissions configuration for a capacity provider. This specifies the
+/// IAM role that AgentCore uses to manage the Amazon EC2 instances for the
+/// capacity provider on your behalf.
+///
+/// @nodoc
+class PermissionsConfiguration {
+  /// The Amazon Resource Name (ARN) of the IAM role that AgentCore assumes to
+  /// manage the capacity provider, including launching, tagging, and terminating
+  /// instances and their network interfaces. We recommend scoping this role to
+  /// the minimum permissions that your workloads require.
+  final String capacityProviderOperatorRoleArn;
+
+  PermissionsConfiguration({
+    required this.capacityProviderOperatorRoleArn,
+  });
+
+  factory PermissionsConfiguration.fromJson(Map<String, dynamic> json) {
+    return PermissionsConfiguration(
+      capacityProviderOperatorRoleArn:
+          (json['capacityProviderOperatorRoleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderOperatorRoleArn =
+        this.capacityProviderOperatorRoleArn;
+    return {
+      'capacityProviderOperatorRoleArn': capacityProviderOperatorRoleArn,
+    };
+  }
+}
+
+/// The compute configuration for a capacity provider. This structure defines
+/// the type and settings of the compute resources used to launch instances.
+///
+/// @nodoc
+class ComputeConfiguration {
+  /// The Amazon EC2 compute configuration for the capacity provider.
+  final Ec2Configuration? ec2Configuration;
+
+  ComputeConfiguration({
+    this.ec2Configuration,
+  });
+
+  factory ComputeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ComputeConfiguration(
+      ec2Configuration: json['ec2Configuration'] != null
+          ? Ec2Configuration.fromJson(
+              json['ec2Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ec2Configuration = this.ec2Configuration;
+    return {
+      if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
+    };
+  }
+}
+
+/// The configuration for Amazon EC2-based compute, including the launch
+/// template source, networking, storage volumes, and instance lifecycle
+/// settings.
+///
+/// @nodoc
+class Ec2Configuration {
+  /// The source of the launch template configuration that defines how instances
+  /// are launched.
+  final LaunchTemplateSource launchTemplateSource;
+
+  /// The VPC configuration for launching instances, including subnets and
+  /// security groups.
+  final VpcConfiguration vpcConfiguration;
+
+  /// The lifecycle configuration for instances in the capacity provider.
+  final InstanceLifecycleConfiguration? lifecycleConfiguration;
+
+  /// The configuration for the instance root volume. Specify the amount of free
+  /// space to guarantee and, optionally, the Amazon EBS performance and
+  /// encryption settings. The device name and delete-on-termination behavior are
+  /// not configurable.
+  final RootVolumeConfiguration? rootVolume;
+
+  /// The named persistent Amazon EBS volumes for the capacity provider. A
+  /// capacity provider can define up to five volumes.
+  final List<VolumeConfiguration>? volumes;
+
+  Ec2Configuration({
+    required this.launchTemplateSource,
+    required this.vpcConfiguration,
+    this.lifecycleConfiguration,
+    this.rootVolume,
+    this.volumes,
+  });
+
+  factory Ec2Configuration.fromJson(Map<String, dynamic> json) {
+    return Ec2Configuration(
+      launchTemplateSource: LaunchTemplateSource.fromJson(
+          (json['launchTemplateSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vpcConfiguration: VpcConfiguration.fromJson(
+          (json['vpcConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lifecycleConfiguration: json['lifecycleConfiguration'] != null
+          ? InstanceLifecycleConfiguration.fromJson(
+              json['lifecycleConfiguration'] as Map<String, dynamic>)
+          : null,
+      rootVolume: json['rootVolume'] != null
+          ? RootVolumeConfiguration.fromJson(
+              json['rootVolume'] as Map<String, dynamic>)
+          : null,
+      volumes: (json['volumes'] as List?)
+          ?.nonNulls
+          .map((e) => VolumeConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchTemplateSource = this.launchTemplateSource;
+    final vpcConfiguration = this.vpcConfiguration;
+    final lifecycleConfiguration = this.lifecycleConfiguration;
+    final rootVolume = this.rootVolume;
+    final volumes = this.volumes;
+    return {
+      'launchTemplateSource': launchTemplateSource,
+      'vpcConfiguration': vpcConfiguration,
+      if (lifecycleConfiguration != null)
+        'lifecycleConfiguration': lifecycleConfiguration,
+      if (rootVolume != null) 'rootVolume': rootVolume,
+      if (volumes != null) 'volumes': volumes,
+    };
+  }
+}
+
+/// The source of the launch template configuration for a capacity provider. The
+/// <code>launchParameters</code> member specifies the operating system,
+/// instance requirements, and other settings used to launch instances.
+///
+/// @nodoc
+class LaunchTemplateSource {
+  /// The parameters that AgentCore uses to create the launch template.
+  final LaunchParameters? launchParameters;
+
+  LaunchTemplateSource({
+    this.launchParameters,
+  });
+
+  factory LaunchTemplateSource.fromJson(Map<String, dynamic> json) {
+    return LaunchTemplateSource(
+      launchParameters: json['launchParameters'] != null
+          ? LaunchParameters.fromJson(
+              json['launchParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchParameters = this.launchParameters;
+    return {
+      if (launchParameters != null) 'launchParameters': launchParameters,
+    };
+  }
+}
+
+/// The VPC configuration for launching Amazon EC2 instances.
+///
+/// @nodoc
+class VpcConfiguration {
+  /// The IDs of the security groups to associate with the instances. You must
+  /// specify at least one security group.
+  final List<String> securityGroups;
+
+  /// The IDs of the subnets in which to launch instances. You must specify at
+  /// least one subnet.
+  final List<String> subnets;
+
+  VpcConfiguration({
+    required this.securityGroups,
+    required this.subnets,
+  });
+
+  factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return VpcConfiguration(
+      securityGroups: ((json['securityGroups'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnets: ((json['subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroups = this.securityGroups;
+    final subnets = this.subnets;
+    return {
+      'securityGroups': securityGroups,
+      'subnets': subnets,
+    };
+  }
+}
+
+/// The configuration that manages the lifecycle of instances in a capacity
+/// provider, including idle timeout and maximum lifetime.
+///
+/// @nodoc
+class InstanceLifecycleConfiguration {
+  /// The number of seconds an instance can remain idle before it is stopped. An
+  /// instance is considered idle when all of its agents are idle. The default is
+  /// 900 seconds (15 minutes).
+  final int? idleInstanceTimeout;
+
+  /// The maximum lifetime of an instance, in seconds. When an instance reaches
+  /// this limit, the service terminates it regardless of activity. The default is
+  /// 28800 seconds (8 hours). The maximum is 1209600 seconds (14 days).
+  final int? maxLifetime;
+
+  InstanceLifecycleConfiguration({
+    this.idleInstanceTimeout,
+    this.maxLifetime,
+  });
+
+  factory InstanceLifecycleConfiguration.fromJson(Map<String, dynamic> json) {
+    return InstanceLifecycleConfiguration(
+      idleInstanceTimeout: json['idleInstanceTimeout'] as int?,
+      maxLifetime: json['maxLifetime'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleInstanceTimeout = this.idleInstanceTimeout;
+    final maxLifetime = this.maxLifetime;
+    return {
+      if (idleInstanceTimeout != null)
+        'idleInstanceTimeout': idleInstanceTimeout,
+      if (maxLifetime != null) 'maxLifetime': maxLifetime,
+    };
+  }
+}
+
+/// The configuration for the root volume of a capacity provider instance.
+/// Specify the amount of free space to guarantee on the root volume. The device
+/// name and delete-on-termination settings are fixed and cannot be changed.
+///
+/// @nodoc
+class RootVolumeConfiguration {
+  /// Specifies whether to encrypt the volume. Encrypted volumes can be attached
+  /// only to instances that support Amazon EBS encryption. If you create a volume
+  /// from a snapshot, you cannot specify an encryption value.
+  final bool? encrypted;
+
+  /// The free space guaranteed on the root volume, in GiB. AgentCore adds the
+  /// operating system overhead on top of this value. The default is 8 GiB.
+  final int? freeSpaceGiB;
+
+  /// The number of IOPS to provision. For <code>gp3</code>, <code>io1</code>, and
+  /// <code>io2</code> volumes, this is the number of IOPS provisioned for the
+  /// volume. For <code>gp2</code> volumes, this sets the baseline IOPS
+  /// performance. It also controls the rate at which the volume accumulates I/O
+  /// credits for bursting. Supported values: <code>gp3</code>, 3,000–80,000;
+  /// <code>io1</code>, 100–64,000; <code>io2</code>, 100–256,000.
+  final int? iops;
+
+  /// The identifier (key ID, key alias, key ARN, or alias ARN) of the customer
+  /// managed KMS key to use for Amazon EBS encryption.
+  final String? kmsKeyId;
+
+  /// The throughput to provision, in MiB/s. Valid only for <code>gp3</code>
+  /// volumes. Valid range: 125–2,000 MiB/s.
+  final int? throughput;
+
+  /// The Amazon EBS volume type. If you do not specify a type, the default is
+  /// <code>gp3</code>.
+  final EbsVolumeType? volumeType;
+
+  RootVolumeConfiguration({
+    this.encrypted,
+    this.freeSpaceGiB,
+    this.iops,
+    this.kmsKeyId,
+    this.throughput,
+    this.volumeType,
+  });
+
+  factory RootVolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return RootVolumeConfiguration(
+      encrypted: json['encrypted'] as bool?,
+      freeSpaceGiB: json['freeSpaceGiB'] as int?,
+      iops: json['iops'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      throughput: json['throughput'] as int?,
+      volumeType:
+          (json['volumeType'] as String?)?.let(EbsVolumeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encrypted = this.encrypted;
+    final freeSpaceGiB = this.freeSpaceGiB;
+    final iops = this.iops;
+    final kmsKeyId = this.kmsKeyId;
+    final throughput = this.throughput;
+    final volumeType = this.volumeType;
+    return {
+      if (encrypted != null) 'encrypted': encrypted,
+      if (freeSpaceGiB != null) 'freeSpaceGiB': freeSpaceGiB,
+      if (iops != null) 'iops': iops,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (throughput != null) 'throughput': throughput,
+      if (volumeType != null) 'volumeType': volumeType.value,
+    };
+  }
+}
+
+/// The type of Amazon EBS volume.
+///
+/// @nodoc
+class EbsVolumeType {
+  static const standard = EbsVolumeType._('standard');
+  static const io1 = EbsVolumeType._('io1');
+  static const io2 = EbsVolumeType._('io2');
+  static const gp2 = EbsVolumeType._('gp2');
+  static const sc1 = EbsVolumeType._('sc1');
+  static const st1 = EbsVolumeType._('st1');
+  static const gp3 = EbsVolumeType._('gp3');
+
+  final String value;
+
+  const EbsVolumeType._(this.value);
+
+  static const values = [standard, io1, io2, gp2, sc1, st1, gp3];
+
+  static EbsVolumeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EbsVolumeType._(value));
+
+  @override
+  bool operator ==(other) => other is EbsVolumeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for a persistent volume attached to a capacity provider.
+/// This structure defines the storage backing for the persistent volumes used
+/// by agents that run on capacity provider instances.
+///
+/// @nodoc
+class VolumeConfiguration {
+  /// The configuration for an Amazon EBS-backed persistent volume.
+  final EbsVolumeConfiguration? ebsConfiguration;
+
+  VolumeConfiguration({
+    this.ebsConfiguration,
+  });
+
+  factory VolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return VolumeConfiguration(
+      ebsConfiguration: json['ebsConfiguration'] != null
+          ? EbsVolumeConfiguration.fromJson(
+              json['ebsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsConfiguration = this.ebsConfiguration;
+    return {
+      if (ebsConfiguration != null) 'ebsConfiguration': ebsConfiguration,
+    };
+  }
+}
+
+/// The configuration for an Amazon EBS-backed persistent volume. The service
+/// creates persistent volumes when a session first launches, and the volumes
+/// survive instance termination. The volumes persist until you delete the
+/// session.
+///
+/// @nodoc
+class EbsVolumeConfiguration {
+  /// The logical name of the volume. Use this name to reference the volume when
+  /// you mount it into an agent runtime.
+  final String name;
+
+  /// The size of the volume, in GiB.
+  final int sizeGiB;
+
+  /// Specifies whether to encrypt the volume. If <code>true</code>, the service
+  /// encrypts the volume with the KMS key that you specify in
+  /// <code>kmsKeyId</code>, or the default KMS key for Amazon EBS if you do not
+  /// specify one. The default is <code>true</code>.
+  final bool? encrypted;
+
+  /// The number of IOPS to provision. Valid only for <code>gp3</code>,
+  /// <code>io1</code>, and <code>io2</code> volumes.
+  final int? iops;
+
+  /// The identifier of the KMS key to use for encryption.
+  final String? kmsKeyId;
+
+  /// An optional Amazon EBS snapshot ID. If provided, the volume is initialized
+  /// from this snapshot the first time it is created. On subsequent restarts, the
+  /// existing volume is used and the snapshot is ignored.
+  final String? snapshotId;
+
+  /// The throughput, in MiB/s. Valid only for <code>gp3</code> volumes.
+  final int? throughput;
+
+  /// The Amazon EBS volume type. If you do not specify a type, the default is
+  /// <code>gp3</code>.
+  final EbsVolumeType? volumeType;
+
+  EbsVolumeConfiguration({
+    required this.name,
+    required this.sizeGiB,
+    this.encrypted,
+    this.iops,
+    this.kmsKeyId,
+    this.snapshotId,
+    this.throughput,
+    this.volumeType,
+  });
+
+  factory EbsVolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return EbsVolumeConfiguration(
+      name: (json['name'] as String?) ?? '',
+      sizeGiB: (json['sizeGiB'] as int?) ?? 0,
+      encrypted: json['encrypted'] as bool?,
+      iops: json['iops'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      snapshotId: json['snapshotId'] as String?,
+      throughput: json['throughput'] as int?,
+      volumeType:
+          (json['volumeType'] as String?)?.let(EbsVolumeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final sizeGiB = this.sizeGiB;
+    final encrypted = this.encrypted;
+    final iops = this.iops;
+    final kmsKeyId = this.kmsKeyId;
+    final snapshotId = this.snapshotId;
+    final throughput = this.throughput;
+    final volumeType = this.volumeType;
+    return {
+      'name': name,
+      'sizeGiB': sizeGiB,
+      if (encrypted != null) 'encrypted': encrypted,
+      if (iops != null) 'iops': iops,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (throughput != null) 'throughput': throughput,
+      if (volumeType != null) 'volumeType': volumeType.value,
+    };
+  }
+}
+
+/// The parameters for launching Amazon EC2 instances in a capacity provider.
+///
+/// @nodoc
+class LaunchParameters {
+  /// The requirements that determine which instance types can be launched.
+  final InstanceRequirements instanceRequirements;
+
+  /// The operating system and CPU architecture for the instances.
+  final OperatingSystem operatingSystem;
+
+  /// The Capacity Reservation targeting option for the instances.
+  final CapacityReservationSpecification? capacityReservationSpecification;
+
+  /// The block device mappings for instance store (ephemeral) volumes. You can
+  /// specify up to five mappings.
+  final List<EphemeralBlockDeviceMapping>? ephemeralVolumes;
+
+  /// The Amazon Resource Name (ARN) of the IAM instance profile to associate with
+  /// launched instances. If provided, this overrides the default instance
+  /// profile.
+  final String? instanceProfileArn;
+
+  /// The license configurations to associate with the instances. You can specify
+  /// up to five configurations.
+  final List<LicenseSpecification>? licenseSpecifications;
+
+  /// The monitoring level for the instances.
+  final Monitoring? monitoring;
+
+  /// The tags to propagate to all Amazon EC2 resources (instances, volumes, and
+  /// network interfaces) that the capacity provider creates.
+  final Map<String, String>? propagatedTags;
+
+  /// The name of the SSH key pair to configure on the instances for SSH
+  /// connectivity.
+  final String? sshKeyName;
+
+  LaunchParameters({
+    required this.instanceRequirements,
+    required this.operatingSystem,
+    this.capacityReservationSpecification,
+    this.ephemeralVolumes,
+    this.instanceProfileArn,
+    this.licenseSpecifications,
+    this.monitoring,
+    this.propagatedTags,
+    this.sshKeyName,
+  });
+
+  factory LaunchParameters.fromJson(Map<String, dynamic> json) {
+    return LaunchParameters(
+      instanceRequirements: InstanceRequirements.fromJson(
+          (json['instanceRequirements'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      operatingSystem: OperatingSystem.fromString(
+          (json['operatingSystem'] as String?) ?? ''),
+      capacityReservationSpecification:
+          json['capacityReservationSpecification'] != null
+              ? CapacityReservationSpecification.fromJson(
+                  json['capacityReservationSpecification']
+                      as Map<String, dynamic>)
+              : null,
+      ephemeralVolumes: (json['ephemeralVolumes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EphemeralBlockDeviceMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceProfileArn: json['instanceProfileArn'] as String?,
+      licenseSpecifications: (json['licenseSpecifications'] as List?)
+          ?.nonNulls
+          .map((e) => LicenseSpecification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      monitoring: (json['monitoring'] as String?)?.let(Monitoring.fromString),
+      propagatedTags: (json['propagatedTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      sshKeyName: json['sshKeyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceRequirements = this.instanceRequirements;
+    final operatingSystem = this.operatingSystem;
+    final capacityReservationSpecification =
+        this.capacityReservationSpecification;
+    final ephemeralVolumes = this.ephemeralVolumes;
+    final instanceProfileArn = this.instanceProfileArn;
+    final licenseSpecifications = this.licenseSpecifications;
+    final monitoring = this.monitoring;
+    final propagatedTags = this.propagatedTags;
+    final sshKeyName = this.sshKeyName;
+    return {
+      'instanceRequirements': instanceRequirements,
+      'operatingSystem': operatingSystem.value,
+      if (capacityReservationSpecification != null)
+        'capacityReservationSpecification': capacityReservationSpecification,
+      if (ephemeralVolumes != null) 'ephemeralVolumes': ephemeralVolumes,
+      if (instanceProfileArn != null) 'instanceProfileArn': instanceProfileArn,
+      if (licenseSpecifications != null)
+        'licenseSpecifications': licenseSpecifications,
+      if (monitoring != null) 'monitoring': monitoring.value,
+      if (propagatedTags != null) 'propagatedTags': propagatedTags,
+      if (sshKeyName != null) 'sshKeyName': sshKeyName,
+    };
+  }
+}
+
+/// The operating system and CPU architecture for capacity provider instances.
+///
+/// @nodoc
+class OperatingSystem {
+  static const linuxX86_64 = OperatingSystem._('LINUX_X86_64');
+  static const linuxArm64 = OperatingSystem._('LINUX_ARM64');
+
+  final String value;
+
+  const OperatingSystem._(this.value);
+
+  static const values = [linuxX86_64, linuxArm64];
+
+  static OperatingSystem fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperatingSystem._(value));
+
+  @override
+  bool operator ==(other) => other is OperatingSystem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The requirements for Amazon EC2 instance types in a capacity provider.
+///
+/// @nodoc
+class InstanceRequirements {
+  /// The list of allowed instance types. You can specify up to 30 instance types.
+  final List<String> allowedInstanceTypes;
+
+  InstanceRequirements({
+    required this.allowedInstanceTypes,
+  });
+
+  factory InstanceRequirements.fromJson(Map<String, dynamic> json) {
+    return InstanceRequirements(
+      allowedInstanceTypes:
+          ((json['allowedInstanceTypes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedInstanceTypes = this.allowedInstanceTypes;
+    return {
+      'allowedInstanceTypes': allowedInstanceTypes,
+    };
+  }
+}
+
+/// @nodoc
+class Monitoring {
+  static const basic = Monitoring._('BASIC');
+  static const detailed = Monitoring._('DETAILED');
+
+  final String value;
+
+  const Monitoring._(this.value);
+
+  static const values = [basic, detailed];
+
+  static Monitoring fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Monitoring._(value));
+
+  @override
+  bool operator ==(other) => other is Monitoring && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Capacity Reservation targeting option for the instances.
+///
+/// @nodoc
+class CapacityReservationSpecification {
+  /// The Capacity Reservation preference for the instances.
+  final CapacityReservationPreference? capacityReservationPreference;
+
+  /// The target Capacity Reservation or Capacity Reservation group for the
+  /// instances.
+  final CapacityReservationTarget? capacityReservationTarget;
+
+  CapacityReservationSpecification({
+    this.capacityReservationPreference,
+    this.capacityReservationTarget,
+  });
+
+  factory CapacityReservationSpecification.fromJson(Map<String, dynamic> json) {
+    return CapacityReservationSpecification(
+      capacityReservationPreference:
+          (json['capacityReservationPreference'] as String?)
+              ?.let(CapacityReservationPreference.fromString),
+      capacityReservationTarget: json['capacityReservationTarget'] != null
+          ? CapacityReservationTarget.fromJson(
+              json['capacityReservationTarget'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationPreference = this.capacityReservationPreference;
+    final capacityReservationTarget = this.capacityReservationTarget;
+    return {
+      if (capacityReservationPreference != null)
+        'capacityReservationPreference': capacityReservationPreference.value,
+      if (capacityReservationTarget != null)
+        'capacityReservationTarget': capacityReservationTarget,
+    };
+  }
+}
+
+/// @nodoc
+class CapacityReservationPreference {
+  static const capacityReservationsOnly =
+      CapacityReservationPreference._('capacity-reservations-only');
+  static const open = CapacityReservationPreference._('open');
+  static const none = CapacityReservationPreference._('none');
+
+  final String value;
+
+  const CapacityReservationPreference._(this.value);
+
+  static const values = [capacityReservationsOnly, open, none];
+
+  static CapacityReservationPreference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityReservationPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the target Capacity Reservation or Capacity Reservation
+/// group for the instances.
+///
+/// @nodoc
+class CapacityReservationTarget {
+  /// The ID of the Capacity Reservation in which to run the instances.
+  final String? capacityReservationId;
+
+  /// The Amazon Resource Name (ARN) of the Capacity Reservation resource group in
+  /// which to run the instances.
+  final String? capacityReservationResourceGroupArn;
+
+  CapacityReservationTarget({
+    this.capacityReservationId,
+    this.capacityReservationResourceGroupArn,
+  });
+
+  factory CapacityReservationTarget.fromJson(Map<String, dynamic> json) {
+    return CapacityReservationTarget(
+      capacityReservationId: json['capacityReservationId'] as String?,
+      capacityReservationResourceGroupArn:
+          json['capacityReservationResourceGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationId = this.capacityReservationId;
+    final capacityReservationResourceGroupArn =
+        this.capacityReservationResourceGroupArn;
+    return {
+      if (capacityReservationId != null)
+        'capacityReservationId': capacityReservationId,
+      if (capacityReservationResourceGroupArn != null)
+        'capacityReservationResourceGroupArn':
+            capacityReservationResourceGroupArn,
+    };
+  }
+}
+
+/// A license configuration to associate with the instances.
+///
+/// @nodoc
+class LicenseSpecification {
+  /// The Amazon Resource Name (ARN) of the license configuration.
+  final String licenseConfigurationArn;
+
+  LicenseSpecification({
+    required this.licenseConfigurationArn,
+  });
+
+  factory LicenseSpecification.fromJson(Map<String, dynamic> json) {
+    return LicenseSpecification(
+      licenseConfigurationArn:
+          (json['licenseConfigurationArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final licenseConfigurationArn = this.licenseConfigurationArn;
+    return {
+      'licenseConfigurationArn': licenseConfigurationArn,
+    };
+  }
+}
+
+/// A block device mapping for an instance store (ephemeral) volume.
+///
+/// @nodoc
+class EphemeralBlockDeviceMapping {
+  /// The device name, for example <code>/dev/sdh</code> or <code>xvdh</code>.
+  final String? deviceName;
+  final EphemeralEBSVolumeConfiguration? ebs;
+
+  /// The virtual device name (<code>ephemeralN</code>). Instance store volumes
+  /// are numbered starting from 0. The number of available instance store volumes
+  /// depends on the instance type. After you connect to the instance, you must
+  /// mount the volume.
+  final String? virtualName;
+
+  EphemeralBlockDeviceMapping({
+    this.deviceName,
+    this.ebs,
+    this.virtualName,
+  });
+
+  factory EphemeralBlockDeviceMapping.fromJson(Map<String, dynamic> json) {
+    return EphemeralBlockDeviceMapping(
+      deviceName: json['deviceName'] as String?,
+      ebs: json['ebs'] != null
+          ? EphemeralEBSVolumeConfiguration.fromJson(
+              json['ebs'] as Map<String, dynamic>)
+          : null,
+      virtualName: json['virtualName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceName = this.deviceName;
+    final ebs = this.ebs;
+    final virtualName = this.virtualName;
+    return {
+      if (deviceName != null) 'deviceName': deviceName,
+      if (ebs != null) 'ebs': ebs,
+      if (virtualName != null) 'virtualName': virtualName,
+    };
+  }
+}
+
+/// The shared Amazon EBS performance and encryption properties for a volume.
+/// These properties are common across the different volume configurations for a
+/// capacity provider.
+///
+/// @nodoc
+class EphemeralEBSVolumeConfiguration {
+  /// The index of the Amazon EBS card. Applies to instances with multiple Amazon
+  /// EBS cards.
+  final int? ebsCardIndex;
+
+  /// Specifies whether to encrypt the volume. Encrypted volumes can be attached
+  /// only to instances that support Amazon EBS encryption. If you create a volume
+  /// from a snapshot, you cannot specify an encryption value.
+  final bool? encrypted;
+
+  /// The number of IOPS to provision. For <code>gp3</code>, <code>io1</code>, and
+  /// <code>io2</code> volumes, this is the number of IOPS provisioned for the
+  /// volume. For <code>gp2</code> volumes, this sets the baseline IOPS
+  /// performance. It also controls the rate at which the volume accumulates I/O
+  /// credits for bursting. Supported values: <code>gp3</code>, 3,000–80,000;
+  /// <code>io1</code>, 100–64,000; <code>io2</code>, 100–256,000.
+  final int? iops;
+
+  /// The identifier (key ID, key alias, key ARN, or alias ARN) of the customer
+  /// managed KMS key to use for Amazon EBS encryption.
+  final String? kmsKeyId;
+
+  /// The ID of the snapshot.
+  final String? snapshotId;
+
+  /// The throughput to provision, in MiB/s. Valid only for <code>gp3</code>
+  /// volumes. Valid range: 125–2,000 MiB/s.
+  final int? throughput;
+
+  /// The rate at which the volume is initialized after creation, in MiB/s.
+  /// Supported only for volumes created from snapshots. Valid range: 100–300
+  /// MiB/s.
+  final int? volumeInitializationRate;
+
+  /// The size of the volume, in GiB. You must specify either a snapshot ID or a
+  /// volume size. Supported sizes: <code>gp2</code>, 1–16,384; <code>gp3</code>,
+  /// 1–65,536; <code>io1</code>, 4–16,384; <code>io2</code>, 4–65,536.
+  final int? volumeSize;
+
+  /// The Amazon EBS volume type. If you do not specify a type, the default is
+  /// <code>gp3</code>.
+  final EbsVolumeType? volumeType;
+
+  EphemeralEBSVolumeConfiguration({
+    this.ebsCardIndex,
+    this.encrypted,
+    this.iops,
+    this.kmsKeyId,
+    this.snapshotId,
+    this.throughput,
+    this.volumeInitializationRate,
+    this.volumeSize,
+    this.volumeType,
+  });
+
+  factory EphemeralEBSVolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return EphemeralEBSVolumeConfiguration(
+      ebsCardIndex: json['ebsCardIndex'] as int?,
+      encrypted: json['encrypted'] as bool?,
+      iops: json['iops'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      snapshotId: json['snapshotId'] as String?,
+      throughput: json['throughput'] as int?,
+      volumeInitializationRate: json['volumeInitializationRate'] as int?,
+      volumeSize: json['volumeSize'] as int?,
+      volumeType:
+          (json['volumeType'] as String?)?.let(EbsVolumeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsCardIndex = this.ebsCardIndex;
+    final encrypted = this.encrypted;
+    final iops = this.iops;
+    final kmsKeyId = this.kmsKeyId;
+    final snapshotId = this.snapshotId;
+    final throughput = this.throughput;
+    final volumeInitializationRate = this.volumeInitializationRate;
+    final volumeSize = this.volumeSize;
+    final volumeType = this.volumeType;
+    return {
+      if (ebsCardIndex != null) 'ebsCardIndex': ebsCardIndex,
+      if (encrypted != null) 'encrypted': encrypted,
+      if (iops != null) 'iops': iops,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (snapshotId != null) 'snapshotId': snapshotId,
+      if (throughput != null) 'throughput': throughput,
+      if (volumeInitializationRate != null)
+        'volumeInitializationRate': volumeInitializationRate,
+      if (volumeSize != null) 'volumeSize': volumeSize,
+      if (volumeType != null) 'volumeType': volumeType.value,
+    };
+  }
 }
 
 /// Contains summary information about a browser. A browser enables Amazon
@@ -31970,43 +37489,6 @@ class AgentRuntime {
   }
 }
 
-/// @nodoc
-class AgentRuntimeStatus {
-  static const creating = AgentRuntimeStatus._('CREATING');
-  static const createFailed = AgentRuntimeStatus._('CREATE_FAILED');
-  static const updating = AgentRuntimeStatus._('UPDATING');
-  static const updateFailed = AgentRuntimeStatus._('UPDATE_FAILED');
-  static const ready = AgentRuntimeStatus._('READY');
-  static const deleting = AgentRuntimeStatus._('DELETING');
-
-  final String value;
-
-  const AgentRuntimeStatus._(this.value);
-
-  static const values = [
-    creating,
-    createFailed,
-    updating,
-    updateFailed,
-    ready,
-    deleting
-  ];
-
-  static AgentRuntimeStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AgentRuntimeStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AgentRuntimeStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// The artifact of the agent.
 ///
 /// @nodoc
@@ -32129,6 +37611,35 @@ class RuntimeMetadataConfiguration {
     final requireMMDSV2 = this.requireMMDSV2;
     return {
       'requireMMDSV2': requireMMDSV2,
+    };
+  }
+}
+
+/// Configuration for customer-managed compute capacity for the AgentCore
+/// Runtime. A capacity provider runs the AgentCore Runtime on the Instances
+/// compute type, using Amazon Web Services managed compute in your account.
+///
+/// @nodoc
+class CapacityProviderConfiguration {
+  /// The Amazon Resource Name (ARN) of the capacity provider to use for the
+  /// AgentCore Runtime.
+  final String? capacityProviderArn;
+
+  CapacityProviderConfiguration({
+    this.capacityProviderArn,
+  });
+
+  factory CapacityProviderConfiguration.fromJson(Map<String, dynamic> json) {
+    return CapacityProviderConfiguration(
+      capacityProviderArn: json['capacityProviderArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityProviderArn = this.capacityProviderArn;
+    return {
+      if (capacityProviderArn != null)
+        'capacityProviderArn': capacityProviderArn,
     };
   }
 }
@@ -32543,6 +38054,12 @@ class ResourceNotFoundException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class RetryableConflictException extends _s.GenericAwsException {
+  RetryableConflictException({String? type, String? message})
+      : super(type: type, code: 'RetryableConflictException', message: message);
+}
+
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
@@ -32598,6 +38115,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceLimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'RetryableConflictException': (type, message) =>
+      RetryableConflictException(type: type, message: message),
   'ServiceException': (type, message) =>
       ServiceException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>

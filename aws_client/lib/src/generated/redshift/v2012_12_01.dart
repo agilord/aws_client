@@ -809,9 +809,10 @@ class Redshift {
   /// Working with Clusters</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code>|
-  /// <code>rg.xlarge</code> | <code>rg.4xlarge</code> | <code>ra3.large</code>
-  /// | <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
+  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code> |
+  /// <code>rg.large</code> | <code>rg.xlarge</code> | <code>rg.4xlarge</code> |
+  /// <code>rg.12xlarge</code> | <code>ra3.large</code> |
+  /// <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
   /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [additionalInfo] :
@@ -2108,6 +2109,59 @@ class Redshift {
     return Integration.fromXml($result);
   }
 
+  /// Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center
+  /// application.
+  ///
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [Qev2IdcApplicationAlreadyExistsFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [idcDisplayName] :
+  /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity
+  /// Center application. It appears in the console.
+  ///
+  /// Parameter [idcInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center instance used to
+  /// create the Amazon Redshift Query Editor (QEV2) managed application.
+  ///
+  /// Parameter [qev2IdcApplicationName] :
+  /// The name of the Amazon Redshift Query Editor (QEV2) application in IAM
+  /// Identity Center.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to associate with the application. Tags are key-value pairs
+  /// that you can use to organize and identify your resources.
+  Future<CreateQev2IdcApplicationResult> createQev2IdcApplication({
+    required String idcDisplayName,
+    required String idcInstanceArn,
+    required String qev2IdcApplicationName,
+    List<Tag>? tags,
+  }) async {
+    final $request = <String, String>{
+      'IdcDisplayName': idcDisplayName,
+      'IdcInstanceArn': idcInstanceArn,
+      'Qev2IdcApplicationName': qev2IdcApplicationName,
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateQev2IdcApplication',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'CreateQev2IdcApplicationResult',
+    );
+    return CreateQev2IdcApplicationResult.fromXml($result);
+  }
+
   /// Creates an Amazon Redshift application for use with IAM Identity Center.
   ///
   /// May throw [DependentServiceAccessDeniedFault].
@@ -3085,6 +3139,33 @@ class Redshift {
       resultWrapper: 'DeletePartnerResult',
     );
     return PartnerIntegrationOutputMessage.fromXml($result);
+  }
+
+  /// Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center
+  /// application.
+  ///
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [Qev2IdcApplicationNotExistsFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [qev2IdcApplicationArn] :
+  /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2)
+  /// IAM Identity Center application to delete.
+  Future<void> deleteQev2IdcApplication({
+    required String qev2IdcApplicationArn,
+  }) async {
+    final $request = <String, String>{
+      'Qev2IdcApplicationArn': qev2IdcApplicationArn,
+    };
+    await _protocol.send(
+      $request,
+      action: 'DeleteQev2IdcApplication',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Deletes an Amazon Redshift IAM Identity Center application.
@@ -5356,6 +5437,55 @@ class Redshift {
     return DescribePartnersOutputMessage.fromXml($result);
   }
 
+  /// Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center
+  /// applications. To retrieve additional results, use the MaxRecords and
+  /// Marker parameters.
+  ///
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [Qev2IdcApplicationNotExistsFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [marker] :
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker
+  /// value in the Marker parameter and retrying the command. If the Marker
+  /// field is empty, all response records have been retrieved for the request.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified MaxRecords
+  /// value, a value is returned in a marker field of the response. You can
+  /// retrieve the next set of records by retrying the command with the returned
+  /// marker value.
+  ///
+  /// Parameter [qev2IdcApplicationArn] :
+  /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2)
+  /// application that integrates with IAM Identity Center.
+  Future<DescribeQev2IdcApplicationsResult> describeQev2IdcApplications({
+    String? marker,
+    int? maxRecords,
+    String? qev2IdcApplicationArn,
+  }) async {
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (qev2IdcApplicationArn != null)
+        'Qev2IdcApplicationArn': qev2IdcApplicationArn,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeQev2IdcApplications',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeQev2IdcApplicationsResult',
+    );
+    return DescribeQev2IdcApplicationsResult.fromXml($result);
+  }
+
   /// Lists the Amazon Redshift IAM Identity Center applications.
   ///
   /// May throw [DependentServiceAccessDeniedFault].
@@ -7390,9 +7520,10 @@ class Redshift {
   /// Clusters in Amazon Redshift</a> in the <i>Amazon Redshift Cluster
   /// Management Guide</i>.
   ///
-  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code>|
-  /// <code>rg.xlarge</code> | <code>rg.4xlarge</code> | <code>ra3.large</code>
-  /// | <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
+  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code> |
+  /// <code>rg.large</code> | <code>rg.xlarge</code> | <code>rg.4xlarge</code> |
+  /// <code>rg.12xlarge</code> | <code>ra3.large</code> |
+  /// <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
   /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [numberOfNodes] :
@@ -8220,6 +8351,41 @@ class Redshift {
     return LakehouseConfiguration.fromXml($result);
   }
 
+  /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center
+  /// application.
+  ///
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [Qev2IdcApplicationNotExistsFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [qev2IdcApplicationArn] :
+  /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2)
+  /// application that integrates with IAM Identity Center.
+  ///
+  /// Parameter [idcDisplayName] :
+  /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity
+  /// Center application. It appears in the console.
+  Future<ModifyQev2IdcApplicationResult> modifyQev2IdcApplication({
+    required String qev2IdcApplicationArn,
+    String? idcDisplayName,
+  }) async {
+    final $request = <String, String>{
+      'Qev2IdcApplicationArn': qev2IdcApplicationArn,
+      if (idcDisplayName != null) 'IdcDisplayName': idcDisplayName,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyQev2IdcApplication',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyQev2IdcApplicationResult',
+    );
+    return ModifyQev2IdcApplicationResult.fromXml($result);
+  }
+
   /// Changes an existing Amazon Redshift IAM Identity Center application.
   ///
   /// May throw [DependentServiceAccessDeniedFault].
@@ -8788,10 +8954,16 @@ class Redshift {
   /// dc2.8xlarge
   /// </li>
   /// <li>
+  /// rg.large
+  /// </li>
+  /// <li>
   /// rg.xlarge
   /// </li>
   /// <li>
   /// rg.4xlarge
+  /// </li>
+  /// <li>
+  /// rg.12xlarge
   /// </li>
   /// <li>
   /// ra3.large
@@ -10770,6 +10942,29 @@ class Integration {
 }
 
 /// @nodoc
+class CreateQev2IdcApplicationResult {
+  final Qev2IdcApplication? qev2IdcApplication;
+
+  CreateQev2IdcApplicationResult({
+    this.qev2IdcApplication,
+  });
+  factory CreateQev2IdcApplicationResult.fromXml(_s.XmlElement elem) {
+    return CreateQev2IdcApplicationResult(
+      qev2IdcApplication: _s
+          .extractXmlChild(elem, 'Qev2IdcApplication')
+          ?.let(Qev2IdcApplication.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final qev2IdcApplication = this.qev2IdcApplication;
+    return {
+      if (qev2IdcApplication != null) 'Qev2IdcApplication': qev2IdcApplication,
+    };
+  }
+}
+
+/// @nodoc
 class CreateRedshiftIdcApplicationResult {
   final RedshiftIdcApplication? redshiftIdcApplication;
 
@@ -12345,6 +12540,45 @@ class DescribePartnersOutputMessage {
 }
 
 /// @nodoc
+class DescribeQev2IdcApplicationsResult {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the Marker parameter and retrying the command. If the Marker field is
+  /// empty, all response records have been retrieved for the request.
+  final String? marker;
+
+  /// The list of Amazon Redshift Query Editor (QEV2) IAM Identity Center
+  /// applications.
+  final List<Qev2IdcApplication>? qev2IdcApplications;
+
+  DescribeQev2IdcApplicationsResult({
+    this.marker,
+    this.qev2IdcApplications,
+  });
+  factory DescribeQev2IdcApplicationsResult.fromXml(_s.XmlElement elem) {
+    return DescribeQev2IdcApplicationsResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      qev2IdcApplications: _s.extractXmlChild(elem, 'Qev2IdcApplications')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(Qev2IdcApplication.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final qev2IdcApplications = this.qev2IdcApplications;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (qev2IdcApplications != null)
+        'Qev2IdcApplications': qev2IdcApplications,
+    };
+  }
+}
+
+/// @nodoc
 class DescribeRedshiftIdcApplicationsResult {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -13455,6 +13689,29 @@ class LakehouseConfiguration {
         'LakehouseIdcApplicationArn': lakehouseIdcApplicationArn,
       if (lakehouseRegistrationStatus != null)
         'LakehouseRegistrationStatus': lakehouseRegistrationStatus,
+    };
+  }
+}
+
+/// @nodoc
+class ModifyQev2IdcApplicationResult {
+  final Qev2IdcApplication? qev2IdcApplication;
+
+  ModifyQev2IdcApplicationResult({
+    this.qev2IdcApplication,
+  });
+  factory ModifyQev2IdcApplicationResult.fromXml(_s.XmlElement elem) {
+    return ModifyQev2IdcApplicationResult(
+      qev2IdcApplication: _s
+          .extractXmlChild(elem, 'Qev2IdcApplication')
+          ?.let(Qev2IdcApplication.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final qev2IdcApplication = this.qev2IdcApplication;
+    return {
+      if (qev2IdcApplication != null) 'Qev2IdcApplication': qev2IdcApplication,
     };
   }
 }
@@ -17743,6 +18000,88 @@ class AuthorizedTokenIssuer {
   }
 }
 
+/// Contains configuration and status information for an Amazon Redshift Query
+/// Editor (QEV2) application that is registered with IAM Identity Center.
+///
+/// @nodoc
+class Qev2IdcApplication {
+  /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity
+  /// Center application. It appears in the console.
+  final String? idcDisplayName;
+
+  /// The Amazon Resource Name (ARN) for the IAM Identity Center instance that the
+  /// Amazon Redshift Query Editor (QEV2) application integrates with.
+  final String? idcInstanceArn;
+
+  /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2)
+  /// IAM Identity Center managed application.
+  final String? idcManagedApplicationArn;
+
+  /// The onboarding status for the Amazon Redshift Query Editor (QEV2) IAM
+  /// Identity Center application.
+  final String? idcOnboardStatus;
+
+  /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2)
+  /// application that integrates with IAM Identity Center.
+  final String? qev2IdcApplicationArn;
+
+  /// The name of the Amazon Redshift Query Editor (QEV2) application in IAM
+  /// Identity Center.
+  final String? qev2IdcApplicationName;
+
+  /// A list of tags associated with the application. Tags are key-value pairs
+  /// that you can use to organize and identify your resources.
+  final List<Tag>? tags;
+
+  Qev2IdcApplication({
+    this.idcDisplayName,
+    this.idcInstanceArn,
+    this.idcManagedApplicationArn,
+    this.idcOnboardStatus,
+    this.qev2IdcApplicationArn,
+    this.qev2IdcApplicationName,
+    this.tags,
+  });
+  factory Qev2IdcApplication.fromXml(_s.XmlElement elem) {
+    return Qev2IdcApplication(
+      idcDisplayName: _s.extractXmlStringValue(elem, 'IdcDisplayName'),
+      idcInstanceArn: _s.extractXmlStringValue(elem, 'IdcInstanceArn'),
+      idcManagedApplicationArn:
+          _s.extractXmlStringValue(elem, 'IdcManagedApplicationArn'),
+      idcOnboardStatus: _s.extractXmlStringValue(elem, 'IdcOnboardStatus'),
+      qev2IdcApplicationArn:
+          _s.extractXmlStringValue(elem, 'Qev2IdcApplicationArn'),
+      qev2IdcApplicationName:
+          _s.extractXmlStringValue(elem, 'Qev2IdcApplicationName'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idcDisplayName = this.idcDisplayName;
+    final idcInstanceArn = this.idcInstanceArn;
+    final idcManagedApplicationArn = this.idcManagedApplicationArn;
+    final idcOnboardStatus = this.idcOnboardStatus;
+    final qev2IdcApplicationArn = this.qev2IdcApplicationArn;
+    final qev2IdcApplicationName = this.qev2IdcApplicationName;
+    final tags = this.tags;
+    return {
+      if (idcDisplayName != null) 'IdcDisplayName': idcDisplayName,
+      if (idcInstanceArn != null) 'IdcInstanceArn': idcInstanceArn,
+      if (idcManagedApplicationArn != null)
+        'IdcManagedApplicationArn': idcManagedApplicationArn,
+      if (idcOnboardStatus != null) 'IdcOnboardStatus': idcOnboardStatus,
+      if (qev2IdcApplicationArn != null)
+        'Qev2IdcApplicationArn': qev2IdcApplicationArn,
+      if (qev2IdcApplicationName != null)
+        'Qev2IdcApplicationName': qev2IdcApplicationName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
 /// @nodoc
 class LakehouseRegistration {
   static const register = LakehouseRegistration._('Register');
@@ -21386,6 +21725,24 @@ class PartnerNotFoundFault extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class Qev2IdcApplicationAlreadyExistsFault extends _s.GenericAwsException {
+  Qev2IdcApplicationAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'Qev2IdcApplicationAlreadyExistsFault',
+            message: message);
+}
+
+/// @nodoc
+class Qev2IdcApplicationNotExistsFault extends _s.GenericAwsException {
+  Qev2IdcApplicationNotExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'Qev2IdcApplicationNotExistsFault',
+            message: message);
+}
+
+/// @nodoc
 class RedshiftIdcApplicationAlreadyExistsFault extends _s.GenericAwsException {
   RedshiftIdcApplicationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -21948,6 +22305,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NumberOfNodesQuotaExceededFault(type: type, message: message),
   'PartnerNotFoundFault': (type, message) =>
       PartnerNotFoundFault(type: type, message: message),
+  'Qev2IdcApplicationAlreadyExistsFault': (type, message) =>
+      Qev2IdcApplicationAlreadyExistsFault(type: type, message: message),
+  'Qev2IdcApplicationNotExistsFault': (type, message) =>
+      Qev2IdcApplicationNotExistsFault(type: type, message: message),
   'RedshiftIdcApplicationAlreadyExistsFault': (type, message) =>
       RedshiftIdcApplicationAlreadyExistsFault(type: type, message: message),
   'RedshiftIdcApplicationNotExistsFault': (type, message) =>

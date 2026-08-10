@@ -311,6 +311,68 @@ class OpenSearch {
     return AssociatePackagesResponse.fromJson(response);
   }
 
+  /// Attaches a data source to an OpenSearch application. The data source can
+  /// be an Amazon OpenSearch Service domain or an Amazon OpenSearch Serverless
+  /// collection. If both the application and data source are in the
+  /// <code>ACTIVE</code> state, the attachment completes immediately and
+  /// returns a status of <code>ATTACHED</code>. If either resource is not yet
+  /// active, the operation stores the request and returns a status of
+  /// <code>PENDING</code>. A background process then completes the attachment
+  /// when both resources become active. Pending attachments that are not
+  /// completed within 24 hours are marked as <code>FAILED</code>. This
+  /// operation is idempotent. If a data source is already attached or pending
+  /// for the same application, the existing attachment is returned.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier or name of the OpenSearch application to attach the
+  /// data source to. This is the same identifier used with
+  /// <code>UpdateApplication</code>, <code>GetApplication</code>, and
+  /// <code>DeleteApplication</code>.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  /// If you retry a request with the same client token and the same parameters,
+  /// the retry succeeds without performing any further actions.
+  ///
+  /// Parameter [workspaceConfiguration] :
+  /// Configuration for creating a new workspace during the attachment. If
+  /// specified, a workspace is created and linked to the data source after the
+  /// attachment completes. Mutually exclusive with <code>workspaceId</code>.
+  ///
+  /// Parameter [workspaceId] :
+  /// The identifier of an existing workspace to update with the new data
+  /// source. Mutually exclusive with <code>workspaceConfiguration</code>.
+  Future<AttachDataSourceResponse> attachDataSource({
+    required String dataSourceArn,
+    required String id,
+    String? clientToken,
+    WorkspaceConfigurationInput? workspaceConfiguration,
+    String? workspaceId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'dataSourceArn': dataSourceArn,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (workspaceConfiguration != null)
+        'workspaceConfiguration': workspaceConfiguration,
+      if (workspaceId != null) 'workspaceId': workspaceId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/application/${Uri.encodeComponent(id)}/attachDataSource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AttachDataSourceResponse.fromJson(response);
+  }
+
   /// Provides access to an Amazon OpenSearch Service domain through the use of
   /// an interface VPC endpoint.
   ///
@@ -577,6 +639,10 @@ class OpenSearch {
   /// Parameter [encryptionAtRestOptions] :
   /// Key-value pairs to enable encryption at rest.
   ///
+  /// Parameter [engineMode] :
+  /// The engine mode for the domain. For valid values and requirements, see
+  /// <code>EngineMode</code>.
+  ///
   /// Parameter [engineVersion] :
   /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine
   /// version for the OpenSearch Service domain. For example,
@@ -618,6 +684,10 @@ class OpenSearch {
   /// Parameter [tagList] :
   /// List of tags to add to the domain upon creation.
   ///
+  /// Parameter [useCase] :
+  /// The primary use case for the domain. For valid values, see
+  /// <code>DomainUseCase</code>.
+  ///
   /// Parameter [vPCOptions] :
   /// Container for the values required to configure VPC access domains. If you
   /// don't specify these values, OpenSearch Service creates the domain with a
@@ -638,6 +708,7 @@ class OpenSearch {
     DomainEndpointOptions? domainEndpointOptions,
     EBSOptions? eBSOptions,
     EncryptionAtRestOptions? encryptionAtRestOptions,
+    EngineMode? engineMode,
     String? engineVersion,
     IPAddressType? iPAddressType,
     IdentityCenterOptionsInput? identityCenterOptions,
@@ -647,6 +718,7 @@ class OpenSearch {
     SnapshotOptions? snapshotOptions,
     SoftwareUpdateOptions? softwareUpdateOptions,
     List<Tag>? tagList,
+    DomainUseCase? useCase,
     VPCOptions? vPCOptions,
   }) async {
     final $payload = <String, dynamic>{
@@ -668,6 +740,7 @@ class OpenSearch {
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineMode != null) 'EngineMode': engineMode.value,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (iPAddressType != null) 'IPAddressType': iPAddressType.value,
       if (identityCenterOptions != null)
@@ -683,6 +756,7 @@ class OpenSearch {
       if (softwareUpdateOptions != null)
         'SoftwareUpdateOptions': softwareUpdateOptions,
       if (tagList != null) 'TagList': tagList,
+      if (useCase != null) 'UseCase': useCase.value,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
@@ -1149,6 +1223,36 @@ class OpenSearch {
       exceptionFnMap: _exceptionFns,
     );
     return DeregisterCapabilityResponse.fromJson(response);
+  }
+
+  /// Returns the current status and details of a specific data source
+  /// attachment for an OpenSearch application. Throws a
+  /// <code>ResourceNotFoundException</code> if no attachment record exists for
+  /// the specified application and data source combination.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier or name of the OpenSearch application.
+  Future<DescribeDataSourceAttachmentResponse> describeDataSourceAttachment({
+    required String dataSourceArn,
+    required String id,
+  }) async {
+    final $payload = <String, dynamic>{
+      'dataSourceArn': dataSourceArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/application/${Uri.encodeComponent(id)}/describeDataSourceAttachment',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDataSourceAttachmentResponse.fromJson(response);
   }
 
   /// Describes the domain configuration for the specified Amazon OpenSearch
@@ -1753,6 +1857,41 @@ class OpenSearch {
     return DescribeVpcEndpointsResponse.fromJson(response);
   }
 
+  /// Removes a data source from an OpenSearch application. The application must
+  /// be in the <code>ACTIVE</code> state. This operation removes the data
+  /// source saved object from the application and deletes the attachment
+  /// record. Throws a <code>ConflictException</code> if the specified data
+  /// source has a <code>PENDING</code> attachment, and a
+  /// <code>ResourceNotFoundException</code> if the data source is not currently
+  /// attached to the application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier or name of the OpenSearch application to detach the
+  /// data source from.
+  Future<DetachDataSourceResponse> detachDataSource({
+    required String dataSourceArn,
+    required String id,
+  }) async {
+    final $payload = <String, dynamic>{
+      'dataSourceArn': dataSourceArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/application/${Uri.encodeComponent(id)}/detachDataSource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DetachDataSourceResponse.fromJson(response);
+  }
+
   /// Removes a package from the specified Amazon OpenSearch Service domain. The
   /// package can't be in use with any OpenSearch index for the dissociation to
   /// succeed. The package is still available in OpenSearch Service for
@@ -2028,6 +2167,31 @@ class OpenSearch {
     return GetIndexResponse.fromJson(response);
   }
 
+  /// Retrieves the current status and progress of a migration job, including
+  /// the number of exported and imported objects and error details if the
+  /// migration failed.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [migrationId] :
+  /// The unique identifier of the migration job to retrieve.
+  Future<GetMigrationResponse> getMigration({
+    required String migrationId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/app-migrations/${Uri.encodeComponent(migrationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMigrationResponse.fromJson(response);
+  }
+
   /// Returns a list of Amazon OpenSearch Service package versions, along with
   /// their creation time, commit message, and plugin properties (if the package
   /// is a zip plugin package). For more information, see <a
@@ -2151,6 +2315,52 @@ class OpenSearch {
     return GetUpgradeStatusResponse.fromJson(response);
   }
 
+  /// Submits feedback for an existing insight in an Amazon OpenSearch Service
+  /// domain. Allows users to provide a thumbs up or thumbs down rating and
+  /// optional text feedback for a specific insight.
+  ///
+  /// May throw [BaseException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [entity] :
+  /// The entity for which to submit insight feedback. Specifies the type and
+  /// value of the entity, such as a domain name.
+  ///
+  /// Parameter [insightId] :
+  /// The unique identifier of the insight for which to submit feedback.
+  ///
+  /// Parameter [thumbs] :
+  /// The thumbs up or thumbs down feedback for the insight. Possible values are
+  /// <code>Up</code> and <code>Down</code>.
+  ///
+  /// Parameter [feedbackText] :
+  /// Optional text feedback providing additional details about the insight.
+  /// Maximum length is 1000 characters.
+  Future<InsightFeedbackResponse> insightFeedback({
+    required InsightFeedbackEntity entity,
+    required String insightId,
+    required InsightFeedbackThumbs thumbs,
+    String? feedbackText,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Entity': entity,
+      'InsightId': insightId,
+      'Thumbs': thumbs.value,
+      if (feedbackText != null) 'FeedbackText': feedbackText,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2021-01-01/opensearch/insight-feedback',
+      exceptionFnMap: _exceptionFns,
+    );
+    return InsightFeedbackResponse.fromJson(response);
+  }
+
   /// Lists all OpenSearch applications under your account.
   ///
   /// May throw [AccessDeniedException].
@@ -2188,6 +2398,45 @@ class OpenSearch {
       exceptionFnMap: _exceptionFns,
     );
     return ListApplicationsResponse.fromJson(response);
+  }
+
+  /// Returns a paginated list of all data source attachments for an OpenSearch
+  /// application, including attachments in all states (<code>PENDING</code>,
+  /// <code>ATTACHED</code>, and <code>FAILED</code>).
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The unique identifier or name of the OpenSearch application to list
+  /// attachments for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page. The default is 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous call to retrieve the next set of
+  /// results.
+  Future<ListDataSourceAttachmentsResponse> listDataSourceAttachments({
+    required String id,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-01-01/opensearch/application/${Uri.encodeComponent(id)}/listDataSourceAttachments',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDataSourceAttachmentsResponse.fromJson(response);
   }
 
   /// Lists direct-query data sources for a specific domain. For more
@@ -2497,6 +2746,52 @@ class OpenSearch {
       exceptionFnMap: _exceptionFns,
     );
     return ListInstanceTypeDetailsResponse.fromJson(response);
+  }
+
+  /// Lists migration jobs for an Amazon OpenSearch Service application. You can
+  /// filter results by migration status. Use pagination to ensure that the
+  /// operation returns quickly and successfully.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationId] :
+  /// The unique identifier of the OpenSearch application to list migrations
+  /// for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token from a previous call to retrieve the next set of
+  /// results.
+  ///
+  /// Parameter [status] :
+  /// Filters the results by migration status. Valid values are
+  /// <code>PENDING</code>, <code>IN_PROGRESS</code>, <code>SUCCEEDED</code>,
+  /// and <code>FAILED</code>.
+  Future<ListMigrationsResponse> listMigrations({
+    required String applicationId,
+    int? maxResults,
+    String? nextToken,
+    String? status,
+  }) async {
+    final $query = <String, List<String>>{
+      'applicationId': [applicationId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (status != null) 'status': [status],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2021-01-01/opensearch/app-migrations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMigrationsResponse.fromJson(response);
   }
 
   /// Lists all packages associated with an Amazon OpenSearch Service domain.
@@ -3053,6 +3348,51 @@ class OpenSearch {
     return StartDomainMaintenanceResponse.fromJson(response);
   }
 
+  /// Initiates a migration job to migrate saved objects from a data source to
+  /// an Amazon OpenSearch Service application workspace. Saved objects include
+  /// dashboards, visualizations, index patterns, and searches. You can specify
+  /// export filters to control the scope of the migration and a conflict
+  /// resolution strategy for handling existing objects in the target workspace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [DisabledOperationException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationId] :
+  /// The unique identifier of the OpenSearch application to migrate saved
+  /// objects into.
+  ///
+  /// Parameter [migrationOptions] :
+  /// The configuration options for the migration, including the source data
+  /// source, target workspace, export filters, and conflict resolution
+  /// strategy.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the operation completes
+  /// no more than one time. If this token matches a previous request, Amazon
+  /// OpenSearch Service ignores the request but does not return an error.
+  Future<StartMigrationResponse> startMigration({
+    required String applicationId,
+    required MigrationOptions migrationOptions,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'applicationId': applicationId,
+      'migrationOptions': migrationOptions,
+      if (clientToken != null) 'clientToken': clientToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2021-01-01/opensearch/app-migrations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartMigrationResponse.fromJson(response);
+  }
+
   /// Schedules a service software update for an Amazon OpenSearch Service
   /// domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">Service
@@ -3132,14 +3472,21 @@ class OpenSearch {
   ///
   /// Parameter [dataSources] :
   /// The data sources to associate with the OpenSearch application.
+  ///
+  /// Parameter [iamIdentityCenterOptions] :
+  /// Configuration settings for integrating IAM Identity Center with the
+  /// OpenSearch application.
   Future<UpdateApplicationResponse> updateApplication({
     required String id,
     List<AppConfig>? appConfigs,
     List<DataSource>? dataSources,
+    IamIdentityCenterOptionsInput? iamIdentityCenterOptions,
   }) async {
     final $payload = <String, dynamic>{
       if (appConfigs != null) 'appConfigs': appConfigs,
       if (dataSources != null) 'dataSources': dataSources,
+      if (iamIdentityCenterOptions != null)
+        'iamIdentityCenterOptions': iamIdentityCenterOptions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3364,6 +3711,10 @@ class OpenSearch {
   /// Parameter [encryptionAtRestOptions] :
   /// Encryption at rest options for the domain.
   ///
+  /// Parameter [engineMode] :
+  /// The engine mode for the domain. The engine mode can't be changed after the
+  /// domain is created. For valid values, see <code>EngineMode</code>.
+  ///
   /// Parameter [iPAddressType] :
   /// Specify either dual stack or IPv4 as your IP address type. Dual stack
   /// allows you to share domain resources across IPv4 and IPv6 address types,
@@ -3386,6 +3737,10 @@ class OpenSearch {
   /// Parameter [softwareUpdateOptions] :
   /// Service software update options for the domain.
   ///
+  /// Parameter [useCase] :
+  /// The primary use case for the domain. For valid values, see
+  /// <code>DomainUseCase</code>.
+  ///
   /// Parameter [vPCOptions] :
   /// Options to specify the subnets and security groups for a VPC endpoint. For
   /// more information, see <a
@@ -3407,6 +3762,7 @@ class OpenSearch {
     DryRunMode? dryRunMode,
     EBSOptions? eBSOptions,
     EncryptionAtRestOptions? encryptionAtRestOptions,
+    EngineMode? engineMode,
     IPAddressType? iPAddressType,
     IdentityCenterOptionsInput? identityCenterOptions,
     Map<LogType, LogPublishingOption>? logPublishingOptions,
@@ -3414,6 +3770,7 @@ class OpenSearch {
     OffPeakWindowOptions? offPeakWindowOptions,
     SnapshotOptions? snapshotOptions,
     SoftwareUpdateOptions? softwareUpdateOptions,
+    DomainUseCase? useCase,
     VPCOptions? vPCOptions,
   }) async {
     final $payload = <String, dynamic>{
@@ -3436,6 +3793,7 @@ class OpenSearch {
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineMode != null) 'EngineMode': engineMode.value,
       if (iPAddressType != null) 'IPAddressType': iPAddressType.value,
       if (identityCenterOptions != null)
         'IdentityCenterOptions': identityCenterOptions,
@@ -3449,6 +3807,7 @@ class OpenSearch {
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
       if (softwareUpdateOptions != null)
         'SoftwareUpdateOptions': softwareUpdateOptions,
+      if (useCase != null) 'UseCase': useCase.value,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
     final response = await _protocol.send(
@@ -3881,6 +4240,58 @@ class AssociatePackagesResponse {
     return {
       if (domainPackageDetailsList != null)
         'DomainPackageDetailsList': domainPackageDetailsList,
+    };
+  }
+}
+
+/// @nodoc
+class AttachDataSourceResponse {
+  final String? arn;
+
+  /// The unique identifier assigned to the data source attachment.
+  final String? attachmentId;
+  final String? dataSourceArn;
+
+  /// The unique identifier of the OpenSearch application.
+  final String? id;
+
+  /// The status of the data source attachment. Valid values are
+  /// <code>PENDING</code> (waiting for resources to become active),
+  /// <code>ATTACHED</code> (successfully attached), and <code>FAILED</code>
+  /// (attachment timed out or encountered a non-retryable error).
+  final DataSourceAttachmentStatus? status;
+
+  AttachDataSourceResponse({
+    this.arn,
+    this.attachmentId,
+    this.dataSourceArn,
+    this.id,
+    this.status,
+  });
+
+  factory AttachDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return AttachDataSourceResponse(
+      arn: json['arn'] as String?,
+      attachmentId: json['attachmentId'] as String?,
+      dataSourceArn: json['dataSourceArn'] as String?,
+      id: json['id'] as String?,
+      status: (json['status'] as String?)
+          ?.let(DataSourceAttachmentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attachmentId = this.attachmentId;
+    final dataSourceArn = this.dataSourceArn;
+    final id = this.id;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (attachmentId != null) 'attachmentId': attachmentId,
+      if (dataSourceArn != null) 'dataSourceArn': dataSourceArn,
+      if (id != null) 'id': id,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -4491,6 +4902,57 @@ class DeregisterCapabilityResponse {
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class DescribeDataSourceAttachmentResponse {
+  final String? arn;
+
+  /// The unique identifier assigned to the data source attachment.
+  final String? attachmentId;
+  final String? dataSourceArn;
+
+  /// The unique identifier of the OpenSearch application.
+  final String? id;
+
+  /// The status of the data source attachment. Valid values are
+  /// <code>PENDING</code>, <code>ATTACHED</code>, and <code>FAILED</code>.
+  final DataSourceAttachmentStatus? status;
+
+  DescribeDataSourceAttachmentResponse({
+    this.arn,
+    this.attachmentId,
+    this.dataSourceArn,
+    this.id,
+    this.status,
+  });
+
+  factory DescribeDataSourceAttachmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDataSourceAttachmentResponse(
+      arn: json['arn'] as String?,
+      attachmentId: json['attachmentId'] as String?,
+      dataSourceArn: json['dataSourceArn'] as String?,
+      id: json['id'] as String?,
+      status: (json['status'] as String?)
+          ?.let(DataSourceAttachmentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attachmentId = this.attachmentId;
+    final dataSourceArn = this.dataSourceArn;
+    final id = this.id;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (attachmentId != null) 'attachmentId': attachmentId,
+      if (dataSourceArn != null) 'dataSourceArn': dataSourceArn,
+      if (id != null) 'id': id,
       if (status != null) 'status': status.value,
     };
   }
@@ -5191,6 +5653,40 @@ class DescribeVpcEndpointsResponse {
   }
 }
 
+/// @nodoc
+class DetachDataSourceResponse {
+  final String? arn;
+  final String? dataSourceArn;
+
+  /// The unique identifier of the OpenSearch application.
+  final String? id;
+
+  DetachDataSourceResponse({
+    this.arn,
+    this.dataSourceArn,
+    this.id,
+  });
+
+  factory DetachDataSourceResponse.fromJson(Map<String, dynamic> json) {
+    return DetachDataSourceResponse(
+      arn: json['arn'] as String?,
+      dataSourceArn: json['dataSourceArn'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final dataSourceArn = this.dataSourceArn;
+    final id = this.id;
+    return {
+      if (arn != null) 'arn': arn,
+      if (dataSourceArn != null) 'dataSourceArn': dataSourceArn,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
 /// Container for the response returned by an <code>DissociatePackage</code>
 /// operation.
 ///
@@ -5678,6 +6174,92 @@ class GetIndexResponse {
   }
 }
 
+/// @nodoc
+class GetMigrationResponse {
+  /// The unique identifier of the OpenSearch application associated with the
+  /// migration.
+  final String? applicationId;
+
+  /// The date and time when the migration job was created.
+  final DateTime? createdAt;
+
+  /// Error details if the migration failed or completed with errors.
+  final MigrationError? error;
+
+  /// The number of saved objects exported from the source data source.
+  final int? exportedCount;
+
+  /// The number of saved objects successfully imported into the target workspace.
+  final int? importedCount;
+
+  /// The unique identifier of the migration job.
+  final String? migrationId;
+
+  /// The source configuration for the migration, including the data source ARN.
+  final MigrationSource? source;
+
+  /// The current status of the migration job. Valid values are
+  /// <code>PENDING</code>, <code>IN_PROGRESS</code>, <code>SUCCEEDED</code>, and
+  /// <code>FAILED</code>.
+  final String? status;
+
+  /// The date and time when the migration job was last updated.
+  final DateTime? updatedAt;
+
+  GetMigrationResponse({
+    this.applicationId,
+    this.createdAt,
+    this.error,
+    this.exportedCount,
+    this.importedCount,
+    this.migrationId,
+    this.source,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory GetMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return GetMigrationResponse(
+      applicationId: json['applicationId'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      error: json['error'] != null
+          ? MigrationError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      exportedCount: json['exportedCount'] as int?,
+      importedCount: json['importedCount'] as int?,
+      migrationId: json['migrationId'] as String?,
+      source: json['source'] != null
+          ? MigrationSource.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final createdAt = this.createdAt;
+    final error = this.error;
+    final exportedCount = this.exportedCount;
+    final importedCount = this.importedCount;
+    final migrationId = this.migrationId;
+    final source = this.source;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (error != null) 'error': error,
+      if (exportedCount != null) 'exportedCount': exportedCount,
+      if (importedCount != null) 'importedCount': importedCount,
+      if (migrationId != null) 'migrationId': migrationId,
+      if (source != null) 'source': source,
+      if (status != null) 'status': status,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
 /// Container for response returned by <code>GetPackageVersionHistory</code>
 /// operation.
 ///
@@ -5809,6 +6391,34 @@ class GetUpgradeStatusResponse {
   }
 }
 
+/// The result of an <code>InsightFeedback</code> request. Contains the status
+/// of the feedback submission.
+///
+/// @nodoc
+class InsightFeedbackResponse {
+  /// The status of the feedback submission. Possible values are
+  /// <code>SUCCESS</code> and <code>ERROR</code>.
+  final InsightResponseStatus? status;
+
+  InsightFeedbackResponse({
+    this.status,
+  });
+
+  factory InsightFeedbackResponse.fromJson(Map<String, dynamic> json) {
+    return InsightFeedbackResponse(
+      status:
+          (json['Status'] as String?)?.let(InsightResponseStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
 /// @nodoc
 class ListApplicationsResponse {
   /// Summarizes OpenSearch applications, including ID, ARN, name, endpoint,
@@ -5837,6 +6447,42 @@ class ListApplicationsResponse {
     return {
       if (applicationSummaries != null)
         'ApplicationSummaries': applicationSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListDataSourceAttachmentsResponse {
+  /// A list of data source attachment summaries for the specified application.
+  final List<DataSourceAttachmentSummary>? attachments;
+
+  /// The pagination token to use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListDataSourceAttachmentsResponse({
+    this.attachments,
+    this.nextToken,
+  });
+
+  factory ListDataSourceAttachmentsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDataSourceAttachmentsResponse(
+      attachments: (json['attachments'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceAttachmentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachments = this.attachments;
+    final nextToken = this.nextToken;
+    return {
+      if (attachments != null) 'attachments': attachments,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -6087,6 +6733,40 @@ class ListInstanceTypeDetailsResponse {
       if (instanceTypeDetails != null)
         'InstanceTypeDetails': instanceTypeDetails,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListMigrationsResponse {
+  /// A list of migration job summaries for the specified application.
+  final List<MigrationSummary>? migrations;
+
+  /// The pagination token to use in a subsequent call to retrieve the next set of
+  /// results.
+  final String? nextToken;
+
+  ListMigrationsResponse({
+    this.migrations,
+    this.nextToken,
+  });
+
+  factory ListMigrationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMigrationsResponse(
+      migrations: (json['migrations'] as List?)
+          ?.nonNulls
+          .map((e) => MigrationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrations = this.migrations;
+    final nextToken = this.nextToken;
+    return {
+      if (migrations != null) 'migrations': migrations,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -6554,6 +7234,37 @@ class StartDomainMaintenanceResponse {
     final maintenanceId = this.maintenanceId;
     return {
       if (maintenanceId != null) 'MaintenanceId': maintenanceId,
+    };
+  }
+}
+
+/// @nodoc
+class StartMigrationResponse {
+  /// The unique identifier of the migration job.
+  final String? migrationId;
+
+  /// The initial status of the migration job. The status is <code>PENDING</code>
+  /// when a migration is first created.
+  final String? status;
+
+  StartMigrationResponse({
+    this.migrationId,
+    this.status,
+  });
+
+  factory StartMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return StartMigrationResponse(
+      migrationId: json['migrationId'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationId = this.migrationId;
+    final status = this.status;
+    return {
+      if (migrationId != null) 'migrationId': migrationId,
+      if (status != null) 'status': status,
     };
   }
 }
@@ -8135,6 +8846,9 @@ class DomainConfig {
   /// Key-value pairs to enable encryption at rest.
   final EncryptionAtRestOptionsStatus? encryptionAtRestOptions;
 
+  /// The engine mode configured for the domain.
+  final EngineModeStatus? engineMode;
+
   /// The OpenSearch or Elasticsearch version that the domain is running.
   final VersionStatus? engineVersion;
 
@@ -8167,6 +8881,9 @@ class DomainConfig {
   /// Software update options for the domain.
   final SoftwareUpdateOptionsStatus? softwareUpdateOptions;
 
+  /// The use case configured for the domain.
+  final UseCaseStatus? useCase;
+
   /// The current VPC options for the domain and the status of any updates to
   /// their configuration.
   final VPCDerivedInfoStatus? vPCOptions;
@@ -8185,6 +8902,7 @@ class DomainConfig {
     this.domainEndpointOptions,
     this.eBSOptions,
     this.encryptionAtRestOptions,
+    this.engineMode,
     this.engineVersion,
     this.iPAddressType,
     this.identityCenterOptions,
@@ -8194,6 +8912,7 @@ class DomainConfig {
     this.offPeakWindowOptions,
     this.snapshotOptions,
     this.softwareUpdateOptions,
+    this.useCase,
     this.vPCOptions,
   });
 
@@ -8252,6 +8971,10 @@ class DomainConfig {
           ? EncryptionAtRestOptionsStatus.fromJson(
               json['EncryptionAtRestOptions'] as Map<String, dynamic>)
           : null,
+      engineMode: json['EngineMode'] != null
+          ? EngineModeStatus.fromJson(
+              json['EngineMode'] as Map<String, dynamic>)
+          : null,
       engineVersion: json['EngineVersion'] != null
           ? VersionStatus.fromJson(
               json['EngineVersion'] as Map<String, dynamic>)
@@ -8288,6 +9011,9 @@ class DomainConfig {
           ? SoftwareUpdateOptionsStatus.fromJson(
               json['SoftwareUpdateOptions'] as Map<String, dynamic>)
           : null,
+      useCase: json['UseCase'] != null
+          ? UseCaseStatus.fromJson(json['UseCase'] as Map<String, dynamic>)
+          : null,
       vPCOptions: json['VPCOptions'] != null
           ? VPCDerivedInfoStatus.fromJson(
               json['VPCOptions'] as Map<String, dynamic>)
@@ -8309,6 +9035,7 @@ class DomainConfig {
     final domainEndpointOptions = this.domainEndpointOptions;
     final eBSOptions = this.eBSOptions;
     final encryptionAtRestOptions = this.encryptionAtRestOptions;
+    final engineMode = this.engineMode;
     final engineVersion = this.engineVersion;
     final iPAddressType = this.iPAddressType;
     final identityCenterOptions = this.identityCenterOptions;
@@ -8318,6 +9045,7 @@ class DomainConfig {
     final offPeakWindowOptions = this.offPeakWindowOptions;
     final snapshotOptions = this.snapshotOptions;
     final softwareUpdateOptions = this.softwareUpdateOptions;
+    final useCase = this.useCase;
     final vPCOptions = this.vPCOptions;
     return {
       if (aIMLOptions != null) 'AIMLOptions': aIMLOptions,
@@ -8339,6 +9067,7 @@ class DomainConfig {
       if (eBSOptions != null) 'EBSOptions': eBSOptions,
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineMode != null) 'EngineMode': engineMode,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (iPAddressType != null) 'IPAddressType': iPAddressType,
       if (identityCenterOptions != null)
@@ -8354,6 +9083,7 @@ class DomainConfig {
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
       if (softwareUpdateOptions != null)
         'SoftwareUpdateOptions': softwareUpdateOptions,
+      if (useCase != null) 'UseCase': useCase,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
   }
@@ -9275,54 +10005,102 @@ class AutomatedSnapshotPauseOptionsStatus {
   }
 }
 
-/// Specifies the automated snapshot pause options for the domain. These options
-/// allow you to temporarily pause automated snapshots for a specified time
-/// period.
+/// The status of the use case for the domain.
 ///
 /// @nodoc
-class AutomatedSnapshotPauseOptions {
-  /// Whether automated snapshot pause is enabled for the domain.
-  final bool enabled;
+class UseCaseStatus {
+  /// The use case configured for the domain.
+  final DomainUseCase options;
 
-  /// The timestamp at which the automated snapshot pause ends.
-  final DateTime? endTime;
+  /// The current status of the use case for the domain.
+  final OptionStatus status;
 
-  /// The timestamp at which the automated snapshot pause begins.
-  final DateTime? startTime;
-
-  /// The current state of the automated snapshot pause. Valid values are
-  /// <code>Active</code>, <code>Completed</code>, <code>Scheduled</code>, and
-  /// <code>Disabled</code>.
-  final PauseState? state;
-
-  AutomatedSnapshotPauseOptions({
-    required this.enabled,
-    this.endTime,
-    this.startTime,
-    this.state,
+  UseCaseStatus({
+    required this.options,
+    required this.status,
   });
 
-  factory AutomatedSnapshotPauseOptions.fromJson(Map<String, dynamic> json) {
-    return AutomatedSnapshotPauseOptions(
-      enabled: (json['Enabled'] as bool?) ?? false,
-      endTime: timeStampFromJson(json['EndTime']),
-      startTime: timeStampFromJson(json['StartTime']),
-      state: (json['State'] as String?)?.let(PauseState.fromString),
+  factory UseCaseStatus.fromJson(Map<String, dynamic> json) {
+    return UseCaseStatus(
+      options: DomainUseCase.fromString((json['Options'] as String?) ?? ''),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    final state = this.state;
+    final options = this.options;
+    final status = this.status;
     return {
-      'Enabled': enabled,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (state != null) 'State': state.value,
+      'Options': options.value,
+      'Status': status,
     };
   }
+}
+
+/// The status of the engine mode for the domain.
+///
+/// @nodoc
+class EngineModeStatus {
+  /// The engine mode configured for the domain.
+  final EngineMode options;
+
+  /// The current status of the engine mode for the domain.
+  final OptionStatus status;
+
+  EngineModeStatus({
+    required this.options,
+    required this.status,
+  });
+
+  factory EngineModeStatus.fromJson(Map<String, dynamic> json) {
+    return EngineModeStatus(
+      options: EngineMode.fromString((json['Options'] as String?) ?? ''),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options.value,
+      'Status': status,
+    };
+  }
+}
+
+/// The engine mode for the domain. Valid values are <code>GENERAL</code> (the
+/// standard OpenSearch engine) and <code>OPTIMIZED</code>. If you don't specify
+/// an engine mode, <code>GENERAL</code> is used. <code>OPTIMIZED</code>
+/// requires OpenSearch 3.5 or later, OpenSearch Optimized instance types (OR1,
+/// OR2, OM2, or OI2) for the data tier, and is available only for the
+/// <code>OBSERVABILITY</code> use cases. The engine mode can't be changed after
+/// the domain is created.
+///
+/// @nodoc
+class EngineMode {
+  static const general = EngineMode._('GENERAL');
+  static const optimized = EngineMode._('OPTIMIZED');
+
+  final String value;
+
+  const EngineMode._(this.value);
+
+  static const values = [general, optimized];
+
+  static EngineMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EngineMode._(value));
+
+  @override
+  bool operator ==(other) => other is EngineMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Provides the current status of an entity.
@@ -9414,6 +10192,92 @@ class OptionState {
 
   @override
   String toString() => value;
+}
+
+/// The primary use case for the domain, which determines the default
+/// configuration and the engine modes that are available. Valid values are
+/// <code>SEARCH</code> (full-text search, e-commerce, content discovery, and
+/// hybrid and semantic search), <code>VECTOR</code> (k-NN and semantic search,
+/// and retrieval-augmented generation), <code>OBSERVABILITY</code> (logs,
+/// metrics, traces, and dashboards), and <code>MIXED</code> (a combination of
+/// search and analytics). If you don't specify a use case, <code>MIXED</code>
+/// is used.
+///
+/// @nodoc
+class DomainUseCase {
+  static const search = DomainUseCase._('SEARCH');
+  static const vector = DomainUseCase._('VECTOR');
+  static const observability = DomainUseCase._('OBSERVABILITY');
+  static const mixed = DomainUseCase._('MIXED');
+
+  final String value;
+
+  const DomainUseCase._(this.value);
+
+  static const values = [search, vector, observability, mixed];
+
+  static DomainUseCase fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainUseCase._(value));
+
+  @override
+  bool operator ==(other) => other is DomainUseCase && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the automated snapshot pause options for the domain. These options
+/// allow you to temporarily pause automated snapshots for a specified time
+/// period.
+///
+/// @nodoc
+class AutomatedSnapshotPauseOptions {
+  /// Whether automated snapshot pause is enabled for the domain.
+  final bool enabled;
+
+  /// The timestamp at which the automated snapshot pause ends.
+  final DateTime? endTime;
+
+  /// The timestamp at which the automated snapshot pause begins.
+  final DateTime? startTime;
+
+  /// The current state of the automated snapshot pause. Valid values are
+  /// <code>Active</code>, <code>Completed</code>, <code>Scheduled</code>, and
+  /// <code>Disabled</code>.
+  final PauseState? state;
+
+  AutomatedSnapshotPauseOptions({
+    required this.enabled,
+    this.endTime,
+    this.startTime,
+    this.state,
+  });
+
+  factory AutomatedSnapshotPauseOptions.fromJson(Map<String, dynamic> json) {
+    return AutomatedSnapshotPauseOptions(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      endTime: timeStampFromJson(json['EndTime']),
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.let(PauseState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final state = this.state;
+    return {
+      'Enabled': enabled,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (state != null) 'State': state.value,
+    };
+  }
 }
 
 /// The state of the automated snapshot pause. Valid values are
@@ -12651,6 +13515,39 @@ class DataSource {
   }
 }
 
+/// Configuration settings for enabling and managing IAM Identity Center.
+///
+/// @nodoc
+class IamIdentityCenterOptionsInput {
+  /// Specifies whether IAM Identity Center is enabled or disabled.
+  final bool? enabled;
+  final String? iamIdentityCenterInstanceArn;
+
+  /// The ARN of the IAM role associated with the IAM Identity Center application.
+  final String? iamRoleForIdentityCenterApplicationArn;
+
+  IamIdentityCenterOptionsInput({
+    this.enabled,
+    this.iamIdentityCenterInstanceArn,
+    this.iamRoleForIdentityCenterApplicationArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final iamIdentityCenterInstanceArn = this.iamIdentityCenterInstanceArn;
+    final iamRoleForIdentityCenterApplicationArn =
+        this.iamRoleForIdentityCenterApplicationArn;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (iamIdentityCenterInstanceArn != null)
+        'iamIdentityCenterInstanceArn': iamIdentityCenterInstanceArn,
+      if (iamRoleForIdentityCenterApplicationArn != null)
+        'iamRoleForIdentityCenterApplicationArn':
+            iamRoleForIdentityCenterApplicationArn,
+    };
+  }
+}
+
 /// The current status of the service software for an Amazon OpenSearch Service
 /// domain. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html">Service
@@ -12767,6 +13664,178 @@ class DeploymentStatus {
 
   @override
   String toString() => value;
+}
+
+/// The configuration options for a saved objects migration job.
+///
+/// @nodoc
+class MigrationOptions {
+  /// The data source from which to export saved objects.
+  final MigrationSource source;
+
+  /// The target workspace configuration for importing saved objects. You can
+  /// specify an existing workspace or request creation of a new workspace.
+  final MigrationWorkspace workspace;
+
+  /// The strategy for resolving conflicts when saved objects already exist in the
+  /// target workspace. Valid values are <code>CREATE_NEW_COPIES</code>, which
+  /// creates new objects with unique IDs, and <code>overwrite</code>, which
+  /// replaces existing objects.
+  final String? conflictResolution;
+
+  /// Options to filter the scope of saved objects to export from the source.
+  final ExportOptions? exportOptions;
+
+  MigrationOptions({
+    required this.source,
+    required this.workspace,
+    this.conflictResolution,
+    this.exportOptions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final workspace = this.workspace;
+    final conflictResolution = this.conflictResolution;
+    final exportOptions = this.exportOptions;
+    return {
+      'source': source,
+      'workspace': workspace,
+      if (conflictResolution != null) 'conflictResolution': conflictResolution,
+      if (exportOptions != null) 'exportOptions': exportOptions,
+    };
+  }
+}
+
+/// The source configuration for a migration, specifying the data source from
+/// which to export saved objects.
+///
+/// @nodoc
+class MigrationSource {
+  /// The Amazon Resource Name (ARN) of the data source to migrate saved objects
+  /// from.
+  final String datasourceArn;
+
+  MigrationSource({
+    required this.datasourceArn,
+  });
+
+  factory MigrationSource.fromJson(Map<String, dynamic> json) {
+    return MigrationSource(
+      datasourceArn: (json['datasourceArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasourceArn = this.datasourceArn;
+    return {
+      'datasourceArn': datasourceArn,
+    };
+  }
+}
+
+/// The target workspace configuration for a migration. You can specify an
+/// existing workspace by ID or request creation of a new workspace.
+///
+/// @nodoc
+class MigrationWorkspace {
+  /// Specifies whether to create a new workspace as the migration target. If
+  /// <code>true</code>, you must also specify <code>name</code>.
+  final bool? createWorkspace;
+
+  /// The name of the new workspace to create. Required when
+  /// <code>createWorkspace</code> is <code>true</code>.
+  final String? name;
+
+  /// The type of the new workspace to create.
+  final String? type;
+
+  /// The unique identifier of an existing workspace to use as the migration
+  /// target. Specify either this parameter or <code>createWorkspace</code>.
+  final String? workspaceId;
+
+  MigrationWorkspace({
+    this.createWorkspace,
+    this.name,
+    this.type,
+    this.workspaceId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final createWorkspace = this.createWorkspace;
+    final name = this.name;
+    final type = this.type;
+    final workspaceId = this.workspaceId;
+    return {
+      if (createWorkspace != null) 'createWorkspace': createWorkspace,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type,
+      if (workspaceId != null) 'workspaceId': workspaceId,
+    };
+  }
+}
+
+/// Options to filter the scope of saved objects to export during a migration.
+///
+/// @nodoc
+class ExportOptions {
+  /// Specifies whether to include all objects referenced by the exported objects,
+  /// recursively.
+  final bool? includeReferencesDeep;
+
+  /// A list of specific saved objects to include in the migration, identified by
+  /// type and ID.
+  final List<SavedObjectIdentifier>? objects;
+
+  /// A list of saved object types to include in the migration. Valid values
+  /// include <code>dashboard</code>, <code>visualization</code>,
+  /// <code>index-pattern</code>, <code>search</code>, and <code>query</code>.
+  final List<String>? types;
+
+  ExportOptions({
+    this.includeReferencesDeep,
+    this.objects,
+    this.types,
+  });
+
+  Map<String, dynamic> toJson() {
+    final includeReferencesDeep = this.includeReferencesDeep;
+    final objects = this.objects;
+    final types = this.types;
+    return {
+      if (includeReferencesDeep != null)
+        'includeReferencesDeep': includeReferencesDeep,
+      if (objects != null) 'objects': objects,
+      if (types != null) 'types': types,
+    };
+  }
+}
+
+/// Identifies a specific saved object by its type and unique identifier.
+///
+/// @nodoc
+class SavedObjectIdentifier {
+  /// The unique identifier of the saved object.
+  final String id;
+
+  /// The type of the saved object, such as <code>dashboard</code>,
+  /// <code>visualization</code>, <code>index-pattern</code>, <code>search</code>,
+  /// or <code>query</code>.
+  final String type;
+
+  SavedObjectIdentifier({
+    required this.id,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'id': id,
+      'type': type,
+    };
+  }
 }
 
 /// @nodoc
@@ -13645,6 +14714,124 @@ class KeyStoreAccessOption {
   }
 }
 
+/// A summary of a migration job, including its status and progress.
+///
+/// @nodoc
+class MigrationSummary {
+  /// The unique identifier of the OpenSearch application associated with the
+  /// migration.
+  final String? applicationId;
+
+  /// The date and time when the migration job was created.
+  final DateTime? createdAt;
+
+  /// Error details if the migration failed or completed with errors.
+  final MigrationError? error;
+
+  /// The number of saved objects exported from the source data source.
+  final int? exportedCount;
+
+  /// The number of saved objects successfully imported into the target workspace.
+  final int? importedCount;
+
+  /// The unique identifier of the migration job.
+  final String? migrationId;
+
+  /// The source configuration for the migration.
+  final MigrationSource? source;
+
+  /// The current status of the migration job.
+  final String? status;
+
+  /// The date and time when the migration job was last updated.
+  final DateTime? updatedAt;
+
+  MigrationSummary({
+    this.applicationId,
+    this.createdAt,
+    this.error,
+    this.exportedCount,
+    this.importedCount,
+    this.migrationId,
+    this.source,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory MigrationSummary.fromJson(Map<String, dynamic> json) {
+    return MigrationSummary(
+      applicationId: json['applicationId'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      error: json['error'] != null
+          ? MigrationError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      exportedCount: json['exportedCount'] as int?,
+      importedCount: json['importedCount'] as int?,
+      migrationId: json['migrationId'] as String?,
+      source: json['source'] != null
+          ? MigrationSource.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final createdAt = this.createdAt;
+    final error = this.error;
+    final exportedCount = this.exportedCount;
+    final importedCount = this.importedCount;
+    final migrationId = this.migrationId;
+    final source = this.source;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (error != null) 'error': error,
+      if (exportedCount != null) 'exportedCount': exportedCount,
+      if (importedCount != null) 'importedCount': importedCount,
+      if (migrationId != null) 'migrationId': migrationId,
+      if (source != null) 'source': source,
+      if (status != null) 'status': status,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Contains error details for a migration that failed or completed with errors.
+///
+/// @nodoc
+class MigrationError {
+  /// The error code identifying the type of failure.
+  final String? code;
+
+  /// A human-readable description of the error.
+  final String? message;
+
+  MigrationError({
+    this.code,
+    this.message,
+  });
+
+  factory MigrationError.fromJson(Map<String, dynamic> json) {
+    return MigrationError(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
 /// Lists all instance types and available features for a given OpenSearch or
 /// Elasticsearch version.
 ///
@@ -14290,6 +15477,73 @@ class DataSourceDetails {
   }
 }
 
+/// Summary information about a data source attachment, including its
+/// identifier, data source ARN, and current status.
+///
+/// @nodoc
+class DataSourceAttachmentSummary {
+  /// The unique identifier assigned to the data source attachment.
+  final String? attachmentId;
+  final String? dataSourceArn;
+
+  /// The current status of the data source attachment. Valid values are
+  /// <code>PENDING</code>, <code>ATTACHED</code>, and <code>FAILED</code>.
+  final DataSourceAttachmentStatus? status;
+
+  DataSourceAttachmentSummary({
+    this.attachmentId,
+    this.dataSourceArn,
+    this.status,
+  });
+
+  factory DataSourceAttachmentSummary.fromJson(Map<String, dynamic> json) {
+    return DataSourceAttachmentSummary(
+      attachmentId: json['attachmentId'] as String?,
+      dataSourceArn: json['dataSourceArn'] as String?,
+      status: (json['status'] as String?)
+          ?.let(DataSourceAttachmentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final dataSourceArn = this.dataSourceArn;
+    final status = this.status;
+    return {
+      if (attachmentId != null) 'attachmentId': attachmentId,
+      if (dataSourceArn != null) 'dataSourceArn': dataSourceArn,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class DataSourceAttachmentStatus {
+  static const pending = DataSourceAttachmentStatus._('PENDING');
+  static const attached = DataSourceAttachmentStatus._('ATTACHED');
+  static const failed = DataSourceAttachmentStatus._('FAILED');
+
+  final String value;
+
+  const DataSourceAttachmentStatus._(this.value);
+
+  static const values = [pending, attached, failed];
+
+  static DataSourceAttachmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceAttachmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceAttachmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Basic details of an OpenSearch application.
 ///
 /// @nodoc
@@ -14379,6 +15633,118 @@ class ApplicationStatus {
 
   @override
   bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of an insight response. Possible values are <code>SUCCESS</code>
+/// and <code>ERROR</code>.
+///
+/// @nodoc
+class InsightResponseStatus {
+  static const success = InsightResponseStatus._('SUCCESS');
+  static const error = InsightResponseStatus._('ERROR');
+
+  final String value;
+
+  const InsightResponseStatus._(this.value);
+
+  static const values = [success, error];
+
+  static InsightResponseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightResponseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightResponseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the entity for which to submit insight feedback. An entity
+/// represents an Amazon OpenSearch Service domain.
+///
+/// @nodoc
+class InsightFeedbackEntity {
+  /// The type of the entity. Possible values are <code>DomainName</code>.
+  final InsightFeedbackEntityType type;
+
+  /// The value of the entity, such as a domain name.
+  final String value;
+
+  InsightFeedbackEntity({
+    required this.type,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.value,
+      'Value': value,
+    };
+  }
+}
+
+/// The thumbs up or thumbs down feedback for an insight. Possible values are
+/// <code>Up</code> and <code>Down</code>.
+///
+/// @nodoc
+class InsightFeedbackThumbs {
+  static const up = InsightFeedbackThumbs._('Up');
+  static const down = InsightFeedbackThumbs._('Down');
+
+  final String value;
+
+  const InsightFeedbackThumbs._(this.value);
+
+  static const values = [up, down];
+
+  static InsightFeedbackThumbs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightFeedbackThumbs._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightFeedbackThumbs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The type of entity for which to submit insight feedback. Possible values are
+/// <code>DomainName</code>.
+///
+/// @nodoc
+class InsightFeedbackEntityType {
+  static const domainName = InsightFeedbackEntityType._('DomainName');
+
+  final String value;
+
+  const InsightFeedbackEntityType._(this.value);
+
+  static const values = [domainName];
+
+  static InsightFeedbackEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightFeedbackEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightFeedbackEntityType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15950,6 +17316,9 @@ class DomainStatus {
   /// </ul>
   final Map<String, String>? endpoints;
 
+  /// The engine mode for the domain.
+  final EngineMode? engineMode;
+
   /// Version of OpenSearch or Elasticsearch that the domain is running, in the
   /// format <code>Elasticsearch_X.Y</code> or <code>OpenSearch_X.Y</code>.
   final String? engineVersion;
@@ -15993,6 +17362,9 @@ class DomainStatus {
   /// upgrade. False if the configuration is active.
   final bool? upgradeProcessing;
 
+  /// The primary use case for the domain.
+  final DomainUseCase? useCase;
+
   /// The VPC configuration for the domain.
   final VPCDerivedInfo? vPCOptions;
 
@@ -16020,6 +17392,7 @@ class DomainStatus {
     this.endpoint,
     this.endpointV2,
     this.endpoints,
+    this.engineMode,
     this.engineVersion,
     this.iPAddressType,
     this.identityCenterOptions,
@@ -16032,6 +17405,7 @@ class DomainStatus {
     this.snapshotOptions,
     this.softwareUpdateOptions,
     this.upgradeProcessing,
+    this.useCase,
     this.vPCOptions,
   });
 
@@ -16096,6 +17470,7 @@ class DomainStatus {
       endpointV2: json['EndpointV2'] as String?,
       endpoints: (json['Endpoints'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      engineMode: (json['EngineMode'] as String?)?.let(EngineMode.fromString),
       engineVersion: json['EngineVersion'] as String?,
       iPAddressType:
           (json['IPAddressType'] as String?)?.let(IPAddressType.fromString),
@@ -16133,6 +17508,7 @@ class DomainStatus {
               json['SoftwareUpdateOptions'] as Map<String, dynamic>)
           : null,
       upgradeProcessing: json['UpgradeProcessing'] as bool?,
+      useCase: (json['UseCase'] as String?)?.let(DomainUseCase.fromString),
       vPCOptions: json['VPCOptions'] != null
           ? VPCDerivedInfo.fromJson(json['VPCOptions'] as Map<String, dynamic>)
           : null,
@@ -16163,6 +17539,7 @@ class DomainStatus {
     final endpoint = this.endpoint;
     final endpointV2 = this.endpointV2;
     final endpoints = this.endpoints;
+    final engineMode = this.engineMode;
     final engineVersion = this.engineVersion;
     final iPAddressType = this.iPAddressType;
     final identityCenterOptions = this.identityCenterOptions;
@@ -16175,6 +17552,7 @@ class DomainStatus {
     final snapshotOptions = this.snapshotOptions;
     final softwareUpdateOptions = this.softwareUpdateOptions;
     final upgradeProcessing = this.upgradeProcessing;
+    final useCase = this.useCase;
     final vPCOptions = this.vPCOptions;
     return {
       'ARN': arn,
@@ -16208,6 +17586,7 @@ class DomainStatus {
       if (endpoint != null) 'Endpoint': endpoint,
       if (endpointV2 != null) 'EndpointV2': endpointV2,
       if (endpoints != null) 'Endpoints': endpoints,
+      if (engineMode != null) 'EngineMode': engineMode.value,
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (iPAddressType != null) 'IPAddressType': iPAddressType.value,
       if (identityCenterOptions != null)
@@ -16228,6 +17607,7 @@ class DomainStatus {
       if (softwareUpdateOptions != null)
         'SoftwareUpdateOptions': softwareUpdateOptions,
       if (upgradeProcessing != null) 'UpgradeProcessing': upgradeProcessing,
+      if (useCase != null) 'UseCase': useCase.value,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
   }
@@ -17082,39 +18462,6 @@ class AutoTuneOptionsInput {
   }
 }
 
-/// Configuration settings for enabling and managing IAM Identity Center.
-///
-/// @nodoc
-class IamIdentityCenterOptionsInput {
-  /// Specifies whether IAM Identity Center is enabled or disabled.
-  final bool? enabled;
-  final String? iamIdentityCenterInstanceArn;
-
-  /// The ARN of the IAM role associated with the IAM Identity Center application.
-  final String? iamRoleForIdentityCenterApplicationArn;
-
-  IamIdentityCenterOptionsInput({
-    this.enabled,
-    this.iamIdentityCenterInstanceArn,
-    this.iamRoleForIdentityCenterApplicationArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final iamIdentityCenterInstanceArn = this.iamIdentityCenterInstanceArn;
-    final iamRoleForIdentityCenterApplicationArn =
-        this.iamRoleForIdentityCenterApplicationArn;
-    return {
-      if (enabled != null) 'enabled': enabled,
-      if (iamIdentityCenterInstanceArn != null)
-        'iamIdentityCenterInstanceArn': iamIdentityCenterInstanceArn,
-      if (iamRoleForIdentityCenterApplicationArn != null)
-        'iamRoleForIdentityCenterApplicationArn':
-            iamRoleForIdentityCenterApplicationArn,
-    };
-  }
-}
-
 /// A property change that was cancelled for an Amazon OpenSearch Service
 /// domain.
 ///
@@ -17152,6 +18499,37 @@ class CancelledChangeProperty {
       if (activeValue != null) 'ActiveValue': activeValue,
       if (cancelledValue != null) 'CancelledValue': cancelledValue,
       if (propertyName != null) 'PropertyName': propertyName,
+    };
+  }
+}
+
+/// Configuration for creating a new workspace when attaching a data source to
+/// an OpenSearch application. The workspace is created after the data source is
+/// successfully attached.
+///
+/// @nodoc
+class WorkspaceConfigurationInput {
+  /// The name of the workspace to create. Must be between 1 and 40 characters and
+  /// can contain alphanumeric characters, parentheses, brackets, hyphens,
+  /// underscores, and spaces.
+  final String name;
+
+  /// The type of workspace to create, which determines the use-case features
+  /// enabled for the workspace. Valid values are <code>OBSERVABILITY</code>,
+  /// <code>SECURITY_ANALYTICS</code>, and <code>SEARCH</code>.
+  final String workspaceType;
+
+  WorkspaceConfigurationInput({
+    required this.name,
+    required this.workspaceType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final workspaceType = this.workspaceType;
+    return {
+      'name': name,
+      'workspaceType': workspaceType,
     };
   }
 }

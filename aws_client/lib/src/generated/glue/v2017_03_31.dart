@@ -66,6 +66,49 @@ class Glue {
     _protocol.close();
   }
 
+  /// Associates one or more glossary terms with an asset in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The unique identifier of the asset to associate glossary terms with.
+  ///
+  /// Parameter [glossaryTermIdentifiers] :
+  /// The list of glossary term identifiers to associate with the asset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<AssociateGlossaryTermsResponse> associateGlossaryTerms({
+    required String assetIdentifier,
+    required List<String> glossaryTermIdentifiers,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.AssociateGlossaryTerms'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssetIdentifier': assetIdentifier,
+        'GlossaryTermIdentifiers': glossaryTermIdentifiers,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return AssociateGlossaryTermsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates one or more partitions in a batch operation.
   ///
   /// May throw [AlreadyExistsException].
@@ -440,6 +483,37 @@ class Glue {
     return BatchGetDataQualityResultResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the details of multiple evaluation runs in a single request.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [runIds] :
+  /// A list of unique run identifiers for the evaluation runs to retrieve.
+  Future<BatchGetDataQualityRulesetEvaluationRunResponse>
+      batchGetDataQualityRulesetEvaluationRun({
+    required List<String> runIds,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.BatchGetDataQualityRulesetEvaluationRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RunIds': runIds,
+      },
+    );
+
+    return BatchGetDataQualityRulesetEvaluationRunResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Returns a list of resource metadata for a given list of development
   /// endpoint names. After calling the <code>ListDevEndpoints</code> operation,
   /// you can call this operation to access the data to which you have been
@@ -473,6 +547,49 @@ class Glue {
     );
 
     return BatchGetDevEndpointsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves multiple items from an iterable form on an asset in Glue Data
+  /// Catalog in a single request.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The unique identifier of the asset.
+  ///
+  /// Parameter [itemIdentifiers] :
+  /// The list of item identifiers to retrieve. Each identifier can be an item
+  /// ID or item name.
+  ///
+  /// Parameter [iterableFormName] :
+  /// The name of the iterable form to retrieve items from.
+  Future<BatchGetIterableFormsResponse> batchGetIterableForms({
+    required String assetIdentifier,
+    required List<String> itemIdentifiers,
+    required String iterableFormName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.BatchGetIterableForms'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssetIdentifier': assetIdentifier,
+        'ItemIdentifiers': itemIdentifiers,
+        'IterableFormName': iterableFormName,
+      },
+    );
+
+    return BatchGetIterableFormsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of resource metadata for a given list of job names. After
@@ -1700,6 +1817,104 @@ class Glue {
     );
 
     return CreateDevEndpointResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a business glossary in Glue Data Catalog. A glossary is a
+  /// container for glossary terms that define business concepts.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [name] :
+  /// The name of the glossary.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the glossary.
+  Future<CreateGlossaryResponse> createGlossary({
+    required String name,
+    String? clientToken,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateGlossary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return CreateGlossaryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a glossary term within a business glossary in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [glossaryIdentifier] :
+  /// The unique identifier of the glossary in which to create the term.
+  ///
+  /// Parameter [name] :
+  /// The name of the glossary term.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [longDescription] :
+  /// A long description of the glossary term.
+  ///
+  /// Parameter [shortDescription] :
+  /// A short description of the glossary term.
+  Future<CreateGlossaryTermResponse> createGlossaryTerm({
+    required String glossaryIdentifier,
+    required String name,
+    String? clientToken,
+    String? longDescription,
+    String? shortDescription,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateGlossaryTerm'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GlossaryIdentifier': glossaryIdentifier,
+        'Name': name,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (longDescription != null) 'LongDescription': longDescription,
+        if (shortDescription != null) 'ShortDescription': shortDescription,
+      },
+    );
+
+    return CreateGlossaryTermResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new Glue Identity Center configuration to enable integration
@@ -3450,6 +3665,114 @@ class Glue {
     return CreateWorkflowResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an asset from Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the asset to delete.
+  Future<void> deleteAsset({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteAsset'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+  }
+
+  /// Deletes an asset type from Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the asset type to delete.
+  Future<void> deleteAssetType({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteAssetType'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+  }
+
+  /// Deletes a form attachment from an asset in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The unique identifier of the asset from which to delete the attachment.
+  ///
+  /// Parameter [attachmentName] :
+  /// The name of the attachment to delete.
+  ///
+  /// Parameter [itemIdentifier] :
+  /// The identifier of the item within the iterable form. Required when
+  /// <code>iterableFormName</code> is specified.
+  ///
+  /// Parameter [iterableFormName] :
+  /// The name of the iterable form. When specified along with
+  /// <code>itemIdentifier</code>, the attachment is deleted from an item within
+  /// the iterable form rather than from the asset itself.
+  Future<DeleteAttachmentResponse> deleteAttachment({
+    required String assetIdentifier,
+    required String attachmentName,
+    String? itemIdentifier,
+    String? iterableFormName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteAttachment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssetIdentifier': assetIdentifier,
+        'AttachmentName': attachmentName,
+        if (itemIdentifier != null) 'ItemIdentifier': itemIdentifier,
+        if (iterableFormName != null) 'IterableFormName': iterableFormName,
+      },
+    );
+
+    return DeleteAttachmentResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes an existing blueprint.
   ///
   /// May throw [InternalServiceException].
@@ -3915,6 +4238,97 @@ class Glue {
       headers: headers,
       payload: {
         'EndpointName': endpointName,
+      },
+    );
+  }
+
+  /// Deletes a form type from Glue Data Catalog. A form type cannot be deleted
+  /// if it is still referenced by an asset type.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the form type to delete.
+  Future<void> deleteFormType({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteFormType'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+  }
+
+  /// Deletes a business glossary from Glue Data Catalog. A glossary cannot be
+  /// deleted if it still contains glossary terms.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the glossary to delete.
+  Future<void> deleteGlossary({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteGlossary'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+  }
+
+  /// Deletes a glossary term from Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the glossary term to delete.
+  Future<void> deleteGlossaryTerm({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteGlossaryTerm'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
       },
     );
   }
@@ -4919,6 +5333,113 @@ class Glue {
     );
 
     return DescribeIntegrationsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Removes the association of one or more glossary terms from an asset in
+  /// Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The unique identifier of the asset to disassociate glossary terms from.
+  ///
+  /// Parameter [glossaryTermIdentifiers] :
+  /// The list of glossary term identifiers to disassociate from the asset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<DisassociateGlossaryTermsResponse> disassociateGlossaryTerms({
+    required String assetIdentifier,
+    required List<String> glossaryTermIdentifiers,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DisassociateGlossaryTerms'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssetIdentifier': assetIdentifier,
+        'GlossaryTermIdentifiers': glossaryTermIdentifiers,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return DisassociateGlossaryTermsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the metadata for an asset in Glue Data Catalog, including its
+  /// forms, additional attachments, and associated glossary terms.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the asset to retrieve.
+  Future<GetAssetOutput> getAsset({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetAsset'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+
+    return GetAssetOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves an asset type in Glue Data Catalog by its identifier.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the asset type to retrieve.
+  Future<GetAssetTypeResponse> getAssetType({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetAssetType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+
+    return GetAssetTypeResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the details of a blueprint.
@@ -5926,6 +6447,31 @@ class Glue {
     return GetDataCatalogEncryptionSettingsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the current export configuration for the Glue Data Catalog. The
+  /// export configuration controls whether catalog metadata is exported to S3
+  /// Tables.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  Future<GetDataCatalogExportConfigurationOutput>
+      getDataCatalogExportConfiguration() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetDataCatalogExportConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetDataCatalogExportConfigurationOutput.fromJson(jsonResponse.body);
+  }
+
   /// Transforms a Python script into a directed acyclic graph (DAG).
   ///
   /// May throw [InternalServiceException].
@@ -6330,6 +6876,97 @@ class Glue {
     );
 
     return GetEntityRecordsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a form type in Glue Data Catalog by its identifier.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the form type to retrieve.
+  Future<GetFormTypeResponse> getFormType({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetFormType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+
+    return GetFormTypeResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a business glossary in Glue Data Catalog by its identifier.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the glossary to retrieve.
+  Future<GetGlossaryResponse> getGlossary({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetGlossary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+
+    return GetGlossaryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a glossary term in Glue Data Catalog by its identifier.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the glossary term to retrieve.
+  Future<GetGlossaryTermResponse> getGlossaryTerm({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetGlossaryTerm'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+      },
+    );
+
+    return GetGlossaryTermResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the current Glue Identity Center configuration details,
@@ -7813,6 +8450,27 @@ class Glue {
   /// The name of the table for which to retrieve the definition. For Hive
   /// compatibility, this name is entirely lowercase.
   ///
+  /// Parameter [attributesToGet] :
+  /// Specifies the table fields returned by the <code>GetTable</code> call.
+  /// This parameter doesn't accept an empty list.
+  ///
+  /// The following are the valid combinations of values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DEFAULT</code> - Returns the Hive-style table definition only.
+  /// </li>
+  /// <li>
+  /// <code>LATEST_ICEBERG_METADATA</code> - Returns only the latest Apache
+  /// Iceberg table metadata.
+  /// </li>
+  /// <li>
+  /// <code>DEFAULT</code>, <code>LATEST_ICEBERG_METADATA</code> - Returns both
+  /// the Hive-style table definition and the latest Apache Iceberg table
+  /// metadata.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [auditContext] :
   /// A structure containing the Lake Formation <a
   /// href="https://docs.aws.amazon.com/glue/latest/webapi/API_AuditContext.html">audit
@@ -7836,6 +8494,7 @@ class Glue {
   Future<GetTableResponse> getTable({
     required String databaseName,
     required String name,
+    List<TableAttributes>? attributesToGet,
     AuditContext? auditContext,
     String? catalogId,
     bool? includeStatusDetails,
@@ -7855,6 +8514,8 @@ class Glue {
       payload: {
         'DatabaseName': databaseName,
         'Name': name,
+        if (attributesToGet != null)
+          'AttributesToGet': attributesToGet.map((e) => e.value).toList(),
         if (auditContext != null) 'AuditContext': auditContext,
         if (catalogId != null) 'CatalogId': catalogId,
         if (includeStatusDetails != null)
@@ -8979,6 +9640,47 @@ class Glue {
     );
   }
 
+  /// Lists the asset types defined in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListAssetTypesResponse> listAssetTypes({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListAssetTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAssetTypesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists all the blueprint names in an account.
   ///
   /// May throw [InternalServiceException].
@@ -9338,11 +10040,15 @@ class Glue {
   ///
   /// Parameter [nextToken] :
   /// A paginated token to offset the results.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pair tags to filter recommendation runs.
   Future<ListDataQualityRuleRecommendationRunsResponse>
       listDataQualityRuleRecommendationRuns({
     DataQualityRuleRecommendationRunFilter? filter,
     int? maxResults,
     String? nextToken,
+    Map<String, String>? tags,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -9364,6 +10070,7 @@ class Glue {
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -9694,6 +10401,134 @@ class Glue {
     return ListEntitiesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the form types defined in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListFormTypesResponse> listFormTypes({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListFormTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListFormTypesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists business glossaries in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListGlossariesResponse> listGlossaries({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListGlossaries'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListGlossariesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists glossary terms within a business glossary in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [glossaryIdentifier] :
+  /// The unique identifier of the glossary whose terms to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListGlossaryTermsResponse> listGlossaryTerms({
+    required String glossaryIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListGlossaryTerms'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GlossaryIdentifier': glossaryIdentifier,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListGlossaryTermsResponse.fromJson(jsonResponse.body);
+  }
+
   /// List integration resource properties for a single customer. It supports
   /// the filters, maxRecords and markers.
   ///
@@ -9740,6 +10575,59 @@ class Glue {
 
     return ListIntegrationResourcePropertiesResponse.fromJson(
         jsonResponse.body);
+  }
+
+  /// Lists the items in an iterable form on an asset in Glue Data Catalog. For
+  /// example, lists the columns of a table asset.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The unique identifier of the asset.
+  ///
+  /// Parameter [iterableFormName] :
+  /// The name of the iterable form to list items from.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListIterableFormsResponse> listIterableForms({
+    required String assetIdentifier,
+    required String iterableFormName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListIterableForms'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssetIdentifier': assetIdentifier,
+        'IterableFormName': iterableFormName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListIterableFormsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the names of all job resources in this Amazon Web Services
@@ -10427,6 +11315,180 @@ class Glue {
     return ModifyIntegrationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates or updates an asset in Glue Data Catalog. If the asset already
+  /// exists, this operation updates it; otherwise, a new asset is created.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetTypeId] :
+  /// The identifier of the asset type for the asset.
+  ///
+  /// Parameter [forms] :
+  /// The forms to set on the asset, keyed by form name. Each entry specifies
+  /// the form type and its JSON content.
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the asset. If an asset with this identifier
+  /// already exists, it is updated.
+  ///
+  /// Parameter [name] :
+  /// The name of the asset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the asset.
+  Future<PutAssetResponse> putAsset({
+    required String assetTypeId,
+    required Map<String, AssetFormEntry> forms,
+    required String identifier,
+    required String name,
+    String? clientToken,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.PutAsset'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssetTypeId': assetTypeId,
+        'Forms': forms,
+        'Identifier': identifier,
+        'Name': name,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return PutAssetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates an asset type in Glue Data Catalog. An asset type
+  /// defines the structure of assets by specifying which forms they include. If
+  /// an asset type with the given name already exists, it is updated.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [forms] :
+  /// The forms that make up the asset type, keyed by form name. Each entry
+  /// references the form type that defines the form's schema.
+  ///
+  /// Parameter [name] :
+  /// The name of the asset type.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<PutAssetTypeResponse> putAssetType({
+    required Map<String, AssetTypeFormReference> forms,
+    required String name,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.PutAssetType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Forms': forms,
+        'Name': name,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return PutAssetTypeResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Attaches a form to an asset or an iterable form item in Glue Data Catalog.
+  /// If an attachment with the same name already exists, it is overwritten.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The unique identifier of the asset to attach the form to.
+  ///
+  /// Parameter [attachmentName] :
+  /// The name of the attachment.
+  ///
+  /// Parameter [content] :
+  /// The JSON content of the form, conforming to the schema of the specified
+  /// form type.
+  ///
+  /// Parameter [formTypeId] :
+  /// The identifier of the form type for this attachment.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [itemIdentifier] :
+  /// The identifier of the item within the iterable form. Required when
+  /// <code>iterableFormName</code> is specified.
+  ///
+  /// Parameter [iterableFormName] :
+  /// The name of the iterable form. When specified along with
+  /// <code>itemIdentifier</code>, the attachment targets an item within the
+  /// iterable form rather than the asset itself.
+  Future<PutAttachmentResponse> putAttachment({
+    required String assetIdentifier,
+    required String attachmentName,
+    required String content,
+    required String formTypeId,
+    String? clientToken,
+    String? itemIdentifier,
+    String? iterableFormName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.PutAttachment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssetIdentifier': assetIdentifier,
+        'AttachmentName': attachmentName,
+        'Content': content,
+        'FormTypeId': formTypeId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (itemIdentifier != null) 'ItemIdentifier': itemIdentifier,
+        if (iterableFormName != null) 'IterableFormName': iterableFormName,
+      },
+    );
+
+    return PutAttachmentResponse.fromJson(jsonResponse.body);
+  }
+
   /// Sets the security configuration for a specified catalog. After the
   /// configuration has been set, the specified encryption is applied to every
   /// catalog write thereafter.
@@ -10462,6 +11524,55 @@ class Glue {
     );
   }
 
+  /// Creates or updates the export configuration for the Glue Data Catalog. Use
+  /// this operation to enable or disable the export of catalog metadata to S3
+  /// Tables.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [exportSetting] :
+  /// The export setting for the data catalog. Specify <code>ENABLED</code> to
+  /// start exporting catalog metadata to S3 Tables, or <code>DISABLED</code> to
+  /// stop exporting. This field is required.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [encryptionConfiguration] :
+  /// The encryption configuration for the exported data. If not specified, the
+  /// default encryption settings are used.
+  Future<PutDataCatalogExportConfigurationOutput>
+      putDataCatalogExportConfiguration({
+    required ExportSetting exportSetting,
+    String? clientToken,
+    ExportEncryptionConfiguration? encryptionConfiguration,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.PutDataCatalogExportConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExportSetting': exportSetting.value,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
+      },
+    );
+
+    return PutDataCatalogExportConfigurationOutput.fromJson(jsonResponse.body);
+  }
+
   /// Annotate all datapoints for a Profile.
   ///
   /// May throw [EntityNotFoundException].
@@ -10492,6 +11603,49 @@ class Glue {
         'ProfileId': profileId,
       },
     );
+  }
+
+  /// Creates or updates a form type in Glue Data Catalog. A form type defines
+  /// the schema for structured metadata that can be attached to assets.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [name] :
+  /// The name of the form type. Must start with an uppercase letter.
+  ///
+  /// Parameter [schema] :
+  /// The Smithy IDL schema definition for the form type.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<PutFormTypeResponse> putFormType({
+    required String name,
+    required String schema,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.PutFormType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'Schema': schema,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return PutFormTypeResponse.fromJson(jsonResponse.body);
   }
 
   /// Sets the Data Catalog resource policy for access control.
@@ -11072,6 +12226,66 @@ class Glue {
     return RunStatementResponse.fromJson(jsonResponse.body);
   }
 
+  /// Searches for assets in Glue Data Catalog using full-text search, filters,
+  /// sorting, and aggregations. Returns matching assets with relevance-ranked
+  /// results.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [filterClause] :
+  /// The filter clause to apply to the search. Supports nested AND/OR logic
+  /// with attribute-level and map-level filters.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [searchText] :
+  /// The text to search for. At least one of <code>searchText</code> or
+  /// <code>filterClause</code> must be provided.
+  ///
+  /// Parameter [sort] :
+  /// The sort criteria for the search results.
+  Future<SearchAssetsOutput> searchAssets({
+    SearchFilterClause? filterClause,
+    int? maxResults,
+    String? nextToken,
+    String? searchText,
+    SearchSort? sort,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.SearchAssets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filterClause != null) 'FilterClause': filterClause,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (searchText != null) 'SearchText': searchText,
+        if (sort != null) 'Sort': sort,
+      },
+    );
+
+    return SearchAssetsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Searches a set of tables based on properties in the table metadata as well
   /// as on the parent database. You can search against text or filter
   /// conditions.
@@ -11411,6 +12625,9 @@ class Glue {
   /// Parameter [role] :
   /// An IAM role supplied to encrypt the results of the run.
   ///
+  /// Parameter [additionalRunOptions] :
+  /// Additional run options you can specify for a recommendation run.
+  ///
   /// Parameter [clientToken] :
   /// Used for idempotency and is recommended to be set to a random ID (such as
   /// a UUID) to avoid creating or starting multiple instances of the same
@@ -11435,6 +12652,7 @@ class Glue {
       startDataQualityRuleRecommendationRun({
     required DataSource dataSource,
     required String role,
+    DataQualityRuleRecommendationRunAdditionalRunOptions? additionalRunOptions,
     String? clientToken,
     String? createdRulesetName,
     String? dataQualitySecurityConfiguration,
@@ -11460,6 +12678,8 @@ class Glue {
       payload: {
         'DataSource': dataSource,
         'Role': role,
+        if (additionalRunOptions != null)
+          'AdditionalRunOptions': additionalRunOptions,
         if (clientToken != null) 'ClientToken': clientToken,
         if (createdRulesetName != null)
           'CreatedRulesetName': createdRulesetName,
@@ -12539,6 +13759,55 @@ class Glue {
     );
   }
 
+  /// Updates the name and description of an existing asset in Glue Data
+  /// Catalog. Only the fields that you provide are updated.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the asset to update.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The new description of the asset.
+  ///
+  /// Parameter [name] :
+  /// The new name of the asset.
+  Future<UpdateAssetResponse> updateAsset({
+    required String identifier,
+    String? clientToken,
+    String? description,
+    String? name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateAsset'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+      },
+    );
+
+    return UpdateAssetResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates a registered blueprint.
   ///
   /// May throw [ConcurrentModificationException].
@@ -13203,6 +14472,109 @@ class Glue {
           'UpdateEtlLibraries': updateEtlLibraries,
       },
     );
+  }
+
+  /// Updates a business glossary in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the glossary to update.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The updated description of the glossary.
+  ///
+  /// Parameter [name] :
+  /// The updated name of the glossary.
+  Future<UpdateGlossaryResponse> updateGlossary({
+    required String identifier,
+    String? clientToken,
+    String? description,
+    String? name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateGlossary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+      },
+    );
+
+    return UpdateGlossaryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a glossary term in Glue Data Catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique identifier of the glossary term to update.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [longDescription] :
+  /// The updated long description of the glossary term.
+  ///
+  /// Parameter [name] :
+  /// The updated name of the glossary term.
+  ///
+  /// Parameter [shortDescription] :
+  /// The updated short description of the glossary term.
+  Future<UpdateGlossaryTermResponse> updateGlossaryTerm({
+    required String identifier,
+    String? clientToken,
+    String? longDescription,
+    String? name,
+    String? shortDescription,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateGlossaryTerm'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (longDescription != null) 'LongDescription': longDescription,
+        if (name != null) 'Name': name,
+        if (shortDescription != null) 'ShortDescription': shortDescription,
+      },
+    );
+
+    return UpdateGlossaryTermResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the existing Glue Identity Center configuration, allowing
@@ -14188,6 +15560,39 @@ class Glue {
 }
 
 /// @nodoc
+class AssociateGlossaryTermsResponse {
+  /// The unique identifier of the asset.
+  final String? assetIdentifier;
+
+  /// The glossary terms now associated with the asset.
+  final List<String>? glossaryTerms;
+
+  AssociateGlossaryTermsResponse({
+    this.assetIdentifier,
+    this.glossaryTerms,
+  });
+
+  factory AssociateGlossaryTermsResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateGlossaryTermsResponse(
+      assetIdentifier: json['AssetIdentifier'] as String?,
+      glossaryTerms: (json['GlossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetIdentifier = this.assetIdentifier;
+    final glossaryTerms = this.glossaryTerms;
+    return {
+      if (assetIdentifier != null) 'AssetIdentifier': assetIdentifier,
+      if (glossaryTerms != null) 'GlossaryTerms': glossaryTerms,
+    };
+  }
+}
+
+/// @nodoc
 class BatchCreatePartitionResponse {
   /// The errors encountered when trying to create the requested partitions.
   final List<PartitionError>? errors;
@@ -14478,6 +15883,44 @@ class BatchGetDataQualityResultResponse {
 }
 
 /// @nodoc
+class BatchGetDataQualityRulesetEvaluationRunResponse {
+  /// A list of evaluation run details for the requested run IDs.
+  final List<DataQualityRulesetEvaluationRun>? runs;
+
+  /// A list of run IDs that were not found.
+  final List<String>? runsNotFound;
+
+  BatchGetDataQualityRulesetEvaluationRunResponse({
+    this.runs,
+    this.runsNotFound,
+  });
+
+  factory BatchGetDataQualityRulesetEvaluationRunResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetDataQualityRulesetEvaluationRunResponse(
+      runs: (json['Runs'] as List?)
+          ?.nonNulls
+          .map((e) => DataQualityRulesetEvaluationRun.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      runsNotFound: (json['RunsNotFound'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runs = this.runs;
+    final runsNotFound = this.runsNotFound;
+    return {
+      if (runs != null) 'Runs': runs,
+      if (runsNotFound != null) 'RunsNotFound': runsNotFound,
+    };
+  }
+}
+
+/// @nodoc
 class BatchGetDevEndpointsResponse {
   /// A list of <code>DevEndpoint</code> definitions.
   final List<DevEndpoint>? devEndpoints;
@@ -14510,6 +15953,42 @@ class BatchGetDevEndpointsResponse {
       if (devEndpoints != null) 'DevEndpoints': devEndpoints,
       if (devEndpointsNotFound != null)
         'DevEndpointsNotFound': devEndpointsNotFound,
+    };
+  }
+}
+
+/// @nodoc
+class BatchGetIterableFormsResponse {
+  /// The list of errors for items that could not be retrieved.
+  final List<ItemError>? errors;
+
+  /// The list of retrieved iterable form items.
+  final List<IterableFormItem>? items;
+
+  BatchGetIterableFormsResponse({
+    this.errors,
+    this.items,
+  });
+
+  factory BatchGetIterableFormsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetIterableFormsResponse(
+      errors: (json['Errors'] as List?)
+          ?.nonNulls
+          .map((e) => ItemError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => IterableFormItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final items = this.items;
+    return {
+      if (errors != null) 'Errors': errors,
+      if (items != null) 'Items': items,
     };
   }
 }
@@ -15252,6 +16731,94 @@ class CreateDevEndpointResponse {
   }
 }
 
+/// @nodoc
+class CreateGlossaryResponse {
+  /// The description of the glossary.
+  final String? description;
+
+  /// The unique identifier of the glossary.
+  final String? id;
+
+  /// The name of the glossary.
+  final String? name;
+
+  CreateGlossaryResponse({
+    this.description,
+    this.id,
+    this.name,
+  });
+
+  factory CreateGlossaryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGlossaryResponse(
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// @nodoc
+class CreateGlossaryTermResponse {
+  /// The unique identifier of the glossary containing this term.
+  final String? glossaryId;
+
+  /// The unique identifier of the glossary term.
+  final String? id;
+
+  /// The long description of the glossary term.
+  final String? longDescription;
+
+  /// The name of the glossary term.
+  final String? name;
+
+  /// The short description of the glossary term.
+  final String? shortDescription;
+
+  CreateGlossaryTermResponse({
+    this.glossaryId,
+    this.id,
+    this.longDescription,
+    this.name,
+    this.shortDescription,
+  });
+
+  factory CreateGlossaryTermResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGlossaryTermResponse(
+      glossaryId: json['GlossaryId'] as String?,
+      id: json['Id'] as String?,
+      longDescription: json['LongDescription'] as String?,
+      name: json['Name'] as String?,
+      shortDescription: json['ShortDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glossaryId = this.glossaryId;
+    final id = this.id;
+    final longDescription = this.longDescription;
+    final name = this.name;
+    final shortDescription = this.shortDescription;
+    return {
+      if (glossaryId != null) 'GlossaryId': glossaryId,
+      if (id != null) 'Id': id,
+      if (longDescription != null) 'LongDescription': longDescription,
+      if (name != null) 'Name': name,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
+    };
+  }
+}
+
 /// Response from creating a new Glue Identity Center configuration.
 ///
 /// @nodoc
@@ -15931,6 +17498,55 @@ class CreateWorkflowResponse {
 }
 
 /// @nodoc
+class DeleteAssetResponse {
+  DeleteAssetResponse();
+
+  factory DeleteAssetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAssetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteAssetTypeResponse {
+  DeleteAssetTypeResponse();
+
+  factory DeleteAssetTypeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAssetTypeResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteAttachmentResponse {
+  /// The unique identifier of the asset.
+  final String? assetIdentifier;
+
+  DeleteAttachmentResponse({
+    this.assetIdentifier,
+  });
+
+  factory DeleteAttachmentResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAttachmentResponse(
+      assetIdentifier: json['AssetIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetIdentifier = this.assetIdentifier;
+    return {
+      if (assetIdentifier != null) 'AssetIdentifier': assetIdentifier,
+    };
+  }
+}
+
+/// @nodoc
 class DeleteBlueprintResponse {
   /// Returns the name of the blueprint that was deleted.
   final String? name;
@@ -16115,6 +17731,45 @@ class DeleteDevEndpointResponse {
 
   factory DeleteDevEndpointResponse.fromJson(Map<String, dynamic> _) {
     return DeleteDevEndpointResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteFormTypeResponse {
+  DeleteFormTypeResponse();
+
+  factory DeleteFormTypeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFormTypeResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteGlossaryResponse {
+  DeleteGlossaryResponse();
+
+  factory DeleteGlossaryResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteGlossaryResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteGlossaryTermResponse {
+  DeleteGlossaryTermResponse();
+
+  factory DeleteGlossaryTermResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteGlossaryTermResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -16889,6 +18544,174 @@ class DescribeIntegrationsResponse {
 }
 
 /// @nodoc
+class DisassociateGlossaryTermsResponse {
+  /// The unique identifier of the asset.
+  final String? assetIdentifier;
+
+  /// The remaining glossary terms associated with the asset.
+  final List<String>? glossaryTerms;
+
+  DisassociateGlossaryTermsResponse({
+    this.assetIdentifier,
+    this.glossaryTerms,
+  });
+
+  factory DisassociateGlossaryTermsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateGlossaryTermsResponse(
+      assetIdentifier: json['AssetIdentifier'] as String?,
+      glossaryTerms: (json['GlossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetIdentifier = this.assetIdentifier;
+    final glossaryTerms = this.glossaryTerms;
+    return {
+      if (assetIdentifier != null) 'AssetIdentifier': assetIdentifier,
+      if (glossaryTerms != null) 'GlossaryTerms': glossaryTerms,
+    };
+  }
+}
+
+/// @nodoc
+class GetAssetOutput {
+  /// The identifier of the asset type for this asset.
+  final String assetTypeId;
+
+  /// The unique identifier of the asset.
+  final String id;
+
+  /// Additional attachments on the asset for more context, keyed by attachment
+  /// name.
+  final Map<String, AssetFormEntry>? attachments;
+
+  /// The timestamp at which the asset was created.
+  final DateTime? createdAt;
+
+  /// The description of the asset.
+  final String? description;
+
+  /// The forms on the asset, keyed by form name.
+  final Map<String, AssetFormEntry>? forms;
+
+  /// The identifiers of the glossary terms associated with the asset.
+  final List<String>? glossaryTerms;
+
+  /// The iterable forms available on the asset, keyed by form name (for example,
+  /// <code>columns</code>). Use the form name with <code>ListIterableForms</code>
+  /// or <code>BatchGetIterableForms</code> to retrieve the form's items.
+  final Map<String, IterableFormEntry>? iterableForms;
+
+  /// The name of the asset.
+  final String? name;
+
+  /// The timestamp at which the asset was last updated.
+  final DateTime? updatedAt;
+
+  GetAssetOutput({
+    required this.assetTypeId,
+    required this.id,
+    this.attachments,
+    this.createdAt,
+    this.description,
+    this.forms,
+    this.glossaryTerms,
+    this.iterableForms,
+    this.name,
+    this.updatedAt,
+  });
+
+  factory GetAssetOutput.fromJson(Map<String, dynamic> json) {
+    return GetAssetOutput(
+      assetTypeId: (json['AssetTypeId'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      attachments: (json['Attachments'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AssetFormEntry.fromJson(e as Map<String, dynamic>))),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      forms: (json['Forms'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AssetFormEntry.fromJson(e as Map<String, dynamic>))),
+      glossaryTerms: (json['GlossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      iterableForms: (json['IterableForms'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, IterableFormEntry.fromJson(e as Map<String, dynamic>))),
+      name: json['Name'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetTypeId = this.assetTypeId;
+    final id = this.id;
+    final attachments = this.attachments;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final forms = this.forms;
+    final glossaryTerms = this.glossaryTerms;
+    final iterableForms = this.iterableForms;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    return {
+      'AssetTypeId': assetTypeId,
+      'Id': id,
+      if (attachments != null) 'Attachments': attachments,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (forms != null) 'Forms': forms,
+      if (glossaryTerms != null) 'GlossaryTerms': glossaryTerms,
+      if (iterableForms != null) 'IterableForms': iterableForms,
+      if (name != null) 'Name': name,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class GetAssetTypeResponse {
+  /// The forms that make up the asset type, keyed by form name.
+  final Map<String, AssetTypeFormReference>? forms;
+
+  /// The identifier of the asset type.
+  final String? id;
+
+  /// The name of the asset type.
+  final String? name;
+
+  GetAssetTypeResponse({
+    this.forms,
+    this.id,
+    this.name,
+  });
+
+  factory GetAssetTypeResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssetTypeResponse(
+      forms: (json['Forms'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          k, AssetTypeFormReference.fromJson(e as Map<String, dynamic>))),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forms = this.forms;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (forms != null) 'Forms': forms,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// @nodoc
 class GetBlueprintResponse {
   /// Returns a <code>Blueprint</code> object.
   final Blueprint? blueprint;
@@ -17593,6 +19416,73 @@ class GetDataCatalogEncryptionSettingsResponse {
 }
 
 /// @nodoc
+class GetDataCatalogExportConfigurationOutput {
+  /// The timestamp at which the export configuration was created.
+  final DateTime? createdAt;
+
+  /// The encryption configuration for the exported data.
+  final ExportEncryptionConfiguration? encryptionConfiguration;
+
+  /// The export setting for the data catalog. Valid values are
+  /// <code>ENABLED</code> and <code>DISABLED</code>.
+  final ExportSetting? exportSetting;
+
+  /// The ARN of the S3 Tables bucket where catalog metadata is exported.
+  final String? s3TableBucketArn;
+
+  /// The current status of the export. Valid values are <code>ENABLING</code>,
+  /// <code>ENABLED</code>, <code>DISABLING</code>, <code>DISABLED</code>, and
+  /// <code>FAILED</code>.
+  final ExportStatus? status;
+
+  /// The timestamp at which the export configuration was last updated.
+  final DateTime? updatedAt;
+
+  GetDataCatalogExportConfigurationOutput({
+    this.createdAt,
+    this.encryptionConfiguration,
+    this.exportSetting,
+    this.s3TableBucketArn,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory GetDataCatalogExportConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetDataCatalogExportConfigurationOutput(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? ExportEncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      exportSetting:
+          (json['ExportSetting'] as String?)?.let(ExportSetting.fromString),
+      s3TableBucketArn: json['S3TableBucketArn'] as String?,
+      status: (json['Status'] as String?)?.let(ExportStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final exportSetting = this.exportSetting;
+    final s3TableBucketArn = this.s3TableBucketArn;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (exportSetting != null) 'ExportSetting': exportSetting.value,
+      if (s3TableBucketArn != null) 'S3TableBucketArn': s3TableBucketArn,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
 class GetDataflowGraphResponse {
   /// A list of the edges in the resulting DAG.
   final List<CodeGenEdge>? dagEdges;
@@ -17860,6 +19750,10 @@ class GetDataQualityResultResponse {
 ///
 /// @nodoc
 class GetDataQualityRuleRecommendationRunResponse {
+  /// Additional run options you can specify for a recommendation run.
+  final DataQualityRuleRecommendationRunAdditionalRunOptions?
+      additionalRunOptions;
+
   /// The date and time when this run was completed.
   final DateTime? completedOn;
 
@@ -17910,6 +19804,7 @@ class GetDataQualityRuleRecommendationRunResponse {
   final int? timeout;
 
   GetDataQualityRuleRecommendationRunResponse({
+    this.additionalRunOptions,
     this.completedOn,
     this.createdRulesetName,
     this.dataQualitySecurityConfiguration,
@@ -17929,6 +19824,10 @@ class GetDataQualityRuleRecommendationRunResponse {
   factory GetDataQualityRuleRecommendationRunResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDataQualityRuleRecommendationRunResponse(
+      additionalRunOptions: json['AdditionalRunOptions'] != null
+          ? DataQualityRuleRecommendationRunAdditionalRunOptions.fromJson(
+              json['AdditionalRunOptions'] as Map<String, dynamic>)
+          : null,
       completedOn: timeStampFromJson(json['CompletedOn']),
       createdRulesetName: json['CreatedRulesetName'] as String?,
       dataQualitySecurityConfiguration:
@@ -17950,6 +19849,7 @@ class GetDataQualityRuleRecommendationRunResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final additionalRunOptions = this.additionalRunOptions;
     final completedOn = this.completedOn;
     final createdRulesetName = this.createdRulesetName;
     final dataQualitySecurityConfiguration =
@@ -17966,6 +19866,8 @@ class GetDataQualityRuleRecommendationRunResponse {
     final status = this.status;
     final timeout = this.timeout;
     return {
+      if (additionalRunOptions != null)
+        'AdditionalRunOptions': additionalRunOptions,
       if (completedOn != null) 'CompletedOn': unixTimestampToJson(completedOn),
       if (createdRulesetName != null) 'CreatedRulesetName': createdRulesetName,
       if (dataQualitySecurityConfiguration != null)
@@ -18302,6 +20204,131 @@ class GetEntityRecordsResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (records != null) 'Records': records,
+    };
+  }
+}
+
+/// @nodoc
+class GetFormTypeResponse {
+  /// The identifier of the form type.
+  final String? id;
+
+  /// The name of the form type.
+  final String? name;
+
+  /// The Smithy IDL schema of the form type.
+  final String? schema;
+
+  GetFormTypeResponse({
+    this.id,
+    this.name,
+    this.schema,
+  });
+
+  factory GetFormTypeResponse.fromJson(Map<String, dynamic> json) {
+    return GetFormTypeResponse(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      schema: json['Schema'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final schema = this.schema;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (schema != null) 'Schema': schema,
+    };
+  }
+}
+
+/// @nodoc
+class GetGlossaryResponse {
+  /// The description of the glossary.
+  final String? description;
+
+  /// The unique identifier of the glossary.
+  final String? id;
+
+  /// The name of the glossary.
+  final String? name;
+
+  GetGlossaryResponse({
+    this.description,
+    this.id,
+    this.name,
+  });
+
+  factory GetGlossaryResponse.fromJson(Map<String, dynamic> json) {
+    return GetGlossaryResponse(
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// @nodoc
+class GetGlossaryTermResponse {
+  /// The unique identifier of the glossary containing this term.
+  final String? glossaryId;
+
+  /// The unique identifier of the glossary term.
+  final String? id;
+
+  /// The long description of the glossary term.
+  final String? longDescription;
+
+  /// The name of the glossary term.
+  final String? name;
+
+  /// The short description of the glossary term.
+  final String? shortDescription;
+
+  GetGlossaryTermResponse({
+    this.glossaryId,
+    this.id,
+    this.longDescription,
+    this.name,
+    this.shortDescription,
+  });
+
+  factory GetGlossaryTermResponse.fromJson(Map<String, dynamic> json) {
+    return GetGlossaryTermResponse(
+      glossaryId: json['GlossaryId'] as String?,
+      id: json['Id'] as String?,
+      longDescription: json['LongDescription'] as String?,
+      name: json['Name'] as String?,
+      shortDescription: json['ShortDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glossaryId = this.glossaryId;
+    final id = this.id;
+    final longDescription = this.longDescription;
+    final name = this.name;
+    final shortDescription = this.shortDescription;
+    return {
+      if (glossaryId != null) 'GlossaryId': glossaryId,
+      if (id != null) 'Id': id,
+      if (longDescription != null) 'LongDescription': longDescription,
+      if (name != null) 'Name': name,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
     };
   }
 }
@@ -20375,6 +22402,39 @@ class ImportCatalogToGlueResponse {
 }
 
 /// @nodoc
+class ListAssetTypesResponse {
+  /// The list of asset type items.
+  final List<AssetTypeItem>? items;
+
+  /// A continuation token, present if the current segment is not the last.
+  final String? nextToken;
+
+  ListAssetTypesResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListAssetTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssetTypesResponse(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => AssetTypeItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListBlueprintsResponse {
   /// List of names of blueprints in the account.
   final List<String>? blueprints;
@@ -20856,6 +22916,105 @@ class ListEntitiesResponse {
 }
 
 /// @nodoc
+class ListFormTypesResponse {
+  /// The list of form type items.
+  final List<FormTypeItem> items;
+
+  /// A continuation token, present if the current segment is not the last.
+  final String? nextToken;
+
+  ListFormTypesResponse({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListFormTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListFormTypesResponse(
+      items: ((json['Items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FormTypeItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListGlossariesResponse {
+  /// The list of glossary items.
+  final List<GlossaryItem>? items;
+
+  /// A continuation token, present if the current segment is not the last.
+  final String? nextToken;
+
+  ListGlossariesResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListGlossariesResponse.fromJson(Map<String, dynamic> json) {
+    return ListGlossariesResponse(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => GlossaryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListGlossaryTermsResponse {
+  /// The list of glossary term items.
+  final List<GlossaryTermItem>? items;
+
+  /// A continuation token, present if the current segment is not the last.
+  final String? nextToken;
+
+  ListGlossaryTermsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListGlossaryTermsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGlossaryTermsResponse(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => GlossaryTermItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListIntegrationResourcePropertiesResponse {
   /// A list of integration resource property meeting the filter criteria.
   final List<IntegrationResourceProperty>? integrationResourcePropertyList;
@@ -20889,6 +23048,39 @@ class ListIntegrationResourcePropertiesResponse {
       if (integrationResourcePropertyList != null)
         'IntegrationResourcePropertyList': integrationResourcePropertyList,
       if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// @nodoc
+class ListIterableFormsResponse {
+  /// The list of iterable form items.
+  final List<IterableFormListItem>? items;
+
+  /// A continuation token, present if the current segment is not the last.
+  final String? nextToken;
+
+  ListIterableFormsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListIterableFormsResponse.fromJson(Map<String, dynamic> json) {
+    return ListIterableFormsResponse(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => IterableFormListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -21482,6 +23674,147 @@ class ModifyIntegrationResponse {
 }
 
 /// @nodoc
+class PutAssetResponse {
+  /// The unique identifier of the asset.
+  final String id;
+
+  /// The name of the asset.
+  final String name;
+
+  /// The timestamp at which the asset was created.
+  final DateTime? createdAt;
+
+  /// The description of the asset.
+  final String? description;
+
+  /// The forms attached to the asset, keyed by form name.
+  final Map<String, AssetFormEntry>? forms;
+
+  PutAssetResponse({
+    required this.id,
+    required this.name,
+    this.createdAt,
+    this.description,
+    this.forms,
+  });
+
+  factory PutAssetResponse.fromJson(Map<String, dynamic> json) {
+    return PutAssetResponse(
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      forms: (json['Forms'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AssetFormEntry.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final forms = this.forms;
+    return {
+      'Id': id,
+      'Name': name,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (forms != null) 'Forms': forms,
+    };
+  }
+}
+
+/// @nodoc
+class PutAssetTypeResponse {
+  /// The forms that make up the asset type, keyed by form name.
+  final Map<String, AssetTypeFormReference>? forms;
+
+  /// The identifier of the asset type.
+  final String? id;
+
+  /// The name of the asset type.
+  final String? name;
+
+  PutAssetTypeResponse({
+    this.forms,
+    this.id,
+    this.name,
+  });
+
+  factory PutAssetTypeResponse.fromJson(Map<String, dynamic> json) {
+    return PutAssetTypeResponse(
+      forms: (json['Forms'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          k, AssetTypeFormReference.fromJson(e as Map<String, dynamic>))),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forms = this.forms;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (forms != null) 'Forms': forms,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// @nodoc
+class PutAttachmentResponse {
+  /// The unique identifier of the asset.
+  final String? assetIdentifier;
+
+  /// The name of the attachment.
+  final String? attachmentName;
+
+  /// The identifier of the form type for this attachment.
+  final String? formTypeId;
+
+  /// The identifier of the item within the iterable form, if applicable.
+  final String? itemIdentifier;
+
+  /// The name of the iterable form, if the attachment targets an item.
+  final String? iterableFormName;
+
+  PutAttachmentResponse({
+    this.assetIdentifier,
+    this.attachmentName,
+    this.formTypeId,
+    this.itemIdentifier,
+    this.iterableFormName,
+  });
+
+  factory PutAttachmentResponse.fromJson(Map<String, dynamic> json) {
+    return PutAttachmentResponse(
+      assetIdentifier: json['AssetIdentifier'] as String?,
+      attachmentName: json['AttachmentName'] as String?,
+      formTypeId: json['FormTypeId'] as String?,
+      itemIdentifier: json['ItemIdentifier'] as String?,
+      iterableFormName: json['IterableFormName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetIdentifier = this.assetIdentifier;
+    final attachmentName = this.attachmentName;
+    final formTypeId = this.formTypeId;
+    final itemIdentifier = this.itemIdentifier;
+    final iterableFormName = this.iterableFormName;
+    return {
+      if (assetIdentifier != null) 'AssetIdentifier': assetIdentifier,
+      if (attachmentName != null) 'AttachmentName': attachmentName,
+      if (formTypeId != null) 'FormTypeId': formTypeId,
+      if (itemIdentifier != null) 'ItemIdentifier': itemIdentifier,
+      if (iterableFormName != null) 'IterableFormName': iterableFormName,
+    };
+  }
+}
+
+/// @nodoc
 class PutDataCatalogEncryptionSettingsResponse {
   PutDataCatalogEncryptionSettingsResponse();
 
@@ -21492,6 +23825,42 @@ class PutDataCatalogEncryptionSettingsResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class PutDataCatalogExportConfigurationOutput {
+  /// The encryption configuration for the exported data.
+  final ExportEncryptionConfiguration? encryptionConfiguration;
+
+  /// The export setting for the data catalog.
+  final ExportSetting? exportSetting;
+
+  PutDataCatalogExportConfigurationOutput({
+    this.encryptionConfiguration,
+    this.exportSetting,
+  });
+
+  factory PutDataCatalogExportConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return PutDataCatalogExportConfigurationOutput(
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? ExportEncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      exportSetting:
+          (json['ExportSetting'] as String?)?.let(ExportSetting.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final exportSetting = this.exportSetting;
+    return {
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (exportSetting != null) 'ExportSetting': exportSetting.value,
+    };
   }
 }
 
@@ -21508,6 +23877,43 @@ class PutDataQualityProfileAnnotationResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class PutFormTypeResponse {
+  /// The identifier of the form type.
+  final String? id;
+
+  /// The name of the form type.
+  final String? name;
+
+  /// The Smithy IDL schema of the form type.
+  final String? schema;
+
+  PutFormTypeResponse({
+    this.id,
+    this.name,
+    this.schema,
+  });
+
+  factory PutFormTypeResponse.fromJson(Map<String, dynamic> json) {
+    return PutFormTypeResponse(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      schema: json['Schema'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final schema = this.schema;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (schema != null) 'Schema': schema,
+    };
   }
 }
 
@@ -21877,6 +24283,39 @@ class RunStatementResponse {
     final id = this.id;
     return {
       if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// @nodoc
+class SearchAssetsOutput {
+  /// The list of assets matching the search criteria.
+  final List<SearchResultItem>? items;
+
+  /// A continuation token, present if the current segment is not the last.
+  final String? nextToken;
+
+  SearchAssetsOutput({
+    this.items,
+    this.nextToken,
+  });
+
+  factory SearchAssetsOutput.fromJson(Map<String, dynamic> json) {
+    return SearchAssetsOutput(
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => SearchResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -22407,6 +24846,50 @@ class UntagResourceResponse {
 }
 
 /// @nodoc
+class UpdateAssetResponse {
+  /// The unique identifier of the asset.
+  final String id;
+
+  /// The description of the asset.
+  final String? description;
+
+  /// The name of the asset.
+  final String? name;
+
+  /// The timestamp at which the asset was last updated.
+  final DateTime? updatedAt;
+
+  UpdateAssetResponse({
+    required this.id,
+    this.description,
+    this.name,
+    this.updatedAt,
+  });
+
+  factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAssetResponse(
+      id: (json['Id'] as String?) ?? '',
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final description = this.description;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    return {
+      'Id': id,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
 class UpdateBlueprintResponse {
   /// Returns the name of the blueprint that was updated.
   final String? name;
@@ -22623,6 +25106,94 @@ class UpdateDevEndpointResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// @nodoc
+class UpdateGlossaryResponse {
+  /// The description of the glossary.
+  final String? description;
+
+  /// The unique identifier of the glossary.
+  final String? id;
+
+  /// The name of the glossary.
+  final String? name;
+
+  UpdateGlossaryResponse({
+    this.description,
+    this.id,
+    this.name,
+  });
+
+  factory UpdateGlossaryResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGlossaryResponse(
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateGlossaryTermResponse {
+  /// The unique identifier of the glossary containing this term.
+  final String? glossaryId;
+
+  /// The unique identifier of the glossary term.
+  final String? id;
+
+  /// The long description of the glossary term.
+  final String? longDescription;
+
+  /// The name of the glossary term.
+  final String? name;
+
+  /// The short description of the glossary term.
+  final String? shortDescription;
+
+  UpdateGlossaryTermResponse({
+    this.glossaryId,
+    this.id,
+    this.longDescription,
+    this.name,
+    this.shortDescription,
+  });
+
+  factory UpdateGlossaryTermResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGlossaryTermResponse(
+      glossaryId: json['GlossaryId'] as String?,
+      id: json['Id'] as String?,
+      longDescription: json['LongDescription'] as String?,
+      name: json['Name'] as String?,
+      shortDescription: json['ShortDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glossaryId = this.glossaryId;
+    final id = this.id;
+    final longDescription = this.longDescription;
+    final name = this.name;
+    final shortDescription = this.shortDescription;
+    return {
+      if (glossaryId != null) 'GlossaryId': glossaryId,
+      if (id != null) 'Id': id,
+      if (longDescription != null) 'LongDescription': longDescription,
+      if (name != null) 'Name': name,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
+    };
   }
 }
 
@@ -24602,6 +27173,21 @@ class IcebergSchema {
     this.type,
   });
 
+  factory IcebergSchema.fromJson(Map<String, dynamic> json) {
+    return IcebergSchema(
+      fields: ((json['Fields'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => IcebergStructField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      identifierFieldIds: (json['IdentifierFieldIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      schemaId: json['SchemaId'] as int?,
+      type: (json['Type'] as String?)?.let(IcebergStructTypeEnum.fromString),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final fields = this.fields;
     final identifierFieldIds = this.identifierFieldIds;
@@ -24634,6 +27220,16 @@ class IcebergPartitionSpec {
     this.specId,
   });
 
+  factory IcebergPartitionSpec.fromJson(Map<String, dynamic> json) {
+    return IcebergPartitionSpec(
+      fields: ((json['Fields'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => IcebergPartitionField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      specId: json['SpecId'] as int?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final fields = this.fields;
     final specId = this.specId;
@@ -24661,6 +27257,16 @@ class IcebergSortOrder {
     required this.fields,
     required this.orderId,
   });
+
+  factory IcebergSortOrder.fromJson(Map<String, dynamic> json) {
+    return IcebergSortOrder(
+      fields: ((json['Fields'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => IcebergSortField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orderId: (json['OrderId'] as int?) ?? 0,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final fields = this.fields;
@@ -24795,6 +27401,17 @@ class IcebergSortField {
     required this.transform,
   });
 
+  factory IcebergSortField.fromJson(Map<String, dynamic> json) {
+    return IcebergSortField(
+      direction:
+          IcebergSortDirection.fromString((json['Direction'] as String?) ?? ''),
+      nullOrder:
+          IcebergNullOrder.fromString((json['NullOrder'] as String?) ?? ''),
+      sourceId: (json['SourceId'] as int?) ?? 0,
+      transform: (json['Transform'] as String?) ?? '',
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final direction = this.direction;
     final nullOrder = this.nullOrder;
@@ -24889,6 +27506,15 @@ class IcebergPartitionField {
     this.fieldId,
   });
 
+  factory IcebergPartitionField.fromJson(Map<String, dynamic> json) {
+    return IcebergPartitionField(
+      name: (json['Name'] as String?) ?? '',
+      sourceId: (json['SourceId'] as int?) ?? 0,
+      transform: (json['Transform'] as String?) ?? '',
+      fieldId: json['FieldId'] as int?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final sourceId = this.sourceId;
@@ -24972,6 +27598,18 @@ class IcebergStructField {
     this.initialDefault,
     this.writeDefault,
   });
+
+  factory IcebergStructField.fromJson(Map<String, dynamic> json) {
+    return IcebergStructField(
+      id: (json['Id'] as int?) ?? 0,
+      name: (json['Name'] as String?) ?? '',
+      required: (json['Required'] as bool?) ?? false,
+      type: json['Type'] as Object,
+      doc: json['Doc'] as String?,
+      initialDefault: json['InitialDefault'],
+      writeDefault: json['WriteDefault'],
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final id = this.id;
@@ -39610,14 +42248,43 @@ class DataQualityEvaluationRunAdditionalRunOptions {
   /// <code>/aws-glue/data-quality/output</code> log groups.
   final String? customLogGroupPrefix;
 
+  /// The configuration for writing rule results to a Glue Data Catalog table.
+  final DataQualityRuleResultsOptions? dataQualityRuleResults;
+
+  /// The observation mode for the evaluation run. Specifies how anomaly detection
+  /// bounds are calculated.
+  final ObservationMode? observationMode;
+
+  /// The configuration for writing observation results to a Glue Data Catalog
+  /// table.
+  final ObservationResultsOptions? observationResults;
+
+  /// The scope of the observation for the evaluation run. Specifies whether
+  /// anomaly detection is enabled or disabled.
+  final ObservationConfiguration? observationScope;
+
+  /// The configuration for writing profiling results to a Glue Data Catalog
+  /// table.
+  final ProfilingResultsOptions? profilingResults;
+
   /// Prefix for Amazon S3 to store results.
   final String? resultsS3Prefix;
+
+  /// The configuration for writing row-level evaluation results to a Glue Data
+  /// Catalog table.
+  final RowLevelResultsOptions? rowLevelResults;
 
   DataQualityEvaluationRunAdditionalRunOptions({
     this.cloudWatchMetricsEnabled,
     this.compositeRuleEvaluationMethod,
     this.customLogGroupPrefix,
+    this.dataQualityRuleResults,
+    this.observationMode,
+    this.observationResults,
+    this.observationScope,
+    this.profilingResults,
     this.resultsS3Prefix,
+    this.rowLevelResults,
   });
 
   factory DataQualityEvaluationRunAdditionalRunOptions.fromJson(
@@ -39628,7 +42295,27 @@ class DataQualityEvaluationRunAdditionalRunOptions {
           (json['CompositeRuleEvaluationMethod'] as String?)
               ?.let(DQCompositeRuleEvaluationMethod.fromString),
       customLogGroupPrefix: json['CustomLogGroupPrefix'] as String?,
+      dataQualityRuleResults: json['DataQualityRuleResults'] != null
+          ? DataQualityRuleResultsOptions.fromJson(
+              json['DataQualityRuleResults'] as Map<String, dynamic>)
+          : null,
+      observationMode:
+          (json['ObservationMode'] as String?)?.let(ObservationMode.fromString),
+      observationResults: json['ObservationResults'] != null
+          ? ObservationResultsOptions.fromJson(
+              json['ObservationResults'] as Map<String, dynamic>)
+          : null,
+      observationScope: (json['ObservationScope'] as String?)
+          ?.let(ObservationConfiguration.fromString),
+      profilingResults: json['ProfilingResults'] != null
+          ? ProfilingResultsOptions.fromJson(
+              json['ProfilingResults'] as Map<String, dynamic>)
+          : null,
       resultsS3Prefix: json['ResultsS3Prefix'] as String?,
+      rowLevelResults: json['RowLevelResults'] != null
+          ? RowLevelResultsOptions.fromJson(
+              json['RowLevelResults'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -39636,7 +42323,13 @@ class DataQualityEvaluationRunAdditionalRunOptions {
     final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
     final compositeRuleEvaluationMethod = this.compositeRuleEvaluationMethod;
     final customLogGroupPrefix = this.customLogGroupPrefix;
+    final dataQualityRuleResults = this.dataQualityRuleResults;
+    final observationMode = this.observationMode;
+    final observationResults = this.observationResults;
+    final observationScope = this.observationScope;
+    final profilingResults = this.profilingResults;
     final resultsS3Prefix = this.resultsS3Prefix;
+    final rowLevelResults = this.rowLevelResults;
     return {
       if (cloudWatchMetricsEnabled != null)
         'CloudWatchMetricsEnabled': cloudWatchMetricsEnabled,
@@ -39644,7 +42337,14 @@ class DataQualityEvaluationRunAdditionalRunOptions {
         'CompositeRuleEvaluationMethod': compositeRuleEvaluationMethod.value,
       if (customLogGroupPrefix != null)
         'CustomLogGroupPrefix': customLogGroupPrefix,
+      if (dataQualityRuleResults != null)
+        'DataQualityRuleResults': dataQualityRuleResults,
+      if (observationMode != null) 'ObservationMode': observationMode.value,
+      if (observationResults != null) 'ObservationResults': observationResults,
+      if (observationScope != null) 'ObservationScope': observationScope.value,
+      if (profilingResults != null) 'ProfilingResults': profilingResults,
       if (resultsS3Prefix != null) 'ResultsS3Prefix': resultsS3Prefix,
+      if (rowLevelResults != null) 'RowLevelResults': rowLevelResults,
     };
   }
 }
@@ -39667,6 +42367,337 @@ class DQCompositeRuleEvaluationMethod {
   @override
   bool operator ==(other) =>
       other is DQCompositeRuleEvaluationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for writing row-level evaluation results.
+///
+/// @nodoc
+class RowLevelResultsOptions {
+  /// The Glue Data Catalog table configuration for storing the results.
+  final CatalogTableConfigOptions? catalogTableConfig;
+
+  /// The maximum number of rows to write in the results.
+  final int? maxRowsToWrite;
+
+  /// The result type to include in the row-level results output.
+  final ResultTypeEnum? resultType;
+
+  RowLevelResultsOptions({
+    this.catalogTableConfig,
+    this.maxRowsToWrite,
+    this.resultType,
+  });
+
+  factory RowLevelResultsOptions.fromJson(Map<String, dynamic> json) {
+    return RowLevelResultsOptions(
+      catalogTableConfig: json['CatalogTableConfig'] != null
+          ? CatalogTableConfigOptions.fromJson(
+              json['CatalogTableConfig'] as Map<String, dynamic>)
+          : null,
+      maxRowsToWrite: json['MaxRowsToWrite'] as int?,
+      resultType:
+          (json['ResultType'] as String?)?.let(ResultTypeEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogTableConfig = this.catalogTableConfig;
+    final maxRowsToWrite = this.maxRowsToWrite;
+    final resultType = this.resultType;
+    return {
+      if (catalogTableConfig != null) 'CatalogTableConfig': catalogTableConfig,
+      if (maxRowsToWrite != null) 'MaxRowsToWrite': maxRowsToWrite,
+      if (resultType != null) 'ResultType': resultType.value,
+    };
+  }
+}
+
+/// The configuration for writing profiling results.
+///
+/// @nodoc
+class ProfilingResultsOptions {
+  /// The Glue Data Catalog table configuration for storing the profiling results.
+  final CatalogTableConfigOptions? catalogTableConfig;
+
+  /// The configuration for writing distribution results.
+  final DistributionResultsOptions? distributionResults;
+
+  /// Set to true to write profiling results.
+  final bool? writeProfilingResultsEnabled;
+
+  ProfilingResultsOptions({
+    this.catalogTableConfig,
+    this.distributionResults,
+    this.writeProfilingResultsEnabled,
+  });
+
+  factory ProfilingResultsOptions.fromJson(Map<String, dynamic> json) {
+    return ProfilingResultsOptions(
+      catalogTableConfig: json['CatalogTableConfig'] != null
+          ? CatalogTableConfigOptions.fromJson(
+              json['CatalogTableConfig'] as Map<String, dynamic>)
+          : null,
+      distributionResults: json['DistributionResults'] != null
+          ? DistributionResultsOptions.fromJson(
+              json['DistributionResults'] as Map<String, dynamic>)
+          : null,
+      writeProfilingResultsEnabled:
+          json['WriteProfilingResultsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogTableConfig = this.catalogTableConfig;
+    final distributionResults = this.distributionResults;
+    final writeProfilingResultsEnabled = this.writeProfilingResultsEnabled;
+    return {
+      if (catalogTableConfig != null) 'CatalogTableConfig': catalogTableConfig,
+      if (distributionResults != null)
+        'DistributionResults': distributionResults,
+      if (writeProfilingResultsEnabled != null)
+        'WriteProfilingResultsEnabled': writeProfilingResultsEnabled,
+    };
+  }
+}
+
+/// @nodoc
+class ObservationConfiguration {
+  static const all = ObservationConfiguration._('ALL');
+  static const none = ObservationConfiguration._('NONE');
+
+  final String value;
+
+  const ObservationConfiguration._(this.value);
+
+  static const values = [all, none];
+
+  static ObservationConfiguration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObservationConfiguration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObservationConfiguration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ObservationMode {
+  static const scheduled = ObservationMode._('SCHEDULED');
+  static const fixed = ObservationMode._('FIXED');
+
+  final String value;
+
+  const ObservationMode._(this.value);
+
+  static const values = [scheduled, fixed];
+
+  static ObservationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObservationMode._(value));
+
+  @override
+  bool operator ==(other) => other is ObservationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for writing data quality rule results.
+///
+/// @nodoc
+class DataQualityRuleResultsOptions {
+  /// The Glue Data Catalog table configuration for storing the rule results.
+  final CatalogTableConfigOptions? catalogTableConfig;
+
+  /// Set to true to write data quality rule results.
+  final bool? writeDataQualityRuleResultsEnabled;
+
+  DataQualityRuleResultsOptions({
+    this.catalogTableConfig,
+    this.writeDataQualityRuleResultsEnabled,
+  });
+
+  factory DataQualityRuleResultsOptions.fromJson(Map<String, dynamic> json) {
+    return DataQualityRuleResultsOptions(
+      catalogTableConfig: json['CatalogTableConfig'] != null
+          ? CatalogTableConfigOptions.fromJson(
+              json['CatalogTableConfig'] as Map<String, dynamic>)
+          : null,
+      writeDataQualityRuleResultsEnabled:
+          json['WriteDataQualityRuleResultsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogTableConfig = this.catalogTableConfig;
+    final writeDataQualityRuleResultsEnabled =
+        this.writeDataQualityRuleResultsEnabled;
+    return {
+      if (catalogTableConfig != null) 'CatalogTableConfig': catalogTableConfig,
+      if (writeDataQualityRuleResultsEnabled != null)
+        'WriteDataQualityRuleResultsEnabled':
+            writeDataQualityRuleResultsEnabled,
+    };
+  }
+}
+
+/// The configuration for writing observation results.
+///
+/// @nodoc
+class ObservationResultsOptions {
+  /// The Glue Data Catalog table configuration for storing the observation
+  /// results.
+  final CatalogTableConfigOptions? catalogTableConfig;
+
+  /// Set to true to write observation results.
+  final bool? writeObservationResultsEnabled;
+
+  ObservationResultsOptions({
+    this.catalogTableConfig,
+    this.writeObservationResultsEnabled,
+  });
+
+  factory ObservationResultsOptions.fromJson(Map<String, dynamic> json) {
+    return ObservationResultsOptions(
+      catalogTableConfig: json['CatalogTableConfig'] != null
+          ? CatalogTableConfigOptions.fromJson(
+              json['CatalogTableConfig'] as Map<String, dynamic>)
+          : null,
+      writeObservationResultsEnabled:
+          json['WriteObservationResultsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogTableConfig = this.catalogTableConfig;
+    final writeObservationResultsEnabled = this.writeObservationResultsEnabled;
+    return {
+      if (catalogTableConfig != null) 'CatalogTableConfig': catalogTableConfig,
+      if (writeObservationResultsEnabled != null)
+        'WriteObservationResultsEnabled': writeObservationResultsEnabled,
+    };
+  }
+}
+
+/// The configuration for a Glue Data Catalog table used to store data quality
+/// results.
+///
+/// @nodoc
+class CatalogTableConfigOptions {
+  /// A unique identifier for the Glue Data Catalog.
+  final String? catalogId;
+
+  /// The name of the database in the Glue Data Catalog.
+  final String? databaseName;
+
+  /// The Amazon S3 location for storing the results.
+  final String? s3Location;
+
+  /// The name of the table in the Glue Data Catalog.
+  final String? tableName;
+
+  CatalogTableConfigOptions({
+    this.catalogId,
+    this.databaseName,
+    this.s3Location,
+    this.tableName,
+  });
+
+  factory CatalogTableConfigOptions.fromJson(Map<String, dynamic> json) {
+    return CatalogTableConfigOptions(
+      catalogId: json['CatalogId'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      s3Location: json['S3Location'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogId = this.catalogId;
+    final databaseName = this.databaseName;
+    final s3Location = this.s3Location;
+    final tableName = this.tableName;
+    return {
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (s3Location != null) 'S3Location': s3Location,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
+}
+
+/// The configuration for writing distribution results.
+///
+/// @nodoc
+class DistributionResultsOptions {
+  /// The Glue Data Catalog table configuration for storing the distribution
+  /// results.
+  final CatalogTableConfigOptions? catalogTableConfig;
+
+  /// Set to true to write distribution results.
+  final bool? writeDistributionResultsEnabled;
+
+  DistributionResultsOptions({
+    this.catalogTableConfig,
+    this.writeDistributionResultsEnabled,
+  });
+
+  factory DistributionResultsOptions.fromJson(Map<String, dynamic> json) {
+    return DistributionResultsOptions(
+      catalogTableConfig: json['CatalogTableConfig'] != null
+          ? CatalogTableConfigOptions.fromJson(
+              json['CatalogTableConfig'] as Map<String, dynamic>)
+          : null,
+      writeDistributionResultsEnabled:
+          json['WriteDistributionResultsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogTableConfig = this.catalogTableConfig;
+    final writeDistributionResultsEnabled =
+        this.writeDistributionResultsEnabled;
+    return {
+      if (catalogTableConfig != null) 'CatalogTableConfig': catalogTableConfig,
+      if (writeDistributionResultsEnabled != null)
+        'WriteDistributionResultsEnabled': writeDistributionResultsEnabled,
+    };
+  }
+}
+
+/// @nodoc
+class ResultTypeEnum {
+  static const all = ResultTypeEnum._('ALL');
+  static const passedOnly = ResultTypeEnum._('PASSED_ONLY');
+  static const failedOnly = ResultTypeEnum._('FAILED_ONLY');
+
+  final String value;
+
+  const ResultTypeEnum._(this.value);
+
+  static const values = [all, passedOnly, failedOnly];
+
+  static ResultTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResultTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ResultTypeEnum && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -39815,6 +42846,38 @@ class DataQualityGlueTable {
   }
 }
 
+/// Additional run options you can specify for a recommendation run.
+///
+/// @nodoc
+class DataQualityRuleRecommendationRunAdditionalRunOptions {
+  /// A custom prefix for the CloudWatch log group names. When specified,
+  /// recommendation run logs are written to
+  /// <code><CustomLogGroupPrefix>/error</code> and
+  /// <code><CustomLogGroupPrefix>/output</code> instead of the default
+  /// <code>/aws-glue/data-quality/error</code> and
+  /// <code>/aws-glue/data-quality/output</code> log groups.
+  final String? customLogGroupPrefix;
+
+  DataQualityRuleRecommendationRunAdditionalRunOptions({
+    this.customLogGroupPrefix,
+  });
+
+  factory DataQualityRuleRecommendationRunAdditionalRunOptions.fromJson(
+      Map<String, dynamic> json) {
+    return DataQualityRuleRecommendationRunAdditionalRunOptions(
+      customLogGroupPrefix: json['CustomLogGroupPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customLogGroupPrefix = this.customLogGroupPrefix;
+    return {
+      if (customLogGroupPrefix != null)
+        'CustomLogGroupPrefix': customLogGroupPrefix,
+    };
+  }
+}
+
 /// Represents a collection of related data organized in columns and rows.
 ///
 /// @nodoc
@@ -39841,6 +42904,12 @@ class Table {
   /// A <code>FederatedTable</code> structure that references an entity outside
   /// the Glue Data Catalog.
   final FederatedTable? federatedTable;
+
+  /// The latest Apache Iceberg table metadata for the table, including format
+  /// version, schemas, partition specifications, and sort orders. This field is
+  /// populated for Iceberg tables and reflects the current state of the table's
+  /// Iceberg metadata.
+  final IcebergTableMetadata? icebergTableMetadata;
 
   /// Indicates a table is a <code>MaterializedView</code>.
   final bool? isMaterializedView;
@@ -39929,6 +42998,7 @@ class Table {
     this.databaseName,
     this.description,
     this.federatedTable,
+    this.icebergTableMetadata,
     this.isMaterializedView,
     this.isMultiDialectView,
     this.isRegisteredWithLakeFormation,
@@ -39960,6 +43030,10 @@ class Table {
       federatedTable: json['FederatedTable'] != null
           ? FederatedTable.fromJson(
               json['FederatedTable'] as Map<String, dynamic>)
+          : null,
+      icebergTableMetadata: json['IcebergTableMetadata'] != null
+          ? IcebergTableMetadata.fromJson(
+              json['IcebergTableMetadata'] as Map<String, dynamic>)
           : null,
       isMaterializedView: json['IsMaterializedView'] as bool?,
       isMultiDialectView: json['IsMultiDialectView'] as bool?,
@@ -40006,6 +43080,7 @@ class Table {
     final databaseName = this.databaseName;
     final description = this.description;
     final federatedTable = this.federatedTable;
+    final icebergTableMetadata = this.icebergTableMetadata;
     final isMaterializedView = this.isMaterializedView;
     final isMultiDialectView = this.isMultiDialectView;
     final isRegisteredWithLakeFormation = this.isRegisteredWithLakeFormation;
@@ -40032,6 +43107,8 @@ class Table {
       if (databaseName != null) 'DatabaseName': databaseName,
       if (description != null) 'Description': description,
       if (federatedTable != null) 'FederatedTable': federatedTable,
+      if (icebergTableMetadata != null)
+        'IcebergTableMetadata': icebergTableMetadata,
       if (isMaterializedView != null) 'IsMaterializedView': isMaterializedView,
       if (isMultiDialectView != null) 'IsMultiDialectView': isMultiDialectView,
       if (isRegisteredWithLakeFormation != null)
@@ -40199,6 +43276,134 @@ class ViewDefinition {
       if (subObjects != null) 'SubObjects': subObjects,
       if (viewVersionId != null) 'ViewVersionId': viewVersionId,
       if (viewVersionToken != null) 'ViewVersionToken': viewVersionToken,
+    };
+  }
+}
+
+/// The Apache Iceberg table metadata, including format version, table
+/// identifier, schemas, partition specifications, sort orders, and table
+/// properties. This structure captures the current state of an Iceberg table's
+/// metadata as managed by the Glue Data Catalog.
+///
+/// @nodoc
+class IcebergTableMetadata {
+  /// The identifier of the schema that is currently active for the Iceberg table.
+  /// Matches an entry in <code>Schemas</code>.
+  final int? currentSchemaId;
+
+  /// The identifier of the sort order that is currently used by default when
+  /// writing new data to the Iceberg table.
+  final int? defaultSortOrderId;
+
+  /// The identifier of the partition specification that is currently used by
+  /// default when writing new data to the Iceberg table.
+  final int? defaultSpecId;
+
+  /// The Apache Iceberg table format version, such as <code>1</code> or
+  /// <code>2</code>. Determines the set of features and on-disk layout supported
+  /// by the table.
+  final String? formatVersion;
+
+  /// The highest column identifier that has been assigned in the Iceberg table's
+  /// schema, used to ensure unique IDs as new columns are added.
+  final int? lastColumnId;
+
+  /// The highest partition field identifier that has been assigned across the
+  /// table's partition specifications.
+  final int? lastPartitionId;
+
+  /// The base S3 location where the Iceberg table's data and metadata files are
+  /// stored.
+  final String? location;
+
+  /// The list of partition specifications that have been associated with the
+  /// Iceberg table over its history, supporting partition evolution.
+  final List<IcebergPartitionSpec>? partitionSpecs;
+
+  /// A map of key-value pairs that define table-level properties and
+  /// configuration settings for the Iceberg table.
+  final Map<String, String>? properties;
+
+  /// The list of schemas that have been associated with the Iceberg table over
+  /// its history, supporting schema evolution.
+  final List<IcebergSchema>? schemas;
+
+  /// The list of sort order specifications that have been associated with the
+  /// Iceberg table over its history.
+  final List<IcebergSortOrder>? sortOrders;
+
+  /// The unique identifier (UUID) for the Iceberg table, assigned when the table
+  /// is created and used to track the table across metadata updates.
+  final String? tableUuid;
+
+  IcebergTableMetadata({
+    this.currentSchemaId,
+    this.defaultSortOrderId,
+    this.defaultSpecId,
+    this.formatVersion,
+    this.lastColumnId,
+    this.lastPartitionId,
+    this.location,
+    this.partitionSpecs,
+    this.properties,
+    this.schemas,
+    this.sortOrders,
+    this.tableUuid,
+  });
+
+  factory IcebergTableMetadata.fromJson(Map<String, dynamic> json) {
+    return IcebergTableMetadata(
+      currentSchemaId: json['CurrentSchemaId'] as int?,
+      defaultSortOrderId: json['DefaultSortOrderId'] as int?,
+      defaultSpecId: json['DefaultSpecId'] as int?,
+      formatVersion: json['FormatVersion'] as String?,
+      lastColumnId: json['LastColumnId'] as int?,
+      lastPartitionId: json['LastPartitionId'] as int?,
+      location: json['Location'] as String?,
+      partitionSpecs: (json['PartitionSpecs'] as List?)
+          ?.nonNulls
+          .map((e) => IcebergPartitionSpec.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      properties: (json['Properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      schemas: (json['Schemas'] as List?)
+          ?.nonNulls
+          .map((e) => IcebergSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sortOrders: (json['SortOrders'] as List?)
+          ?.nonNulls
+          .map((e) => IcebergSortOrder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableUuid: json['TableUuid'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentSchemaId = this.currentSchemaId;
+    final defaultSortOrderId = this.defaultSortOrderId;
+    final defaultSpecId = this.defaultSpecId;
+    final formatVersion = this.formatVersion;
+    final lastColumnId = this.lastColumnId;
+    final lastPartitionId = this.lastPartitionId;
+    final location = this.location;
+    final partitionSpecs = this.partitionSpecs;
+    final properties = this.properties;
+    final schemas = this.schemas;
+    final sortOrders = this.sortOrders;
+    final tableUuid = this.tableUuid;
+    return {
+      if (currentSchemaId != null) 'CurrentSchemaId': currentSchemaId,
+      if (defaultSortOrderId != null) 'DefaultSortOrderId': defaultSortOrderId,
+      if (defaultSpecId != null) 'DefaultSpecId': defaultSpecId,
+      if (formatVersion != null) 'FormatVersion': formatVersion,
+      if (lastColumnId != null) 'LastColumnId': lastColumnId,
+      if (lastPartitionId != null) 'LastPartitionId': lastPartitionId,
+      if (location != null) 'Location': location,
+      if (partitionSpecs != null) 'PartitionSpecs': partitionSpecs,
+      if (properties != null) 'Properties': properties,
+      if (schemas != null) 'Schemas': schemas,
+      if (sortOrders != null) 'SortOrders': sortOrders,
+      if (tableUuid != null) 'TableUuid': tableUuid,
     };
   }
 }
@@ -40664,6 +43869,297 @@ class Comparator {
   String toString() => value;
 }
 
+/// A single search result item representing a matched asset.
+///
+/// @nodoc
+class SearchResultItem {
+  /// The description of the matched asset.
+  final String? assetDescription;
+
+  /// The name of the matched asset.
+  final String? assetName;
+
+  /// The identifier of the asset type for the matched asset.
+  final String? assetTypeId;
+
+  /// The unique identifier of the matched asset.
+  final String? id;
+
+  /// The timestamp at which the matched asset was last updated.
+  final DateTime? updatedAt;
+
+  SearchResultItem({
+    this.assetDescription,
+    this.assetName,
+    this.assetTypeId,
+    this.id,
+    this.updatedAt,
+  });
+
+  factory SearchResultItem.fromJson(Map<String, dynamic> json) {
+    return SearchResultItem(
+      assetDescription: json['AssetDescription'] as String?,
+      assetName: json['AssetName'] as String?,
+      assetTypeId: json['AssetTypeId'] as String?,
+      id: json['Id'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetDescription = this.assetDescription;
+    final assetName = this.assetName;
+    final assetTypeId = this.assetTypeId;
+    final id = this.id;
+    final updatedAt = this.updatedAt;
+    return {
+      if (assetDescription != null) 'AssetDescription': assetDescription,
+      if (assetName != null) 'AssetName': assetName,
+      if (assetTypeId != null) 'AssetTypeId': assetTypeId,
+      if (id != null) 'Id': id,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// The sort criteria for search results.
+///
+/// @nodoc
+class SearchSort {
+  /// The attribute to sort by.
+  final String attribute;
+
+  /// The sort order. Valid values are <code>ASCENDING</code> and
+  /// <code>DESCENDING</code>.
+  final SearchSortOrder? order;
+
+  SearchSort({
+    required this.attribute,
+    this.order,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final order = this.order;
+    return {
+      'Attribute': attribute,
+      if (order != null) 'Order': order.value,
+    };
+  }
+}
+
+/// A filter clause that supports nested boolean logic. Exactly one of
+/// <code>andAllFilters</code>, <code>orAnyFilters</code>,
+/// <code>attributeFilter</code>, or <code>mapFilter</code> must be specified.
+///
+/// @nodoc
+class SearchFilterClause {
+  /// A list of filter clauses that must all match (logical AND).
+  final List<SearchFilterClause>? andAllFilters;
+
+  /// A filter on a single attribute value.
+  final SearchAttributeFilter? attributeFilter;
+
+  /// A filter on a map attribute's key-value pair.
+  final SearchMapFilter? mapFilter;
+
+  /// A list of filter clauses where at least one must match (logical OR).
+  final List<SearchFilterClause>? orAnyFilters;
+
+  SearchFilterClause({
+    this.andAllFilters,
+    this.attributeFilter,
+    this.mapFilter,
+    this.orAnyFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andAllFilters = this.andAllFilters;
+    final attributeFilter = this.attributeFilter;
+    final mapFilter = this.mapFilter;
+    final orAnyFilters = this.orAnyFilters;
+    return {
+      if (andAllFilters != null) 'AndAllFilters': andAllFilters,
+      if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+      if (mapFilter != null) 'MapFilter': mapFilter,
+      if (orAnyFilters != null) 'OrAnyFilters': orAnyFilters,
+    };
+  }
+}
+
+/// A filter that compares an attribute value using an operator.
+///
+/// @nodoc
+class SearchAttributeFilter {
+  /// The attribute name to filter on.
+  final String attribute;
+
+  /// The comparison operator. Valid values are <code>equals</code>,
+  /// <code>greaterThan</code>, <code>greaterThanOrEquals</code>,
+  /// <code>lessThan</code>, <code>lessThanOrEquals</code>, and
+  /// <code>notExists</code>.
+  final SearchFilterOperator operator;
+
+  /// The value to compare against.
+  final SearchFilterValue? value;
+
+  SearchAttributeFilter({
+    required this.attribute,
+    required this.operator,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operator = this.operator;
+    final value = this.value;
+    return {
+      'Attribute': attribute,
+      'Operator': operator.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// A filter on a map attribute's key-value pair.
+///
+/// @nodoc
+class SearchMapFilter {
+  /// The map attribute name to filter on.
+  final String attribute;
+
+  /// The key within the map attribute to filter on.
+  final String key;
+
+  /// The value to compare against.
+  final SearchMapFilterValue value;
+
+  SearchMapFilter({
+    required this.attribute,
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Attribute': attribute,
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// A map filter value. Currently supports string comparison only.
+///
+/// @nodoc
+class SearchMapFilterValue {
+  /// A string filter value.
+  final String? stringValue;
+
+  SearchMapFilterValue({
+    this.stringValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final stringValue = this.stringValue;
+    return {
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
+/// @nodoc
+class SearchFilterOperator {
+  static const equals = SearchFilterOperator._('equals');
+  static const greaterThan = SearchFilterOperator._('greaterThan');
+  static const greaterThanOrEquals =
+      SearchFilterOperator._('greaterThanOrEquals');
+  static const lessThan = SearchFilterOperator._('lessThan');
+  static const lessThanOrEquals = SearchFilterOperator._('lessThanOrEquals');
+  static const notExists = SearchFilterOperator._('notExists');
+
+  final String value;
+
+  const SearchFilterOperator._(this.value);
+
+  static const values = [
+    equals,
+    greaterThan,
+    greaterThanOrEquals,
+    lessThan,
+    lessThanOrEquals,
+    notExists
+  ];
+
+  static SearchFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchFilterOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchFilterOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter value. Exactly one of <code>stringValue</code> or
+/// <code>longValue</code> must be specified.
+///
+/// @nodoc
+class SearchFilterValue {
+  /// A long integer filter value.
+  final int? longValue;
+
+  /// A string filter value.
+  final String? stringValue;
+
+  SearchFilterValue({
+    this.longValue,
+    this.stringValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final longValue = this.longValue;
+    final stringValue = this.stringValue;
+    return {
+      if (longValue != null) 'LongValue': longValue,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
+/// @nodoc
+class SearchSortOrder {
+  static const ascending = SearchSortOrder._('ASCENDING');
+  static const descending = SearchSortOrder._('DESCENDING');
+
+  final String value;
+
+  const SearchSortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SearchSortOrder fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchSortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SearchSortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Defines a point that a job can resume processing.
 ///
 /// @nodoc
@@ -40937,6 +44433,11 @@ class RestConfiguration {
 ///
 /// @nodoc
 class SourceConfiguration {
+  /// Configuration for applying filter pushdown to REST API requests, defining
+  /// how filter predicates are translated into query parameters or filter
+  /// strings.
+  final FilterConfiguration? filterConfiguration;
+
   /// Configuration for handling paginated responses from the REST API, supporting
   /// both cursor-based and offset-based pagination strategies.
   final PaginationConfiguration? paginationConfiguration;
@@ -40957,6 +44458,7 @@ class SourceConfiguration {
   final ResponseConfiguration? responseConfiguration;
 
   SourceConfiguration({
+    this.filterConfiguration,
     this.paginationConfiguration,
     this.requestMethod,
     this.requestParameters,
@@ -40966,6 +44468,10 @@ class SourceConfiguration {
 
   factory SourceConfiguration.fromJson(Map<String, dynamic> json) {
     return SourceConfiguration(
+      filterConfiguration: json['FilterConfiguration'] != null
+          ? FilterConfiguration.fromJson(
+              json['FilterConfiguration'] as Map<String, dynamic>)
+          : null,
       paginationConfiguration: json['PaginationConfiguration'] != null
           ? PaginationConfiguration.fromJson(
               json['PaginationConfiguration'] as Map<String, dynamic>)
@@ -40985,12 +44491,15 @@ class SourceConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final filterConfiguration = this.filterConfiguration;
     final paginationConfiguration = this.paginationConfiguration;
     final requestMethod = this.requestMethod;
     final requestParameters = this.requestParameters;
     final requestPath = this.requestPath;
     final responseConfiguration = this.responseConfiguration;
     return {
+      if (filterConfiguration != null)
+        'FilterConfiguration': filterConfiguration,
       if (paginationConfiguration != null)
         'PaginationConfiguration': paginationConfiguration,
       if (requestMethod != null) 'RequestMethod': requestMethod.value,
@@ -41053,9 +44562,40 @@ class FieldDefinition {
   /// The name of the field in the entity schema.
   final String name;
 
+  /// Per-field overrides for filter behavior, allowing customization of how
+  /// filters are applied to this specific field.
+  final FilterOverrides? filterOverrides;
+
+  /// Indicates whether this field can contain null values.
+  final bool? isNullable;
+
+  /// Indicates whether this field can be used for ordering results.
+  final bool? isOrderable;
+
+  /// Indicates whether this field can be used for partitioning queries to the
+  /// data source.
+  final bool? isPartitionable;
+
+  /// Indicates whether this field can be used in filter predicates when querying
+  /// data.
+  final bool? isQueryable;
+
+  /// The format pattern for parsing date values from API responses. Required when
+  /// the API uses a non-ISO-8601 format. Accepts Java
+  /// <code>DateTimeFormatter</code> patterns (for example, <code>EEE, d MMM yyyy
+  /// HH:mm:ss Z</code>), <code>EPOCH_SECONDS</code> for Unix epoch seconds, or
+  /// <code>EPOCH_MILLIS</code> for Unix epoch milliseconds.
+  final String? responseDateFormat;
+
   FieldDefinition({
     required this.fieldDataType,
     required this.name,
+    this.filterOverrides,
+    this.isNullable,
+    this.isOrderable,
+    this.isPartitionable,
+    this.isQueryable,
+    this.responseDateFormat,
   });
 
   factory FieldDefinition.fromJson(Map<String, dynamic> json) {
@@ -41063,15 +44603,36 @@ class FieldDefinition {
       fieldDataType:
           FieldDataType.fromString((json['FieldDataType'] as String?) ?? ''),
       name: (json['Name'] as String?) ?? '',
+      filterOverrides: json['FilterOverrides'] != null
+          ? FilterOverrides.fromJson(
+              json['FilterOverrides'] as Map<String, dynamic>)
+          : null,
+      isNullable: json['IsNullable'] as bool?,
+      isOrderable: json['IsOrderable'] as bool?,
+      isPartitionable: json['IsPartitionable'] as bool?,
+      isQueryable: json['IsQueryable'] as bool?,
+      responseDateFormat: json['ResponseDateFormat'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final fieldDataType = this.fieldDataType;
     final name = this.name;
+    final filterOverrides = this.filterOverrides;
+    final isNullable = this.isNullable;
+    final isOrderable = this.isOrderable;
+    final isPartitionable = this.isPartitionable;
+    final isQueryable = this.isQueryable;
+    final responseDateFormat = this.responseDateFormat;
     return {
       'FieldDataType': fieldDataType.value,
       'Name': name,
+      if (filterOverrides != null) 'FilterOverrides': filterOverrides,
+      if (isNullable != null) 'IsNullable': isNullable,
+      if (isOrderable != null) 'IsOrderable': isOrderable,
+      if (isPartitionable != null) 'IsPartitionable': isPartitionable,
+      if (isQueryable != null) 'IsQueryable': isQueryable,
+      if (responseDateFormat != null) 'ResponseDateFormat': responseDateFormat,
     };
   }
 }
@@ -41134,6 +44695,111 @@ class FieldDataType {
 
   @override
   String toString() => value;
+}
+
+/// Configuration that defines per-field overrides for filter behavior, allowing
+/// individual fields to customize how filter operations are applied.
+///
+/// @nodoc
+class FilterOverrides {
+  /// Field-specific configuration for handling BETWEEN range filter operations.
+  final BetweenConfiguration? betweenConfiguration;
+
+  /// The date and time format for filter expressions on this field, overriding
+  /// the global <code>DateTimeFormat</code>. Accepts Java
+  /// <code>DateTimeFormatter</code> patterns (for example, <code>EEE, d MMM yyyy
+  /// HH:mm:ss Z</code>), <code>EPOCH_SECONDS</code> for Unix epoch seconds, or
+  /// <code>EPOCH_MILLIS</code> for Unix epoch milliseconds.
+  final String? dateTimeFormat;
+
+  /// An override for the field name to use in filter expressions, if different
+  /// from the schema field name.
+  final String? fieldName;
+
+  /// A map of logical filter operators to their field-specific API
+  /// representations, overriding the global operator mappings. Supported operator
+  /// keys are: <code>EQUAL_TO</code>, <code>NOT_EQUAL_TO</code>,
+  /// <code>LESS_THAN</code>, <code>GREATER_THAN</code>,
+  /// <code>LESS_THAN_OR_EQUAL_TO</code>, <code>GREATER_THAN_OR_EQUAL_TO</code>,
+  /// <code>CONTAINS</code>, <code>BETWEEN</code>, <code>AND</code>, and
+  /// <code>OR</code>.
+  final Map<String, String>? operatorMappings;
+
+  FilterOverrides({
+    this.betweenConfiguration,
+    this.dateTimeFormat,
+    this.fieldName,
+    this.operatorMappings,
+  });
+
+  factory FilterOverrides.fromJson(Map<String, dynamic> json) {
+    return FilterOverrides(
+      betweenConfiguration: json['BetweenConfiguration'] != null
+          ? BetweenConfiguration.fromJson(
+              json['BetweenConfiguration'] as Map<String, dynamic>)
+          : null,
+      dateTimeFormat: json['DateTimeFormat'] as String?,
+      fieldName: json['FieldName'] as String?,
+      operatorMappings: (json['OperatorMappings'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final betweenConfiguration = this.betweenConfiguration;
+    final dateTimeFormat = this.dateTimeFormat;
+    final fieldName = this.fieldName;
+    final operatorMappings = this.operatorMappings;
+    return {
+      if (betweenConfiguration != null)
+        'BetweenConfiguration': betweenConfiguration,
+      if (dateTimeFormat != null) 'DateTimeFormat': dateTimeFormat,
+      if (fieldName != null) 'FieldName': fieldName,
+      if (operatorMappings != null) 'OperatorMappings': operatorMappings,
+    };
+  }
+}
+
+/// Configuration that defines how BETWEEN range filter operations are
+/// translated into REST API request parameters.
+///
+/// @nodoc
+class BetweenConfiguration {
+  /// The parameter name used for the upper bound value in a BETWEEN filter
+  /// operation.
+  final String? highBoundKey;
+
+  /// The parameter name used for the lower bound value in a BETWEEN filter
+  /// operation.
+  final String? lowBoundKey;
+
+  /// A template string for constructing the BETWEEN filter expression.
+  final String? template;
+
+  BetweenConfiguration({
+    this.highBoundKey,
+    this.lowBoundKey,
+    this.template,
+  });
+
+  factory BetweenConfiguration.fromJson(Map<String, dynamic> json) {
+    return BetweenConfiguration(
+      highBoundKey: json['HighBoundKey'] as String?,
+      lowBoundKey: json['LowBoundKey'] as String?,
+      template: json['Template'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final highBoundKey = this.highBoundKey;
+    final lowBoundKey = this.lowBoundKey;
+    final template = this.template;
+    return {
+      if (highBoundKey != null) 'HighBoundKey': highBoundKey,
+      if (lowBoundKey != null) 'LowBoundKey': lowBoundKey,
+      if (template != null) 'Template': template,
+    };
+  }
 }
 
 /// @nodoc
@@ -41234,6 +44900,158 @@ class PaginationConfiguration {
         'CursorConfiguration': cursorConfiguration,
       if (offsetConfiguration != null)
         'OffsetConfiguration': offsetConfiguration,
+    };
+  }
+}
+
+/// Configuration that defines how filter predicates are applied to REST API
+/// requests, supporting both query parameter and filter string strategies.
+///
+/// @nodoc
+class FilterConfiguration {
+  /// The strategy for applying filters to requests. Use <code>QUERY_PARAMS</code>
+  /// to pass filters as individual query parameters, or
+  /// <code>FILTER_STRING</code> to construct a single filter expression string.
+  final FilterMode filterMode;
+
+  /// Configuration for handling BETWEEN range filter operations.
+  final BetweenConfiguration? betweenConfiguration;
+
+  /// The global date and time format for filter expressions. Accepts Java
+  /// <code>DateTimeFormatter</code> patterns (for example, <code>EEE, d MMM yyyy
+  /// HH:mm:ss Z</code>), <code>EPOCH_SECONDS</code> for Unix epoch seconds, or
+  /// <code>EPOCH_MILLIS</code> for Unix epoch milliseconds. If not specified,
+  /// values are passed as-is in ISO-8601 format.
+  final String? dateTimeFormat;
+
+  /// Configuration for constructing filter expressions when
+  /// <code>FilterMode</code> is set to <code>FILTER_STRING</code>.
+  final FilterStringConfiguration? filterStringConfiguration;
+
+  /// A map of logical filter operators to their API-specific string
+  /// representations. Supported operator keys are: <code>EQUAL_TO</code>,
+  /// <code>NOT_EQUAL_TO</code>, <code>LESS_THAN</code>,
+  /// <code>GREATER_THAN</code>, <code>LESS_THAN_OR_EQUAL_TO</code>,
+  /// <code>GREATER_THAN_OR_EQUAL_TO</code>, <code>CONTAINS</code>,
+  /// <code>BETWEEN</code>, <code>AND</code>, and <code>OR</code>.
+  final Map<String, String>? operatorMappings;
+
+  /// Indicates whether surrounding double quotes should be stripped from filter
+  /// values before processing.
+  final bool? stripQuotes;
+
+  FilterConfiguration({
+    required this.filterMode,
+    this.betweenConfiguration,
+    this.dateTimeFormat,
+    this.filterStringConfiguration,
+    this.operatorMappings,
+    this.stripQuotes,
+  });
+
+  factory FilterConfiguration.fromJson(Map<String, dynamic> json) {
+    return FilterConfiguration(
+      filterMode: FilterMode.fromString((json['FilterMode'] as String?) ?? ''),
+      betweenConfiguration: json['BetweenConfiguration'] != null
+          ? BetweenConfiguration.fromJson(
+              json['BetweenConfiguration'] as Map<String, dynamic>)
+          : null,
+      dateTimeFormat: json['DateTimeFormat'] as String?,
+      filterStringConfiguration: json['FilterStringConfiguration'] != null
+          ? FilterStringConfiguration.fromJson(
+              json['FilterStringConfiguration'] as Map<String, dynamic>)
+          : null,
+      operatorMappings: (json['OperatorMappings'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      stripQuotes: json['StripQuotes'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterMode = this.filterMode;
+    final betweenConfiguration = this.betweenConfiguration;
+    final dateTimeFormat = this.dateTimeFormat;
+    final filterStringConfiguration = this.filterStringConfiguration;
+    final operatorMappings = this.operatorMappings;
+    final stripQuotes = this.stripQuotes;
+    return {
+      'FilterMode': filterMode.value,
+      if (betweenConfiguration != null)
+        'BetweenConfiguration': betweenConfiguration,
+      if (dateTimeFormat != null) 'DateTimeFormat': dateTimeFormat,
+      if (filterStringConfiguration != null)
+        'FilterStringConfiguration': filterStringConfiguration,
+      if (operatorMappings != null) 'OperatorMappings': operatorMappings,
+      if (stripQuotes != null) 'StripQuotes': stripQuotes,
+    };
+  }
+}
+
+/// The strategy used to apply filter predicates to REST API requests.
+///
+/// @nodoc
+class FilterMode {
+  static const queryParams = FilterMode._('QUERY_PARAMS');
+  static const filterString = FilterMode._('FILTER_STRING');
+
+  final String value;
+
+  const FilterMode._(this.value);
+
+  static const values = [queryParams, filterString];
+
+  static FilterMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FilterMode._(value));
+
+  @override
+  bool operator ==(other) => other is FilterMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration for constructing filter expression strings when using the
+/// <code>FILTER_STRING</code> filter mode.
+///
+/// @nodoc
+class FilterStringConfiguration {
+  /// The query parameter name used to send the constructed filter expression
+  /// string in API requests.
+  final String queryParameterName;
+
+  /// The character used to quote values when <code>QuoteStringValues</code> is
+  /// true. Defaults to double quotes if not specified.
+  final String? quoteCharacter;
+
+  /// Indicates whether string and date values should be wrapped with a quote
+  /// character in the filter expression.
+  final bool? quoteStringValues;
+
+  FilterStringConfiguration({
+    required this.queryParameterName,
+    this.quoteCharacter,
+    this.quoteStringValues,
+  });
+
+  factory FilterStringConfiguration.fromJson(Map<String, dynamic> json) {
+    return FilterStringConfiguration(
+      queryParameterName: (json['QueryParameterName'] as String?) ?? '',
+      quoteCharacter: json['QuoteCharacter'] as String?,
+      quoteStringValues: json['QuoteStringValues'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryParameterName = this.queryParameterName;
+    final quoteCharacter = this.quoteCharacter;
+    final quoteStringValues = this.quoteStringValues;
+    return {
+      'QueryParameterName': queryParameterName,
+      if (quoteCharacter != null) 'QuoteCharacter': quoteCharacter,
+      if (quoteStringValues != null) 'QuoteStringValues': quoteStringValues,
     };
   }
 }
@@ -41453,6 +45271,12 @@ class ConnectorProperty {
   /// The default value for the property.
   final String? defaultValue;
 
+  /// A format template for the property value that defines how the value should
+  /// be formatted before sending it in API requests. Use <code>{value}</code> as
+  /// a placeholder for the actual property value (for example, <code>SSWS
+  /// {value}</code>).
+  final String? format;
+
   /// A key name to use when sending this property in API requests, if different
   /// from the display name.
   final String? keyOverride;
@@ -41467,6 +45291,7 @@ class ConnectorProperty {
     required this.required,
     this.allowedValues,
     this.defaultValue,
+    this.format,
     this.keyOverride,
     this.propertyLocation,
   });
@@ -41482,6 +45307,7 @@ class ConnectorProperty {
           .map((e) => e as String)
           .toList(),
       defaultValue: json['DefaultValue'] as String?,
+      format: json['Format'] as String?,
       keyOverride: json['KeyOverride'] as String?,
       propertyLocation: (json['PropertyLocation'] as String?)
           ?.let(PropertyLocation.fromString),
@@ -41494,6 +45320,7 @@ class ConnectorProperty {
     final required = this.required;
     final allowedValues = this.allowedValues;
     final defaultValue = this.defaultValue;
+    final format = this.format;
     final keyOverride = this.keyOverride;
     final propertyLocation = this.propertyLocation;
     return {
@@ -41502,6 +45329,7 @@ class ConnectorProperty {
       'Required': required,
       if (allowedValues != null) 'AllowedValues': allowedValues,
       if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (format != null) 'Format': format,
       if (keyOverride != null) 'KeyOverride': keyOverride,
       if (propertyLocation != null) 'PropertyLocation': propertyLocation.value,
     };
@@ -42035,6 +45863,66 @@ class InclusionAnnotationValue {
   String toString() => value;
 }
 
+/// The export setting for the data catalog.
+///
+/// @nodoc
+class ExportSetting {
+  static const enabled = ExportSetting._('ENABLED');
+  static const disabled = ExportSetting._('DISABLED');
+
+  final String value;
+
+  const ExportSetting._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ExportSetting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportSetting._(value));
+
+  @override
+  bool operator ==(other) => other is ExportSetting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The encryption configuration for exported data catalog metadata.
+///
+/// @nodoc
+class ExportEncryptionConfiguration {
+  /// The ARN of the KMS key used to encrypt the exported data.
+  final String? kmsKeyArn;
+
+  /// The server-side encryption algorithm used for the exported data. Valid
+  /// values are <code>AES256</code> and <code>aws:kms</code>.
+  final String? sseAlgorithm;
+
+  ExportEncryptionConfiguration({
+    this.kmsKeyArn,
+    this.sseAlgorithm,
+  });
+
+  factory ExportEncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExportEncryptionConfiguration(
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      sseAlgorithm: json['SseAlgorithm'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    final sseAlgorithm = this.sseAlgorithm;
+    return {
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (sseAlgorithm != null) 'SseAlgorithm': sseAlgorithm,
+    };
+  }
+}
+
 /// Contains configuration information for maintaining Data Catalog security.
 ///
 /// @nodoc
@@ -42205,6 +46093,65 @@ class CatalogEncryptionMode {
 
   @override
   String toString() => value;
+}
+
+/// A reference to a form type that is included in an asset type.
+///
+/// @nodoc
+class AssetTypeFormReference {
+  /// The identifier of the referenced form type.
+  final String formTypeIdentifier;
+
+  AssetTypeFormReference({
+    required this.formTypeIdentifier,
+  });
+
+  factory AssetTypeFormReference.fromJson(Map<String, dynamic> json) {
+    return AssetTypeFormReference(
+      formTypeIdentifier: (json['FormTypeIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formTypeIdentifier = this.formTypeIdentifier;
+    return {
+      'FormTypeIdentifier': formTypeIdentifier,
+    };
+  }
+}
+
+/// A form on an asset, consisting of the form type identifier and its JSON
+/// content.
+///
+/// @nodoc
+class AssetFormEntry {
+  /// The JSON content of the form, conforming to the schema of the specified form
+  /// type.
+  final String? content;
+
+  /// The identifier of the form type that defines this form's schema.
+  final String? formTypeId;
+
+  AssetFormEntry({
+    this.content,
+    this.formTypeId,
+  });
+
+  factory AssetFormEntry.fromJson(Map<String, dynamic> json) {
+    return AssetFormEntry(
+      content: json['Content'] as String?,
+      formTypeId: json['FormTypeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final formTypeId = this.formTypeId;
+    return {
+      if (content != null) 'Content': content,
+      if (formTypeId != null) 'FormTypeId': formTypeId,
+    };
+  }
 }
 
 /// @nodoc
@@ -44001,6 +47948,55 @@ class MaterializedViewRefreshType {
   String toString() => value;
 }
 
+/// A summary of an item in an iterable form.
+///
+/// @nodoc
+class IterableFormListItem {
+  /// The description of the item.
+  final String? description;
+
+  /// The identifiers of the glossary terms associated with the item.
+  final List<String>? glossaryTerms;
+
+  /// The unique identifier of the item.
+  final String? itemId;
+
+  /// The name of the item.
+  final String? itemName;
+
+  IterableFormListItem({
+    this.description,
+    this.glossaryTerms,
+    this.itemId,
+    this.itemName,
+  });
+
+  factory IterableFormListItem.fromJson(Map<String, dynamic> json) {
+    return IterableFormListItem(
+      description: json['Description'] as String?,
+      glossaryTerms: (json['GlossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      itemId: json['ItemId'] as String?,
+      itemName: json['ItemName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final glossaryTerms = this.glossaryTerms;
+    final itemId = this.itemId;
+    final itemName = this.itemName;
+    return {
+      if (description != null) 'Description': description,
+      if (glossaryTerms != null) 'GlossaryTerms': glossaryTerms,
+      if (itemId != null) 'ItemId': itemId,
+      if (itemName != null) 'ItemName': itemName,
+    };
+  }
+}
+
 /// A structure representing an integration resource property.
 ///
 /// @nodoc
@@ -44083,6 +48079,116 @@ class IntegrationResourcePropertyFilter {
   }
 }
 
+/// A summary of a glossary term.
+///
+/// @nodoc
+class GlossaryTermItem {
+  /// The unique identifier of the glossary term.
+  final String? id;
+
+  /// The name of the glossary term.
+  final String? name;
+
+  /// The short description of the glossary term.
+  final String? shortDescription;
+
+  GlossaryTermItem({
+    this.id,
+    this.name,
+    this.shortDescription,
+  });
+
+  factory GlossaryTermItem.fromJson(Map<String, dynamic> json) {
+    return GlossaryTermItem(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      shortDescription: json['ShortDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final shortDescription = this.shortDescription;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
+    };
+  }
+}
+
+/// A summary of a business glossary.
+///
+/// @nodoc
+class GlossaryItem {
+  /// The description of the glossary.
+  final String? description;
+
+  /// The unique identifier of the glossary.
+  final String? id;
+
+  /// The name of the glossary.
+  final String? name;
+
+  GlossaryItem({
+    this.description,
+    this.id,
+    this.name,
+  });
+
+  factory GlossaryItem.fromJson(Map<String, dynamic> json) {
+    return GlossaryItem(
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// A summary of a form type.
+///
+/// @nodoc
+class FormTypeItem {
+  /// The identifier of the form type.
+  final String? id;
+
+  /// The name of the form type.
+  final String? name;
+
+  FormTypeItem({
+    this.id,
+    this.name,
+  });
+
+  factory FormTypeItem.fromJson(Map<String, dynamic> json) {
+    return FormTypeItem(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 /// An entity supported by a given <code>ConnectionType</code>.
 ///
 /// @nodoc
@@ -44155,6 +48261,9 @@ class StatisticSummary {
   /// The list of columns referenced by the statistic.
   final List<String>? columnsReferenced;
 
+  /// The distribution value for the statistic.
+  final DistributionData? distributionValue;
+
   /// The value of the statistic.
   final double? doubleValue;
 
@@ -44189,6 +48298,7 @@ class StatisticSummary {
 
   StatisticSummary({
     this.columnsReferenced,
+    this.distributionValue,
     this.doubleValue,
     this.evaluationLevel,
     this.inclusionAnnotation,
@@ -44207,6 +48317,10 @@ class StatisticSummary {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      distributionValue: json['DistributionValue'] != null
+          ? DistributionData.fromJson(
+              json['DistributionValue'] as Map<String, dynamic>)
+          : null,
       doubleValue: _s.parseJsonDouble(json['DoubleValue']),
       evaluationLevel: (json['EvaluationLevel'] as String?)
           ?.let(StatisticEvaluationLevel.fromString),
@@ -44234,6 +48348,7 @@ class StatisticSummary {
 
   Map<String, dynamic> toJson() {
     final columnsReferenced = this.columnsReferenced;
+    final distributionValue = this.distributionValue;
     final doubleValue = this.doubleValue;
     final evaluationLevel = this.evaluationLevel;
     final inclusionAnnotation = this.inclusionAnnotation;
@@ -44246,6 +48361,7 @@ class StatisticSummary {
     final statisticProperties = this.statisticProperties;
     return {
       if (columnsReferenced != null) 'ColumnsReferenced': columnsReferenced,
+      if (distributionValue != null) 'DistributionValue': distributionValue,
       if (doubleValue != null) 'DoubleValue': _s.encodeJsonDouble(doubleValue),
       if (evaluationLevel != null) 'EvaluationLevel': evaluationLevel.value,
       if (inclusionAnnotation != null)
@@ -44290,6 +48406,48 @@ class RunIdentifier {
     return {
       if (jobRunId != null) 'JobRunId': jobRunId,
       if (runId != null) 'RunId': runId,
+    };
+  }
+}
+
+/// The distribution data for a statistic.
+///
+/// @nodoc
+class DistributionData {
+  /// The bin edge values for the distribution.
+  final List<String>? binEdges;
+
+  /// The frequency count for each bin in the distribution.
+  final List<int>? count;
+
+  /// The data type of the column for the distribution.
+  final String? dataType;
+
+  DistributionData({
+    this.binEdges,
+    this.count,
+    this.dataType,
+  });
+
+  factory DistributionData.fromJson(Map<String, dynamic> json) {
+    return DistributionData(
+      binEdges: (json['BinEdges'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      count: (json['Count'] as List?)?.nonNulls.map((e) => e as int).toList(),
+      dataType: json['DataType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final binEdges = this.binEdges;
+    final count = this.count;
+    final dataType = this.dataType;
+    return {
+      if (binEdges != null) 'BinEdges': binEdges,
+      if (count != null) 'Count': count,
+      if (dataType != null) 'DataType': dataType,
     };
   }
 }
@@ -44735,6 +48893,9 @@ class DataQualityRulesetEvaluationRunFilter {
 ///
 /// @nodoc
 class DataQualityRuleRecommendationRunDescription {
+  /// The name of the ruleset that was created by the recommendation run.
+  final String? createdRulesetName;
+
   /// The data source (Glue table) associated with the recommendation run.
   final DataSource? dataSource;
 
@@ -44748,6 +48909,7 @@ class DataQualityRuleRecommendationRunDescription {
   final TaskStatusType? status;
 
   DataQualityRuleRecommendationRunDescription({
+    this.createdRulesetName,
     this.dataSource,
     this.runId,
     this.startedOn,
@@ -44757,6 +48919,7 @@ class DataQualityRuleRecommendationRunDescription {
   factory DataQualityRuleRecommendationRunDescription.fromJson(
       Map<String, dynamic> json) {
     return DataQualityRuleRecommendationRunDescription(
+      createdRulesetName: json['CreatedRulesetName'] as String?,
       dataSource: json['DataSource'] != null
           ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
           : null,
@@ -44767,11 +48930,13 @@ class DataQualityRuleRecommendationRunDescription {
   }
 
   Map<String, dynamic> toJson() {
+    final createdRulesetName = this.createdRulesetName;
     final dataSource = this.dataSource;
     final runId = this.runId;
     final startedOn = this.startedOn;
     final status = this.status;
     return {
+      if (createdRulesetName != null) 'CreatedRulesetName': createdRulesetName,
       if (dataSource != null) 'DataSource': dataSource,
       if (runId != null) 'RunId': runId,
       if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
@@ -45430,6 +49595,38 @@ class DataOperation {
 
   @override
   String toString() => value;
+}
+
+/// A summary of an asset type.
+///
+/// @nodoc
+class AssetTypeItem {
+  /// The identifier of the asset type.
+  final String? id;
+
+  /// The name of the asset type.
+  final String? name;
+
+  AssetTypeItem({
+    this.id,
+    this.name,
+  });
+
+  factory AssetTypeItem.fromJson(Map<String, dynamic> json) {
+    return AssetTypeItem(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// A workflow run is an execution of a workflow providing all the runtime
@@ -47063,12 +51260,15 @@ class TableVersion {
 class TableAttributes {
   static const name = TableAttributes._('NAME');
   static const tableType = TableAttributes._('TABLE_TYPE');
+  static const $default = TableAttributes._('DEFAULT');
+  static const latestIcebergMetadata =
+      TableAttributes._('LATEST_ICEBERG_METADATA');
 
   final String value;
 
   const TableAttributes._(this.value);
 
-  static const values = [name, tableType];
+  static const values = [name, tableType, $default, latestIcebergMetadata];
 
   static TableAttributes fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -50086,6 +54286,10 @@ class DataQualityAnalyzerResult {
   /// A description of the data quality analyzer.
   final String? description;
 
+  /// A map of distribution metrics associated with the evaluation of the
+  /// analyzer.
+  final Map<String, DistributionData>? evaluatedDistributions;
+
   /// A map of metrics associated with the evaluation of the analyzer.
   final Map<String, double>? evaluatedMetrics;
 
@@ -50097,6 +54301,7 @@ class DataQualityAnalyzerResult {
 
   DataQualityAnalyzerResult({
     this.description,
+    this.evaluatedDistributions,
     this.evaluatedMetrics,
     this.evaluationMessage,
     this.name,
@@ -50105,6 +54310,10 @@ class DataQualityAnalyzerResult {
   factory DataQualityAnalyzerResult.fromJson(Map<String, dynamic> json) {
     return DataQualityAnalyzerResult(
       description: json['Description'] as String?,
+      evaluatedDistributions:
+          (json['EvaluatedDistributions'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k, DistributionData.fromJson(e as Map<String, dynamic>))),
       evaluatedMetrics: (json['EvaluatedMetrics'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, _s.parseJsonDouble(e)!)),
       evaluationMessage: json['EvaluationMessage'] as String?,
@@ -50114,11 +54323,14 @@ class DataQualityAnalyzerResult {
 
   Map<String, dynamic> toJson() {
     final description = this.description;
+    final evaluatedDistributions = this.evaluatedDistributions;
     final evaluatedMetrics = this.evaluatedMetrics;
     final evaluationMessage = this.evaluationMessage;
     final name = this.name;
     return {
       if (description != null) 'Description': description,
+      if (evaluatedDistributions != null)
+        'EvaluatedDistributions': evaluatedDistributions,
       if (evaluatedMetrics != null)
         'EvaluatedMetrics':
             evaluatedMetrics.map((k, e) => MapEntry(k, _s.encodeJsonDouble(e))),
@@ -50414,6 +54626,35 @@ class CodeGenNode {
       if (lineNumber != null) 'LineNumber': lineNumber,
     };
   }
+}
+
+/// The current status of the data catalog export.
+///
+/// @nodoc
+class ExportStatus {
+  static const enabling = ExportStatus._('ENABLING');
+  static const enabled = ExportStatus._('ENABLED');
+  static const disabling = ExportStatus._('DISABLING');
+  static const disabled = ExportStatus._('DISABLED');
+  static const failed = ExportStatus._('FAILED');
+
+  final String value;
+
+  const ExportStatus._(this.value);
+
+  static const values = [enabling, enabled, disabling, disabled, failed];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The <code>Database</code> object represents a logical grouping of tables
@@ -53190,6 +57431,33 @@ class LastActiveDefinition {
   }
 }
 
+/// An iterable form available on an asset, identified by its form type.
+///
+/// @nodoc
+class IterableFormEntry {
+  /// The form type identifier of the iterable form (for example,
+  /// <code>columns</code>), used to retrieve its items via
+  /// <code>ListIterableForms</code> or <code>BatchGetIterableForms</code>.
+  final String? formTypeId;
+
+  IterableFormEntry({
+    this.formTypeId,
+  });
+
+  factory IterableFormEntry.fromJson(Map<String, dynamic> json) {
+    return IterableFormEntry(
+      formTypeId: json['FormTypeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formTypeId = this.formTypeId;
+    return {
+      if (formTypeId != null) 'FormTypeId': formTypeId,
+    };
+  }
+}
+
 /// Describes a zero-ETL integration.
 ///
 /// @nodoc
@@ -54725,6 +58993,244 @@ class BatchGetTableOptimizerEntry {
       if (databaseName != null) 'databaseName': databaseName,
       if (tableName != null) 'tableName': tableName,
       if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// An error that occurred when retrieving an iterable form item.
+///
+/// @nodoc
+class ItemError {
+  /// The error code.
+  final String? code;
+
+  /// The identifier of the item that caused the error.
+  final String? itemIdentifier;
+
+  /// The error message.
+  final String? message;
+
+  ItemError({
+    this.code,
+    this.itemIdentifier,
+    this.message,
+  });
+
+  factory ItemError.fromJson(Map<String, dynamic> json) {
+    return ItemError(
+      code: json['Code'] as String?,
+      itemIdentifier: json['ItemIdentifier'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final itemIdentifier = this.itemIdentifier;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code,
+      if (itemIdentifier != null) 'ItemIdentifier': itemIdentifier,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// A full iterable form item with its forms.
+///
+/// @nodoc
+class IterableFormItem {
+  /// Additional attachments on the item for more context, keyed by attachment
+  /// name.
+  final Map<String, AssetFormEntry>? attachments;
+
+  /// The forms on the item, keyed by form name.
+  final Map<String, AssetFormEntry>? forms;
+
+  /// The identifiers of the glossary terms associated with the item.
+  final List<String>? glossaryTerms;
+
+  /// The unique identifier of the item.
+  final String? itemId;
+
+  /// The name of the item.
+  final String? itemName;
+
+  IterableFormItem({
+    this.attachments,
+    this.forms,
+    this.glossaryTerms,
+    this.itemId,
+    this.itemName,
+  });
+
+  factory IterableFormItem.fromJson(Map<String, dynamic> json) {
+    return IterableFormItem(
+      attachments: (json['Attachments'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AssetFormEntry.fromJson(e as Map<String, dynamic>))),
+      forms: (json['Forms'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AssetFormEntry.fromJson(e as Map<String, dynamic>))),
+      glossaryTerms: (json['GlossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      itemId: json['ItemId'] as String?,
+      itemName: json['ItemName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachments = this.attachments;
+    final forms = this.forms;
+    final glossaryTerms = this.glossaryTerms;
+    final itemId = this.itemId;
+    final itemName = this.itemName;
+    return {
+      if (attachments != null) 'Attachments': attachments,
+      if (forms != null) 'Forms': forms,
+      if (glossaryTerms != null) 'GlossaryTerms': glossaryTerms,
+      if (itemId != null) 'ItemId': itemId,
+      if (itemName != null) 'ItemName': itemName,
+    };
+  }
+}
+
+/// The details of a data quality ruleset evaluation run.
+///
+/// @nodoc
+class DataQualityRulesetEvaluationRun {
+  /// A map of reference strings to additional data sources you can specify for an
+  /// evaluation run.
+  final Map<String, DataSource>? additionalDataSources;
+  final DataQualityEvaluationRunAdditionalRunOptions? additionalRunOptions;
+
+  /// The date and time when this run was completed.
+  final DateTime? completedOn;
+  final DataSource? dataSource;
+
+  /// The error strings that are associated with the run.
+  final String? errorString;
+
+  /// The amount of time (in seconds) that the run consumed resources.
+  final int? executionTime;
+
+  /// A timestamp. The last point in time when this run was modified.
+  final DateTime? lastModifiedOn;
+
+  /// The number of <code>G.1X</code> workers to be used in the run. The default
+  /// is 5.
+  final int? numberOfWorkers;
+
+  /// A list of result IDs for the data quality results for the run.
+  final List<String>? resultIds;
+
+  /// An IAM role supplied to encrypt the results of the run.
+  final String? role;
+
+  /// A list of ruleset names for the run.
+  final List<String>? rulesetNames;
+
+  /// The unique run identifier associated with this run.
+  final String? runId;
+
+  /// The date and time when this run started.
+  final DateTime? startedOn;
+
+  /// The status for this run.
+  final TaskStatusType? status;
+
+  /// The timeout for a run in minutes. This is the maximum time that a run can
+  /// consume resources before it is terminated and enters <code>TIMEOUT</code>
+  /// status. The default is 2,880 minutes (48 hours).
+  final int? timeout;
+
+  DataQualityRulesetEvaluationRun({
+    this.additionalDataSources,
+    this.additionalRunOptions,
+    this.completedOn,
+    this.dataSource,
+    this.errorString,
+    this.executionTime,
+    this.lastModifiedOn,
+    this.numberOfWorkers,
+    this.resultIds,
+    this.role,
+    this.rulesetNames,
+    this.runId,
+    this.startedOn,
+    this.status,
+    this.timeout,
+  });
+
+  factory DataQualityRulesetEvaluationRun.fromJson(Map<String, dynamic> json) {
+    return DataQualityRulesetEvaluationRun(
+      additionalDataSources:
+          (json['AdditionalDataSources'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, DataSource.fromJson(e as Map<String, dynamic>))),
+      additionalRunOptions: json['AdditionalRunOptions'] != null
+          ? DataQualityEvaluationRunAdditionalRunOptions.fromJson(
+              json['AdditionalRunOptions'] as Map<String, dynamic>)
+          : null,
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      dataSource: json['DataSource'] != null
+          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
+          : null,
+      errorString: json['ErrorString'] as String?,
+      executionTime: json['ExecutionTime'] as int?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      numberOfWorkers: json['NumberOfWorkers'] as int?,
+      resultIds: (json['ResultIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      role: json['Role'] as String?,
+      rulesetNames: (json['RulesetNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      runId: json['RunId'] as String?,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      status: (json['Status'] as String?)?.let(TaskStatusType.fromString),
+      timeout: json['Timeout'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalDataSources = this.additionalDataSources;
+    final additionalRunOptions = this.additionalRunOptions;
+    final completedOn = this.completedOn;
+    final dataSource = this.dataSource;
+    final errorString = this.errorString;
+    final executionTime = this.executionTime;
+    final lastModifiedOn = this.lastModifiedOn;
+    final numberOfWorkers = this.numberOfWorkers;
+    final resultIds = this.resultIds;
+    final role = this.role;
+    final rulesetNames = this.rulesetNames;
+    final runId = this.runId;
+    final startedOn = this.startedOn;
+    final status = this.status;
+    final timeout = this.timeout;
+    return {
+      if (additionalDataSources != null)
+        'AdditionalDataSources': additionalDataSources,
+      if (additionalRunOptions != null)
+        'AdditionalRunOptions': additionalRunOptions,
+      if (completedOn != null) 'CompletedOn': unixTimestampToJson(completedOn),
+      if (dataSource != null) 'DataSource': dataSource,
+      if (errorString != null) 'ErrorString': errorString,
+      if (executionTime != null) 'ExecutionTime': executionTime,
+      if (lastModifiedOn != null)
+        'LastModifiedOn': unixTimestampToJson(lastModifiedOn),
+      if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+      if (resultIds != null) 'ResultIds': resultIds,
+      if (role != null) 'Role': role,
+      if (rulesetNames != null) 'RulesetNames': rulesetNames,
+      if (runId != null) 'RunId': runId,
+      if (startedOn != null) 'StartedOn': unixTimestampToJson(startedOn),
+      if (status != null) 'Status': status.value,
+      if (timeout != null) 'Timeout': timeout,
     };
   }
 }

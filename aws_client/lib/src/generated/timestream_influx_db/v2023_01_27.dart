@@ -160,6 +160,303 @@ class TimestreamInfluxDB {
     );
   }
 
+  /// Creates a new on-demand backup of a Timestream for InfluxDB resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dbResourceId] :
+  /// The id of the DB instance or DB cluster to back up.
+  ///
+  /// Parameter [name] :
+  /// The name of the backup. Must be unique within the account and region.
+  ///
+  /// Parameter [retentionDays] :
+  /// The number of days to retain the backup. Valid values are 1 to 3650.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the backup.
+  Future<CreateDbBackupOutput> createDbBackup({
+    required String dbResourceId,
+    required String name,
+    int? retentionDays,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'retentionDays',
+      retentionDays,
+      1,
+      3650,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonTimestreamInfluxDB.CreateDbBackup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'dbResourceId': dbResourceId,
+        'name': name,
+        if (retentionDays != null) 'retentionDays': retentionDays,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateDbBackupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about a specific Timestream for InfluxDB backup.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the backup to retrieve information for.
+  Future<GetDbBackupOutput> getDbBackup({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonTimestreamInfluxDB.GetDbBackup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identifier': identifier,
+      },
+    );
+
+    return GetDbBackupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a Timestream for InfluxDB backup.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the backup to delete.
+  Future<DeleteDbBackupOutput> deleteDbBackup({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonTimestreamInfluxDB.DeleteDbBackup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identifier': identifier,
+      },
+    );
+
+    return DeleteDbBackupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of Timestream for InfluxDB backups.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dbResourceId] :
+  /// The identifier of the DB instance or DB cluster to list backups for. If
+  /// not specified, returns all backups in the account and region.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the output. If the total number
+  /// of items available is more than the value specified, a nextToken is
+  /// provided in the output. To resume pagination, provide the nextToken value
+  /// as an argument of a subsequent API invocation.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token. To resume pagination, provide the nextToken value as
+  /// an argument of a subsequent API invocation.
+  Future<ListDbBackupsOutput> listDbBackups({
+    String? dbResourceId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonTimestreamInfluxDB.ListDbBackups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (dbResourceId != null) 'dbResourceId': dbResourceId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListDbBackupsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Restores a Timestream for InfluxDB resource from a backup. By default, a
+  /// new resource is created. You can optionally restore to the same resource
+  /// using the REPLACE_EXISTING restore mode.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [dbBackupId] :
+  /// The identifier of the backup to restore from.
+  ///
+  /// Parameter [name] :
+  /// The name of the new resource to create from the restore. If restoring to
+  /// an existing resource, the name must match the existing resource name.
+  ///
+  /// Parameter [dbBackupConfigurations] :
+  /// A list of backup configurations to apply to the restored resource.
+  ///
+  /// Parameter [deploymentType] :
+  /// Specifies the deployment type of the restored resource. Valid values are
+  /// SINGLE_AZ, WITH_MULTIAZ_STANDBY, and MULTI_NODE_READ_REPLICAS.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The Amazon Web Services KMS key identifier to use for encryption of the
+  /// restored resource. Can be a key ID, key ARN, alias name, or alias ARN.
+  ///
+  /// Parameter [logDeliveryConfiguration] :
+  /// Configuration for sending InfluxDB engine logs to the specified S3 bucket
+  /// for the restored resource.
+  ///
+  /// Parameter [maintenanceSchedule] :
+  /// The maintenance schedule for the restored resource.
+  ///
+  /// Parameter [networkType] :
+  /// Specifies the network type of the restored resource. Valid values are IPV4
+  /// and DUAL.
+  ///
+  /// Parameter [port] :
+  /// The port number on which the restored InfluxDB resource accepts
+  /// connections.
+  ///
+  /// Parameter [publiclyAccessible] :
+  /// Specifies whether the restored resource is publicly accessible.
+  ///
+  /// Parameter [restoreMode] :
+  /// Specifies whether to restore to a new resource or replace the existing
+  /// resource. Valid values are NEW_RESOURCE (default) and REPLACE_EXISTING.
+  ///
+  /// Parameter [restoreToTime] :
+  /// The point in time to restore to, for continuous backups. Must be within
+  /// the backup's retention window.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the restored resource.
+  ///
+  /// Parameter [vpcSecurityGroupIds] :
+  /// A list of VPC security group IDs for the restored resource. If not
+  /// specified, the restored resource uses the same security groups as the
+  /// backup.
+  ///
+  /// Parameter [vpcSubnetIds] :
+  /// A list of VPC subnet IDs for the restored resource. If not specified, the
+  /// restored resource uses the same subnets as the backup.
+  Future<RestoreFromDbBackupOutput> restoreFromDbBackup({
+    required String dbBackupId,
+    required String name,
+    List<DbBackupConfiguration>? dbBackupConfigurations,
+    ResourceDeploymentType? deploymentType,
+    String? kmsKeyId,
+    LogDeliveryConfiguration? logDeliveryConfiguration,
+    MaintenanceSchedule? maintenanceSchedule,
+    NetworkType? networkType,
+    int? port,
+    bool? publiclyAccessible,
+    RestoreMode? restoreMode,
+    DateTime? restoreToTime,
+    Map<String, String>? tags,
+    List<String>? vpcSecurityGroupIds,
+    List<String>? vpcSubnetIds,
+  }) async {
+    _s.validateNumRange(
+      'port',
+      port,
+      1024,
+      65535,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AmazonTimestreamInfluxDB.RestoreFromDbBackup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'dbBackupId': dbBackupId,
+        'name': name,
+        if (dbBackupConfigurations != null)
+          'dbBackupConfigurations': dbBackupConfigurations,
+        if (deploymentType != null) 'deploymentType': deploymentType.value,
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (logDeliveryConfiguration != null)
+          'logDeliveryConfiguration': logDeliveryConfiguration,
+        if (maintenanceSchedule != null)
+          'maintenanceSchedule': maintenanceSchedule,
+        if (networkType != null) 'networkType': networkType.value,
+        if (port != null) 'port': port,
+        if (publiclyAccessible != null)
+          'publiclyAccessible': publiclyAccessible,
+        if (restoreMode != null) 'restoreMode': restoreMode.value,
+        if (restoreToTime != null)
+          'restoreToTime': iso8601ToJson(restoreToTime),
+        if (tags != null) 'tags': tags,
+        if (vpcSecurityGroupIds != null)
+          'vpcSecurityGroupIds': vpcSecurityGroupIds,
+        if (vpcSubnetIds != null) 'vpcSubnetIds': vpcSubnetIds,
+      },
+    );
+
+    return RestoreFromDbBackupOutput.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new Timestream for InfluxDB cluster.
   ///
   /// May throw [AccessDeniedException].
@@ -198,6 +495,10 @@ class TimestreamInfluxDB {
   /// (the duration of time that each data point persists). A bucket belongs to
   /// an organization.
   ///
+  /// Parameter [dbBackupConfigurations] :
+  /// A list of backup configurations to enable automated backups for the DB
+  /// cluster.
+  ///
   /// Parameter [dbParameterGroupIdentifier] :
   /// The ID of the DB parameter group to assign to your DB cluster. DB
   /// parameter groups specify how the database is configured. For example, DB
@@ -228,6 +529,10 @@ class TimestreamInfluxDB {
   /// Parameter [failoverMode] :
   /// Specifies the behavior of failure recovery when the primary node of the
   /// cluster fails.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The Amazon Web Services KMS key identifier to use for encryption of the DB
+  /// cluster. Can be a key ID, key ARN, alias name, or alias ARN.
   ///
   /// Parameter [logDeliveryConfiguration] :
   /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
@@ -282,10 +587,12 @@ class TimestreamInfluxDB {
     required List<String> vpcSubnetIds,
     int? allocatedStorage,
     String? bucket,
+    List<DbBackupConfiguration>? dbBackupConfigurations,
     String? dbParameterGroupIdentifier,
     DbStorageType? dbStorageType,
     ClusterDeploymentType? deploymentType,
     FailoverMode? failoverMode,
+    String? kmsKeyId,
     LogDeliveryConfiguration? logDeliveryConfiguration,
     MaintenanceSchedule? maintenanceSchedule,
     NetworkType? networkType,
@@ -325,11 +632,14 @@ class TimestreamInfluxDB {
         'vpcSubnetIds': vpcSubnetIds,
         if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
         if (bucket != null) 'bucket': bucket,
+        if (dbBackupConfigurations != null)
+          'dbBackupConfigurations': dbBackupConfigurations,
         if (dbParameterGroupIdentifier != null)
           'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
         if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
         if (deploymentType != null) 'deploymentType': deploymentType.value,
         if (failoverMode != null) 'failoverMode': failoverMode.value,
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
         if (logDeliveryConfiguration != null)
           'logDeliveryConfiguration': logDeliveryConfiguration,
         if (maintenanceSchedule != null)
@@ -391,6 +701,9 @@ class TimestreamInfluxDB {
   /// Parameter [dbClusterId] :
   /// Service-generated unique identifier of the DB cluster to update.
   ///
+  /// Parameter [dbBackupConfigurations] :
+  /// A list of backup configurations to update for the DB cluster.
+  ///
   /// Parameter [dbInstanceType] :
   /// Update the DB cluster to use the specified DB instance Type.
   ///
@@ -411,6 +724,7 @@ class TimestreamInfluxDB {
   /// Update the DB cluster to use the specified port.
   Future<UpdateDbClusterOutput> updateDbCluster({
     required String dbClusterId,
+    List<DbBackupConfiguration>? dbBackupConfigurations,
     DbInstanceType? dbInstanceType,
     String? dbParameterGroupIdentifier,
     FailoverMode? failoverMode,
@@ -436,6 +750,8 @@ class TimestreamInfluxDB {
       headers: headers,
       payload: {
         'dbClusterId': dbClusterId,
+        if (dbBackupConfigurations != null)
+          'dbBackupConfigurations': dbBackupConfigurations,
         if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
         if (dbParameterGroupIdentifier != null)
           'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
@@ -462,8 +778,14 @@ class TimestreamInfluxDB {
   ///
   /// Parameter [dbClusterId] :
   /// Service-generated unique identifier of the DB cluster.
+  ///
+  /// Parameter [retainAutomatedBackups] :
+  /// Specifies whether to retain automated backups after the DB cluster is
+  /// deleted. If set to true, automated backups are not deleted and can be
+  /// restored later.
   Future<DeleteDbClusterOutput> deleteDbCluster({
     required String dbClusterId,
+    bool? retainAutomatedBackups,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -477,6 +799,8 @@ class TimestreamInfluxDB {
       headers: headers,
       payload: {
         'dbClusterId': dbClusterId,
+        if (retainAutomatedBackups != null)
+          'retainAutomatedBackups': retainAutomatedBackups,
       },
     );
 
@@ -662,6 +986,10 @@ class TimestreamInfluxDB {
   /// (the duration of time that each data point persists). A bucket belongs to
   /// an organization.
   ///
+  /// Parameter [dbBackupConfigurations] :
+  /// A list of backup configurations to enable automated backups for the DB
+  /// instance.
+  ///
   /// Parameter [dbParameterGroupIdentifier] :
   /// The id of the DB parameter group to assign to your DB instance. DB
   /// parameter groups specify how the database is configured. For example, DB
@@ -689,6 +1017,10 @@ class TimestreamInfluxDB {
   /// Parameter [deploymentType] :
   /// Specifies whether the DB instance will be deployed as a standalone
   /// instance or with a Multi-AZ standby for high availability.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The Amazon Web Services KMS key identifier to use for encryption of the DB
+  /// instance. Can be a key ID, key ARN, alias name, or alias ARN.
   ///
   /// Parameter [logDeliveryConfiguration] :
   /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
@@ -736,9 +1068,11 @@ class TimestreamInfluxDB {
     required List<String> vpcSecurityGroupIds,
     required List<String> vpcSubnetIds,
     String? bucket,
+    List<DbBackupConfiguration>? dbBackupConfigurations,
     String? dbParameterGroupIdentifier,
     DbStorageType? dbStorageType,
     DeploymentType? deploymentType,
+    String? kmsKeyId,
     LogDeliveryConfiguration? logDeliveryConfiguration,
     MaintenanceSchedule? maintenanceSchedule,
     NetworkType? networkType,
@@ -779,10 +1113,13 @@ class TimestreamInfluxDB {
         'vpcSecurityGroupIds': vpcSecurityGroupIds,
         'vpcSubnetIds': vpcSubnetIds,
         if (bucket != null) 'bucket': bucket,
+        if (dbBackupConfigurations != null)
+          'dbBackupConfigurations': dbBackupConfigurations,
         if (dbParameterGroupIdentifier != null)
           'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
         if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
         if (deploymentType != null) 'deploymentType': deploymentType.value,
+        if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
         if (logDeliveryConfiguration != null)
           'logDeliveryConfiguration': logDeliveryConfiguration,
         if (maintenanceSchedule != null)
@@ -846,6 +1183,9 @@ class TimestreamInfluxDB {
   /// Parameter [allocatedStorage] :
   /// The amount of storage to allocate for your DB storage type (in gibibytes).
   ///
+  /// Parameter [dbBackupConfigurations] :
+  /// A list of backup configurations to update for the DB instance.
+  ///
   /// Parameter [dbInstanceType] :
   /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
   ///
@@ -882,6 +1222,7 @@ class TimestreamInfluxDB {
   Future<UpdateDbInstanceOutput> updateDbInstance({
     required String identifier,
     int? allocatedStorage,
+    List<DbBackupConfiguration>? dbBackupConfigurations,
     DbInstanceType? dbInstanceType,
     String? dbParameterGroupIdentifier,
     DbStorageType? dbStorageType,
@@ -915,6 +1256,8 @@ class TimestreamInfluxDB {
       payload: {
         'identifier': identifier,
         if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
+        if (dbBackupConfigurations != null)
+          'dbBackupConfigurations': dbBackupConfigurations,
         if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
         if (dbParameterGroupIdentifier != null)
           'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
@@ -942,8 +1285,14 @@ class TimestreamInfluxDB {
   ///
   /// Parameter [identifier] :
   /// The id of the DB instance.
+  ///
+  /// Parameter [retainAutomatedBackups] :
+  /// Specifies whether to retain automated backups after the DB instance is
+  /// deleted. If set to true, automated backups are not deleted and can be
+  /// restored later.
   Future<DeleteDbInstanceOutput> deleteDbInstance({
     required String identifier,
+    bool? retainAutomatedBackups,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -957,6 +1306,8 @@ class TimestreamInfluxDB {
       headers: headers,
       payload: {
         'identifier': identifier,
+        if (retainAutomatedBackups != null)
+          'retainAutomatedBackups': retainAutomatedBackups,
       },
     );
 
@@ -1194,6 +1545,759 @@ class ListTagsForResourceResponse {
 }
 
 /// @nodoc
+class CreateDbBackupOutput {
+  /// The Amazon Resource Name (ARN) of the backup.
+  final String arn;
+
+  /// Service-generated unique identifier of the backup.
+  final String id;
+
+  /// The allocated storage of the resource at the time of backup, in GiB.
+  final int? allocatedStorage;
+
+  /// The cluster configuration of the resource at the time of backup.
+  final ClusterConfiguration? clusterConfiguration;
+
+  /// The time when the backup was created.
+  final DateTime? createdAt;
+
+  /// The DB instance type of the resource at the time of backup.
+  final DbInstanceType? dbInstanceType;
+
+  /// The identifier of the DB parameter group associated with the backup.
+  final String? dbParameterGroupId;
+
+  /// The identifier of the DB resource that the backup was created from.
+  final String? dbResourceId;
+
+  /// The storage type of the resource at the time of backup.
+  final DbStorageType? dbStorageType;
+
+  /// The deployment type of the resource that the backup was created from.
+  final ResourceDeploymentType? deploymentType;
+
+  /// The engine type of the resource that the backup was created from.
+  final EngineType? engineType;
+
+  /// The date after which the backup will be automatically deleted.
+  final String? expiresAfter;
+
+  /// The failover mode of the resource at the time of backup.
+  final FailoverMode? failoverMode;
+
+  /// The ARN of the Secrets Manager secret containing the InfluxDB auth
+  /// parameters.
+  final String? influxAuthParametersSecretArn;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the resource at
+  /// the time of backup.
+  final String? kmsKeyId;
+
+  /// The log delivery configuration of the resource at the time of backup.
+  final LogDeliveryConfiguration? logDeliveryConfiguration;
+
+  /// The maintenance schedule of the resource at the time of backup.
+  final MaintenanceSchedule? maintenanceSchedule;
+
+  /// The customer-provided name of the backup.
+  final String? name;
+
+  /// The network type of the resource at the time of backup.
+  final NetworkType? networkType;
+
+  /// The port number of the resource at the time of backup.
+  final int? port;
+
+  /// Indicates whether the resource was publicly accessible at the time of
+  /// backup.
+  final bool? publiclyAccessible;
+
+  /// The current status of the backup.
+  final DbBackupStatus? status;
+
+  /// The type of backup.
+  final DbBackupType? type;
+
+  /// The VPC security group IDs associated with the resource at the time of
+  /// backup.
+  final List<String>? vpcSecurityGroupIds;
+
+  /// The VPC subnet IDs associated with the resource at the time of backup.
+  final List<String>? vpcSubnetIds;
+
+  CreateDbBackupOutput({
+    required this.arn,
+    required this.id,
+    this.allocatedStorage,
+    this.clusterConfiguration,
+    this.createdAt,
+    this.dbInstanceType,
+    this.dbParameterGroupId,
+    this.dbResourceId,
+    this.dbStorageType,
+    this.deploymentType,
+    this.engineType,
+    this.expiresAfter,
+    this.failoverMode,
+    this.influxAuthParametersSecretArn,
+    this.kmsKeyId,
+    this.logDeliveryConfiguration,
+    this.maintenanceSchedule,
+    this.name,
+    this.networkType,
+    this.port,
+    this.publiclyAccessible,
+    this.status,
+    this.type,
+    this.vpcSecurityGroupIds,
+    this.vpcSubnetIds,
+  });
+
+  factory CreateDbBackupOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDbBackupOutput(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      allocatedStorage: json['allocatedStorage'] as int?,
+      clusterConfiguration: json['clusterConfiguration'] != null
+          ? ClusterConfiguration.fromJson(
+              json['clusterConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
+      dbParameterGroupId: json['dbParameterGroupId'] as String?,
+      dbResourceId: json['dbResourceId'] as String?,
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType: (json['deploymentType'] as String?)
+          ?.let(ResourceDeploymentType.fromString),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
+      expiresAfter: json['expiresAfter'] as String?,
+      failoverMode:
+          (json['failoverMode'] as String?)?.let(FailoverMode.fromString),
+      influxAuthParametersSecretArn:
+          json['influxAuthParametersSecretArn'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
+          ? LogDeliveryConfiguration.fromJson(
+              json['logDeliveryConfiguration'] as Map<String, dynamic>)
+          : null,
+      maintenanceSchedule: json['maintenanceSchedule'] != null
+          ? MaintenanceSchedule.fromJson(
+              json['maintenanceSchedule'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      networkType:
+          (json['networkType'] as String?)?.let(NetworkType.fromString),
+      port: json['port'] as int?,
+      publiclyAccessible: json['publiclyAccessible'] as bool?,
+      status: (json['status'] as String?)?.let(DbBackupStatus.fromString),
+      type: (json['type'] as String?)?.let(DbBackupType.fromString),
+      vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcSubnetIds: (json['vpcSubnetIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final allocatedStorage = this.allocatedStorage;
+    final clusterConfiguration = this.clusterConfiguration;
+    final createdAt = this.createdAt;
+    final dbInstanceType = this.dbInstanceType;
+    final dbParameterGroupId = this.dbParameterGroupId;
+    final dbResourceId = this.dbResourceId;
+    final dbStorageType = this.dbStorageType;
+    final deploymentType = this.deploymentType;
+    final engineType = this.engineType;
+    final expiresAfter = this.expiresAfter;
+    final failoverMode = this.failoverMode;
+    final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
+    final kmsKeyId = this.kmsKeyId;
+    final logDeliveryConfiguration = this.logDeliveryConfiguration;
+    final maintenanceSchedule = this.maintenanceSchedule;
+    final name = this.name;
+    final networkType = this.networkType;
+    final port = this.port;
+    final publiclyAccessible = this.publiclyAccessible;
+    final status = this.status;
+    final type = this.type;
+    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
+    final vpcSubnetIds = this.vpcSubnetIds;
+    return {
+      'arn': arn,
+      'id': id,
+      if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
+      if (clusterConfiguration != null)
+        'clusterConfiguration': clusterConfiguration,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
+      if (dbParameterGroupId != null) 'dbParameterGroupId': dbParameterGroupId,
+      if (dbResourceId != null) 'dbResourceId': dbResourceId,
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
+      if (engineType != null) 'engineType': engineType.value,
+      if (expiresAfter != null) 'expiresAfter': expiresAfter,
+      if (failoverMode != null) 'failoverMode': failoverMode.value,
+      if (influxAuthParametersSecretArn != null)
+        'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (logDeliveryConfiguration != null)
+        'logDeliveryConfiguration': logDeliveryConfiguration,
+      if (maintenanceSchedule != null)
+        'maintenanceSchedule': maintenanceSchedule,
+      if (name != null) 'name': name,
+      if (networkType != null) 'networkType': networkType.value,
+      if (port != null) 'port': port,
+      if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
+      if (vpcSecurityGroupIds != null)
+        'vpcSecurityGroupIds': vpcSecurityGroupIds,
+      if (vpcSubnetIds != null) 'vpcSubnetIds': vpcSubnetIds,
+    };
+  }
+}
+
+/// @nodoc
+class GetDbBackupOutput {
+  /// The Amazon Resource Name (ARN) of the backup.
+  final String arn;
+
+  /// Service-generated unique identifier of the backup.
+  final String id;
+
+  /// The allocated storage of the resource at the time of backup, in GiB.
+  final int? allocatedStorage;
+
+  /// The cluster configuration of the resource at the time of backup.
+  final ClusterConfiguration? clusterConfiguration;
+
+  /// The time when the backup was created.
+  final DateTime? createdAt;
+
+  /// The DB instance type of the resource at the time of backup.
+  final DbInstanceType? dbInstanceType;
+
+  /// The identifier of the DB parameter group associated with the backup.
+  final String? dbParameterGroupId;
+
+  /// The identifier of the DB resource that the backup was created from.
+  final String? dbResourceId;
+
+  /// The storage type of the resource at the time of backup.
+  final DbStorageType? dbStorageType;
+
+  /// The deployment type of the resource that the backup was created from.
+  final ResourceDeploymentType? deploymentType;
+
+  /// The engine type of the resource that the backup was created from.
+  final EngineType? engineType;
+
+  /// The date after which the backup will be automatically deleted.
+  final String? expiresAfter;
+
+  /// The failover mode of the resource at the time of backup.
+  final FailoverMode? failoverMode;
+
+  /// The ARN of the Secrets Manager secret containing the InfluxDB auth
+  /// parameters.
+  final String? influxAuthParametersSecretArn;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the resource at
+  /// the time of backup.
+  final String? kmsKeyId;
+
+  /// The log delivery configuration of the resource at the time of backup.
+  final LogDeliveryConfiguration? logDeliveryConfiguration;
+
+  /// The maintenance schedule of the resource at the time of backup.
+  final MaintenanceSchedule? maintenanceSchedule;
+
+  /// The customer-provided name of the backup.
+  final String? name;
+
+  /// The network type of the resource at the time of backup.
+  final NetworkType? networkType;
+
+  /// The port number of the resource at the time of backup.
+  final int? port;
+
+  /// Indicates whether the resource was publicly accessible at the time of
+  /// backup.
+  final bool? publiclyAccessible;
+
+  /// The current status of the backup.
+  final DbBackupStatus? status;
+
+  /// The type of backup.
+  final DbBackupType? type;
+
+  /// The VPC security group IDs associated with the resource at the time of
+  /// backup.
+  final List<String>? vpcSecurityGroupIds;
+
+  /// The VPC subnet IDs associated with the resource at the time of backup.
+  final List<String>? vpcSubnetIds;
+
+  GetDbBackupOutput({
+    required this.arn,
+    required this.id,
+    this.allocatedStorage,
+    this.clusterConfiguration,
+    this.createdAt,
+    this.dbInstanceType,
+    this.dbParameterGroupId,
+    this.dbResourceId,
+    this.dbStorageType,
+    this.deploymentType,
+    this.engineType,
+    this.expiresAfter,
+    this.failoverMode,
+    this.influxAuthParametersSecretArn,
+    this.kmsKeyId,
+    this.logDeliveryConfiguration,
+    this.maintenanceSchedule,
+    this.name,
+    this.networkType,
+    this.port,
+    this.publiclyAccessible,
+    this.status,
+    this.type,
+    this.vpcSecurityGroupIds,
+    this.vpcSubnetIds,
+  });
+
+  factory GetDbBackupOutput.fromJson(Map<String, dynamic> json) {
+    return GetDbBackupOutput(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      allocatedStorage: json['allocatedStorage'] as int?,
+      clusterConfiguration: json['clusterConfiguration'] != null
+          ? ClusterConfiguration.fromJson(
+              json['clusterConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
+      dbParameterGroupId: json['dbParameterGroupId'] as String?,
+      dbResourceId: json['dbResourceId'] as String?,
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType: (json['deploymentType'] as String?)
+          ?.let(ResourceDeploymentType.fromString),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
+      expiresAfter: json['expiresAfter'] as String?,
+      failoverMode:
+          (json['failoverMode'] as String?)?.let(FailoverMode.fromString),
+      influxAuthParametersSecretArn:
+          json['influxAuthParametersSecretArn'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
+          ? LogDeliveryConfiguration.fromJson(
+              json['logDeliveryConfiguration'] as Map<String, dynamic>)
+          : null,
+      maintenanceSchedule: json['maintenanceSchedule'] != null
+          ? MaintenanceSchedule.fromJson(
+              json['maintenanceSchedule'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      networkType:
+          (json['networkType'] as String?)?.let(NetworkType.fromString),
+      port: json['port'] as int?,
+      publiclyAccessible: json['publiclyAccessible'] as bool?,
+      status: (json['status'] as String?)?.let(DbBackupStatus.fromString),
+      type: (json['type'] as String?)?.let(DbBackupType.fromString),
+      vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcSubnetIds: (json['vpcSubnetIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final allocatedStorage = this.allocatedStorage;
+    final clusterConfiguration = this.clusterConfiguration;
+    final createdAt = this.createdAt;
+    final dbInstanceType = this.dbInstanceType;
+    final dbParameterGroupId = this.dbParameterGroupId;
+    final dbResourceId = this.dbResourceId;
+    final dbStorageType = this.dbStorageType;
+    final deploymentType = this.deploymentType;
+    final engineType = this.engineType;
+    final expiresAfter = this.expiresAfter;
+    final failoverMode = this.failoverMode;
+    final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
+    final kmsKeyId = this.kmsKeyId;
+    final logDeliveryConfiguration = this.logDeliveryConfiguration;
+    final maintenanceSchedule = this.maintenanceSchedule;
+    final name = this.name;
+    final networkType = this.networkType;
+    final port = this.port;
+    final publiclyAccessible = this.publiclyAccessible;
+    final status = this.status;
+    final type = this.type;
+    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
+    final vpcSubnetIds = this.vpcSubnetIds;
+    return {
+      'arn': arn,
+      'id': id,
+      if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
+      if (clusterConfiguration != null)
+        'clusterConfiguration': clusterConfiguration,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
+      if (dbParameterGroupId != null) 'dbParameterGroupId': dbParameterGroupId,
+      if (dbResourceId != null) 'dbResourceId': dbResourceId,
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
+      if (engineType != null) 'engineType': engineType.value,
+      if (expiresAfter != null) 'expiresAfter': expiresAfter,
+      if (failoverMode != null) 'failoverMode': failoverMode.value,
+      if (influxAuthParametersSecretArn != null)
+        'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (logDeliveryConfiguration != null)
+        'logDeliveryConfiguration': logDeliveryConfiguration,
+      if (maintenanceSchedule != null)
+        'maintenanceSchedule': maintenanceSchedule,
+      if (name != null) 'name': name,
+      if (networkType != null) 'networkType': networkType.value,
+      if (port != null) 'port': port,
+      if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
+      if (vpcSecurityGroupIds != null)
+        'vpcSecurityGroupIds': vpcSecurityGroupIds,
+      if (vpcSubnetIds != null) 'vpcSubnetIds': vpcSubnetIds,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteDbBackupOutput {
+  /// The Amazon Resource Name (ARN) of the deleted backup.
+  final String arn;
+
+  /// Service-generated unique identifier of the deleted backup.
+  final String id;
+
+  /// The allocated storage of the resource at the time of backup, in GiB.
+  final int? allocatedStorage;
+
+  /// The cluster configuration of the resource at the time of backup.
+  final ClusterConfiguration? clusterConfiguration;
+
+  /// The time when the backup was created.
+  final DateTime? createdAt;
+
+  /// The DB instance type of the resource at the time of backup.
+  final DbInstanceType? dbInstanceType;
+
+  /// The identifier of the DB parameter group associated with the backup.
+  final String? dbParameterGroupId;
+
+  /// The identifier of the DB resource that the backup was created from.
+  final String? dbResourceId;
+
+  /// The storage type of the resource at the time of backup.
+  final DbStorageType? dbStorageType;
+
+  /// The deployment type of the resource that the backup was created from.
+  final ResourceDeploymentType? deploymentType;
+
+  /// The engine type of the resource that the backup was created from.
+  final EngineType? engineType;
+
+  /// The date after which the backup was set to be automatically deleted.
+  final String? expiresAfter;
+
+  /// The failover mode of the resource at the time of backup.
+  final FailoverMode? failoverMode;
+
+  /// The ARN of the Secrets Manager secret containing the InfluxDB auth
+  /// parameters.
+  final String? influxAuthParametersSecretArn;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the resource at
+  /// the time of backup.
+  final String? kmsKeyId;
+
+  /// The log delivery configuration of the resource at the time of backup.
+  final LogDeliveryConfiguration? logDeliveryConfiguration;
+
+  /// The maintenance schedule of the resource at the time of backup.
+  final MaintenanceSchedule? maintenanceSchedule;
+
+  /// The customer-provided name of the deleted backup.
+  final String? name;
+
+  /// The network type of the resource at the time of backup.
+  final NetworkType? networkType;
+
+  /// The port number of the resource at the time of backup.
+  final int? port;
+
+  /// Indicates whether the resource was publicly accessible at the time of
+  /// backup.
+  final bool? publiclyAccessible;
+
+  /// The current status of the backup.
+  final DbBackupStatus? status;
+
+  /// The type of backup.
+  final DbBackupType? type;
+
+  /// The VPC security group IDs associated with the resource at the time of
+  /// backup.
+  final List<String>? vpcSecurityGroupIds;
+
+  /// The VPC subnet IDs associated with the resource at the time of backup.
+  final List<String>? vpcSubnetIds;
+
+  DeleteDbBackupOutput({
+    required this.arn,
+    required this.id,
+    this.allocatedStorage,
+    this.clusterConfiguration,
+    this.createdAt,
+    this.dbInstanceType,
+    this.dbParameterGroupId,
+    this.dbResourceId,
+    this.dbStorageType,
+    this.deploymentType,
+    this.engineType,
+    this.expiresAfter,
+    this.failoverMode,
+    this.influxAuthParametersSecretArn,
+    this.kmsKeyId,
+    this.logDeliveryConfiguration,
+    this.maintenanceSchedule,
+    this.name,
+    this.networkType,
+    this.port,
+    this.publiclyAccessible,
+    this.status,
+    this.type,
+    this.vpcSecurityGroupIds,
+    this.vpcSubnetIds,
+  });
+
+  factory DeleteDbBackupOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteDbBackupOutput(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      allocatedStorage: json['allocatedStorage'] as int?,
+      clusterConfiguration: json['clusterConfiguration'] != null
+          ? ClusterConfiguration.fromJson(
+              json['clusterConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      dbInstanceType:
+          (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
+      dbParameterGroupId: json['dbParameterGroupId'] as String?,
+      dbResourceId: json['dbResourceId'] as String?,
+      dbStorageType:
+          (json['dbStorageType'] as String?)?.let(DbStorageType.fromString),
+      deploymentType: (json['deploymentType'] as String?)
+          ?.let(ResourceDeploymentType.fromString),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
+      expiresAfter: json['expiresAfter'] as String?,
+      failoverMode:
+          (json['failoverMode'] as String?)?.let(FailoverMode.fromString),
+      influxAuthParametersSecretArn:
+          json['influxAuthParametersSecretArn'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
+          ? LogDeliveryConfiguration.fromJson(
+              json['logDeliveryConfiguration'] as Map<String, dynamic>)
+          : null,
+      maintenanceSchedule: json['maintenanceSchedule'] != null
+          ? MaintenanceSchedule.fromJson(
+              json['maintenanceSchedule'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      networkType:
+          (json['networkType'] as String?)?.let(NetworkType.fromString),
+      port: json['port'] as int?,
+      publiclyAccessible: json['publiclyAccessible'] as bool?,
+      status: (json['status'] as String?)?.let(DbBackupStatus.fromString),
+      type: (json['type'] as String?)?.let(DbBackupType.fromString),
+      vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcSubnetIds: (json['vpcSubnetIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final allocatedStorage = this.allocatedStorage;
+    final clusterConfiguration = this.clusterConfiguration;
+    final createdAt = this.createdAt;
+    final dbInstanceType = this.dbInstanceType;
+    final dbParameterGroupId = this.dbParameterGroupId;
+    final dbResourceId = this.dbResourceId;
+    final dbStorageType = this.dbStorageType;
+    final deploymentType = this.deploymentType;
+    final engineType = this.engineType;
+    final expiresAfter = this.expiresAfter;
+    final failoverMode = this.failoverMode;
+    final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
+    final kmsKeyId = this.kmsKeyId;
+    final logDeliveryConfiguration = this.logDeliveryConfiguration;
+    final maintenanceSchedule = this.maintenanceSchedule;
+    final name = this.name;
+    final networkType = this.networkType;
+    final port = this.port;
+    final publiclyAccessible = this.publiclyAccessible;
+    final status = this.status;
+    final type = this.type;
+    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
+    final vpcSubnetIds = this.vpcSubnetIds;
+    return {
+      'arn': arn,
+      'id': id,
+      if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
+      if (clusterConfiguration != null)
+        'clusterConfiguration': clusterConfiguration,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
+      if (dbParameterGroupId != null) 'dbParameterGroupId': dbParameterGroupId,
+      if (dbResourceId != null) 'dbResourceId': dbResourceId,
+      if (dbStorageType != null) 'dbStorageType': dbStorageType.value,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
+      if (engineType != null) 'engineType': engineType.value,
+      if (expiresAfter != null) 'expiresAfter': expiresAfter,
+      if (failoverMode != null) 'failoverMode': failoverMode.value,
+      if (influxAuthParametersSecretArn != null)
+        'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (logDeliveryConfiguration != null)
+        'logDeliveryConfiguration': logDeliveryConfiguration,
+      if (maintenanceSchedule != null)
+        'maintenanceSchedule': maintenanceSchedule,
+      if (name != null) 'name': name,
+      if (networkType != null) 'networkType': networkType.value,
+      if (port != null) 'port': port,
+      if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
+      if (vpcSecurityGroupIds != null)
+        'vpcSecurityGroupIds': vpcSecurityGroupIds,
+      if (vpcSubnetIds != null) 'vpcSubnetIds': vpcSubnetIds,
+    };
+  }
+}
+
+/// @nodoc
+class ListDbBackupsOutput {
+  /// A list of Timestream for InfluxDB backup summaries.
+  final List<DbBackupSummary> items;
+
+  /// Token from a previous call of the operation. When this value is provided,
+  /// the service returns results from where the previous response left off.
+  final String? nextToken;
+
+  ListDbBackupsOutput({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListDbBackupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDbBackupsOutput(
+      items: ((json['items'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DbBackupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class RestoreFromDbBackupOutput {
+  /// The deployment type of the restored resource.
+  final ResourceDeploymentType? deploymentType;
+
+  /// The engine type of the restored resource.
+  final EngineType? engineType;
+
+  /// The type of the restored resource. Valid values are DB_INSTANCE and
+  /// DB_CLUSTER.
+  final ResourceType? resourceType;
+
+  /// The status of the restore operation.
+  final RestoreStatus? restoreStatus;
+
+  /// The identifier of the restored DB resource.
+  final String? restoredDbResourceId;
+
+  RestoreFromDbBackupOutput({
+    this.deploymentType,
+    this.engineType,
+    this.resourceType,
+    this.restoreStatus,
+    this.restoredDbResourceId,
+  });
+
+  factory RestoreFromDbBackupOutput.fromJson(Map<String, dynamic> json) {
+    return RestoreFromDbBackupOutput(
+      deploymentType: (json['deploymentType'] as String?)
+          ?.let(ResourceDeploymentType.fromString),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
+      resourceType:
+          (json['resourceType'] as String?)?.let(ResourceType.fromString),
+      restoreStatus:
+          (json['restoreStatus'] as String?)?.let(RestoreStatus.fromString),
+      restoredDbResourceId: json['restoredDbResourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentType = this.deploymentType;
+    final engineType = this.engineType;
+    final resourceType = this.resourceType;
+    final restoreStatus = this.restoreStatus;
+    final restoredDbResourceId = this.restoredDbResourceId;
+    return {
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
+      if (engineType != null) 'engineType': engineType.value,
+      if (resourceType != null) 'resourceType': resourceType.value,
+      if (restoreStatus != null) 'restoreStatus': restoreStatus.value,
+      if (restoredDbResourceId != null)
+        'restoredDbResourceId': restoredDbResourceId,
+    };
+  }
+}
+
+/// @nodoc
 class CreateDbClusterOutput {
   /// A service-generated unique identifier.
   final String? dbClusterId;
@@ -1241,6 +2345,9 @@ class GetDbClusterOutput {
   /// Configuration for node modes in the DbCluster.
   final ClusterConfiguration? clusterConfiguration;
 
+  /// The backup configurations for the DB cluster.
+  final List<DbBackupConfigurationOutput>? dbBackupConfigurations;
+
   /// The Timestream for InfluxDB instance type that InfluxDB runs on.
   final DbInstanceType? dbInstanceType;
 
@@ -1268,6 +2375,9 @@ class GetDbClusterOutput {
   /// formatted key-value pair holding InfluxDB authorization values:
   /// organization, bucket, username, and password.
   final String? influxAuthParametersSecretArn;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the DB cluster.
+  final String? kmsKeyId;
 
   /// The timestamp of the last completed maintenance operation on the DB cluster.
   final DateTime? lastMaintenanceTime;
@@ -1313,6 +2423,7 @@ class GetDbClusterOutput {
     required this.name,
     this.allocatedStorage,
     this.clusterConfiguration,
+    this.dbBackupConfigurations,
     this.dbInstanceType,
     this.dbParameterGroupIdentifier,
     this.dbStorageType,
@@ -1321,6 +2432,7 @@ class GetDbClusterOutput {
     this.engineType,
     this.failoverMode,
     this.influxAuthParametersSecretArn,
+    this.kmsKeyId,
     this.lastMaintenanceTime,
     this.logDeliveryConfiguration,
     this.maintenanceSchedule,
@@ -1344,6 +2456,11 @@ class GetDbClusterOutput {
           ? ClusterConfiguration.fromJson(
               json['clusterConfiguration'] as Map<String, dynamic>)
           : null,
+      dbBackupConfigurations: (json['dbBackupConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DbBackupConfigurationOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
       dbInstanceType:
           (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
       dbParameterGroupIdentifier: json['dbParameterGroupIdentifier'] as String?,
@@ -1357,6 +2474,7 @@ class GetDbClusterOutput {
           (json['failoverMode'] as String?)?.let(FailoverMode.fromString),
       influxAuthParametersSecretArn:
           json['influxAuthParametersSecretArn'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
       lastMaintenanceTime: timeStampFromJson(json['lastMaintenanceTime']),
       logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
           ? LogDeliveryConfiguration.fromJson(
@@ -1390,6 +2508,7 @@ class GetDbClusterOutput {
     final name = this.name;
     final allocatedStorage = this.allocatedStorage;
     final clusterConfiguration = this.clusterConfiguration;
+    final dbBackupConfigurations = this.dbBackupConfigurations;
     final dbInstanceType = this.dbInstanceType;
     final dbParameterGroupIdentifier = this.dbParameterGroupIdentifier;
     final dbStorageType = this.dbStorageType;
@@ -1398,6 +2517,7 @@ class GetDbClusterOutput {
     final engineType = this.engineType;
     final failoverMode = this.failoverMode;
     final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
+    final kmsKeyId = this.kmsKeyId;
     final lastMaintenanceTime = this.lastMaintenanceTime;
     final logDeliveryConfiguration = this.logDeliveryConfiguration;
     final maintenanceSchedule = this.maintenanceSchedule;
@@ -1416,6 +2536,8 @@ class GetDbClusterOutput {
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (clusterConfiguration != null)
         'clusterConfiguration': clusterConfiguration,
+      if (dbBackupConfigurations != null)
+        'dbBackupConfigurations': dbBackupConfigurations,
       if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
         'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
@@ -1426,6 +2548,7 @@ class GetDbClusterOutput {
       if (failoverMode != null) 'failoverMode': failoverMode.value,
       if (influxAuthParametersSecretArn != null)
         'influxAuthParametersSecretArn': influxAuthParametersSecretArn,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (lastMaintenanceTime != null)
         'lastMaintenanceTime': iso8601ToJson(lastMaintenanceTime),
       if (logDeliveryConfiguration != null)
@@ -1609,6 +2732,9 @@ class CreateDbInstanceOutput {
   /// The Availability Zone in which the DB instance resides.
   final String? availabilityZone;
 
+  /// The backup configurations for the DB instance.
+  final List<DbBackupConfigurationOutput>? dbBackupConfigurations;
+
   /// Specifies the DbCluster to which this DbInstance belongs to.
   final String? dbClusterId;
 
@@ -1639,6 +2765,9 @@ class CreateDbInstanceOutput {
 
   /// Specifies the DbInstance's roles in the cluster.
   final List<InstanceMode>? instanceModes;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+  final String? kmsKeyId;
 
   /// The timestamp of the last completed maintenance operation on the DB
   /// instance.
@@ -1684,6 +2813,7 @@ class CreateDbInstanceOutput {
     required this.vpcSubnetIds,
     this.allocatedStorage,
     this.availabilityZone,
+    this.dbBackupConfigurations,
     this.dbClusterId,
     this.dbInstanceType,
     this.dbParameterGroupIdentifier,
@@ -1693,6 +2823,7 @@ class CreateDbInstanceOutput {
     this.influxAuthParametersSecretArn,
     this.instanceMode,
     this.instanceModes,
+    this.kmsKeyId,
     this.lastMaintenanceTime,
     this.logDeliveryConfiguration,
     this.maintenanceSchedule,
@@ -1716,6 +2847,11 @@ class CreateDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
+      dbBackupConfigurations: (json['dbBackupConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DbBackupConfigurationOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
       dbClusterId: json['dbClusterId'] as String?,
       dbInstanceType:
           (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
@@ -1733,6 +2869,7 @@ class CreateDbInstanceOutput {
           ?.nonNulls
           .map((e) => InstanceMode.fromString((e as String)))
           .toList(),
+      kmsKeyId: json['kmsKeyId'] as String?,
       lastMaintenanceTime: timeStampFromJson(json['lastMaintenanceTime']),
       logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
           ? LogDeliveryConfiguration.fromJson(
@@ -1763,6 +2900,7 @@ class CreateDbInstanceOutput {
     final vpcSubnetIds = this.vpcSubnetIds;
     final allocatedStorage = this.allocatedStorage;
     final availabilityZone = this.availabilityZone;
+    final dbBackupConfigurations = this.dbBackupConfigurations;
     final dbClusterId = this.dbClusterId;
     final dbInstanceType = this.dbInstanceType;
     final dbParameterGroupIdentifier = this.dbParameterGroupIdentifier;
@@ -1772,6 +2910,7 @@ class CreateDbInstanceOutput {
     final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
     final instanceMode = this.instanceMode;
     final instanceModes = this.instanceModes;
+    final kmsKeyId = this.kmsKeyId;
     final lastMaintenanceTime = this.lastMaintenanceTime;
     final logDeliveryConfiguration = this.logDeliveryConfiguration;
     final maintenanceSchedule = this.maintenanceSchedule;
@@ -1789,6 +2928,8 @@ class CreateDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (dbBackupConfigurations != null)
+        'dbBackupConfigurations': dbBackupConfigurations,
       if (dbClusterId != null) 'dbClusterId': dbClusterId,
       if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
@@ -1801,6 +2942,7 @@ class CreateDbInstanceOutput {
       if (instanceMode != null) 'instanceMode': instanceMode.value,
       if (instanceModes != null)
         'instanceModes': instanceModes.map((e) => e.value).toList(),
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (lastMaintenanceTime != null)
         'lastMaintenanceTime': iso8601ToJson(lastMaintenanceTime),
       if (logDeliveryConfiguration != null)
@@ -1842,6 +2984,9 @@ class GetDbInstanceOutput {
   /// The Availability Zone in which the DB instance resides.
   final String? availabilityZone;
 
+  /// The backup configurations for the DB instance.
+  final List<DbBackupConfigurationOutput>? dbBackupConfigurations;
+
   /// Specifies the DbCluster to which this DbInstance belongs to.
   final String? dbClusterId;
 
@@ -1872,6 +3017,9 @@ class GetDbInstanceOutput {
 
   /// Specifies the DbInstance's roles in the cluster.
   final List<InstanceMode>? instanceModes;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+  final String? kmsKeyId;
 
   /// The timestamp of the last completed maintenance operation on the DB
   /// instance.
@@ -1916,6 +3064,7 @@ class GetDbInstanceOutput {
     required this.vpcSubnetIds,
     this.allocatedStorage,
     this.availabilityZone,
+    this.dbBackupConfigurations,
     this.dbClusterId,
     this.dbInstanceType,
     this.dbParameterGroupIdentifier,
@@ -1925,6 +3074,7 @@ class GetDbInstanceOutput {
     this.influxAuthParametersSecretArn,
     this.instanceMode,
     this.instanceModes,
+    this.kmsKeyId,
     this.lastMaintenanceTime,
     this.logDeliveryConfiguration,
     this.maintenanceSchedule,
@@ -1948,6 +3098,11 @@ class GetDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
+      dbBackupConfigurations: (json['dbBackupConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DbBackupConfigurationOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
       dbClusterId: json['dbClusterId'] as String?,
       dbInstanceType:
           (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
@@ -1965,6 +3120,7 @@ class GetDbInstanceOutput {
           ?.nonNulls
           .map((e) => InstanceMode.fromString((e as String)))
           .toList(),
+      kmsKeyId: json['kmsKeyId'] as String?,
       lastMaintenanceTime: timeStampFromJson(json['lastMaintenanceTime']),
       logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
           ? LogDeliveryConfiguration.fromJson(
@@ -1995,6 +3151,7 @@ class GetDbInstanceOutput {
     final vpcSubnetIds = this.vpcSubnetIds;
     final allocatedStorage = this.allocatedStorage;
     final availabilityZone = this.availabilityZone;
+    final dbBackupConfigurations = this.dbBackupConfigurations;
     final dbClusterId = this.dbClusterId;
     final dbInstanceType = this.dbInstanceType;
     final dbParameterGroupIdentifier = this.dbParameterGroupIdentifier;
@@ -2004,6 +3161,7 @@ class GetDbInstanceOutput {
     final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
     final instanceMode = this.instanceMode;
     final instanceModes = this.instanceModes;
+    final kmsKeyId = this.kmsKeyId;
     final lastMaintenanceTime = this.lastMaintenanceTime;
     final logDeliveryConfiguration = this.logDeliveryConfiguration;
     final maintenanceSchedule = this.maintenanceSchedule;
@@ -2021,6 +3179,8 @@ class GetDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (dbBackupConfigurations != null)
+        'dbBackupConfigurations': dbBackupConfigurations,
       if (dbClusterId != null) 'dbClusterId': dbClusterId,
       if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
@@ -2033,6 +3193,7 @@ class GetDbInstanceOutput {
       if (instanceMode != null) 'instanceMode': instanceMode.value,
       if (instanceModes != null)
         'instanceModes': instanceModes.map((e) => e.value).toList(),
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (lastMaintenanceTime != null)
         'lastMaintenanceTime': iso8601ToJson(lastMaintenanceTime),
       if (logDeliveryConfiguration != null)
@@ -2074,6 +3235,9 @@ class UpdateDbInstanceOutput {
   /// The Availability Zone in which the DB instance resides.
   final String? availabilityZone;
 
+  /// The backup configurations for the DB instance.
+  final List<DbBackupConfigurationOutput>? dbBackupConfigurations;
+
   /// Specifies the DbCluster to which this DbInstance belongs to.
   final String? dbClusterId;
 
@@ -2104,6 +3268,9 @@ class UpdateDbInstanceOutput {
 
   /// Specifies the DbInstance's roles in the cluster.
   final List<InstanceMode>? instanceModes;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+  final String? kmsKeyId;
 
   /// The timestamp of the last completed maintenance operation on the DB
   /// instance.
@@ -2148,6 +3315,7 @@ class UpdateDbInstanceOutput {
     required this.vpcSubnetIds,
     this.allocatedStorage,
     this.availabilityZone,
+    this.dbBackupConfigurations,
     this.dbClusterId,
     this.dbInstanceType,
     this.dbParameterGroupIdentifier,
@@ -2157,6 +3325,7 @@ class UpdateDbInstanceOutput {
     this.influxAuthParametersSecretArn,
     this.instanceMode,
     this.instanceModes,
+    this.kmsKeyId,
     this.lastMaintenanceTime,
     this.logDeliveryConfiguration,
     this.maintenanceSchedule,
@@ -2180,6 +3349,11 @@ class UpdateDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
+      dbBackupConfigurations: (json['dbBackupConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DbBackupConfigurationOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
       dbClusterId: json['dbClusterId'] as String?,
       dbInstanceType:
           (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
@@ -2197,6 +3371,7 @@ class UpdateDbInstanceOutput {
           ?.nonNulls
           .map((e) => InstanceMode.fromString((e as String)))
           .toList(),
+      kmsKeyId: json['kmsKeyId'] as String?,
       lastMaintenanceTime: timeStampFromJson(json['lastMaintenanceTime']),
       logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
           ? LogDeliveryConfiguration.fromJson(
@@ -2227,6 +3402,7 @@ class UpdateDbInstanceOutput {
     final vpcSubnetIds = this.vpcSubnetIds;
     final allocatedStorage = this.allocatedStorage;
     final availabilityZone = this.availabilityZone;
+    final dbBackupConfigurations = this.dbBackupConfigurations;
     final dbClusterId = this.dbClusterId;
     final dbInstanceType = this.dbInstanceType;
     final dbParameterGroupIdentifier = this.dbParameterGroupIdentifier;
@@ -2236,6 +3412,7 @@ class UpdateDbInstanceOutput {
     final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
     final instanceMode = this.instanceMode;
     final instanceModes = this.instanceModes;
+    final kmsKeyId = this.kmsKeyId;
     final lastMaintenanceTime = this.lastMaintenanceTime;
     final logDeliveryConfiguration = this.logDeliveryConfiguration;
     final maintenanceSchedule = this.maintenanceSchedule;
@@ -2253,6 +3430,8 @@ class UpdateDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (dbBackupConfigurations != null)
+        'dbBackupConfigurations': dbBackupConfigurations,
       if (dbClusterId != null) 'dbClusterId': dbClusterId,
       if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
@@ -2265,6 +3444,7 @@ class UpdateDbInstanceOutput {
       if (instanceMode != null) 'instanceMode': instanceMode.value,
       if (instanceModes != null)
         'instanceModes': instanceModes.map((e) => e.value).toList(),
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (lastMaintenanceTime != null)
         'lastMaintenanceTime': iso8601ToJson(lastMaintenanceTime),
       if (logDeliveryConfiguration != null)
@@ -2306,6 +3486,9 @@ class DeleteDbInstanceOutput {
   /// The Availability Zone in which the DB instance resides.
   final String? availabilityZone;
 
+  /// The backup configurations that were associated with the deleted DB instance.
+  final List<DbBackupConfigurationOutput>? dbBackupConfigurations;
+
   /// Specifies the DbCluster to which this DbInstance belongs to.
   final String? dbClusterId;
 
@@ -2336,6 +3519,10 @@ class DeleteDbInstanceOutput {
 
   /// Specifies the DbInstance's roles in the cluster.
   final List<InstanceMode>? instanceModes;
+
+  /// The Amazon Web Services KMS key ARN that was used for encryption of the
+  /// deleted DB instance.
+  final String? kmsKeyId;
 
   /// The timestamp of the last completed maintenance operation on the DB
   /// instance.
@@ -2380,6 +3567,7 @@ class DeleteDbInstanceOutput {
     required this.vpcSubnetIds,
     this.allocatedStorage,
     this.availabilityZone,
+    this.dbBackupConfigurations,
     this.dbClusterId,
     this.dbInstanceType,
     this.dbParameterGroupIdentifier,
@@ -2389,6 +3577,7 @@ class DeleteDbInstanceOutput {
     this.influxAuthParametersSecretArn,
     this.instanceMode,
     this.instanceModes,
+    this.kmsKeyId,
     this.lastMaintenanceTime,
     this.logDeliveryConfiguration,
     this.maintenanceSchedule,
@@ -2412,6 +3601,11 @@ class DeleteDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
+      dbBackupConfigurations: (json['dbBackupConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DbBackupConfigurationOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
       dbClusterId: json['dbClusterId'] as String?,
       dbInstanceType:
           (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
@@ -2429,6 +3623,7 @@ class DeleteDbInstanceOutput {
           ?.nonNulls
           .map((e) => InstanceMode.fromString((e as String)))
           .toList(),
+      kmsKeyId: json['kmsKeyId'] as String?,
       lastMaintenanceTime: timeStampFromJson(json['lastMaintenanceTime']),
       logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
           ? LogDeliveryConfiguration.fromJson(
@@ -2459,6 +3654,7 @@ class DeleteDbInstanceOutput {
     final vpcSubnetIds = this.vpcSubnetIds;
     final allocatedStorage = this.allocatedStorage;
     final availabilityZone = this.availabilityZone;
+    final dbBackupConfigurations = this.dbBackupConfigurations;
     final dbClusterId = this.dbClusterId;
     final dbInstanceType = this.dbInstanceType;
     final dbParameterGroupIdentifier = this.dbParameterGroupIdentifier;
@@ -2468,6 +3664,7 @@ class DeleteDbInstanceOutput {
     final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
     final instanceMode = this.instanceMode;
     final instanceModes = this.instanceModes;
+    final kmsKeyId = this.kmsKeyId;
     final lastMaintenanceTime = this.lastMaintenanceTime;
     final logDeliveryConfiguration = this.logDeliveryConfiguration;
     final maintenanceSchedule = this.maintenanceSchedule;
@@ -2485,6 +3682,8 @@ class DeleteDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (dbBackupConfigurations != null)
+        'dbBackupConfigurations': dbBackupConfigurations,
       if (dbClusterId != null) 'dbClusterId': dbClusterId,
       if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
@@ -2497,6 +3696,7 @@ class DeleteDbInstanceOutput {
       if (instanceMode != null) 'instanceMode': instanceMode.value,
       if (instanceModes != null)
         'instanceModes': instanceModes.map((e) => e.value).toList(),
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (lastMaintenanceTime != null)
         'lastMaintenanceTime': iso8601ToJson(lastMaintenanceTime),
       if (logDeliveryConfiguration != null)
@@ -2572,6 +3772,9 @@ class RebootDbInstanceOutput {
   /// The Availability Zone in which the DB instance resides.
   final String? availabilityZone;
 
+  /// The backup configurations for the DB instance.
+  final List<DbBackupConfigurationOutput>? dbBackupConfigurations;
+
   /// Specifies the DbCluster to which this DbInstance belongs to.
   final String? dbClusterId;
 
@@ -2602,6 +3805,9 @@ class RebootDbInstanceOutput {
 
   /// Specifies the DbInstance's roles in the cluster.
   final List<InstanceMode>? instanceModes;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+  final String? kmsKeyId;
 
   /// The timestamp of the last completed maintenance operation on the DB
   /// instance.
@@ -2646,6 +3852,7 @@ class RebootDbInstanceOutput {
     required this.vpcSubnetIds,
     this.allocatedStorage,
     this.availabilityZone,
+    this.dbBackupConfigurations,
     this.dbClusterId,
     this.dbInstanceType,
     this.dbParameterGroupIdentifier,
@@ -2655,6 +3862,7 @@ class RebootDbInstanceOutput {
     this.influxAuthParametersSecretArn,
     this.instanceMode,
     this.instanceModes,
+    this.kmsKeyId,
     this.lastMaintenanceTime,
     this.logDeliveryConfiguration,
     this.maintenanceSchedule,
@@ -2678,6 +3886,11 @@ class RebootDbInstanceOutput {
           .toList(),
       allocatedStorage: json['allocatedStorage'] as int?,
       availabilityZone: json['availabilityZone'] as String?,
+      dbBackupConfigurations: (json['dbBackupConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DbBackupConfigurationOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
       dbClusterId: json['dbClusterId'] as String?,
       dbInstanceType:
           (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
@@ -2695,6 +3908,7 @@ class RebootDbInstanceOutput {
           ?.nonNulls
           .map((e) => InstanceMode.fromString((e as String)))
           .toList(),
+      kmsKeyId: json['kmsKeyId'] as String?,
       lastMaintenanceTime: timeStampFromJson(json['lastMaintenanceTime']),
       logDeliveryConfiguration: json['logDeliveryConfiguration'] != null
           ? LogDeliveryConfiguration.fromJson(
@@ -2725,6 +3939,7 @@ class RebootDbInstanceOutput {
     final vpcSubnetIds = this.vpcSubnetIds;
     final allocatedStorage = this.allocatedStorage;
     final availabilityZone = this.availabilityZone;
+    final dbBackupConfigurations = this.dbBackupConfigurations;
     final dbClusterId = this.dbClusterId;
     final dbInstanceType = this.dbInstanceType;
     final dbParameterGroupIdentifier = this.dbParameterGroupIdentifier;
@@ -2734,6 +3949,7 @@ class RebootDbInstanceOutput {
     final influxAuthParametersSecretArn = this.influxAuthParametersSecretArn;
     final instanceMode = this.instanceMode;
     final instanceModes = this.instanceModes;
+    final kmsKeyId = this.kmsKeyId;
     final lastMaintenanceTime = this.lastMaintenanceTime;
     final logDeliveryConfiguration = this.logDeliveryConfiguration;
     final maintenanceSchedule = this.maintenanceSchedule;
@@ -2751,6 +3967,8 @@ class RebootDbInstanceOutput {
       'vpcSubnetIds': vpcSubnetIds,
       if (allocatedStorage != null) 'allocatedStorage': allocatedStorage,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (dbBackupConfigurations != null)
+        'dbBackupConfigurations': dbBackupConfigurations,
       if (dbClusterId != null) 'dbClusterId': dbClusterId,
       if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
       if (dbParameterGroupIdentifier != null)
@@ -2763,6 +3981,7 @@ class RebootDbInstanceOutput {
       if (instanceMode != null) 'instanceMode': instanceMode.value,
       if (instanceModes != null)
         'instanceModes': instanceModes.map((e) => e.value).toList(),
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (lastMaintenanceTime != null)
         'lastMaintenanceTime': iso8601ToJson(lastMaintenanceTime),
       if (logDeliveryConfiguration != null)
@@ -3116,9 +4335,9 @@ class InfluxDBv2Parameters {
   /// Default: 0
   final int? queryInitialMemoryBytes;
 
-  /// Maximum number of queries allowed in execution queue. When queue limit is
-  /// reached, new queries are rejected. Setting to 0 allows an unlimited number
-  /// of queries in the queue.
+  /// Maximum total bytes of memory allowed for all running queries. When this
+  /// limit is reached, new queries are rejected. Setting to 0 allows unlimited
+  /// memory usage.
   ///
   /// Default: 0
   final int? queryMaxMemoryBytes;
@@ -3597,6 +4816,13 @@ class InfluxDBv3CoreParameters {
   /// Default: 20%
   final PercentOrAbsoluteLong? parquetMemCacheSize;
 
+  /// The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your
+  /// repository access token.
+  final String? pluginRepositorySecretArn;
+
+  /// Specifies the URL of the repository that InfluxDB downloads plugins from.
+  final String? pluginRepositoryUrl;
+
   /// Specifies the interval to prefetch into the Parquet cache during compaction.
   ///
   /// Default: 3d
@@ -3689,6 +4915,8 @@ class InfluxDBv3CoreParameters {
     this.parquetMemCachePrunePercentage,
     this.parquetMemCacheQueryPathDuration,
     this.parquetMemCacheSize,
+    this.pluginRepositorySecretArn,
+    this.pluginRepositoryUrl,
     this.preemptiveCacheAge,
     this.queryFileLimit,
     this.queryLogSize,
@@ -3778,6 +5006,8 @@ class InfluxDBv3CoreParameters {
           ? PercentOrAbsoluteLong.fromJson(
               json['parquetMemCacheSize'] as Map<String, dynamic>)
           : null,
+      pluginRepositorySecretArn: json['pluginRepositorySecretArn'] as String?,
+      pluginRepositoryUrl: json['pluginRepositoryUrl'] as String?,
       preemptiveCacheAge: json['preemptiveCacheAge'] != null
           ? Duration.fromJson(
               json['preemptiveCacheAge'] as Map<String, dynamic>)
@@ -3836,6 +5066,8 @@ class InfluxDBv3CoreParameters {
     final parquetMemCacheQueryPathDuration =
         this.parquetMemCacheQueryPathDuration;
     final parquetMemCacheSize = this.parquetMemCacheSize;
+    final pluginRepositorySecretArn = this.pluginRepositorySecretArn;
+    final pluginRepositoryUrl = this.pluginRepositoryUrl;
     final preemptiveCacheAge = this.preemptiveCacheAge;
     final queryFileLimit = this.queryFileLimit;
     final queryLogSize = this.queryLogSize;
@@ -3902,6 +5134,10 @@ class InfluxDBv3CoreParameters {
         'parquetMemCacheQueryPathDuration': parquetMemCacheQueryPathDuration,
       if (parquetMemCacheSize != null)
         'parquetMemCacheSize': parquetMemCacheSize,
+      if (pluginRepositorySecretArn != null)
+        'pluginRepositorySecretArn': pluginRepositorySecretArn,
+      if (pluginRepositoryUrl != null)
+        'pluginRepositoryUrl': pluginRepositoryUrl,
       if (preemptiveCacheAge != null) 'preemptiveCacheAge': preemptiveCacheAge,
       if (queryFileLimit != null) 'queryFileLimit': queryFileLimit,
       if (queryLogSize != null) 'queryLogSize': queryLogSize,
@@ -4130,6 +5366,13 @@ class InfluxDBv3EnterpriseParameters {
   /// Default: 20%
   final PercentOrAbsoluteLong? parquetMemCacheSize;
 
+  /// The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your
+  /// repository access token.
+  final String? pluginRepositorySecretArn;
+
+  /// Specifies the URL of the repository that InfluxDB downloads plugins from.
+  final String? pluginRepositoryUrl;
+
   /// Specifies the interval to prefetch into the Parquet cache during compaction.
   ///
   /// Default: 3d
@@ -4240,6 +5483,8 @@ class InfluxDBv3EnterpriseParameters {
     this.parquetMemCachePrunePercentage,
     this.parquetMemCacheQueryPathDuration,
     this.parquetMemCacheSize,
+    this.pluginRepositorySecretArn,
+    this.pluginRepositoryUrl,
     this.preemptiveCacheAge,
     this.queryFileLimit,
     this.queryLogSize,
@@ -4357,6 +5602,8 @@ class InfluxDBv3EnterpriseParameters {
           ? PercentOrAbsoluteLong.fromJson(
               json['parquetMemCacheSize'] as Map<String, dynamic>)
           : null,
+      pluginRepositorySecretArn: json['pluginRepositorySecretArn'] as String?,
+      pluginRepositoryUrl: json['pluginRepositoryUrl'] as String?,
       preemptiveCacheAge: json['preemptiveCacheAge'] != null
           ? Duration.fromJson(
               json['preemptiveCacheAge'] as Map<String, dynamic>)
@@ -4433,6 +5680,8 @@ class InfluxDBv3EnterpriseParameters {
     final parquetMemCacheQueryPathDuration =
         this.parquetMemCacheQueryPathDuration;
     final parquetMemCacheSize = this.parquetMemCacheSize;
+    final pluginRepositorySecretArn = this.pluginRepositorySecretArn;
+    final pluginRepositoryUrl = this.pluginRepositoryUrl;
     final preemptiveCacheAge = this.preemptiveCacheAge;
     final queryFileLimit = this.queryFileLimit;
     final queryLogSize = this.queryLogSize;
@@ -4521,6 +5770,10 @@ class InfluxDBv3EnterpriseParameters {
         'parquetMemCacheQueryPathDuration': parquetMemCacheQueryPathDuration,
       if (parquetMemCacheSize != null)
         'parquetMemCacheSize': parquetMemCacheSize,
+      if (pluginRepositorySecretArn != null)
+        'pluginRepositorySecretArn': pluginRepositorySecretArn,
+      if (pluginRepositoryUrl != null)
+        'pluginRepositoryUrl': pluginRepositoryUrl,
       if (preemptiveCacheAge != null) 'preemptiveCacheAge': preemptiveCacheAge,
       if (queryFileLimit != null) 'queryFileLimit': queryFileLimit,
       if (queryLogSize != null) 'queryLogSize': queryLogSize,
@@ -4750,6 +6003,8 @@ class Status {
   static const maintenance = Status._('MAINTENANCE');
   static const rebooting = Status._('REBOOTING');
   static const rebootFailed = Status._('REBOOT_FAILED');
+  static const restoring = Status._('RESTORING');
+  static const restoreFailed = Status._('RESTORE_FAILED');
 
   final String value;
 
@@ -4767,7 +6022,9 @@ class Status {
     updatingInstanceType,
     maintenance,
     rebooting,
-    rebootFailed
+    rebootFailed,
+    restoring,
+    restoreFailed
   ];
 
   static Status fromString(String value) =>
@@ -5007,6 +6264,98 @@ class MaintenanceSchedule {
   }
 }
 
+/// Contains the configuration and status for an automated backup schedule.
+///
+/// @nodoc
+class DbBackupConfigurationOutput {
+  /// Indicates whether this backup configuration is enabled.
+  final bool enabled;
+
+  /// The number of days automated backups are retained.
+  final int retentionDays;
+
+  /// The type of automated backup schedule.
+  final AutomatedDbBackupType type;
+
+  /// The custom cron schedule expression for the backup, if applicable.
+  final String? customSchedule;
+
+  /// The next scheduled time for an automated backup to be taken.
+  final DateTime? nextAutomatedBackupTime;
+
+  DbBackupConfigurationOutput({
+    required this.enabled,
+    required this.retentionDays,
+    required this.type,
+    this.customSchedule,
+    this.nextAutomatedBackupTime,
+  });
+
+  factory DbBackupConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return DbBackupConfigurationOutput(
+      enabled: (json['enabled'] as bool?) ?? false,
+      retentionDays: (json['retentionDays'] as int?) ?? 0,
+      type: AutomatedDbBackupType.fromString((json['type'] as String?) ?? ''),
+      customSchedule: json['customSchedule'] as String?,
+      nextAutomatedBackupTime:
+          timeStampFromJson(json['nextAutomatedBackupTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final retentionDays = this.retentionDays;
+    final type = this.type;
+    final customSchedule = this.customSchedule;
+    final nextAutomatedBackupTime = this.nextAutomatedBackupTime;
+    return {
+      'enabled': enabled,
+      'retentionDays': retentionDays,
+      'type': type.value,
+      if (customSchedule != null) 'customSchedule': customSchedule,
+      if (nextAutomatedBackupTime != null)
+        'nextAutomatedBackupTime': iso8601ToJson(nextAutomatedBackupTime),
+    };
+  }
+}
+
+/// @nodoc
+class AutomatedDbBackupType {
+  static const hourly = AutomatedDbBackupType._('HOURLY');
+  static const daily = AutomatedDbBackupType._('DAILY');
+  static const weekly = AutomatedDbBackupType._('WEEKLY');
+  static const monthly = AutomatedDbBackupType._('MONTHLY');
+  static const customSchedule = AutomatedDbBackupType._('CUSTOM_SCHEDULE');
+  static const continuous = AutomatedDbBackupType._('CONTINUOUS');
+
+  final String value;
+
+  const AutomatedDbBackupType._(this.value);
+
+  static const values = [
+    hourly,
+    daily,
+    weekly,
+    monthly,
+    customSchedule,
+    continuous
+  ];
+
+  static AutomatedDbBackupType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutomatedDbBackupType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomatedDbBackupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Configuration for S3 bucket log delivery.
 ///
 /// @nodoc
@@ -5141,6 +6490,45 @@ class DbInstanceSummary {
   }
 }
 
+/// Specifies the configuration for an automated backup schedule.
+///
+/// @nodoc
+class DbBackupConfiguration {
+  /// Specifies whether this backup configuration is enabled.
+  final bool enabled;
+
+  /// The number of days to retain automated backups. Valid values are 1 to 365.
+  final int retentionDays;
+
+  /// The type of automated backup schedule. Valid values are HOURLY, DAILY,
+  /// WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINUOUS.
+  final AutomatedDbBackupType type;
+
+  /// A custom cron schedule expression for the backup. Required when type is
+  /// CUSTOM_SCHEDULE.
+  final String? customSchedule;
+
+  DbBackupConfiguration({
+    required this.enabled,
+    required this.retentionDays,
+    required this.type,
+    this.customSchedule,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final retentionDays = this.retentionDays;
+    final type = this.type;
+    final customSchedule = this.customSchedule;
+    return {
+      'enabled': enabled,
+      'retentionDays': retentionDays,
+      'type': type.value,
+      if (customSchedule != null) 'customSchedule': customSchedule,
+    };
+  }
+}
+
 /// @nodoc
 class ClusterStatus {
   static const creating = ClusterStatus._('CREATING');
@@ -5154,6 +6542,8 @@ class ClusterStatus {
   static const rebooting = ClusterStatus._('REBOOTING');
   static const rebootFailed = ClusterStatus._('REBOOT_FAILED');
   static const partiallyAvailable = ClusterStatus._('PARTIALLY_AVAILABLE');
+  static const restoring = ClusterStatus._('RESTORING');
+  static const restoreFailed = ClusterStatus._('RESTORE_FAILED');
 
   final String value;
 
@@ -5170,7 +6560,9 @@ class ClusterStatus {
     updatingInstanceType,
     rebooting,
     rebootFailed,
-    partiallyAvailable
+    partiallyAvailable,
+    restoring,
+    restoreFailed
   ];
 
   static ClusterStatus fromString(String value) =>
@@ -5538,6 +6930,271 @@ class ClusterConfiguration {
       if (queryOnlyInstances != null) 'queryOnlyInstances': queryOnlyInstances,
     };
   }
+}
+
+/// @nodoc
+class RestoreStatus {
+  static const restoring = RestoreStatus._('RESTORING');
+
+  final String value;
+
+  const RestoreStatus._(this.value);
+
+  static const values = [restoring];
+
+  static RestoreStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RestoreStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RestoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ResourceType {
+  static const dbInstance = ResourceType._('DB_INSTANCE');
+  static const dbCluster = ResourceType._('DB_CLUSTER');
+
+  final String value;
+
+  const ResourceType._(this.value);
+
+  static const values = [dbInstance, dbCluster];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class ResourceDeploymentType {
+  static const singleAz = ResourceDeploymentType._('SINGLE_AZ');
+  static const withMultiazStandby =
+      ResourceDeploymentType._('WITH_MULTIAZ_STANDBY');
+  static const multiNodeReadReplicas =
+      ResourceDeploymentType._('MULTI_NODE_READ_REPLICAS');
+
+  final String value;
+
+  const ResourceDeploymentType._(this.value);
+
+  static const values = [singleAz, withMultiazStandby, multiNodeReadReplicas];
+
+  static ResourceDeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceDeploymentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceDeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class RestoreMode {
+  static const newResource = RestoreMode._('NEW_RESOURCE');
+  static const replaceExisting = RestoreMode._('REPLACE_EXISTING');
+
+  final String value;
+
+  const RestoreMode._(this.value);
+
+  static const values = [newResource, replaceExisting];
+
+  static RestoreMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RestoreMode._(value));
+
+  @override
+  bool operator ==(other) => other is RestoreMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of a Timestream for InfluxDB backup.
+///
+/// @nodoc
+class DbBackupSummary {
+  /// The Amazon Resource Name (ARN) of the backup.
+  final String arn;
+
+  /// Service-generated unique identifier of the backup.
+  final String id;
+
+  /// The time when the backup was created.
+  final DateTime? createdAt;
+
+  /// The identifier of the DB resource that the backup was created from.
+  final String? dbResourceId;
+
+  /// The deployment type of the resource that the backup was created from.
+  final ResourceDeploymentType? deploymentType;
+
+  /// The engine type of the resource that the backup was created from.
+  final EngineType? engineType;
+
+  /// The date after which the backup will be automatically deleted.
+  final String? expiresAfter;
+
+  /// The Amazon Web Services KMS key ARN used for encryption of the resource at
+  /// the time of backup.
+  final String? kmsKeyId;
+
+  /// The customer-provided name of the backup.
+  final String? name;
+
+  /// The status of the backup. Valid values are IN_PROGRESS, COMPLETED, FAILED,
+  /// DELETING, and DELETED.
+  final DbBackupStatus? status;
+
+  /// The type of backup. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY,
+  /// CUSTOM_SCHEDULE, ON_DEMAND, and CONTINUOUS.
+  final DbBackupType? type;
+
+  DbBackupSummary({
+    required this.arn,
+    required this.id,
+    this.createdAt,
+    this.dbResourceId,
+    this.deploymentType,
+    this.engineType,
+    this.expiresAfter,
+    this.kmsKeyId,
+    this.name,
+    this.status,
+    this.type,
+  });
+
+  factory DbBackupSummary.fromJson(Map<String, dynamic> json) {
+    return DbBackupSummary(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      createdAt: timeStampFromJson(json['createdAt']),
+      dbResourceId: json['dbResourceId'] as String?,
+      deploymentType: (json['deploymentType'] as String?)
+          ?.let(ResourceDeploymentType.fromString),
+      engineType: (json['engineType'] as String?)?.let(EngineType.fromString),
+      expiresAfter: json['expiresAfter'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(DbBackupStatus.fromString),
+      type: (json['type'] as String?)?.let(DbBackupType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final createdAt = this.createdAt;
+    final dbResourceId = this.dbResourceId;
+    final deploymentType = this.deploymentType;
+    final engineType = this.engineType;
+    final expiresAfter = this.expiresAfter;
+    final kmsKeyId = this.kmsKeyId;
+    final name = this.name;
+    final status = this.status;
+    final type = this.type;
+    return {
+      'arn': arn,
+      'id': id,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (dbResourceId != null) 'dbResourceId': dbResourceId,
+      if (deploymentType != null) 'deploymentType': deploymentType.value,
+      if (engineType != null) 'engineType': engineType.value,
+      if (expiresAfter != null) 'expiresAfter': expiresAfter,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// @nodoc
+class DbBackupStatus {
+  static const inProgress = DbBackupStatus._('IN_PROGRESS');
+  static const completed = DbBackupStatus._('COMPLETED');
+  static const failed = DbBackupStatus._('FAILED');
+  static const deleting = DbBackupStatus._('DELETING');
+  static const deleted = DbBackupStatus._('DELETED');
+
+  final String value;
+
+  const DbBackupStatus._(this.value);
+
+  static const values = [inProgress, completed, failed, deleting, deleted];
+
+  static DbBackupStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DbBackupStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DbBackupStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DbBackupType {
+  static const hourly = DbBackupType._('HOURLY');
+  static const daily = DbBackupType._('DAILY');
+  static const weekly = DbBackupType._('WEEKLY');
+  static const monthly = DbBackupType._('MONTHLY');
+  static const customSchedule = DbBackupType._('CUSTOM_SCHEDULE');
+  static const onDemand = DbBackupType._('ON_DEMAND');
+  static const continuous = DbBackupType._('CONTINUOUS');
+
+  final String value;
+
+  const DbBackupType._(this.value);
+
+  static const values = [
+    hourly,
+    daily,
+    weekly,
+    monthly,
+    customSchedule,
+    onDemand,
+    continuous
+  ];
+
+  static DbBackupType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DbBackupType._(value));
+
+  @override
+  bool operator ==(other) => other is DbBackupType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// @nodoc

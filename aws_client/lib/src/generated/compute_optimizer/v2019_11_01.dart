@@ -4493,6 +4493,15 @@ class RecommendationSourceType {
   static const auroraDBClusterStorage =
       RecommendationSourceType._('AuroraDBClusterStorage');
   static const natGateway = RecommendationSourceType._('NatGateway');
+  static const dynamoDBTable = RecommendationSourceType._('DynamoDBTable');
+  static const elastiCacheCluster =
+      RecommendationSourceType._('ElastiCacheCluster');
+  static const memoryDBCluster = RecommendationSourceType._('MemoryDBCluster');
+  static const documentDBCluster =
+      RecommendationSourceType._('DocumentDBCluster');
+  static const workSpaces = RecommendationSourceType._('WorkSpaces');
+  static const sageMakerEndpoint =
+      RecommendationSourceType._('SageMakerEndpoint');
 
   final String value;
 
@@ -4508,7 +4517,13 @@ class RecommendationSourceType {
     rdsDBInstance,
     rdsDBInstanceStorage,
     auroraDBClusterStorage,
-    natGateway
+    natGateway,
+    dynamoDBTable,
+    elastiCacheCluster,
+    memoryDBCluster,
+    documentDBCluster,
+    workSpaces,
+    sageMakerEndpoint
   ];
 
   static RecommendationSourceType fromString(String value) =>
@@ -8306,6 +8321,17 @@ class IdleRecommendationResourceType {
   static const rDSDBInstance =
       IdleRecommendationResourceType._('RDSDBInstance');
   static const natGateway = IdleRecommendationResourceType._('NatGateway');
+  static const dynamoDBTable =
+      IdleRecommendationResourceType._('DynamoDBTable');
+  static const elastiCacheCluster =
+      IdleRecommendationResourceType._('ElastiCacheCluster');
+  static const memoryDBCluster =
+      IdleRecommendationResourceType._('MemoryDBCluster');
+  static const documentDBCluster =
+      IdleRecommendationResourceType._('DocumentDBCluster');
+  static const workSpaces = IdleRecommendationResourceType._('WorkSpaces');
+  static const sageMakerEndpoint =
+      IdleRecommendationResourceType._('SageMakerEndpoint');
 
   final String value;
 
@@ -8317,7 +8343,13 @@ class IdleRecommendationResourceType {
     eBSVolume,
     eCSService,
     rDSDBInstance,
-    natGateway
+    natGateway,
+    dynamoDBTable,
+    elastiCacheCluster,
+    memoryDBCluster,
+    documentDBCluster,
+    workSpaces,
+    sageMakerEndpoint
   ];
 
   static IdleRecommendationResourceType fromString(String value) =>
@@ -8550,6 +8582,9 @@ class IdleSavingsOpportunityAfterDiscounts {
 ///
 /// @nodoc
 class IdleUtilizationMetric {
+  /// The dimensions of the utilization metric.
+  final List<IdleDimension>? dimensions;
+
   /// The name of the utilization metric.
   final IdleMetricName? name;
 
@@ -8575,6 +8610,7 @@ class IdleUtilizationMetric {
   final double? value;
 
   IdleUtilizationMetric({
+    this.dimensions,
     this.name,
     this.statistic,
     this.value,
@@ -8582,6 +8618,10 @@ class IdleUtilizationMetric {
 
   factory IdleUtilizationMetric.fromJson(Map<String, dynamic> json) {
     return IdleUtilizationMetric(
+      dimensions: (json['dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => IdleDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
       name: (json['name'] as String?)?.let(IdleMetricName.fromString),
       statistic:
           (json['statistic'] as String?)?.let(MetricStatistic.fromString),
@@ -8590,10 +8630,12 @@ class IdleUtilizationMetric {
   }
 
   Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
     final name = this.name;
     final statistic = this.statistic;
     final value = this.value;
     return {
+      if (dimensions != null) 'dimensions': dimensions,
       if (name != null) 'name': name.value,
       if (statistic != null) 'statistic': statistic.value,
       if (value != null) 'value': _s.encodeJsonDouble(value),
@@ -8621,6 +8663,26 @@ class IdleMetricName {
   static const packetsInFromSource = IdleMetricName._('PacketsInFromSource');
   static const packetsInFromDestination =
       IdleMetricName._('PacketsInFromDestination');
+  static const consumedReadCapacityUnits =
+      IdleMetricName._('ConsumedReadCapacityUnits');
+  static const consumedWriteCapacityUnits =
+      IdleMetricName._('ConsumedWriteCapacityUnits');
+  static const consumedChangeDataCaptureUnits =
+      IdleMetricName._('ConsumedChangeDataCaptureUnits');
+  static const newConnections = IdleMetricName._('NewConnections');
+  static const engineCPUUtilization = IdleMetricName._('EngineCPUUtilization');
+  static const cacheHits = IdleMetricName._('CacheHits');
+  static const cacheMisses = IdleMetricName._('CacheMisses');
+  static const keyspaceHits = IdleMetricName._('KeyspaceHits');
+  static const keyspaceMisses = IdleMetricName._('KeyspaceMisses');
+  static const isIdle = IdleMetricName._('IsIdle');
+  static const userConnected = IdleMetricName._('UserConnected');
+  static const invocations = IdleMetricName._('Invocations');
+  static const getTypeCmds = IdleMetricName._('GetTypeCmds');
+  static const setTypeCmds = IdleMetricName._('SetTypeCmds');
+  static const elastiCacheProcessingUnits =
+      IdleMetricName._('ElastiCacheProcessingUnits');
+  static const currConnections = IdleMetricName._('CurrConnections');
 
   final String value;
 
@@ -8638,7 +8700,23 @@ class IdleMetricName {
     volumeWriteOpsPerSecond,
     activeConnectionCount,
     packetsInFromSource,
-    packetsInFromDestination
+    packetsInFromDestination,
+    consumedReadCapacityUnits,
+    consumedWriteCapacityUnits,
+    consumedChangeDataCaptureUnits,
+    newConnections,
+    engineCPUUtilization,
+    cacheHits,
+    cacheMisses,
+    keyspaceHits,
+    keyspaceMisses,
+    isIdle,
+    userConnected,
+    invocations,
+    getTypeCmds,
+    setTypeCmds,
+    elastiCacheProcessingUnits,
+    currConnections
   ];
 
   static IdleMetricName fromString(String value) =>
@@ -8653,6 +8731,39 @@ class IdleMetricName {
 
   @override
   String toString() => value;
+}
+
+/// Describes the dimension of an idle resource utilization metric.
+///
+/// @nodoc
+class IdleDimension {
+  /// The name of the dimension key.
+  final String? key;
+
+  /// The value of the dimension.
+  final List<String>? values;
+
+  IdleDimension({
+    this.key,
+    this.values,
+  });
+
+  factory IdleDimension.fromJson(Map<String, dynamic> json) {
+    return IdleDimension(
+      key: json['key'] as String?,
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'key': key,
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 /// Describes the estimated monthly savings possible for idle resources by
@@ -12715,6 +12826,22 @@ class EBSUtilizationMetric {
   ///
   /// Unit: Bytes
   /// </li>
+  /// <li>
+  /// <code>VolumeIOPSExceeded</code> - Indicates whether the volume's provisioned
+  /// IOPS performance was exceeded in a specified period of time. A value of
+  /// <code>1</code> means the provisioned IOPS were exceeded; a value of
+  /// <code>0</code> means they were not.
+  ///
+  /// Unit: None
+  /// </li>
+  /// <li>
+  /// <code>VolumeThroughputExceeded</code> - Indicates whether the volume's
+  /// provisioned throughput performance was exceeded in a specified period of
+  /// time. A value of <code>1</code> means the provisioned throughput was
+  /// exceeded; a value of <code>0</code> means it was not.
+  ///
+  /// Unit: None
+  /// </li>
   /// </ul>
   final EBSMetricName? name;
 
@@ -12776,6 +12903,9 @@ class EBSMetricName {
       EBSMetricName._('VolumeReadBytesPerSecond');
   static const volumeWriteBytesPerSecond =
       EBSMetricName._('VolumeWriteBytesPerSecond');
+  static const volumeIOPSExceeded = EBSMetricName._('VolumeIOPSExceeded');
+  static const volumeThroughputExceeded =
+      EBSMetricName._('VolumeThroughputExceeded');
 
   final String value;
 
@@ -12785,7 +12915,9 @@ class EBSMetricName {
     volumeReadOpsPerSecond,
     volumeWriteOpsPerSecond,
     volumeReadBytesPerSecond,
-    volumeWriteBytesPerSecond
+    volumeWriteBytesPerSecond,
+    volumeIOPSExceeded,
+    volumeThroughputExceeded
   ];
 
   static EBSMetricName fromString(String value) =>
@@ -14112,6 +14244,38 @@ class ExportableIdleField {
   static const utilizationMetricsPacketsInFromDestinationMaximum =
       ExportableIdleField._(
           'UtilizationMetricsPacketsInFromDestinationMaximum');
+  static const utilizationMetricsConsumedReadCapacityUnitsSum =
+      ExportableIdleField._('UtilizationMetricsConsumedReadCapacityUnitsSum');
+  static const utilizationMetricsConsumedWriteCapacityUnitsSum =
+      ExportableIdleField._('UtilizationMetricsConsumedWriteCapacityUnitsSum');
+  static const utilizationMetricsNewConnectionsSum =
+      ExportableIdleField._('UtilizationMetricsNewConnectionsSum');
+  static const utilizationMetricsEngineCPUUtilizationMaximum =
+      ExportableIdleField._('UtilizationMetricsEngineCPUUtilizationMaximum');
+  static const utilizationMetricsCacheHitsSum =
+      ExportableIdleField._('UtilizationMetricsCacheHitsSum');
+  static const utilizationMetricsCacheMissesSum =
+      ExportableIdleField._('UtilizationMetricsCacheMissesSum');
+  static const utilizationMetricsKeyspaceHitsSum =
+      ExportableIdleField._('UtilizationMetricsKeyspaceHitsSum');
+  static const utilizationMetricsKeyspaceMissesSum =
+      ExportableIdleField._('UtilizationMetricsKeyspaceMissesSum');
+  static const utilizationMetricsIsIdleMinimum =
+      ExportableIdleField._('UtilizationMetricsIsIdleMinimum');
+  static const utilizationMetricsUserConnectedSum =
+      ExportableIdleField._('UtilizationMetricsUserConnectedSum');
+  static const utilizationMetricsInvocationsSum =
+      ExportableIdleField._('UtilizationMetricsInvocationsSum');
+  static const utilizationMetricsGetTypeCmdsSum =
+      ExportableIdleField._('UtilizationMetricsGetTypeCmdsSum');
+  static const utilizationMetricsSetTypeCmdsSum =
+      ExportableIdleField._('UtilizationMetricsSetTypeCmdsSum');
+  static const utilizationMetricsElastiCacheProcessingUnitsSum =
+      ExportableIdleField._('UtilizationMetricsElastiCacheProcessingUnitsSum');
+  static const utilizationMetricsCurrConnectionsSum =
+      ExportableIdleField._('UtilizationMetricsCurrConnectionsSum');
+  static const utilizationMetricsDatabaseConnectionsSum =
+      ExportableIdleField._('UtilizationMetricsDatabaseConnectionsSum');
   static const finding = ExportableIdleField._('Finding');
   static const findingDescription = ExportableIdleField._('FindingDescription');
   static const tags = ExportableIdleField._('Tags');
@@ -14141,6 +14305,22 @@ class ExportableIdleField {
     utilizationMetricsActiveConnectionCountMaximum,
     utilizationMetricsPacketsInFromSourceMaximum,
     utilizationMetricsPacketsInFromDestinationMaximum,
+    utilizationMetricsConsumedReadCapacityUnitsSum,
+    utilizationMetricsConsumedWriteCapacityUnitsSum,
+    utilizationMetricsNewConnectionsSum,
+    utilizationMetricsEngineCPUUtilizationMaximum,
+    utilizationMetricsCacheHitsSum,
+    utilizationMetricsCacheMissesSum,
+    utilizationMetricsKeyspaceHitsSum,
+    utilizationMetricsKeyspaceMissesSum,
+    utilizationMetricsIsIdleMinimum,
+    utilizationMetricsUserConnectedSum,
+    utilizationMetricsInvocationsSum,
+    utilizationMetricsGetTypeCmdsSum,
+    utilizationMetricsSetTypeCmdsSum,
+    utilizationMetricsElastiCacheProcessingUnitsSum,
+    utilizationMetricsCurrConnectionsSum,
+    utilizationMetricsDatabaseConnectionsSum,
     finding,
     findingDescription,
     tags
@@ -14559,6 +14739,11 @@ class ExportableVolumeField {
   static const utilizationMetricsVolumeWriteBytesPerSecondMaximum =
       ExportableVolumeField._(
           'UtilizationMetricsVolumeWriteBytesPerSecondMaximum');
+  static const utilizationMetricsVolumeIOPSExceededMaximum =
+      ExportableVolumeField._('UtilizationMetricsVolumeIOPSExceededMaximum');
+  static const utilizationMetricsVolumeThroughputExceededMaximum =
+      ExportableVolumeField._(
+          'UtilizationMetricsVolumeThroughputExceededMaximum');
   static const lookbackPeriodInDays =
       ExportableVolumeField._('LookbackPeriodInDays');
   static const currentConfigurationVolumeType =
@@ -14640,6 +14825,8 @@ class ExportableVolumeField {
     utilizationMetricsVolumeWriteOpsPerSecondMaximum,
     utilizationMetricsVolumeReadBytesPerSecondMaximum,
     utilizationMetricsVolumeWriteBytesPerSecondMaximum,
+    utilizationMetricsVolumeIOPSExceededMaximum,
+    utilizationMetricsVolumeThroughputExceededMaximum,
     lookbackPeriodInDays,
     currentConfigurationVolumeType,
     currentConfigurationVolumeBaselineIOPS,

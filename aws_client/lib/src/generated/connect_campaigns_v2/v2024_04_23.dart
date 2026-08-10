@@ -2530,20 +2530,30 @@ class ProgressiveConfig {
 class PredictiveConfig {
   final double bandwidthAllocation;
 
+  /// Pacing strategies the dialer enforces simultaneously.
+  final List<PacingStrategy>? pacingStrategies;
+
   PredictiveConfig({
     required this.bandwidthAllocation,
+    this.pacingStrategies,
   });
 
   factory PredictiveConfig.fromJson(Map<String, dynamic> json) {
     return PredictiveConfig(
       bandwidthAllocation: _s.parseJsonDouble(json['bandwidthAllocation']) ?? 0,
+      pacingStrategies: (json['pacingStrategies'] as List?)
+          ?.nonNulls
+          .map((e) => PacingStrategy.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final bandwidthAllocation = this.bandwidthAllocation;
+    final pacingStrategies = this.pacingStrategies;
     return {
       'bandwidthAllocation': _s.encodeJsonDouble(bandwidthAllocation),
+      if (pacingStrategies != null) 'pacingStrategies': pacingStrategies,
     };
   }
 }
@@ -2629,6 +2639,109 @@ class AgentAction {
 
   @override
   bool operator ==(other) => other is AgentAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Pacing constraint the dialer may enforce.
+///
+/// @nodoc
+class PacingStrategy {
+  final AbandonmentRatePacingConfig? abandonmentRate;
+
+  PacingStrategy({
+    this.abandonmentRate,
+  });
+
+  factory PacingStrategy.fromJson(Map<String, dynamic> json) {
+    return PacingStrategy(
+      abandonmentRate: json['abandonmentRate'] != null
+          ? AbandonmentRatePacingConfig.fromJson(
+              json['abandonmentRate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abandonmentRate = this.abandonmentRate;
+    return {
+      if (abandonmentRate != null) 'abandonmentRate': abandonmentRate,
+    };
+  }
+}
+
+/// Configuration for abandonment-rate-based dialer throttling.
+///
+/// @nodoc
+class AbandonmentRatePacingConfig {
+  /// Event from which connectionThresholdSeconds is measured.
+  final ConnectionStartPoint connectionStartPoint;
+
+  /// Seconds after connectionStartPoint before a contact counts as abandoned.
+  final int connectionThresholdSeconds;
+
+  /// Rolling window over which abandonmentRate is computed.
+  final String evaluationWindow;
+  final double targetRate;
+
+  AbandonmentRatePacingConfig({
+    required this.connectionStartPoint,
+    required this.connectionThresholdSeconds,
+    required this.evaluationWindow,
+    required this.targetRate,
+  });
+
+  factory AbandonmentRatePacingConfig.fromJson(Map<String, dynamic> json) {
+    return AbandonmentRatePacingConfig(
+      connectionStartPoint: ConnectionStartPoint.fromString(
+          (json['connectionStartPoint'] as String?) ?? ''),
+      connectionThresholdSeconds:
+          (json['connectionThresholdSeconds'] as int?) ?? 0,
+      evaluationWindow: (json['evaluationWindow'] as String?) ?? '',
+      targetRate: _s.parseJsonDouble(json['targetRate']) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionStartPoint = this.connectionStartPoint;
+    final connectionThresholdSeconds = this.connectionThresholdSeconds;
+    final evaluationWindow = this.evaluationWindow;
+    final targetRate = this.targetRate;
+    return {
+      'connectionStartPoint': connectionStartPoint.value,
+      'connectionThresholdSeconds': connectionThresholdSeconds,
+      'evaluationWindow': evaluationWindow,
+      'targetRate': _s.encodeJsonDouble(targetRate),
+    };
+  }
+}
+
+/// Reference point against which the connection threshold is measured.
+///
+/// @nodoc
+class ConnectionStartPoint {
+  static const connectedToSystem =
+      ConnectionStartPoint._('CONNECTED_TO_SYSTEM');
+  static const greetingStart = ConnectionStartPoint._('GREETING_START');
+  static const greetingEnd = ConnectionStartPoint._('GREETING_END');
+
+  final String value;
+
+  const ConnectionStartPoint._(this.value);
+
+  static const values = [connectedToSystem, greetingStart, greetingEnd];
+
+  static ConnectionStartPoint fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionStartPoint._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectionStartPoint && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2923,23 +3036,91 @@ class SuccessfulProfileOutboundRequest {
 class ProfileOutboundRequest {
   final String clientToken;
   final String profileId;
+  final EventTriggerContext? eventTriggerContext;
   final DateTime? expirationTime;
 
   ProfileOutboundRequest({
     required this.clientToken,
     required this.profileId,
+    this.eventTriggerContext,
     this.expirationTime,
   });
 
   Map<String, dynamic> toJson() {
     final clientToken = this.clientToken;
     final profileId = this.profileId;
+    final eventTriggerContext = this.eventTriggerContext;
     final expirationTime = this.expirationTime;
     return {
       'clientToken': clientToken,
       'profileId': profileId,
+      if (eventTriggerContext != null)
+        'eventTriggerContext': eventTriggerContext,
       if (expirationTime != null)
         'expirationTime': iso8601ToJson(expirationTime),
+    };
+  }
+}
+
+/// Event trigger context data
+///
+/// @nodoc
+class EventTriggerContext {
+  final ChannelContext? channelContext;
+  final String? sourceEvent;
+
+  EventTriggerContext({
+    this.channelContext,
+    this.sourceEvent,
+  });
+
+  Map<String, dynamic> toJson() {
+    final channelContext = this.channelContext;
+    final sourceEvent = this.sourceEvent;
+    return {
+      if (channelContext != null) 'channelContext': channelContext,
+      if (sourceEvent != null) 'sourceEvent': sourceEvent,
+    };
+  }
+}
+
+/// Additional metadata related to the event trigger context
+///
+/// @nodoc
+class ChannelContext {
+  final WebNotificationContext? webNotificationContext;
+
+  ChannelContext({
+    this.webNotificationContext,
+  });
+
+  Map<String, dynamic> toJson() {
+    final webNotificationContext = this.webNotificationContext;
+    return {
+      if (webNotificationContext != null)
+        'webNotificationContext': webNotificationContext,
+    };
+  }
+}
+
+/// Context metadata for the web notification type channel
+///
+/// @nodoc
+class WebNotificationContext {
+  final String? browserId;
+  final String? sessionId;
+
+  WebNotificationContext({
+    this.browserId,
+    this.sessionId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final browserId = this.browserId;
+    final sessionId = this.sessionId;
+    return {
+      if (browserId != null) 'browserId': browserId,
+      if (sessionId != null) 'sessionId': sessionId,
     };
   }
 }
@@ -3347,6 +3528,8 @@ class EventType {
   static const campaignTelephony = EventType._('Campaign-Telephony');
   static const campaignOrchestration = EventType._('Campaign-Orchestration');
   static const campaignWhatsApp = EventType._('Campaign-WhatsApp');
+  static const campaignWebNotification =
+      EventType._('Campaign-WebNotification');
 
   final String value;
 
@@ -3357,7 +3540,8 @@ class EventType {
     campaignSms,
     campaignTelephony,
     campaignOrchestration,
-    campaignWhatsApp
+    campaignWhatsApp,
+    campaignWebNotification
   ];
 
   static EventType fromString(String value) => values

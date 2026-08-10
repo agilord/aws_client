@@ -1179,6 +1179,58 @@ class SecurityHub {
     return CreateConfigurationPolicyResponse.fromJson(response);
   }
 
+  /// Creates a connector to a third-party cloud provider in Security Hub CSPM.
+  /// A connector establishes a connection between Security Hub CSPM and a
+  /// third-party cloud provider, enabling Security Hub CSPM to ingest security
+  /// findings and resource data from the connected environment.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidAccessException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the connector. Must be unique within the account.
+  ///
+  /// Parameter [provider] :
+  /// The configuration for the cloud provider to connect to. Currently supports
+  /// Azure.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique identifier used to ensure idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the connector.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the connector resource.
+  Future<CreateConnectorResponse> createConnector({
+    required String name,
+    required CspmProviderConfiguration provider,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'Provider': provider,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connectors',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateConnectorResponse.fromJson(response);
+  }
+
   /// Grants permission to create a connectorV2 based on input parameters.
   ///
   /// May throw [AccessDeniedException].
@@ -1622,6 +1674,33 @@ class SecurityHub {
     );
   }
 
+  /// Deletes a CSPM connector. When you delete a connector, Security Hub CSPM
+  /// stops ingesting findings and resource data from the connected cloud
+  /// provider environment.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidAccessException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorId] :
+  /// The unique identifier of the connector to delete.
+  Future<DeleteConnectorResponse> deleteConnector({
+    required String connectorId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/connectors/${connectorId.split('/').map(Uri.encodeComponent).join('/')}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteConnectorResponse.fromJson(response);
+  }
+
   /// Grants permission to delete a connectorV2.
   ///
   /// May throw [AccessDeniedException].
@@ -1633,7 +1712,7 @@ class SecurityHub {
   ///
   /// Parameter [connectorId] :
   /// The UUID of the connectorV2 to identify connectorV2 resource.
-  Future<void> deleteConnectorV2({
+  Future<DeleteConnectorV2Response> deleteConnectorV2({
     required String connectorId,
   }) async {
     final response = await _protocol.send(
@@ -1643,6 +1722,7 @@ class SecurityHub {
           '/connectorsv2/${connectorId.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
+    return DeleteConnectorV2Response.fromJson(response);
   }
 
   /// <note>
@@ -1991,9 +2071,14 @@ class SecurityHub {
   ///
   /// For subsequent calls to the operation, to continue listing data, set the
   /// value of this parameter to the value returned from the previous response.
+  ///
+  /// Parameter [providers] :
+  /// A list of cloud providers to filter the standards by. For example, specify
+  /// <code>Azure</code> to return only standards that evaluate Azure resources.
   Future<DescribeStandardsResponse> describeStandards({
     int? maxResults,
     String? nextToken,
+    List<StandardsProvider>? providers,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2004,6 +2089,8 @@ class SecurityHub {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
+      if (providers != null)
+        'Providers': providers.map((e) => e.value).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -2155,8 +2242,33 @@ class SecurityHub {
     );
   }
 
+  /// Disables an opt-in feature for the calling account in the current Amazon
+  /// Web Services Region. The operation is idempotent. If the feature is
+  /// already disabled, no changes are made. You cannot disable a feature that
+  /// is managed by an organization policy.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [featureName] :
+  /// The name of the feature to disable.
+  Future<void> disableSecurityHubFeatureV2({
+    required FeatureName featureName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/hubv2/feature/${Uri.encodeComponent(featureName.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Disable the service for the current Amazon Web Services Region or
-  /// specified Amazon Web Services Region.
+  /// specified Amazon Web Services Region. Disabling the service also disables
+  /// all opt-in features that are currently enabled in that Region.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2403,6 +2515,31 @@ class SecurityHub {
     );
   }
 
+  /// Enables an opt-in feature for the calling account in the current Amazon
+  /// Web Services Region. The service must be enabled before you can enable a
+  /// feature. The operation is idempotent. If the feature is already enabled,
+  /// no changes are made. You cannot enable a feature that is managed by an
+  /// organization policy.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [featureName] :
+  /// The name of the feature to enable.
+  Future<void> enableSecurityHubFeatureV2({
+    required FeatureName featureName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/hubv2/feature/${Uri.encodeComponent(featureName.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Enables the service in account for the current Amazon Web Services Region
   /// or specified Amazon Web Services Region.
   ///
@@ -2578,6 +2715,31 @@ class SecurityHub {
     return GetConfigurationPolicyAssociationResponse.fromJson(response);
   }
 
+  /// Retrieves details for a CSPM connector based on the connector ID.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidAccessException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorId] :
+  /// The unique identifier of the connector to retrieve.
+  Future<GetConnectorResponse> getConnector({
+    required String connectorId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/connectors/${connectorId.split('/').map(Uri.encodeComponent).join('/')}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConnectorResponse.fromJson(response);
+  }
+
   /// Grants permission to retrieve details for a connectorV2 based on connector
   /// id.
   ///
@@ -2621,11 +2783,17 @@ class SecurityHub {
   /// For subsequent calls to the operation, to continue listing data, set the
   /// value of this parameter to the value returned from the previous response.
   ///
+  /// Parameter [providers] :
+  /// A list of cloud providers to filter the enabled standards by. For example,
+  /// specify <code>Azure</code> to return only enabled standards that evaluate
+  /// Azure resources.
+  ///
   /// Parameter [standardsSubscriptionArns] :
   /// The list of the standards subscription ARNs for the standards to retrieve.
   Future<GetEnabledStandardsResponse> getEnabledStandards({
     int? maxResults,
     String? nextToken,
+    List<StandardsProvider>? providers,
     List<String>? standardsSubscriptionArns,
   }) async {
     _s.validateNumRange(
@@ -2637,6 +2805,8 @@ class SecurityHub {
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
+      if (providers != null)
+        'Providers': providers.map((e) => e.value).toList(),
       if (standardsSubscriptionArns != null)
         'StandardsSubscriptionArns': standardsSubscriptionArns,
     };
@@ -3282,6 +3452,13 @@ class SecurityHub {
   /// your entire organization or from specific organizational units. Only the
   /// delegated administrator account can use <code>Scopes</code>.
   ///
+  /// If you set <code>GroupByField</code> to <code>ResourceSubCategory</code>,
+  /// <code>ResourceInfo.AIDetails.HostResourceType</code>, or
+  /// <code>ResourceInfo.AIDetails.CanonicalId</code>, you must include a
+  /// <code>ResourceCategory</code> string filter with comparison set to
+  /// <code>EQUALS</code> and value <code>AI/ML</code> in the corresponding
+  /// <code>ResourceGroupByRule</code>.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
@@ -3410,6 +3587,20 @@ class SecurityHub {
   /// <code>Filters</code> independently or together. When both are provided,
   /// <code>Scopes</code> narrows the data set first, and then
   /// <code>Filters</code> refines results within that scoped data set.
+  ///
+  /// For AI/ML resources, the response includes the
+  /// <code>ResourceSubCategory</code> field. For self-hosted AI resources and
+  /// their host resources, the response also includes <code>ResourceInfo</code>
+  /// with AI-specific details. Self-hosted AI resources use a
+  /// <code>ResourceType</code> with the <code>SelfHosted::AI::</code> prefix,
+  /// such as <code>SelfHosted::AI::Model</code>,
+  /// <code>SelfHosted::AI::Agent</code>,
+  /// <code>SelfHosted::AI::InferenceEndpoint</code>, and
+  /// <code>SelfHosted::AI::ExternalEndpoint</code>.
+  ///
+  /// If you filter by <code>ResourceSubCategory</code>, you must also include a
+  /// <code>ResourceCategory</code> string filter with comparison set to
+  /// <code>EQUALS</code> and value <code>AI/ML</code> in the same request.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -3788,6 +3979,61 @@ class SecurityHub {
     return ListConfigurationPolicyAssociationsResponse.fromJson(response);
   }
 
+  /// Lists the CSPM connectors and their metadata for the calling account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidAccessException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorStatus] :
+  /// The connectivity status to filter connectors by.
+  ///
+  /// Parameter [enablementStatus] :
+  /// The enablement status to filter connectors by.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token to request the next page of results.
+  ///
+  /// Parameter [providerName] :
+  /// The name of the cloud provider to filter connectors by.
+  Future<ListConnectorsResponse> listConnectors({
+    CspmConnectorStatus? connectorStatus,
+    CspmEnablementStatus? enablementStatus,
+    int? maxResults,
+    String? nextToken,
+    CspmConnectorProviderName? providerName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (connectorStatus != null) 'ConnectorStatus': [connectorStatus.value],
+      if (enablementStatus != null)
+        'EnablementStatus': [enablementStatus.value],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (providerName != null) 'ProviderName': [providerName.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/connectors',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConnectorsResponse.fromJson(response);
+  }
+
   /// Grants permission to retrieve a list of connectorsV2 and their metadata
   /// for the calling account.
   ///
@@ -3801,6 +4047,9 @@ class SecurityHub {
   /// Parameter [connectorStatus] :
   /// The status for the connectorV2.
   ///
+  /// Parameter [enablementStatus] :
+  /// The enablement status to filter connectors by.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned.
   ///
@@ -3811,6 +4060,7 @@ class SecurityHub {
   /// The name of the third-party provider.
   Future<ListConnectorsV2Response> listConnectorsV2({
     ConnectorStatus? connectorStatus,
+    EnablementStatus? enablementStatus,
     int? maxResults,
     String? nextToken,
     ConnectorProviderName? providerName,
@@ -3823,6 +4073,8 @@ class SecurityHub {
     );
     final $query = <String, List<String>>{
       if (connectorStatus != null) 'ConnectorStatus': [connectorStatus.value],
+      if (enablementStatus != null)
+        'EnablementStatus': [enablementStatus.value],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (providerName != null) 'ProviderName': [providerName.value],
@@ -3918,6 +4170,69 @@ class SecurityHub {
       exceptionFnMap: _exceptionFns,
     );
     return ListFindingAggregatorsResponse.fromJson(response);
+  }
+
+  /// Lists the free trial status of Security Hub features. A delegated Security
+  /// Hub administrator can list the status for accounts in its organization.
+  /// Any other account can list the status only for itself. Free trial status
+  /// remains available after a feature is disabled.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountIds] :
+  /// The Amazon Web Services account identifiers to list free trial status for.
+  /// You can specify accounts other than your own only if you are a delegated
+  /// Security Hub administrator.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return. If you don't specify a value,
+  /// Security Hub returns up to 100 results.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token to request the next page of results.
+  ///
+  /// Parameter [statuses] :
+  /// The free trial statuses to filter the results by. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> returns only features with an ongoing free trial
+  /// period.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code> returns only features whose free trial period has
+  /// ended, or that never started.
+  /// </li>
+  /// </ul>
+  Future<ListFreeTrialStatusesV2Response> listFreeTrialStatusesV2({
+    List<String>? accountIds,
+    int? maxResults,
+    String? nextToken,
+    List<FreeTrialStatusValue>? statuses,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (accountIds != null) 'AccountIds': accountIds,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/freetrial/statusv2/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFreeTrialStatusesV2Response.fromJson(response);
   }
 
   /// <note>
@@ -4097,6 +4412,11 @@ class SecurityHub {
   /// Parameter [nextToken] :
   /// Optional pagination parameter.
   ///
+  /// Parameter [providers] :
+  /// A list of cloud providers to filter the security control definitions by.
+  /// For example, specify <code>Azure</code> to return only controls that
+  /// evaluate Azure resources.
+  ///
   /// Parameter [standardsArn] :
   /// The Amazon Resource Name (ARN) of the standard that you want to view
   /// controls for.
@@ -4104,6 +4424,7 @@ class SecurityHub {
       listSecurityControlDefinitions({
     int? maxResults,
     String? nextToken,
+    List<SecurityControlsProvider>? providers,
     String? standardsArn,
   }) async {
     _s.validateNumRange(
@@ -4115,6 +4436,8 @@ class SecurityHub {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
+      if (providers != null)
+        'Providers': providers.map((e) => e.value).toList(),
       if (standardsArn != null) 'StandardsArn': [standardsArn],
     };
     final response = await _protocol.send(
@@ -4564,6 +4887,44 @@ class SecurityHub {
     return UpdateConfigurationPolicyResponse.fromJson(response);
   }
 
+  /// Updates a CSPM connector's configuration, such as the scope or regions for
+  /// the connected cloud provider.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidAccessException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectorId] :
+  /// The unique identifier of the connector to update.
+  ///
+  /// Parameter [description] :
+  /// The updated description of the connector.
+  ///
+  /// Parameter [provider] :
+  /// The updated cloud provider configuration for the connector.
+  Future<UpdateConnectorResponse> updateConnector({
+    required String connectorId,
+    String? description,
+    CspmProviderUpdateConfiguration? provider,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (provider != null) 'Provider': provider,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/connectors/${connectorId.split('/').map(Uri.encodeComponent).join('/')}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateConnectorResponse.fromJson(response);
+  }
+
   /// Grants permission to update a connectorV2 based on its id and input
   /// parameters.
   ///
@@ -4582,7 +4943,7 @@ class SecurityHub {
   ///
   /// Parameter [provider] :
   /// The third-party provider’s service configuration.
-  Future<void> updateConnectorV2({
+  Future<UpdateConnectorV2Response> updateConnectorV2({
     required String connectorId,
     String? description,
     ProviderUpdateConfiguration? provider,
@@ -4598,6 +4959,7 @@ class SecurityHub {
           '/connectorsv2/${connectorId.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
+    return UpdateConnectorV2Response.fromJson(response);
   }
 
   /// <note>
@@ -5671,6 +6033,52 @@ class CreateConfigurationPolicyResponse {
 }
 
 /// @nodoc
+class CreateConnectorResponse {
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String connectorArn;
+
+  /// The unique identifier of the connector.
+  final String connectorId;
+
+  /// The connectivity status of the connector.
+  final CspmConnectorStatus? connectorStatus;
+
+  /// The enablement status of the connector.
+  final CspmEnablementStatus? enablementStatus;
+
+  CreateConnectorResponse({
+    required this.connectorArn,
+    required this.connectorId,
+    this.connectorStatus,
+    this.enablementStatus,
+  });
+
+  factory CreateConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConnectorResponse(
+      connectorArn: (json['ConnectorArn'] as String?) ?? '',
+      connectorId: (json['ConnectorId'] as String?) ?? '',
+      connectorStatus: (json['ConnectorStatus'] as String?)
+          ?.let(CspmConnectorStatus.fromString),
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(CspmEnablementStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    final connectorId = this.connectorId;
+    final connectorStatus = this.connectorStatus;
+    final enablementStatus = this.enablementStatus;
+    return {
+      'ConnectorArn': connectorArn,
+      'ConnectorId': connectorId,
+      if (connectorStatus != null) 'ConnectorStatus': connectorStatus.value,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+    };
+  }
+}
+
+/// @nodoc
 class CreateConnectorV2Response {
   /// The Amazon Resource Name (ARN) of the connectorV2.
   final String connectorArn;
@@ -5684,11 +6092,15 @@ class CreateConnectorV2Response {
   /// The current status of the connectorV2.
   final ConnectorStatus? connectorStatus;
 
+  /// The enablement status of the connector after creation.
+  final EnablementStatus? enablementStatus;
+
   CreateConnectorV2Response({
     required this.connectorArn,
     required this.connectorId,
     this.authUrl,
     this.connectorStatus,
+    this.enablementStatus,
   });
 
   factory CreateConnectorV2Response.fromJson(Map<String, dynamic> json) {
@@ -5698,6 +6110,8 @@ class CreateConnectorV2Response {
       authUrl: json['AuthUrl'] as String?,
       connectorStatus:
           (json['ConnectorStatus'] as String?)?.let(ConnectorStatus.fromString),
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(EnablementStatus.fromString),
     );
   }
 
@@ -5706,11 +6120,13 @@ class CreateConnectorV2Response {
     final connectorId = this.connectorId;
     final authUrl = this.authUrl;
     final connectorStatus = this.connectorStatus;
+    final enablementStatus = this.enablementStatus;
     return {
       'ConnectorArn': connectorArn,
       'ConnectorId': connectorId,
       if (authUrl != null) 'AuthUrl': authUrl,
       if (connectorStatus != null) 'ConnectorStatus': connectorStatus.value,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
     };
   }
 }
@@ -5937,15 +6353,50 @@ class DeleteConfigurationPolicyResponse {
 }
 
 /// @nodoc
-class DeleteConnectorV2Response {
-  DeleteConnectorV2Response();
+class DeleteConnectorResponse {
+  /// The enablement status of the connector after the delete request.
+  final CspmEnablementStatus? enablementStatus;
 
-  factory DeleteConnectorV2Response.fromJson(Map<String, dynamic> _) {
-    return DeleteConnectorV2Response();
+  DeleteConnectorResponse({
+    this.enablementStatus,
+  });
+
+  factory DeleteConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteConnectorResponse(
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(CspmEnablementStatus.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final enablementStatus = this.enablementStatus;
+    return {
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+    };
+  }
+}
+
+/// @nodoc
+class DeleteConnectorV2Response {
+  /// The enablement status of the connector after deletion.
+  final EnablementStatus? enablementStatus;
+
+  DeleteConnectorV2Response({
+    this.enablementStatus,
+  });
+
+  factory DeleteConnectorV2Response.fromJson(Map<String, dynamic> json) {
+    return DeleteConnectorV2Response(
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(EnablementStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enablementStatus = this.enablementStatus;
+    return {
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+    };
   }
 }
 
@@ -6298,6 +6749,10 @@ class DescribeProductsV2Response {
 
 /// @nodoc
 class DescribeSecurityHubV2Response {
+  /// A map of opt-in features and their current status and metadata for the
+  /// account in the current Region.
+  final Map<String, FeatureDetail>? features;
+
   /// The ARN of the service resource.
   final String? hubV2Arn;
 
@@ -6305,21 +6760,26 @@ class DescribeSecurityHubV2Response {
   final String? subscribedAt;
 
   DescribeSecurityHubV2Response({
+    this.features,
     this.hubV2Arn,
     this.subscribedAt,
   });
 
   factory DescribeSecurityHubV2Response.fromJson(Map<String, dynamic> json) {
     return DescribeSecurityHubV2Response(
+      features: (json['Features'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, FeatureDetail.fromJson(e as Map<String, dynamic>))),
       hubV2Arn: json['HubV2Arn'] as String?,
       subscribedAt: json['SubscribedAt'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final features = this.features;
     final hubV2Arn = this.hubV2Arn;
     final subscribedAt = this.subscribedAt;
     return {
+      if (features != null) 'Features': features,
       if (hubV2Arn != null) 'HubV2Arn': hubV2Arn,
       if (subscribedAt != null) 'SubscribedAt': subscribedAt,
     };
@@ -6427,6 +6887,19 @@ class DisableSecurityHubResponse {
 
   factory DisableSecurityHubResponse.fromJson(Map<String, dynamic> _) {
     return DisableSecurityHubResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DisableSecurityHubFeatureV2Response {
+  DisableSecurityHubFeatureV2Response();
+
+  factory DisableSecurityHubFeatureV2Response.fromJson(Map<String, dynamic> _) {
+    return DisableSecurityHubFeatureV2Response();
   }
 
   Map<String, dynamic> toJson() {
@@ -6553,6 +7026,19 @@ class EnableSecurityHubResponse {
 
   factory EnableSecurityHubResponse.fromJson(Map<String, dynamic> _) {
     return EnableSecurityHubResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class EnableSecurityHubFeatureV2Response {
+  EnableSecurityHubFeatureV2Response();
+
+  factory EnableSecurityHubFeatureV2Response.fromJson(Map<String, dynamic> _) {
+    return EnableSecurityHubFeatureV2Response();
   }
 
   Map<String, dynamic> toJson() {
@@ -6916,6 +7402,98 @@ class GetConfigurationPolicyAssociationResponse {
 }
 
 /// @nodoc
+class GetConnectorResponse {
+  /// The unique identifier of the connector.
+  final String connectorId;
+
+  /// The ISO 8601 UTC timestamp indicating when the connector was created.
+  final DateTime createdAt;
+
+  /// The health status of the connector, including connectivity status and last
+  /// check time.
+  final CspmHealthCheck health;
+
+  /// The ISO 8601 UTC timestamp indicating when the connector was last updated.
+  final DateTime lastUpdatedAt;
+
+  /// The name of the connector.
+  final String name;
+
+  /// The cloud provider configuration details for the connector.
+  final CspmProviderDetail providerDetail;
+
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String? connectorArn;
+
+  /// The service principal that created the connector.
+  final String? createdBy;
+
+  /// The description of the connector.
+  final String? description;
+
+  /// The enablement status of the connector.
+  final CspmEnablementStatus? enablementStatus;
+
+  GetConnectorResponse({
+    required this.connectorId,
+    required this.createdAt,
+    required this.health,
+    required this.lastUpdatedAt,
+    required this.name,
+    required this.providerDetail,
+    this.connectorArn,
+    this.createdBy,
+    this.description,
+    this.enablementStatus,
+  });
+
+  factory GetConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectorResponse(
+      connectorId: (json['ConnectorId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      health: CspmHealthCheck.fromJson(
+          (json['Health'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
+      providerDetail: CspmProviderDetail.fromJson(
+          (json['ProviderDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      connectorArn: json['ConnectorArn'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      description: json['Description'] as String?,
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(CspmEnablementStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorId = this.connectorId;
+    final createdAt = this.createdAt;
+    final health = this.health;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final name = this.name;
+    final providerDetail = this.providerDetail;
+    final connectorArn = this.connectorArn;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final enablementStatus = this.enablementStatus;
+    return {
+      'ConnectorId': connectorId,
+      'CreatedAt': iso8601ToJson(createdAt),
+      'Health': health,
+      'LastUpdatedAt': iso8601ToJson(lastUpdatedAt),
+      'Name': name,
+      'ProviderDetail': providerDetail,
+      if (connectorArn != null) 'ConnectorArn': connectorArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (description != null) 'Description': description,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+    };
+  }
+}
+
+/// @nodoc
 class GetConnectorV2Response {
   /// The UUID of the connectorV2 to identify connectorV2 resource.
   final String connectorId;
@@ -6941,6 +7519,13 @@ class GetConnectorV2Response {
   /// The description of the connectorV2.
   final String? description;
 
+  /// The enablement status of the connector.
+  final EnablementStatus? enablementStatus;
+
+  /// The reason for the current enablement status. Provides additional context
+  /// when the connector is in a failed state.
+  final String? enablementStatusReason;
+
   /// The Amazon Resource Name (ARN) of KMS key used for the connectorV2.
   final String? kmsKeyArn;
 
@@ -6953,6 +7538,8 @@ class GetConnectorV2Response {
     required this.providerDetail,
     this.connectorArn,
     this.description,
+    this.enablementStatus,
+    this.enablementStatusReason,
     this.kmsKeyArn,
   });
 
@@ -6969,6 +7556,9 @@ class GetConnectorV2Response {
               const <String, dynamic>{}),
       connectorArn: json['ConnectorArn'] as String?,
       description: json['Description'] as String?,
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(EnablementStatus.fromString),
+      enablementStatusReason: json['EnablementStatusReason'] as String?,
       kmsKeyArn: json['KmsKeyArn'] as String?,
     );
   }
@@ -6982,6 +7572,8 @@ class GetConnectorV2Response {
     final providerDetail = this.providerDetail;
     final connectorArn = this.connectorArn;
     final description = this.description;
+    final enablementStatus = this.enablementStatus;
+    final enablementStatusReason = this.enablementStatusReason;
     final kmsKeyArn = this.kmsKeyArn;
     return {
       'ConnectorId': connectorId,
@@ -6992,6 +7584,9 @@ class GetConnectorV2Response {
       'ProviderDetail': providerDetail,
       if (connectorArn != null) 'ConnectorArn': connectorArn,
       if (description != null) 'Description': description,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+      if (enablementStatusReason != null)
+        'EnablementStatusReason': enablementStatusReason,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
     };
   }
@@ -7818,6 +8413,40 @@ class ListConfigurationPolicyAssociationsResponse {
 }
 
 /// @nodoc
+class ListConnectorsResponse {
+  /// An array of connector summaries.
+  final List<CspmConnectorSummary> connectors;
+
+  /// The pagination token to use to request the next page of results. If there
+  /// are no additional results, this value is null.
+  final String? nextToken;
+
+  ListConnectorsResponse({
+    required this.connectors,
+    this.nextToken,
+  });
+
+  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorsResponse(
+      connectors: ((json['Connectors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => CspmConnectorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectors = this.connectors;
+    final nextToken = this.nextToken;
+    return {
+      'Connectors': connectors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListConnectorsV2Response {
   /// An array of connectorV2 summaries.
   final List<ConnectorSummary> connectors;
@@ -7919,6 +8548,42 @@ class ListFindingAggregatorsResponse {
     final nextToken = this.nextToken;
     return {
       if (findingAggregators != null) 'FindingAggregators': findingAggregators,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListFreeTrialStatusesV2Response {
+  /// An array of free trial statuses, one for each account in scope.
+  final List<AccountFreeTrialStatus> accountFreeTrialStatuses;
+
+  /// The pagination token to use to request the next page of results. If there
+  /// are no additional results, this value is null.
+  final String? nextToken;
+
+  ListFreeTrialStatusesV2Response({
+    required this.accountFreeTrialStatuses,
+    this.nextToken,
+  });
+
+  factory ListFreeTrialStatusesV2Response.fromJson(Map<String, dynamic> json) {
+    return ListFreeTrialStatusesV2Response(
+      accountFreeTrialStatuses: ((json['AccountFreeTrialStatuses'] as List?) ??
+              const [])
+          .nonNulls
+          .map(
+              (e) => AccountFreeTrialStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountFreeTrialStatuses = this.accountFreeTrialStatuses;
+    final nextToken = this.nextToken;
+    return {
+      'AccountFreeTrialStatuses': accountFreeTrialStatuses,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -8436,15 +9101,66 @@ class UpdateConfigurationPolicyResponse {
 }
 
 /// @nodoc
-class UpdateConnectorV2Response {
-  UpdateConnectorV2Response();
+class UpdateConnectorResponse {
+  /// The connectivity status of the connector after the update.
+  final CspmConnectorStatus? connectorStatus;
 
-  factory UpdateConnectorV2Response.fromJson(Map<String, dynamic> _) {
-    return UpdateConnectorV2Response();
+  /// The enablement status of the connector after the update.
+  final CspmEnablementStatus? enablementStatus;
+
+  UpdateConnectorResponse({
+    this.connectorStatus,
+    this.enablementStatus,
+  });
+
+  factory UpdateConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectorResponse(
+      connectorStatus: (json['ConnectorStatus'] as String?)
+          ?.let(CspmConnectorStatus.fromString),
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(CspmEnablementStatus.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final connectorStatus = this.connectorStatus;
+    final enablementStatus = this.enablementStatus;
+    return {
+      if (connectorStatus != null) 'ConnectorStatus': connectorStatus.value,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+    };
+  }
+}
+
+/// @nodoc
+class UpdateConnectorV2Response {
+  /// The status of the connector after the update.
+  final ConnectorStatus? connectorStatus;
+
+  /// The enablement status of the connector after the update.
+  final EnablementStatus? enablementStatus;
+
+  UpdateConnectorV2Response({
+    this.connectorStatus,
+    this.enablementStatus,
+  });
+
+  factory UpdateConnectorV2Response.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectorV2Response(
+      connectorStatus:
+          (json['ConnectorStatus'] as String?)?.let(ConnectorStatus.fromString),
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(EnablementStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorStatus = this.connectorStatus;
+    final enablementStatus = this.enablementStatus;
+    return {
+      if (connectorStatus != null) 'ConnectorStatus': connectorStatus.value,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+    };
   }
 }
 
@@ -9248,9 +9964,22 @@ class AwsSecurityFindingFilters {
   /// The canonical identifier for the given resource type.
   final List<StringFilter>? resourceId;
 
+  /// The unique identifier of the account that owns the resource that the finding
+  /// applies to, for example, Azure Subscription Id or Amazon Web Services
+  /// Account Id
+  final List<StringFilter>? resourceOwnerAccountId;
+
+  /// The unique identifier of the organization that owns the resource that the
+  /// finding applies to, for example, Azure Tenant Id
+  final List<StringFilter>? resourceOwnerOrgId;
+
   /// The canonical Amazon Web Services partition name that the Region is assigned
   /// to.
   final List<StringFilter>? resourcePartition;
+
+  /// The cloud provider that the resource belongs to. Valid values are
+  /// <code>AWS</code> and <code>Azure</code>.
+  final List<StringFilter>? resourceProvider;
 
   /// The canonical Amazon Web Services external Region name where this resource
   /// is located.
@@ -9495,7 +10224,10 @@ class AwsSecurityFindingFilters {
     this.resourceContainerName,
     this.resourceDetailsOther,
     this.resourceId,
+    this.resourceOwnerAccountId,
+    this.resourceOwnerOrgId,
     this.resourcePartition,
+    this.resourceProvider,
     this.resourceRegion,
     this.resourceTags,
     this.resourceType,
@@ -9867,7 +10599,19 @@ class AwsSecurityFindingFilters {
           ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
+      resourceOwnerAccountId: (json['ResourceOwnerAccountId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceOwnerOrgId: (json['ResourceOwnerOrgId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       resourcePartition: (json['ResourcePartition'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceProvider: (json['ResourceProvider'] as List?)
           ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10068,7 +10812,10 @@ class AwsSecurityFindingFilters {
     final resourceContainerName = this.resourceContainerName;
     final resourceDetailsOther = this.resourceDetailsOther;
     final resourceId = this.resourceId;
+    final resourceOwnerAccountId = this.resourceOwnerAccountId;
+    final resourceOwnerOrgId = this.resourceOwnerOrgId;
     final resourcePartition = this.resourcePartition;
+    final resourceProvider = this.resourceProvider;
     final resourceRegion = this.resourceRegion;
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
@@ -10226,7 +10973,11 @@ class AwsSecurityFindingFilters {
       if (resourceDetailsOther != null)
         'ResourceDetailsOther': resourceDetailsOther,
       if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceOwnerAccountId != null)
+        'ResourceOwnerAccountId': resourceOwnerAccountId,
+      if (resourceOwnerOrgId != null) 'ResourceOwnerOrgId': resourceOwnerOrgId,
       if (resourcePartition != null) 'ResourcePartition': resourcePartition,
+      if (resourceProvider != null) 'ResourceProvider': resourceProvider,
       if (resourceRegion != null) 'ResourceRegion': resourceRegion,
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType,
@@ -10916,11 +11667,91 @@ class RecordState {
   String toString() => value;
 }
 
+/// @nodoc
+class ConnectorStatus {
+  static const connected = ConnectorStatus._('CONNECTED');
+  static const degraded = ConnectorStatus._('DEGRADED');
+  static const failedToConnect = ConnectorStatus._('FAILED_TO_CONNECT');
+  static const pendingAuthorization =
+      ConnectorStatus._('PENDING_AUTHORIZATION');
+  static const pendingConfiguration =
+      ConnectorStatus._('PENDING_CONFIGURATION');
+  static const unknown = ConnectorStatus._('UNKNOWN');
+
+  final String value;
+
+  const ConnectorStatus._(this.value);
+
+  static const values = [
+    connected,
+    degraded,
+    failedToConnect,
+    pendingAuthorization,
+    pendingConfiguration,
+    unknown
+  ];
+
+  static ConnectorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class EnablementStatus {
+  static const enabled = EnablementStatus._('ENABLED');
+  static const pendingEnablement = EnablementStatus._('PENDING_ENABLEMENT');
+  static const failedToEnable = EnablementStatus._('FAILED_TO_ENABLE');
+  static const pendingUpdate = EnablementStatus._('PENDING_UPDATE');
+  static const failedToUpdate = EnablementStatus._('FAILED_TO_UPDATE');
+  static const pendingDeletion = EnablementStatus._('PENDING_DELETION');
+  static const failedToDelete = EnablementStatus._('FAILED_TO_DELETE');
+
+  final String value;
+
+  const EnablementStatus._(this.value);
+
+  static const values = [
+    enabled,
+    pendingEnablement,
+    failedToEnable,
+    pendingUpdate,
+    failedToUpdate,
+    pendingDeletion,
+    failedToDelete
+  ];
+
+  static EnablementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnablementStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnablementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The parameters required to update the configuration of an integration
 /// provider.
 ///
 /// @nodoc
 class ProviderUpdateConfiguration {
+  /// The parameters required to update the configuration for a Microsoft Azure
+  /// CSPM integration.
+  final AzureUpdateConfiguration? azure;
+
   /// The parameters required to update the configuration for a Jira Cloud
   /// integration.
   final JiraCloudUpdateConfiguration? jiraCloud;
@@ -10930,14 +11761,17 @@ class ProviderUpdateConfiguration {
   final ServiceNowUpdateConfiguration? serviceNow;
 
   ProviderUpdateConfiguration({
+    this.azure,
     this.jiraCloud,
     this.serviceNow,
   });
 
   Map<String, dynamic> toJson() {
+    final azure = this.azure;
     final jiraCloud = this.jiraCloud;
     final serviceNow = this.serviceNow;
     return {
+      if (azure != null) 'Azure': azure,
       if (jiraCloud != null) 'JiraCloud': jiraCloud,
       if (serviceNow != null) 'ServiceNow': serviceNow,
     };
@@ -10979,6 +11813,183 @@ class ServiceNowUpdateConfiguration {
     final secretArn = this.secretArn;
     return {
       if (secretArn != null) 'SecretArn': secretArn,
+    };
+  }
+}
+
+/// The configuration for updating an Azure connector's scope and regions.
+///
+/// @nodoc
+class AzureUpdateConfiguration {
+  /// The updated list of Azure regions to monitor.
+  final List<String> azureRegions;
+
+  /// The updated scope configuration.
+  final AzureScopeConfiguration scopeConfiguration;
+
+  AzureUpdateConfiguration({
+    required this.azureRegions,
+    required this.scopeConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azureRegions = this.azureRegions;
+    final scopeConfiguration = this.scopeConfiguration;
+    return {
+      'AzureRegions': azureRegions,
+      'ScopeConfiguration': scopeConfiguration,
+    };
+  }
+}
+
+/// The scope configuration for an Azure connector, defining the tenant or
+/// subscription scope.
+///
+/// @nodoc
+class AzureScopeConfiguration {
+  /// The type of scope. Valid values are <code>tenant</code> and
+  /// <code>subscription</code>.
+  final ScopeType scopeType;
+
+  /// The list of scope values, such as subscription IDs, when the scope type is
+  /// <code>subscription</code>.
+  final List<String>? scopeValues;
+
+  AzureScopeConfiguration({
+    required this.scopeType,
+    this.scopeValues,
+  });
+
+  factory AzureScopeConfiguration.fromJson(Map<String, dynamic> json) {
+    return AzureScopeConfiguration(
+      scopeType: ScopeType.fromString((json['ScopeType'] as String?) ?? ''),
+      scopeValues: (json['ScopeValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scopeType = this.scopeType;
+    final scopeValues = this.scopeValues;
+    return {
+      'ScopeType': scopeType.value,
+      if (scopeValues != null) 'ScopeValues': scopeValues,
+    };
+  }
+}
+
+/// The type of scope for an Azure connector. Valid values are
+/// <code>TENANT</code> (monitor all subscriptions in the tenant) and
+/// <code>SUBSCRIPTION</code> (monitor specific subscriptions).
+///
+/// @nodoc
+class ScopeType {
+  static const tenant = ScopeType._('TENANT');
+  static const subscription = ScopeType._('SUBSCRIPTION');
+
+  final String value;
+
+  const ScopeType._(this.value);
+
+  static const values = [tenant, subscription];
+
+  static ScopeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScopeType._(value));
+
+  @override
+  bool operator ==(other) => other is ScopeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The connectivity status of a CSPM connector.
+///
+/// @nodoc
+class CspmConnectorStatus {
+  static const connected = CspmConnectorStatus._('CONNECTED');
+  static const degraded = CspmConnectorStatus._('DEGRADED');
+  static const failedToConnect = CspmConnectorStatus._('FAILED_TO_CONNECT');
+  static const unknown = CspmConnectorStatus._('UNKNOWN');
+
+  final String value;
+
+  const CspmConnectorStatus._(this.value);
+
+  static const values = [connected, degraded, failedToConnect, unknown];
+
+  static CspmConnectorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CspmConnectorStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CspmConnectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The enablement status of a CSPM connector. Indicates the lifecycle state of
+/// the connector resource.
+///
+/// @nodoc
+class CspmEnablementStatus {
+  static const enabled = CspmEnablementStatus._('ENABLED');
+  static const pendingEnablement = CspmEnablementStatus._('PENDING_ENABLEMENT');
+  static const pendingUpdate = CspmEnablementStatus._('PENDING_UPDATE');
+  static const pendingDeletion = CspmEnablementStatus._('PENDING_DELETION');
+
+  final String value;
+
+  const CspmEnablementStatus._(this.value);
+
+  static const values = [
+    enabled,
+    pendingEnablement,
+    pendingUpdate,
+    pendingDeletion
+  ];
+
+  static CspmEnablementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CspmEnablementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CspmEnablementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The cloud provider configuration for updating a connector. This is a union
+/// type that currently supports Azure.
+///
+/// @nodoc
+class CspmProviderUpdateConfiguration {
+  /// The Azure update configuration.
+  final AzureUpdateConfiguration? azure;
+
+  CspmProviderUpdateConfiguration({
+    this.azure,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azure = this.azure;
+    return {
+      if (azure != null) 'Azure': azure,
     };
   }
 }
@@ -11982,6 +12993,14 @@ class OcsfStringField {
       OcsfStringField._('remediation.references');
   static const resourcesCloudPartition =
       OcsfStringField._('resources.cloud_partition');
+  static const resourcesName = OcsfStringField._('resources.name');
+  static const resourcesOwnerAccountUid =
+      OcsfStringField._('resources.owner.account.uid');
+  static const resourcesOwnerOrgUid =
+      OcsfStringField._('resources.owner.org.uid');
+  static const resourcesOwnerAccountName =
+      OcsfStringField._('resources.owner.account.name');
+  static const resourcesProvider = OcsfStringField._('resources.provider');
   static const resourcesRegion = OcsfStringField._('resources.region');
   static const resourcesType = OcsfStringField._('resources.type');
   static const resourcesUid = OcsfStringField._('resources.uid');
@@ -12093,6 +13112,11 @@ class OcsfStringField {
     remediationDesc,
     remediationReferences,
     resourcesCloudPartition,
+    resourcesName,
+    resourcesOwnerAccountUid,
+    resourcesOwnerOrgUid,
+    resourcesOwnerAccountName,
+    resourcesProvider,
     resourcesRegion,
     resourcesType,
     resourcesUid,
@@ -12447,6 +13471,10 @@ class SecurityControlDefinition {
   /// doesn't support custom parameters.
   final Map<String, ParameterDefinition>? parameterDefinitions;
 
+  /// The cloud provider whose resources the security control evaluates. For
+  /// example, <code>AWS</code> or <code>Azure</code>.
+  final SecurityControlsProvider? provider;
+
   SecurityControlDefinition({
     required this.currentRegionAvailability,
     required this.description,
@@ -12456,6 +13484,7 @@ class SecurityControlDefinition {
     required this.title,
     this.customizableProperties,
     this.parameterDefinitions,
+    this.provider,
   });
 
   factory SecurityControlDefinition.fromJson(Map<String, dynamic> json) {
@@ -12476,6 +13505,8 @@ class SecurityControlDefinition {
           (json['ParameterDefinitions'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(
                   k, ParameterDefinition.fromJson(e as Map<String, dynamic>))),
+      provider: (json['Provider'] as String?)
+          ?.let(SecurityControlsProvider.fromString),
     );
   }
 
@@ -12488,6 +13519,7 @@ class SecurityControlDefinition {
     final title = this.title;
     final customizableProperties = this.customizableProperties;
     final parameterDefinitions = this.parameterDefinitions;
+    final provider = this.provider;
     return {
       'CurrentRegionAvailability': currentRegionAvailability.value,
       'Description': description,
@@ -12500,6 +13532,7 @@ class SecurityControlDefinition {
             customizableProperties.map((e) => e.value).toList(),
       if (parameterDefinitions != null)
         'ParameterDefinitions': parameterDefinitions,
+      if (provider != null) 'Provider': provider.value,
     };
   }
 }
@@ -12549,6 +13582,32 @@ class RegionAvailabilityStatus {
   @override
   bool operator ==(other) =>
       other is RegionAvailabilityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class SecurityControlsProvider {
+  static const aws = SecurityControlsProvider._('AWS');
+  static const azure = SecurityControlsProvider._('Azure');
+
+  final String value;
+
+  const SecurityControlsProvider._(this.value);
+
+  static const values = [aws, azure];
+
+  static SecurityControlsProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SecurityControlsProvider._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SecurityControlsProvider && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13303,6 +14362,176 @@ class Invitation {
   }
 }
 
+/// The free trial status of each Security Hub feature for an account.
+///
+/// @nodoc
+class AccountFreeTrialStatus {
+  /// The Amazon Web Services account identifier that the free trial statuses
+  /// apply to.
+  final String accountId;
+
+  /// The date and time at which Security Hub evaluated the free trial statuses
+  /// for this account. Every status in <code>FreeTrialStatuses</code> reflects
+  /// this point in time.
+  final DateTime evaluatedAt;
+
+  /// An array of free trial statuses, one for each feature that has a free trial
+  /// period for the account. The array is empty if the account has no free trial
+  /// to report.
+  final List<FreeTrialStatus> freeTrialStatuses;
+
+  AccountFreeTrialStatus({
+    required this.accountId,
+    required this.evaluatedAt,
+    required this.freeTrialStatuses,
+  });
+
+  factory AccountFreeTrialStatus.fromJson(Map<String, dynamic> json) {
+    return AccountFreeTrialStatus(
+      accountId: (json['AccountId'] as String?) ?? '',
+      evaluatedAt: nonNullableTimeStampFromJson(json['EvaluatedAt'] ?? 0),
+      freeTrialStatuses: ((json['FreeTrialStatuses'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FreeTrialStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final evaluatedAt = this.evaluatedAt;
+    final freeTrialStatuses = this.freeTrialStatuses;
+    return {
+      'AccountId': accountId,
+      'EvaluatedAt': iso8601ToJson(evaluatedAt),
+      'FreeTrialStatuses': freeTrialStatuses,
+    };
+  }
+}
+
+/// The free trial period for a Security Hub feature, and whether the trial is
+/// currently active.
+///
+/// @nodoc
+class FreeTrialStatus {
+  /// The date and time at which the free trial period ends.
+  final DateTime expiresAt;
+
+  /// The feature that the free trial period applies to. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SECURITY_HUB_V2</code> specifies Security Hub.
+  /// </li>
+  /// <li>
+  /// <code>SECURITY_HUB_V2_MULTI_CLOUD_AZURE</code> specifies Security Hub
+  /// coverage for Microsoft Azure resources.
+  /// </li>
+  /// </ul>
+  final FreeTrialType featureType;
+
+  /// The date and time at which the free trial period began.
+  final DateTime startedAt;
+
+  /// Whether the free trial period is currently active. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> specifies that the free trial period is ongoing.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code> specifies that the free trial period has ended, or
+  /// that it never started.
+  /// </li>
+  /// </ul>
+  /// To determine whether a trial has expired, compare <code>ExpiresAt</code> to
+  /// the current time.
+  final FreeTrialStatusValue status;
+
+  FreeTrialStatus({
+    required this.expiresAt,
+    required this.featureType,
+    required this.startedAt,
+    required this.status,
+  });
+
+  factory FreeTrialStatus.fromJson(Map<String, dynamic> json) {
+    return FreeTrialStatus(
+      expiresAt: nonNullableTimeStampFromJson(json['ExpiresAt'] ?? 0),
+      featureType:
+          FreeTrialType.fromString((json['FeatureType'] as String?) ?? ''),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
+      status:
+          FreeTrialStatusValue.fromString((json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expiresAt = this.expiresAt;
+    final featureType = this.featureType;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    return {
+      'ExpiresAt': iso8601ToJson(expiresAt),
+      'FeatureType': featureType.value,
+      'StartedAt': iso8601ToJson(startedAt),
+      'Status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class FreeTrialType {
+  static const securityHubV2 = FreeTrialType._('SECURITY_HUB_V2');
+  static const securityHubV2MultiCloudAzure =
+      FreeTrialType._('SECURITY_HUB_V2_MULTI_CLOUD_AZURE');
+
+  final String value;
+
+  const FreeTrialType._(this.value);
+
+  static const values = [securityHubV2, securityHubV2MultiCloudAzure];
+
+  static FreeTrialType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FreeTrialType._(value));
+
+  @override
+  bool operator ==(other) => other is FreeTrialType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class FreeTrialStatusValue {
+  static const active = FreeTrialStatusValue._('ACTIVE');
+  static const inactive = FreeTrialStatusValue._('INACTIVE');
+
+  final String value;
+
+  const FreeTrialStatusValue._(this.value);
+
+  static const values = [active, inactive];
+
+  static FreeTrialStatusValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FreeTrialStatusValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FreeTrialStatusValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A finding aggregator is a Security Hub CSPM resource that specifies
 /// cross-Region aggregation settings, including the home Region and any linked
 /// Regions.
@@ -13356,6 +14585,13 @@ class ConnectorSummary {
   /// The description of the connectorV2.
   final String? description;
 
+  /// The enablement status of the connector.
+  final EnablementStatus? enablementStatus;
+
+  /// The reason for the current enablement status. Provides additional context
+  /// when the connector is in a failed state.
+  final String? enablementStatusReason;
+
   ConnectorSummary({
     required this.connectorId,
     required this.createdAt,
@@ -13363,6 +14599,8 @@ class ConnectorSummary {
     required this.providerSummary,
     this.connectorArn,
     this.description,
+    this.enablementStatus,
+    this.enablementStatusReason,
   });
 
   factory ConnectorSummary.fromJson(Map<String, dynamic> json) {
@@ -13375,6 +14613,9 @@ class ConnectorSummary {
               const <String, dynamic>{}),
       connectorArn: json['ConnectorArn'] as String?,
       description: json['Description'] as String?,
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(EnablementStatus.fromString),
+      enablementStatusReason: json['EnablementStatusReason'] as String?,
     );
   }
 
@@ -13385,6 +14626,8 @@ class ConnectorSummary {
     final providerSummary = this.providerSummary;
     final connectorArn = this.connectorArn;
     final description = this.description;
+    final enablementStatus = this.enablementStatus;
+    final enablementStatusReason = this.enablementStatusReason;
     return {
       'ConnectorId': connectorId,
       'CreatedAt': iso8601ToJson(createdAt),
@@ -13392,6 +14635,9 @@ class ConnectorSummary {
       'ProviderSummary': providerSummary,
       if (connectorArn != null) 'ConnectorArn': connectorArn,
       if (description != null) 'Description': description,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+      if (enablementStatusReason != null)
+        'EnablementStatusReason': enablementStatusReason,
     };
   }
 }
@@ -13402,12 +14648,14 @@ class ConnectorSummary {
 class ProviderSummary {
   /// The status for the connectorV2.
   final ConnectorStatus? connectorStatus;
+  final ProviderDetail? providerConfiguration;
 
   /// The name of the provider.
   final ConnectorProviderName? providerName;
 
   ProviderSummary({
     this.connectorStatus,
+    this.providerConfiguration,
     this.providerName,
   });
 
@@ -13415,6 +14663,10 @@ class ProviderSummary {
     return ProviderSummary(
       connectorStatus:
           (json['ConnectorStatus'] as String?)?.let(ConnectorStatus.fromString),
+      providerConfiguration: json['ProviderConfiguration'] != null
+          ? ProviderDetail.fromJson(
+              json['ProviderConfiguration'] as Map<String, dynamic>)
+          : null,
       providerName: (json['ProviderName'] as String?)
           ?.let(ConnectorProviderName.fromString),
     );
@@ -13422,9 +14674,12 @@ class ProviderSummary {
 
   Map<String, dynamic> toJson() {
     final connectorStatus = this.connectorStatus;
+    final providerConfiguration = this.providerConfiguration;
     final providerName = this.providerName;
     return {
       if (connectorStatus != null) 'ConnectorStatus': connectorStatus.value,
+      if (providerConfiguration != null)
+        'ProviderConfiguration': providerConfiguration,
       if (providerName != null) 'ProviderName': providerName.value,
     };
   }
@@ -13434,12 +14689,13 @@ class ProviderSummary {
 class ConnectorProviderName {
   static const jiraCloud = ConnectorProviderName._('JIRA_CLOUD');
   static const servicenow = ConnectorProviderName._('SERVICENOW');
+  static const azure = ConnectorProviderName._('AZURE');
 
   final String value;
 
   const ConnectorProviderName._(this.value);
 
-  static const values = [jiraCloud, servicenow];
+  static const values = [jiraCloud, servicenow, azure];
 
   static ConnectorProviderName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -13456,38 +14712,394 @@ class ConnectorProviderName {
   String toString() => value;
 }
 
+/// The third-party provider detail for a service configuration.
+///
 /// @nodoc
-class ConnectorStatus {
-  static const connected = ConnectorStatus._('CONNECTED');
-  static const failedToConnect = ConnectorStatus._('FAILED_TO_CONNECT');
-  static const pendingConfiguration =
-      ConnectorStatus._('PENDING_CONFIGURATION');
-  static const pendingAuthorization =
-      ConnectorStatus._('PENDING_AUTHORIZATION');
+class ProviderDetail {
+  /// Details about a Microsoft Azure CSPM integration.
+  final AzureDetail? azure;
+
+  /// Details about a Jira Cloud integration.
+  final JiraCloudDetail? jiraCloud;
+
+  /// Details about a ServiceNow ITSM integration.
+  final ServiceNowDetail? serviceNow;
+
+  ProviderDetail({
+    this.azure,
+    this.jiraCloud,
+    this.serviceNow,
+  });
+
+  factory ProviderDetail.fromJson(Map<String, dynamic> json) {
+    return ProviderDetail(
+      azure: json['Azure'] != null
+          ? AzureDetail.fromJson(json['Azure'] as Map<String, dynamic>)
+          : null,
+      jiraCloud: json['JiraCloud'] != null
+          ? JiraCloudDetail.fromJson(json['JiraCloud'] as Map<String, dynamic>)
+          : null,
+      serviceNow: json['ServiceNow'] != null
+          ? ServiceNowDetail.fromJson(
+              json['ServiceNow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final azure = this.azure;
+    final jiraCloud = this.jiraCloud;
+    final serviceNow = this.serviceNow;
+    return {
+      if (azure != null) 'Azure': azure,
+      if (jiraCloud != null) 'JiraCloud': jiraCloud,
+      if (serviceNow != null) 'ServiceNow': serviceNow,
+    };
+  }
+}
+
+/// Information about the configuration and status of a Jira Cloud integration.
+///
+/// @nodoc
+class JiraCloudDetail {
+  /// The status of the authorization between Jira Cloud and the service.
+  final ConnectorAuthStatus? authStatus;
+
+  /// The URL to provide to customers for OAuth auth code flow.
+  final String? authUrl;
+
+  /// The cloud id of the Jira Cloud.
+  final String? cloudId;
+
+  /// The URL domain of your Jira Cloud instance.
+  final String? domain;
+
+  /// The projectKey of Jira Cloud.
+  final String? projectKey;
+
+  JiraCloudDetail({
+    this.authStatus,
+    this.authUrl,
+    this.cloudId,
+    this.domain,
+    this.projectKey,
+  });
+
+  factory JiraCloudDetail.fromJson(Map<String, dynamic> json) {
+    return JiraCloudDetail(
+      authStatus:
+          (json['AuthStatus'] as String?)?.let(ConnectorAuthStatus.fromString),
+      authUrl: json['AuthUrl'] as String?,
+      cloudId: json['CloudId'] as String?,
+      domain: json['Domain'] as String?,
+      projectKey: json['ProjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authStatus = this.authStatus;
+    final authUrl = this.authUrl;
+    final cloudId = this.cloudId;
+    final domain = this.domain;
+    final projectKey = this.projectKey;
+    return {
+      if (authStatus != null) 'AuthStatus': authStatus.value,
+      if (authUrl != null) 'AuthUrl': authUrl,
+      if (cloudId != null) 'CloudId': cloudId,
+      if (domain != null) 'Domain': domain,
+      if (projectKey != null) 'ProjectKey': projectKey,
+    };
+  }
+}
+
+/// Information about a ServiceNow ITSM integration.
+///
+/// @nodoc
+class ServiceNowDetail {
+  /// The status of the authorization between ServiceNow and the service.
+  final ConnectorAuthStatus authStatus;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  /// secret that contains the ServiceNow credentials.
+  final String secretArn;
+
+  /// The instanceName of ServiceNow ITSM.
+  final String? instanceName;
+
+  ServiceNowDetail({
+    required this.authStatus,
+    required this.secretArn,
+    this.instanceName,
+  });
+
+  factory ServiceNowDetail.fromJson(Map<String, dynamic> json) {
+    return ServiceNowDetail(
+      authStatus:
+          ConnectorAuthStatus.fromString((json['AuthStatus'] as String?) ?? ''),
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      instanceName: json['InstanceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authStatus = this.authStatus;
+    final secretArn = this.secretArn;
+    final instanceName = this.instanceName;
+    return {
+      'AuthStatus': authStatus.value,
+      'SecretArn': secretArn,
+      if (instanceName != null) 'InstanceName': instanceName,
+    };
+  }
+}
+
+/// The detailed Azure configuration for a connector.
+///
+/// @nodoc
+class AzureDetail {
+  /// The ARN of the multi-cloud configuration connector used to establish the
+  /// connection to Azure.
+  final String awsConfigConnectorArn;
+
+  /// The list of Azure regions being monitored.
+  final List<String> azureRegions;
+
+  /// The scope configuration that defines which Azure resources are monitored.
+  final AzureScopeConfiguration scopeConfiguration;
+
+  AzureDetail({
+    required this.awsConfigConnectorArn,
+    required this.azureRegions,
+    required this.scopeConfiguration,
+  });
+
+  factory AzureDetail.fromJson(Map<String, dynamic> json) {
+    return AzureDetail(
+      awsConfigConnectorArn: (json['AWSConfigConnectorArn'] as String?) ?? '',
+      azureRegions: ((json['AzureRegions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      scopeConfiguration: AzureScopeConfiguration.fromJson(
+          (json['ScopeConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsConfigConnectorArn = this.awsConfigConnectorArn;
+    final azureRegions = this.azureRegions;
+    final scopeConfiguration = this.scopeConfiguration;
+    return {
+      'AWSConfigConnectorArn': awsConfigConnectorArn,
+      'AzureRegions': azureRegions,
+      'ScopeConfiguration': scopeConfiguration,
+    };
+  }
+}
+
+/// @nodoc
+class ConnectorAuthStatus {
+  static const active = ConnectorAuthStatus._('ACTIVE');
+  static const failed = ConnectorAuthStatus._('FAILED');
 
   final String value;
 
-  const ConnectorStatus._(this.value);
+  const ConnectorAuthStatus._(this.value);
 
-  static const values = [
-    connected,
-    failedToConnect,
-    pendingConfiguration,
-    pendingAuthorization
-  ];
+  static const values = [active, failed];
 
-  static ConnectorStatus fromString(String value) =>
+  static ConnectorAuthStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectorStatus._(value));
+          orElse: () => ConnectorAuthStatus._(value));
 
   @override
-  bool operator ==(other) => other is ConnectorStatus && other.value == value;
+  bool operator ==(other) =>
+      other is ConnectorAuthStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// A summary of a CSPM connector.
+///
+/// @nodoc
+class CspmConnectorSummary {
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String? connectorArn;
+
+  /// The unique identifier of the connector.
+  final String? connectorId;
+
+  /// The ISO 8601 UTC timestamp indicating when the connector was created.
+  final DateTime? createdAt;
+
+  /// The service principal that created the connector.
+  final String? createdBy;
+
+  /// The description of the connector.
+  final String? description;
+
+  /// The enablement status of the connector.
+  final CspmEnablementStatus? enablementStatus;
+
+  /// The name of the connector.
+  final String? name;
+
+  /// A summary of the cloud provider configuration for the connector.
+  final CspmProviderSummary? providerSummary;
+
+  CspmConnectorSummary({
+    this.connectorArn,
+    this.connectorId,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.enablementStatus,
+    this.name,
+    this.providerSummary,
+  });
+
+  factory CspmConnectorSummary.fromJson(Map<String, dynamic> json) {
+    return CspmConnectorSummary(
+      connectorArn: json['ConnectorArn'] as String?,
+      connectorId: json['ConnectorId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdBy: json['CreatedBy'] as String?,
+      description: json['Description'] as String?,
+      enablementStatus: (json['EnablementStatus'] as String?)
+          ?.let(CspmEnablementStatus.fromString),
+      name: json['Name'] as String?,
+      providerSummary: json['ProviderSummary'] != null
+          ? CspmProviderSummary.fromJson(
+              json['ProviderSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    final connectorId = this.connectorId;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final enablementStatus = this.enablementStatus;
+    final name = this.name;
+    final providerSummary = this.providerSummary;
+    return {
+      if (connectorArn != null) 'ConnectorArn': connectorArn,
+      if (connectorId != null) 'ConnectorId': connectorId,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (description != null) 'Description': description,
+      if (enablementStatus != null) 'EnablementStatus': enablementStatus.value,
+      if (name != null) 'Name': name,
+      if (providerSummary != null) 'ProviderSummary': providerSummary,
+    };
+  }
+}
+
+/// A summary of the cloud provider configuration for a connector.
+///
+/// @nodoc
+class CspmProviderSummary {
+  /// The connectivity status of the connector.
+  final CspmConnectorStatus? connectorStatus;
+
+  /// The provider configuration details.
+  final CspmProviderDetail? providerConfiguration;
+
+  /// The name of the cloud provider.
+  final CspmConnectorProviderName? providerName;
+
+  CspmProviderSummary({
+    this.connectorStatus,
+    this.providerConfiguration,
+    this.providerName,
+  });
+
+  factory CspmProviderSummary.fromJson(Map<String, dynamic> json) {
+    return CspmProviderSummary(
+      connectorStatus: (json['ConnectorStatus'] as String?)
+          ?.let(CspmConnectorStatus.fromString),
+      providerConfiguration: json['ProviderConfiguration'] != null
+          ? CspmProviderDetail.fromJson(
+              json['ProviderConfiguration'] as Map<String, dynamic>)
+          : null,
+      providerName: (json['ProviderName'] as String?)
+          ?.let(CspmConnectorProviderName.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorStatus = this.connectorStatus;
+    final providerConfiguration = this.providerConfiguration;
+    final providerName = this.providerName;
+    return {
+      if (connectorStatus != null) 'ConnectorStatus': connectorStatus.value,
+      if (providerConfiguration != null)
+        'ProviderConfiguration': providerConfiguration,
+      if (providerName != null) 'ProviderName': providerName.value,
+    };
+  }
+}
+
+/// The name of the cloud provider for a CSPM connector.
+///
+/// @nodoc
+class CspmConnectorProviderName {
+  static const azure = CspmConnectorProviderName._('AZURE');
+
+  final String value;
+
+  const CspmConnectorProviderName._(this.value);
+
+  static const values = [azure];
+
+  static CspmConnectorProviderName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CspmConnectorProviderName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CspmConnectorProviderName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The detailed cloud provider configuration for a connector. This is a union
+/// type that currently supports Azure.
+///
+/// @nodoc
+class CspmProviderDetail {
+  /// The Azure provider detail.
+  final AzureDetail? azure;
+
+  CspmProviderDetail({
+    this.azure,
+  });
+
+  factory CspmProviderDetail.fromJson(Map<String, dynamic> json) {
+    return CspmProviderDetail(
+      azure: json['Azure'] != null
+          ? AzureDetail.fromJson(json['Azure'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final azure = this.azure;
+    return {
+      if (azure != null) 'Azure': azure,
+    };
+  }
 }
 
 /// An object that contains the details of a configuration policy association
@@ -13976,10 +15588,12 @@ class Result {
 ///
 /// @nodoc
 class ResourceResult {
-  /// The Amazon Web Services account that owns the resource.
+  /// The Amazon Web Services account that recorded the resource data in Security
+  /// Hub.
   final String accountId;
 
-  /// The Amazon Web Services Region where the resource is located.
+  /// The Amazon Web Services Region that recorded the resource data in Security
+  /// Hub.
   final String region;
 
   /// The configuration details of a resource.
@@ -13991,11 +15605,31 @@ class ResourceResult {
   /// The unique identifier for a resource.
   final String resourceId;
 
+  /// The type of resource.
+  final String resourceType;
+
+  /// The name of the Amazon Web Services account that's associated with the
+  /// resource.
+  final String? accountName;
+
+  /// Specifies how the resource was discovered. If the value is
+  /// <code>Managed</code>, the resource is natively provided by a cloud service
+  /// provider. If the value is <code>SelfHosted</code>, the resource is hosted on
+  /// customer-managed infrastructure, such as a compute instance or container
+  /// image.
+  final DiscoveryType? discoveryType;
+
   /// An aggregated view of security findings associated with a resource.
   final List<ResourceFindingsSummary>? findingsSummary;
 
   /// The grouping where the resource belongs.
   final ResourceCategory? resourceCategory;
+
+  /// The cloud partition where the resource exists. For Amazon Web Services,
+  /// valid values include <code>aws</code>, <code>aws-cn</code>, and
+  /// <code>aws-us-gov</code>. This field isn't returned for cloud providers that
+  /// don't use partitions.
+  final String? resourceCloudPartition;
 
   /// The time when the resource was created.
   final String? resourceCreationTimeDt;
@@ -14003,14 +15637,39 @@ class ResourceResult {
   /// The global identifier used to identify a resource.
   final String? resourceGuid;
 
+  /// Additional resource-type-specific details. For self-hosted AI resources and
+  /// their host resources, contains an <code>AIDetails</code> structure.
+  final ResourceInfo? resourceInfo;
+
   /// The name of the resource.
   final String? resourceName;
 
+  /// The identifier of the cloud account that owns the resource. For Amazon Web
+  /// Services resources, this is the Amazon Web Services account ID. For Azure
+  /// resources, this is the Azure subscription ID.
+  final String? resourceOwnerAccountId;
+
+  /// The identifier of the cloud organization that owns the resource. For Amazon
+  /// Web Services resources, this is the Organizations ID. For Azure resources,
+  /// this is the Azure tenant ID.
+  final String? resourceOwnerOrgId;
+
+  /// The cloud provider where the resource exists. Valid values are
+  /// <code>AWS</code> and <code>Azure</code>. This field is always included.
+  final String? resourceProvider;
+
+  /// The native cloud region where the resource is located. For Amazon Web
+  /// Services, this is an Amazon Web Services Region (for example,
+  /// <code>us-east-1</code>). For Azure resources, this is the Azure region (for
+  /// example, <code>westus2</code>). This field is always included.
+  final String? resourceRegion;
+
+  /// The AI/ML sub-grouping of the resource. Present only when
+  /// <code>ResourceCategory</code> is <code>AI/ML</code>.
+  final ResourceSubCategory? resourceSubCategory;
+
   /// The key-value pairs associated with a resource.
   final List<ResourceTag>? resourceTags;
-
-  /// The type of resource.
-  final String? resourceType;
 
   ResourceResult({
     required this.accountId,
@@ -14018,13 +15677,22 @@ class ResourceResult {
     required this.resourceConfig,
     required this.resourceDetailCaptureTimeDt,
     required this.resourceId,
+    required this.resourceType,
+    this.accountName,
+    this.discoveryType,
     this.findingsSummary,
     this.resourceCategory,
+    this.resourceCloudPartition,
     this.resourceCreationTimeDt,
     this.resourceGuid,
+    this.resourceInfo,
     this.resourceName,
+    this.resourceOwnerAccountId,
+    this.resourceOwnerOrgId,
+    this.resourceProvider,
+    this.resourceRegion,
+    this.resourceSubCategory,
     this.resourceTags,
-    this.resourceType,
   });
 
   factory ResourceResult.fromJson(Map<String, dynamic> json) {
@@ -14035,6 +15703,10 @@ class ResourceResult {
       resourceDetailCaptureTimeDt:
           (json['ResourceDetailCaptureTimeDt'] as String?) ?? '',
       resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
+      accountName: json['AccountName'] as String?,
+      discoveryType:
+          (json['DiscoveryType'] as String?)?.let(DiscoveryType.fromString),
       findingsSummary: (json['FindingsSummary'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -14042,14 +15714,23 @@ class ResourceResult {
           .toList(),
       resourceCategory: (json['ResourceCategory'] as String?)
           ?.let(ResourceCategory.fromString),
+      resourceCloudPartition: json['ResourceCloudPartition'] as String?,
       resourceCreationTimeDt: json['ResourceCreationTimeDt'] as String?,
       resourceGuid: json['ResourceGuid'] as String?,
+      resourceInfo: json['ResourceInfo'] != null
+          ? ResourceInfo.fromJson(json['ResourceInfo'] as Map<String, dynamic>)
+          : null,
       resourceName: json['ResourceName'] as String?,
+      resourceOwnerAccountId: json['ResourceOwnerAccountId'] as String?,
+      resourceOwnerOrgId: json['ResourceOwnerOrgId'] as String?,
+      resourceProvider: json['ResourceProvider'] as String?,
+      resourceRegion: json['ResourceRegion'] as String?,
+      resourceSubCategory: (json['ResourceSubCategory'] as String?)
+          ?.let(ResourceSubCategory.fromString),
       resourceTags: (json['ResourceTags'] as List?)
           ?.nonNulls
           .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resourceType: json['ResourceType'] as String?,
     );
   }
 
@@ -14059,27 +15740,48 @@ class ResourceResult {
     final resourceConfig = this.resourceConfig;
     final resourceDetailCaptureTimeDt = this.resourceDetailCaptureTimeDt;
     final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final accountName = this.accountName;
+    final discoveryType = this.discoveryType;
     final findingsSummary = this.findingsSummary;
     final resourceCategory = this.resourceCategory;
+    final resourceCloudPartition = this.resourceCloudPartition;
     final resourceCreationTimeDt = this.resourceCreationTimeDt;
     final resourceGuid = this.resourceGuid;
+    final resourceInfo = this.resourceInfo;
     final resourceName = this.resourceName;
+    final resourceOwnerAccountId = this.resourceOwnerAccountId;
+    final resourceOwnerOrgId = this.resourceOwnerOrgId;
+    final resourceProvider = this.resourceProvider;
+    final resourceRegion = this.resourceRegion;
+    final resourceSubCategory = this.resourceSubCategory;
     final resourceTags = this.resourceTags;
-    final resourceType = this.resourceType;
     return {
       'AccountId': accountId,
       'Region': region,
       'ResourceConfig': resourceConfig,
       'ResourceDetailCaptureTimeDt': resourceDetailCaptureTimeDt,
       'ResourceId': resourceId,
+      'ResourceType': resourceType,
+      if (accountName != null) 'AccountName': accountName,
+      if (discoveryType != null) 'DiscoveryType': discoveryType.value,
       if (findingsSummary != null) 'FindingsSummary': findingsSummary,
       if (resourceCategory != null) 'ResourceCategory': resourceCategory.value,
+      if (resourceCloudPartition != null)
+        'ResourceCloudPartition': resourceCloudPartition,
       if (resourceCreationTimeDt != null)
         'ResourceCreationTimeDt': resourceCreationTimeDt,
       if (resourceGuid != null) 'ResourceGuid': resourceGuid,
+      if (resourceInfo != null) 'ResourceInfo': resourceInfo,
       if (resourceName != null) 'ResourceName': resourceName,
+      if (resourceOwnerAccountId != null)
+        'ResourceOwnerAccountId': resourceOwnerAccountId,
+      if (resourceOwnerOrgId != null) 'ResourceOwnerOrgId': resourceOwnerOrgId,
+      if (resourceProvider != null) 'ResourceProvider': resourceProvider,
+      if (resourceRegion != null) 'ResourceRegion': resourceRegion,
+      if (resourceSubCategory != null)
+        'ResourceSubCategory': resourceSubCategory.value,
       if (resourceTags != null) 'ResourceTags': resourceTags,
-      if (resourceType != null) 'ResourceType': resourceType,
     };
   }
 }
@@ -14093,6 +15795,7 @@ class ResourceCategory {
   static const aiMl = ResourceCategory._('AI/ML');
   static const identity = ResourceCategory._('Identity');
   static const network = ResourceCategory._('Network');
+  static const messaging = ResourceCategory._('Messaging');
   static const other = ResourceCategory._('Other');
 
   final String value;
@@ -14107,6 +15810,7 @@ class ResourceCategory {
     aiMl,
     identity,
     network,
+    messaging,
     other
   ];
 
@@ -14122,6 +15826,268 @@ class ResourceCategory {
 
   @override
   String toString() => value;
+}
+
+/// @nodoc
+class ResourceSubCategory {
+  static const model = ResourceSubCategory._('Model');
+  static const modelServing = ResourceSubCategory._('ModelServing');
+  static const agent = ResourceSubCategory._('Agent');
+  static const agentFramework = ResourceSubCategory._('AgentFramework');
+  static const agentToolsAndIdentity =
+      ResourceSubCategory._('AgentToolsAndIdentity');
+  static const safetyAndGuardrail = ResourceSubCategory._('SafetyAndGuardrail');
+  static const knowledgeAndData = ResourceSubCategory._('KnowledgeAndData');
+  static const orchestrationAndPipeline =
+      ResourceSubCategory._('OrchestrationAndPipeline');
+  static const externalEndpoint = ResourceSubCategory._('ExternalEndpoint');
+  static const development = ResourceSubCategory._('Development');
+  static const other = ResourceSubCategory._('Other');
+
+  final String value;
+
+  const ResourceSubCategory._(this.value);
+
+  static const values = [
+    model,
+    modelServing,
+    agent,
+    agentFramework,
+    agentToolsAndIdentity,
+    safetyAndGuardrail,
+    knowledgeAndData,
+    orchestrationAndPipeline,
+    externalEndpoint,
+    development,
+    other
+  ];
+
+  static ResourceSubCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceSubCategory._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceSubCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class DiscoveryType {
+  static const managed = DiscoveryType._('Managed');
+  static const selfHosted = DiscoveryType._('SelfHosted');
+
+  final String value;
+
+  const DiscoveryType._(this.value);
+
+  static const values = [managed, selfHosted];
+
+  static DiscoveryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DiscoveryType._(value));
+
+  @override
+  bool operator ==(other) => other is DiscoveryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Additional details about a resource that are specific to its category. For
+/// AI/ML resources and their host resources, this structure contains
+/// <code>AIDetails</code>.
+///
+/// @nodoc
+class ResourceInfo {
+  /// Details that are specific to self-hosted AI resources and their host
+  /// resources.
+  final AIDetails? aIDetails;
+
+  ResourceInfo({
+    this.aIDetails,
+  });
+
+  factory ResourceInfo.fromJson(Map<String, dynamic> json) {
+    return ResourceInfo(
+      aIDetails: json['AIDetails'] != null
+          ? AIDetails.fromJson(json['AIDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aIDetails = this.aIDetails;
+    return {
+      if (aIDetails != null) 'AIDetails': aIDetails,
+    };
+  }
+}
+
+/// Contains information about self-hosted AI resources and their host
+/// resources. The fields that are present depend on the role of the resource.
+///
+/// On a self-hosted AI resource (a resource with a
+/// <code>SelfHosted::AI::</code> resource type, such as
+/// <code>SelfHosted::AI::Model</code> or <code>SelfHosted::AI::Agent</code>),
+/// the <code>HostResourceGuid</code> and <code>HostResourceType</code> fields
+/// link the resource to its host. The <code>CanonicalId</code> field identifies
+/// what the resource is, enabling aggregation of identical resources across
+/// multiple hosts.
+///
+/// On a host resource (such as an Amazon EC2 instance), the
+/// <code>SelfHostedAI*ResourceCount</code> fields contain the count for each
+/// <code>ResourceSubCategory</code> and the total count of self-hosted AI
+/// resources detected on the host.
+///
+/// @nodoc
+class AIDetails {
+  /// The canonical identifier for the AI resource, independent of where it is
+  /// deployed. Multiple occurrences of the same resource on different hosts share
+  /// the same <code>CanonicalId</code>. For model resources, the value follows
+  /// the format <code>model/<purl></code>, such as
+  /// <code>model/pkg:huggingface/meta-llama/llama-3-8b</code>. Present only on
+  /// self-hosted AI resources.
+  final String? canonicalId;
+
+  /// The identifier of the host resource that hosts the self-hosted AI resource.
+  /// Present only on self-hosted AI resources.
+  final String? hostResourceGuid;
+
+  /// The <code>ResourceType</code> of the host resource that hosts the
+  /// self-hosted AI resource, such as <code>AWS::EC2::Instance</code>. Present
+  /// only on self-hosted AI resources.
+  final String? hostResourceType;
+
+  /// The number of self-hosted AI resources of <code>ResourceSubCategory</code>
+  /// <code>AgentFramework</code> detected on the host resource. Present only on
+  /// host resources.
+  final int? selfHostedAIAgentFrameworkResourceCount;
+
+  /// The number of self-hosted AI resources of <code>ResourceSubCategory</code>
+  /// <code>Agent</code> detected on the host resource. Present only on host
+  /// resources.
+  final int? selfHostedAIAgentResourceCount;
+
+  /// The number of self-hosted AI resources of <code>ResourceSubCategory</code>
+  /// <code>AgentToolsAndIdentity</code> detected on the host resource. Present
+  /// only on host resources.
+  final int? selfHostedAIAgentToolsAndIdentityResourceCount;
+
+  /// The number of self-hosted AI resources of <code>ResourceSubCategory</code>
+  /// <code>Development</code> detected on the host resource. Present only on host
+  /// resources.
+  final int? selfHostedAIDevelopmentResourceCount;
+
+  /// The number of self-hosted AI resources of <code>ResourceSubCategory</code>
+  /// <code>ExternalEndpoint</code> detected on the host resource. Present only on
+  /// host resources.
+  final int? selfHostedAIExternalEndpointResourceCount;
+
+  /// The number of self-hosted AI resources of <code>ResourceSubCategory</code>
+  /// <code>Model</code> detected on the host resource. Present only on host
+  /// resources.
+  final int? selfHostedAIModelResourceCount;
+
+  /// The number of self-hosted AI resources of <code>ResourceSubCategory</code>
+  /// <code>ModelServing</code> detected on the host resource. Present only on
+  /// host resources.
+  final int? selfHostedAIModelServingResourceCount;
+
+  /// The total number of all self-hosted AI resources detected on the host
+  /// resource. Present only on host resources.
+  final int? selfHostedTotalAIResourceCount;
+
+  AIDetails({
+    this.canonicalId,
+    this.hostResourceGuid,
+    this.hostResourceType,
+    this.selfHostedAIAgentFrameworkResourceCount,
+    this.selfHostedAIAgentResourceCount,
+    this.selfHostedAIAgentToolsAndIdentityResourceCount,
+    this.selfHostedAIDevelopmentResourceCount,
+    this.selfHostedAIExternalEndpointResourceCount,
+    this.selfHostedAIModelResourceCount,
+    this.selfHostedAIModelServingResourceCount,
+    this.selfHostedTotalAIResourceCount,
+  });
+
+  factory AIDetails.fromJson(Map<String, dynamic> json) {
+    return AIDetails(
+      canonicalId: json['CanonicalId'] as String?,
+      hostResourceGuid: json['HostResourceGuid'] as String?,
+      hostResourceType: json['HostResourceType'] as String?,
+      selfHostedAIAgentFrameworkResourceCount:
+          json['SelfHostedAIAgentFrameworkResourceCount'] as int?,
+      selfHostedAIAgentResourceCount:
+          json['SelfHostedAIAgentResourceCount'] as int?,
+      selfHostedAIAgentToolsAndIdentityResourceCount:
+          json['SelfHostedAIAgentToolsAndIdentityResourceCount'] as int?,
+      selfHostedAIDevelopmentResourceCount:
+          json['SelfHostedAIDevelopmentResourceCount'] as int?,
+      selfHostedAIExternalEndpointResourceCount:
+          json['SelfHostedAIExternalEndpointResourceCount'] as int?,
+      selfHostedAIModelResourceCount:
+          json['SelfHostedAIModelResourceCount'] as int?,
+      selfHostedAIModelServingResourceCount:
+          json['SelfHostedAIModelServingResourceCount'] as int?,
+      selfHostedTotalAIResourceCount:
+          json['SelfHostedTotalAIResourceCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final canonicalId = this.canonicalId;
+    final hostResourceGuid = this.hostResourceGuid;
+    final hostResourceType = this.hostResourceType;
+    final selfHostedAIAgentFrameworkResourceCount =
+        this.selfHostedAIAgentFrameworkResourceCount;
+    final selfHostedAIAgentResourceCount = this.selfHostedAIAgentResourceCount;
+    final selfHostedAIAgentToolsAndIdentityResourceCount =
+        this.selfHostedAIAgentToolsAndIdentityResourceCount;
+    final selfHostedAIDevelopmentResourceCount =
+        this.selfHostedAIDevelopmentResourceCount;
+    final selfHostedAIExternalEndpointResourceCount =
+        this.selfHostedAIExternalEndpointResourceCount;
+    final selfHostedAIModelResourceCount = this.selfHostedAIModelResourceCount;
+    final selfHostedAIModelServingResourceCount =
+        this.selfHostedAIModelServingResourceCount;
+    final selfHostedTotalAIResourceCount = this.selfHostedTotalAIResourceCount;
+    return {
+      if (canonicalId != null) 'CanonicalId': canonicalId,
+      if (hostResourceGuid != null) 'HostResourceGuid': hostResourceGuid,
+      if (hostResourceType != null) 'HostResourceType': hostResourceType,
+      if (selfHostedAIAgentFrameworkResourceCount != null)
+        'SelfHostedAIAgentFrameworkResourceCount':
+            selfHostedAIAgentFrameworkResourceCount,
+      if (selfHostedAIAgentResourceCount != null)
+        'SelfHostedAIAgentResourceCount': selfHostedAIAgentResourceCount,
+      if (selfHostedAIAgentToolsAndIdentityResourceCount != null)
+        'SelfHostedAIAgentToolsAndIdentityResourceCount':
+            selfHostedAIAgentToolsAndIdentityResourceCount,
+      if (selfHostedAIDevelopmentResourceCount != null)
+        'SelfHostedAIDevelopmentResourceCount':
+            selfHostedAIDevelopmentResourceCount,
+      if (selfHostedAIExternalEndpointResourceCount != null)
+        'SelfHostedAIExternalEndpointResourceCount':
+            selfHostedAIExternalEndpointResourceCount,
+      if (selfHostedAIModelResourceCount != null)
+        'SelfHostedAIModelResourceCount': selfHostedAIModelResourceCount,
+      if (selfHostedAIModelServingResourceCount != null)
+        'SelfHostedAIModelServingResourceCount':
+            selfHostedAIModelServingResourceCount,
+      if (selfHostedTotalAIResourceCount != null)
+        'SelfHostedTotalAIResourceCount': selfHostedTotalAIResourceCount,
+    };
+  }
 }
 
 /// Represents tag information associated with Amazon Web Services resources.
@@ -14579,6 +16545,30 @@ class ResourcesNumberField {
       ResourcesNumberField._('FindingsSummary.Severities.Informational');
   static const findingsSummarySeveritiesUnknown =
       ResourcesNumberField._('FindingsSummary.Severities.Unknown');
+  static const resourceInfoAIDetailsSelfHostedAIModelResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedAIModelResourceCount');
+  static const resourceInfoAIDetailsSelfHostedAIAgentResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount');
+  static const resourceInfoAIDetailsSelfHostedAIModelServingResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount');
+  static const resourceInfoAIDetailsSelfHostedAIExternalEndpointResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount');
+  static const resourceInfoAIDetailsSelfHostedAIDevelopmentResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount');
+  static const resourceInfoAIDetailsSelfHostedAIAgentFrameworkResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount');
+  static const resourceInfoAIDetailsSelfHostedAIAgentToolsAndIdentityResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount');
+  static const resourceInfoAIDetailsSelfHostedTotalAIResourceCount =
+      ResourcesNumberField._(
+          'ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount');
 
   final String value;
 
@@ -14593,7 +16583,15 @@ class ResourcesNumberField {
     findingsSummarySeveritiesMedium,
     findingsSummarySeveritiesLow,
     findingsSummarySeveritiesInformational,
-    findingsSummarySeveritiesUnknown
+    findingsSummarySeveritiesUnknown,
+    resourceInfoAIDetailsSelfHostedAIModelResourceCount,
+    resourceInfoAIDetailsSelfHostedAIAgentResourceCount,
+    resourceInfoAIDetailsSelfHostedAIModelServingResourceCount,
+    resourceInfoAIDetailsSelfHostedAIExternalEndpointResourceCount,
+    resourceInfoAIDetailsSelfHostedAIDevelopmentResourceCount,
+    resourceInfoAIDetailsSelfHostedAIAgentFrameworkResourceCount,
+    resourceInfoAIDetailsSelfHostedAIAgentToolsAndIdentityResourceCount,
+    resourceInfoAIDetailsSelfHostedTotalAIResourceCount
   ];
 
   static ResourcesNumberField fromString(String value) =>
@@ -14692,7 +16690,16 @@ class ResourcesStringField {
   static const resourceGuid = ResourcesStringField._('ResourceGuid');
   static const resourceId = ResourcesStringField._('ResourceId');
   static const accountId = ResourcesStringField._('AccountId');
+  static const accountName = ResourcesStringField._('AccountName');
   static const region = ResourcesStringField._('Region');
+  static const resourceProvider = ResourcesStringField._('ResourceProvider');
+  static const resourceOwnerAccountId =
+      ResourcesStringField._('ResourceOwnerAccountId');
+  static const resourceOwnerOrgId =
+      ResourcesStringField._('ResourceOwnerOrgId');
+  static const resourceCloudPartition =
+      ResourcesStringField._('ResourceCloudPartition');
+  static const resourceRegion = ResourcesStringField._('ResourceRegion');
   static const resourceCategory = ResourcesStringField._('ResourceCategory');
   static const resourceType = ResourcesStringField._('ResourceType');
   static const resourceName = ResourcesStringField._('ResourceName');
@@ -14700,6 +16707,15 @@ class ResourcesStringField {
       ResourcesStringField._('FindingsSummary.FindingType');
   static const findingsSummaryProductName =
       ResourcesStringField._('FindingsSummary.ProductName');
+  static const resourceSubCategory =
+      ResourcesStringField._('ResourceSubCategory');
+  static const discoveryType = ResourcesStringField._('DiscoveryType');
+  static const resourceInfoAIDetailsHostResourceGuid =
+      ResourcesStringField._('ResourceInfo.AIDetails.HostResourceGuid');
+  static const resourceInfoAIDetailsHostResourceType =
+      ResourcesStringField._('ResourceInfo.AIDetails.HostResourceType');
+  static const resourceInfoAIDetailsCanonicalId =
+      ResourcesStringField._('ResourceInfo.AIDetails.CanonicalId');
 
   final String value;
 
@@ -14709,12 +16725,23 @@ class ResourcesStringField {
     resourceGuid,
     resourceId,
     accountId,
+    accountName,
     region,
+    resourceProvider,
+    resourceOwnerAccountId,
+    resourceOwnerOrgId,
+    resourceCloudPartition,
+    resourceRegion,
     resourceCategory,
     resourceType,
     resourceName,
     findingsSummaryFindingType,
-    findingsSummaryProductName
+    findingsSummaryProductName,
+    resourceSubCategory,
+    discoveryType,
+    resourceInfoAIDetailsHostResourceGuid,
+    resourceInfoAIDetailsHostResourceType,
+    resourceInfoAIDetailsCanonicalId
   ];
 
   static ResourcesStringField fromString(String value) =>
@@ -14913,8 +16940,45 @@ class ResourcesTrendsCompositeFilter {
 ///
 /// @nodoc
 class ResourcesTrendsStringFilter {
-  /// The name of the resources field to filter on, such as resourceType,
-  /// accountId, or region.
+  /// The name of the resources field to filter on. You can specify one of the
+  /// following fields.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>account_id</code> – The Amazon Web Services account ID that owns the
+  /// resource.
+  /// </li>
+  /// <li>
+  /// <code>region</code> – The Amazon Web Services Region of the resource.
+  /// </li>
+  /// <li>
+  /// <code>resource_type</code> – The type of the resource.
+  /// </li>
+  /// <li>
+  /// <code>resource_category</code> – The category of the resource.
+  /// </li>
+  /// <li>
+  /// <code>resource_cloud_provider</code> – The cloud provider of the resource.
+  /// Valid values are <code>AWS</code> and <code>Azure</code>.
+  /// </li>
+  /// <li>
+  /// <code>resource_region</code> – The Region of the resource. For an Amazon Web
+  /// Services resource, this is the Amazon Web Services Region. For an Azure
+  /// resource, this is the Azure Region, such as <code>eastus</code>.
+  /// </li>
+  /// <li>
+  /// <code>resource_owner_id</code> – The identifier of the account that owns the
+  /// resource. For an Amazon Web Services resource, this is the Amazon Web
+  /// Services account ID. For an Azure resource, this is the Azure subscription
+  /// ID.
+  /// </li>
+  /// <li>
+  /// <code>resource_owner_organization_id</code> – The identifier of the
+  /// organization that owns the resource. For an Amazon Web Services resource,
+  /// this is the Amazon Web Services organization ID. For an Azure resource, this
+  /// is the Azure tenant ID.
+  /// </li>
+  /// </ul>
   final ResourcesTrendsStringField? fieldName;
   final StringFilter? filter;
 
@@ -14940,12 +17004,28 @@ class ResourcesTrendsStringField {
   static const resourceType = ResourcesTrendsStringField._('resource_type');
   static const resourceCategory =
       ResourcesTrendsStringField._('resource_category');
+  static const resourceCloudProvider =
+      ResourcesTrendsStringField._('resource_cloud_provider');
+  static const resourceRegion = ResourcesTrendsStringField._('resource_region');
+  static const resourceOwnerId =
+      ResourcesTrendsStringField._('resource_owner_id');
+  static const resourceOwnerOrganizationId =
+      ResourcesTrendsStringField._('resource_owner_organization_id');
 
   final String value;
 
   const ResourcesTrendsStringField._(this.value);
 
-  static const values = [accountId, region, resourceType, resourceCategory];
+  static const values = [
+    accountId,
+    region,
+    resourceType,
+    resourceCategory,
+    resourceCloudProvider,
+    resourceRegion,
+    resourceOwnerId,
+    resourceOwnerOrganizationId
+  ];
 
   static ResourcesTrendsStringField fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -15061,12 +17141,28 @@ class ResourceGroupByRule {
 /// @nodoc
 class ResourceGroupByField {
   static const accountId = ResourceGroupByField._('AccountId');
+  static const accountName = ResourceGroupByField._('AccountName');
   static const region = ResourceGroupByField._('Region');
+  static const resourceProvider = ResourceGroupByField._('ResourceProvider');
+  static const resourceOwnerAccountId =
+      ResourceGroupByField._('ResourceOwnerAccountId');
+  static const resourceOwnerOrgId =
+      ResourceGroupByField._('ResourceOwnerOrgId');
+  static const resourceCloudPartition =
+      ResourceGroupByField._('ResourceCloudPartition');
+  static const resourceRegion = ResourceGroupByField._('ResourceRegion');
   static const resourceCategory = ResourceGroupByField._('ResourceCategory');
   static const resourceType = ResourceGroupByField._('ResourceType');
   static const resourceName = ResourceGroupByField._('ResourceName');
   static const findingsSummaryFindingType =
       ResourceGroupByField._('FindingsSummary.FindingType');
+  static const resourceSubCategory =
+      ResourceGroupByField._('ResourceSubCategory');
+  static const discoveryType = ResourceGroupByField._('DiscoveryType');
+  static const resourceInfoAIDetailsHostResourceType =
+      ResourceGroupByField._('ResourceInfo.AIDetails.HostResourceType');
+  static const resourceInfoAIDetailsCanonicalId =
+      ResourceGroupByField._('ResourceInfo.AIDetails.CanonicalId');
 
   final String value;
 
@@ -15074,11 +17170,21 @@ class ResourceGroupByField {
 
   static const values = [
     accountId,
+    accountName,
     region,
+    resourceProvider,
+    resourceOwnerAccountId,
+    resourceOwnerOrgId,
+    resourceCloudPartition,
+    resourceRegion,
     resourceCategory,
     resourceType,
     resourceName,
-    findingsSummaryFindingType
+    findingsSummaryFindingType,
+    resourceSubCategory,
+    discoveryType,
+    resourceInfoAIDetailsHostResourceType,
+    resourceInfoAIDetailsCanonicalId
   ];
 
   static ResourceGroupByField fromString(String value) =>
@@ -15643,7 +17749,71 @@ class FindingsTrendsCompositeFilter {
 ///
 /// @nodoc
 class FindingsTrendsStringFilter {
-  /// The name of the findings field to filter on.
+  /// The name of the findings field to filter on. You can specify one of the
+  /// following fields.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>account_id</code> – The Amazon Web Services account ID associated with
+  /// the finding.
+  /// </li>
+  /// <li>
+  /// <code>region</code> – The Amazon Web Services Region associated with the
+  /// finding.
+  /// </li>
+  /// <li>
+  /// <code>finding_types</code> – The finding types associated with the finding.
+  /// </li>
+  /// <li>
+  /// <code>finding_status</code> – The status of the finding.
+  /// </li>
+  /// <li>
+  /// <code>finding_cve_ids</code> – The Common Vulnerabilities and Exposures
+  /// (CVE) identifiers associated with the finding.
+  /// </li>
+  /// <li>
+  /// <code>finding_compliance_status</code> – The compliance status of the
+  /// finding.
+  /// </li>
+  /// <li>
+  /// <code>finding_control_id</code> – The identifier of the security control
+  /// associated with the finding.
+  /// </li>
+  /// <li>
+  /// <code>finding_class_name</code> – The finding class, such as
+  /// <code>Compliance Finding</code>.
+  /// </li>
+  /// <li>
+  /// <code>finding_provider</code> – The name of the product that generated the
+  /// finding.
+  /// </li>
+  /// <li>
+  /// <code>finding_activity_name</code> – The activity name associated with the
+  /// finding.
+  /// </li>
+  /// <li>
+  /// <code>resource_cloud_providers</code> – The cloud providers of the resources
+  /// that the finding is associated with. Valid values are <code>AWS</code> and
+  /// <code>Azure</code>.
+  /// </li>
+  /// <li>
+  /// <code>resource_regions</code> – The Regions of the associated resources. For
+  /// an Amazon Web Services resource, this is the Amazon Web Services Region. For
+  /// an Azure resource, this is the Azure Region, such as <code>eastus</code>.
+  /// </li>
+  /// <li>
+  /// <code>resource_owner_ids</code> – The identifiers of the accounts that own
+  /// the associated resources. For an Amazon Web Services resource, this is the
+  /// Amazon Web Services account ID. For an Azure resource, this is the Azure
+  /// subscription ID.
+  /// </li>
+  /// <li>
+  /// <code>resource_owner_organization_ids</code> – The identifiers of the
+  /// organizations that own the associated resources. For an Amazon Web Services
+  /// resource, this is the Amazon Web Services organization ID. For an Azure
+  /// resource, this is the Azure tenant ID.
+  /// </li>
+  /// </ul>
   final FindingsTrendsStringField? fieldName;
   final StringFilter? filter;
 
@@ -15679,6 +17849,14 @@ class FindingsTrendsStringField {
       FindingsTrendsStringField._('finding_provider');
   static const findingActivityName =
       FindingsTrendsStringField._('finding_activity_name');
+  static const resourceCloudProviders =
+      FindingsTrendsStringField._('resource_cloud_providers');
+  static const resourceRegions =
+      FindingsTrendsStringField._('resource_regions');
+  static const resourceOwnerIds =
+      FindingsTrendsStringField._('resource_owner_ids');
+  static const resourceOwnerOrganizationIds =
+      FindingsTrendsStringField._('resource_owner_organization_ids');
 
   final String value;
 
@@ -15694,7 +17872,11 @@ class FindingsTrendsStringField {
     findingControlId,
     findingClassName,
     findingProvider,
-    findingActivityName
+    findingActivityName,
+    resourceCloudProviders,
+    resourceRegions,
+    resourceOwnerIds,
+    resourceOwnerOrganizationIds
   ];
 
   static FindingsTrendsStringField fromString(String value) =>
@@ -15755,6 +17937,16 @@ class GroupByField {
   static const metadataProductName = GroupByField._('metadata.product.name');
   static const metadataProductUid = GroupByField._('metadata.product.uid');
   static const resourcesType = GroupByField._('resources.type');
+  static const resourcesCloudPartition =
+      GroupByField._('resources.cloud_partition');
+  static const resourcesName = GroupByField._('resources.name');
+  static const resourcesOwnerAccountUid =
+      GroupByField._('resources.owner.account.uid');
+  static const resourcesOwnerOrgUid = GroupByField._('resources.owner.org.uid');
+  static const resourcesOwnerAccountName =
+      GroupByField._('resources.owner.account.name');
+  static const resourcesProvider = GroupByField._('resources.provider');
+  static const resourcesRegion = GroupByField._('resources.region');
   static const resourcesUid = GroupByField._('resources.uid');
   static const severity = GroupByField._('severity');
   static const status = GroupByField._('status');
@@ -15790,6 +17982,13 @@ class GroupByField {
     metadataProductName,
     metadataProductUid,
     resourcesType,
+    resourcesCloudPartition,
+    resourcesName,
+    resourcesOwnerAccountUid,
+    resourcesOwnerOrgUid,
+    resourcesOwnerAccountName,
+    resourcesProvider,
+    resourcesRegion,
     resourcesUid,
     severity,
     status,
@@ -19654,9 +21853,16 @@ class Resource {
   /// Additional details about the resource related to a finding.
   final ResourceDetails? details;
 
+  /// Information about the account and organization that own the resource.
+  final ResourceOwner? owner;
+
   /// The canonical Amazon Web Services partition name that the Region is assigned
   /// to.
   final Partition? partition;
+
+  /// The cloud provider that the resource belongs to. Valid values are
+  /// <code>AWS</code> and <code>Azure</code>.
+  final CloudProviderName? provider;
 
   /// The canonical Amazon Web Services external Region name where this resource
   /// is located.
@@ -19681,7 +21887,9 @@ class Resource {
     this.applicationName,
     this.dataClassification,
     this.details,
+    this.owner,
     this.partition,
+    this.provider,
     this.region,
     this.resourceRole,
     this.tags,
@@ -19700,7 +21908,12 @@ class Resource {
       details: json['Details'] != null
           ? ResourceDetails.fromJson(json['Details'] as Map<String, dynamic>)
           : null,
+      owner: json['Owner'] != null
+          ? ResourceOwner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
       partition: (json['Partition'] as String?)?.let(Partition.fromString),
+      provider:
+          (json['Provider'] as String?)?.let(CloudProviderName.fromString),
       region: json['Region'] as String?,
       resourceRole: json['ResourceRole'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -19715,7 +21928,9 @@ class Resource {
     final applicationName = this.applicationName;
     final dataClassification = this.dataClassification;
     final details = this.details;
+    final owner = this.owner;
     final partition = this.partition;
+    final provider = this.provider;
     final region = this.region;
     final resourceRole = this.resourceRole;
     final tags = this.tags;
@@ -19726,7 +21941,9 @@ class Resource {
       if (applicationName != null) 'ApplicationName': applicationName,
       if (dataClassification != null) 'DataClassification': dataClassification,
       if (details != null) 'Details': details,
+      if (owner != null) 'Owner': owner,
       if (partition != null) 'Partition': partition.value,
+      if (provider != null) 'Provider': provider.value,
       if (region != null) 'Region': region,
       if (resourceRole != null) 'ResourceRole': resourceRole,
       if (tags != null) 'Tags': tags,
@@ -19739,12 +21956,15 @@ class Partition {
   static const aws = Partition._('aws');
   static const awsCn = Partition._('aws-cn');
   static const awsUsGov = Partition._('aws-us-gov');
+  static const awsUsIso = Partition._('aws-us-iso');
+  static const awsUsIsoB = Partition._('aws-us-iso-b');
+  static const azureCloud = Partition._('AzureCloud');
 
   final String value;
 
   const Partition._(this.value);
 
-  static const values = [aws, awsCn, awsUsGov];
+  static const values = [aws, awsCn, awsUsGov, awsUsIso, awsUsIsoB, azureCloud];
 
   static Partition fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => Partition._(value));
@@ -19757,6 +21977,71 @@ class Partition {
 
   @override
   String toString() => value;
+}
+
+/// @nodoc
+class CloudProviderName {
+  static const azure = CloudProviderName._('Azure');
+  static const aws = CloudProviderName._('AWS');
+
+  final String value;
+
+  const CloudProviderName._(this.value);
+
+  static const values = [azure, aws];
+
+  static CloudProviderName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudProviderName._(value));
+
+  @override
+  bool operator ==(other) => other is CloudProviderName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the owner of a resource, including the account and
+/// organization that the resource belongs to.
+///
+/// @nodoc
+class ResourceOwner {
+  /// Information about the account that owns the resource, for example, an Azure
+  /// Subscription or Amazon Web Services Account.
+  final ResourceOwnerAccount? account;
+
+  /// Information about the organization that owns the resource, for example, an
+  /// Azure Tenant.
+  final ResourceOwnerOrg? org;
+
+  ResourceOwner({
+    this.account,
+    this.org,
+  });
+
+  factory ResourceOwner.fromJson(Map<String, dynamic> json) {
+    return ResourceOwner(
+      account: json['Account'] != null
+          ? ResourceOwnerAccount.fromJson(
+              json['Account'] as Map<String, dynamic>)
+          : null,
+      org: json['Org'] != null
+          ? ResourceOwnerOrg.fromJson(json['Org'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final org = this.org;
+    return {
+      if (account != null) 'Account': account,
+      if (org != null) 'Org': org,
+    };
+  }
 }
 
 /// Provides details about sensitive data that was detected on a resource.
@@ -20138,6 +22423,9 @@ class ResourceDetails {
   /// Information about the encryption configuration for X-Ray.
   final AwsXrayEncryptionConfigDetails? awsXrayEncryptionConfig;
 
+  /// Details about an Azure resource that is related to a finding.
+  final Object? azureResource;
+
   /// Details about an external code repository with which you can connect your
   /// Amazon Web Services resources. The connection is established through Amazon
   /// Inspector.
@@ -20261,6 +22549,7 @@ class ResourceDetails {
     this.awsWafv2RuleGroup,
     this.awsWafv2WebAcl,
     this.awsXrayEncryptionConfig,
+    this.azureResource,
     this.codeRepository,
     this.container,
     this.other,
@@ -20662,6 +22951,7 @@ class ResourceDetails {
           ? AwsXrayEncryptionConfigDetails.fromJson(
               json['AwsXrayEncryptionConfig'] as Map<String, dynamic>)
           : null,
+      azureResource: json['AzureResource'],
       codeRepository: json['CodeRepository'] != null
           ? CodeRepositoryDetails.fromJson(
               json['CodeRepository'] as Map<String, dynamic>)
@@ -20775,6 +23065,7 @@ class ResourceDetails {
     final awsWafv2RuleGroup = this.awsWafv2RuleGroup;
     final awsWafv2WebAcl = this.awsWafv2WebAcl;
     final awsXrayEncryptionConfig = this.awsXrayEncryptionConfig;
+    final azureResource = this.azureResource;
     final codeRepository = this.codeRepository;
     final container = this.container;
     final other = this.other;
@@ -20924,6 +23215,7 @@ class ResourceDetails {
       if (awsWafv2WebAcl != null) 'AwsWafv2WebAcl': awsWafv2WebAcl,
       if (awsXrayEncryptionConfig != null)
         'AwsXrayEncryptionConfig': awsXrayEncryptionConfig,
+      if (azureResource != null) 'AzureResource': azureResource,
       if (codeRepository != null) 'CodeRepository': codeRepository,
       if (container != null) 'Container': container,
       if (other != null) 'Other': other,
@@ -54357,6 +56649,60 @@ class SensitiveDataDetections {
   }
 }
 
+/// Information about the account that owns a resource, for example, an Azure
+/// Subscription or Amazon Web Services Account.
+///
+/// @nodoc
+class ResourceOwnerAccount {
+  /// The unique identifier of the account that owns the resource, for example,
+  /// Azure Subscription Id or Amazon Web Services Account Id.
+  final String? id;
+
+  ResourceOwnerAccount({
+    this.id,
+  });
+
+  factory ResourceOwnerAccount.fromJson(Map<String, dynamic> json) {
+    return ResourceOwnerAccount(
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Information about the organization that owns a resource, for example, an
+/// Azure Tenant.
+///
+/// @nodoc
+class ResourceOwnerOrg {
+  /// The unique identifier of the organization that owns the resource, for
+  /// example, Azure Tenant Id.
+  final String? id;
+
+  ResourceOwnerOrg({
+    this.id,
+  });
+
+  factory ResourceOwnerOrg.fromJson(Map<String, dynamic> json) {
+    return ResourceOwnerOrg(
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
 /// Details about the threat intelligence related to a finding.
 ///
 /// @nodoc
@@ -55261,6 +57607,10 @@ class StandardsSubscription {
   /// The ARN of the resource that represents your subscription to the standard.
   final String standardsSubscriptionArn;
 
+  /// The cloud provider whose resources the standard evaluates. For example,
+  /// <code>AWS</code> or <code>Azure</code>.
+  final StandardsProvider? provider;
+
   /// Specifies whether you can retrieve information about and configure
   /// individual controls that apply to the standard. Possible values are:
   ///
@@ -55284,6 +57634,7 @@ class StandardsSubscription {
     required this.standardsInput,
     required this.standardsStatus,
     required this.standardsSubscriptionArn,
+    this.provider,
     this.standardsControlsUpdatable,
     this.standardsStatusReason,
   });
@@ -55298,6 +57649,8 @@ class StandardsSubscription {
           (json['StandardsStatus'] as String?) ?? ''),
       standardsSubscriptionArn:
           (json['StandardsSubscriptionArn'] as String?) ?? '',
+      provider:
+          (json['Provider'] as String?)?.let(StandardsProvider.fromString),
       standardsControlsUpdatable:
           (json['StandardsControlsUpdatable'] as String?)
               ?.let(StandardsControlsUpdatable.fromString),
@@ -55313,6 +57666,7 @@ class StandardsSubscription {
     final standardsInput = this.standardsInput;
     final standardsStatus = this.standardsStatus;
     final standardsSubscriptionArn = this.standardsSubscriptionArn;
+    final provider = this.provider;
     final standardsControlsUpdatable = this.standardsControlsUpdatable;
     final standardsStatusReason = this.standardsStatusReason;
     return {
@@ -55320,6 +57674,7 @@ class StandardsSubscription {
       'StandardsInput': standardsInput,
       'StandardsStatus': standardsStatus.value,
       'StandardsSubscriptionArn': standardsSubscriptionArn,
+      if (provider != null) 'Provider': provider.value,
       if (standardsControlsUpdatable != null)
         'StandardsControlsUpdatable': standardsControlsUpdatable.value,
       if (standardsStatusReason != null)
@@ -55412,11 +57767,38 @@ class StandardsStatusReason {
 }
 
 /// @nodoc
+class StandardsProvider {
+  static const aws = StandardsProvider._('AWS');
+  static const azure = StandardsProvider._('Azure');
+
+  final String value;
+
+  const StandardsProvider._(this.value);
+
+  static const values = [aws, azure];
+
+  static StandardsProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StandardsProvider._(value));
+
+  @override
+  bool operator ==(other) => other is StandardsProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
 class StatusReasonCode {
   static const noAvailableConfigurationRecorder =
       StatusReasonCode._('NO_AVAILABLE_CONFIGURATION_RECORDER');
   static const maximumNumberOfConfigRulesExceeded =
       StatusReasonCode._('MAXIMUM_NUMBER_OF_CONFIG_RULES_EXCEEDED');
+  static const noAvailableMulticloudConnector =
+      StatusReasonCode._('NO_AVAILABLE_MULTICLOUD_CONNECTOR');
   static const internalError = StatusReasonCode._('INTERNAL_ERROR');
 
   final String value;
@@ -55426,6 +57808,7 @@ class StatusReasonCode {
   static const values = [
     noAvailableConfigurationRecorder,
     maximumNumberOfConfigRulesExceeded,
+    noAvailableMulticloudConnector,
     internalError
   ];
 
@@ -55454,12 +57837,17 @@ class HealthCheck {
   /// connectorV2.
   final DateTime lastCheckedAt;
 
+  /// A list of health issues associated with the connector, including error codes
+  /// and messages.
+  final List<HealthIssue>? issues;
+
   /// The message for the reason of connectorStatus change.
   final String? message;
 
   HealthCheck({
     required this.connectorStatus,
     required this.lastCheckedAt,
+    this.issues,
     this.message,
   });
 
@@ -55468,6 +57856,10 @@ class HealthCheck {
       connectorStatus: ConnectorStatus.fromString(
           (json['ConnectorStatus'] as String?) ?? ''),
       lastCheckedAt: nonNullableTimeStampFromJson(json['LastCheckedAt'] ?? 0),
+      issues: (json['Issues'] as List?)
+          ?.nonNulls
+          .map((e) => HealthIssue.fromJson(e as Map<String, dynamic>))
+          .toList(),
       message: json['Message'] as String?,
     );
   }
@@ -55475,165 +57867,159 @@ class HealthCheck {
   Map<String, dynamic> toJson() {
     final connectorStatus = this.connectorStatus;
     final lastCheckedAt = this.lastCheckedAt;
+    final issues = this.issues;
     final message = this.message;
     return {
       'ConnectorStatus': connectorStatus.value,
       'LastCheckedAt': iso8601ToJson(lastCheckedAt),
+      if (issues != null) 'Issues': issues,
       if (message != null) 'Message': message,
     };
   }
 }
 
-/// The third-party provider detail for a service configuration.
+/// Represents a specific health issue detected for a connector.
 ///
 /// @nodoc
-class ProviderDetail {
-  /// Details about a Jira Cloud integration.
-  final JiraCloudDetail? jiraCloud;
+class HealthIssue {
+  /// The error code that identifies the type of health issue.
+  final HealthIssueCode code;
 
-  /// Details about a ServiceNow ITSM integration.
-  final ServiceNowDetail? serviceNow;
+  /// A human-readable message that describes the health issue.
+  final String message;
 
-  ProviderDetail({
-    this.jiraCloud,
-    this.serviceNow,
+  HealthIssue({
+    required this.code,
+    required this.message,
   });
 
-  factory ProviderDetail.fromJson(Map<String, dynamic> json) {
-    return ProviderDetail(
-      jiraCloud: json['JiraCloud'] != null
-          ? JiraCloudDetail.fromJson(json['JiraCloud'] as Map<String, dynamic>)
-          : null,
-      serviceNow: json['ServiceNow'] != null
-          ? ServiceNowDetail.fromJson(
-              json['ServiceNow'] as Map<String, dynamic>)
-          : null,
+  factory HealthIssue.fromJson(Map<String, dynamic> json) {
+    return HealthIssue(
+      code: HealthIssueCode.fromString((json['Code'] as String?) ?? ''),
+      message: (json['Message'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final jiraCloud = this.jiraCloud;
-    final serviceNow = this.serviceNow;
+    final code = this.code;
+    final message = this.message;
     return {
-      if (jiraCloud != null) 'JiraCloud': jiraCloud,
-      if (serviceNow != null) 'ServiceNow': serviceNow,
+      'Code': code.value,
+      'Message': message,
     };
   }
 }
 
-/// Information about the configuration and status of a Jira Cloud integration.
+/// The error code for a connector health issue.
 ///
 /// @nodoc
-class JiraCloudDetail {
-  /// The status of the authorization between Jira Cloud and the service.
-  final ConnectorAuthStatus? authStatus;
-
-  /// The URL to provide to customers for OAuth auth code flow.
-  final String? authUrl;
-
-  /// The cloud id of the Jira Cloud.
-  final String? cloudId;
-
-  /// The URL domain of your Jira Cloud instance.
-  final String? domain;
-
-  /// The projectKey of Jira Cloud.
-  final String? projectKey;
-
-  JiraCloudDetail({
-    this.authStatus,
-    this.authUrl,
-    this.cloudId,
-    this.domain,
-    this.projectKey,
-  });
-
-  factory JiraCloudDetail.fromJson(Map<String, dynamic> json) {
-    return JiraCloudDetail(
-      authStatus:
-          (json['AuthStatus'] as String?)?.let(ConnectorAuthStatus.fromString),
-      authUrl: json['AuthUrl'] as String?,
-      cloudId: json['CloudId'] as String?,
-      domain: json['Domain'] as String?,
-      projectKey: json['ProjectKey'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authStatus = this.authStatus;
-    final authUrl = this.authUrl;
-    final cloudId = this.cloudId;
-    final domain = this.domain;
-    final projectKey = this.projectKey;
-    return {
-      if (authStatus != null) 'AuthStatus': authStatus.value,
-      if (authUrl != null) 'AuthUrl': authUrl,
-      if (cloudId != null) 'CloudId': cloudId,
-      if (domain != null) 'Domain': domain,
-      if (projectKey != null) 'ProjectKey': projectKey,
-    };
-  }
-}
-
-/// Information about a ServiceNow ITSM integration.
-///
-/// @nodoc
-class ServiceNowDetail {
-  /// The status of the authorization between ServiceNow and the service.
-  final ConnectorAuthStatus authStatus;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
-  /// secret that contains the ServiceNow credentials.
-  final String secretArn;
-
-  /// The instanceName of ServiceNow ITSM.
-  final String? instanceName;
-
-  ServiceNowDetail({
-    required this.authStatus,
-    required this.secretArn,
-    this.instanceName,
-  });
-
-  factory ServiceNowDetail.fromJson(Map<String, dynamic> json) {
-    return ServiceNowDetail(
-      authStatus:
-          ConnectorAuthStatus.fromString((json['AuthStatus'] as String?) ?? ''),
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      instanceName: json['InstanceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authStatus = this.authStatus;
-    final secretArn = this.secretArn;
-    final instanceName = this.instanceName;
-    return {
-      'AuthStatus': authStatus.value,
-      'SecretArn': secretArn,
-      if (instanceName != null) 'InstanceName': instanceName,
-    };
-  }
-}
-
-/// @nodoc
-class ConnectorAuthStatus {
-  static const active = ConnectorAuthStatus._('ACTIVE');
-  static const failed = ConnectorAuthStatus._('FAILED');
+class HealthIssueCode {
+  static const authenticationFailure =
+      HealthIssueCode._('AUTHENTICATION_FAILURE');
+  static const streamAuthorizationFailure =
+      HealthIssueCode._('STREAM_AUTHORIZATION_FAILURE');
+  static const discoveryFailure = HealthIssueCode._('DISCOVERY_FAILURE');
+  static const streamLimitExceeded = HealthIssueCode._('STREAM_LIMIT_EXCEEDED');
+  static const streamDisconnected = HealthIssueCode._('STREAM_DISCONNECTED');
+  static const recordingFailure = HealthIssueCode._('RECORDING_FAILURE');
+  static const noHealthData = HealthIssueCode._('NO_HEALTH_DATA');
 
   final String value;
 
-  const ConnectorAuthStatus._(this.value);
+  const HealthIssueCode._(this.value);
 
-  static const values = [active, failed];
+  static const values = [
+    authenticationFailure,
+    streamAuthorizationFailure,
+    discoveryFailure,
+    streamLimitExceeded,
+    streamDisconnected,
+    recordingFailure,
+    noHealthData
+  ];
 
-  static ConnectorAuthStatus fromString(String value) =>
+  static HealthIssueCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectorAuthStatus._(value));
+          orElse: () => HealthIssueCode._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ConnectorAuthStatus && other.value == value;
+  bool operator ==(other) => other is HealthIssueCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the operational status and health of a CSPM connector.
+///
+/// @nodoc
+class CspmHealthCheck {
+  /// The connectivity status of the connector.
+  final CspmConnectorStatus connectorStatus;
+
+  /// The ISO 8601 UTC timestamp indicating when the health status was last
+  /// checked.
+  final DateTime lastCheckedAt;
+
+  /// A list of health issues associated with the connector.
+  final List<HealthIssue>? issues;
+
+  /// A message describing the reason for the current connector status.
+  final String? message;
+
+  CspmHealthCheck({
+    required this.connectorStatus,
+    required this.lastCheckedAt,
+    this.issues,
+    this.message,
+  });
+
+  factory CspmHealthCheck.fromJson(Map<String, dynamic> json) {
+    return CspmHealthCheck(
+      connectorStatus: CspmConnectorStatus.fromString(
+          (json['ConnectorStatus'] as String?) ?? ''),
+      lastCheckedAt: nonNullableTimeStampFromJson(json['LastCheckedAt'] ?? 0),
+      issues: (json['Issues'] as List?)
+          ?.nonNulls
+          .map((e) => HealthIssue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorStatus = this.connectorStatus;
+    final lastCheckedAt = this.lastCheckedAt;
+    final issues = this.issues;
+    final message = this.message;
+    return {
+      'ConnectorStatus': connectorStatus.value,
+      'LastCheckedAt': iso8601ToJson(lastCheckedAt),
+      if (issues != null) 'Issues': issues,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// The name of an opt-in feature. Valid values: <code>NETWORK_SCANNING</code>.
+///
+/// @nodoc
+class FeatureName {
+  static const networkScanning = FeatureName._('NETWORK_SCANNING');
+
+  final String value;
+
+  const FeatureName._(this.value);
+
+  static const values = [networkScanning];
+
+  static FeatureName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeatureName._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -55765,6 +58151,10 @@ class Standard {
   /// The name of the standard.
   final String? name;
 
+  /// The cloud provider whose resources the standard evaluates. For example,
+  /// <code>AWS</code> or <code>Azure</code>.
+  final StandardsProvider? provider;
+
   /// The ARN of the standard.
   final String? standardsArn;
 
@@ -55775,6 +58165,7 @@ class Standard {
     this.description,
     this.enabledByDefault,
     this.name,
+    this.provider,
     this.standardsArn,
     this.standardsManagedBy,
   });
@@ -55784,6 +58175,8 @@ class Standard {
       description: json['Description'] as String?,
       enabledByDefault: json['EnabledByDefault'] as bool?,
       name: json['Name'] as String?,
+      provider:
+          (json['Provider'] as String?)?.let(StandardsProvider.fromString),
       standardsArn: json['StandardsArn'] as String?,
       standardsManagedBy: json['StandardsManagedBy'] != null
           ? StandardsManagedBy.fromJson(
@@ -55796,12 +58189,14 @@ class Standard {
     final description = this.description;
     final enabledByDefault = this.enabledByDefault;
     final name = this.name;
+    final provider = this.provider;
     final standardsArn = this.standardsArn;
     final standardsManagedBy = this.standardsManagedBy;
     return {
       if (description != null) 'Description': description,
       if (enabledByDefault != null) 'EnabledByDefault': enabledByDefault,
       if (name != null) 'Name': name,
+      if (provider != null) 'Provider': provider.value,
       if (standardsArn != null) 'StandardsArn': standardsArn,
       if (standardsManagedBy != null) 'StandardsManagedBy': standardsManagedBy,
     };
@@ -55841,6 +58236,68 @@ class StandardsManagedBy {
       if (product != null) 'Product': product,
     };
   }
+}
+
+/// Contains the status and metadata for an opt-in feature.
+///
+/// @nodoc
+class FeatureDetail {
+  /// The current enablement status of the feature. Valid values:
+  /// <code>ENABLED</code> | <code>DISABLED</code>.
+  final FeatureStatus? featureStatus;
+
+  /// The date and time when the feature status was last updated.
+  final DateTime? updatedAt;
+
+  FeatureDetail({
+    this.featureStatus,
+    this.updatedAt,
+  });
+
+  factory FeatureDetail.fromJson(Map<String, dynamic> json) {
+    return FeatureDetail(
+      featureStatus:
+          (json['FeatureStatus'] as String?)?.let(FeatureStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final featureStatus = this.featureStatus;
+    final updatedAt = this.updatedAt;
+    return {
+      if (featureStatus != null) 'FeatureStatus': featureStatus.value,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// The enablement status of a feature. Valid values: <code>ENABLED</code> |
+/// <code>DISABLED</code>.
+///
+/// @nodoc
+class FeatureStatus {
+  static const enabled = FeatureStatus._('ENABLED');
+  static const disabled = FeatureStatus._('DISABLED');
+
+  final String value;
+
+  const FeatureStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static FeatureStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeatureStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Defines the structure for the productV2.
@@ -56204,6 +58661,10 @@ class AccountDetails {
 ///
 /// @nodoc
 class ProviderConfiguration {
+  /// The configuration settings required to establish a CSPM integration with
+  /// Microsoft Azure.
+  final AzureProviderConfiguration? azure;
+
   /// The configuration settings required to establish an integration with Jira
   /// Cloud.
   final JiraCloudProviderConfiguration? jiraCloud;
@@ -56213,14 +58674,17 @@ class ProviderConfiguration {
   final ServiceNowProviderConfiguration? serviceNow;
 
   ProviderConfiguration({
+    this.azure,
     this.jiraCloud,
     this.serviceNow,
   });
 
   Map<String, dynamic> toJson() {
+    final azure = this.azure;
     final jiraCloud = this.jiraCloud;
     final serviceNow = this.serviceNow;
     return {
+      if (azure != null) 'Azure': azure,
       if (jiraCloud != null) 'JiraCloud': jiraCloud,
       if (serviceNow != null) 'ServiceNow': serviceNow,
     };
@@ -56270,6 +58734,58 @@ class ServiceNowProviderConfiguration {
     return {
       'InstanceName': instanceName,
       'SecretArn': secretArn,
+    };
+  }
+}
+
+/// The configuration for connecting to an Azure environment.
+///
+/// @nodoc
+class AzureProviderConfiguration {
+  /// The ARN of the multi-cloud configuration connector used to establish the
+  /// connection to Azure.
+  final String awsConfigConnectorArn;
+
+  /// The list of Azure regions to monitor.
+  final List<String> azureRegions;
+
+  /// The scope configuration that defines which Azure resources are monitored.
+  final AzureScopeConfiguration scopeConfiguration;
+
+  AzureProviderConfiguration({
+    required this.awsConfigConnectorArn,
+    required this.azureRegions,
+    required this.scopeConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final awsConfigConnectorArn = this.awsConfigConnectorArn;
+    final azureRegions = this.azureRegions;
+    final scopeConfiguration = this.scopeConfiguration;
+    return {
+      'AWSConfigConnectorArn': awsConfigConnectorArn,
+      'AzureRegions': azureRegions,
+      'ScopeConfiguration': scopeConfiguration,
+    };
+  }
+}
+
+/// The cloud provider configuration for creating a connector. This is a union
+/// type that currently supports Azure.
+///
+/// @nodoc
+class CspmProviderConfiguration {
+  /// The Azure provider configuration.
+  final AzureProviderConfiguration? azure;
+
+  CspmProviderConfiguration({
+    this.azure,
+  });
+
+  Map<String, dynamic> toJson() {
+    final azure = this.azure;
+    return {
+      if (azure != null) 'Azure': azure,
     };
   }
 }
@@ -56457,12 +58973,25 @@ class AutomationRulesFindingFilters {
   /// Array Members: Minimum number of 1 item. Maximum number of 100 items.
   final List<StringFilter>? resourceId;
 
+  /// The unique identifier of the account that owns the resource that the finding
+  /// applies to, for example, Azure Subscription Id or Amazon Web Services
+  /// Account Id
+  final List<StringFilter>? resourceOwnerAccountId;
+
+  /// The unique identifier of the organization that owns the resource that the
+  /// finding applies to, for example, Azure Tenant Id
+  final List<StringFilter>? resourceOwnerOrgId;
+
   /// The partition in which the resource that the finding pertains to is located.
   /// A partition is a group of Amazon Web Services Regions. Each Amazon Web
   /// Services account is scoped to one partition.
   ///
   /// Array Members: Minimum number of 1 item. Maximum number of 20 items.
   final List<StringFilter>? resourcePartition;
+
+  /// The cloud provider that the resource belongs to. Valid values are
+  /// <code>AWS</code> and <code>Azure</code>.
+  final List<StringFilter>? resourceProvider;
 
   /// The Amazon Web Services Region where the resource that a finding pertains to
   /// is located.
@@ -56558,7 +59087,10 @@ class AutomationRulesFindingFilters {
     this.resourceApplicationName,
     this.resourceDetailsOther,
     this.resourceId,
+    this.resourceOwnerAccountId,
+    this.resourceOwnerOrgId,
     this.resourcePartition,
+    this.resourceProvider,
     this.resourceRegion,
     this.resourceTags,
     this.resourceType,
@@ -56680,7 +59212,19 @@ class AutomationRulesFindingFilters {
           ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
+      resourceOwnerAccountId: (json['ResourceOwnerAccountId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceOwnerOrgId: (json['ResourceOwnerOrgId'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       resourcePartition: (json['ResourcePartition'] as List?)
+          ?.nonNulls
+          .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceProvider: (json['ResourceProvider'] as List?)
           ?.nonNulls
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -56759,7 +59303,10 @@ class AutomationRulesFindingFilters {
     final resourceApplicationName = this.resourceApplicationName;
     final resourceDetailsOther = this.resourceDetailsOther;
     final resourceId = this.resourceId;
+    final resourceOwnerAccountId = this.resourceOwnerAccountId;
+    final resourceOwnerOrgId = this.resourceOwnerOrgId;
     final resourcePartition = this.resourcePartition;
+    final resourceProvider = this.resourceProvider;
     final resourceRegion = this.resourceRegion;
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
@@ -56804,7 +59351,11 @@ class AutomationRulesFindingFilters {
       if (resourceDetailsOther != null)
         'ResourceDetailsOther': resourceDetailsOther,
       if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceOwnerAccountId != null)
+        'ResourceOwnerAccountId': resourceOwnerAccountId,
+      if (resourceOwnerOrgId != null) 'ResourceOwnerOrgId': resourceOwnerOrgId,
       if (resourcePartition != null) 'ResourcePartition': resourcePartition,
+      if (resourceProvider != null) 'ResourceProvider': resourceProvider,
       if (resourceRegion != null) 'ResourceRegion': resourceRegion,
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType,
@@ -57997,6 +60548,10 @@ class SecurityControl {
   /// value, and whether it has been customized.
   final Map<String, ParameterConfiguration>? parameters;
 
+  /// The cloud provider whose resources the security control evaluates. For
+  /// example, <code>AWS</code> or <code>Azure</code>.
+  final SecurityControlsProvider? provider;
+
   /// Identifies whether customizable properties of a security control are
   /// reflected in Security Hub CSPM findings. A status of <code>READY</code>
   /// indicates that Security Hub CSPM uses the current control parameter values
@@ -58015,6 +60570,7 @@ class SecurityControl {
     required this.title,
     this.lastUpdateReason,
     this.parameters,
+    this.provider,
     this.updateStatus,
   });
 
@@ -58033,6 +60589,8 @@ class SecurityControl {
       parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k, ParameterConfiguration.fromJson(e as Map<String, dynamic>))),
+      provider: (json['Provider'] as String?)
+          ?.let(SecurityControlsProvider.fromString),
       updateStatus:
           (json['UpdateStatus'] as String?)?.let(UpdateStatus.fromString),
     );
@@ -58048,6 +60606,7 @@ class SecurityControl {
     final title = this.title;
     final lastUpdateReason = this.lastUpdateReason;
     final parameters = this.parameters;
+    final provider = this.provider;
     final updateStatus = this.updateStatus;
     return {
       'Description': description,
@@ -58059,6 +60618,7 @@ class SecurityControl {
       'Title': title,
       if (lastUpdateReason != null) 'LastUpdateReason': lastUpdateReason,
       if (parameters != null) 'Parameters': parameters,
+      if (provider != null) 'Provider': provider.value,
       if (updateStatus != null) 'UpdateStatus': updateStatus.value,
     };
   }

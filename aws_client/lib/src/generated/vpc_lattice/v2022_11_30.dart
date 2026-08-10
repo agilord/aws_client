@@ -1852,6 +1852,13 @@ class VpcLattice {
   /// Parameter [customDomainName] :
   /// The custom domain name of the service.
   ///
+  /// Parameter [idleTimeoutSeconds] :
+  /// The amount of time, in seconds, that a connection can remain idle (no data
+  /// sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds.
+  /// If you don't specify a value, the default is 60 seconds. This setting does
+  /// not change the maximum connection duration of 10 minutes; connections are
+  /// still closed when they reach that limit.
+  ///
   /// Parameter [tags] :
   /// The tags for the service.
   Future<CreateServiceResponse> createService({
@@ -1860,14 +1867,22 @@ class VpcLattice {
     String? certificateArn,
     String? clientToken,
     String? customDomainName,
+    int? idleTimeoutSeconds,
     Map<String, String>? tags,
   }) async {
+    _s.validateNumRange(
+      'idleTimeoutSeconds',
+      idleTimeoutSeconds,
+      60,
+      600,
+    );
     final $payload = <String, dynamic>{
       'name': name,
       if (authType != null) 'authType': authType.value,
       if (certificateArn != null) 'certificateArn': certificateArn,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (customDomainName != null) 'customDomainName': customDomainName,
+      if (idleTimeoutSeconds != null) 'idleTimeoutSeconds': idleTimeoutSeconds,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1930,14 +1945,29 @@ class VpcLattice {
   ///
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) of the certificate.
+  ///
+  /// Parameter [idleTimeoutSeconds] :
+  /// The amount of time, in seconds, that a connection can remain idle (no data
+  /// sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds.
+  /// If you don't specify a value, the default is 60 seconds. This setting does
+  /// not change the maximum connection duration of 10 minutes; connections are
+  /// still closed when they reach that limit.
   Future<UpdateServiceResponse> updateService({
     required String serviceIdentifier,
     AuthType? authType,
     String? certificateArn,
+    int? idleTimeoutSeconds,
   }) async {
+    _s.validateNumRange(
+      'idleTimeoutSeconds',
+      idleTimeoutSeconds,
+      60,
+      600,
+    );
     final $payload = <String, dynamic>{
       if (authType != null) 'authType': authType.value,
       if (certificateArn != null) 'certificateArn': certificateArn,
+      if (idleTimeoutSeconds != null) 'idleTimeoutSeconds': idleTimeoutSeconds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4836,7 +4866,7 @@ class GetResourceGatewayResponse {
   /// format.
   final DateTime? lastUpdatedAt;
 
-  /// The AWS service that manages the resource gateway.
+  /// The Amazon Web Services service that manages the resource gateway.
   final String? managedBy;
 
   /// The name of the resource gateway.
@@ -4849,7 +4879,8 @@ class GetResourceGatewayResponse {
   /// The security group IDs associated with the resource gateway.
   final List<String>? securityGroupIds;
 
-  /// Indicates whether the resource gateway is managed by an AWS service.
+  /// Indicates whether the resource gateway is managed by an Amazon Web Services
+  /// service.
   final bool? serviceManaged;
 
   /// The status for the resource gateway.
@@ -5388,6 +5419,10 @@ class CreateServiceResponse {
   /// The ID of the service.
   final String? id;
 
+  /// The amount of time, in seconds, that a connection can remain idle before VPC
+  /// Lattice closes it.
+  final int? idleTimeoutSeconds;
+
   /// The name of the service.
   final String? name;
 
@@ -5402,6 +5437,7 @@ class CreateServiceResponse {
     this.customDomainName,
     this.dnsEntry,
     this.id,
+    this.idleTimeoutSeconds,
     this.name,
     this.status,
   });
@@ -5416,6 +5452,7 @@ class CreateServiceResponse {
           ? DnsEntry.fromJson(json['dnsEntry'] as Map<String, dynamic>)
           : null,
       id: json['id'] as String?,
+      idleTimeoutSeconds: json['idleTimeoutSeconds'] as int?,
       name: json['name'] as String?,
       status: (json['status'] as String?)?.let(ServiceStatus.fromString),
     );
@@ -5428,6 +5465,7 @@ class CreateServiceResponse {
     final customDomainName = this.customDomainName;
     final dnsEntry = this.dnsEntry;
     final id = this.id;
+    final idleTimeoutSeconds = this.idleTimeoutSeconds;
     final name = this.name;
     final status = this.status;
     return {
@@ -5437,6 +5475,7 @@ class CreateServiceResponse {
       if (customDomainName != null) 'customDomainName': customDomainName,
       if (dnsEntry != null) 'dnsEntry': dnsEntry,
       if (id != null) 'id': id,
+      if (idleTimeoutSeconds != null) 'idleTimeoutSeconds': idleTimeoutSeconds,
       if (name != null) 'name': name,
       if (status != null) 'status': status.value,
     };
@@ -5472,6 +5511,10 @@ class GetServiceResponse {
   /// The ID of the service.
   final String? id;
 
+  /// The amount of time, in seconds, that a connection can remain idle before VPC
+  /// Lattice closes it.
+  final int? idleTimeoutSeconds;
+
   /// The date and time that the service was last updated, in ISO-8601 format.
   final DateTime? lastUpdatedAt;
 
@@ -5491,6 +5534,7 @@ class GetServiceResponse {
     this.failureCode,
     this.failureMessage,
     this.id,
+    this.idleTimeoutSeconds,
     this.lastUpdatedAt,
     this.name,
     this.status,
@@ -5509,6 +5553,7 @@ class GetServiceResponse {
       failureCode: json['failureCode'] as String?,
       failureMessage: json['failureMessage'] as String?,
       id: json['id'] as String?,
+      idleTimeoutSeconds: json['idleTimeoutSeconds'] as int?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       name: json['name'] as String?,
       status: (json['status'] as String?)?.let(ServiceStatus.fromString),
@@ -5525,6 +5570,7 @@ class GetServiceResponse {
     final failureCode = this.failureCode;
     final failureMessage = this.failureMessage;
     final id = this.id;
+    final idleTimeoutSeconds = this.idleTimeoutSeconds;
     final lastUpdatedAt = this.lastUpdatedAt;
     final name = this.name;
     final status = this.status;
@@ -5538,6 +5584,7 @@ class GetServiceResponse {
       if (failureCode != null) 'failureCode': failureCode,
       if (failureMessage != null) 'failureMessage': failureMessage,
       if (id != null) 'id': id,
+      if (idleTimeoutSeconds != null) 'idleTimeoutSeconds': idleTimeoutSeconds,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       if (name != null) 'name': name,
       if (status != null) 'status': status.value,
@@ -5562,6 +5609,10 @@ class UpdateServiceResponse {
   /// The ID of the service.
   final String? id;
 
+  /// The amount of time, in seconds, that a connection can remain idle before VPC
+  /// Lattice closes it.
+  final int? idleTimeoutSeconds;
+
   /// The name of the service.
   final String? name;
 
@@ -5571,6 +5622,7 @@ class UpdateServiceResponse {
     this.certificateArn,
     this.customDomainName,
     this.id,
+    this.idleTimeoutSeconds,
     this.name,
   });
 
@@ -5581,6 +5633,7 @@ class UpdateServiceResponse {
       certificateArn: json['certificateArn'] as String?,
       customDomainName: json['customDomainName'] as String?,
       id: json['id'] as String?,
+      idleTimeoutSeconds: json['idleTimeoutSeconds'] as int?,
       name: json['name'] as String?,
     );
   }
@@ -5591,6 +5644,7 @@ class UpdateServiceResponse {
     final certificateArn = this.certificateArn;
     final customDomainName = this.customDomainName;
     final id = this.id;
+    final idleTimeoutSeconds = this.idleTimeoutSeconds;
     final name = this.name;
     return {
       if (arn != null) 'arn': arn,
@@ -5598,6 +5652,7 @@ class UpdateServiceResponse {
       if (certificateArn != null) 'certificateArn': certificateArn,
       if (customDomainName != null) 'customDomainName': customDomainName,
       if (id != null) 'id': id,
+      if (idleTimeoutSeconds != null) 'idleTimeoutSeconds': idleTimeoutSeconds,
       if (name != null) 'name': name,
     };
   }

@@ -291,8 +291,12 @@ class Connect {
   ///
   /// <ul>
   /// <li>
-  /// Use this API with chat, email, and task contacts. It does not support
-  /// voice contacts.
+  /// Use this API with chat, email, task, and voice contacts. For voice
+  /// callbacks, this API does not support customer-first mode.
+  /// </li>
+  /// <li>
+  /// This API can be used to offer a contact to an agent even if the agent is
+  /// currently at maximum concurrency for the channel.
   /// </li>
   /// <li>
   /// Use it to associate contacts with users regardless of their current state,
@@ -595,10 +599,10 @@ class Connect {
   }
 
   /// Associates a set of hours of operations with another hours of operation.
-  /// Refer to Administrator Guide <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">
-  /// here </a> for more information on inheriting overrides from parent hours
-  /// of operation(s).
+  /// For more information about inheriting overrides from parent hours of
+  /// operation, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Hours
+  /// of operation overrides</a> in the Administrator Guide.
   ///
   /// May throw [ConditionalOperationFailedException].
   /// May throw [InternalServiceException].
@@ -991,9 +995,10 @@ class Connect {
   ///
   /// Parameter [manualAssignmentQueueConfigs] :
   /// The manual assignment queues to associate with this routing profile.
-  ///
-  /// Note: Use this config for chat, email, and task contacts. It does not
-  /// support voice contacts.
+  /// <note>
+  /// For voice contacts, manual assignment supports only agent-first callback
+  /// contacts. Chat, email, and task contacts are fully supported.
+  /// </note>
   ///
   /// Parameter [queueConfigs] :
   /// The queues to associate with this routing profile.
@@ -1449,9 +1454,11 @@ class Connect {
   /// Parameter [associatedResourceArn] :
   /// The resource to which the attached file is (being) uploaded to. The
   /// supported resources are <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>,
   /// and <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>.
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Task</a>.
   /// <note>
   /// This value must be a valid ARN.
   /// </note>
@@ -1737,9 +1744,11 @@ class Connect {
   /// Parameter [associatedResourceArn] :
   /// The resource to which the attached file is (being) uploaded to. The
   /// supported resources are <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>,
   /// and <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>.
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Task</a>.
   /// <note>
   /// This value must be a valid ARN.
   /// </note>
@@ -1825,6 +1834,149 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return CreateAgentStatusResponse.fromJson(response);
+  }
+
+  /// Creates an attached file for a completed voice contact by copying a
+  /// recording from a source S3 URI into Connect Customer managed storage. Use
+  /// this API to attach voice recordings to contacts for downstream processing
+  /// such as conversational analytics.
+  /// <important>
+  /// The <code>AssociatedResourceArn</code> must be the ARN of a completed
+  /// voice contact, <code>FileUseCaseType</code> must be set to
+  /// <code>VOICE_RECORDING</code>, and <code>FileSourceUri</code> must be a
+  /// valid S3 URI.
+  /// </important> <note>
+  /// For example, you can call <code>CreateContact</code>, then
+  /// <code>CreateAttachedFile</code>, then
+  /// <code>StartContactConversationalAnalyticsJob</code> to create a contact,
+  /// attach a recording, and run post-call analytics.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associatedResourceArn] :
+  /// The ARN of the completed voice contact to attach the file to. Only voice
+  /// contacts with Telephony subtype are supported.
+  /// <note>
+  /// This value must be a valid ARN.
+  /// </note>
+  ///
+  /// Parameter [fileSourceUri] :
+  /// The S3 URI of the file to be attached. Only S3 source URIs are supported.
+  ///
+  /// Parameter [fileUseCaseType] :
+  /// The use case for the file.
+  /// <important>
+  /// Only <code>VOICE_RECORDING</code> is supported.
+  /// </important>
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, <code>{ "Tags": {"key1":"value1", "key2":"value2"} }</code>.
+  Future<CreateAttachedFileResponse> createAttachedFile({
+    required String associatedResourceArn,
+    required String fileSourceUri,
+    required FileUseCaseType fileUseCaseType,
+    required String instanceId,
+    String? clientToken,
+    Map<String, String>? tags,
+  }) async {
+    final $query = <String, List<String>>{
+      'associatedResourceArn': [associatedResourceArn],
+    };
+    final $payload = <String, dynamic>{
+      'FileSourceUri': fileSourceUri,
+      'FileUseCaseType': fileUseCaseType.value,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/attached-files/${Uri.encodeComponent(instanceId)}/files',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAttachedFileResponse.fromJson(response);
+  }
+
+  /// Creates an authorization code for the specified Connect Customer instance.
+  /// The authorization code can be used to establish a session with scoped
+  /// permissions defined by the specified scope parameters.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [scope] :
+  /// The scope for the authorization code. Defines the permissions and access
+  /// boundaries for the session.
+  ///
+  /// Parameter [sessionInactivityDurationMinutes] :
+  /// The duration of inactivity, in minutes, after which the session expires.
+  /// Minimum value of 1440 (24 hours). Maximum value of 20160 (14 days).
+  ///
+  /// Parameter [maxSessionDurationMinutes] :
+  /// The maximum duration of the session, in minutes. Minimum value of 1440 (24
+  /// hours). Maximum value of 43200 (30 days). If no value is provided, the
+  /// session will expire after 400 days.
+  Future<CreateAuthCodeResponse> createAuthCode({
+    required String instanceId,
+    required AuthScope scope,
+    required int sessionInactivityDurationMinutes,
+    int? maxSessionDurationMinutes,
+  }) async {
+    _s.validateNumRange(
+      'sessionInactivityDurationMinutes',
+      sessionInactivityDurationMinutes,
+      0,
+      20160,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxSessionDurationMinutes',
+      maxSessionDurationMinutes,
+      1440,
+      43200,
+    );
+    final $payload = <String, dynamic>{
+      'Scope': scope,
+      'SessionInactivityDurationMinutes': sessionInactivityDurationMinutes,
+      if (maxSessionDurationMinutes != null)
+        'MaxSessionDurationMinutes': maxSessionDurationMinutes,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/auth/code/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAuthCodeResponse.fromJson(response);
   }
 
   /// <important>
@@ -2679,7 +2831,7 @@ class Connect {
   /// Configuration for parent hours of operations. Eg: ResourceArn.
   ///
   /// For more information about parent hours of operations, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Link
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Link
   /// overrides from different hours of operation</a> in the <i> Administrator
   /// Guide</i>.
   ///
@@ -2751,7 +2903,7 @@ class Connect {
   /// <i>recurring event</i>.
   ///
   /// For more information about how override types are applied, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Build
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Build
   /// your list of overrides</a> in the <i> Administrator Guide</i>.
   ///
   /// Parameter [recurrenceConfig] :
@@ -3611,9 +3763,10 @@ class Connect {
   /// can be passed during a CreateRoutingProfile API request. It is different
   /// from the quota of 50 queues per routing profile per instance that is
   /// listed in Connect Customer service quotas.
-  ///
-  /// Note: Use this config for chat, email, and task contacts. It does not
-  /// support voice contacts.
+  /// <note>
+  /// For voice contacts, manual assignment supports only agent-first callback
+  /// contacts. Chat, email, and task contacts are fully supported.
+  /// </note>
   ///
   /// Parameter [queueConfigs] :
   /// The inbound queues associated with the routing profile. If no queue is
@@ -3853,6 +4006,10 @@ class Connect {
   /// Parameter [fields] :
   /// Fields that are part of the template.
   ///
+  /// The request must contain exactly one field of type <code>NAME</code>. This
+  /// field must also be listed in the <code>RequiredFields</code> array within
+  /// the <code>Constraints</code> parameter.
+  ///
   /// Parameter [instanceId] :
   /// The identifier of the Connect Customer instance. You can <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
@@ -3869,11 +4026,20 @@ class Connect {
   /// retries safe with idempotent APIs</a>.
   ///
   /// Parameter [constraints] :
-  /// Constraints that are applicable to the fields listed.
+  /// Constraints that are applicable to the fields listed. Although this
+  /// parameter is marked as optional in the API model, the service requires it
+  /// when calling <code>CreateTaskTemplate</code> or
+  /// <code>UpdateTaskTemplate</code>. The <code>RequiredFields</code> array
+  /// must contain at least one element, and the field of type <code>NAME</code>
+  /// must be included in <code>RequiredFields</code>.
   ///
   /// Parameter [contactFlowId] :
   /// The identifier of the flow that runs by default when a task is created by
   /// referencing this template.
+  ///
+  /// Although this parameter is marked as optional, the request must contain
+  /// either a <code>ContactFlowId</code> or a field of type
+  /// <code>QUICK_CONNECT</code>.
   ///
   /// Parameter [defaults] :
   /// The default values for fields when a task is created by referencing this
@@ -4717,9 +4883,13 @@ class Connect {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [associatedResourceArn] :
-  /// The resource to which the attached file is (being) uploaded to. <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
-  /// are the only current supported resource.
+  /// The resource to which the attached file is (being) uploaded to. The
+  /// supported resources are <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>,
+  /// and <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Task</a>.
   /// <note>
   /// This value must be a valid ARN.
   /// </note>
@@ -4743,6 +4913,70 @@ class Connect {
       requestUri:
           '/attached-files/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(fileId)}',
       queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified fields containing personally identifiable
+  /// information (PII) from a contact in the specified Connect Customer
+  /// instance. We redact PII (such as customer endpoints, additional email
+  /// recipients, and the email subject) from the contact and its associated
+  /// contact trace record (CTR). The contact must be in a terminated state.
+  /// <important>
+  /// <b>This deletion is permanent and cannot be undone.</b> Performing this
+  /// operation permanently deletes the specified PII. There is no retention
+  /// period; you cannot recover the data after deletion. We remove only the
+  /// fields that Connect Customer identifies and stores as PII. Any PII that
+  /// you place in fields outside the scope of this operation remains your
+  /// responsibility to remove.
+  /// </important>
+  ///
+  /// May throw [ContactNotTerminatedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [contactFields] :
+  /// The categories of PII to redact from the contact. Specify one or more of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CUSTOMER_ENDPOINT</code> – The customer's contact endpoint.
+  /// </li>
+  /// <li>
+  /// <code>ADDITIONAL_EMAIL_RECIPIENTS</code> – Additional recipients on an
+  /// email contact (email channel only).
+  /// </li>
+  /// <li>
+  /// <code>EMAIL_SUBJECT</code> – The subject line of an email contact (email
+  /// channel only).
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact. You can delete PII only from a contact that
+  /// has been disconnected (is in a terminated state).
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  Future<void> deleteContactData({
+    required List<ContactField> contactFields,
+    required String contactId,
+    required String instanceId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactFields': contactFields.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact/delete/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5510,6 +5744,35 @@ class Connect {
       method: 'DELETE',
       requestUri:
           '/security-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(securityProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a session for the specified Connect Customer instance.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [sessionId] :
+  /// The identifier of the session to delete.
+  Future<void> deleteSession({
+    required String instanceId,
+    required String sessionId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/auth/sessions/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(sessionId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -7416,10 +7679,10 @@ class Connect {
   }
 
   /// Disassociates a set of hours of operations with another hours of
-  /// operation. Refer to Administrator Guide <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">
-  /// here </a> for more information on inheriting overrides from parent hours
-  /// of operation(s).
+  /// operation. For more information about inheriting overrides from parent
+  /// hours of operation, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Hours
+  /// of operation overrides</a> in the Administrator Guide.
   ///
   /// May throw [ConditionalOperationFailedException].
   /// May throw [InternalServiceException].
@@ -8117,9 +8380,11 @@ class Connect {
   /// Parameter [associatedResourceArn] :
   /// The resource to which the attached file is (being) uploaded to. The
   /// supported resources are <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>,
   /// and <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>.
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Task</a>.
   /// <note>
   /// This value must be a valid ARN.
   /// </note>
@@ -8695,6 +8960,50 @@ class Connect {
     return GetEffectiveHoursOfOperationsResponse.fromJson(response);
   }
 
+  /// Retrieves the status and results of a validation process started by <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartEvaluationFormValidation.html">StartEvaluationFormValidation</a>.
+  /// Returns the current execution status (<code>IN_PROGRESS</code>,
+  /// <code>COMPLETED</code>, or <code>FAILED</code>), the validated form
+  /// version, and when completed, a list of findings that identify structural
+  /// issues and quality improvements for the evaluation form, and may include
+  /// suggested fixes. If the validation failed, a reason is provided indicating
+  /// the cause of the failure.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [evaluationFormId] :
+  /// The unique identifier for the evaluation form.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [evaluationFormVersion] :
+  /// The version of the evaluation form to retrieve validation results for.
+  Future<GetEvaluationFormValidationResponse> getEvaluationFormValidation({
+    required String evaluationFormId,
+    required String instanceId,
+    int? evaluationFormVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (evaluationFormVersion != null)
+        'version': [evaluationFormVersion.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/evaluation-forms/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(evaluationFormId)}/validation-results',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEvaluationFormValidationResponse.fromJson(response);
+  }
+
   /// Supports SAML sign-in for Connect Customer. Retrieves a token for
   /// federation. The token is for the Connect Customer user which corresponds
   /// to the IAM credentials that were used to invoke this action.
@@ -8718,6 +9027,7 @@ class Connect {
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [UserNotFoundException].
   ///
   /// Parameter [instanceId] :
@@ -9194,12 +9504,14 @@ class Connect {
   /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code> |
   /// <code>ANSWERING_MACHINE_DETECTION_STATUS</code> | <code>BOT_ALIAS</code> |
   /// <code>BOT_ID</code> | <code>BOT_INTENT_NAME</code> |
-  /// <code>BOT_LOCALE</code> | <code>BOT_VERSION</code> | <code>CAMPAIGN</code>
-  /// | <code>CAMPAIGN_DELIVERY_EVENT_TYPE</code> |
+  /// <code>BOT_LOCALE</code> | <code>BOT_VERSION</code> |
+  /// <code>BROWSER_NAME</code> | <code>CAMPAIGN</code> |
+  /// <code>CAMPAIGN_DELIVERY_EVENT_TYPE</code> |
   /// <code>CAMPAIGN_EXCLUDED_EVENT_TYPE</code> | <code>CASE_STATUS</code> |
   /// <code>CASE_TEMPLATE_ARN</code> | <code>CHANNEL</code> |
   /// <code>contact/segmentAttributes/connect:Subtype</code> |
   /// <code>contact/segmentAttributes/connect:ValidationTestType</code> |
+  /// <code>DEVICE_MODEL</code> | <code>DEVICE_TYPE</code> |
   /// <code>DISCONNECT_REASON</code> | <code>EVALUATION_FORM</code> |
   /// <code>EVALUATION_QUESTION</code> | <code>EVALUATION_SECTION</code> |
   /// <code>EVALUATION_SOURCE</code> | <code>EVALUATOR_ID</code> |
@@ -9218,7 +9530,8 @@ class Connect {
   /// <code>SESSION_ID</code> | <code>TEST_CASE</code> |
   /// <code>TEST_CASE_EXECUTION_FAILURE_REASON</code> |
   /// <code>TEST_CASE_EXECUTION_RESULT</code> |
-  /// <code>TEST_CASE_EXECUTION_STATE</code>
+  /// <code>TEST_CASE_EXECUTION_STATE</code> |
+  /// <code>WEB_NOTIFICATION_TYPE</code>
   /// <note>
   /// The following filter keys correspond to Connect Customer resources and are
   /// used for authorizing requests. A <code>GetMetricDataV2</code> request
@@ -9258,9 +9571,9 @@ class Connect {
   /// </li>
   /// <li>
   /// <code>ROUTING_STEP_EXPRESSION</code> accepts a filter value up to 3,000
-  /// characters in length. This filter is case-sensitive and order-sensitive.
-  /// JSON string fields must be sorted in ascending order, and JSON array order
-  /// must be preserved.
+  /// characters in length. Filter values are case-sensitive. JSON object key
+  /// order and whitespace may be arbitrary; array order and tree structure must
+  /// be preserved.
   /// </li>
   /// <li>
   /// TRUE and FALSE are the only valid filter values for the
@@ -10293,14 +10606,16 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x-rate">Campaign
   /// contacts abandoned after X rate</a>
   /// </dd> <dt>CAMPAIGN_INTERACTIONS</dt> <dd>
-  /// This metric is available only for outbound campaigns using the email
-  /// delivery mode.
+  /// This metric is available only for outbound campaigns using the email,
+  /// WhatsApp, and web notification delivery modes.
   ///
   /// Unit: Count
   ///
   /// Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE
   ///
-  /// Valid groupings and filters: Campaign
+  /// Valid groupings and filters: Browser Name, Campaign, Channel,
+  /// contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Web
+  /// Notification Type
   ///
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-interactions">Campaign
@@ -10548,18 +10863,19 @@ class Connect {
   /// <code>CAMPAIGN_DELIVERY_EVENT_TYPE</code>, <code>DISCONNECT_REASON</code>
   ///
   /// Valid groupings and filters: Agent, Answering Machine Detection Status,
-  /// Campaign, Campaign Delivery EventType, Channel,
-  /// contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue,
-  /// Routing Profile
+  /// Browser Name, Campaign, Campaign Delivery EventType, Channel,
+  /// contact/segmentAttributes/connect:Subtype, Device Model, Device Type,
+  /// Disconnect Reason, Queue, Routing Profile, Web Notification Type
   ///
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempts">Delivery
   /// attempts</a>
   /// <note>
-  /// Campaign Delivery EventType filter and grouping are only available for SMS
-  /// and Email campaign delivery modes. Agent, Queue, Routing Profile,
-  /// Answering Machine Detection Status and Disconnect Reason are only
-  /// available for agent assisted voice and automated voice delivery modes.
+  /// Campaign Delivery EventType filter and grouping are only available for
+  /// SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent,
+  /// Queue, Routing Profile, Answering Machine Detection Status and Disconnect
+  /// Reason are only available for agent assisted voice and automated voice
+  /// delivery modes.
   /// </note> </dd> <dt>DELIVERY_ATTEMPT_DISPOSITION_RATE</dt> <dd>
   /// This metric is available only for outbound campaigns. Dispositions for the
   /// agent assisted voice and automated voice delivery modes are only available
@@ -10571,17 +10887,19 @@ class Connect {
   /// <code>CAMPAIGN_DELIVERY_EVENT_TYPE</code>, <code>DISCONNECT_REASON</code>
   ///
   /// Valid groupings and filters: Agent, Answering Machine Detection Status,
-  /// Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect
-  /// Reason, Queue, Routing Profile
+  /// Browser Name, Campaign, Channel,
+  /// contact/segmentAttributes/connect:Subtype, Device Model, Device Type,
+  /// Disconnect Reason, Queue, Routing Profile, Web Notification Type
   ///
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempt-disposition-rate">Delivery
   /// attempt disposition rate</a>
   /// <note>
   /// Campaign Delivery Event Type filter and grouping are only available for
-  /// SMS and Email campaign delivery modes. Agent, Queue, Routing Profile,
-  /// Answering Machine Detection Status and Disconnect Reason are only
-  /// available for agent assisted voice and automated voice delivery modes.
+  /// SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent,
+  /// Queue, Routing Profile, Answering Machine Detection Status and Disconnect
+  /// Reason are only available for agent assisted voice and automated voice
+  /// delivery modes.
   /// </note> </dd> <dt>EVALUATIONS_PERFORMED</dt> <dd>
   /// Unit: Count
   ///
@@ -11074,11 +11392,13 @@ class Connect {
   /// <code>ANSWERING_MACHINE_DETECTION_STATUS</code> | <code>BOT_ID</code> |
   /// <code>BOT_ALIAS</code> | <code>BOT_VERSION</code> |
   /// <code>BOT_LOCALE</code> | <code>BOT_INTENT_NAME</code> |
-  /// <code>CAMPAIGN</code> | <code>CAMPAIGN_DELIVERY_EVENT_TYPE</code> |
+  /// <code>BROWSER_NAME</code> | <code>CAMPAIGN</code> |
+  /// <code>CAMPAIGN_DELIVERY_EVENT_TYPE</code> |
   /// <code>CAMPAIGN_EXCLUDED_EVENT_TYPE</code> |
   /// <code>CAMPAIGN_EXECUTION_TIMESTAMP</code> | <code>CASE_TEMPLATE_ARN</code>
   /// | <code>CASE_STATUS</code> | <code>CHANNEL</code> |
   /// <code>contact/segmentAttributes/connect:Subtype</code> |
+  /// <code>DEVICE_MODEL</code> | <code>DEVICE_TYPE</code> |
   /// <code>DISCONNECT_REASON</code> | <code>EVALUATION_FORM</code> |
   /// <code>EVALUATION_SECTION</code> | <code>EVALUATION_QUESTION</code> |
   /// <code>EVALUATION_SOURCE</code> | <code>EVALUATOR_ID</code> |
@@ -11093,7 +11413,8 @@ class Connect {
   /// <code>RESOURCE_PUBLISHED_TIMESTAMP</code> | <code>ROUTING_PROFILE</code> |
   /// <code>ROUTING_STEP_EXPRESSION</code> | <code>SESSION_ID</code> |
   /// <code>TEST_CASE</code> | <code>TEST_CASE_EXECUTION_FAILURE_REASON</code> |
-  /// <code>TEST_CASE_INVOCATION_METHOD</code>
+  /// <code>TEST_CASE_INVOCATION_METHOD</code> |
+  /// <code>WEB_NOTIFICATION_TYPE</code>
   /// <note>
   /// <code>AI_AGENT_NAME_VERSION</code>, <code>AI_PROMPT_NAME_VERSION</code>,
   /// and <code>KNOWLEDGE_ARTICLE_NAME</code> are valid groupings but not valid
@@ -11862,7 +12183,7 @@ class Connect {
   /// parent hours of operation.
   ///
   /// For more information about child hours of operations, see <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/">Link
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Link
   /// overrides from different hours of operation</a> in the <i> Administrator
   /// Guide</i>.
   ///
@@ -16663,6 +16984,61 @@ class Connect {
     return SearchRoutingProfilesResponse.fromJson(response);
   }
 
+  /// Searches rules in an Connect Customer instance, with optional filtering.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return rules.
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results, such as tag-based filters.
+  Future<SearchRulesResponse> searchRules({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    RulesSearchCriteria? searchCriteria,
+    RulesSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-rules',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchRulesResponse.fromJson(response);
+  }
+
   /// Searches security profiles in an Connect Customer instance, with optional
   /// filtering.
   ///
@@ -17281,14 +17657,97 @@ class Connect {
     );
   }
 
+  /// Sends an outbound web notification to a customer's web browser for
+  /// outbound campaigns. For more information about outbound campaigns, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/enable-outbound-campaigns.html">Set
+  /// up Connect Customer outbound campaigns</a>.
+  /// <note>
+  /// Only the Connect Customer outbound campaigns service principal is allowed
+  /// to assume a role in your account and call this API.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [browserId] :
+  /// A unique identifier for the customer's web browser instance to which the
+  /// notification is being sent.
+  ///
+  /// Parameter [content] :
+  /// The content of the web notification, including the notification type, the
+  /// view to render, and any optional attributes used to populate it.
+  ///
+  /// Parameter [destination] :
+  /// The destination for the web notification, specifying the communication
+  /// widget that delivers the notification and the customer profile of the
+  /// recipient.
+  ///
+  /// Parameter [expiresAt] :
+  /// The timestamp, in Unix epoch time format, at which the web notification
+  /// expires. After this time, the notification is no longer delivered to the
+  /// customer's browser.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [sessionId] :
+  /// A unique identifier for the customer's web session to which the
+  /// notification is being sent.
+  ///
+  /// Parameter [source] :
+  /// The source of the web notification. A <code>SourceCampaign</code> object
+  /// identifies the campaign and outbound request that triggered this
+  /// notification.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  Future<void> sendOutboundWebNotification({
+    required String browserId,
+    required WebNotificationContent content,
+    required WidgetDestination destination,
+    required DateTime expiresAt,
+    required String instanceId,
+    required String sessionId,
+    required WebNotificationSource source,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'BrowserId': browserId,
+      'Content': content,
+      'Destination': destination,
+      'ExpiresAt': unixTimestampToJson(expiresAt),
+      'SessionId': sessionId,
+      'Source': source,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/outbound-web-notification',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Provides a pre-signed Amazon S3 URL in response for uploading your
   /// content.
   /// <important>
-  /// You may only use this API to upload attachments to an <a
+  /// You may only use this API to upload attachments to a <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Connect
-  /// Customer Case</a> or <a
+  /// Customer Case</a>, <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Connect
-  /// Customer Email</a>.
+  /// Customer Email</a>, or <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Connect
+  /// Customer Task</a>.
   /// </important>
   ///
   /// May throw [AccessDeniedException].
@@ -17301,9 +17760,11 @@ class Connect {
   /// Parameter [associatedResourceArn] :
   /// The resource to which the attached file is (being) uploaded to. The
   /// supported resources are <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>,
   /// and <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>.
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Task</a>.
   /// <note>
   /// This value must be a valid ARN.
   /// </note>
@@ -17594,6 +18055,73 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return StartChatContactResponse.fromJson(response);
+  }
+
+  /// Starts a Contact Lens post-call analytics job for the specified contact.
+  /// This API runs Conversational Analytics post-contact analysis on a voice
+  /// recording that is already attached to the contact, generating
+  /// transcription, sentiment analysis, redaction, and summarization results
+  /// based on the provided configuration.
+  /// <important>
+  /// A voice recording must already be attached to the contact before calling
+  /// this API. Use <code>CreateAttachedFile</code> to attach a recording from
+  /// an S3 source URI.
+  /// </important> <note>
+  /// For example, you can call <code>CreateContact</code>, then
+  /// <code>CreateAttachedFile</code>, then
+  /// <code>StartContactConversationalAnalyticsJob</code> to create a contact,
+  /// attach a recording, and run post-call analytics.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [IdempotencyException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [analyticsConfiguration] :
+  /// The configuration for the conversational analytics job.
+  ///
+  /// Parameter [analyticsModes] :
+  /// The analytics modes to run for the contact. Valid values:
+  /// <code>PostContact</code>.
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact in this instance of Connect Customer.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  Future<StartContactConversationalAnalyticsJobResponse>
+      startContactConversationalAnalyticsJob({
+    required AnalyticsConfiguration analyticsConfiguration,
+    required List<AnalyticsMode> analyticsModes,
+    required String contactId,
+    required String instanceId,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AnalyticsConfiguration': analyticsConfiguration,
+      'AnalyticsModes': analyticsModes.map((e) => e.value).toList(),
+      if (clientToken != null) 'ClientToken': clientToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact/start-conversational-analytics-job/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartContactConversationalAnalyticsJobResponse.fromJson(response);
   }
 
   /// Starts an empty evaluation in the specified Connect Customer instance,
@@ -17979,6 +18507,50 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return StartEmailContactResponse.fromJson(response);
+  }
+
+  /// Starts an asynchronous validation process for an evaluation form version
+  /// in the specified Connect Customer instance. The validation first performs
+  /// structural checks on the form content (such as verifying required fields,
+  /// valid scoring configuration, and correct conditional logic), then
+  /// asynchronously analyzes questions configured for generative AI evaluation
+  /// against a set of best practices. Use <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_GetEvaluationFormValidation.html">GetEvaluationFormValidation</a>
+  /// to retrieve the status and results once the validation completes.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [evaluationFormId] :
+  /// The unique identifier for the evaluation form.
+  ///
+  /// Parameter [evaluationFormVersion] :
+  /// The version of the evaluation form to validate.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  Future<StartEvaluationFormValidationResponse> startEvaluationFormValidation({
+    required String evaluationFormId,
+    required int evaluationFormVersion,
+    required String instanceId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'EvaluationFormVersion': evaluationFormVersion,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/evaluation-forms/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(evaluationFormId)}/validate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartEvaluationFormValidationResponse.fromJson(response);
   }
 
   /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response
@@ -20261,6 +20833,96 @@ class Connect {
     );
   }
 
+  /// Updates the task template association on an existing task contact. You can
+  /// update the task template on a contact before assignment to support tasks
+  /// that are created without a template (for example <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-rules.html">Rules</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/set-disconnect-flow.html">disconnect
+  /// flows</a>) or change the agent interaction form to represent the latest
+  /// task data (for example an initial request that was submitted as a refund
+  /// gets updated to an account cancellation and requires a new template).
+  ///
+  /// This operation can only be used with task contacts that are in progress
+  /// and not connected to an agent. A task template can be updated a maximum of
+  /// 5 times per contact.
+  ///
+  /// The task's references must be compatible with the fields of the target
+  /// task template. If the target template has a required field, the task must
+  /// have a corresponding reference with a matching name and compatible type.
+  /// The following task template field types map to reference types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TEXT</code>, <code>TEXT_AREA</code>, <code>BOOLEAN</code>, and
+  /// <code>SINGLE_SELECT</code> map to references of type <code>STRING</code>.
+  /// </li>
+  /// <li>
+  /// <code>NUMBER</code> maps to references of type <code>NUMBER</code>.
+  /// </li>
+  /// <li>
+  /// <code>DATE_TIME</code> maps to references of type <code>DATE</code>.
+  /// </li>
+  /// <li>
+  /// <code>URL</code> maps to references of type <code>URL</code>.
+  /// </li>
+  /// <li>
+  /// <code>EMAIL</code> maps to references of type <code>EMAIL</code>.
+  /// </li>
+  /// </ul>
+  /// References corresponding to <code>TEXT</code> fields must be fewer than
+  /// 512 characters. <code>TEXT_AREA</code> fields must be fewer than 4,096
+  /// characters. <code>BOOLEAN</code> fields must have a value of
+  /// <code>true</code> or <code>false</code>.
+  ///
+  /// An <code>InvalidRequestException</code> occurs when
+  /// <code>UpdateContactTaskTemplate</code> is called on a connected or
+  /// terminated task, when it is called on non-task contacts, and when the task
+  /// contact already uses the provided task template. A
+  /// <code>PropertyValidationException</code> occurs when the task's references
+  /// conflict with the task template's fields, for example if the task is
+  /// missing a reference that matches a required field, or if the task has a
+  /// reference that matches a required field's name but not its datatype.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [PropertyValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact in this instance of Connect Customer.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Connect Customer instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [taskTemplateId] :
+  /// A unique identifier for the task template. For more information about task
+  /// templates, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html">Task
+  /// templates</a> in the <i>Connect Customer Administrator Guide</i>.
+  Future<void> updateContactTaskTemplate({
+    required String contactId,
+    required String instanceId,
+    required String taskTemplateId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InstanceId': instanceId,
+      'TaskTemplateId': taskTemplateId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/task-template',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates all properties for an attribute using all properties from
   /// CreateDataTableAttribute. There are no other granular update endpoints. It
   /// does not act as a patch operation - all properties must be provided.
@@ -20711,7 +21373,7 @@ class Connect {
   /// <i>recurring event</i>.
   ///
   /// For more information about how override types are applied, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Build
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Build
   /// your list of overrides</a> in the <i> Administrator Guide</i>.
   ///
   /// Parameter [recurrenceConfig] :
@@ -21965,11 +22627,20 @@ class Connect {
   /// A unique identifier for the task template.
   ///
   /// Parameter [constraints] :
-  /// Constraints that are applicable to the fields listed.
+  /// Constraints that are applicable to the fields listed. Although this
+  /// parameter is marked as optional in the API model, the service requires it
+  /// when calling <code>CreateTaskTemplate</code> or
+  /// <code>UpdateTaskTemplate</code>. The <code>RequiredFields</code> array
+  /// must contain at least one element, and the field of type <code>NAME</code>
+  /// must be included in <code>RequiredFields</code>.
   ///
   /// Parameter [contactFlowId] :
   /// The identifier of the flow that runs by default when a task is created by
   /// referencing this template.
+  ///
+  /// Although this parameter is marked as optional, the request must contain
+  /// either a <code>ContactFlowId</code> or a field of type
+  /// <code>QUICK_CONNECT</code>.
   ///
   /// Parameter [defaults] :
   /// The default values for fields when a task is created by referencing this
@@ -21980,6 +22651,10 @@ class Connect {
   ///
   /// Parameter [fields] :
   /// Fields that are part of the template.
+  ///
+  /// The request must contain exactly one field of type <code>NAME</code>. This
+  /// field must also be listed in the <code>RequiredFields</code> array within
+  /// the <code>Constraints</code> parameter.
   ///
   /// Parameter [name] :
   /// The name of the task template.
@@ -21993,6 +22668,9 @@ class Connect {
   /// task to refer to it. Tasks can only be created from <code>ACTIVE</code>
   /// templates. If a template is marked as <code>INACTIVE</code>, then a task
   /// that refers to this template cannot be created.
+  ///
+  /// Although this parameter is marked as optional, the service requires it
+  /// when calling <code>UpdateTaskTemplate</code>.
   Future<UpdateTaskTemplateResponse> updateTaskTemplate({
     required String instanceId,
     required String taskTemplateId,
@@ -23550,6 +24228,102 @@ class CreateAgentStatusResponse {
   }
 }
 
+/// Response from CreateAttachedFile API.
+///
+/// @nodoc
+class CreateAttachedFileResponse {
+  /// The time of Creation of the file resource as an ISO timestamp. It's
+  /// specified in ISO 8601 format: <code>yyyy-MM-ddThh:mm:ss.SSSZ</code>. For
+  /// example, <code>2024-05-03T02:41:28.172Z</code>.
+  final String? creationTime;
+
+  /// The unique identifier of the attached file resource (ARN).
+  final String? fileArn;
+
+  /// The unique identifier of the attached file resource.
+  final String? fileId;
+
+  /// The current status of the attached file. Valid values:
+  /// <code>PROCESSING</code> | <code>APPROVED</code> | <code>REJECTED</code> |
+  /// <code>FAILED</code>.
+  final FileStatusType? fileStatus;
+
+  CreateAttachedFileResponse({
+    this.creationTime,
+    this.fileArn,
+    this.fileId,
+    this.fileStatus,
+  });
+
+  factory CreateAttachedFileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAttachedFileResponse(
+      creationTime: json['CreationTime'] as String?,
+      fileArn: json['FileArn'] as String?,
+      fileId: json['FileId'] as String?,
+      fileStatus:
+          (json['FileStatus'] as String?)?.let(FileStatusType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final fileArn = this.fileArn;
+    final fileId = this.fileId;
+    final fileStatus = this.fileStatus;
+    return {
+      if (creationTime != null) 'CreationTime': creationTime,
+      if (fileArn != null) 'FileArn': fileArn,
+      if (fileId != null) 'FileId': fileId,
+      if (fileStatus != null) 'FileStatus': fileStatus.value,
+    };
+  }
+}
+
+/// @nodoc
+class CreateAuthCodeResponse {
+  /// The authorization code to use for establishing a session.
+  final String? authCode;
+
+  /// The identifier of the entity associated with the authorization code.
+  final String? entityId;
+
+  /// The type of entity associated with the authorization code.
+  final AuthCodeEntityType? entityType;
+
+  /// The identifier of the session created with the authorization code.
+  final String? sessionId;
+
+  CreateAuthCodeResponse({
+    this.authCode,
+    this.entityId,
+    this.entityType,
+    this.sessionId,
+  });
+
+  factory CreateAuthCodeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAuthCodeResponse(
+      authCode: json['AuthCode'] as String?,
+      entityId: json['EntityId'] as String?,
+      entityType:
+          (json['EntityType'] as String?)?.let(AuthCodeEntityType.fromString),
+      sessionId: json['SessionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authCode = this.authCode;
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    final sessionId = this.sessionId;
+    return {
+      if (authCode != null) 'AuthCode': authCode,
+      if (entityId != null) 'EntityId': entityId,
+      if (entityType != null) 'EntityType': entityType.value,
+      if (sessionId != null) 'SessionId': sessionId,
+    };
+  }
+}
+
 /// @nodoc
 class CreateContactResponse {
   /// The Amazon Resource Name (ARN) of the created contact.
@@ -24667,6 +25441,19 @@ class DeleteAttachedFileResponse {
 }
 
 /// @nodoc
+class DeleteContactDataResponse {
+  DeleteContactDataResponse();
+
+  factory DeleteContactDataResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteContactDataResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class DeleteContactFlowResponse {
   DeleteContactFlowResponse();
 
@@ -24806,6 +25593,19 @@ class DeletePushNotificationRegistrationResponse {
   factory DeletePushNotificationRegistrationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeletePushNotificationRegistrationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteSessionResponse {
+  DeleteSessionResponse();
+
+  factory DeleteSessionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSessionResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -26068,9 +26868,13 @@ class GetAttachedFileResponse {
   /// The size of the attached file in bytes.
   final int fileSizeInBytes;
 
-  /// The resource to which the attached file is (being) uploaded to. <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
-  /// are the only current supported resource.
+  /// The resource to which the attached file is (being) uploaded to. The
+  /// supported resources are <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>,
+  /// and <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Task</a>.
   final String? associatedResourceArn;
 
   /// Represents the identity that created the file.
@@ -26345,7 +27149,7 @@ class GetEffectiveHoursOfOperationsResponse {
   /// operation to calculate the effective hours.
   ///
   /// For more information about how override types are applied, see <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Build
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html">Build
   /// your list of overrides</a> in the <i> Administrator Guide</i>.
   final List<EffectiveOverrideHours>? effectiveOverrideHoursList;
 
@@ -26386,6 +27190,75 @@ class GetEffectiveHoursOfOperationsResponse {
       if (effectiveOverrideHoursList != null)
         'EffectiveOverrideHoursList': effectiveOverrideHoursList,
       if (timeZone != null) 'TimeZone': timeZone,
+    };
+  }
+}
+
+/// @nodoc
+class GetEvaluationFormValidationResponse {
+  /// The unique identifier for the evaluation form.
+  final String evaluationFormId;
+
+  /// A version of the evaluation form.
+  final int evaluationFormVersion;
+
+  /// The timestamp when the validation process was started.
+  final DateTime startedTime;
+
+  /// The current status of the validation process. Valid values:
+  /// <code>IN_PROGRESS</code>, <code>COMPLETED</code>, <code>FAILED</code>.
+  final EvaluationFormValidationStatus status;
+
+  /// The reason the validation failed. This field is populated only when the
+  /// status is <code>FAILED</code>.
+  final String? failureReason;
+
+  /// A list of findings from the validation process. Each finding identifies a
+  /// structural issue or quality improvement for the evaluation form, and may
+  /// include a suggested fix. This field is populated when the status is
+  /// <code>COMPLETED</code>.
+  final List<EvaluationFormValidationFinding>? findings;
+
+  GetEvaluationFormValidationResponse({
+    required this.evaluationFormId,
+    required this.evaluationFormVersion,
+    required this.startedTime,
+    required this.status,
+    this.failureReason,
+    this.findings,
+  });
+
+  factory GetEvaluationFormValidationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEvaluationFormValidationResponse(
+      evaluationFormId: (json['EvaluationFormId'] as String?) ?? '',
+      evaluationFormVersion: (json['EvaluationFormVersion'] as int?) ?? 0,
+      startedTime: nonNullableTimeStampFromJson(json['StartedTime'] ?? 0),
+      status: EvaluationFormValidationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      failureReason: json['FailureReason'] as String?,
+      findings: (json['Findings'] as List?)
+          ?.nonNulls
+          .map((e) => EvaluationFormValidationFinding.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationFormId = this.evaluationFormId;
+    final evaluationFormVersion = this.evaluationFormVersion;
+    final startedTime = this.startedTime;
+    final status = this.status;
+    final failureReason = this.failureReason;
+    final findings = this.findings;
+    return {
+      'EvaluationFormId': evaluationFormId,
+      'EvaluationFormVersion': evaluationFormVersion,
+      'StartedTime': unixTimestampToJson(startedTime),
+      'Status': status.value,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (findings != null) 'Findings': findings,
     };
   }
 }
@@ -26600,7 +27473,12 @@ class GetTaskTemplateResponse {
   /// The name of the task template.
   final String name;
 
-  /// Constraints that are applicable to the fields listed.
+  /// Constraints that are applicable to the fields listed. Although this
+  /// parameter is marked as optional in the API model, the service requires it
+  /// when calling <code>CreateTaskTemplate</code> or
+  /// <code>UpdateTaskTemplate</code>. The <code>RequiredFields</code> array must
+  /// contain at least one element, and the field of type <code>NAME</code> must
+  /// be included in <code>RequiredFields</code>.
   final TaskTemplateConstraints? constraints;
 
   /// The identifier of the flow that runs by default when a task is created by
@@ -30400,6 +31278,48 @@ class SearchRoutingProfilesResponse {
 }
 
 /// @nodoc
+class SearchRulesResponse {
+  /// Information about the rules.
+  final List<RuleSearchSummary> rules;
+
+  /// The total number of rules which matched your search query.
+  final int? approximateTotalCount;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  SearchRulesResponse({
+    required this.rules,
+    this.approximateTotalCount,
+    this.nextToken,
+  });
+
+  factory SearchRulesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchRulesResponse(
+      rules: ((json['Rules'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RuleSearchSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    final approximateTotalCount = this.approximateTotalCount;
+    final nextToken = this.nextToken;
+    return {
+      'Rules': rules,
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
 class SearchSecurityProfilesResponse {
   /// The total number of security profiles which matched your search query.
   final int? approximateTotalCount;
@@ -30782,6 +31702,19 @@ class SendOutboundEmailResponse {
   }
 }
 
+/// @nodoc
+class SendOutboundWebNotificationResponse {
+  SendOutboundWebNotificationResponse();
+
+  factory SendOutboundWebNotificationResponse.fromJson(Map<String, dynamic> _) {
+    return SendOutboundWebNotificationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Response from StartAttachedFileUpload API.
 ///
 /// @nodoc
@@ -30900,6 +31833,37 @@ class StartChatContactResponse {
 }
 
 /// @nodoc
+class StartContactConversationalAnalyticsJobResponse {
+  /// The identifier of the contact.
+  final String? contactId;
+
+  /// The identifier of the Connect Customer instance.
+  final String? instanceId;
+
+  StartContactConversationalAnalyticsJobResponse({
+    this.contactId,
+    this.instanceId,
+  });
+
+  factory StartContactConversationalAnalyticsJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartContactConversationalAnalyticsJobResponse(
+      contactId: json['ContactId'] as String?,
+      instanceId: json['InstanceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactId = this.contactId;
+    final instanceId = this.instanceId;
+    return {
+      if (contactId != null) 'ContactId': contactId,
+      if (instanceId != null) 'InstanceId': instanceId,
+    };
+  }
+}
+
+/// @nodoc
 class StartContactEvaluationResponse {
   /// The Amazon Resource Name (ARN) for the contact evaluation resource.
   final String evaluationArn;
@@ -30997,6 +31961,44 @@ class StartEmailContactResponse {
     final contactId = this.contactId;
     return {
       if (contactId != null) 'ContactId': contactId,
+    };
+  }
+}
+
+/// @nodoc
+class StartEvaluationFormValidationResponse {
+  /// The Amazon Resource Name (ARN) for the evaluation form resource.
+  final String evaluationFormArn;
+
+  /// The unique identifier for the evaluation form.
+  final String evaluationFormId;
+
+  /// A version of the evaluation form.
+  final int evaluationFormVersion;
+
+  StartEvaluationFormValidationResponse({
+    required this.evaluationFormArn,
+    required this.evaluationFormId,
+    required this.evaluationFormVersion,
+  });
+
+  factory StartEvaluationFormValidationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartEvaluationFormValidationResponse(
+      evaluationFormArn: (json['EvaluationFormArn'] as String?) ?? '',
+      evaluationFormId: (json['EvaluationFormId'] as String?) ?? '',
+      evaluationFormVersion: (json['EvaluationFormVersion'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationFormArn = this.evaluationFormArn;
+    final evaluationFormId = this.evaluationFormId;
+    final evaluationFormVersion = this.evaluationFormVersion;
+    return {
+      'EvaluationFormArn': evaluationFormArn,
+      'EvaluationFormId': evaluationFormId,
+      'EvaluationFormVersion': evaluationFormVersion,
     };
   }
 }
@@ -31585,6 +32587,19 @@ class UpdateContactScheduleResponse {
 }
 
 /// @nodoc
+class UpdateContactTaskTemplateResponse {
+  UpdateContactTaskTemplateResponse();
+
+  factory UpdateContactTaskTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateContactTaskTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class UpdateDataTableAttributeResponse {
   /// The new lock version for the attribute after the update.
   final DataTableLockVersion lockVersion;
@@ -31843,7 +32858,12 @@ class UpdateTaskTemplateResponse {
   /// The Amazon Resource Name (ARN) for the task template resource.
   final String? arn;
 
-  /// Constraints that are applicable to the fields listed.
+  /// Constraints that are applicable to the fields listed. Although this
+  /// parameter is marked as optional in the API model, the service requires it
+  /// when calling <code>CreateTaskTemplate</code> or
+  /// <code>UpdateTaskTemplate</code>. The <code>RequiredFields</code> array must
+  /// contain at least one element, and the field of type <code>NAME</code> must
+  /// be included in <code>RequiredFields</code>.
   final TaskTemplateConstraints? constraints;
 
   /// The identifier of the flow that runs by default when a task is created by
@@ -36990,9 +38010,13 @@ class EvaluationFormScoringStrategy {
   /// The scoring status of the evaluation form.
   final EvaluationFormScoringStatus status;
 
+  /// The score thresholds for performance categories.
+  final List<EvaluationFormScoreThreshold>? scoreThresholds;
+
   EvaluationFormScoringStrategy({
     required this.mode,
     required this.status,
+    this.scoreThresholds,
   });
 
   factory EvaluationFormScoringStrategy.fromJson(Map<String, dynamic> json) {
@@ -37001,15 +38025,22 @@ class EvaluationFormScoringStrategy {
           EvaluationFormScoringMode.fromString((json['Mode'] as String?) ?? ''),
       status: EvaluationFormScoringStatus.fromString(
           (json['Status'] as String?) ?? ''),
+      scoreThresholds: (json['ScoreThresholds'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EvaluationFormScoreThreshold.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     final status = this.status;
+    final scoreThresholds = this.scoreThresholds;
     return {
       'Mode': mode.value,
       'Status': status.value,
+      if (scoreThresholds != null) 'ScoreThresholds': scoreThresholds,
     };
   }
 }
@@ -37144,12 +38175,24 @@ class EvaluationFormLanguageCode {
   static const jaJp = EvaluationFormLanguageCode._('ja-JP');
   static const koKr = EvaluationFormLanguageCode._('ko-KR');
   static const zhCn = EvaluationFormLanguageCode._('zh-CN');
+  static const msMy = EvaluationFormLanguageCode._('ms-MY');
 
   final String value;
 
   const EvaluationFormLanguageCode._(this.value);
 
-  static const values = [deDe, enUs, esEs, frFr, itIt, ptBr, jaJp, koKr, zhCn];
+  static const values = [
+    deDe,
+    enUs,
+    esEs,
+    frFr,
+    itIt,
+    ptBr,
+    jaJp,
+    koKr,
+    zhCn,
+    msMy
+  ];
 
   static EvaluationFormLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -37286,12 +38329,13 @@ class EvaluationReviewNotificationRecipientValue {
 class EvaluationFormScoringMode {
   static const questionOnly = EvaluationFormScoringMode._('QUESTION_ONLY');
   static const sectionOnly = EvaluationFormScoringMode._('SECTION_ONLY');
+  static const pointsBased = EvaluationFormScoringMode._('POINTS_BASED');
 
   final String value;
 
   const EvaluationFormScoringMode._(this.value);
 
-  static const values = [questionOnly, sectionOnly];
+  static const values = [questionOnly, sectionOnly, pointsBased];
 
   static EvaluationFormScoringMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -37326,6 +38370,76 @@ class EvaluationFormScoringStatus {
   @override
   bool operator ==(other) =>
       other is EvaluationFormScoringStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a score threshold for a performance category.
+///
+/// @nodoc
+class EvaluationFormScoreThreshold {
+  /// The performance category name.
+  final PerformanceCategoryName performanceCategory;
+
+  /// The maximum score percentage for the performance category.
+  final double? maxScorePercentage;
+
+  /// The minimum score percentage for the performance category.
+  final double? minScorePercentage;
+
+  EvaluationFormScoreThreshold({
+    required this.performanceCategory,
+    this.maxScorePercentage,
+    this.minScorePercentage,
+  });
+
+  factory EvaluationFormScoreThreshold.fromJson(Map<String, dynamic> json) {
+    return EvaluationFormScoreThreshold(
+      performanceCategory: PerformanceCategoryName.fromString(
+          (json['PerformanceCategory'] as String?) ?? ''),
+      maxScorePercentage: _s.parseJsonDouble(json['MaxScorePercentage']),
+      minScorePercentage: _s.parseJsonDouble(json['MinScorePercentage']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final performanceCategory = this.performanceCategory;
+    final maxScorePercentage = this.maxScorePercentage;
+    final minScorePercentage = this.minScorePercentage;
+    return {
+      'PerformanceCategory': performanceCategory.value,
+      if (maxScorePercentage != null)
+        'MaxScorePercentage': _s.encodeJsonDouble(maxScorePercentage),
+      if (minScorePercentage != null)
+        'MinScorePercentage': _s.encodeJsonDouble(minScorePercentage),
+    };
+  }
+}
+
+/// @nodoc
+class PerformanceCategoryName {
+  static const needsImprovement =
+      PerformanceCategoryName._('NEEDS_IMPROVEMENT');
+  static const exceedsExpectations =
+      PerformanceCategoryName._('EXCEEDS_EXPECTATIONS');
+
+  final String value;
+
+  const PerformanceCategoryName._(this.value);
+
+  static const values = [needsImprovement, exceedsExpectations];
+
+  static PerformanceCategoryName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PerformanceCategoryName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PerformanceCategoryName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -37392,6 +38506,12 @@ class EvaluationFormSection {
   /// The instructions of the section.
   final String? instructions;
 
+  /// The flag to exclude the section from scoring.
+  final bool? isExcludedFromScoring;
+
+  /// The score thresholds for performance categories.
+  final List<EvaluationFormScoreThreshold>? scoreThresholds;
+
   /// The scoring weight of the section.
   final double? weight;
 
@@ -37400,6 +38520,8 @@ class EvaluationFormSection {
     required this.refId,
     required this.title,
     this.instructions,
+    this.isExcludedFromScoring,
+    this.scoreThresholds,
     this.weight,
   });
 
@@ -37412,6 +38534,12 @@ class EvaluationFormSection {
       refId: (json['RefId'] as String?) ?? '',
       title: (json['Title'] as String?) ?? '',
       instructions: json['Instructions'] as String?,
+      isExcludedFromScoring: json['IsExcludedFromScoring'] as bool?,
+      scoreThresholds: (json['ScoreThresholds'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EvaluationFormScoreThreshold.fromJson(e as Map<String, dynamic>))
+          .toList(),
       weight: _s.parseJsonDouble(json['Weight']),
     );
   }
@@ -37421,12 +38549,17 @@ class EvaluationFormSection {
     final refId = this.refId;
     final title = this.title;
     final instructions = this.instructions;
+    final isExcludedFromScoring = this.isExcludedFromScoring;
+    final scoreThresholds = this.scoreThresholds;
     final weight = this.weight;
     return {
       'Items': items,
       'RefId': refId,
       'Title': title,
       if (instructions != null) 'Instructions': instructions,
+      if (isExcludedFromScoring != null)
+        'IsExcludedFromScoring': isExcludedFromScoring,
+      if (scoreThresholds != null) 'ScoreThresholds': scoreThresholds,
       if (weight != null) 'Weight': _s.encodeJsonDouble(weight),
     };
   }
@@ -37459,6 +38592,9 @@ class EvaluationFormQuestion {
   /// question type properties.
   final EvaluationFormQuestionTypeProperties? questionTypeProperties;
 
+  /// The scoring configuration of the question.
+  final EvaluationFormQuestionScoringConfiguration? scoringConfiguration;
+
   /// The scoring weight of the section.
   final double? weight;
 
@@ -37470,6 +38606,7 @@ class EvaluationFormQuestion {
     this.instructions,
     this.notApplicableEnabled,
     this.questionTypeProperties,
+    this.scoringConfiguration,
     this.weight,
   });
 
@@ -37489,6 +38626,10 @@ class EvaluationFormQuestion {
           ? EvaluationFormQuestionTypeProperties.fromJson(
               json['QuestionTypeProperties'] as Map<String, dynamic>)
           : null,
+      scoringConfiguration: json['ScoringConfiguration'] != null
+          ? EvaluationFormQuestionScoringConfiguration.fromJson(
+              json['ScoringConfiguration'] as Map<String, dynamic>)
+          : null,
       weight: _s.parseJsonDouble(json['Weight']),
     );
   }
@@ -37501,6 +38642,7 @@ class EvaluationFormQuestion {
     final instructions = this.instructions;
     final notApplicableEnabled = this.notApplicableEnabled;
     final questionTypeProperties = this.questionTypeProperties;
+    final scoringConfiguration = this.scoringConfiguration;
     final weight = this.weight;
     return {
       'QuestionType': questionType.value,
@@ -37512,6 +38654,8 @@ class EvaluationFormQuestion {
         'NotApplicableEnabled': notApplicableEnabled,
       if (questionTypeProperties != null)
         'QuestionTypeProperties': questionTypeProperties,
+      if (scoringConfiguration != null)
+        'ScoringConfiguration': scoringConfiguration,
       if (weight != null) 'Weight': _s.encodeJsonDouble(weight),
     };
   }
@@ -37647,6 +38791,94 @@ class EvaluationFormItemEnablementConfiguration {
       'Action': action.value,
       'Condition': condition,
       if (defaultAction != null) 'DefaultAction': defaultAction.value,
+    };
+  }
+}
+
+/// Scoring configuration for a question in an evaluation form.
+///
+/// @nodoc
+class EvaluationFormQuestionScoringConfiguration {
+  /// The flag to exclude the question from scoring.
+  final bool? isExcludedFromScoring;
+
+  /// The points configuration for point-based scoring.
+  final QuestionPointsConfiguration? pointsConfiguration;
+
+  /// The score thresholds for performance categories.
+  final List<EvaluationFormScoreThreshold>? scoreThresholds;
+
+  EvaluationFormQuestionScoringConfiguration({
+    this.isExcludedFromScoring,
+    this.pointsConfiguration,
+    this.scoreThresholds,
+  });
+
+  factory EvaluationFormQuestionScoringConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return EvaluationFormQuestionScoringConfiguration(
+      isExcludedFromScoring: json['IsExcludedFromScoring'] as bool?,
+      pointsConfiguration: json['PointsConfiguration'] != null
+          ? QuestionPointsConfiguration.fromJson(
+              json['PointsConfiguration'] as Map<String, dynamic>)
+          : null,
+      scoreThresholds: (json['ScoreThresholds'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EvaluationFormScoreThreshold.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isExcludedFromScoring = this.isExcludedFromScoring;
+    final pointsConfiguration = this.pointsConfiguration;
+    final scoreThresholds = this.scoreThresholds;
+    return {
+      if (isExcludedFromScoring != null)
+        'IsExcludedFromScoring': isExcludedFromScoring,
+      if (pointsConfiguration != null)
+        'PointsConfiguration': pointsConfiguration,
+      if (scoreThresholds != null) 'ScoreThresholds': scoreThresholds,
+    };
+  }
+}
+
+/// Information about the points configuration for a question.
+///
+/// @nodoc
+class QuestionPointsConfiguration {
+  /// The flag to mark the question as a bonus question.
+  final bool? isBonus;
+
+  /// The maximum point value.
+  final int? maxPointValue;
+
+  /// The minimum point value.
+  final int? minPointValue;
+
+  QuestionPointsConfiguration({
+    this.isBonus,
+    this.maxPointValue,
+    this.minPointValue,
+  });
+
+  factory QuestionPointsConfiguration.fromJson(Map<String, dynamic> json) {
+    return QuestionPointsConfiguration(
+      isBonus: json['IsBonus'] as bool?,
+      maxPointValue: json['MaxPointValue'] as int?,
+      minPointValue: json['MinPointValue'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isBonus = this.isBonus;
+    final maxPointValue = this.maxPointValue;
+    final minPointValue = this.minPointValue;
+    return {
+      if (isBonus != null) 'IsBonus': isBonus,
+      if (maxPointValue != null) 'MaxPointValue': maxPointValue,
+      if (minPointValue != null) 'MinPointValue': minPointValue,
     };
   }
 }
@@ -38408,9 +39640,24 @@ class EvaluationFormMultiSelectQuestionOption {
   /// Display text for this option.
   final String text;
 
+  /// The flag to mark the option as automatic fail. If an automatic fail answer
+  /// is provided, the overall evaluation gets a score of 0.
+  final bool? automaticFail;
+  final AutomaticFailConfiguration? automaticFailConfiguration;
+
+  /// The points configuration for point-based scoring.
+  final QuestionOptionPointsConfiguration? pointsConfiguration;
+
+  /// The score assigned to the answer option.
+  final int? score;
+
   EvaluationFormMultiSelectQuestionOption({
     required this.refId,
     required this.text,
+    this.automaticFail,
+    this.automaticFailConfiguration,
+    this.pointsConfiguration,
+    this.score,
   });
 
   factory EvaluationFormMultiSelectQuestionOption.fromJson(
@@ -38418,15 +39665,93 @@ class EvaluationFormMultiSelectQuestionOption {
     return EvaluationFormMultiSelectQuestionOption(
       refId: (json['RefId'] as String?) ?? '',
       text: (json['Text'] as String?) ?? '',
+      automaticFail: json['AutomaticFail'] as bool?,
+      automaticFailConfiguration: json['AutomaticFailConfiguration'] != null
+          ? AutomaticFailConfiguration.fromJson(
+              json['AutomaticFailConfiguration'] as Map<String, dynamic>)
+          : null,
+      pointsConfiguration: json['PointsConfiguration'] != null
+          ? QuestionOptionPointsConfiguration.fromJson(
+              json['PointsConfiguration'] as Map<String, dynamic>)
+          : null,
+      score: json['Score'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final refId = this.refId;
     final text = this.text;
+    final automaticFail = this.automaticFail;
+    final automaticFailConfiguration = this.automaticFailConfiguration;
+    final pointsConfiguration = this.pointsConfiguration;
+    final score = this.score;
     return {
       'RefId': refId,
       'Text': text,
+      if (automaticFail != null) 'AutomaticFail': automaticFail,
+      if (automaticFailConfiguration != null)
+        'AutomaticFailConfiguration': automaticFailConfiguration,
+      if (pointsConfiguration != null)
+        'PointsConfiguration': pointsConfiguration,
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+/// Information about automatic fail configuration for an evaluation form.
+///
+/// @nodoc
+class AutomaticFailConfiguration {
+  /// The referenceId of the target section for auto failure.
+  final String? targetSection;
+
+  AutomaticFailConfiguration({
+    this.targetSection,
+  });
+
+  factory AutomaticFailConfiguration.fromJson(Map<String, dynamic> json) {
+    return AutomaticFailConfiguration(
+      targetSection: json['TargetSection'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetSection = this.targetSection;
+    return {
+      if (targetSection != null) 'TargetSection': targetSection,
+    };
+  }
+}
+
+/// Information about the points configuration for an answer option.
+///
+/// @nodoc
+class QuestionOptionPointsConfiguration {
+  /// The point value assigned to the answer option.
+  final int pointValue;
+
+  /// The flag to mark the option as a bonus option.
+  final bool? isBonus;
+
+  QuestionOptionPointsConfiguration({
+    required this.pointValue,
+    this.isBonus,
+  });
+
+  factory QuestionOptionPointsConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return QuestionOptionPointsConfiguration(
+      pointValue: (json['PointValue'] as int?) ?? 0,
+      isBonus: json['IsBonus'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pointValue = this.pointValue;
+    final isBonus = this.isBonus;
+    return {
+      'PointValue': pointValue,
+      if (isBonus != null) 'IsBonus': isBonus,
     };
   }
 }
@@ -38666,6 +39991,9 @@ class EvaluationFormSingleSelectQuestionOption {
   /// Whether automatic fail is configured on a single select question.
   final AutomaticFailConfiguration? automaticFailConfiguration;
 
+  /// The points configuration for point-based scoring.
+  final QuestionOptionPointsConfiguration? pointsConfiguration;
+
   /// The score assigned to the answer option.
   final int? score;
 
@@ -38674,6 +40002,7 @@ class EvaluationFormSingleSelectQuestionOption {
     required this.text,
     this.automaticFail,
     this.automaticFailConfiguration,
+    this.pointsConfiguration,
     this.score,
   });
 
@@ -38687,6 +40016,10 @@ class EvaluationFormSingleSelectQuestionOption {
           ? AutomaticFailConfiguration.fromJson(
               json['AutomaticFailConfiguration'] as Map<String, dynamic>)
           : null,
+      pointsConfiguration: json['PointsConfiguration'] != null
+          ? QuestionOptionPointsConfiguration.fromJson(
+              json['PointsConfiguration'] as Map<String, dynamic>)
+          : null,
       score: json['Score'] as int?,
     );
   }
@@ -38696,6 +40029,7 @@ class EvaluationFormSingleSelectQuestionOption {
     final text = this.text;
     final automaticFail = this.automaticFail;
     final automaticFailConfiguration = this.automaticFailConfiguration;
+    final pointsConfiguration = this.pointsConfiguration;
     final score = this.score;
     return {
       'RefId': refId,
@@ -38703,32 +40037,9 @@ class EvaluationFormSingleSelectQuestionOption {
       if (automaticFail != null) 'AutomaticFail': automaticFail,
       if (automaticFailConfiguration != null)
         'AutomaticFailConfiguration': automaticFailConfiguration,
+      if (pointsConfiguration != null)
+        'PointsConfiguration': pointsConfiguration,
       if (score != null) 'Score': score,
-    };
-  }
-}
-
-/// Information about automatic fail configuration for an evaluation form.
-///
-/// @nodoc
-class AutomaticFailConfiguration {
-  /// The referenceId of the target section for auto failure.
-  final String? targetSection;
-
-  AutomaticFailConfiguration({
-    this.targetSection,
-  });
-
-  factory AutomaticFailConfiguration.fromJson(Map<String, dynamic> json) {
-    return AutomaticFailConfiguration(
-      targetSection: json['TargetSection'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetSection = this.targetSection;
-    return {
-      if (targetSection != null) 'TargetSection': targetSection,
     };
   }
 }
@@ -38905,6 +40216,9 @@ class EvaluationFormNumericQuestionOption {
   /// A configuration for automatic fail.
   final AutomaticFailConfiguration? automaticFailConfiguration;
 
+  /// The points configuration for point-based scoring.
+  final QuestionOptionPointsConfiguration? pointsConfiguration;
+
   /// The score assigned to answer values within the range option.
   final int? score;
 
@@ -38913,6 +40227,7 @@ class EvaluationFormNumericQuestionOption {
     required this.minValue,
     this.automaticFail,
     this.automaticFailConfiguration,
+    this.pointsConfiguration,
     this.score,
   });
 
@@ -38926,6 +40241,10 @@ class EvaluationFormNumericQuestionOption {
           ? AutomaticFailConfiguration.fromJson(
               json['AutomaticFailConfiguration'] as Map<String, dynamic>)
           : null,
+      pointsConfiguration: json['PointsConfiguration'] != null
+          ? QuestionOptionPointsConfiguration.fromJson(
+              json['PointsConfiguration'] as Map<String, dynamic>)
+          : null,
       score: json['Score'] as int?,
     );
   }
@@ -38935,6 +40254,7 @@ class EvaluationFormNumericQuestionOption {
     final minValue = this.minValue;
     final automaticFail = this.automaticFail;
     final automaticFailConfiguration = this.automaticFailConfiguration;
+    final pointsConfiguration = this.pointsConfiguration;
     final score = this.score;
     return {
       'MaxValue': maxValue,
@@ -38942,6 +40262,8 @@ class EvaluationFormNumericQuestionOption {
       if (automaticFail != null) 'AutomaticFail': automaticFail,
       if (automaticFailConfiguration != null)
         'AutomaticFailConfiguration': automaticFailConfiguration,
+      if (pointsConfiguration != null)
+        'PointsConfiguration': pointsConfiguration,
       if (score != null) 'Score': score,
     };
   }
@@ -41329,6 +42651,304 @@ class AutoEvaluationConfiguration {
   }
 }
 
+/// The configuration for conversational analytics.
+///
+/// @nodoc
+class AnalyticsConfiguration {
+  /// The language configuration for conversational analytics.
+  final LanguageConfiguration languageConfiguration;
+
+  /// The redaction configuration for conversational analytics.
+  final RedactionConfiguration redactionConfiguration;
+
+  /// The rules configuration for conversational analytics.
+  final RulesConfiguration rulesConfiguration;
+
+  /// The sentiment configuration for conversational analytics.
+  final SentimentConfiguration sentimentConfiguration;
+
+  /// The summary configuration for conversational analytics.
+  final SummaryConfiguration summaryConfiguration;
+
+  AnalyticsConfiguration({
+    required this.languageConfiguration,
+    required this.redactionConfiguration,
+    required this.rulesConfiguration,
+    required this.sentimentConfiguration,
+    required this.summaryConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final languageConfiguration = this.languageConfiguration;
+    final redactionConfiguration = this.redactionConfiguration;
+    final rulesConfiguration = this.rulesConfiguration;
+    final sentimentConfiguration = this.sentimentConfiguration;
+    final summaryConfiguration = this.summaryConfiguration;
+    return {
+      'LanguageConfiguration': languageConfiguration,
+      'RedactionConfiguration': redactionConfiguration,
+      'RulesConfiguration': rulesConfiguration,
+      'SentimentConfiguration': sentimentConfiguration,
+      'SummaryConfiguration': summaryConfiguration,
+    };
+  }
+}
+
+/// The language configuration for conversational analytics.
+///
+/// @nodoc
+class LanguageConfiguration {
+  /// The language locale setting for conversational analytics.
+  final String? languageLocale;
+
+  LanguageConfiguration({
+    this.languageLocale,
+  });
+
+  Map<String, dynamic> toJson() {
+    final languageLocale = this.languageLocale;
+    return {
+      if (languageLocale != null) 'LanguageLocale': languageLocale,
+    };
+  }
+}
+
+/// The redaction configuration for conversational analytics.
+///
+/// @nodoc
+class RedactionConfiguration {
+  /// Controls whether redaction is applied to the analytics output. Valid values:
+  /// <code>Enable</code> | <code>Disable</code>.
+  final Behavior behavior;
+
+  /// The redaction output policy that determines which versions of the transcript
+  /// are stored. Valid values: <code>None</code> | <code>RedactedOnly</code> |
+  /// <code>RedactedAndOriginal</code>.
+  final Policy policy;
+
+  /// The list of PII entity types to redact from the transcript (for example,
+  /// <code>NAME</code>, <code>ADDRESS</code>, <code>CREDIT_DEBIT_NUMBER</code>).
+  final List<String>? entities;
+
+  /// The masking mode that determines how redacted content is replaced in the
+  /// output. Valid values: <code>PII</code> (replaces with the literal string
+  /// \[PII\]) | <code>EntityType</code> (replaces with the entity type name, for
+  /// example \[NAME\]).
+  final MaskMode? maskMode;
+
+  RedactionConfiguration({
+    required this.behavior,
+    required this.policy,
+    this.entities,
+    this.maskMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final behavior = this.behavior;
+    final policy = this.policy;
+    final entities = this.entities;
+    final maskMode = this.maskMode;
+    return {
+      'Behavior': behavior.value,
+      'Policy': policy.value,
+      if (entities != null) 'Entities': entities,
+      if (maskMode != null) 'MaskMode': maskMode.value,
+    };
+  }
+}
+
+/// The sentiment configuration for conversational analytics.
+///
+/// @nodoc
+class SentimentConfiguration {
+  /// Controls whether sentiment analysis is applied to the analytics output.
+  /// Valid values: <code>Enable</code> | <code>Disable</code>.
+  final Behavior behavior;
+
+  SentimentConfiguration({
+    required this.behavior,
+  });
+
+  Map<String, dynamic> toJson() {
+    final behavior = this.behavior;
+    return {
+      'Behavior': behavior.value,
+    };
+  }
+}
+
+/// The summary configuration for conversational analytics.
+///
+/// @nodoc
+class SummaryConfiguration {
+  /// The summary modes that determine what type of summarization is generated.
+  /// Valid values: <code>PostContact</code> | <code>AutomatedInteraction</code> |
+  /// <code>ContactChain</code>.
+  final List<SummaryMode> summaryModes;
+
+  SummaryConfiguration({
+    required this.summaryModes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final summaryModes = this.summaryModes;
+    return {
+      'SummaryModes': summaryModes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// The rules configuration for conversational analytics. Controls whether
+/// Contact Lens rules are evaluated against the analytics output.
+///
+/// @nodoc
+class RulesConfiguration {
+  /// Controls whether Contact Lens rules are evaluated for the contact. Valid
+  /// values: <code>Enable</code> | <code>Disable</code>.
+  final Behavior? behavior;
+
+  RulesConfiguration({
+    this.behavior,
+  });
+
+  Map<String, dynamic> toJson() {
+    final behavior = this.behavior;
+    return {
+      if (behavior != null) 'Behavior': behavior.value,
+    };
+  }
+}
+
+/// @nodoc
+class Behavior {
+  static const enable = Behavior._('Enable');
+  static const disable = Behavior._('Disable');
+
+  final String value;
+
+  const Behavior._(this.value);
+
+  static const values = [enable, disable];
+
+  static Behavior fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Behavior._(value));
+
+  @override
+  bool operator ==(other) => other is Behavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class SummaryMode {
+  static const postContact = SummaryMode._('PostContact');
+  static const automatedInteraction = SummaryMode._('AutomatedInteraction');
+  static const contactChain = SummaryMode._('ContactChain');
+
+  final String value;
+
+  const SummaryMode._(this.value);
+
+  static const values = [postContact, automatedInteraction, contactChain];
+
+  static SummaryMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SummaryMode._(value));
+
+  @override
+  bool operator ==(other) => other is SummaryMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class Policy {
+  static const none = Policy._('None');
+  static const redactedOnly = Policy._('RedactedOnly');
+  static const redactedAndOriginal = Policy._('RedactedAndOriginal');
+
+  final String value;
+
+  const Policy._(this.value);
+
+  static const values = [none, redactedOnly, redactedAndOriginal];
+
+  static Policy fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Policy._(value));
+
+  @override
+  bool operator ==(other) => other is Policy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class MaskMode {
+  static const pii = MaskMode._('PII');
+  static const entityType = MaskMode._('EntityType');
+
+  final String value;
+
+  const MaskMode._(this.value);
+
+  static const values = [pii, entityType];
+
+  static MaskMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MaskMode._(value));
+
+  @override
+  bool operator ==(other) => other is MaskMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class AnalyticsMode {
+  static const postContact = AnalyticsMode._('PostContact');
+  static const realTime = AnalyticsMode._('RealTime');
+  static const contactLens = AnalyticsMode._('ContactLens');
+  static const automatedInteraction = AnalyticsMode._('AutomatedInteraction');
+
+  final String value;
+
+  const AnalyticsMode._(this.value);
+
+  static const values = [
+    postContact,
+    realTime,
+    contactLens,
+    automatedInteraction
+  ];
+
+  static AnalyticsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnalyticsMode._(value));
+
+  @override
+  bool operator ==(other) => other is AnalyticsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The configuration of the participant.
 ///
 /// @nodoc
@@ -41584,6 +43204,7 @@ class FileUseCaseType {
   static const emailMessagePlainTextRedacted =
       FileUseCaseType._('EMAIL_MESSAGE_PLAIN_TEXT_REDACTED');
   static const attachment = FileUseCaseType._('ATTACHMENT');
+  static const voiceRecording = FileUseCaseType._('VOICE_RECORDING');
 
   final String value;
 
@@ -41595,7 +43216,8 @@ class FileUseCaseType {
     emailMessagePlainText,
     emailMessageRedacted,
     emailMessagePlainTextRedacted,
-    attachment
+    attachment,
+    voiceRecording
   ];
 
   static FileUseCaseType fromString(String value) =>
@@ -41610,6 +43232,169 @@ class FileUseCaseType {
 
   @override
   String toString() => value;
+}
+
+/// The source of an outbound web notification. Identifies the campaign and
+/// outbound request that triggered the notification.
+///
+/// @nodoc
+class WebNotificationSource {
+  /// Information about the campaign that triggered the web notification,
+  /// including the campaign identifier and outbound request identifier.
+  final SourceCampaign sourceCampaign;
+
+  WebNotificationSource({
+    required this.sourceCampaign,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceCampaign = this.sourceCampaign;
+    return {
+      'SourceCampaign': sourceCampaign,
+    };
+  }
+}
+
+/// The destination for an outbound web notification, specifying the
+/// communication widget that delivers the notification and the customer profile
+/// of the recipient.
+///
+/// @nodoc
+class WidgetDestination {
+  /// The identifier of the customer profile associated with the browser session
+  /// that should receive the notification.
+  final String profileId;
+
+  /// The identifier of the communication widget that delivers the notification to
+  /// the customer's browser.
+  final String widgetId;
+
+  WidgetDestination({
+    required this.profileId,
+    required this.widgetId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final profileId = this.profileId;
+    final widgetId = this.widgetId;
+    return {
+      'ProfileId': profileId,
+      'WidgetId': widgetId,
+    };
+  }
+}
+
+/// The content of an outbound web notification, including the notification
+/// type, the view to render, and any optional attributes used to populate the
+/// view.
+///
+/// @nodoc
+class WebNotificationContent {
+  /// The type of web notification to send.
+  final NotificationType type;
+
+  /// Optional attributes used to populate the notification content, such as
+  /// recommender configuration for personalized content.
+  final ContentAttributes? attributes;
+
+  /// The Amazon Resource Name (ARN) of the view to render for the notification.
+  final String? viewArn;
+
+  WebNotificationContent({
+    required this.type,
+    this.attributes,
+    this.viewArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final attributes = this.attributes;
+    final viewArn = this.viewArn;
+    return {
+      'Type': type.value,
+      if (attributes != null) 'Attributes': attributes,
+      if (viewArn != null) 'ViewArn': viewArn,
+    };
+  }
+}
+
+/// @nodoc
+class NotificationType {
+  static const widgetView = NotificationType._('WIDGET_VIEW');
+  static const widgetAction = NotificationType._('WIDGET_ACTION');
+
+  final String value;
+
+  const NotificationType._(this.value);
+
+  static const values = [widgetView, widgetAction];
+
+  static NotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationType._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Optional attributes used to populate the content of an outbound web
+/// notification, such as recommender configuration for personalized content.
+///
+/// @nodoc
+class ContentAttributes {
+  /// Configuration for the recommender used to generate personalized
+  /// recommendations for the notification content.
+  final RecommenderConfig? recommenderConfig;
+
+  ContentAttributes({
+    this.recommenderConfig,
+  });
+
+  Map<String, dynamic> toJson() {
+    final recommenderConfig = this.recommenderConfig;
+    return {
+      if (recommenderConfig != null) 'RecommenderConfig': recommenderConfig,
+    };
+  }
+}
+
+/// Configuration for the recommender used to generate personalized
+/// recommendations included in an outbound web notification.
+///
+/// @nodoc
+class RecommenderConfig {
+  /// The name of the Amazon Personalize domain that hosts the recommender.
+  final String domainName;
+
+  /// The name of the recommender used to generate the recommendations.
+  final String recommenderName;
+
+  /// A map of contextual key-value pairs supplied to the recommender to influence
+  /// the recommendations returned.
+  final Map<String, String>? context;
+
+  RecommenderConfig({
+    required this.domainName,
+    required this.recommenderName,
+    this.context,
+  });
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final recommenderName = this.recommenderName;
+    final context = this.context;
+    return {
+      'DomainName': domainName,
+      'RecommenderName': recommenderName,
+      if (context != null) 'Context': context,
+    };
+  }
 }
 
 /// Information about the campaign.
@@ -43614,6 +45399,395 @@ class SecurityProfilesSearchFilter {
     final tagFilter = this.tagFilter;
     return {
       if (tagFilter != null) 'TagFilter': tagFilter,
+    };
+  }
+}
+
+/// A summary of information about a rule, returned as part of the response to a
+/// <code>SearchRules</code> operation.
+///
+/// @nodoc
+class RuleSearchSummary {
+  /// A list of <code>ActionTypes</code> associated with a rule.
+  final List<ActionSummary> actionSummaries;
+
+  /// The timestamp for when the rule was created.
+  final DateTime createdTime;
+
+  /// The Amazon Resource Name (ARN) of the user who last updated the rule.
+  final String lastUpdatedBy;
+
+  /// The timestamp for when the rule was last updated.
+  final DateTime lastUpdatedTime;
+
+  /// The name of the rule.
+  final String name;
+
+  /// The publish status of the rule.
+  final RulePublishStatus publishStatus;
+
+  /// The Amazon Resource Name (ARN) of the rule.
+  final String ruleArn;
+
+  /// A unique identifier for the rule.
+  final String ruleId;
+
+  /// The event source to trigger the rule.
+  final RuleTriggerEventSource triggerEventSource;
+
+  /// The list of capability tiers associated with the rule. Used for categorizing
+  /// rules by capability (for example, <code>GenerativeAI</code>).
+  final List<RuleCapabilityTier>? ruleCapabilityTiers;
+
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+  final Map<String, String>? tags;
+
+  RuleSearchSummary({
+    required this.actionSummaries,
+    required this.createdTime,
+    required this.lastUpdatedBy,
+    required this.lastUpdatedTime,
+    required this.name,
+    required this.publishStatus,
+    required this.ruleArn,
+    required this.ruleId,
+    required this.triggerEventSource,
+    this.ruleCapabilityTiers,
+    this.tags,
+  });
+
+  factory RuleSearchSummary.fromJson(Map<String, dynamic> json) {
+    return RuleSearchSummary(
+      actionSummaries: ((json['ActionSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ActionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      lastUpdatedBy: (json['LastUpdatedBy'] as String?) ?? '',
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
+      publishStatus: RulePublishStatus.fromString(
+          (json['PublishStatus'] as String?) ?? ''),
+      ruleArn: (json['RuleArn'] as String?) ?? '',
+      ruleId: (json['RuleId'] as String?) ?? '',
+      triggerEventSource: RuleTriggerEventSource.fromJson(
+          (json['TriggerEventSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ruleCapabilityTiers: (json['RuleCapabilityTiers'] as List?)
+          ?.nonNulls
+          .map((e) => RuleCapabilityTier.fromString((e as String)))
+          .toList(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionSummaries = this.actionSummaries;
+    final createdTime = this.createdTime;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final publishStatus = this.publishStatus;
+    final ruleArn = this.ruleArn;
+    final ruleId = this.ruleId;
+    final triggerEventSource = this.triggerEventSource;
+    final ruleCapabilityTiers = this.ruleCapabilityTiers;
+    final tags = this.tags;
+    return {
+      'ActionSummaries': actionSummaries,
+      'CreatedTime': unixTimestampToJson(createdTime),
+      'LastUpdatedBy': lastUpdatedBy,
+      'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      'Name': name,
+      'PublishStatus': publishStatus.value,
+      'RuleArn': ruleArn,
+      'RuleId': ruleId,
+      'TriggerEventSource': triggerEventSource,
+      if (ruleCapabilityTiers != null)
+        'RuleCapabilityTiers': ruleCapabilityTiers.map((e) => e.value).toList(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// The name of the event source. This field is required if
+/// <code>TriggerEventSource</code> is one of the following values:
+/// <code>OnZendeskTicketCreate</code> |
+/// <code>OnZendeskTicketStatusUpdate</code> |
+/// <code>OnSalesforceCaseCreate</code> | <code>OnContactEvaluationSubmit</code>
+/// | <code>OnMetricDataUpdate</code>.
+///
+/// @nodoc
+class RuleTriggerEventSource {
+  /// The name of the event source.
+  final EventSourceName eventSourceName;
+
+  /// The identifier for the integration association.
+  final String? integrationAssociationId;
+
+  RuleTriggerEventSource({
+    required this.eventSourceName,
+    this.integrationAssociationId,
+  });
+
+  factory RuleTriggerEventSource.fromJson(Map<String, dynamic> json) {
+    return RuleTriggerEventSource(
+      eventSourceName: EventSourceName.fromString(
+          (json['EventSourceName'] as String?) ?? ''),
+      integrationAssociationId: json['IntegrationAssociationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSourceName = this.eventSourceName;
+    final integrationAssociationId = this.integrationAssociationId;
+    return {
+      'EventSourceName': eventSourceName.value,
+      if (integrationAssociationId != null)
+        'IntegrationAssociationId': integrationAssociationId,
+    };
+  }
+}
+
+/// @nodoc
+class RuleCapabilityTier {
+  static const generativeAI = RuleCapabilityTier._('GenerativeAI');
+
+  final String value;
+
+  const RuleCapabilityTier._(this.value);
+
+  static const values = [generativeAI];
+
+  static RuleCapabilityTier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RuleCapabilityTier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RuleCapabilityTier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an action.
+///
+/// @nodoc
+class ActionSummary {
+  /// The action type.
+  final ActionType actionType;
+
+  ActionSummary({
+    required this.actionType,
+  });
+
+  factory ActionSummary.fromJson(Map<String, dynamic> json) {
+    return ActionSummary(
+      actionType: ActionType.fromString((json['ActionType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionType = this.actionType;
+    return {
+      'ActionType': actionType.value,
+    };
+  }
+}
+
+/// @nodoc
+class EventSourceName {
+  static const onPostCallAnalysisAvailable =
+      EventSourceName._('OnPostCallAnalysisAvailable');
+  static const onRealTimeCallAnalysisAvailable =
+      EventSourceName._('OnRealTimeCallAnalysisAvailable');
+  static const onRealTimeChatAnalysisAvailable =
+      EventSourceName._('OnRealTimeChatAnalysisAvailable');
+  static const onPostChatAnalysisAvailable =
+      EventSourceName._('OnPostChatAnalysisAvailable');
+  static const onEmailAnalysisAvailable =
+      EventSourceName._('OnEmailAnalysisAvailable');
+  static const onZendeskTicketCreate =
+      EventSourceName._('OnZendeskTicketCreate');
+  static const onZendeskTicketStatusUpdate =
+      EventSourceName._('OnZendeskTicketStatusUpdate');
+  static const onSalesforceCaseCreate =
+      EventSourceName._('OnSalesforceCaseCreate');
+  static const onContactEvaluationSubmit =
+      EventSourceName._('OnContactEvaluationSubmit');
+  static const onMetricDataUpdate = EventSourceName._('OnMetricDataUpdate');
+  static const onCaseCreate = EventSourceName._('OnCaseCreate');
+  static const onCaseUpdate = EventSourceName._('OnCaseUpdate');
+  static const onSlaBreach = EventSourceName._('OnSlaBreach');
+  static const onAlertUpdate = EventSourceName._('OnAlertUpdate');
+  static const onSchedulePublish = EventSourceName._('OnSchedulePublish');
+  static const onScheduleUpdate = EventSourceName._('OnScheduleUpdate');
+  static const onScheduleTimeOffRequestActivity =
+      EventSourceName._('OnScheduleTimeOffRequestActivity');
+
+  final String value;
+
+  const EventSourceName._(this.value);
+
+  static const values = [
+    onPostCallAnalysisAvailable,
+    onRealTimeCallAnalysisAvailable,
+    onRealTimeChatAnalysisAvailable,
+    onPostChatAnalysisAvailable,
+    onEmailAnalysisAvailable,
+    onZendeskTicketCreate,
+    onZendeskTicketStatusUpdate,
+    onSalesforceCaseCreate,
+    onContactEvaluationSubmit,
+    onMetricDataUpdate,
+    onCaseCreate,
+    onCaseUpdate,
+    onSlaBreach,
+    onAlertUpdate,
+    onSchedulePublish,
+    onScheduleUpdate,
+    onScheduleTimeOffRequestActivity
+  ];
+
+  static EventSourceName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventSourceName._(value));
+
+  @override
+  bool operator ==(other) => other is EventSourceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The search criteria to be used to return rules.
+///
+/// @nodoc
+class RulesSearchCriteria {
+  /// A list of conditions which would be applied together with an AND condition.
+  final List<RulesSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an OR condition.
+  final List<RulesSearchCriteria>? orConditions;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>Name</code>, <code>PublishStatus</code>, <code>EventSourceName</code>,
+  /// <code>RuleId</code>, <code>IntegrationAssociationId</code>,
+  /// <code>ActionSummaries</code>, and <code>RuleCapabilityTiers</code>.
+  /// </note>
+  final StringCondition? stringCondition;
+
+  RulesSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// Filters to be applied to search results.
+///
+/// @nodoc
+class RulesSearchFilter {
+  /// An object that can be used to specify tag conditions inside the
+  /// <code>SearchFilter</code>.
+  final RuleAttributeFilter? attributeFilter;
+
+  RulesSearchFilter({
+    this.attributeFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeFilter = this.attributeFilter;
+    return {
+      if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+    };
+  }
+}
+
+/// An object that can be used to specify tag conditions inside the
+/// <code>SearchFilter</code>. This accepts an <code>OR</code> of
+/// <code>AND</code> (List of List) input where:
+///
+/// <ul>
+/// <li>
+/// The top level list specifies conditions that need to be applied with
+/// <code>OR</code> operator.
+/// </li>
+/// <li>
+/// The inner list specifies conditions that need to be applied with
+/// <code>AND</code> operator.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class RuleAttributeFilter {
+  /// A list of conditions which would be applied together with an
+  /// <code>AND</code> condition.
+  final RuleAttributeAndCondition? andCondition;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<RuleAttributeAndCondition>? orConditions;
+  final TagCondition? tagCondition;
+
+  RuleAttributeFilter({
+    this.andCondition,
+    this.orConditions,
+    this.tagCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andCondition = this.andCondition;
+    final orConditions = this.orConditions;
+    final tagCondition = this.tagCondition;
+    return {
+      if (andCondition != null) 'AndCondition': andCondition,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (tagCondition != null) 'TagCondition': tagCondition,
+    };
+  }
+}
+
+/// A list of conditions which would be applied together with an
+/// <code>AND</code> condition.
+///
+/// @nodoc
+class RuleAttributeAndCondition {
+  /// A list of tag conditions that need to be applied with <code>AND</code>
+  /// condition.
+  final List<TagCondition>? tagConditions;
+
+  RuleAttributeAndCondition({
+    this.tagConditions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagConditions = this.tagConditions;
+    return {
+      if (tagConditions != null) 'TagConditions': tagConditions,
     };
   }
 }
@@ -47970,6 +50144,15 @@ class EvaluationSearchMetadata {
   /// Role of a contact participant in the evaluation.
   final ContactParticipantRole? contactParticipantRole;
 
+  /// The points earned for the evaluation.
+  final int? earnedPoints;
+
+  /// The maximum base points possible for the evaluation.
+  final int? maxBasePoint;
+
+  /// The performance category for the evaluation score.
+  final PerformanceCategoryName? performanceCategory;
+
   /// Identifier for the review.
   final String? reviewId;
 
@@ -47998,6 +50181,9 @@ class EvaluationSearchMetadata {
     this.contactAgentId,
     this.contactParticipantId,
     this.contactParticipantRole,
+    this.earnedPoints,
+    this.maxBasePoint,
+    this.performanceCategory,
     this.reviewId,
     this.samplingJobId,
     this.scoreAutomaticFail,
@@ -48020,6 +50206,10 @@ class EvaluationSearchMetadata {
       contactParticipantId: json['ContactParticipantId'] as String?,
       contactParticipantRole: (json['ContactParticipantRole'] as String?)
           ?.let(ContactParticipantRole.fromString),
+      earnedPoints: json['EarnedPoints'] as int?,
+      maxBasePoint: json['MaxBasePoint'] as int?,
+      performanceCategory: (json['PerformanceCategory'] as String?)
+          ?.let(PerformanceCategoryName.fromString),
       reviewId: json['ReviewId'] as String?,
       samplingJobId: json['SamplingJobId'] as String?,
       scoreAutomaticFail: json['ScoreAutomaticFail'] as bool?,
@@ -48040,6 +50230,9 @@ class EvaluationSearchMetadata {
     final contactAgentId = this.contactAgentId;
     final contactParticipantId = this.contactParticipantId;
     final contactParticipantRole = this.contactParticipantRole;
+    final earnedPoints = this.earnedPoints;
+    final maxBasePoint = this.maxBasePoint;
+    final performanceCategory = this.performanceCategory;
     final reviewId = this.reviewId;
     final samplingJobId = this.samplingJobId;
     final scoreAutomaticFail = this.scoreAutomaticFail;
@@ -48064,6 +50257,10 @@ class EvaluationSearchMetadata {
         'ContactParticipantId': contactParticipantId,
       if (contactParticipantRole != null)
         'ContactParticipantRole': contactParticipantRole.value,
+      if (earnedPoints != null) 'EarnedPoints': earnedPoints,
+      if (maxBasePoint != null) 'MaxBasePoint': maxBasePoint,
+      if (performanceCategory != null)
+        'PerformanceCategory': performanceCategory.value,
       if (reviewId != null) 'ReviewId': reviewId,
       if (samplingJobId != null) 'SamplingJobId': samplingJobId,
       if (scoreAutomaticFail != null) 'ScoreAutomaticFail': scoreAutomaticFail,
@@ -48236,18 +50433,213 @@ class EvaluationSearchCriteria {
 ///
 /// @nodoc
 class EvaluationSearchFilter {
+  /// An object that can be used to specify tag conditions.
   final ControlPlaneAttributeFilter? attributeFilter;
+
+  /// An object that can be used to specify tag conditions and attribute
+  /// conditions for contact evaluations.
+  final ContactEvaluationAttributeFilter? contactEvaluationAttributeFilter;
 
   EvaluationSearchFilter({
     this.attributeFilter,
+    this.contactEvaluationAttributeFilter,
   });
 
   Map<String, dynamic> toJson() {
     final attributeFilter = this.attributeFilter;
+    final contactEvaluationAttributeFilter =
+        this.contactEvaluationAttributeFilter;
     return {
       if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+      if (contactEvaluationAttributeFilter != null)
+        'ContactEvaluationAttributeFilter': contactEvaluationAttributeFilter,
     };
   }
+}
+
+/// An object that can be used to specify tag conditions and attribute
+/// conditions inside the <code>SearchFilter</code> for contact evaluations.
+/// This accepts an <code>OR</code> or <code>AND</code> (List of List) input
+/// where:
+///
+/// <ul>
+/// <li>
+/// The top level list specifies conditions that need to be applied with
+/// <code>OR</code> operator.
+/// </li>
+/// <li>
+/// The inner list specifies conditions that need to be applied with
+/// <code>AND</code> operator.
+/// </li>
+/// </ul>
+///
+/// @nodoc
+class ContactEvaluationAttributeFilter {
+  /// A list of conditions which would be applied together with an
+  /// <code>AND</code> condition.
+  final ContactEvaluationAttributeAndCondition? andCondition;
+
+  /// An attribute condition to apply.
+  final ContactEvaluationAttributeCondition?
+      contactEvaluationAttributeCondition;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<ContactEvaluationAttributeAndCondition>? orConditions;
+
+  /// A tag condition to apply.
+  final TagCondition? tagCondition;
+
+  ContactEvaluationAttributeFilter({
+    this.andCondition,
+    this.contactEvaluationAttributeCondition,
+    this.orConditions,
+    this.tagCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andCondition = this.andCondition;
+    final contactEvaluationAttributeCondition =
+        this.contactEvaluationAttributeCondition;
+    final orConditions = this.orConditions;
+    final tagCondition = this.tagCondition;
+    return {
+      if (andCondition != null) 'AndCondition': andCondition,
+      if (contactEvaluationAttributeCondition != null)
+        'ContactEvaluationAttributeCondition':
+            contactEvaluationAttributeCondition,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (tagCondition != null) 'TagCondition': tagCondition,
+    };
+  }
+}
+
+/// A list of conditions which would be applied together with an
+/// <code>AND</code> condition.
+///
+/// @nodoc
+class ContactEvaluationAttributeAndCondition {
+  /// A list of attribute conditions to apply.
+  final List<ContactEvaluationAttributeCondition>? attributeConditions;
+
+  /// A list of tag conditions to apply.
+  final List<TagCondition>? tagConditions;
+
+  ContactEvaluationAttributeAndCondition({
+    this.attributeConditions,
+    this.tagConditions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeConditions = this.attributeConditions;
+    final tagConditions = this.tagConditions;
+    return {
+      if (attributeConditions != null)
+        'AttributeConditions': attributeConditions,
+      if (tagConditions != null) 'TagConditions': tagConditions,
+    };
+  }
+}
+
+/// An attribute condition for contact evaluation filtering.
+///
+/// @nodoc
+class ContactEvaluationAttributeCondition {
+  /// The key of the attribute.
+  final ContactEvaluationAttributeKey? attributeKey;
+
+  /// The value of the attribute.
+  final ContactEvaluationAttributeValue? attributeValue;
+
+  /// The comparison type for the condition.
+  final ContactEvaluationAttributeComparisonType? comparisonType;
+
+  ContactEvaluationAttributeCondition({
+    this.attributeKey,
+    this.attributeValue,
+    this.comparisonType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeKey = this.attributeKey;
+    final attributeValue = this.attributeValue;
+    final comparisonType = this.comparisonType;
+    return {
+      if (attributeKey != null) 'AttributeKey': attributeKey.value,
+      if (attributeValue != null) 'AttributeValue': attributeValue,
+      if (comparisonType != null) 'ComparisonType': comparisonType.value,
+    };
+  }
+}
+
+/// @nodoc
+class ContactEvaluationAttributeKey {
+  static const contactAgentId =
+      ContactEvaluationAttributeKey._('ContactAgentId');
+
+  final String value;
+
+  const ContactEvaluationAttributeKey._(this.value);
+
+  static const values = [contactAgentId];
+
+  static ContactEvaluationAttributeKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContactEvaluationAttributeKey._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContactEvaluationAttributeKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The value of a contact evaluation attribute condition.
+///
+/// @nodoc
+class ContactEvaluationAttributeValue {
+  /// A string value for the attribute.
+  final String? stringValue;
+
+  ContactEvaluationAttributeValue({
+    this.stringValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final stringValue = this.stringValue;
+    return {
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
+/// @nodoc
+class ContactEvaluationAttributeComparisonType {
+  static const exact = ContactEvaluationAttributeComparisonType._('EXACT');
+
+  final String value;
+
+  const ContactEvaluationAttributeComparisonType._(this.value);
+
+  static const values = [exact];
+
+  static ContactEvaluationAttributeComparisonType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContactEvaluationAttributeComparisonType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContactEvaluationAttributeComparisonType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A decimal search condition for Search APIs.
@@ -50221,6 +52613,10 @@ class RuleSummary {
   /// A unique identifier for the rule.
   final String ruleId;
 
+  /// The list of capability tiers associated with the rule. Used for categorizing
+  /// rules by capability (for example, <code>GenerativeAI</code>).
+  final List<RuleCapabilityTier>? ruleCapabilityTiers;
+
   RuleSummary({
     required this.actionSummaries,
     required this.createdTime,
@@ -50230,6 +52626,7 @@ class RuleSummary {
     required this.publishStatus,
     required this.ruleArn,
     required this.ruleId,
+    this.ruleCapabilityTiers,
   });
 
   factory RuleSummary.fromJson(Map<String, dynamic> json) {
@@ -50248,6 +52645,10 @@ class RuleSummary {
           (json['PublishStatus'] as String?) ?? ''),
       ruleArn: (json['RuleArn'] as String?) ?? '',
       ruleId: (json['RuleId'] as String?) ?? '',
+      ruleCapabilityTiers: (json['RuleCapabilityTiers'] as List?)
+          ?.nonNulls
+          .map((e) => RuleCapabilityTier.fromString((e as String)))
+          .toList(),
     );
   }
 
@@ -50260,6 +52661,7 @@ class RuleSummary {
     final publishStatus = this.publishStatus;
     final ruleArn = this.ruleArn;
     final ruleId = this.ruleId;
+    final ruleCapabilityTiers = this.ruleCapabilityTiers;
     return {
       'ActionSummaries': actionSummaries,
       'CreatedTime': unixTimestampToJson(createdTime),
@@ -50269,99 +52671,8 @@ class RuleSummary {
       'PublishStatus': publishStatus.value,
       'RuleArn': ruleArn,
       'RuleId': ruleId,
-    };
-  }
-}
-
-/// @nodoc
-class EventSourceName {
-  static const onPostCallAnalysisAvailable =
-      EventSourceName._('OnPostCallAnalysisAvailable');
-  static const onRealTimeCallAnalysisAvailable =
-      EventSourceName._('OnRealTimeCallAnalysisAvailable');
-  static const onRealTimeChatAnalysisAvailable =
-      EventSourceName._('OnRealTimeChatAnalysisAvailable');
-  static const onPostChatAnalysisAvailable =
-      EventSourceName._('OnPostChatAnalysisAvailable');
-  static const onEmailAnalysisAvailable =
-      EventSourceName._('OnEmailAnalysisAvailable');
-  static const onZendeskTicketCreate =
-      EventSourceName._('OnZendeskTicketCreate');
-  static const onZendeskTicketStatusUpdate =
-      EventSourceName._('OnZendeskTicketStatusUpdate');
-  static const onSalesforceCaseCreate =
-      EventSourceName._('OnSalesforceCaseCreate');
-  static const onContactEvaluationSubmit =
-      EventSourceName._('OnContactEvaluationSubmit');
-  static const onMetricDataUpdate = EventSourceName._('OnMetricDataUpdate');
-  static const onCaseCreate = EventSourceName._('OnCaseCreate');
-  static const onCaseUpdate = EventSourceName._('OnCaseUpdate');
-  static const onSlaBreach = EventSourceName._('OnSlaBreach');
-  static const onAlertUpdate = EventSourceName._('OnAlertUpdate');
-  static const onSchedulePublish = EventSourceName._('OnSchedulePublish');
-  static const onScheduleUpdate = EventSourceName._('OnScheduleUpdate');
-  static const onScheduleTimeOffRequestActivity =
-      EventSourceName._('OnScheduleTimeOffRequestActivity');
-
-  final String value;
-
-  const EventSourceName._(this.value);
-
-  static const values = [
-    onPostCallAnalysisAvailable,
-    onRealTimeCallAnalysisAvailable,
-    onRealTimeChatAnalysisAvailable,
-    onPostChatAnalysisAvailable,
-    onEmailAnalysisAvailable,
-    onZendeskTicketCreate,
-    onZendeskTicketStatusUpdate,
-    onSalesforceCaseCreate,
-    onContactEvaluationSubmit,
-    onMetricDataUpdate,
-    onCaseCreate,
-    onCaseUpdate,
-    onSlaBreach,
-    onAlertUpdate,
-    onSchedulePublish,
-    onScheduleUpdate,
-    onScheduleTimeOffRequestActivity
-  ];
-
-  static EventSourceName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventSourceName._(value));
-
-  @override
-  bool operator ==(other) => other is EventSourceName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an action.
-///
-/// @nodoc
-class ActionSummary {
-  /// The action type.
-  final ActionType actionType;
-
-  ActionSummary({
-    required this.actionType,
-  });
-
-  factory ActionSummary.fromJson(Map<String, dynamic> json) {
-    return ActionSummary(
-      actionType: ActionType.fromString((json['ActionType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionType = this.actionType;
-    return {
-      'ActionType': actionType.value,
+      if (ruleCapabilityTiers != null)
+        'RuleCapabilityTiers': ruleCapabilityTiers.map((e) => e.value).toList(),
     };
   }
 }
@@ -54014,39 +56325,62 @@ class EvaluationScore {
   /// gets an automatic fail answer, this flag will be true.
   final bool? automaticFail;
 
+  /// The points earned for the item.
+  final int? earnedPoints;
+
+  /// The maximum base points possible for the item.
+  final int? maxBasePoint;
+
   /// The flag to mark the item as not applicable for scoring.
   final bool? notApplicable;
 
   /// The score percentage for an item in a contact evaluation.
   final double? percentage;
 
+  /// The performance category for the score.
+  final PerformanceCategoryName? performanceCategory;
+
   EvaluationScore({
     this.appliedWeight,
     this.automaticFail,
+    this.earnedPoints,
+    this.maxBasePoint,
     this.notApplicable,
     this.percentage,
+    this.performanceCategory,
   });
 
   factory EvaluationScore.fromJson(Map<String, dynamic> json) {
     return EvaluationScore(
       appliedWeight: _s.parseJsonDouble(json['AppliedWeight']),
       automaticFail: json['AutomaticFail'] as bool?,
+      earnedPoints: json['EarnedPoints'] as int?,
+      maxBasePoint: json['MaxBasePoint'] as int?,
       notApplicable: json['NotApplicable'] as bool?,
       percentage: _s.parseJsonDouble(json['Percentage']),
+      performanceCategory: (json['PerformanceCategory'] as String?)
+          ?.let(PerformanceCategoryName.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final appliedWeight = this.appliedWeight;
     final automaticFail = this.automaticFail;
+    final earnedPoints = this.earnedPoints;
+    final maxBasePoint = this.maxBasePoint;
     final notApplicable = this.notApplicable;
     final percentage = this.percentage;
+    final performanceCategory = this.performanceCategory;
     return {
       if (appliedWeight != null)
         'AppliedWeight': _s.encodeJsonDouble(appliedWeight),
       if (automaticFail != null) 'AutomaticFail': automaticFail,
+      if (earnedPoints != null) 'EarnedPoints': earnedPoints,
+      if (maxBasePoint != null) 'MaxBasePoint': maxBasePoint,
       if (notApplicable != null) 'NotApplicable': notApplicable,
       if (percentage != null) 'Percentage': _s.encodeJsonDouble(percentage),
+      if (performanceCategory != null)
+        'PerformanceCategory': performanceCategory.value,
     };
   }
 }
@@ -55832,7 +58166,10 @@ class Filters {
   final List<String>? routingProfiles;
 
   /// A list of expressions as a filter, in which an expression is an object of a
-  /// step in a routing criteria.
+  /// step in a routing criteria. Accepts filter values up to 3,000 characters in
+  /// length. Filter values are case-sensitive. JSON object key order and
+  /// whitespace may be arbitrary; array order and tree structure must be
+  /// preserved.
   final List<String>? routingStepExpressions;
 
   /// A list of up to 10 subtypes can be provided.
@@ -55993,6 +58330,155 @@ class Credentials {
       if (refreshToken != null) 'RefreshToken': refreshToken,
       if (refreshTokenExpiration != null)
         'RefreshTokenExpiration': unixTimestampToJson(refreshTokenExpiration),
+    };
+  }
+}
+
+/// @nodoc
+class EvaluationFormValidationStatus {
+  static const inProgress = EvaluationFormValidationStatus._('IN_PROGRESS');
+  static const completed = EvaluationFormValidationStatus._('COMPLETED');
+  static const failed = EvaluationFormValidationStatus._('FAILED');
+
+  final String value;
+
+  const EvaluationFormValidationStatus._(this.value);
+
+  static const values = [inProgress, completed, failed];
+
+  static EvaluationFormValidationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvaluationFormValidationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFormValidationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a finding from the evaluation form validation process.
+/// Each finding identifies a structural issue or quality improvement
+/// opportunity for the evaluation form.
+///
+/// @nodoc
+class EvaluationFormValidationFinding {
+  /// A description of the validation issue.
+  final String description;
+
+  /// A code that identifies the type of validation issue found.
+  final String issueCode;
+
+  /// The severity of the finding. Valid values: <code>WARNING</code>,
+  /// <code>ERROR</code>.
+  final EvaluationFormValidationFindingSeverity severity;
+
+  /// A list of evaluation form items affected by this finding.
+  final List<EvaluationFormValidationFindingItem>? items;
+
+  /// A suggested fix for the validation issue.
+  final String? suggestion;
+
+  EvaluationFormValidationFinding({
+    required this.description,
+    required this.issueCode,
+    required this.severity,
+    this.items,
+    this.suggestion,
+  });
+
+  factory EvaluationFormValidationFinding.fromJson(Map<String, dynamic> json) {
+    return EvaluationFormValidationFinding(
+      description: (json['Description'] as String?) ?? '',
+      issueCode: (json['IssueCode'] as String?) ?? '',
+      severity: EvaluationFormValidationFindingSeverity.fromString(
+          (json['Severity'] as String?) ?? ''),
+      items: (json['Items'] as List?)
+          ?.nonNulls
+          .map((e) => EvaluationFormValidationFindingItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      suggestion: json['Suggestion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final issueCode = this.issueCode;
+    final severity = this.severity;
+    final items = this.items;
+    final suggestion = this.suggestion;
+    return {
+      'Description': description,
+      'IssueCode': issueCode,
+      'Severity': severity.value,
+      if (items != null) 'Items': items,
+      if (suggestion != null) 'Suggestion': suggestion,
+    };
+  }
+}
+
+/// @nodoc
+class EvaluationFormValidationFindingSeverity {
+  static const warning = EvaluationFormValidationFindingSeverity._('WARNING');
+  static const error = EvaluationFormValidationFindingSeverity._('ERROR');
+
+  final String value;
+
+  const EvaluationFormValidationFindingSeverity._(this.value);
+
+  static const values = [warning, error];
+
+  static EvaluationFormValidationFindingSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvaluationFormValidationFindingSeverity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFormValidationFindingSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an evaluation form item affected by a validation finding.
+///
+/// @nodoc
+class EvaluationFormValidationFindingItem {
+  /// The specific property of the evaluation form item that the finding relates
+  /// to.
+  final String? property;
+
+  /// The identifier of the evaluation form item (question or section) affected by
+  /// the finding.
+  final String? refId;
+
+  EvaluationFormValidationFindingItem({
+    this.property,
+    this.refId,
+  });
+
+  factory EvaluationFormValidationFindingItem.fromJson(
+      Map<String, dynamic> json) {
+    return EvaluationFormValidationFindingItem(
+      property: json['Property'] as String?,
+      refId: json['RefId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final property = this.property;
+    final refId = this.refId;
+    return {
+      if (property != null) 'Property': property,
+      if (refId != null) 'RefId': refId,
     };
   }
 }
@@ -57989,6 +60475,10 @@ class Rule {
   /// The event source to trigger the rule.
   final RuleTriggerEventSource triggerEventSource;
 
+  /// The list of capability tiers associated with the rule. Used for categorizing
+  /// rules by capability (for example, <code>GenerativeAI</code>).
+  final List<RuleCapabilityTier>? ruleCapabilityTiers;
+
   /// The tags used to organize, track, or control access for this resource. For
   /// example, { "Tags": {"key1":"value1", "key2":"value2"} }.
   final Map<String, String>? tags;
@@ -58004,6 +60494,7 @@ class Rule {
     required this.ruleArn,
     required this.ruleId,
     required this.triggerEventSource,
+    this.ruleCapabilityTiers,
     this.tags,
   });
 
@@ -58026,6 +60517,10 @@ class Rule {
       triggerEventSource: RuleTriggerEventSource.fromJson(
           (json['TriggerEventSource'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      ruleCapabilityTiers: (json['RuleCapabilityTiers'] as List?)
+          ?.nonNulls
+          .map((e) => RuleCapabilityTier.fromString((e as String)))
+          .toList(),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -58042,6 +60537,7 @@ class Rule {
     final ruleArn = this.ruleArn;
     final ruleId = this.ruleId;
     final triggerEventSource = this.triggerEventSource;
+    final ruleCapabilityTiers = this.ruleCapabilityTiers;
     final tags = this.tags;
     return {
       'Actions': actions,
@@ -58054,46 +60550,9 @@ class Rule {
       'RuleArn': ruleArn,
       'RuleId': ruleId,
       'TriggerEventSource': triggerEventSource,
+      if (ruleCapabilityTiers != null)
+        'RuleCapabilityTiers': ruleCapabilityTiers.map((e) => e.value).toList(),
       if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// The name of the event source. This field is required if
-/// <code>TriggerEventSource</code> is one of the following values:
-/// <code>OnZendeskTicketCreate</code> |
-/// <code>OnZendeskTicketStatusUpdate</code> |
-/// <code>OnSalesforceCaseCreate</code> | <code>OnContactEvaluationSubmit</code>
-/// | <code>OnMetricDataUpdate</code>.
-///
-/// @nodoc
-class RuleTriggerEventSource {
-  /// The name of the event source.
-  final EventSourceName eventSourceName;
-
-  /// The identifier for the integration association.
-  final String? integrationAssociationId;
-
-  RuleTriggerEventSource({
-    required this.eventSourceName,
-    this.integrationAssociationId,
-  });
-
-  factory RuleTriggerEventSource.fromJson(Map<String, dynamic> json) {
-    return RuleTriggerEventSource(
-      eventSourceName: EventSourceName.fromString(
-          (json['EventSourceName'] as String?) ?? ''),
-      integrationAssociationId: json['IntegrationAssociationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSourceName = this.eventSourceName;
-    final integrationAssociationId = this.integrationAssociationId;
-    return {
-      'EventSourceName': eventSourceName.value,
-      if (integrationAssociationId != null)
-        'IntegrationAssociationId': integrationAssociationId,
     };
   }
 }
@@ -58688,6 +61147,15 @@ class EvaluationForm {
   /// Configuration for language settings of this evaluation form.
   final EvaluationFormLanguageConfiguration? languageConfiguration;
 
+  /// The timestamp when the most recent validation was started for this
+  /// evaluation form.
+  final DateTime? lastValidationTime;
+
+  /// The status of the most recent validation run for this evaluation form. Valid
+  /// values: <code>IN_PROGRESS</code>, <code>COMPLETED</code>,
+  /// <code>FAILED</code>.
+  final EvaluationFormValidationStatus? latestValidationStatus;
+
   /// Configuration for evaluation review settings of this evaluation form.
   final EvaluationReviewConfiguration? reviewConfiguration;
 
@@ -58716,6 +61184,8 @@ class EvaluationForm {
     this.autoEvaluationConfiguration,
     this.description,
     this.languageConfiguration,
+    this.lastValidationTime,
+    this.latestValidationStatus,
     this.reviewConfiguration,
     this.scoringStrategy,
     this.tags,
@@ -58749,6 +61219,9 @@ class EvaluationForm {
           ? EvaluationFormLanguageConfiguration.fromJson(
               json['LanguageConfiguration'] as Map<String, dynamic>)
           : null,
+      lastValidationTime: timeStampFromJson(json['LastValidationTime']),
+      latestValidationStatus: (json['LatestValidationStatus'] as String?)
+          ?.let(EvaluationFormValidationStatus.fromString),
       reviewConfiguration: json['ReviewConfiguration'] != null
           ? EvaluationReviewConfiguration.fromJson(
               json['ReviewConfiguration'] as Map<String, dynamic>)
@@ -58781,6 +61254,8 @@ class EvaluationForm {
     final autoEvaluationConfiguration = this.autoEvaluationConfiguration;
     final description = this.description;
     final languageConfiguration = this.languageConfiguration;
+    final lastValidationTime = this.lastValidationTime;
+    final latestValidationStatus = this.latestValidationStatus;
     final reviewConfiguration = this.reviewConfiguration;
     final scoringStrategy = this.scoringStrategy;
     final tags = this.tags;
@@ -58802,6 +61277,10 @@ class EvaluationForm {
       if (description != null) 'Description': description,
       if (languageConfiguration != null)
         'LanguageConfiguration': languageConfiguration,
+      if (lastValidationTime != null)
+        'LastValidationTime': unixTimestampToJson(lastValidationTime),
+      if (latestValidationStatus != null)
+        'LatestValidationStatus': latestValidationStatus.value,
       if (reviewConfiguration != null)
         'ReviewConfiguration': reviewConfiguration,
       if (scoringStrategy != null) 'ScoringStrategy': scoringStrategy,
@@ -62186,6 +64665,36 @@ class AttachedFilesConfiguration {
   }
 }
 
+/// @nodoc
+class ContactField {
+  static const customerEndpoint = ContactField._('CUSTOMER_ENDPOINT');
+  static const additionalEmailRecipients =
+      ContactField._('ADDITIONAL_EMAIL_RECIPIENTS');
+  static const emailSubject = ContactField._('EMAIL_SUBJECT');
+
+  final String value;
+
+  const ContactField._(this.value);
+
+  static const values = [
+    customerEndpoint,
+    additionalEmailRecipients,
+    emailSubject
+  ];
+
+  static ContactField fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContactField._(value));
+
+  @override
+  bool operator ==(other) => other is ContactField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains information about the queue and channel for manual assignment
 /// behaviour can be enabled.
 ///
@@ -62426,6 +64935,73 @@ class InitiateAs {
 
   @override
   String toString() => value;
+}
+
+/// The type of entity associated with an authorization code in Connect
+/// Customer.
+///
+/// @nodoc
+class AuthCodeEntityType {
+  static const customerProfile = AuthCodeEntityType._('CUSTOMER_PROFILE');
+
+  final String value;
+
+  const AuthCodeEntityType._(this.value);
+
+  static const values = [customerProfile];
+
+  static AuthCodeEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthCodeEntityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthCodeEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the scope configuration for an authorization code. Defines the
+/// permissions and access boundaries for the session.
+///
+/// @nodoc
+class AuthScope {
+  /// The type of entity to scope the session to.
+  final AuthCodeEntityType entityType;
+
+  /// The name of the Customer Profiles domain to scope the session to.
+  final String? domainName;
+
+  /// The identifier of the entity to scope the session to.
+  final String? entityId;
+
+  /// The list of security profile identifiers to scope the session to. Maximum of
+  /// 10 security profiles.
+  final List<String>? securityProfileIds;
+
+  AuthScope({
+    required this.entityType,
+    this.domainName,
+    this.entityId,
+    this.securityProfileIds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityType = this.entityType;
+    final domainName = this.domainName;
+    final entityId = this.entityId;
+    final securityProfileIds = this.securityProfileIds;
+    return {
+      'EntityType': entityType.value,
+      if (domainName != null) 'DomainName': domainName,
+      if (entityId != null) 'EntityId': entityId,
+      if (securityProfileIds != null) 'SecurityProfileIds': securityProfileIds,
+    };
+  }
 }
 
 /// A batch update data table value failure result.
@@ -62816,9 +65392,13 @@ class AttachedFile {
   /// The current status of the attached file.
   final FileStatusType fileStatus;
 
-  /// The resource to which the attached file is (being) uploaded to. <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Cases</a>
-  /// are the only current supported resource.
+  /// The resource to which the attached file is (being) uploaded to. The
+  /// supported resources are <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cases.html">Cases</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html">Email</a>,
+  /// and <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html">Task</a>.
   /// <note>
   /// This value must be a valid ARN.
   /// </note>
@@ -63329,6 +65909,15 @@ class ContactNotFoundException extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class ContactNotTerminatedException extends _s.GenericAwsException {
+  ContactNotTerminatedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ContactNotTerminatedException',
+            message: message);
+}
+
+/// @nodoc
 class DestinationNotAllowedException extends _s.GenericAwsException {
   DestinationNotAllowedException({String? type, String? message})
       : super(
@@ -63496,6 +66085,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ContactFlowNotPublishedException(type: type, message: message),
   'ContactNotFoundException': (type, message) =>
       ContactNotFoundException(type: type, message: message),
+  'ContactNotTerminatedException': (type, message) =>
+      ContactNotTerminatedException(type: type, message: message),
   'DestinationNotAllowedException': (type, message) =>
       DestinationNotAllowedException(type: type, message: message),
   'DuplicateResourceException': (type, message) =>

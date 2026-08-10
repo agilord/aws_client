@@ -13,7 +13,168 @@ ResolvedEndpoint resolveEndpoint({
   String? endpoint,
   bool useFips = false,
   bool useDualStack = false,
+  bool? isControlPlane,
+  bool? isoAuthEndpoint,
 }) {
+  {
+    final partitionResult = fn.awsPartition(region);
+    if ((isControlPlane != null) &&
+        (isControlPlane == true) &&
+        (region != null)) {
+      if (partitionResult.name == 'aws') {
+        return ResolvedEndpoint(
+            url: 'https://signin.$region.api.aws',
+            authSchemes: [
+              EndpointAuthScheme(
+                  name: 'sigv4', signingName: 'signin', signingRegion: region)
+            ]);
+      }
+      if (partitionResult.name == 'aws-cn') {
+        return ResolvedEndpoint(
+            url: 'https://signin.$region.api.amazonwebservices.com.cn',
+            authSchemes: [
+              EndpointAuthScheme(
+                  name: 'sigv4', signingName: 'signin', signingRegion: region)
+            ]);
+      }
+      return ResolvedEndpoint(
+          url: 'https://signin.$region.${partitionResult.dualStackDnsSuffix}',
+          authSchemes: [
+            EndpointAuthScheme(
+                name: 'sigv4', signingName: 'signin', signingRegion: region)
+          ]);
+    }
+  }
+  if ((isoAuthEndpoint != null) &&
+      (isoAuthEndpoint == true) &&
+      (useFips == true)) {
+    throw EndpointResolutionException(
+        'FIPS endpoints are not supported for OAuth operations. Disable FIPS or use a non-OAuth operation.');
+  }
+  {
+    final partitionResult2 = fn.awsPartition(region);
+    if ((isoAuthEndpoint != null) &&
+        (isoAuthEndpoint == true) &&
+        (region != null) &&
+        (!(endpoint != null)) &&
+        (partitionResult2.name == 'aws')) {
+      return ResolvedEndpoint(
+          url: 'https://$region.oauth.signin.aws',
+          authSchemes: [
+            EndpointAuthScheme(
+                name: 'sigv4', signingName: 'signin', signingRegion: region)
+          ]);
+    }
+  }
+  {
+    final partitionResult3 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult3.name == 'aws')) {
+      return ResolvedEndpoint(url: 'https://$region.signin.aws.amazon.com');
+    }
+  }
+  {
+    final partitionResult4 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult4.name == 'aws-cn')) {
+      return ResolvedEndpoint(url: 'https://$region.signin.amazonaws.cn');
+    }
+  }
+  {
+    final partitionResult5 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult5.name == 'aws-us-gov')) {
+      return ResolvedEndpoint(
+          url: 'https://$region.signin.amazonaws-us-gov.com');
+    }
+  }
+  {
+    final partitionResult6 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult6.name == 'aws-iso')) {
+      return ResolvedEndpoint(url: 'https://$region.signin.c2shome.ic.gov');
+    }
+  }
+  {
+    final partitionResult7 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult7.name == 'aws-iso-b')) {
+      return ResolvedEndpoint(url: 'https://$region.signin.sc2shome.sgov.gov');
+    }
+  }
+  {
+    final partitionResult8 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult8.name == 'aws-iso-f')) {
+      return ResolvedEndpoint(url: 'https://$region.signin.csphome.hci.ic.gov');
+    }
+  }
+  {
+    final partitionResult9 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult9.name == 'aws-iso-e')) {
+      return ResolvedEndpoint(url: 'https://$region.signin.csphome.adc-e.uk');
+    }
+  }
+  {
+    final partitionResult10 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false) &&
+        (partitionResult10.name == 'aws-eusc')) {
+      return ResolvedEndpoint(url: 'https://$region.signin.amazonaws-eusc.eu');
+    }
+  }
+  if ((region != null) &&
+      (!(endpoint != null)) &&
+      (useFips == true) &&
+      (useDualStack == false) &&
+      (region == 'us-gov-west-1')) {
+    return ResolvedEndpoint(url: 'https://signin-fips.amazonaws-us-gov.com');
+  }
+  {
+    final partitionResult11 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == true) &&
+        (useDualStack == false) &&
+        (partitionResult11.name == 'aws-us-gov')) {
+      return ResolvedEndpoint(
+          url: 'https://$region.signin-fips.amazonaws-us-gov.com');
+    }
+  }
+  {
+    final partitionResult12 = fn.awsPartition(region);
+    if ((region != null) &&
+        (!(endpoint != null)) &&
+        (useFips == false) &&
+        (useDualStack == false)) {
+      return ResolvedEndpoint(
+          url: 'https://$region.signin.${partitionResult12.dnsSuffix}');
+    }
+  }
   if (endpoint != null) {
     if (useFips == true) {
       throw EndpointResolutionException(
@@ -27,52 +188,53 @@ ResolvedEndpoint resolveEndpoint({
   }
   if (region != null) {
     {
-      final partitionResult = fn.awsPartition(region);
-      if ((partitionResult.name == 'aws') &&
+      final partitionResult13 = fn.awsPartition(region);
+      if ((partitionResult13.name == 'aws') &&
           (useFips == false) &&
           (useDualStack == false)) {
         return ResolvedEndpoint(url: 'https://$region.signin.aws.amazon.com');
       }
-      if ((partitionResult.name == 'aws-cn') &&
+      if ((partitionResult13.name == 'aws-cn') &&
           (useFips == false) &&
           (useDualStack == false)) {
         return ResolvedEndpoint(url: 'https://$region.signin.amazonaws.cn');
       }
-      if ((partitionResult.name == 'aws-us-gov') &&
+      if ((partitionResult13.name == 'aws-us-gov') &&
           (useFips == false) &&
           (useDualStack == false)) {
         return ResolvedEndpoint(
             url: 'https://$region.signin.amazonaws-us-gov.com');
       }
       if ((useFips == true) && (useDualStack == true)) {
-        if ((true == partitionResult.supportsFips) &&
-            (true == partitionResult.supportsDualStack)) {
+        if ((true == partitionResult13.supportsFips) &&
+            (true == partitionResult13.supportsDualStack)) {
           return ResolvedEndpoint(
               url:
-                  'https://signin-fips.$region.${partitionResult.dualStackDnsSuffix}');
+                  'https://signin-fips.$region.${partitionResult13.dualStackDnsSuffix}');
         }
         throw EndpointResolutionException(
             'FIPS and DualStack are enabled, but this partition does not support one or both');
       }
       if ((useFips == true) && (useDualStack == false)) {
-        if (partitionResult.supportsFips == true) {
+        if (partitionResult13.supportsFips == true) {
           return ResolvedEndpoint(
-              url: 'https://signin-fips.$region.${partitionResult.dnsSuffix}');
+              url:
+                  'https://signin-fips.$region.${partitionResult13.dnsSuffix}');
         }
         throw EndpointResolutionException(
             'FIPS is enabled but this partition does not support FIPS');
       }
       if ((useFips == false) && (useDualStack == true)) {
-        if (true == partitionResult.supportsDualStack) {
+        if (true == partitionResult13.supportsDualStack) {
           return ResolvedEndpoint(
               url:
-                  'https://signin.$region.${partitionResult.dualStackDnsSuffix}');
+                  'https://signin.$region.${partitionResult13.dualStackDnsSuffix}');
         }
         throw EndpointResolutionException(
             'DualStack is enabled but this partition does not support DualStack');
       }
       return ResolvedEndpoint(
-          url: 'https://signin.$region.${partitionResult.dnsSuffix}');
+          url: 'https://signin.$region.${partitionResult13.dnsSuffix}');
     }
   }
   throw EndpointResolutionException('Invalid Configuration: Missing Region');

@@ -741,7 +741,7 @@ class GameLift {
   /// Amazon GameLift Servers uses the following formula: <code>4192 + \[# of
   /// game server container groups per fleet instance\] * \[# of container ports
   /// in the game server container group definition\] + \[# of container ports
-  /// in the game server container group definition\]</code>
+  /// in the per instance container group definition\]</code>
   /// </li>
   /// </ul>
   /// You can also choose to manually set this parameter. When manually setting
@@ -774,7 +774,7 @@ class GameLift {
   /// Amazon GameLift Servers uses the following formula: <code>4192 + \[# of
   /// game server container groups per fleet instance\] * \[# of container ports
   /// in the game server container group definition\] + \[# of container ports
-  /// in the game server container group definition\]</code>
+  /// in the per instance container group definition\]</code>
   /// </li>
   /// </ul>
   /// You can also choose to manually set this parameter. When manually setting
@@ -795,9 +795,10 @@ class GameLift {
   /// resources and processing power that's available to host your game servers.
   /// This includes including CPU, memory, storage, and networking capacity.
   ///
-  /// By default, Amazon GameLift Servers selects an instance type that fits the
-  /// needs of your container groups and is available in all selected fleet
-  /// locations. You can also choose to manually set this parameter. See <a
+  /// By default, Amazon GameLift Servers uses the <code>c5.large</code>
+  /// instance type. If this instance type does not have sufficient resources
+  /// for your container groups, you can choose a different instance type that
+  /// better fits your needs. See <a
   /// href="http://aws.amazon.com/ec2/instance-types/">Amazon Elastic Compute
   /// Cloud Instance Types</a> for detailed descriptions of Amazon EC2 instance
   /// types.
@@ -1070,13 +1071,13 @@ class GameLift {
   /// <code>ContainerGroupType</code> (<code>GAME_SERVER</code>)
   /// </li>
   /// <li>
-  /// <code>OperatingSystem</code> (omit to use default value)
+  /// <code>OperatingSystem</code>
   /// </li>
   /// <li>
-  /// <code>TotalMemoryLimitMebibytes</code> (omit to use default value)
+  /// <code>TotalMemoryLimitMebibytes</code>
   /// </li>
   /// <li>
-  /// <code>TotalVcpuLimit </code>(omit to use default value)
+  /// <code>TotalVcpuLimit</code>
   /// </li>
   /// <li>
   /// At least one <code>GameServerContainerDefinition</code>
@@ -1092,7 +1093,7 @@ class GameLift {
   /// <code>PortConfiguration</code>
   /// </li>
   /// <li>
-  /// <code>ServerSdkVersion</code> (omit to use default value)
+  /// <code>ServerSdkVersion</code>
   /// </li>
   /// </ul> </li>
   /// </ul> </li>
@@ -1108,13 +1109,13 @@ class GameLift {
   /// <code>ContainerGroupType</code> (<code>PER_INSTANCE</code>)
   /// </li>
   /// <li>
-  /// <code>OperatingSystem</code> (omit to use default value)
+  /// <code>OperatingSystem</code>
   /// </li>
   /// <li>
-  /// <code>TotalMemoryLimitMebibytes</code> (omit to use default value)
+  /// <code>TotalMemoryLimitMebibytes</code>
   /// </li>
   /// <li>
-  /// <code>TotalVcpuLimit </code>(omit to use default value)
+  /// <code>TotalVcpuLimit</code>
   /// </li>
   /// <li>
   /// At least one <code>SupportContainerDefinition</code>
@@ -1715,7 +1716,8 @@ class GameLift {
     return CreateFleetOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Container
+  /// <b>This API works with the following fleet types:</b> EC2, Anywhere,
+  /// Container
   ///
   /// Adds remote locations to an EC2 and begins populating the new locations
   /// with instances. The new instances conform to the fleet's instance type,
@@ -2177,11 +2179,13 @@ class GameLift {
   /// same string return the original <code>GameSession</code> object, with an
   /// updated status. Maximum token length is 48 characters. If provided, this
   /// string is included in the new game session's ID. The value is always a
-  /// full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>. Idempotency tokens remain in use for 30 days after a game
-  /// session has ended; game session objects are retained for this time period
-  /// and then deleted.
+  /// full ARN in the following format: For Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>. Idempotency tokens remain in use for 30
+  /// days after a game session has ended; game session objects are retained for
+  /// this time period and then deleted.
   ///
   /// Parameter [location] :
   /// A fleet's remote location to place the new game session in. If this
@@ -2468,6 +2472,7 @@ class GameLift {
   /// May throw [LimitExceededException].
   /// May throw [TaggingFailedException].
   /// May throw [UnauthorizedException].
+  /// May throw [UnsupportedRegionException].
   ///
   /// Parameter [locationName] :
   /// A descriptive name for the custom location.
@@ -2872,8 +2877,11 @@ class GameLift {
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to
   /// add a player to. The value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// For Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [playerId] :
   /// A unique identifier for a player. Player IDs are developer-defined.
@@ -2946,8 +2954,11 @@ class GameLift {
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to
   /// add players to. The value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// For Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [playerIds] :
   /// List of unique identifiers for the players to be added.
@@ -3166,7 +3177,31 @@ class GameLift {
   /// The authorization remains valid for 24 hours unless it is canceled. You
   /// must create or delete the peering connection while the authorization is
   /// valid.
+  /// <note>
+  /// Amazon GameLift Servers uses the caller's credentials to update peer-VPC
+  /// resources. The IAM user that calls this operation must have the following
+  /// Amazon EC2 permissions enabled:
   ///
+  /// <ul>
+  /// <li>
+  /// <code>ec2:AcceptVpcPeeringConnection</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:AuthorizeSecurityGroupEgress</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:AuthorizeSecurityGroupIngress</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateRoute</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeRouteTables</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSecurityGroups</code>
+  /// </li>
+  /// </ul> </note>
   /// <b>Related actions</b>
   ///
   /// <a
@@ -3247,7 +3282,31 @@ class GameLift {
   /// , or by monitoring fleet events for success or failure using <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html">DescribeFleetEvents</a>
   /// .
+  /// <note>
+  /// Amazon GameLift Servers uses the caller's credentials to update peer-VPC
+  /// resources. The IAM user that calls this operation must have the following
+  /// Amazon EC2 permissions enabled:
   ///
+  /// <ul>
+  /// <li>
+  /// <code>ec2:AcceptVpcPeeringConnection</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:AuthorizeSecurityGroupEgress</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:AuthorizeSecurityGroupIngress</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateRoute</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeRouteTables</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSecurityGroups</code>
+  /// </li>
+  /// </ul> </note>
   /// <b>Related actions</b>
   ///
   /// <a
@@ -3539,8 +3598,7 @@ class GameLift {
     );
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Anywhere,
-  /// Container
+  /// <b>This API works with the following fleet types:</b> EC2, Anywhere
   ///
   /// Deletes all resources and information related to a fleet and shuts down
   /// any currently running fleet instances, including those in remote
@@ -3591,7 +3649,8 @@ class GameLift {
     );
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Container
+  /// <b>This API works with the following fleet types:</b> EC2, Anywhere,
+  /// Container
   ///
   /// Removes locations from a multi-location fleet. When deleting a location,
   /// all game server process and all instances that are still active in the
@@ -3788,6 +3847,7 @@ class GameLift {
   /// May throw [InvalidRequestException].
   /// May throw [NotFoundException].
   /// May throw [UnauthorizedException].
+  /// May throw [UnsupportedRegionException].
   ///
   /// Parameter [locationName] :
   /// The location name of the custom location to be deleted.
@@ -3891,7 +3951,7 @@ class GameLift {
     );
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2
+  /// <b>This API works with the following fleet types:</b> EC2, Container
   ///
   /// Deletes a fleet scaling policy. Once deleted, the policy is no longer in
   /// force and Amazon GameLift Servers removes all record of it. To delete a
@@ -4104,6 +4164,7 @@ class GameLift {
   /// May throw [InvalidRequestException].
   /// May throw [NotFoundException].
   /// May throw [UnauthorizedException].
+  /// May throw [UnsupportedRegionException].
   ///
   /// Parameter [computeName] :
   /// The unique identifier of the compute resource to deregister. For an
@@ -4514,12 +4575,12 @@ class GameLift {
   /// </ul>
   /// <b>Results</b>
   ///
-  /// This operation returns the fleet ID, location, container group definition
-  /// ARN, container group type, compute name (for game server container
-  /// groups), instance ID, and a list of <code>ContainerGroupPortMapping</code>
-  /// objects. Each object contains the container name, runtime ID, and a list
-  /// of port mappings that show how container ports map to connection ports on
-  /// the instance.
+  /// This operation returns the fleet ID, fleet ARN, location, container group
+  /// definition ARN, container group type, compute name (for game server
+  /// container groups), instance ID, and a list of
+  /// <code>ContainerGroupPortMapping</code> objects. Each object contains the
+  /// container name, runtime ID, and a list of port mappings that show how
+  /// container ports map to connection ports on the instance.
   ///
   /// <b>Learn more</b>
   ///
@@ -5052,7 +5113,8 @@ class GameLift {
     return DescribeFleetEventsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Container
+  /// <b>This API works with the following fleet types:</b> EC2, Anywhere,
+  /// Container
   ///
   /// Retrieves information on a fleet's remote locations, including life-cycle
   /// status and any suspended fleet activity.
@@ -5074,9 +5136,7 @@ class GameLift {
   ///
   /// If successful, a <code>LocationAttributes</code> object is returned for
   /// each requested location. If the fleet does not have a requested location,
-  /// no information is returned. This operation does not return the home
-  /// Region. To get information on a fleet's home Region, call
-  /// <code>DescribeFleetAttributes</code>.
+  /// no information is returned.
   ///
   /// <b>Learn more</b>
   ///
@@ -5146,7 +5206,8 @@ class GameLift {
     return DescribeFleetLocationAttributesOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Container
+  /// <b>This API works with the following fleet types:</b> EC2, Anywhere,
+  /// Container
   ///
   /// Retrieves the resource capacity settings for a fleet location. The data
   /// returned includes the current capacity (number of EC2 instances) and some
@@ -5214,8 +5275,7 @@ class GameLift {
     return DescribeFleetLocationCapacityOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Anywhere,
-  /// Container
+  /// <b>This API works with the following fleet types:</b> EC2, Anywhere
   ///
   /// Retrieves current usage data for a fleet location. Utilization data
   /// provides a snapshot of current game hosting activity at the requested
@@ -5280,7 +5340,7 @@ class GameLift {
     return DescribeFleetLocationUtilizationOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Container
+  /// <b>This API works with the following fleet types:</b> EC2
   ///
   /// Retrieves a fleet's inbound connection permissions. Connection permissions
   /// specify IP addresses and port settings that incoming traffic can use to
@@ -5347,7 +5407,7 @@ class GameLift {
     return DescribeFleetPortSettingsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Container
+  /// <b>This API works with the following fleet types:</b> EC2
   ///
   /// Retrieves utilization statistics for one or more fleets. Utilization data
   /// provides a snapshot of how the fleet's hosting resources are currently
@@ -5682,9 +5742,12 @@ class GameLift {
   ///
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to
-  /// retrieve. The value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// retrieve. The value is always a full ARN in the following format: For Home
+  /// Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return. Use this parameter with
@@ -5925,9 +5988,12 @@ class GameLift {
   ///
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to
-  /// retrieve. The value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// retrieve. The value is always a full ARN in the following format: For Home
+  /// Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return. Use this parameter with
@@ -6347,8 +6413,11 @@ class GameLift {
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to
   /// retrieve player sessions for. The value is always a full ARN in the
-  /// following format: <code>arn:aws:gamelift:<location>::gamesession/<fleet
-  /// ID>/<ID string></code>.
+  /// following format: For Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return. Use this parameter with
@@ -6485,7 +6554,7 @@ class GameLift {
     return DescribeRuntimeConfigurationOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2
+  /// <b>This API works with the following fleet types:</b> EC2, Container
   ///
   /// Retrieves all scaling policies applied to a fleet.
   ///
@@ -6896,9 +6965,12 @@ class GameLift {
   ///
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to
-  /// get logs for. The value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// get logs for. The value is always a full ARN in the following format: For
+  /// Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   Future<GetGameSessionLogUrlOutput> getGameSessionLogUrl({
     required String gameSessionId,
   }) async {
@@ -7049,9 +7121,11 @@ class GameLift {
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions for
   /// which to retrieve player connection details. The value is always a full
-  /// ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// ARN in the following format: For Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [playerIds] :
   /// List of unique identifiers for players. Connection details are returned
@@ -8079,7 +8153,7 @@ class GameLift {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2
+  /// <b>This API works with the following fleet types:</b> EC2, Container
   ///
   /// Creates or updates a scaling policy for a fleet. Scaling policies are used
   /// to automatically scale a fleet's hosting capacity to meet player demand.
@@ -8325,7 +8399,7 @@ class GameLift {
     return PutScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> Anywhere, Container
+  /// <b>This API works with the following fleet types:</b> Anywhere
   ///
   /// Registers a compute resource in an Amazon GameLift Servers Anywhere fleet.
   ///
@@ -8377,6 +8451,7 @@ class GameLift {
   /// May throw [LimitExceededException].
   /// May throw [NotReadyException].
   /// May throw [UnauthorizedException].
+  /// May throw [UnsupportedRegionException].
   ///
   /// Parameter [computeName] :
   /// A descriptive label for the compute resource.
@@ -9177,9 +9252,11 @@ class GameLift {
   ///
   /// Parameter [playerLatencies] :
   /// A set of values, expressed in milliseconds, that indicates the amount of
-  /// latency that a player experiences when connected to Amazon Web Services
-  /// Regions. This information is used to try to place the new game session
-  /// where it can offer the best possible gameplay experience for the players.
+  /// latency that a player experiences when connected to a fleet location
+  /// (Amazon Web Services Regions or custom locations for Amazon GameLift
+  /// Servers Anywhere fleets). This information is used to try to place the new
+  /// game session where it can offer the best possible gameplay experience for
+  /// the players.
   ///
   /// Parameter [priorityConfigurationOverride] :
   /// A prioritized list of locations to use for the game session placement and
@@ -9329,10 +9406,12 @@ class GameLift {
   ///
   /// Parameter [gameSessionArn] :
   /// An identifier for the game session that is unique across all regions. The
-  /// value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>. When using FlexMatch as a standalone matchmaking solution,
-  /// this parameter is not needed.
+  /// value is always a full ARN in the following format: For Home Region game
+  /// session - <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>. When using FlexMatch as a standalone
+  /// matchmaking solution, this parameter is not needed.
   ///
   /// Parameter [ticketId] :
   /// A unique identifier for a matchmaking ticket. If no ticket ID is specified
@@ -9831,9 +9910,12 @@ class GameLift {
   ///
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to be
-  /// terminated. The value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// terminated. The value is always a full ARN in the following format: For
+  /// Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [terminationMode] :
   /// The method to use to terminate the game session. Available methods
@@ -10337,8 +10419,8 @@ class GameLift {
   /// as the source version.
   /// </li>
   /// <li>
-  /// Change a game server container definition. Provide the updated container
-  /// definition.
+  /// Change a game server container definition. Provide a complete set of
+  /// container definitions, including the updated definition.
   /// </li>
   /// <li>
   /// Add or change a support container definition. Provide a complete set of
@@ -10474,8 +10556,7 @@ class GameLift {
     return UpdateContainerGroupDefinitionOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Anywhere,
-  /// Container
+  /// <b>This API works with the following fleet types:</b> EC2, Anywhere
   ///
   /// Updates a fleet's mutable attributes, such as game session protection and
   /// resource creation limits.
@@ -10741,7 +10822,7 @@ class GameLift {
     return UpdateFleetCapacityOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This API works with the following fleet types:</b> EC2, Container
+  /// <b>This API works with the following fleet types:</b> EC2
   ///
   /// Updates permissions that allow inbound traffic to connect to game sessions
   /// in the fleet.
@@ -10752,10 +10833,11 @@ class GameLift {
   /// remove in <code>InboundPermissionRevocations</code>. Permissions to be
   /// removed must match existing fleet permissions.
   ///
-  /// If successful, the fleet ID for the updated fleet is returned. For fleets
-  /// with remote locations, port setting updates can take time to propagate
-  /// across all locations. You can check the status of updates in each location
-  /// by calling <code>DescribeFleetPortSettings</code> with a location name.
+  /// If successful, the fleet identifiers for the updated fleet are returned.
+  /// For fleets with remote locations, port setting updates can take time to
+  /// propagate across all locations. You can check the status of updates in
+  /// each location by calling <code>DescribeFleetPortSettings</code> with a
+  /// location name.
   ///
   /// <b>Learn more</b>
   ///
@@ -10915,7 +10997,13 @@ class GameLift {
   /// are validated to ensure that Amazon GameLift Servers FleetIQ can continue
   /// to perform instance balancing activity. If successful, a
   /// <code>GameServerGroup</code> object is returned.
-  ///
+  /// <note>
+  /// Target tracking Auto Scaling policies on the Auto Scaling group cannot be
+  /// updated through the Amazon Web Services Management Console. Instead, use
+  /// the Amazon Elastic Compute Cloud Auto Scaling <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutScalingPolicy.html">
+  /// <code>PutScalingPolicy</code> </a> API action to update these policies.
+  /// </note>
   /// <b>Learn more</b>
   ///
   /// <a
@@ -11047,9 +11135,12 @@ class GameLift {
   ///
   /// Parameter [gameSessionId] :
   /// An identifier for the game session that is unique across all regions to
-  /// update. The value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-  /// string></code>.
+  /// update. The value is always a full ARN in the following format: For Home
+  /// Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet
+  /// ID>/<location>/<ID string></code>.
   ///
   /// Parameter [gameProperties] :
   /// A set of key-value pairs that can store custom data in a game session. For
@@ -12548,6 +12639,15 @@ class DescribeContainerGroupPortMappingsOutput {
   /// are <code>GAME_SERVER</code> or <code>PER_INSTANCE</code>.
   final ContainerGroupType? containerGroupType;
 
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
+  /// that is assigned to a Amazon GameLift Servers fleet resource and uniquely
+  /// identifies it. ARNs are unique across all Regions. Format is
+  /// <code>arn:aws:gamelift:<region>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912</code>.
+  /// In a GameLift fleet ARN, the resource ID matches the <code>FleetId</code>
+  /// value.
+  final String? fleetArn;
+
   /// A unique identifier for the container fleet.
   final String? fleetId;
 
@@ -12566,6 +12666,7 @@ class DescribeContainerGroupPortMappingsOutput {
     this.containerGroupDefinitionArn,
     this.containerGroupPortMappings,
     this.containerGroupType,
+    this.fleetArn,
     this.fleetId,
     this.instanceId,
     this.location,
@@ -12584,6 +12685,7 @@ class DescribeContainerGroupPortMappingsOutput {
           .toList(),
       containerGroupType: (json['ContainerGroupType'] as String?)
           ?.let(ContainerGroupType.fromString),
+      fleetArn: json['FleetArn'] as String?,
       fleetId: json['FleetId'] as String?,
       instanceId: json['InstanceId'] as String?,
       location: json['Location'] as String?,
@@ -12595,6 +12697,7 @@ class DescribeContainerGroupPortMappingsOutput {
     final containerGroupDefinitionArn = this.containerGroupDefinitionArn;
     final containerGroupPortMappings = this.containerGroupPortMappings;
     final containerGroupType = this.containerGroupType;
+    final fleetArn = this.fleetArn;
     final fleetId = this.fleetId;
     final instanceId = this.instanceId;
     final location = this.location;
@@ -12606,6 +12709,7 @@ class DescribeContainerGroupPortMappingsOutput {
         'ContainerGroupPortMappings': containerGroupPortMappings,
       if (containerGroupType != null)
         'ContainerGroupType': containerGroupType.value,
+      if (fleetArn != null) 'FleetArn': fleetArn,
       if (fleetId != null) 'FleetId': fleetId,
       if (instanceId != null) 'InstanceId': instanceId,
       if (location != null) 'Location': location,
@@ -13747,8 +13851,10 @@ class GetInstanceAccessOutput {
 class GetPlayerConnectionDetailsOutput {
   /// An identifier for the game session that is unique across all regions for
   /// which the player connection details were retrieved. The value is always a
-  /// full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+  /// full ARN in the following format: For Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
   /// string></code>.
   final String? gameSessionId;
 
@@ -16233,8 +16339,10 @@ class GameSession {
   final String? gameSessionData;
 
   /// An identifier for the game session that is unique across all regions. The
-  /// value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+  /// value is always a full ARN in the following format: For Home Region game
+  /// session - <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
   /// string></code>.
   final String? gameSessionId;
 
@@ -17560,6 +17668,15 @@ class ZeroCapacityStrategy {
 /// checks that the player (identified by <code>CreatorId</code>) has created
 /// fewer than game session limit in the specified time period.
 ///
+/// The purpose of this policy is to prevent a single player from consuming a
+/// large share of available hosting resources. For example, setting
+/// <code>NewGameSessionsPerCreator</code> to <code>4</code> and
+/// <code>PolicyPeriodInMinutes</code> to <code>10</code> limits each player to
+/// creating 4 game sessions every 10 minutes. Setting these values too high
+/// (for example, 200 game sessions every 1000 minutes) still allows a single
+/// player to rapidly consume resources. We recommend keeping these values
+/// small.
+///
 /// @nodoc
 class ResourceCreationLimitPolicy {
   /// A policy that puts limits on the number of game sessions that a player can
@@ -17922,9 +18039,13 @@ class ContainerGroupType {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html">ContainerGroupDefinition</a>
 ///
 /// <b>Returned by:</b> <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html">CreateContainerGroupDefinition</a>,
+/// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html">DescribeContainerGroupDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html">ListContainerGroupDefinitions</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitionVersions.html">ListContainerGroupDefinitionVersions</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
 ///
@@ -17949,6 +18070,12 @@ class GameServerContainerDefinition {
   /// container to a container fleet. For a more specific identifier, see
   /// <code>ResolvedImageDigest</code>.
   final String? imageUri;
+
+  /// Linux-specific modifications that are applied to the default Docker
+  /// container configuration, such as Linux capabilities. For more information
+  /// see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html">LinuxCapabilities</a>.
+  final LinuxCapabilities? linuxCapabilities;
 
   /// A mount point that binds a path inside the container to a file or directory
   /// on the host system and lets it access the file or directory.
@@ -17976,6 +18103,7 @@ class GameServerContainerDefinition {
     this.dependsOn,
     this.environmentOverride,
     this.imageUri,
+    this.linuxCapabilities,
     this.mountPoints,
     this.portConfiguration,
     this.resolvedImageDigest,
@@ -17994,6 +18122,10 @@ class GameServerContainerDefinition {
           .map((e) => ContainerEnvironment.fromJson(e as Map<String, dynamic>))
           .toList(),
       imageUri: json['ImageUri'] as String?,
+      linuxCapabilities: json['LinuxCapabilities'] != null
+          ? LinuxCapabilities.fromJson(
+              json['LinuxCapabilities'] as Map<String, dynamic>)
+          : null,
       mountPoints: (json['MountPoints'] as List?)
           ?.nonNulls
           .map((e) => ContainerMountPoint.fromJson(e as Map<String, dynamic>))
@@ -18012,6 +18144,7 @@ class GameServerContainerDefinition {
     final dependsOn = this.dependsOn;
     final environmentOverride = this.environmentOverride;
     final imageUri = this.imageUri;
+    final linuxCapabilities = this.linuxCapabilities;
     final mountPoints = this.mountPoints;
     final portConfiguration = this.portConfiguration;
     final resolvedImageDigest = this.resolvedImageDigest;
@@ -18022,6 +18155,7 @@ class GameServerContainerDefinition {
       if (environmentOverride != null)
         'EnvironmentOverride': environmentOverride,
       if (imageUri != null) 'ImageUri': imageUri,
+      if (linuxCapabilities != null) 'LinuxCapabilities': linuxCapabilities,
       if (mountPoints != null) 'MountPoints': mountPoints,
       if (portConfiguration != null) 'PortConfiguration': portConfiguration,
       if (resolvedImageDigest != null)
@@ -18071,9 +18205,13 @@ class ContainerGroupDefinitionStatus {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html">ContainerGroupDefinition</a>
 ///
 /// <b>Returned by:</b> <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html">CreateContainerGroupDefinition</a>,
+/// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html">DescribeContainerGroupDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html">ListContainerGroupDefinitions</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitionVersions.html">ListContainerGroupDefinitionVersions</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
 ///
@@ -18106,6 +18244,12 @@ class SupportContainerDefinition {
   /// The URI to the image that Amazon GameLift Servers deploys to a container
   /// fleet. For a more specific identifier, see <code>ResolvedImageDigest</code>.
   final String? imageUri;
+
+  /// Linux-specific modifications that are applied to the default Docker
+  /// container configuration, such as Linux capabilities. For more information
+  /// see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html">LinuxCapabilities</a>.
+  final LinuxCapabilities? linuxCapabilities;
 
   /// The amount of memory that Amazon GameLift Servers makes available to the
   /// container. If memory limits aren't set for an individual container, the
@@ -18148,6 +18292,7 @@ class SupportContainerDefinition {
     this.essential,
     this.healthCheck,
     this.imageUri,
+    this.linuxCapabilities,
     this.memoryHardLimitMebibytes,
     this.mountPoints,
     this.portConfiguration,
@@ -18172,6 +18317,10 @@ class SupportContainerDefinition {
               json['HealthCheck'] as Map<String, dynamic>)
           : null,
       imageUri: json['ImageUri'] as String?,
+      linuxCapabilities: json['LinuxCapabilities'] != null
+          ? LinuxCapabilities.fromJson(
+              json['LinuxCapabilities'] as Map<String, dynamic>)
+          : null,
       memoryHardLimitMebibytes: json['MemoryHardLimitMebibytes'] as int?,
       mountPoints: (json['MountPoints'] as List?)
           ?.nonNulls
@@ -18193,6 +18342,7 @@ class SupportContainerDefinition {
     final essential = this.essential;
     final healthCheck = this.healthCheck;
     final imageUri = this.imageUri;
+    final linuxCapabilities = this.linuxCapabilities;
     final memoryHardLimitMebibytes = this.memoryHardLimitMebibytes;
     final mountPoints = this.mountPoints;
     final portConfiguration = this.portConfiguration;
@@ -18206,6 +18356,7 @@ class SupportContainerDefinition {
       if (essential != null) 'Essential': essential,
       if (healthCheck != null) 'HealthCheck': healthCheck,
       if (imageUri != null) 'ImageUri': imageUri,
+      if (linuxCapabilities != null) 'LinuxCapabilities': linuxCapabilities,
       if (memoryHardLimitMebibytes != null)
         'MemoryHardLimitMebibytes': memoryHardLimitMebibytes,
       if (mountPoints != null) 'MountPoints': mountPoints,
@@ -18352,6 +18503,165 @@ class ContainerPortConfiguration {
       'ContainerPortRanges': containerPortRanges,
     };
   }
+}
+
+/// A set of Linux capabilities that are added to a container's default Docker
+/// configuration for a container defined in the <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html">ContainerGroupDefinition</a>.
+/// For more detailed information about these Linux capabilities, see the <a
+/// href="https://man7.org/linux/man-pages/man7/capabilities.7.html">capabilities(7)</a>
+/// Linux manual page.
+///
+/// <b>Modifying capabilities on an existing container:</b> To remove a
+/// capability, update the <code>Include</code> list with only the needed
+/// capabilities. To revert back to default capabilities, omit
+/// <code>LinuxCapabilities</code> within the ContainerDefinition.
+///
+/// <b>Part of: </b> <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html">GameServerContainerDefinition</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html">GameServerContainerDefinitionInput</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html">SupportContainerDefinition</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html">SupportContainerDefinitionInput</a>
+///
+/// <b>Returned by: </b> <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html">CreateContainerGroupDefinition</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html">DescribeContainerGroupDefinition</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html">ListContainerGroupDefinitions</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitionVersions.html">ListContainerGroupDefinitionVersions</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
+///
+/// @nodoc
+class LinuxCapabilities {
+  /// The list of Linux capabilities to add to the container's default
+  /// configuration. Specify each capability as a string from the set of supported
+  /// capability names (for example, <code>NET_BIND_SERVICE</code> or
+  /// <code>SYS_PTRACE</code>).
+  final List<LinuxCapability>? include;
+
+  LinuxCapabilities({
+    this.include,
+  });
+
+  factory LinuxCapabilities.fromJson(Map<String, dynamic> json) {
+    return LinuxCapabilities(
+      include: (json['Include'] as List?)
+          ?.nonNulls
+          .map((e) => LinuxCapability.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final include = this.include;
+    return {
+      if (include != null) 'Include': include.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// @nodoc
+class LinuxCapability {
+  static const auditControl = LinuxCapability._('AUDIT_CONTROL');
+  static const auditWrite = LinuxCapability._('AUDIT_WRITE');
+  static const blockSuspend = LinuxCapability._('BLOCK_SUSPEND');
+  static const chown = LinuxCapability._('CHOWN');
+  static const dacOverride = LinuxCapability._('DAC_OVERRIDE');
+  static const dacReadSearch = LinuxCapability._('DAC_READ_SEARCH');
+  static const fowner = LinuxCapability._('FOWNER');
+  static const fsetid = LinuxCapability._('FSETID');
+  static const ipcLock = LinuxCapability._('IPC_LOCK');
+  static const ipcOwner = LinuxCapability._('IPC_OWNER');
+  static const kill = LinuxCapability._('KILL');
+  static const lease = LinuxCapability._('LEASE');
+  static const linuxImmutable = LinuxCapability._('LINUX_IMMUTABLE');
+  static const macAdmin = LinuxCapability._('MAC_ADMIN');
+  static const macOverride = LinuxCapability._('MAC_OVERRIDE');
+  static const mknod = LinuxCapability._('MKNOD');
+  static const netAdmin = LinuxCapability._('NET_ADMIN');
+  static const netBindService = LinuxCapability._('NET_BIND_SERVICE');
+  static const netBroadcast = LinuxCapability._('NET_BROADCAST');
+  static const netRaw = LinuxCapability._('NET_RAW');
+  static const setfcap = LinuxCapability._('SETFCAP');
+  static const setgid = LinuxCapability._('SETGID');
+  static const setpcap = LinuxCapability._('SETPCAP');
+  static const setuid = LinuxCapability._('SETUID');
+  static const sysAdmin = LinuxCapability._('SYS_ADMIN');
+  static const sysBoot = LinuxCapability._('SYS_BOOT');
+  static const sysChroot = LinuxCapability._('SYS_CHROOT');
+  static const sysModule = LinuxCapability._('SYS_MODULE');
+  static const sysNice = LinuxCapability._('SYS_NICE');
+  static const sysPacct = LinuxCapability._('SYS_PACCT');
+  static const sysPtrace = LinuxCapability._('SYS_PTRACE');
+  static const sysRawio = LinuxCapability._('SYS_RAWIO');
+  static const sysResource = LinuxCapability._('SYS_RESOURCE');
+  static const sysTime = LinuxCapability._('SYS_TIME');
+  static const sysTtyConfig = LinuxCapability._('SYS_TTY_CONFIG');
+  static const syslog = LinuxCapability._('SYSLOG');
+  static const wakeAlarm = LinuxCapability._('WAKE_ALARM');
+
+  final String value;
+
+  const LinuxCapability._(this.value);
+
+  static const values = [
+    auditControl,
+    auditWrite,
+    blockSuspend,
+    chown,
+    dacOverride,
+    dacReadSearch,
+    fowner,
+    fsetid,
+    ipcLock,
+    ipcOwner,
+    kill,
+    lease,
+    linuxImmutable,
+    macAdmin,
+    macOverride,
+    mknod,
+    netAdmin,
+    netBindService,
+    netBroadcast,
+    netRaw,
+    setfcap,
+    setgid,
+    setpcap,
+    setuid,
+    sysAdmin,
+    sysBoot,
+    sysChroot,
+    sysModule,
+    sysNice,
+    sysPacct,
+    sysPtrace,
+    sysRawio,
+    sysResource,
+    sysTime,
+    sysTtyConfig,
+    syslog,
+    wakeAlarm
+  ];
+
+  static LinuxCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LinuxCapability._(value));
+
+  @override
+  bool operator ==(other) => other is LinuxCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A set of one or more port numbers that can be opened on the container, and
@@ -18699,6 +19009,12 @@ class GameServerContainerDefinitionInput {
   /// parameter in the <i>Amazon Elastic Container Service API Reference</i>.
   final List<ContainerEnvironment>? environmentOverride;
 
+  /// Linux-specific modifications that are applied to the default Docker
+  /// container configuration, such as Linux capabilities. For more information
+  /// see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html">LinuxCapabilities</a>.
+  final LinuxCapabilities? linuxCapabilities;
+
   /// A mount point that binds a path inside the container to a file or directory
   /// on the host system and lets it access the file or directory.
   final List<ContainerMountPoint>? mountPoints;
@@ -18710,6 +19026,7 @@ class GameServerContainerDefinitionInput {
     required this.serverSdkVersion,
     this.dependsOn,
     this.environmentOverride,
+    this.linuxCapabilities,
     this.mountPoints,
   });
 
@@ -18720,6 +19037,7 @@ class GameServerContainerDefinitionInput {
     final serverSdkVersion = this.serverSdkVersion;
     final dependsOn = this.dependsOn;
     final environmentOverride = this.environmentOverride;
+    final linuxCapabilities = this.linuxCapabilities;
     final mountPoints = this.mountPoints;
     return {
       'ContainerName': containerName,
@@ -18729,6 +19047,7 @@ class GameServerContainerDefinitionInput {
       if (dependsOn != null) 'DependsOn': dependsOn,
       if (environmentOverride != null)
         'EnvironmentOverride': environmentOverride,
+      if (linuxCapabilities != null) 'LinuxCapabilities': linuxCapabilities,
       if (mountPoints != null) 'MountPoints': mountPoints,
     };
   }
@@ -18813,6 +19132,12 @@ class SupportContainerDefinitionInput {
   /// restarts.
   final ContainerHealthCheck? healthCheck;
 
+  /// Linux-specific modifications that are applied to the default Docker
+  /// container configuration, such as Linux capabilities. For more information
+  /// see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html">LinuxCapabilities</a>.
+  final LinuxCapabilities? linuxCapabilities;
+
   /// A specified amount of memory (in MiB) to reserve for this container. If you
   /// don't specify a container-specific memory limit, the container shares the
   /// container group's total memory allocation.
@@ -18853,6 +19178,7 @@ class SupportContainerDefinitionInput {
     this.environmentOverride,
     this.essential,
     this.healthCheck,
+    this.linuxCapabilities,
     this.memoryHardLimitMebibytes,
     this.mountPoints,
     this.portConfiguration,
@@ -18866,6 +19192,7 @@ class SupportContainerDefinitionInput {
     final environmentOverride = this.environmentOverride;
     final essential = this.essential;
     final healthCheck = this.healthCheck;
+    final linuxCapabilities = this.linuxCapabilities;
     final memoryHardLimitMebibytes = this.memoryHardLimitMebibytes;
     final mountPoints = this.mountPoints;
     final portConfiguration = this.portConfiguration;
@@ -18878,6 +19205,7 @@ class SupportContainerDefinitionInput {
         'EnvironmentOverride': environmentOverride,
       if (essential != null) 'Essential': essential,
       if (healthCheck != null) 'HealthCheck': healthCheck,
+      if (linuxCapabilities != null) 'LinuxCapabilities': linuxCapabilities,
       if (memoryHardLimitMebibytes != null)
         'MemoryHardLimitMebibytes': memoryHardLimitMebibytes,
       if (mountPoints != null) 'MountPoints': mountPoints,
@@ -19054,6 +19382,10 @@ class ContainerFleet {
   /// <li>
   /// <code>UPDATING</code> -- Updates to the container fleet is being updated. A
   /// deployment is in progress.
+  /// </li>
+  /// <li>
+  /// <code>EXPIRED</code> -- The container fleet has been expired. The fleet is
+  /// scaled down to zero instances and cannot host new game sessions.
   /// </li>
   /// </ul>
   final ContainerFleetStatus? status;
@@ -19343,6 +19675,7 @@ class ContainerFleetStatus {
   static const active = ContainerFleetStatus._('ACTIVE');
   static const updating = ContainerFleetStatus._('UPDATING');
   static const deleting = ContainerFleetStatus._('DELETING');
+  static const expired = ContainerFleetStatus._('EXPIRED');
 
   final String value;
 
@@ -19355,7 +19688,8 @@ class ContainerFleetStatus {
     activating,
     active,
     updating,
-    deleting
+    deleting,
+    expired
   ];
 
   static ContainerFleetStatus fromString(String value) =>
@@ -19536,6 +19870,10 @@ class ContainerFleetLocationAttributes {
   /// <code>UPDATING</code> -- Updates to the container fleet is being updated. A
   /// deployment is in progress.
   /// </li>
+  /// <li>
+  /// <code>EXPIRED</code> -- The container fleet has been expired. The fleet is
+  /// scaled down to zero instances and cannot host new game sessions.
+  /// </li>
   /// </ul>
   final ContainerFleetLocationStatus? status;
 
@@ -19577,6 +19915,7 @@ class ContainerFleetLocationStatus {
   static const active = ContainerFleetLocationStatus._('ACTIVE');
   static const updating = ContainerFleetLocationStatus._('UPDATING');
   static const deleting = ContainerFleetLocationStatus._('DELETING');
+  static const expired = ContainerFleetLocationStatus._('EXPIRED');
 
   final String value;
 
@@ -19589,7 +19928,8 @@ class ContainerFleetLocationStatus {
     activating,
     active,
     updating,
-    deleting
+    deleting,
+    expired
   ];
 
   static ContainerFleetLocationStatus fromString(String value) =>
@@ -20273,8 +20613,10 @@ class GameSessionPlacement {
   final List<GameProperty>? gameProperties;
 
   /// An identifier for the game session that is unique across all regions. The
-  /// value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+  /// value is always a full ARN in the following format: For Home Region game
+  /// session - <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
   /// string></code>. This value is the same as <code>GameSessionId</code>. This
   /// value isn't final until placement status is <code>FULFILLED</code>.
   final String? gameSessionArn;
@@ -20287,8 +20629,10 @@ class GameSessionPlacement {
   final String? gameSessionData;
 
   /// An identifier for the game session that is unique across all regions. The
-  /// value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+  /// value is always a full ARN in the following format: For Home Region game
+  /// session - <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
   /// string></code>. This value is the same as <code>GameSessionArn</code>. This
   /// value isn't final until placement status is <code>FULFILLED</code>.
   final String? gameSessionId;
@@ -20356,8 +20700,9 @@ class GameSessionPlacement {
   final PlayerGatewayStatus? playerGatewayStatus;
 
   /// A set of values, expressed in milliseconds, that indicates the amount of
-  /// latency that a player experiences when connected to Amazon Web Services
-  /// Regions.
+  /// latency that a player experiences when connected to a fleet location (Amazon
+  /// Web Services Regions or custom locations for Amazon GameLift Servers
+  /// Anywhere fleets).
   final List<PlayerLatency>? playerLatencies;
 
   /// The port number for the game session. To connect to a Amazon GameLift
@@ -20685,10 +21030,11 @@ class PlacedPlayerSession {
 
 /// Regional latency information for a player, used when requesting a new game
 /// session. This value indicates the amount of time lag that exists when the
-/// player is connected to a fleet in the specified Region. The relative
-/// difference between a player's latency values for multiple Regions are used
-/// to determine which fleets are best suited to place a new game session for
-/// the player.
+/// player is connected to a fleet in the specified location (an Amazon Web
+/// Services Region or a custom location for Amazon GameLift Servers Anywhere
+/// fleets). The relative difference between a player's latency values for
+/// multiple locations are used to determine which fleets are best suited to
+/// place a new game session for the player.
 ///
 /// @nodoc
 class PlayerLatency {
@@ -20699,7 +21045,9 @@ class PlayerLatency {
   /// A unique identifier for a player associated with the latency data.
   final String? playerId;
 
-  /// Name of the Region that is associated with the latency value.
+  /// Name of the Region or custom location that is associated with the latency
+  /// value. For Amazon GameLift Servers Anywhere fleets, use the custom location
+  /// name.
   final String? regionIdentifier;
 
   PlayerLatency({
@@ -20988,8 +21336,10 @@ class GameSessionConnectionInfo {
   final String? dnsName;
 
   /// An identifier for the game session that is unique across all regions. The
-  /// value is always a full ARN in the following format:
-  /// <code>arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+  /// value is always a full ARN in the following format: For Home Region game
+  /// session - <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
   /// string></code>.
   final String? gameSessionArn;
 
@@ -21116,9 +21466,10 @@ class MatchedPlayerSession {
 /// @nodoc
 class Player {
   /// A set of values, expressed in milliseconds, that indicates the amount of
-  /// latency that a player experiences when connected to Amazon Web Services
-  /// Regions. If this property is present, FlexMatch considers placing the match
-  /// only in Regions for which latency is reported.
+  /// latency that a player experiences when connected to a fleet location (Amazon
+  /// Web Services Regions or custom locations for Amazon GameLift Servers
+  /// Anywhere fleets). If this property is present, FlexMatch considers placing
+  /// the match only in Regions for which latency is reported.
   ///
   /// If a matchmaker has a rule that evaluates player latency, players must
   /// report latency in order to be matched. If no latency is reported in this
@@ -22035,6 +22386,27 @@ class EC2InstanceType {
   static const r7a_24xlarge = EC2InstanceType._('r7a.24xlarge');
   static const r7a_32xlarge = EC2InstanceType._('r7a.32xlarge');
   static const r7a_48xlarge = EC2InstanceType._('r7a.48xlarge');
+  static const c8aMedium = EC2InstanceType._('c8a.medium');
+  static const c8aLarge = EC2InstanceType._('c8a.large');
+  static const c8aXlarge = EC2InstanceType._('c8a.xlarge');
+  static const c8a_2xlarge = EC2InstanceType._('c8a.2xlarge');
+  static const c8iLarge = EC2InstanceType._('c8i.large');
+  static const c8iXlarge = EC2InstanceType._('c8i.xlarge');
+  static const c8i_2xlarge = EC2InstanceType._('c8i.2xlarge');
+  static const c9gMedium = EC2InstanceType._('c9g.medium');
+  static const c9gLarge = EC2InstanceType._('c9g.large');
+  static const c9gXlarge = EC2InstanceType._('c9g.xlarge');
+  static const c9g_2xlarge = EC2InstanceType._('c9g.2xlarge');
+  static const m8aMedium = EC2InstanceType._('m8a.medium');
+  static const m8aLarge = EC2InstanceType._('m8a.large');
+  static const m8aXlarge = EC2InstanceType._('m8a.xlarge');
+  static const m8a_2xlarge = EC2InstanceType._('m8a.2xlarge');
+  static const m8iLarge = EC2InstanceType._('m8i.large');
+  static const m8iXlarge = EC2InstanceType._('m8i.xlarge');
+  static const m8i_2xlarge = EC2InstanceType._('m8i.2xlarge');
+  static const m9gLarge = EC2InstanceType._('m9g.large');
+  static const m9gXlarge = EC2InstanceType._('m9g.xlarge');
+  static const m9g_2xlarge = EC2InstanceType._('m9g.2xlarge');
 
   final String value;
 
@@ -22545,7 +22917,28 @@ class EC2InstanceType {
     m7i_48xlarge,
     r7a_24xlarge,
     r7a_32xlarge,
-    r7a_48xlarge
+    r7a_48xlarge,
+    c8aMedium,
+    c8aLarge,
+    c8aXlarge,
+    c8a_2xlarge,
+    c8iLarge,
+    c8iXlarge,
+    c8i_2xlarge,
+    c9gMedium,
+    c9gLarge,
+    c9gXlarge,
+    c9g_2xlarge,
+    m8aMedium,
+    m8aLarge,
+    m8aXlarge,
+    m8a_2xlarge,
+    m8iLarge,
+    m8iXlarge,
+    m8i_2xlarge,
+    m9gLarge,
+    m9gXlarge,
+    m9g_2xlarge
   ];
 
   static EC2InstanceType fromString(String value) =>
@@ -23945,8 +24338,11 @@ class PlayerSession {
 
   /// An identifier for the game session that is unique across all regions that
   /// the player session is connected to. The value is always a full ARN in the
-  /// following format: <code>arn:aws:gamelift:<location>::gamesession/<fleet
-  /// ID>/<ID string></code>.
+  /// following format: For Home Region game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+  /// string></code>. For Remote Location game session -
+  /// <code>arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+  /// string></code>.
   final String? gameSessionId;
 
   /// The IP address of the game session. To connect to a Amazon GameLift Servers
@@ -24956,6 +25352,7 @@ class FleetStatus {
   static const error = FleetStatus._('ERROR');
   static const terminated = FleetStatus._('TERMINATED');
   static const notFound = FleetStatus._('NOT_FOUND');
+  static const expired = FleetStatus._('EXPIRED');
 
   final String value;
 
@@ -24971,7 +25368,8 @@ class FleetStatus {
     deleting,
     error,
     terminated,
-    notFound
+    notFound,
+    expired
   ];
 
   static FleetStatus fromString(String value) => values
@@ -25220,6 +25618,10 @@ class Event {
   /// FLEET_DELETED -- A request to delete a fleet was initiated.
   /// </li>
   /// <li>
+  /// FLEET_EXPIRED -- The fleet has been expired. The fleet is scaled down to
+  /// zero instances and can no longer host game sessions.
+  /// </li>
+  /// <li>
   /// GENERIC_EVENT -- An unspecified event has occurred.
   /// </li>
   /// </ul>
@@ -25291,6 +25693,7 @@ class EventCode {
   static const genericEvent = EventCode._('GENERIC_EVENT');
   static const fleetCreated = EventCode._('FLEET_CREATED');
   static const fleetDeleted = EventCode._('FLEET_DELETED');
+  static const fleetExpired = EventCode._('FLEET_EXPIRED');
   static const fleetScalingEvent = EventCode._('FLEET_SCALING_EVENT');
   static const fleetStateDownloading = EventCode._('FLEET_STATE_DOWNLOADING');
   static const fleetStateValidating = EventCode._('FLEET_STATE_VALIDATING');
@@ -25382,6 +25785,7 @@ class EventCode {
     genericEvent,
     fleetCreated,
     fleetDeleted,
+    fleetExpired,
     fleetScalingEvent,
     fleetStateDownloading,
     fleetStateValidating,
@@ -25717,6 +26121,10 @@ class FleetAttributes {
   /// <li>
   /// ERROR -- An error occurred when downloading, validating, building, or
   /// activating the fleet.
+  /// </li>
+  /// <li>
+  /// EXPIRED -- The fleet has been expired. The fleet is scaled down to zero
+  /// instances and cannot host new game sessions.
   /// </li>
   /// <li>
   /// DELETING -- Hosts are responding to a delete fleet request.

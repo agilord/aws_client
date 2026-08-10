@@ -588,16 +588,17 @@ class ElasticLoadBalancingV2 {
   }
 
   /// Creates a rule for the specified listener. The listener must be associated
-  /// with an Application Load Balancer.
+  /// with an Application Load Balancer or a dual-stack Network Load Balancer.
   ///
-  /// Each rule consists of a priority, one or more actions, one or more
-  /// conditions, and up to two optional transforms. Rules are evaluated in
-  /// priority order, from the lowest value to the highest value. When the
-  /// conditions for a rule are met, its actions are performed. If the
-  /// conditions for no rules are met, the actions for the default rule are
-  /// performed. For more information, see <a
+  /// Each rule consists of a priority, one or more actions, and one or more
+  /// conditions. Rules are evaluated in priority order, from the lowest value
+  /// to the highest value. When the conditions for a rule are met, its actions
+  /// are performed. If the conditions for no rules are met, the actions for the
+  /// default rule are performed. For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#listener-rules">Listener
-  /// rules</a> in the <i>Application Load Balancers Guide</i>.
+  /// rules</a> in the <i>Application Load Balancers Guide</i> or <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html#listener-rules">Listener
+  /// rules</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// May throw [IncompatibleProtocolsException].
   /// May throw [InvalidConfigurationRequestException].
@@ -6062,32 +6063,42 @@ class AuthenticateOidcActionConditionalBehaviorEnum {
 /// <code>http-header</code> and <code>query-string</code>. Note that the value
 /// for a condition can't be empty.
 ///
+/// For Network Load Balancer listener rules, the only supported condition is
+/// <code>source-ip</code>. Use <code>SourceIpConfig</code> with
+/// <code>IpAddressType</code> to match on the IP address type of the source
+/// traffic (<code>ipv4</code> or <code>ipv6</code>).
+///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
 /// for your Application Load Balancers</a>.
 ///
 /// @nodoc
 class RuleCondition {
-  /// The field in the HTTP request. The following are the possible values:
+  /// The name of the field. The possible values are:
   ///
   /// <ul>
   /// <li>
-  /// <code>http-header</code>
+  /// <code>http-header</code> – \[ALB\] Matches on an HTTP header field.
   /// </li>
   /// <li>
-  /// <code>http-request-method</code>
+  /// <code>http-request-method</code> – \[ALB\] Matches on the HTTP request
+  /// method.
   /// </li>
   /// <li>
-  /// <code>host-header</code>
+  /// <code>host-header</code> – \[ALB\] Matches on the host header.
   /// </li>
   /// <li>
-  /// <code>path-pattern</code>
+  /// <code>path-pattern</code> – \[ALB\] Matches on the URL path of the request.
   /// </li>
   /// <li>
-  /// <code>query-string</code>
+  /// <code>query-string</code> – \[ALB\] Matches on a query string parameter.
   /// </li>
   /// <li>
-  /// <code>source-ip</code>
+  /// <code>source-ip</code> – \[ALB, NLB\] Matches on the source IP address. For
+  /// ALB, use <code>SourceIpConfig</code> with <code>Values</code> to specify
+  /// CIDR ranges. For NLB, use <code>SourceIpConfig</code> with
+  /// <code>IpAddressType</code> to match the IP address type (<code>ipv4</code>
+  /// or <code>ipv6</code>).
   /// </li>
   /// </ul>
   final String? field;
@@ -6605,8 +6616,26 @@ class HttpRequestMethodConditionConfig {
 /// that connects to the load balancer. If a client is behind a proxy, this is
 /// the IP address of the proxy not the IP address of the client.
 ///
+/// For Application Load Balancers, use <code>Values</code> to specify CIDR
+/// ranges. For Network Load Balancers, use <code>IpAddressType</code> to match
+/// on the IP address type of the source traffic.
+///
 /// @nodoc
 class SourceIpConditionConfig {
+  /// The IP address type for Network Load Balancers.
+  ///
+  /// The valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ipv4</code> – IPv4 addresses only.
+  /// </li>
+  /// <li>
+  /// <code>ipv6</code> – IPv6 addresses only.
+  /// </li>
+  /// </ul>
+  final SourceIpAddressTypeEnum? ipAddressType;
+
   /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6
   /// addresses. Wildcards are not supported.
   ///
@@ -6621,10 +6650,14 @@ class SourceIpConditionConfig {
   final List<String>? values;
 
   SourceIpConditionConfig({
+    this.ipAddressType,
     this.values,
   });
   factory SourceIpConditionConfig.fromXml(_s.XmlElement elem) {
     return SourceIpConditionConfig(
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.let(SourceIpAddressTypeEnum.fromString),
       values: _s
           .extractXmlChild(elem, 'Values')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -6632,15 +6665,19 @@ class SourceIpConditionConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final ipAddressType = this.ipAddressType;
     final values = this.values;
     return {
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
       if (values != null) 'Values': values,
     };
   }
 
   Map<String, String> toQueryMap() {
+    final ipAddressType = this.ipAddressType;
     final values = this.values;
     return {
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
       if (values != null)
         if (values.isEmpty)
           'Values': ''
@@ -6649,6 +6686,32 @@ class SourceIpConditionConfig {
             'Values.member.${i1 + 1}': values[i1],
     };
   }
+}
+
+/// @nodoc
+class SourceIpAddressTypeEnum {
+  static const ipv4 = SourceIpAddressTypeEnum._('ipv4');
+  static const ipv6 = SourceIpAddressTypeEnum._('ipv6');
+
+  final String value;
+
+  const SourceIpAddressTypeEnum._(this.value);
+
+  static const values = [ipv4, ipv6];
+
+  static SourceIpAddressTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceIpAddressTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceIpAddressTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a key/value pair.

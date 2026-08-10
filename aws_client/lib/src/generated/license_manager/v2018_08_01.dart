@@ -946,6 +946,10 @@ class LicenseManager {
   /// Parameter [licenseMetadata] :
   /// Information about the license.
   ///
+  /// Parameter [resetUsage] :
+  /// Specifies whether to reset the license usage for the new license version.
+  /// If you don't specify a value, the license usage is not reset.
+  ///
   /// Parameter [sourceVersion] :
   /// Current version of the license.
   Future<CreateLicenseVersionResponse> createLicenseVersion({
@@ -960,6 +964,7 @@ class LicenseManager {
     required LicenseStatus status,
     required DatetimeRange validity,
     List<Metadata>? licenseMetadata,
+    bool? resetUsage,
     String? sourceVersion,
   }) async {
     final headers = <String, String>{
@@ -984,6 +989,7 @@ class LicenseManager {
         'Status': status.value,
         'Validity': validity,
         if (licenseMetadata != null) 'LicenseMetadata': licenseMetadata,
+        if (resetUsage != null) 'ResetUsage': resetUsage,
         if (sourceVersion != null) 'SourceVersion': sourceVersion,
       },
     );

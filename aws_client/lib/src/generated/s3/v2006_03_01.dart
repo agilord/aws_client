@@ -22,7 +22,37 @@ import '../../shared/shared.dart'
 import 'v2006_03_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart' show AwsClientCredentials;
 
+/// <note>
+/// For information about using the Amazon S3 API—including authentication,
+/// signing requests, code examples, and error handling—see the <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/developerguide/Welcome.html">Amazon
+/// S3 Developer Guide</a>.
+/// </note>
+/// Welcome to the <i>Amazon S3 API Reference</i>. This guide explains the
+/// Amazon Simple Storage Service (Amazon S3) application programming interface
+/// (API).
 ///
+/// Welcome to the <i>Amazon S3 API Reference</i>. This guide explains the
+/// Amazon Simple Storage Service (Amazon S3) application programming interface
+/// (API).
+///
+/// You can use any toolkit that supports HTTP to use the REST API. You can even
+/// use a browser to fetch objects, as long as they are anonymously readable.
+///
+/// The REST API uses the standard HTTP headers and status codes, so that
+/// standard browsers and toolkits work as expected. In some areas, we have
+/// added functionality to HTTP (for example, we added headers to support access
+/// control). In these cases, we have done our best to add the new functionality
+/// in a way that matched the style of standard HTTP usage.
+///
+/// The current version of the Amazon S3 API is <code>2006-03-01</code>.
+///
+/// Amazon S3 supports the REST API.
+/// <note>
+/// Support for SOAP over HTTP is deprecated, but it is still available over
+/// HTTPS. However, new Amazon S3 features will not be supported for SOAP. We
+/// recommend that you use either this REST API or the Amazon Web Services SDKs.
+/// </note>
 class S3 {
   final _s.RestXmlProtocol _protocol;
   final _s.ServiceMetadata _service;
@@ -1259,6 +1289,41 @@ class S3 {
   /// </li>
   /// </ul> </note>
   ///
+  /// Parameter [annotationDirective] :
+  /// Specifies whether you want to copy annotations from the source object or
+  /// exclude them. If this header isn't specified, <code>COPY</code> is the
+  /// default behavior.
+  ///
+  /// Valid Values: <code>COPY | EXCLUDE</code>
+  ///
+  /// You can specify this directive as either an HTTP header
+  /// (<code>x-amz-object-annotation-directive</code>) or as a query string
+  /// parameter. Use the query string form when generating presigned URLs that
+  /// need to control annotation copy behavior.
+  ///
+  /// When set to <code>COPY</code>, you must have
+  /// <code>s3:GetObjectAnnotation</code> permission on the source object and
+  /// <code>s3:PutObjectAnnotation</code> permission on the destination. Each
+  /// annotation copied is billed as a separate PUT request. If annotations on
+  /// the source are modified during the copy, Amazon S3 returns a retryable
+  /// error.
+  /// <note>
+  /// For directory buckets, annotations are not supported. Use
+  /// <code>EXCLUDE</code> to copy objects to directory buckets without errors.
+  /// If you specify <code>COPY</code> for a directory bucket, the request
+  /// returns HTTP 501 (Not Implemented).
+  /// </note> <note>
+  /// When you copy objects using multipart upload (for example, when the Amazon
+  /// Web Services CLI or Amazon Web Services SDKs use Transfer Manager for
+  /// objects larger than approximately 8 MB), annotations are not copied by
+  /// default. To include annotations, specify <code>--copy-props default</code>
+  /// in the Amazon Web Services CLI or the equivalent SDK configuration. With
+  /// this opt-in, the SDK reads source annotations, completes the multipart
+  /// upload, and then writes each annotation to the destination. Between the
+  /// upload completion and the last annotation write, the destination object
+  /// exists without all its annotations.
+  /// </note>
+  ///
   /// Parameter [bucketKeyEnabled] :
   /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
   /// encryption with server-side encryption using Key Management Service (KMS)
@@ -1925,6 +1990,7 @@ class S3 {
     required String copySource,
     required String key,
     ObjectCannedACL? acl,
+    AnnotationDirective? annotationDirective,
     bool? bucketKeyEnabled,
     String? cacheControl,
     ChecksumAlgorithm? checksumAlgorithm,
@@ -1968,6 +2034,8 @@ class S3 {
     final headers = <String, String>{
       'x-amz-copy-source': copySource.toString(),
       if (acl != null) 'x-amz-acl': acl.value,
+      if (annotationDirective != null)
+        'x-amz-object-annotation-directive': annotationDirective.value,
       if (bucketKeyEnabled != null)
         'x-amz-server-side-encryption-bucket-key-enabled':
             bucketKeyEnabled.toString(),
@@ -2461,10 +2529,17 @@ class S3 {
   /// <code>s3tables:PutTablePolicy</code>
   /// </li>
   /// <li>
+  /// <code>s3tables:PutTableBucketPolicy</code>
+  /// </li>
+  /// <li>
   /// <code>s3tables:PutTableEncryption</code>
   /// </li>
   /// <li>
   /// <code>kms:DescribeKey</code>
+  /// </li>
+  /// <li>
+  /// <code>iam:PassRole</code> - required if you include an
+  /// <code>AnnotationTableConfiguration</code> with an IAM role.
   /// </li>
   /// </ul> </dd> </dl>
   /// The following operations are related to
@@ -2487,7 +2562,18 @@ class S3 {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html">UpdateBucketMetadataJournalTableConfiguration</a>
   /// </li>
-  /// </ul> <important>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataAnnotationTableConfiguration.html">UpdateBucketMetadataAnnotationTableConfiguration</a>
+  /// </li>
+  /// </ul>
+  /// If you include an <code>AnnotationTableConfiguration</code> with an IAM
+  /// role, the role must have a trust policy that allows the Amazon S3 metadata
+  /// service to assume it, and a permissions policy that grants the actions
+  /// needed to read annotations from your bucket. The following examples show a
+  /// trust policy and a permissions policy that you can adapt for your bucket
+  /// and account.
+  /// <important>
   /// You must URL encode any signed header values that contain spaces. For
   /// example, if your header value is <code>my file.txt</code>, containing two
   /// spaces after <code>my</code>, you must URL encode this value to
@@ -5689,6 +5775,108 @@ class S3 {
           ?.let(RequestCharged.fromString),
       versionId:
           _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
+  }
+
+  /// Deletes a specific annotation from an Amazon S3 object. Use the
+  /// <code>x-amz-object-if-match</code> header to perform a conditional delete
+  /// that only succeeds if the object's ETag matches the provided value,
+  /// preventing race conditions during concurrent updates.
+  ///
+  /// Deleting an annotation is permanent. Annotations are not independently
+  /// versioned, so there is no delete marker or way to recover a deleted
+  /// annotation.
+  ///
+  /// To use this operation, you must have the
+  /// <code>s3:DeleteObjectAnnotation</code> permission. If the object is
+  /// protected by Object Lock in governance mode, you must also include the
+  /// <code>x-amz-bypass-governance-retention</code> header.
+  /// <note>
+  /// Annotations are not supported by the following features: S3 Inventory
+  /// Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx,
+  /// S3 on Outposts, and S3 Express One Zone (directory buckets).
+  /// </note>
+  /// The following operations are related to
+  /// <code>DeleteObjectAnnotation</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html">PutObjectAnnotation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html">GetObjectAnnotation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html">ListObjectAnnotations</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [NoSuchBucket].
+  /// May throw [NoSuchKey].
+  ///
+  /// Parameter [annotationName] :
+  /// The name of the annotation to delete. Annotation names are UTF-8 encoded
+  /// and cannot start with <code>aws</code> or <code>s3</code>
+  /// (case-insensitive).
+  ///
+  /// Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+  ///
+  /// Parameter [bucket] :
+  /// The name of the bucket that contains the object.
+  ///
+  /// Parameter [key] :
+  /// The object key.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account ID of the expected bucket owner.
+  ///
+  /// Parameter [objectIfMatch] :
+  /// If specified, the operation only succeeds if the object's ETag matches the
+  /// provided value.
+  ///
+  /// Parameter [versionId] :
+  /// The version ID of the object.
+  Future<DeleteObjectAnnotationOutput> deleteObjectAnnotation({
+    required String annotationName,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    String? objectIfMatch,
+    RequestPayer? requestPayer,
+    String? versionId,
+  }) async {
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (objectIfMatch != null)
+        'x-amz-object-if-match': objectIfMatch.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.value,
+    };
+    final $query = <String, List<String>>{
+      'annotationName': [annotationName],
+      if (versionId != null) 'versionId': [versionId],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'DELETE',
+      requestUri:
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?annotation',
+      queryParams: $query,
+      headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return DeleteObjectAnnotationOutput(
+      objectVersionId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-object-version-id'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.let(RequestCharged.fromString),
     );
   }
 
@@ -8949,6 +9137,136 @@ class S3 {
     );
   }
 
+  /// Retrieves an annotation from an Amazon S3 object. To use this operation,
+  /// you must have the <code>s3:GetObjectAnnotation</code> permission.
+  ///
+  /// If checksum mode is enabled via the <code>x-amz-checksum-mode</code>
+  /// header, Amazon S3 returns the stored checksum in the response headers for
+  /// client-side validation.
+  /// <note>
+  /// Annotations are not supported by the following features: S3 Inventory
+  /// Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx,
+  /// S3 on Outposts, and S3 Express One Zone (directory buckets).
+  /// </note>
+  /// The following operations are related to <code>GetObjectAnnotation</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html">PutObjectAnnotation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html">ListObjectAnnotations</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html">DeleteObjectAnnotation</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [NoSuchAnnotation].
+  /// May throw [NoSuchBucket].
+  /// May throw [NoSuchKey].
+  ///
+  /// Parameter [annotationName] :
+  /// The name of the annotation to retrieve.
+  ///
+  /// Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+  ///
+  /// Parameter [bucket] :
+  /// The name of the bucket that contains the object.
+  ///
+  /// Parameter [key] :
+  /// The object key.
+  ///
+  /// Parameter [checksumMode] :
+  /// Set to <code>ENABLED</code> to validate the checksum of the annotation
+  /// payload on retrieval.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request fails with an HTTP 403 (Access Denied)
+  /// error.
+  ///
+  /// Parameter [versionId] :
+  /// The version ID of the object.
+  Future<GetObjectAnnotationOutput> getObjectAnnotation({
+    required String annotationName,
+    required String bucket,
+    required String key,
+    ChecksumMode? checksumMode,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    String? versionId,
+  }) async {
+    final headers = <String, String>{
+      if (checksumMode != null) 'x-amz-checksum-mode': checksumMode.value,
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.value,
+    };
+    final $query = <String, List<String>>{
+      'annotationName': [annotationName],
+      if (versionId != null) 'versionId': [versionId],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?annotation&x-id=GetObjectAnnotation',
+      queryParams: $query,
+      headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetObjectAnnotationOutput(
+      annotationPayload: await $result.stream.toBytes(),
+      checksumCRC32:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32'),
+      checksumCRC32C:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32c'),
+      checksumCRC64NVME: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-crc64nvme'),
+      checksumMD5:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-md5'),
+      checksumSHA1:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha1'),
+      checksumSHA256:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha256'),
+      checksumSHA512:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha512'),
+      checksumType: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-checksum-type')
+          ?.let(ChecksumType.fromString),
+      checksumXXHASH128: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-xxhash128'),
+      checksumXXHASH3: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-xxhash3'),
+      checksumXXHASH64: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-xxhash64'),
+      contentLength:
+          _s.extractHeaderIntValue($result.headers, 'Content-Length'),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      lastModified:
+          _s.extractHeaderDateTimeValue($result.headers, 'Last-Modified'),
+      objectVersionId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-object-version-id'),
+      replicationStatus: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-replication-status')
+          ?.let(ReplicationStatus.fromString),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.let(RequestCharged.fromString),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.let(ServerSideEncryption.fromString),
+    );
+  }
+
   /// Retrieves all of the metadata from an object without returning the object
   /// itself. This operation is useful if you're interested only in an object's
   /// metadata.
@@ -11542,6 +11860,125 @@ class S3 {
       uploadIdMarker: _s.extractXmlStringValue($elem, 'UploadIdMarker'),
       uploads:
           $elem.findElements('Upload').map(MultipartUpload.fromXml).toList(),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.let(RequestCharged.fromString),
+    );
+  }
+
+  /// Lists the annotations attached to an Amazon S3 object. Results are
+  /// paginated, with a maximum of 1,000 annotations per object. Use the
+  /// <code>AnnotationPrefix</code> parameter to filter the results by name
+  /// prefix.
+  ///
+  /// To use this operation, you must have the
+  /// <code>s3:ListObjectAnnotations</code> permission.
+  /// <note>
+  /// Annotations are not supported by the following features: S3 Inventory
+  /// Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx,
+  /// S3 on Outposts, and S3 Express One Zone (directory buckets).
+  /// </note>
+  /// The following operations are related to
+  /// <code>ListObjectAnnotations</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html">PutObjectAnnotation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html">GetObjectAnnotation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html">DeleteObjectAnnotation</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidPrefix].
+  /// May throw [NoSuchBucket].
+  /// May throw [NoSuchKey].
+  ///
+  /// Parameter [bucket] :
+  /// The name of the bucket that contains the object.
+  ///
+  /// Parameter [key] :
+  /// The object key.
+  ///
+  /// Parameter [annotationPrefix] :
+  /// Filter results to annotations whose name begins with the specified prefix.
+  ///
+  /// Parameter [continuationToken] :
+  /// Continuation token returned by a previous request to retrieve the next
+  /// page.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account ID of the expected bucket owner.
+  ///
+  /// Parameter [maxAnnotationResults] :
+  /// The maximum number of annotations to return in the response. Maximum is
+  /// 1,000.
+  ///
+  /// Parameter [versionId] :
+  /// The version ID of the object.
+  Future<ListObjectAnnotationsOutput> listObjectAnnotations({
+    required String bucket,
+    required String key,
+    String? annotationPrefix,
+    String? continuationToken,
+    String? expectedBucketOwner,
+    int? maxAnnotationResults,
+    RequestPayer? requestPayer,
+    String? versionId,
+  }) async {
+    _s.validateNumRange(
+      'maxAnnotationResults',
+      maxAnnotationResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.value,
+    };
+    final $query = <String, List<String>>{
+      if (annotationPrefix != null) 'annotation-prefix': [annotationPrefix],
+      if (continuationToken != null) 'continuation-token': [continuationToken],
+      if (maxAnnotationResults != null)
+        'max-annotation-results': [maxAnnotationResults.toString()],
+      if (versionId != null) 'versionId': [versionId],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?annotation&x-id=ListObjectAnnotations',
+      queryParams: $query,
+      headers: headers,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListObjectAnnotationsOutput(
+      annotationCount: _s.extractXmlIntValue($elem, 'AnnotationCount'),
+      annotationPrefix: _s.extractXmlStringValue($elem, 'AnnotationPrefix'),
+      annotations: _s.extractXmlChild($elem, 'Annotations')?.let(($elem) =>
+          $elem
+              .findElements('AnnotationEntry')
+              .map(AnnotationEntry.fromXml)
+              .toList()),
+      bucket: _s.extractXmlStringValue($elem, 'Bucket'),
+      continuationToken: _s.extractXmlStringValue($elem, 'ContinuationToken'),
+      key: _s.extractXmlStringValue($elem, 'Key'),
+      maxAnnotationResults:
+          _s.extractXmlIntValue($elem, 'MaxAnnotationResults'),
+      nextContinuationToken:
+          _s.extractXmlStringValue($elem, 'NextContinuationToken'),
+      objectVersionId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-object-version-id'),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
           ?.let(RequestCharged.fromString),
@@ -16832,6 +17269,227 @@ class S3 {
     );
   }
 
+  /// Attaches an annotation to an Amazon S3 object. An annotation is a named
+  /// payload of 1 byte to 1 MiB that you can associate with a specific object
+  /// or object version. Each object can have up to 1,000 annotations.
+  ///
+  /// For annotation naming rules and restrictions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/annotations-overview.html">Annotation
+  /// naming guidelines</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Annotations inherit the encryption of their parent object. For objects
+  /// without server-side encryption, annotations are encrypted with SSE-S3 (the
+  /// default for new objects). Objects encrypted with SSE-C cannot have
+  /// annotations.
+  ///
+  /// To use this operation, you must have the
+  /// <code>s3:PutObjectAnnotation</code> permission. If the bucket has
+  /// Requester Pays enabled, you must include the
+  /// <code>x-amz-request-payer</code> header.
+  /// <note>
+  /// Annotations are not supported by the following features: S3 Inventory
+  /// Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx,
+  /// S3 on Outposts, and S3 Express One Zone (directory buckets).
+  /// </note>
+  /// The following operations are related to <code>PutObjectAnnotation</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html">GetObjectAnnotation</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html">ListObjectAnnotations</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html">DeleteObjectAnnotation</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AnnotationLimitExceeded].
+  /// May throw [AnnotationNameTooLong].
+  /// May throw [InvalidAnnotationName].
+  /// May throw [InvalidRequest].
+  /// May throw [NoSuchBucket].
+  /// May throw [NoSuchKey].
+  /// May throw [UnsupportedMediaType].
+  ///
+  /// Parameter [annotationName] :
+  /// The name of the annotation.
+  ///
+  /// Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+  ///
+  /// Parameter [annotationPayload] :
+  /// The annotation payload. Must be between 1 byte and 1 MiB in size, and must
+  /// be valid UTF-8 encoded text. If the payload contains invalid UTF-8 bytes,
+  /// the request fails with HTTP 415 (Unsupported Media Type). To store binary
+  /// data, encode the payload using Base64 before uploading.
+  ///
+  /// Parameter [bucket] :
+  /// The name of the bucket that contains the object.
+  ///
+  /// Parameter [key] :
+  /// The object key.
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// The checksum algorithm to use. Supported values: <code>CRC32</code>,
+  /// <code>CRC32C</code>, <code>CRC64NVME</code>, <code>SHA1</code>,
+  /// <code>SHA256</code>, <code>SHA512</code>, <code>MD5</code>,
+  /// <code>XXHASH64</code>, <code>XXHASH3</code>, <code>XXHASH128</code>.
+  ///
+  /// Parameter [checksumCRC32] :
+  /// Base64-encoded CRC32 checksum of the annotation payload.
+  ///
+  /// Parameter [checksumCRC32C] :
+  /// Base64-encoded CRC32C checksum of the annotation payload.
+  ///
+  /// Parameter [checksumCRC64NVME] :
+  /// Base64-encoded CRC64NVME checksum of the annotation payload.
+  ///
+  /// Parameter [checksumMD5] :
+  /// Base64-encoded MD5 checksum of the annotation payload.
+  ///
+  /// Parameter [checksumSHA1] :
+  /// Base64-encoded SHA1 checksum of the annotation payload.
+  ///
+  /// Parameter [checksumSHA256] :
+  /// Base64-encoded SHA256 checksum of the annotation payload.
+  ///
+  /// Parameter [checksumSHA512] :
+  /// Base64-encoded SHA512 checksum of the annotation payload.
+  ///
+  /// Parameter [checksumXXHASH128] :
+  /// Base64-encoded XXHASH128 checksum of the annotation payload.
+  ///
+  /// Parameter [checksumXXHASH3] :
+  /// Base64-encoded XXHASH3 checksum of the annotation payload.
+  ///
+  /// Parameter [checksumXXHASH64] :
+  /// Base64-encoded XXHASH64 checksum of the annotation payload.
+  ///
+  /// Parameter [contentMD5] :
+  /// Base64-encoded MD5 digest of the message.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request fails with an HTTP 403 (Access Denied)
+  /// error.
+  ///
+  /// Parameter [objectIfMatch] :
+  /// If specified, the operation only succeeds if the object's ETag matches the
+  /// provided value.
+  ///
+  /// Parameter [versionId] :
+  /// The version ID of the object to attach the annotation to.
+  Future<PutObjectAnnotationOutput> putObjectAnnotation({
+    required String annotationName,
+    required Uint8List annotationPayload,
+    required String bucket,
+    required String key,
+    ChecksumAlgorithm? checksumAlgorithm,
+    String? checksumCRC32,
+    String? checksumCRC32C,
+    String? checksumCRC64NVME,
+    String? checksumMD5,
+    String? checksumSHA1,
+    String? checksumSHA256,
+    String? checksumSHA512,
+    String? checksumXXHASH128,
+    String? checksumXXHASH3,
+    String? checksumXXHASH64,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    String? objectIfMatch,
+    RequestPayer? requestPayer,
+    String? versionId,
+  }) async {
+    final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.value,
+      if (checksumCRC32 != null)
+        'x-amz-checksum-crc32': checksumCRC32.toString(),
+      if (checksumCRC32C != null)
+        'x-amz-checksum-crc32c': checksumCRC32C.toString(),
+      if (checksumCRC64NVME != null)
+        'x-amz-checksum-crc64nvme': checksumCRC64NVME.toString(),
+      if (checksumMD5 != null) 'x-amz-checksum-md5': checksumMD5.toString(),
+      if (checksumSHA1 != null) 'x-amz-checksum-sha1': checksumSHA1.toString(),
+      if (checksumSHA256 != null)
+        'x-amz-checksum-sha256': checksumSHA256.toString(),
+      if (checksumSHA512 != null)
+        'x-amz-checksum-sha512': checksumSHA512.toString(),
+      if (checksumXXHASH128 != null)
+        'x-amz-checksum-xxhash128': checksumXXHASH128.toString(),
+      if (checksumXXHASH3 != null)
+        'x-amz-checksum-xxhash3': checksumXXHASH3.toString(),
+      if (checksumXXHASH64 != null)
+        'x-amz-checksum-xxhash64': checksumXXHASH64.toString(),
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (objectIfMatch != null)
+        'x-amz-object-if-match': objectIfMatch.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.value,
+    };
+    final $query = <String, List<String>>{
+      'annotationName': [annotationName],
+      if (versionId != null) 'versionId': [versionId],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri:
+          '/${key.split('/').map(Uri.encodeComponent).join('/')}?annotation',
+      queryParams: $query,
+      headers: headers,
+      payload: annotationPayload,
+      endpoint: _resolveEndpoint(
+        bucket: bucket,
+        key: key,
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return PutObjectAnnotationOutput(
+      annotationName: _s.extractXmlStringValue($elem, 'AnnotationName'),
+      key: _s.extractXmlStringValue($elem, 'Key'),
+      checksumCRC32:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32'),
+      checksumCRC32C:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32c'),
+      checksumCRC64NVME: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-crc64nvme'),
+      checksumMD5:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-md5'),
+      checksumSHA1:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha1'),
+      checksumSHA256:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha256'),
+      checksumSHA512:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha512'),
+      checksumType: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-checksum-type')
+          ?.let(ChecksumType.fromString),
+      checksumXXHASH128: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-xxhash128'),
+      checksumXXHASH3: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-xxhash3'),
+      checksumXXHASH64: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-checksum-xxhash64'),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      objectVersionId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-object-version-id'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.let(RequestCharged.fromString),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.let(ServerSideEncryption.fromString),
+    );
+  }
+
   /// <note>
   /// This operation is not supported for directory buckets.
   /// </note>
@@ -18185,6 +18843,81 @@ class S3 {
     );
   }
 
+  /// Updates the annotation table configuration for an Amazon S3 bucket's
+  /// metadata configuration. Use this operation to enable or disable the
+  /// annotation table, or to update its associated IAM role.
+  ///
+  /// An annotation table is a queryable Iceberg table that contains records of
+  /// all annotations attached to objects in the bucket. To use this operation,
+  /// the bucket must have an existing Amazon S3 Metadata configuration.
+  ///
+  /// To use this operation, you must have the
+  /// <code>s3:UpdateBucketMetadataAnnotationTableConfiguration</code>
+  /// permission. If you are specifying or changing the IAM role, you must also
+  /// have <code>iam:PassRole</code> permission for the role.
+  ///
+  /// The IAM role must have a trust policy that allows the Amazon S3 metadata
+  /// service to assume it, and a permissions policy that grants the actions
+  /// needed to read annotations from your bucket. The following examples show a
+  /// trust policy and a permissions policy that you can adapt for your bucket
+  /// and account.
+  ///
+  /// The following operations are related to
+  /// <code>UpdateBucketMetadataAnnotationTableConfiguration</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html">CreateBucketMetadataConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataConfiguration.html">GetBucketMetadataConfiguration</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [annotationTableConfiguration] :
+  /// The annotation table configuration updates to apply.
+  ///
+  /// Parameter [bucket] :
+  /// The name of the bucket whose annotation table configuration to update.
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// Checksum algorithm for the request payload.
+  ///
+  /// Parameter [contentMD5] :
+  /// Base64-encoded MD5 digest of the message body.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account ID of the expected bucket owner.
+  Future<void> updateBucketMetadataAnnotationTableConfiguration({
+    required AnnotationTableConfigurationUpdates annotationTableConfiguration,
+    required String bucket,
+    ChecksumAlgorithm? checksumAlgorithm,
+    String? contentMD5,
+    String? expectedBucketOwner,
+  }) async {
+    final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.value,
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri: '?metadataAnnotationTable',
+      headers: headers,
+      payload:
+          annotationTableConfiguration.toXml('AnnotationTableConfiguration'),
+      endpoint: _resolveEndpoint(
+        useS3ExpressControlEndpoint: true,
+        bucket: bucket,
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Enables or disables a live inventory table for an S3 Metadata
   /// configuration on a general purpose bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/metadata-tables-overview.html">Accelerating
@@ -18434,9 +19167,6 @@ class S3 {
   /// the following permissions:
   ///
   /// <ul>
-  /// <li>
-  /// <code>s3:PutObject</code>
-  /// </li>
   /// <li>
   /// <code>s3:UpdateObjectEncryption</code>
   /// </li>
@@ -20639,7 +21369,12 @@ class CreateBucketOutput {
   /// </note>
   final String? bucketArn;
 
-  /// A forward slash followed by the name of the bucket.
+  /// A forward slash followed by the name of the bucket for all account regional
+  /// namespace buckets and all global general purpose buckets created in
+  /// us-east-1. For example, <code>/amzn-s3-demo-bucket</code>. For global
+  /// general purpose buckets created in other Amazon Web Services Regions, the
+  /// Location field is the global endpoint URL. For example,
+  /// <code>http://amzn-s3-demo-bucket.s3.amazonaws.com/</code>.
   final String? location;
 
   CreateBucketOutput({
@@ -20866,6 +21601,24 @@ class DeleteObjectOutput {
     final deleteMarker = this.deleteMarker;
     final requestCharged = this.requestCharged;
     final versionId = this.versionId;
+    return {};
+  }
+}
+
+/// @nodoc
+class DeleteObjectAnnotationOutput {
+  /// The version ID of the object that the annotation was deleted from.
+  final String? objectVersionId;
+  final RequestCharged? requestCharged;
+
+  DeleteObjectAnnotationOutput({
+    this.objectVersionId,
+    this.requestCharged,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectVersionId = this.objectVersionId;
+    final requestCharged = this.requestCharged;
     return {};
   }
 }
@@ -21923,6 +22676,114 @@ class GetObjectAclOutput {
     return {
       if (grants != null) 'AccessControlList': grants,
       if (owner != null) 'Owner': owner,
+    };
+  }
+}
+
+/// @nodoc
+class GetObjectAnnotationOutput {
+  /// The annotation payload.
+  final Uint8List? annotationPayload;
+
+  /// The CRC32 checksum of the annotation payload.
+  final String? checksumCRC32;
+
+  /// The CRC32C checksum of the annotation payload.
+  final String? checksumCRC32C;
+
+  /// The CRC64NVME checksum of the annotation payload.
+  final String? checksumCRC64NVME;
+
+  /// The MD5 checksum of the annotation payload.
+  final String? checksumMD5;
+
+  /// The SHA1 checksum of the annotation payload.
+  final String? checksumSHA1;
+
+  /// The SHA256 checksum of the annotation payload.
+  final String? checksumSHA256;
+
+  /// The SHA512 checksum of the annotation payload.
+  final String? checksumSHA512;
+
+  /// The type of checksum used.
+  final ChecksumType? checksumType;
+
+  /// The XXHASH128 checksum of the annotation payload.
+  final String? checksumXXHASH128;
+
+  /// The XXHASH3 checksum of the annotation payload.
+  final String? checksumXXHASH3;
+
+  /// The XXHASH64 checksum of the annotation payload.
+  final String? checksumXXHASH64;
+
+  /// The size of the annotation payload, in bytes.
+  final int? contentLength;
+
+  /// The entity tag of the annotation.
+  final String? eTag;
+
+  /// The date and time the annotation was last modified.
+  final DateTime? lastModified;
+
+  /// The version ID of the object that the annotation is attached to.
+  final String? objectVersionId;
+
+  /// The replication status of the annotation. Possible values include
+  /// <code>PENDING</code>, <code>COMPLETED</code>, <code>FAILED</code>, and
+  /// <code>REPLICA</code>.
+  final ReplicationStatus? replicationStatus;
+  final RequestCharged? requestCharged;
+
+  /// The server-side encryption algorithm used.
+  final ServerSideEncryption? serverSideEncryption;
+
+  GetObjectAnnotationOutput({
+    this.annotationPayload,
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumCRC64NVME,
+    this.checksumMD5,
+    this.checksumSHA1,
+    this.checksumSHA256,
+    this.checksumSHA512,
+    this.checksumType,
+    this.checksumXXHASH128,
+    this.checksumXXHASH3,
+    this.checksumXXHASH64,
+    this.contentLength,
+    this.eTag,
+    this.lastModified,
+    this.objectVersionId,
+    this.replicationStatus,
+    this.requestCharged,
+    this.serverSideEncryption,
+  });
+
+  Map<String, dynamic> toJson() {
+    final annotationPayload = this.annotationPayload;
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumCRC64NVME = this.checksumCRC64NVME;
+    final checksumMD5 = this.checksumMD5;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
+    final checksumSHA512 = this.checksumSHA512;
+    final checksumType = this.checksumType;
+    final checksumXXHASH128 = this.checksumXXHASH128;
+    final checksumXXHASH3 = this.checksumXXHASH3;
+    final checksumXXHASH64 = this.checksumXXHASH64;
+    final contentLength = this.contentLength;
+    final eTag = this.eTag;
+    final lastModified = this.lastModified;
+    final objectVersionId = this.objectVersionId;
+    final replicationStatus = this.replicationStatus;
+    final requestCharged = this.requestCharged;
+    final serverSideEncryption = this.serverSideEncryption;
+    return {
+      if (annotationPayload != null)
+        'AnnotationPayload': base64Encode(annotationPayload),
     };
   }
 }
@@ -23057,6 +23918,75 @@ class ListMultipartUploadsOutput {
 }
 
 /// @nodoc
+class ListObjectAnnotationsOutput {
+  /// The number of annotations returned.
+  final int? annotationCount;
+
+  /// The prefix used to filter the response.
+  final String? annotationPrefix;
+
+  /// The list of annotations attached to the object.
+  final List<AnnotationEntry>? annotations;
+
+  /// The bucket name.
+  final String? bucket;
+
+  /// The continuation token used in this request.
+  final String? continuationToken;
+
+  /// The object key.
+  final String? key;
+
+  /// The maximum number of annotations returned in the response.
+  final int? maxAnnotationResults;
+
+  /// The continuation token to use to retrieve the next page of results.
+  final String? nextContinuationToken;
+
+  /// The version ID of the object.
+  final String? objectVersionId;
+  final RequestCharged? requestCharged;
+
+  ListObjectAnnotationsOutput({
+    this.annotationCount,
+    this.annotationPrefix,
+    this.annotations,
+    this.bucket,
+    this.continuationToken,
+    this.key,
+    this.maxAnnotationResults,
+    this.nextContinuationToken,
+    this.objectVersionId,
+    this.requestCharged,
+  });
+
+  Map<String, dynamic> toJson() {
+    final annotationCount = this.annotationCount;
+    final annotationPrefix = this.annotationPrefix;
+    final annotations = this.annotations;
+    final bucket = this.bucket;
+    final continuationToken = this.continuationToken;
+    final key = this.key;
+    final maxAnnotationResults = this.maxAnnotationResults;
+    final nextContinuationToken = this.nextContinuationToken;
+    final objectVersionId = this.objectVersionId;
+    final requestCharged = this.requestCharged;
+    return {
+      if (annotationCount != null) 'AnnotationCount': annotationCount,
+      if (annotationPrefix != null) 'AnnotationPrefix': annotationPrefix,
+      if (annotations != null) 'Annotations': annotations,
+      if (bucket != null) 'Bucket': bucket,
+      if (continuationToken != null) 'ContinuationToken': continuationToken,
+      if (key != null) 'Key': key,
+      if (maxAnnotationResults != null)
+        'MaxAnnotationResults': maxAnnotationResults,
+      if (nextContinuationToken != null)
+        'NextContinuationToken': nextContinuationToken,
+    };
+  }
+}
+
+/// @nodoc
 class ListObjectsOutput {
   /// All of the keys (up to 1,000) rolled up in a common prefix count as a single
   /// return when calculating the number of returns.
@@ -23902,6 +24832,102 @@ class PutObjectAclOutput {
 }
 
 /// @nodoc
+class PutObjectAnnotationOutput {
+  /// The name of the annotation.
+  final String? annotationName;
+
+  /// The CRC32 checksum of the stored annotation.
+  final String? checksumCRC32;
+
+  /// The CRC32C checksum of the stored annotation.
+  final String? checksumCRC32C;
+
+  /// The CRC64NVME checksum of the stored annotation.
+  final String? checksumCRC64NVME;
+
+  /// The MD5 checksum of the stored annotation.
+  final String? checksumMD5;
+
+  /// The SHA1 checksum of the stored annotation.
+  final String? checksumSHA1;
+
+  /// The SHA256 checksum of the stored annotation.
+  final String? checksumSHA256;
+
+  /// The SHA512 checksum of the stored annotation.
+  final String? checksumSHA512;
+
+  /// The type of checksum used.
+  final ChecksumType? checksumType;
+
+  /// The XXHASH128 checksum of the stored annotation.
+  final String? checksumXXHASH128;
+
+  /// The XXHASH3 checksum of the stored annotation.
+  final String? checksumXXHASH3;
+
+  /// The XXHASH64 checksum of the stored annotation.
+  final String? checksumXXHASH64;
+
+  /// The entity tag of the annotation.
+  final String? eTag;
+
+  /// The object key.
+  final String? key;
+
+  /// The version ID of the object that the annotation was attached to.
+  final String? objectVersionId;
+  final RequestCharged? requestCharged;
+
+  /// The server-side encryption algorithm used to encrypt the annotation.
+  final ServerSideEncryption? serverSideEncryption;
+
+  PutObjectAnnotationOutput({
+    this.annotationName,
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumCRC64NVME,
+    this.checksumMD5,
+    this.checksumSHA1,
+    this.checksumSHA256,
+    this.checksumSHA512,
+    this.checksumType,
+    this.checksumXXHASH128,
+    this.checksumXXHASH3,
+    this.checksumXXHASH64,
+    this.eTag,
+    this.key,
+    this.objectVersionId,
+    this.requestCharged,
+    this.serverSideEncryption,
+  });
+
+  Map<String, dynamic> toJson() {
+    final annotationName = this.annotationName;
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumCRC64NVME = this.checksumCRC64NVME;
+    final checksumMD5 = this.checksumMD5;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
+    final checksumSHA512 = this.checksumSHA512;
+    final checksumType = this.checksumType;
+    final checksumXXHASH128 = this.checksumXXHASH128;
+    final checksumXXHASH3 = this.checksumXXHASH3;
+    final checksumXXHASH64 = this.checksumXXHASH64;
+    final eTag = this.eTag;
+    final key = this.key;
+    final objectVersionId = this.objectVersionId;
+    final requestCharged = this.requestCharged;
+    final serverSideEncryption = this.serverSideEncryption;
+    return {
+      if (annotationName != null) 'AnnotationName': annotationName,
+      if (key != null) 'Key': key,
+    };
+  }
+}
+
+/// @nodoc
 class PutObjectLegalHoldOutput {
   final RequestCharged? requestCharged;
 
@@ -24523,6 +25549,7 @@ class RequestCharged {
 class ServerSideEncryption {
   static const aes256 = ServerSideEncryption._('AES256');
   static const awsFsx = ServerSideEncryption._('aws:fsx');
+  static const awsBackup = ServerSideEncryption._('aws:backup');
   static const awsKms = ServerSideEncryption._('aws:kms');
   static const awsKmsDsse = ServerSideEncryption._('aws:kms:dsse');
 
@@ -24530,7 +25557,7 @@ class ServerSideEncryption {
 
   const ServerSideEncryption._(this.value);
 
-  static const values = [aes256, awsFsx, awsKms, awsKmsDsse];
+  static const values = [aes256, awsFsx, awsBackup, awsKms, awsKmsDsse];
 
   static ServerSideEncryption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -24562,6 +25589,9 @@ class StorageClass {
   static const expressOnezone = StorageClass._('EXPRESS_ONEZONE');
   static const fsxOpenzfs = StorageClass._('FSX_OPENZFS');
   static const fsxOntap = StorageClass._('FSX_ONTAP');
+  static const awsBackupWarm = StorageClass._('AWS_BACKUP_WARM');
+  static const awsBackupLowCostWarm =
+      StorageClass._('AWS_BACKUP_LOW_COST_WARM');
 
   final String value;
 
@@ -24580,7 +25610,9 @@ class StorageClass {
     snow,
     expressOnezone,
     fsxOpenzfs,
-    fsxOntap
+    fsxOntap,
+    awsBackupWarm,
+    awsBackupLowCostWarm
   ];
 
   static StorageClass fromString(String value) => values
@@ -25170,6 +26202,84 @@ class TableSseAlgorithm {
 
   @override
   bool operator ==(other) => other is TableSseAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies updates to apply to the annotation table configuration. Used as
+/// the request body for
+/// <code>UpdateBucketMetadataAnnotationTableConfiguration</code>.
+///
+/// @nodoc
+class AnnotationTableConfigurationUpdates {
+  /// The new configuration state to apply.
+  final AnnotationConfigurationState configurationState;
+  final MetadataTableEncryptionConfiguration? encryptionConfiguration;
+
+  /// The new IAM role ARN to apply.
+  final String? role;
+
+  AnnotationTableConfigurationUpdates({
+    required this.configurationState,
+    this.encryptionConfiguration,
+    this.role,
+  });
+
+  Map<String, dynamic> toJson() {
+    final configurationState = this.configurationState;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final role = this.role;
+    return {
+      'ConfigurationState': configurationState.value,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (role != null) 'Role': role,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final configurationState = this.configurationState;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final role = this.role;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('ConfigurationState', configurationState.value),
+      if (encryptionConfiguration != null)
+        encryptionConfiguration.toXml('EncryptionConfiguration'),
+      if (role != null) _s.encodeXmlStringValue('Role', role),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// @nodoc
+class AnnotationConfigurationState {
+  static const enabled = AnnotationConfigurationState._('ENABLED');
+  static const disabled = AnnotationConfigurationState._('DISABLED');
+
+  final String value;
+
+  const AnnotationConfigurationState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static AnnotationConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnnotationConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnnotationConfigurationState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -27275,6 +28385,30 @@ class ObjectLockLegalHold {
   }
 }
 
+/// @nodoc
+class ChecksumType {
+  static const composite = ChecksumType._('COMPOSITE');
+  static const fullObject = ChecksumType._('FULL_OBJECT');
+
+  final String value;
+
+  const ChecksumType._(this.value);
+
+  static const values = [composite, fullObject];
+
+  static ChecksumType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChecksumType._(value));
+
+  @override
+  bool operator ==(other) => other is ChecksumType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains the elements that set the ACL permissions for an object per
 /// grantee.
 ///
@@ -27367,30 +28501,6 @@ class Owner {
       $children,
     );
   }
-}
-
-/// @nodoc
-class ChecksumType {
-  static const composite = ChecksumType._('COMPOSITE');
-  static const fullObject = ChecksumType._('FULL_OBJECT');
-
-  final String value;
-
-  const ChecksumType._(this.value);
-
-  static const values = [composite, fullObject];
-
-  static ChecksumType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChecksumType._(value));
-
-  @override
-  bool operator ==(other) => other is ChecksumType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Specifies website configuration parameters for an Amazon S3 bucket.
@@ -30646,15 +31756,10 @@ class Transition {
   final DateTime? date;
 
   /// Indicates the number of days after creation when objects are transitioned to
-  /// the specified storage class. If the specified storage class is
-  /// <code>INTELLIGENT_TIERING</code>, <code>GLACIER_IR</code>,
-  /// <code>GLACIER</code>, or <code>DEEP_ARCHIVE</code>, valid values are
-  /// <code>0</code> or positive integers. If the specified storage class is
-  /// <code>STANDARD_IA</code> or <code>ONEZONE_IA</code>, valid values are
-  /// positive integers greater than <code>30</code>. Be aware that some storage
-  /// classes have a minimum storage duration and that you're charged for
-  /// transitioning objects before their minimum storage duration. For more
-  /// information, see <a
+  /// the specified storage class. The value can be <code>0</code> or any positive
+  /// integer. Be aware that some storage classes have a minimum storage duration
+  /// and that you're charged for transitioning objects before their minimum
+  /// storage duration. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-transition-general-considerations.html#lifecycle-configuration-constraints">
   /// Constraints and considerations for transitions</a> in the <i>Amazon S3 User
   /// Guide</i>.
@@ -33541,6 +34646,9 @@ class ObjectStorageClass {
   static const expressOnezone = ObjectStorageClass._('EXPRESS_ONEZONE');
   static const fsxOpenzfs = ObjectStorageClass._('FSX_OPENZFS');
   static const fsxOntap = ObjectStorageClass._('FSX_ONTAP');
+  static const awsBackupWarm = ObjectStorageClass._('AWS_BACKUP_WARM');
+  static const awsBackupLowCostWarm =
+      ObjectStorageClass._('AWS_BACKUP_LOW_COST_WARM');
 
   final String value;
 
@@ -33559,7 +34667,9 @@ class ObjectStorageClass {
     snow,
     expressOnezone,
     fsxOpenzfs,
-    fsxOntap
+    fsxOntap,
+    awsBackupWarm,
+    awsBackupLowCostWarm
   ];
 
   static ObjectStorageClass fromString(String value) =>
@@ -33575,6 +34685,74 @@ class ObjectStorageClass {
 
   @override
   String toString() => value;
+}
+
+/// Describes a single annotation attached to an object, including its name,
+/// last modified time, size, ETag, checksum algorithm, and replication status.
+/// Returned in the response from <code>ListObjectAnnotations</code>.
+///
+/// @nodoc
+class AnnotationEntry {
+  /// The name of the annotation.
+  final String annotationName;
+
+  /// The date and time the annotation was last modified.
+  final DateTime lastModified;
+
+  /// The size of the annotation payload, in bytes.
+  final int size;
+
+  /// The checksum algorithm used for the annotation.
+  final List<ChecksumAlgorithm>? checksumAlgorithm;
+
+  /// The entity tag of the annotation.
+  final String? eTag;
+
+  /// The replication status of the annotation.
+  final ReplicationStatus? replicationStatus;
+
+  AnnotationEntry({
+    required this.annotationName,
+    required this.lastModified,
+    required this.size,
+    this.checksumAlgorithm,
+    this.eTag,
+    this.replicationStatus,
+  });
+  factory AnnotationEntry.fromXml(_s.XmlElement elem) {
+    return AnnotationEntry(
+      annotationName: _s.extractXmlStringValue(elem, 'AnnotationName')!,
+      lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified')!,
+      size: _s.extractXmlIntValue(elem, 'Size')!,
+      checksumAlgorithm: _s
+          .extractXmlStringListValues(elem, 'ChecksumAlgorithm')
+          .map(ChecksumAlgorithm.fromString)
+          .toList(),
+      eTag: _s.extractXmlStringValue(elem, 'ETag'),
+      replicationStatus: _s
+          .extractXmlStringValue(elem, 'ReplicationStatus')
+          ?.let(ReplicationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final annotationName = this.annotationName;
+    final lastModified = this.lastModified;
+    final size = this.size;
+    final checksumAlgorithm = this.checksumAlgorithm;
+    final eTag = this.eTag;
+    final replicationStatus = this.replicationStatus;
+    return {
+      'AnnotationName': annotationName,
+      'LastModified': iso8601ToJson(lastModified),
+      'Size': size,
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.map((e) => e.value).toList(),
+      if (eTag != null) 'ETag': eTag,
+      if (replicationStatus != null)
+        'ReplicationStatus': replicationStatus.value,
+    };
+  }
 }
 
 /// Container for the <code>MultipartUpload</code> for the Amazon S3 object.
@@ -34570,6 +35748,9 @@ class Event {
   static const s3ObjectTagging = Event._('s3:ObjectTagging:*');
   static const s3ObjectTaggingPut = Event._('s3:ObjectTagging:Put');
   static const s3ObjectTaggingDelete = Event._('s3:ObjectTagging:Delete');
+  static const s3ObjectAnnotation = Event._('s3:ObjectAnnotation:*');
+  static const s3ObjectAnnotationPut = Event._('s3:ObjectAnnotation:Put');
+  static const s3ObjectAnnotationDelete = Event._('s3:ObjectAnnotation:Delete');
 
   final String value;
 
@@ -34602,7 +35783,10 @@ class Event {
     s3LifecycleExpirationDeleteMarkerCreated,
     s3ObjectTagging,
     s3ObjectTaggingPut,
-    s3ObjectTaggingDelete
+    s3ObjectTaggingDelete,
+    s3ObjectAnnotation,
+    s3ObjectAnnotationPut,
+    s3ObjectAnnotationDelete
   ];
 
   static Event fromString(String value) =>
@@ -35220,6 +36404,10 @@ class MetadataConfigurationResult {
   /// The destination settings for a metadata configuration.
   final DestinationResult destinationResult;
 
+  /// The annotation table configuration result, if an annotation table is
+  /// configured.
+  final AnnotationTableConfigurationResult? annotationTableConfigurationResult;
+
   /// The inventory table configuration for a metadata configuration.
   final InventoryTableConfigurationResult? inventoryTableConfigurationResult;
 
@@ -35228,6 +36416,7 @@ class MetadataConfigurationResult {
 
   MetadataConfigurationResult({
     required this.destinationResult,
+    this.annotationTableConfigurationResult,
     this.inventoryTableConfigurationResult,
     this.journalTableConfigurationResult,
   });
@@ -35235,6 +36424,9 @@ class MetadataConfigurationResult {
     return MetadataConfigurationResult(
       destinationResult: DestinationResult.fromXml(
           _s.extractXmlChild(elem, 'DestinationResult')!),
+      annotationTableConfigurationResult: _s
+          .extractXmlChild(elem, 'AnnotationTableConfigurationResult')
+          ?.let(AnnotationTableConfigurationResult.fromXml),
       inventoryTableConfigurationResult: _s
           .extractXmlChild(elem, 'InventoryTableConfigurationResult')
           ?.let(InventoryTableConfigurationResult.fromXml),
@@ -35246,12 +36438,17 @@ class MetadataConfigurationResult {
 
   Map<String, dynamic> toJson() {
     final destinationResult = this.destinationResult;
+    final annotationTableConfigurationResult =
+        this.annotationTableConfigurationResult;
     final inventoryTableConfigurationResult =
         this.inventoryTableConfigurationResult;
     final journalTableConfigurationResult =
         this.journalTableConfigurationResult;
     return {
       'DestinationResult': destinationResult,
+      if (annotationTableConfigurationResult != null)
+        'AnnotationTableConfigurationResult':
+            annotationTableConfigurationResult,
       if (inventoryTableConfigurationResult != null)
         'InventoryTableConfigurationResult': inventoryTableConfigurationResult,
       if (journalTableConfigurationResult != null)
@@ -35453,6 +36650,69 @@ class InventoryTableConfigurationResult {
   }
 }
 
+/// Contains the current state of the annotation table associated with a
+/// bucket's Amazon S3 Metadata configuration, including its provisioning status
+/// and identifiers.
+///
+/// @nodoc
+class AnnotationTableConfigurationResult {
+  /// The current configuration state of the annotation table.
+  final AnnotationConfigurationState configurationState;
+  final ErrorDetails? error;
+
+  /// The ARN of the IAM role associated with the annotation table.
+  final String? role;
+
+  /// The ARN of the annotation table.
+  final String? tableArn;
+
+  /// The name of the annotation table.
+  final String? tableName;
+
+  /// The provisioning status of the annotation table. Possible values:
+  /// <code>CREATING</code>, <code>BACKFILLING</code>, <code>ACTIVE</code>,
+  /// <code>FAILED</code>.
+  final String? tableStatus;
+
+  AnnotationTableConfigurationResult({
+    required this.configurationState,
+    this.error,
+    this.role,
+    this.tableArn,
+    this.tableName,
+    this.tableStatus,
+  });
+  factory AnnotationTableConfigurationResult.fromXml(_s.XmlElement elem) {
+    return AnnotationTableConfigurationResult(
+      configurationState: _s
+          .extractXmlStringValue(elem, 'ConfigurationState')!
+          .let(AnnotationConfigurationState.fromString),
+      error: _s.extractXmlChild(elem, 'Error')?.let(ErrorDetails.fromXml),
+      role: _s.extractXmlStringValue(elem, 'Role'),
+      tableArn: _s.extractXmlStringValue(elem, 'TableArn'),
+      tableName: _s.extractXmlStringValue(elem, 'TableName'),
+      tableStatus: _s.extractXmlStringValue(elem, 'TableStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationState = this.configurationState;
+    final error = this.error;
+    final role = this.role;
+    final tableArn = this.tableArn;
+    final tableName = this.tableName;
+    final tableStatus = this.tableStatus;
+    return {
+      'ConfigurationState': configurationState.value,
+      if (error != null) 'Error': error,
+      if (role != null) 'Role': role,
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableName != null) 'TableName': tableName,
+      if (tableStatus != null) 'TableStatus': tableStatus,
+    };
+  }
+}
+
 /// @nodoc
 class S3TablesBucketType {
   static const aws = S3TablesBucketType._('aws');
@@ -35580,6 +36840,12 @@ class BucketLocationConstraint {
   String toString() => value;
 }
 
+/// <note>
+/// For information about using the Amazon S3 API—including error handling—see
+/// the <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/developerguide/Welcome.html">Amazon
+/// S3 Developer Guide</a>.
+/// </note>
 /// Container for all error elements.
 ///
 /// @nodoc
@@ -37432,19 +38698,27 @@ class MetadataConfiguration {
   /// The journal table configuration for a metadata configuration.
   final JournalTableConfiguration journalTableConfiguration;
 
+  /// Optional annotation table configuration to include with the metadata
+  /// configuration.
+  final AnnotationTableConfiguration? annotationTableConfiguration;
+
   /// The inventory table configuration for a metadata configuration.
   final InventoryTableConfiguration? inventoryTableConfiguration;
 
   MetadataConfiguration({
     required this.journalTableConfiguration,
+    this.annotationTableConfiguration,
     this.inventoryTableConfiguration,
   });
 
   Map<String, dynamic> toJson() {
     final journalTableConfiguration = this.journalTableConfiguration;
+    final annotationTableConfiguration = this.annotationTableConfiguration;
     final inventoryTableConfiguration = this.inventoryTableConfiguration;
     return {
       'JournalTableConfiguration': journalTableConfiguration,
+      if (annotationTableConfiguration != null)
+        'AnnotationTableConfiguration': annotationTableConfiguration,
       if (inventoryTableConfiguration != null)
         'InventoryTableConfiguration': inventoryTableConfiguration,
     };
@@ -37452,11 +38726,14 @@ class MetadataConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final journalTableConfiguration = this.journalTableConfiguration;
+    final annotationTableConfiguration = this.annotationTableConfiguration;
     final inventoryTableConfiguration = this.inventoryTableConfiguration;
     final $children = <_s.XmlNode>[
       journalTableConfiguration.toXml('JournalTableConfiguration'),
       if (inventoryTableConfiguration != null)
         inventoryTableConfiguration.toXml('InventoryTableConfiguration'),
+      if (annotationTableConfiguration != null)
+        annotationTableConfiguration.toXml('AnnotationTableConfiguration'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -37546,6 +38823,59 @@ class InventoryTableConfiguration {
       _s.encodeXmlStringValue('ConfigurationState', configurationState.value),
       if (encryptionConfiguration != null)
         encryptionConfiguration.toXml('EncryptionConfiguration'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName.parts(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Specifies the configuration for the annotation table associated with a
+/// bucket's Amazon S3 Metadata configuration. The annotation table is an
+/// Iceberg table that records annotation events for objects in the bucket.
+///
+/// @nodoc
+class AnnotationTableConfiguration {
+  /// The state of the annotation table. Valid values are <code>ENABLED</code> and
+  /// <code>DISABLED</code>.
+  final AnnotationConfigurationState configurationState;
+  final MetadataTableEncryptionConfiguration? encryptionConfiguration;
+
+  /// The ARN of the IAM role used to manage the annotation table.
+  final String? role;
+
+  AnnotationTableConfiguration({
+    required this.configurationState,
+    this.encryptionConfiguration,
+    this.role,
+  });
+
+  Map<String, dynamic> toJson() {
+    final configurationState = this.configurationState;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final role = this.role;
+    return {
+      'ConfigurationState': configurationState.value,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (role != null) 'Role': role,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final configurationState = this.configurationState;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final role = this.role;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('ConfigurationState', configurationState.value),
+      if (encryptionConfiguration != null)
+        encryptionConfiguration.toXml('EncryptionConfiguration'),
+      if (role != null) _s.encodeXmlStringValue('Role', role),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -38046,6 +39376,32 @@ class TaggingDirective {
   String toString() => value;
 }
 
+/// @nodoc
+class AnnotationDirective {
+  static const copy = AnnotationDirective._('COPY');
+  static const exclude = AnnotationDirective._('EXCLUDE');
+
+  final String value;
+
+  const AnnotationDirective._(this.value);
+
+  static const values = [copy, exclude];
+
+  static AnnotationDirective fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnnotationDirective._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AnnotationDirective && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The container for the completed multipart upload details.
 ///
 /// @nodoc
@@ -38280,6 +39636,18 @@ class AccessDenied extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class AnnotationLimitExceeded extends _s.GenericAwsException {
+  AnnotationLimitExceeded({String? type, String? message})
+      : super(type: type, code: 'AnnotationLimitExceeded', message: message);
+}
+
+/// @nodoc
+class AnnotationNameTooLong extends _s.GenericAwsException {
+  AnnotationNameTooLong({String? type, String? message})
+      : super(type: type, code: 'AnnotationNameTooLong', message: message);
+}
+
+/// @nodoc
 class BucketAlreadyExists extends _s.GenericAwsException {
   BucketAlreadyExists({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyExists', message: message);
@@ -38305,9 +39673,21 @@ class IdempotencyParameterMismatch extends _s.GenericAwsException {
 }
 
 /// @nodoc
+class InvalidAnnotationName extends _s.GenericAwsException {
+  InvalidAnnotationName({String? type, String? message})
+      : super(type: type, code: 'InvalidAnnotationName', message: message);
+}
+
+/// @nodoc
 class InvalidObjectState extends _s.GenericAwsException {
   InvalidObjectState({String? type, String? message})
       : super(type: type, code: 'InvalidObjectState', message: message);
+}
+
+/// @nodoc
+class InvalidPrefix extends _s.GenericAwsException {
+  InvalidPrefix({String? type, String? message})
+      : super(type: type, code: 'InvalidPrefix', message: message);
 }
 
 /// @nodoc
@@ -38320,6 +39700,12 @@ class InvalidRequest extends _s.GenericAwsException {
 class InvalidWriteOffset extends _s.GenericAwsException {
   InvalidWriteOffset({String? type, String? message})
       : super(type: type, code: 'InvalidWriteOffset', message: message);
+}
+
+/// @nodoc
+class NoSuchAnnotation extends _s.GenericAwsException {
+  NoSuchAnnotation({String? type, String? message})
+      : super(type: type, code: 'NoSuchAnnotation', message: message);
 }
 
 /// @nodoc
@@ -38367,8 +39753,18 @@ class TooManyParts extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyParts', message: message);
 }
 
+/// @nodoc
+class UnsupportedMediaType extends _s.GenericAwsException {
+  UnsupportedMediaType({String? type, String? message})
+      : super(type: type, code: 'UnsupportedMediaType', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDenied': (type, message) => AccessDenied(type: type, message: message),
+  'AnnotationLimitExceeded': (type, message) =>
+      AnnotationLimitExceeded(type: type, message: message),
+  'AnnotationNameTooLong': (type, message) =>
+      AnnotationNameTooLong(type: type, message: message),
   'BucketAlreadyExists': (type, message) =>
       BucketAlreadyExists(type: type, message: message),
   'BucketAlreadyOwnedByYou': (type, message) =>
@@ -38377,12 +39773,18 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EncryptionTypeMismatch(type: type, message: message),
   'IdempotencyParameterMismatch': (type, message) =>
       IdempotencyParameterMismatch(type: type, message: message),
+  'InvalidAnnotationName': (type, message) =>
+      InvalidAnnotationName(type: type, message: message),
   'InvalidObjectState': (type, message) =>
       InvalidObjectState(type: type, message: message),
+  'InvalidPrefix': (type, message) =>
+      InvalidPrefix(type: type, message: message),
   'InvalidRequest': (type, message) =>
       InvalidRequest(type: type, message: message),
   'InvalidWriteOffset': (type, message) =>
       InvalidWriteOffset(type: type, message: message),
+  'NoSuchAnnotation': (type, message) =>
+      NoSuchAnnotation(type: type, message: message),
   'NoSuchBucket': (type, message) => NoSuchBucket(type: type, message: message),
   'NoSuchKey': (type, message) => NoSuchKey(type: type, message: message),
   'NoSuchUpload': (type, message) => NoSuchUpload(type: type, message: message),
@@ -38392,4 +39794,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ObjectNotInActiveTierError': (type, message) =>
       ObjectNotInActiveTierError(type: type, message: message),
   'TooManyParts': (type, message) => TooManyParts(type: type, message: message),
+  'UnsupportedMediaType': (type, message) =>
+      UnsupportedMediaType(type: type, message: message),
 };

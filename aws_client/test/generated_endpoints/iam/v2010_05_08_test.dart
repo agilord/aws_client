@@ -85,7 +85,7 @@ void main() {
     expect(resolved.authSchemes.length, 1);
     expect(resolved.authSchemes[0].name, 'sigv4');
     expect(resolved.authSchemes[0].signingName, isNull);
-    expect(resolved.authSchemes[0].signingRegion, 'cn-northwest-1');
+    expect(resolved.authSchemes[0].signingRegion, 'cn-north-1');
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test('For region cn-northwest-1 with FIPS enabled and DualStack disabled [8]',
@@ -96,7 +96,7 @@ void main() {
     expect(resolved.authSchemes.length, 1);
     expect(resolved.authSchemes[0].name, 'sigv4');
     expect(resolved.authSchemes[0].signingName, isNull);
-    expect(resolved.authSchemes[0].signingRegion, 'cn-northwest-1');
+    expect(resolved.authSchemes[0].signingRegion, 'cn-north-1');
     expect(resolved.headers.keys.toSet(), [].toSet());
   });
   test('For region cn-northwest-1 with FIPS disabled and DualStack enabled [9]',

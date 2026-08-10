@@ -67,6 +67,85 @@ class Artifact {
     _protocol.close();
   }
 
+  /// List tags for a resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Add tags to a resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  ///
+  /// Parameter [tags] :
+  /// Tags to add to the resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Remove tags from a resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  ///
+  /// Parameter [tagKeys] :
+  /// Tag keys to remove from the resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Get the account settings for Artifact.
   ///
   /// May throw [AccessDeniedException].
@@ -112,6 +191,254 @@ class Artifact {
       exceptionFnMap: _exceptionFns,
     );
     return PutAccountSettingsResponse.fromJson(response);
+  }
+
+  /// Create a new compliance inquiry.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [inquiryContent] :
+  /// Content for creating a compliance inquiry - either a single query or file
+  /// content.
+  ///
+  /// Parameter [name] :
+  /// Title of the inquiry.
+  ///
+  /// Parameter [clientToken] :
+  /// Idempotency token for the request.
+  ///
+  /// Parameter [supportMode] :
+  /// Support mode for inquiry processing. Only supported for file upload mode.
+  /// Defaults to AI_ONLY if not specified.
+  ///
+  /// Parameter [tags] :
+  /// Tags to associate with the compliance inquiry resource.
+  Future<CreateComplianceInquiryResponse> createComplianceInquiry({
+    required InquiryContent inquiryContent,
+    required String name,
+    String? clientToken,
+    InquirySupportMode? supportMode,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'inquiryContent': inquiryContent,
+      'name': name,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (supportMode != null) 'supportMode': supportMode.value,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/compliance-inquiry/create',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateComplianceInquiryResponse.fromJson(response);
+  }
+
+  /// Export a compliance inquiry report.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [complianceInquiryId] :
+  /// Unique resource ID for the compliance inquiry.
+  ///
+  /// Parameter [includeCitations] :
+  /// When true, include citations in the exported document.
+  ///
+  /// Parameter [queryIdentifiers] :
+  /// List of query identifiers to include in the export.
+  Future<ExportComplianceInquiryResponse> exportComplianceInquiry({
+    required String complianceInquiryId,
+    bool? includeCitations,
+    List<int>? queryIdentifiers,
+  }) async {
+    final $payload = <String, dynamic>{
+      'complianceInquiryId': complianceInquiryId,
+      if (includeCitations != null) 'includeCitations': includeCitations,
+      if (queryIdentifiers != null) 'queryIdentifiers': queryIdentifiers,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/compliance-inquiry/export',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExportComplianceInquiryResponse.fromJson(response);
+  }
+
+  /// Get the metadata for a single compliance inquiry.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [complianceInquiryId] :
+  /// Unique resource ID for the compliance inquiry.
+  Future<GetComplianceInquiryMetadataResponse> getComplianceInquiryMetadata({
+    required String complianceInquiryId,
+  }) async {
+    final $query = <String, List<String>>{
+      'complianceInquiryId': [complianceInquiryId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/compliance-inquiry/getMetadata',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetComplianceInquiryMetadataResponse.fromJson(response);
+  }
+
+  /// List available compliance inquiries.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of resources to return in the paginated response.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token to request the next page of resources.
+  Future<ListComplianceInquiriesResponse> listComplianceInquiries({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      300,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/compliance-inquiry/list',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComplianceInquiriesResponse.fromJson(response);
+  }
+
+  /// List queries within a compliance inquiry.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [complianceInquiryId] :
+  /// Unique resource ID for the compliance inquiry.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of resources to return in the paginated response.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token to request the next page of resources.
+  Future<ListComplianceInquiryQueriesResponse> listComplianceInquiryQueries({
+    required String complianceInquiryId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      300,
+    );
+    final $query = <String, List<String>>{
+      'complianceInquiryId': [complianceInquiryId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/compliance-inquiry/listQueries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComplianceInquiryQueriesResponse.fromJson(response);
+  }
+
+  /// Submits feedback on a compliance inquiry response.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [complianceInquiryId] :
+  /// The unique identifier for the compliance inquiry.
+  ///
+  /// Parameter [rating] :
+  /// The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the operation completes
+  /// no more than one time. If this token matches a previous request, the
+  /// service ignores the request, but does not return an error.
+  ///
+  /// Parameter [comment] :
+  /// An optional comment for the feedback.
+  ///
+  /// Parameter [queryIdentifier] :
+  /// The sequential identifier of the query to provide feedback on.
+  ///
+  /// Parameter [reasonCodes] :
+  /// The reason codes that describe why you rated the response. Valid values
+  /// are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE.
+  ///
+  /// Parameter [responseRevisionId] :
+  /// The response revision ID. Use this value to prevent submitting feedback on
+  /// a stale response.
+  Future<PutComplianceInquiryFeedbackResponse> putComplianceInquiryFeedback({
+    required String complianceInquiryId,
+    required FeedbackRating rating,
+    String? clientToken,
+    String? comment,
+    int? queryIdentifier,
+    List<FeedbackReasonCode>? reasonCodes,
+    int? responseRevisionId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'complianceInquiryId': complianceInquiryId,
+      'rating': rating.value,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (comment != null) 'comment': comment,
+      if (queryIdentifier != null) 'queryIdentifier': queryIdentifier,
+      if (reasonCodes != null)
+        'reasonCodes': reasonCodes.map((e) => e.value).toList(),
+      if (responseRevisionId != null) 'responseRevisionId': responseRevisionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/compliance-inquiry/putFeedback',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutComplianceInquiryFeedbackResponse.fromJson(response);
   }
 
   /// List active customer-agreements applicable to calling identity.
@@ -354,6 +681,56 @@ class Artifact {
 }
 
 /// @nodoc
+class ListTagsForResourceResponse {
+  /// Tags associated with the resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// @nodoc
 class GetAccountSettingsResponse {
   final AccountSettings? accountSettings;
 
@@ -399,6 +776,201 @@ class PutAccountSettingsResponse {
     final accountSettings = this.accountSettings;
     return {
       if (accountSettings != null) 'accountSettings': accountSettings,
+    };
+  }
+}
+
+/// @nodoc
+class CreateComplianceInquiryResponse {
+  /// Summary information about the created compliance inquiry.
+  final InquirySummary? complianceInquirySummary;
+
+  /// Tags associated with the compliance inquiry resource.
+  final Map<String, String>? tags;
+
+  CreateComplianceInquiryResponse({
+    this.complianceInquirySummary,
+    this.tags,
+  });
+
+  factory CreateComplianceInquiryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateComplianceInquiryResponse(
+      complianceInquirySummary: json['complianceInquirySummary'] != null
+          ? InquirySummary.fromJson(
+              json['complianceInquirySummary'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceInquirySummary = this.complianceInquirySummary;
+    final tags = this.tags;
+    return {
+      if (complianceInquirySummary != null)
+        'complianceInquirySummary': complianceInquirySummary,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class ExportComplianceInquiryResponse {
+  /// Presigned S3 URL to access the exported compliance inquiry report.
+  final String? documentPresignedUrl;
+
+  /// Tags associated with the compliance inquiry resource.
+  final Map<String, String>? tags;
+
+  ExportComplianceInquiryResponse({
+    this.documentPresignedUrl,
+    this.tags,
+  });
+
+  factory ExportComplianceInquiryResponse.fromJson(Map<String, dynamic> json) {
+    return ExportComplianceInquiryResponse(
+      documentPresignedUrl: json['documentPresignedUrl'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentPresignedUrl = this.documentPresignedUrl;
+    final tags = this.tags;
+    return {
+      if (documentPresignedUrl != null)
+        'documentPresignedUrl': documentPresignedUrl,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class GetComplianceInquiryMetadataResponse {
+  /// Detailed information about the compliance inquiry.
+  final InquiryDetail? complianceInquiryDetail;
+
+  /// Tags associated with the compliance inquiry resource.
+  final Map<String, String>? tags;
+
+  GetComplianceInquiryMetadataResponse({
+    this.complianceInquiryDetail,
+    this.tags,
+  });
+
+  factory GetComplianceInquiryMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetComplianceInquiryMetadataResponse(
+      complianceInquiryDetail: json['complianceInquiryDetail'] != null
+          ? InquiryDetail.fromJson(
+              json['complianceInquiryDetail'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceInquiryDetail = this.complianceInquiryDetail;
+    final tags = this.tags;
+    return {
+      if (complianceInquiryDetail != null)
+        'complianceInquiryDetail': complianceInquiryDetail,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// @nodoc
+class ListComplianceInquiriesResponse {
+  /// List of compliance inquiry resources.
+  final List<InquirySummary>? complianceInquiries;
+
+  /// Pagination token to request the next page of resources.
+  final String? nextToken;
+
+  ListComplianceInquiriesResponse({
+    this.complianceInquiries,
+    this.nextToken,
+  });
+
+  factory ListComplianceInquiriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListComplianceInquiriesResponse(
+      complianceInquiries: (json['complianceInquiries'] as List?)
+          ?.nonNulls
+          .map((e) => InquirySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceInquiries = this.complianceInquiries;
+    final nextToken = this.nextToken;
+    return {
+      if (complianceInquiries != null)
+        'complianceInquiries': complianceInquiries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// @nodoc
+class ListComplianceInquiryQueriesResponse {
+  /// Pagination token to request the next page of resources.
+  final String? nextToken;
+
+  /// List of compliance query summaries.
+  final List<QuerySummary>? queries;
+
+  ListComplianceInquiryQueriesResponse({
+    this.nextToken,
+    this.queries,
+  });
+
+  factory ListComplianceInquiryQueriesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListComplianceInquiryQueriesResponse(
+      nextToken: json['nextToken'] as String?,
+      queries: (json['queries'] as List?)
+          ?.nonNulls
+          .map((e) => QuerySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final queries = this.queries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (queries != null) 'queries': queries,
+    };
+  }
+}
+
+/// @nodoc
+class PutComplianceInquiryFeedbackResponse {
+  /// The timestamp when the feedback was submitted.
+  final DateTime submittedAt;
+
+  PutComplianceInquiryFeedbackResponse({
+    required this.submittedAt,
+  });
+
+  factory PutComplianceInquiryFeedbackResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutComplianceInquiryFeedbackResponse(
+      submittedAt: nonNullableTimeStampFromJson(json['submittedAt'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final submittedAt = this.submittedAt;
+    return {
+      'submittedAt': iso8601ToJson(submittedAt),
     };
   }
 }
@@ -1113,6 +1685,636 @@ class AgreementType {
 
   @override
   String toString() => value;
+}
+
+/// @nodoc
+class FeedbackRating {
+  static const thumbsUp = FeedbackRating._('THUMBS_UP');
+  static const thumbsDown = FeedbackRating._('THUMBS_DOWN');
+
+  final String value;
+
+  const FeedbackRating._(this.value);
+
+  static const values = [thumbsUp, thumbsDown];
+
+  static FeedbackRating fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeedbackRating._(value));
+
+  @override
+  bool operator ==(other) => other is FeedbackRating && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class FeedbackReasonCode {
+  static const other = FeedbackReasonCode._('OTHER');
+  static const partialResponse = FeedbackReasonCode._('PARTIAL_RESPONSE');
+  static const irrelevantResponse = FeedbackReasonCode._('IRRELEVANT_RESPONSE');
+
+  final String value;
+
+  const FeedbackReasonCode._(this.value);
+
+  static const values = [other, partialResponse, irrelevantResponse];
+
+  static FeedbackReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FeedbackReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FeedbackReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information about a single query within a compliance inquiry.
+///
+/// @nodoc
+class QuerySummary {
+  /// Timestamp when the query was created.
+  final DateTime createdAt;
+
+  /// The actual query text.
+  final String query;
+
+  /// Sequential identifier of the query within the inquiry.
+  final int queryIdentifier;
+
+  /// Current processing status of the query.
+  final QueryStatus status;
+
+  /// Descriptive status message.
+  final QueryStatusMessage statusMessage;
+
+  /// Supporting citations for the response.
+  final List<Citation>? citations;
+
+  /// Generated response to the query.
+  final String? response;
+
+  /// Type of review for the response.
+  final ReviewType? reviewType;
+
+  /// Ordered list of response version history entries, oldest first.
+  final List<ResponseVersion>? updatedResponseVersions;
+
+  QuerySummary({
+    required this.createdAt,
+    required this.query,
+    required this.queryIdentifier,
+    required this.status,
+    required this.statusMessage,
+    this.citations,
+    this.response,
+    this.reviewType,
+    this.updatedResponseVersions,
+  });
+
+  factory QuerySummary.fromJson(Map<String, dynamic> json) {
+    return QuerySummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      query: (json['query'] as String?) ?? '',
+      queryIdentifier: (json['queryIdentifier'] as int?) ?? 0,
+      status: QueryStatus.fromString((json['status'] as String?) ?? ''),
+      statusMessage: QueryStatusMessage.fromString(
+          (json['statusMessage'] as String?) ?? ''),
+      citations: (json['citations'] as List?)
+          ?.nonNulls
+          .map((e) => Citation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      response: json['response'] as String?,
+      reviewType: (json['reviewType'] as String?)?.let(ReviewType.fromString),
+      updatedResponseVersions: (json['updatedResponseVersions'] as List?)
+          ?.nonNulls
+          .map((e) => ResponseVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final query = this.query;
+    final queryIdentifier = this.queryIdentifier;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final citations = this.citations;
+    final response = this.response;
+    final reviewType = this.reviewType;
+    final updatedResponseVersions = this.updatedResponseVersions;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'query': query,
+      'queryIdentifier': queryIdentifier,
+      'status': status.value,
+      'statusMessage': statusMessage.value,
+      if (citations != null) 'citations': citations,
+      if (response != null) 'response': response,
+      if (reviewType != null) 'reviewType': reviewType.value,
+      if (updatedResponseVersions != null)
+        'updatedResponseVersions': updatedResponseVersions,
+    };
+  }
+}
+
+/// @nodoc
+class ReviewType {
+  static const human = ReviewType._('HUMAN');
+  static const ai = ReviewType._('AI');
+
+  final String value;
+
+  const ReviewType._(this.value);
+
+  static const values = [human, ai];
+
+  static ReviewType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReviewType._(value));
+
+  @override
+  bool operator ==(other) => other is ReviewType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class QueryStatus {
+  static const processing = QueryStatus._('PROCESSING');
+  static const completed = QueryStatus._('COMPLETED');
+  static const failed = QueryStatus._('FAILED');
+
+  final String value;
+
+  const QueryStatus._(this.value);
+
+  static const values = [processing, completed, failed];
+
+  static QueryStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => QueryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is QueryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class QueryStatusMessage {
+  static const queryProcessingIsComplete =
+      QueryStatusMessage._('Query processing is complete.');
+  static const queryProcessingIsInProgress =
+      QueryStatusMessage._('Query processing is in-progress.');
+  static const anInternalErrorOccurredWhileProcessingTheQueryTryAgainAtALaterTime =
+      QueryStatusMessage._(
+          'An internal error occurred while processing the query. Try again at a later time.');
+  static const queryIsPendingHumanReview =
+      QueryStatusMessage._('Query is pending human review.');
+  static const queryContainsRestrictedOrUnsupportedContent =
+      QueryStatusMessage._('Query contains restricted or unsupported content.');
+
+  final String value;
+
+  const QueryStatusMessage._(this.value);
+
+  static const values = [
+    queryProcessingIsComplete,
+    queryProcessingIsInProgress,
+    anInternalErrorOccurredWhileProcessingTheQueryTryAgainAtALaterTime,
+    queryIsPendingHumanReview,
+    queryContainsRestrictedOrUnsupportedContent
+  ];
+
+  static QueryStatusMessage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryStatusMessage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryStatusMessage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A versioned snapshot of a response edit.
+///
+/// @nodoc
+class ResponseVersion {
+  /// The response text for this version.
+  final String responseText;
+
+  /// ISO 8601 timestamp of when this edit was made.
+  final DateTime timestamp;
+
+  ResponseVersion({
+    required this.responseText,
+    required this.timestamp,
+  });
+
+  factory ResponseVersion.fromJson(Map<String, dynamic> json) {
+    return ResponseVersion(
+      responseText: (json['responseText'] as String?) ?? '',
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responseText = this.responseText;
+    final timestamp = this.timestamp;
+    return {
+      'responseText': responseText,
+      'timestamp': iso8601ToJson(timestamp),
+    };
+  }
+}
+
+/// Citation information for AI-generated responses.
+///
+/// @nodoc
+class Citation {
+  /// Content text from the compliance source.
+  final String? sourceContent;
+
+  /// Label identifying the compliance source.
+  final String? sourceLabel;
+
+  /// Link to the compliance source.
+  final String? sourceLink;
+
+  Citation({
+    this.sourceContent,
+    this.sourceLabel,
+    this.sourceLink,
+  });
+
+  factory Citation.fromJson(Map<String, dynamic> json) {
+    return Citation(
+      sourceContent: json['sourceContent'] as String?,
+      sourceLabel: json['sourceLabel'] as String?,
+      sourceLink: json['sourceLink'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceContent = this.sourceContent;
+    final sourceLabel = this.sourceLabel;
+    final sourceLink = this.sourceLink;
+    return {
+      if (sourceContent != null) 'sourceContent': sourceContent,
+      if (sourceLabel != null) 'sourceLabel': sourceLabel,
+      if (sourceLink != null) 'sourceLink': sourceLink,
+    };
+  }
+}
+
+/// Summary information about a compliance inquiry.
+///
+/// @nodoc
+class InquirySummary {
+  /// ARN of the compliance inquiry resource.
+  final String arn;
+
+  /// Timestamp indicating when the resource was created.
+  final DateTime createdAt;
+
+  /// Unique resource ID for the compliance inquiry.
+  final String id;
+
+  /// Type of inquiry content (text or file).
+  final InputSource inputSource;
+
+  /// Title of the inquiry.
+  final String name;
+
+  /// Current processing status of the inquiry.
+  final InquiryStatus status;
+
+  /// Status message providing additional context.
+  final InquiryStatusMessage statusMessage;
+
+  InquirySummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.inputSource,
+    required this.name,
+    required this.status,
+    required this.statusMessage,
+  });
+
+  factory InquirySummary.fromJson(Map<String, dynamic> json) {
+    return InquirySummary(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      inputSource:
+          InputSource.fromString((json['inputSource'] as String?) ?? ''),
+      name: (json['name'] as String?) ?? '',
+      status: InquiryStatus.fromString((json['status'] as String?) ?? ''),
+      statusMessage: InquiryStatusMessage.fromString(
+          (json['statusMessage'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final inputSource = this.inputSource;
+    final name = this.name;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'inputSource': inputSource.value,
+      'name': name,
+      'status': status.value,
+      'statusMessage': statusMessage.value,
+    };
+  }
+}
+
+/// @nodoc
+class InquiryStatus {
+  static const processing = InquiryStatus._('PROCESSING');
+  static const humanReview = InquiryStatus._('HUMAN_REVIEW');
+  static const completed = InquiryStatus._('COMPLETED');
+  static const failed = InquiryStatus._('FAILED');
+
+  final String value;
+
+  const InquiryStatus._(this.value);
+
+  static const values = [processing, humanReview, completed, failed];
+
+  static InquiryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InquiryStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InquiryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class InquiryStatusMessage {
+  static const complianceInquiryProcessingIsComplete =
+      InquiryStatusMessage._('Compliance inquiry processing is complete.');
+  static const malwareWasDetectedOnTheFileProvideANewFileAndTryAgain =
+      InquiryStatusMessage._(
+          'Malware was detected on the file. Provide a new file and try again.');
+  static const complianceInquiryProcessingIsInProgress =
+      InquiryStatusMessage._('Compliance inquiry processing is in-progress.');
+  static const anInternalErrorOccurredWhileProcessingTheInquiryTryAgainAtALaterTime =
+      InquiryStatusMessage._(
+          'An internal error occurred while processing the inquiry. Try again at a later time.');
+  static const humanReviewIsInProgress =
+      InquiryStatusMessage._('Human review is in progress.');
+  static const complianceInquiryProcessingIsCompleteOneOrMoreQueriesEncounteredErrorsDuringProcessing =
+      InquiryStatusMessage._(
+          'Compliance inquiry processing is complete. One or more queries encountered errors during processing.');
+
+  final String value;
+
+  const InquiryStatusMessage._(this.value);
+
+  static const values = [
+    complianceInquiryProcessingIsComplete,
+    malwareWasDetectedOnTheFileProvideANewFileAndTryAgain,
+    complianceInquiryProcessingIsInProgress,
+    anInternalErrorOccurredWhileProcessingTheInquiryTryAgainAtALaterTime,
+    humanReviewIsInProgress,
+    complianceInquiryProcessingIsCompleteOneOrMoreQueriesEncounteredErrorsDuringProcessing
+  ];
+
+  static InquiryStatusMessage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InquiryStatusMessage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InquiryStatusMessage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// @nodoc
+class InputSource {
+  static const text = InputSource._('TEXT');
+  static const file = InputSource._('FILE');
+
+  final String value;
+
+  const InputSource._(this.value);
+
+  static const values = [text, file];
+
+  static InputSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputSource._(value));
+
+  @override
+  bool operator ==(other) => other is InputSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Detailed information about a compliance inquiry.
+///
+/// @nodoc
+class InquiryDetail {
+  /// ARN of the compliance inquiry resource.
+  final String arn;
+
+  /// Timestamp indicating when the resource was created.
+  final DateTime createdAt;
+
+  /// Unique resource ID for the compliance inquiry.
+  final String id;
+
+  /// Type of inquiry content (text or file).
+  final InputSource inputSource;
+
+  /// Title of the inquiry.
+  final String name;
+
+  /// Current processing status of the inquiry.
+  final InquiryStatus status;
+
+  /// Status message providing additional context.
+  final InquiryStatusMessage statusMessage;
+
+  /// Support mode for this inquiry. AI_ONLY provides AI-generated responses.
+  /// FULL_SUPPORT includes human expert review.
+  final InquirySupportMode? supportMode;
+
+  /// Timestamp indicating when the resource was last modified.
+  final DateTime? updatedAt;
+
+  InquiryDetail({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.inputSource,
+    required this.name,
+    required this.status,
+    required this.statusMessage,
+    this.supportMode,
+    this.updatedAt,
+  });
+
+  factory InquiryDetail.fromJson(Map<String, dynamic> json) {
+    return InquiryDetail(
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      inputSource:
+          InputSource.fromString((json['inputSource'] as String?) ?? ''),
+      name: (json['name'] as String?) ?? '',
+      status: InquiryStatus.fromString((json['status'] as String?) ?? ''),
+      statusMessage: InquiryStatusMessage.fromString(
+          (json['statusMessage'] as String?) ?? ''),
+      supportMode:
+          (json['supportMode'] as String?)?.let(InquirySupportMode.fromString),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final inputSource = this.inputSource;
+    final name = this.name;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final supportMode = this.supportMode;
+    final updatedAt = this.updatedAt;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'inputSource': inputSource.value,
+      'name': name,
+      'status': status.value,
+      'statusMessage': statusMessage.value,
+      if (supportMode != null) 'supportMode': supportMode.value,
+      if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// @nodoc
+class InquirySupportMode {
+  static const aiOnly = InquirySupportMode._('AI_ONLY');
+  static const fullSupport = InquirySupportMode._('FULL_SUPPORT');
+
+  final String value;
+
+  const InquirySupportMode._(this.value);
+
+  static const values = [aiOnly, fullSupport];
+
+  static InquirySupportMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InquirySupportMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InquirySupportMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Content for creating a compliance inquiry - either a single query or file
+/// content.
+///
+/// @nodoc
+class InquiryContent {
+  /// File content with multiple questions.
+  final InquiryFileContent? fileContent;
+
+  /// Single text query for AI-generated answer.
+  final String? query;
+
+  InquiryContent({
+    this.fileContent,
+    this.query,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fileContent = this.fileContent;
+    final query = this.query;
+    return {
+      if (fileContent != null) 'fileContent': fileContent,
+      if (query != null) 'query': query,
+    };
+  }
+}
+
+/// File content structure for compliance inquiry uploads.
+///
+/// @nodoc
+class InquiryFileContent {
+  /// Binary content of the uploaded file.
+  final Uint8List content;
+
+  /// List of file sections/sheets to process.
+  final List<String>? fileSections;
+
+  InquiryFileContent({
+    required this.content,
+    this.fileSections,
+  });
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final fileSections = this.fileSections;
+    return {
+      'content': base64Encode(content),
+      if (fileSections != null) 'fileSections': fileSections,
+    };
+  }
 }
 
 /// Account settings for the customer.

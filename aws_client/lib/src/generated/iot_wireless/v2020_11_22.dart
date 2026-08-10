@@ -8043,21 +8043,27 @@ class MulticastFrameInfo {
 ///
 /// @nodoc
 class LoRaWANMulticast {
+  /// The default session parameters for the multicast group.
+  final DefaultSessionParametersMulticast? defaultSessionParameters;
   final DlClass? dlClass;
   final ParticipatingGatewaysMulticast? participatingGateways;
   final SupportedRfRegion? rfRegion;
 
   LoRaWANMulticast({
+    this.defaultSessionParameters,
     this.dlClass,
     this.participatingGateways,
     this.rfRegion,
   });
 
   Map<String, dynamic> toJson() {
+    final defaultSessionParameters = this.defaultSessionParameters;
     final dlClass = this.dlClass;
     final participatingGateways = this.participatingGateways;
     final rfRegion = this.rfRegion;
     return {
+      if (defaultSessionParameters != null)
+        'DefaultSessionParameters': defaultSessionParameters,
       if (dlClass != null) 'DlClass': dlClass.value,
       if (participatingGateways != null)
         'ParticipatingGateways': participatingGateways,
@@ -8185,6 +8191,36 @@ class ParticipatingGatewaysMulticast {
       if (gatewayList != null) 'GatewayList': gatewayList,
       if (transmissionInterval != null)
         'TransmissionInterval': transmissionInterval,
+    };
+  }
+}
+
+/// The default session parameters for the multicast group.
+///
+/// @nodoc
+class DefaultSessionParametersMulticast {
+  final int? dlDr;
+  final int? dlFreq;
+
+  DefaultSessionParametersMulticast({
+    this.dlDr,
+    this.dlFreq,
+  });
+
+  factory DefaultSessionParametersMulticast.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultSessionParametersMulticast(
+      dlDr: json['DlDr'] as int?,
+      dlFreq: json['DlFreq'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dlDr = this.dlDr;
+    final dlFreq = this.dlFreq;
+    return {
+      if (dlDr != null) 'DlDr': dlDr,
+      if (dlFreq != null) 'DlFreq': dlFreq,
     };
   }
 }
@@ -13336,6 +13372,8 @@ class Accuracy {
 ///
 /// @nodoc
 class LoRaWANMulticastGet {
+  /// The default session parameters for the multicast group.
+  final DefaultSessionParametersMulticast? defaultSessionParameters;
   final DlClass? dlClass;
   final int? numberOfDevicesInGroup;
   final int? numberOfDevicesRequested;
@@ -13343,6 +13381,7 @@ class LoRaWANMulticastGet {
   final SupportedRfRegion? rfRegion;
 
   LoRaWANMulticastGet({
+    this.defaultSessionParameters,
     this.dlClass,
     this.numberOfDevicesInGroup,
     this.numberOfDevicesRequested,
@@ -13352,6 +13391,10 @@ class LoRaWANMulticastGet {
 
   factory LoRaWANMulticastGet.fromJson(Map<String, dynamic> json) {
     return LoRaWANMulticastGet(
+      defaultSessionParameters: json['DefaultSessionParameters'] != null
+          ? DefaultSessionParametersMulticast.fromJson(
+              json['DefaultSessionParameters'] as Map<String, dynamic>)
+          : null,
       dlClass: (json['DlClass'] as String?)?.let(DlClass.fromString),
       numberOfDevicesInGroup: json['NumberOfDevicesInGroup'] as int?,
       numberOfDevicesRequested: json['NumberOfDevicesRequested'] as int?,
@@ -13365,12 +13408,15 @@ class LoRaWANMulticastGet {
   }
 
   Map<String, dynamic> toJson() {
+    final defaultSessionParameters = this.defaultSessionParameters;
     final dlClass = this.dlClass;
     final numberOfDevicesInGroup = this.numberOfDevicesInGroup;
     final numberOfDevicesRequested = this.numberOfDevicesRequested;
     final participatingGateways = this.participatingGateways;
     final rfRegion = this.rfRegion;
     return {
+      if (defaultSessionParameters != null)
+        'DefaultSessionParameters': defaultSessionParameters,
       if (dlClass != null) 'DlClass': dlClass.value,
       if (numberOfDevicesInGroup != null)
         'NumberOfDevicesInGroup': numberOfDevicesInGroup,

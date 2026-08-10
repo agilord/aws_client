@@ -130,6 +130,75 @@ class Kafka {
     return BatchDisassociateScramSecretResponse.fromJson(response);
   }
 
+  /// Creates a Channel that streams records from an Amazon MSK Express cluster
+  /// topic to Amazon S3 or Apache Iceberg.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [channelName] :
+  /// The name of the channel. Must be unique within the cluster.
+  ///
+  /// Parameter [clusterArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  /// Parameter [topicConfigurationList] :
+  /// The list of topic configurations for the channel. Currently exactly one
+  /// topic must be specified.
+  ///
+  /// Parameter [encryptionConfiguration] :
+  /// The encryption configuration applied to the channel.
+  ///
+  /// Parameter [icebergDestinationConfiguration] :
+  /// The Apache Iceberg destination for the channel. Mutually exclusive with
+  /// s3DestinationConfiguration.
+  ///
+  /// Parameter [loggingInfo] :
+  /// The destinations to which the channel publishes operational logs.
+  ///
+  /// Parameter [s3DestinationConfiguration] :
+  /// The Amazon S3 destination for the channel. Mutually exclusive with
+  /// icebergDestinationConfiguration.
+  ///
+  /// Parameter [tags] :
+  /// The tags attached to the channel.
+  Future<CreateChannelResponse> createChannel({
+    required String channelName,
+    required String clusterArn,
+    required List<TopicConfiguration> topicConfigurationList,
+    EncryptionConfiguration? encryptionConfiguration,
+    IcebergDestinationConfiguration? icebergDestinationConfiguration,
+    ChannelLoggingInfo? loggingInfo,
+    S3DestinationConfiguration? s3DestinationConfiguration,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'channelName': channelName,
+      'topicConfigurationList': topicConfigurationList,
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (icebergDestinationConfiguration != null)
+        'icebergDestinationConfiguration': icebergDestinationConfiguration,
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (s3DestinationConfiguration != null)
+        's3DestinationConfiguration': s3DestinationConfiguration,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/channels',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateChannelResponse.fromJson(response);
+  }
+
   /// Creates a new MSK cluster.
   ///
   /// May throw [BadRequestException].
@@ -496,6 +565,37 @@ class Kafka {
     return CreateVpcConnectionResponse.fromJson(response);
   }
 
+  /// Deletes the channel specified by channelArn from the cluster specified by
+  /// clusterArn. The channel transitions through DELETING and is removed when
+  /// the asynchronous delete completes.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [channelArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  ///
+  /// Parameter [clusterArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  Future<DeleteChannelResponse> deleteChannel({
+    required String channelArn,
+    required String clusterArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/channels/${Uri.encodeComponent(channelArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteChannelResponse.fromJson(response);
+  }
+
   /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the
   /// request.
   ///
@@ -656,6 +756,35 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteVpcConnectionResponse.fromJson(response);
+  }
+
+  /// Returns the current configuration and state of a channel.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [channelArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  ///
+  /// Parameter [clusterArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  Future<DescribeChannelResponse> describeChannel({
+    required String channelArn,
+    required String clusterArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/channels/${Uri.encodeComponent(channelArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeChannelResponse.fromJson(response);
   }
 
   /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN)
@@ -1006,6 +1135,56 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return GetCompatibleKafkaVersionsResponse.fromJson(response);
+  }
+
+  /// Returns the list of channels in a cluster.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [clusterArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of channels to return in a single response.
+  ///
+  /// Parameter [nextToken] :
+  /// If the response of ListChannels is truncated, it returns a nextToken in
+  /// the response. This nextToken should be sent in the subsequent request to
+  /// ListChannels.
+  ///
+  /// Parameter [topicNameFilter] :
+  /// Filters results to channels whose topic name matches the specified value.
+  Future<ListChannelsResponse> listChannels({
+    required String clusterArn,
+    int? maxResults,
+    String? nextToken,
+    String? topicNameFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (topicNameFilter != null) 'topicNameFilter': [topicNameFilter],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/channels',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelsResponse.fromJson(response);
   }
 
   /// Returns a list of all the VPC connections in this Region.
@@ -1895,6 +2074,52 @@ class Kafka {
     return UpdateBrokerTypeResponse.fromJson(response);
   }
 
+  /// Updates the destination configuration of an existing channel. Exactly one
+  /// of icebergDestinationUpdate or s3DestinationUpdate must be supplied.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [channelArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  ///
+  /// Parameter [clusterArn] :
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  /// Parameter [icebergDestinationUpdate] :
+  /// Updates fields on an Apache Iceberg destination. Use only when the channel
+  /// was created with an Iceberg destination.
+  ///
+  /// Parameter [s3DestinationUpdate] :
+  /// Updates fields on an Amazon S3 destination. Use only when the channel was
+  /// created with an Amazon S3 destination.
+  Future<UpdateChannelResponse> updateChannel({
+    required String channelArn,
+    required String clusterArn,
+    IcebergDestinationUpdate? icebergDestinationUpdate,
+    S3DestinationUpdate? s3DestinationUpdate,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (icebergDestinationUpdate != null)
+        'icebergDestinationUpdate': icebergDestinationUpdate,
+      if (s3DestinationUpdate != null)
+        's3DestinationUpdate': s3DestinationUpdate,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/channels/${Uri.encodeComponent(channelArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateChannelResponse.fromJson(response);
+  }
+
   /// Updates the cluster with the configuration that is specified in the
   /// request body.
   ///
@@ -2430,6 +2655,40 @@ class BatchDisassociateScramSecretResponse {
   }
 }
 
+/// Returns the channel ARN and the cluster-operation ARN that tracks the
+/// asynchronous create.
+///
+/// @nodoc
+class CreateChannelResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  final String channelArn;
+
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  final String? clusterOperationArn;
+
+  CreateChannelResponse({
+    required this.channelArn,
+    this.clusterOperationArn,
+  });
+
+  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateChannelResponse(
+      channelArn: (json['channelArn'] as String?) ?? '',
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      'channelArn': channelArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
+}
+
 /// @nodoc
 class CreateClusterResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
@@ -2723,6 +2982,40 @@ class CreateVpcConnectionResponse {
   }
 }
 
+/// Returns the channel ARN and the cluster-operation ARN that tracks the
+/// asynchronous delete.
+///
+/// @nodoc
+class DeleteChannelResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  final String channelArn;
+
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  final String? clusterOperationArn;
+
+  DeleteChannelResponse({
+    required this.channelArn,
+    this.clusterOperationArn,
+  });
+
+  factory DeleteChannelResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteChannelResponse(
+      channelArn: (json['channelArn'] as String?) ?? '',
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      'channelArn': channelArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
+}
+
 /// @nodoc
 class DeleteClusterResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
@@ -2894,6 +3187,144 @@ class DeleteVpcConnectionResponse {
     return {
       if (state != null) 'state': state.value,
       if (vpcConnectionArn != null) 'vpcConnectionArn': vpcConnectionArn,
+    };
+  }
+}
+
+/// Contains the current configuration and state of a channel.
+///
+/// @nodoc
+class DescribeChannelResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  final String channelArn;
+
+  /// The name of the channel.
+  final String channelName;
+
+  /// The time when the channel was created.
+  final DateTime creationTime;
+
+  /// The type of destination configured for the channel.
+  final ChannelDestinationType destinationType;
+
+  /// The current lifecycle state of the channel.
+  final ChannelStatus status;
+
+  /// The list of topic configurations for the channel.
+  final List<TopicConfiguration> topicConfigurationList;
+
+  /// The Amazon Resource Name (ARN) of the in-flight cluster operation. Returned
+  /// only while the channel is in CREATING, UPDATING, or DELETING.
+  final String? clusterOperationArn;
+
+  /// The encryption configuration applied to the channel.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// The Apache Iceberg destination for the channel, if configured.
+  final IcebergDestinationConfiguration? icebergDestinationConfiguration;
+
+  /// The destinations to which the channel publishes operational logs.
+  final ChannelLoggingInfo? loggingInfo;
+
+  /// The Amazon S3 destination for the channel, if configured.
+  final S3DestinationConfiguration? s3DestinationConfiguration;
+
+  /// Additional context for the current channel state, populated when the channel
+  /// is in FAILED.
+  final ChannelStateInfo? stateInfo;
+
+  /// The tags attached to the channel.
+  final Map<String, String>? tags;
+
+  DescribeChannelResponse({
+    required this.channelArn,
+    required this.channelName,
+    required this.creationTime,
+    required this.destinationType,
+    required this.status,
+    required this.topicConfigurationList,
+    this.clusterOperationArn,
+    this.encryptionConfiguration,
+    this.icebergDestinationConfiguration,
+    this.loggingInfo,
+    this.s3DestinationConfiguration,
+    this.stateInfo,
+    this.tags,
+  });
+
+  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeChannelResponse(
+      channelArn: (json['channelArn'] as String?) ?? '',
+      channelName: (json['channelName'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destinationType: ChannelDestinationType.fromString(
+          (json['destinationType'] as String?) ?? ''),
+      status: ChannelStatus.fromString((json['status'] as String?) ?? ''),
+      topicConfigurationList: ((json['topicConfigurationList'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => TopicConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      icebergDestinationConfiguration:
+          json['icebergDestinationConfiguration'] != null
+              ? IcebergDestinationConfiguration.fromJson(
+                  json['icebergDestinationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      loggingInfo: json['loggingInfo'] != null
+          ? ChannelLoggingInfo.fromJson(
+              json['loggingInfo'] as Map<String, dynamic>)
+          : null,
+      s3DestinationConfiguration: json['s3DestinationConfiguration'] != null
+          ? S3DestinationConfiguration.fromJson(
+              json['s3DestinationConfiguration'] as Map<String, dynamic>)
+          : null,
+      stateInfo: json['stateInfo'] != null
+          ? ChannelStateInfo.fromJson(json['stateInfo'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelName = this.channelName;
+    final creationTime = this.creationTime;
+    final destinationType = this.destinationType;
+    final status = this.status;
+    final topicConfigurationList = this.topicConfigurationList;
+    final clusterOperationArn = this.clusterOperationArn;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final icebergDestinationConfiguration =
+        this.icebergDestinationConfiguration;
+    final loggingInfo = this.loggingInfo;
+    final s3DestinationConfiguration = this.s3DestinationConfiguration;
+    final stateInfo = this.stateInfo;
+    final tags = this.tags;
+    return {
+      'channelArn': channelArn,
+      'channelName': channelName,
+      'creationTime': iso8601ToJson(creationTime),
+      'destinationType': destinationType.value,
+      'status': status.value,
+      'topicConfigurationList': topicConfigurationList,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (icebergDestinationConfiguration != null)
+        'icebergDestinationConfiguration': icebergDestinationConfiguration,
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (s3DestinationConfiguration != null)
+        's3DestinationConfiguration': s3DestinationConfiguration,
+      if (stateInfo != null) 'stateInfo': stateInfo,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -3667,6 +4098,43 @@ class GetCompatibleKafkaVersionsResponse {
   }
 }
 
+/// Returns the list of channels in the cluster.
+///
+/// @nodoc
+class ListChannelsResponse {
+  /// The list of channels in the cluster.
+  final List<ChannelInfo>? channels;
+
+  /// If the response from ListChannels is truncated, this token is included. Send
+  /// it as the nextToken parameter on a subsequent ListChannels call to retrieve
+  /// the next page.
+  final String? nextToken;
+
+  ListChannelsResponse({
+    this.channels,
+    this.nextToken,
+  });
+
+  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelsResponse(
+      channels: (json['channels'] as List?)
+          ?.nonNulls
+          .map((e) => ChannelInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channels = this.channels;
+    final nextToken = this.nextToken;
+    return {
+      if (channels != null) 'channels': channels,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 /// @nodoc
 class ListClientVpcConnectionsResponse {
   /// List of client VPC connections.
@@ -4296,6 +4764,40 @@ class UpdateBrokerTypeResponse {
     final clusterOperationArn = this.clusterOperationArn;
     return {
       if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
+}
+
+/// Returns the channel ARN and the cluster-operation ARN that tracks the
+/// asynchronous update.
+///
+/// @nodoc
+class UpdateChannelResponse {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  final String channelArn;
+
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  final String? clusterOperationArn;
+
+  UpdateChannelResponse({
+    required this.channelArn,
+    this.clusterOperationArn,
+  });
+
+  factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateChannelResponse(
+      channelArn: (json['channelArn'] as String?) ?? '',
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      'channelArn': channelArn,
       if (clusterOperationArn != null)
         'clusterOperationArn': clusterOperationArn,
     };
@@ -5471,8 +5973,13 @@ class OpenMonitoringInfo {
 class LoggingInfo {
   final BrokerLogs brokerLogs;
 
+  /// You can configure your MSK cluster to send authorizer logs to different
+  /// destination types.
+  final AuthorizerLogs? authorizerLogs;
+
   LoggingInfo({
     required this.brokerLogs,
+    this.authorizerLogs,
   });
 
   factory LoggingInfo.fromJson(Map<String, dynamic> json) {
@@ -5480,13 +5987,66 @@ class LoggingInfo {
       brokerLogs: BrokerLogs.fromJson(
           (json['brokerLogs'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      authorizerLogs: json['authorizerLogs'] != null
+          ? AuthorizerLogs.fromJson(
+              json['authorizerLogs'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final brokerLogs = this.brokerLogs;
+    final authorizerLogs = this.authorizerLogs;
     return {
       'brokerLogs': brokerLogs,
+      if (authorizerLogs != null) 'authorizerLogs': authorizerLogs,
+    };
+  }
+}
+
+/// The authorizer logs configuration for this MSK cluster.
+///
+/// @nodoc
+class AuthorizerLogs {
+  /// Details of the CloudWatch Logs destination for authorizer logs.
+  final CloudWatchLogs? cloudWatchLogs;
+
+  /// Details of the Kinesis Data Firehose delivery stream that is the destination
+  /// for authorizer logs.
+  final Firehose? firehose;
+
+  /// Details of the Amazon S3 destination for authorizer logs.
+  final S3? s3;
+
+  AuthorizerLogs({
+    this.cloudWatchLogs,
+    this.firehose,
+    this.s3,
+  });
+
+  factory AuthorizerLogs.fromJson(Map<String, dynamic> json) {
+    return AuthorizerLogs(
+      cloudWatchLogs: json['cloudWatchLogs'] != null
+          ? CloudWatchLogs.fromJson(
+              json['cloudWatchLogs'] as Map<String, dynamic>)
+          : null,
+      firehose: json['firehose'] != null
+          ? Firehose.fromJson(json['firehose'] as Map<String, dynamic>)
+          : null,
+      s3: json['s3'] != null
+          ? S3.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogs = this.cloudWatchLogs;
+    final firehose = this.firehose;
+    final s3 = this.s3;
+    return {
+      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
+      if (firehose != null) 'firehose': firehose,
+      if (s3 != null) 's3': s3,
     };
   }
 }
@@ -6076,6 +6636,46 @@ class ConfigurationInfo {
     return {
       'arn': arn,
       'revision': revision,
+    };
+  }
+}
+
+/// Update payload for an Apache Iceberg destination.
+///
+/// @nodoc
+class IcebergDestinationUpdate {
+  /// The maximum time, in seconds, that records buffer in MSK before being
+  /// flushed to the destination. Allowed range: 300 to 900.
+  final int dataFreshnessInSeconds;
+
+  IcebergDestinationUpdate({
+    required this.dataFreshnessInSeconds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataFreshnessInSeconds = this.dataFreshnessInSeconds;
+    return {
+      'dataFreshnessInSeconds': dataFreshnessInSeconds,
+    };
+  }
+}
+
+/// Update payload for an Amazon S3 destination.
+///
+/// @nodoc
+class S3DestinationUpdate {
+  /// The maximum time, in seconds, that records buffer in MSK before being
+  /// flushed to the destination. Allowed range: 300 to 900.
+  final int dataFreshnessInSeconds;
+
+  S3DestinationUpdate({
+    required this.dataFreshnessInSeconds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataFreshnessInSeconds = this.dataFreshnessInSeconds;
+    return {
+      'dataFreshnessInSeconds': dataFreshnessInSeconds,
     };
   }
 }
@@ -8655,6 +9255,137 @@ class ClientVpcConnection {
   }
 }
 
+/// Summary information about a channel returned by ListChannels.
+///
+/// @nodoc
+class ChannelInfo {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+  final String channelArn;
+
+  /// The name of the channel.
+  final String channelName;
+
+  /// The time when the channel was created.
+  final DateTime creationTime;
+
+  /// The type of destination configured for the channel.
+  final ChannelDestinationType destinationType;
+
+  /// The current lifecycle state of the channel.
+  final ChannelStatus status;
+
+  /// The Amazon Resource Name (ARN) of the in-flight cluster operation. Returned
+  /// only while the channel is in CREATING, UPDATING, or DELETING.
+  final String? clusterOperationArn;
+
+  ChannelInfo({
+    required this.channelArn,
+    required this.channelName,
+    required this.creationTime,
+    required this.destinationType,
+    required this.status,
+    this.clusterOperationArn,
+  });
+
+  factory ChannelInfo.fromJson(Map<String, dynamic> json) {
+    return ChannelInfo(
+      channelArn: (json['channelArn'] as String?) ?? '',
+      channelName: (json['channelName'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destinationType: ChannelDestinationType.fromString(
+          (json['destinationType'] as String?) ?? ''),
+      status: ChannelStatus.fromString((json['status'] as String?) ?? ''),
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelName = this.channelName;
+    final creationTime = this.creationTime;
+    final destinationType = this.destinationType;
+    final status = this.status;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      'channelArn': channelArn,
+      'channelName': channelName,
+      'creationTime': iso8601ToJson(creationTime),
+      'destinationType': destinationType.value,
+      'status': status.value,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
+}
+
+/// The lifecycle state of a channel.
+///
+/// @nodoc
+class ChannelStatus {
+  static const creating = ChannelStatus._('CREATING');
+  static const active = ChannelStatus._('ACTIVE');
+  static const updating = ChannelStatus._('UPDATING');
+  static const deleting = ChannelStatus._('DELETING');
+  static const failed = ChannelStatus._('FAILED');
+  static const suspending = ChannelStatus._('SUSPENDING');
+  static const suspended = ChannelStatus._('SUSPENDED');
+
+  final String value;
+
+  const ChannelStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    deleting,
+    failed,
+    suspending,
+    suspended
+  ];
+
+  static ChannelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The type of destination configured for the channel.
+///
+/// @nodoc
+class ChannelDestinationType {
+  static const iceberg = ChannelDestinationType._('ICEBERG');
+  static const s3 = ChannelDestinationType._('S3');
+
+  final String value;
+
+  const ChannelDestinationType._(this.value);
+
+  static const values = [iceberg, s3];
+
+  static ChannelDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Contains source Apache Kafka versions and compatible target Apache Kafka
 /// versions.
 ///
@@ -9297,25 +10028,36 @@ class KafkaClusterClientVpcConfig {
 ///
 /// @nodoc
 class KafkaClusterClientAuthentication {
+  /// Details for mTLS client authentication.
+  final KafkaClusterMTLSAuthentication? mtls;
+
   /// Details for SASL/SCRAM client authentication.
-  final KafkaClusterSaslScramAuthentication saslScram;
+  final KafkaClusterSaslScramAuthentication? saslScram;
 
   KafkaClusterClientAuthentication({
-    required this.saslScram,
+    this.mtls,
+    this.saslScram,
   });
 
   factory KafkaClusterClientAuthentication.fromJson(Map<String, dynamic> json) {
     return KafkaClusterClientAuthentication(
-      saslScram: KafkaClusterSaslScramAuthentication.fromJson(
-          (json['saslScram'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+      mtls: json['mTLS'] != null
+          ? KafkaClusterMTLSAuthentication.fromJson(
+              json['mTLS'] as Map<String, dynamic>)
+          : null,
+      saslScram: json['saslScram'] != null
+          ? KafkaClusterSaslScramAuthentication.fromJson(
+              json['saslScram'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final mtls = this.mtls;
     final saslScram = this.saslScram;
     return {
-      'saslScram': saslScram,
+      if (mtls != null) 'mTLS': mtls,
+      if (saslScram != null) 'saslScram': saslScram,
     };
   }
 }
@@ -9409,6 +10151,31 @@ class KafkaClusterSaslScramAuthentication {
     final secretArn = this.secretArn;
     return {
       'mechanism': mechanism.value,
+      'secretArn': secretArn,
+    };
+  }
+}
+
+/// Details for mTLS client authentication.
+///
+/// @nodoc
+class KafkaClusterMTLSAuthentication {
+  /// The Amazon Resource Name (ARN) of the Secrets Manager secret.
+  final String secretArn;
+
+  KafkaClusterMTLSAuthentication({
+    required this.secretArn,
+  });
+
+  factory KafkaClusterMTLSAuthentication.fromJson(Map<String, dynamic> json) {
+    return KafkaClusterMTLSAuthentication(
+      secretArn: (json['secretArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    return {
       'secretArn': secretArn,
     };
   }
@@ -9693,6 +10460,817 @@ class VpcConnectionInfoServerless {
       if (owner != null) 'owner': owner,
       if (userIdentity != null) 'userIdentity': userIdentity,
       if (vpcConnectionArn != null) 'vpcConnectionArn': vpcConnectionArn,
+    };
+  }
+}
+
+/// The AWS KMS encryption configuration applied to data at rest.
+///
+/// @nodoc
+class EncryptionConfiguration {
+  /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the data.
+  final String kmsKeyArn;
+
+  EncryptionConfiguration({
+    required this.kmsKeyArn,
+  });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      kmsKeyArn: (json['kmsKeyArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// Configuration of an Apache Iceberg destination for a channel.
+///
+/// @nodoc
+class IcebergDestinationConfiguration {
+  /// Whether the destination is append-only. Must be true; updates and deletes
+  /// are not supported.
+  final bool appendOnly;
+
+  /// The Amazon S3 bucket and prefix where MSK writes records that fail to
+  /// deliver.
+  final DeadLetterQueueS3 deadLetterQueueS3;
+
+  /// The destination Iceberg tables. Currently exactly one table must be
+  /// specified.
+  final List<DestinationTable> destinationTableList;
+
+  /// Configuration controlling whether the destination table's schema is evolved
+  /// to match incoming records.
+  final SchemaEvolution schemaEvolution;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that MSK assumes to access
+  /// the destination table, the AWS Glue Data Catalog, and the dead-letter Amazon
+  /// S3 bucket.
+  final String serviceExecutionRoleArn;
+
+  /// Configuration controlling whether MSK creates the destination table if it
+  /// does not already exist.
+  final TableCreation tableCreation;
+
+  /// The AWS Glue Data Catalog and S3 Tables warehouse used by the destination.
+  final Catalog? catalog;
+
+  /// The compression codec for Iceberg table data files. Defaults to ZSTD.
+  final IcebergCompressionType? compressionType;
+
+  /// The maximum time, in seconds, that records buffer in MSK before being
+  /// flushed to the destination. Allowed range: 300 to 900. Default: 600.
+  final int? dataFreshnessInSeconds;
+
+  IcebergDestinationConfiguration({
+    required this.appendOnly,
+    required this.deadLetterQueueS3,
+    required this.destinationTableList,
+    required this.schemaEvolution,
+    required this.serviceExecutionRoleArn,
+    required this.tableCreation,
+    this.catalog,
+    this.compressionType,
+    this.dataFreshnessInSeconds,
+  });
+
+  factory IcebergDestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return IcebergDestinationConfiguration(
+      appendOnly: (json['appendOnly'] as bool?) ?? false,
+      deadLetterQueueS3: DeadLetterQueueS3.fromJson(
+          (json['deadLetterQueueS3'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      destinationTableList:
+          ((json['destinationTableList'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => DestinationTable.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      schemaEvolution: SchemaEvolution.fromJson(
+          (json['schemaEvolution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      serviceExecutionRoleArn:
+          (json['serviceExecutionRoleArn'] as String?) ?? '',
+      tableCreation: TableCreation.fromJson(
+          (json['tableCreation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      catalog: json['catalog'] != null
+          ? Catalog.fromJson(json['catalog'] as Map<String, dynamic>)
+          : null,
+      compressionType: (json['compressionType'] as String?)
+          ?.let(IcebergCompressionType.fromString),
+      dataFreshnessInSeconds: json['dataFreshnessInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appendOnly = this.appendOnly;
+    final deadLetterQueueS3 = this.deadLetterQueueS3;
+    final destinationTableList = this.destinationTableList;
+    final schemaEvolution = this.schemaEvolution;
+    final serviceExecutionRoleArn = this.serviceExecutionRoleArn;
+    final tableCreation = this.tableCreation;
+    final catalog = this.catalog;
+    final compressionType = this.compressionType;
+    final dataFreshnessInSeconds = this.dataFreshnessInSeconds;
+    return {
+      'appendOnly': appendOnly,
+      'deadLetterQueueS3': deadLetterQueueS3,
+      'destinationTableList': destinationTableList,
+      'schemaEvolution': schemaEvolution,
+      'serviceExecutionRoleArn': serviceExecutionRoleArn,
+      'tableCreation': tableCreation,
+      if (catalog != null) 'catalog': catalog,
+      if (compressionType != null) 'compressionType': compressionType.value,
+      if (dataFreshnessInSeconds != null)
+        'dataFreshnessInSeconds': dataFreshnessInSeconds,
+    };
+  }
+}
+
+/// Configuration of an Amazon S3 destination for a channel.
+///
+/// @nodoc
+class S3DestinationConfiguration {
+  /// The Amazon S3 bucket and prefix where MSK writes records that fail to
+  /// deliver.
+  final DeadLetterQueueS3 deadLetterQueueS3;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that MSK assumes to write to
+  /// the destination Amazon S3 bucket and the dead-letter bucket.
+  final String serviceExecutionRoleArn;
+
+  /// The Amazon S3 bucket, prefix, and storage class for delivered records.
+  final S3Storage storage;
+
+  /// The maximum time, in seconds, that records buffer in MSK before being
+  /// flushed to the destination. Allowed range: 300 to 900. Default: 600.
+  final int? dataFreshnessInSeconds;
+
+  S3DestinationConfiguration({
+    required this.deadLetterQueueS3,
+    required this.serviceExecutionRoleArn,
+    required this.storage,
+    this.dataFreshnessInSeconds,
+  });
+
+  factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3DestinationConfiguration(
+      deadLetterQueueS3: DeadLetterQueueS3.fromJson(
+          (json['deadLetterQueueS3'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      serviceExecutionRoleArn:
+          (json['serviceExecutionRoleArn'] as String?) ?? '',
+      storage: S3Storage.fromJson((json['storage'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      dataFreshnessInSeconds: json['dataFreshnessInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deadLetterQueueS3 = this.deadLetterQueueS3;
+    final serviceExecutionRoleArn = this.serviceExecutionRoleArn;
+    final storage = this.storage;
+    final dataFreshnessInSeconds = this.dataFreshnessInSeconds;
+    return {
+      'deadLetterQueueS3': deadLetterQueueS3,
+      'serviceExecutionRoleArn': serviceExecutionRoleArn,
+      'storage': storage,
+      if (dataFreshnessInSeconds != null)
+        'dataFreshnessInSeconds': dataFreshnessInSeconds,
+    };
+  }
+}
+
+/// Configuration for the destinations to which the channel publishes
+/// operational logs.
+///
+/// @nodoc
+class ChannelLoggingInfo {
+  /// Details of the CloudWatch Logs destination for Channel logs.
+  final CloudWatchLogs? cloudWatchLogs;
+
+  /// Details of the Kinesis Data Firehose delivery stream that is the destination
+  /// for Channel logs.
+  final Firehose? firehose;
+
+  /// Details of the Amazon S3 destination for Channel logs.
+  final S3? s3;
+
+  ChannelLoggingInfo({
+    this.cloudWatchLogs,
+    this.firehose,
+    this.s3,
+  });
+
+  factory ChannelLoggingInfo.fromJson(Map<String, dynamic> json) {
+    return ChannelLoggingInfo(
+      cloudWatchLogs: json['cloudWatchLogs'] != null
+          ? CloudWatchLogs.fromJson(
+              json['cloudWatchLogs'] as Map<String, dynamic>)
+          : null,
+      firehose: json['firehose'] != null
+          ? Firehose.fromJson(json['firehose'] as Map<String, dynamic>)
+          : null,
+      s3: json['s3'] != null
+          ? S3.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogs = this.cloudWatchLogs;
+    final firehose = this.firehose;
+    final s3 = this.s3;
+    return {
+      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
+      if (firehose != null) 'firehose': firehose,
+      if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+/// Additional context for the current channel state, populated when the channel
+/// is in FAILED.
+///
+/// @nodoc
+class ChannelStateInfo {
+  /// A short, machine-readable code identifying the failure cause.
+  final String? code;
+
+  /// A human-readable message describing the failure.
+  final String? message;
+
+  ChannelStateInfo({
+    this.code,
+    this.message,
+  });
+
+  factory ChannelStateInfo.fromJson(Map<String, dynamic> json) {
+    return ChannelStateInfo(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// Configuration of an Apache Kafka topic that feeds a channel.
+///
+/// @nodoc
+class TopicConfiguration {
+  /// Configuration that controls how Apache Kafka record values are deserialized
+  /// for the destination.
+  final RecordConverter recordConverter;
+
+  /// The Amazon Resource Name (ARN) that uniquely identifies the topic.
+  final String topicArn;
+
+  /// The schema used to validate records when the value converter requires one
+  /// (for example, JSON_SCHEMA_GSR).
+  final RecordSchema? recordSchema;
+
+  TopicConfiguration({
+    required this.recordConverter,
+    required this.topicArn,
+    this.recordSchema,
+  });
+
+  factory TopicConfiguration.fromJson(Map<String, dynamic> json) {
+    return TopicConfiguration(
+      recordConverter: RecordConverter.fromJson(
+          (json['recordConverter'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      topicArn: (json['topicArn'] as String?) ?? '',
+      recordSchema: json['recordSchema'] != null
+          ? RecordSchema.fromJson(json['recordSchema'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordConverter = this.recordConverter;
+    final topicArn = this.topicArn;
+    final recordSchema = this.recordSchema;
+    return {
+      'recordConverter': recordConverter,
+      'topicArn': topicArn,
+      if (recordSchema != null) 'recordSchema': recordSchema,
+    };
+  }
+}
+
+/// Configuration that controls how Apache Kafka record values are deserialized
+/// for the destination.
+///
+/// @nodoc
+class RecordConverter {
+  /// The deserialization format applied to Apache Kafka record values.
+  final ValueConverter valueConverter;
+
+  RecordConverter({
+    required this.valueConverter,
+  });
+
+  factory RecordConverter.fromJson(Map<String, dynamic> json) {
+    return RecordConverter(
+      valueConverter:
+          ValueConverter.fromString((json['valueConverter'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final valueConverter = this.valueConverter;
+    return {
+      'valueConverter': valueConverter.value,
+    };
+  }
+}
+
+/// Schema configuration that controls how Apache Kafka record values are
+/// validated.
+///
+/// @nodoc
+class RecordSchema {
+  /// The Amazon Resource Name (ARN) of the AWS Glue Schema Registry schema (not
+  /// registry) used to validate records for the destination Apache Iceberg table.
+  final String gsrArn;
+
+  RecordSchema({
+    required this.gsrArn,
+  });
+
+  factory RecordSchema.fromJson(Map<String, dynamic> json) {
+    return RecordSchema(
+      gsrArn: (json['gsrArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gsrArn = this.gsrArn;
+    return {
+      'gsrArn': gsrArn,
+    };
+  }
+}
+
+/// The deserialization format applied to Apache Kafka record values.
+///
+/// @nodoc
+class ValueConverter {
+  static const byteArray = ValueConverter._('BYTE_ARRAY');
+  static const json = ValueConverter._('JSON');
+  static const jsonSchemaGsr = ValueConverter._('JSON_SCHEMA_GSR');
+  static const string = ValueConverter._('STRING');
+
+  final String value;
+
+  const ValueConverter._(this.value);
+
+  static const values = [byteArray, json, jsonSchemaGsr, string];
+
+  static ValueConverter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValueConverter._(value));
+
+  @override
+  bool operator ==(other) => other is ValueConverter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration of the Amazon S3 bucket where records that fail to deliver are
+/// stored.
+///
+/// @nodoc
+class DeadLetterQueueS3 {
+  /// The Amazon Resource Name (ARN) of the dead-letter Amazon S3 bucket.
+  final String bucketArn;
+
+  /// An optional prefix prepended to every dead-letter Amazon S3 object key.
+  final String? errorOutputPrefix;
+
+  /// Optional 12-digit AWS account ID expected to own the dead-letter Amazon S3
+  /// bucket.
+  final String? expectedBucketOwner;
+
+  DeadLetterQueueS3({
+    required this.bucketArn,
+    this.errorOutputPrefix,
+    this.expectedBucketOwner,
+  });
+
+  factory DeadLetterQueueS3.fromJson(Map<String, dynamic> json) {
+    return DeadLetterQueueS3(
+      bucketArn: (json['bucketArn'] as String?) ?? '',
+      errorOutputPrefix: json['errorOutputPrefix'] as String?,
+      expectedBucketOwner: json['expectedBucketOwner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    return {
+      'bucketArn': bucketArn,
+      if (errorOutputPrefix != null) 'errorOutputPrefix': errorOutputPrefix,
+      if (expectedBucketOwner != null)
+        'expectedBucketOwner': expectedBucketOwner,
+    };
+  }
+}
+
+/// Storage configuration for an Amazon S3 destination bucket.
+///
+/// @nodoc
+class S3Storage {
+  /// The Amazon Resource Name (ARN) of the destination Amazon S3 bucket.
+  final String bucketArn;
+
+  /// The compression codec applied to delivered Amazon S3 objects.
+  final S3CompressionType compressionType;
+
+  /// The Amazon S3 storage class for delivered objects.
+  final S3StorageClass storageClass;
+
+  /// Optional 12-digit AWS account ID expected to own the Amazon S3 bucket.
+  final String? expectedBucketOwner;
+
+  /// An optional template that controls the Amazon S3 object key for each
+  /// delivered record. Supports the placeholders !{partition-id},
+  /// !{sequence-number}, and !{kafka-offset}.
+  final String? outputKeyTemplate;
+
+  /// An optional prefix prepended to every Amazon S3 object key written by the
+  /// channel.
+  final String? outputPrefix;
+
+  S3Storage({
+    required this.bucketArn,
+    required this.compressionType,
+    required this.storageClass,
+    this.expectedBucketOwner,
+    this.outputKeyTemplate,
+    this.outputPrefix,
+  });
+
+  factory S3Storage.fromJson(Map<String, dynamic> json) {
+    return S3Storage(
+      bucketArn: (json['bucketArn'] as String?) ?? '',
+      compressionType: S3CompressionType.fromString(
+          (json['compressionType'] as String?) ?? ''),
+      storageClass:
+          S3StorageClass.fromString((json['storageClass'] as String?) ?? ''),
+      expectedBucketOwner: json['expectedBucketOwner'] as String?,
+      outputKeyTemplate: json['outputKeyTemplate'] as String?,
+      outputPrefix: json['outputPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final compressionType = this.compressionType;
+    final storageClass = this.storageClass;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final outputKeyTemplate = this.outputKeyTemplate;
+    final outputPrefix = this.outputPrefix;
+    return {
+      'bucketArn': bucketArn,
+      'compressionType': compressionType.value,
+      'storageClass': storageClass.value,
+      if (expectedBucketOwner != null)
+        'expectedBucketOwner': expectedBucketOwner,
+      if (outputKeyTemplate != null) 'outputKeyTemplate': outputKeyTemplate,
+      if (outputPrefix != null) 'outputPrefix': outputPrefix,
+    };
+  }
+}
+
+/// The compression codec applied to delivered Amazon S3 objects.
+///
+/// @nodoc
+class S3CompressionType {
+  static const none = S3CompressionType._('NONE');
+  static const gzip = S3CompressionType._('GZIP');
+  static const zstd = S3CompressionType._('ZSTD');
+
+  final String value;
+
+  const S3CompressionType._(this.value);
+
+  static const values = [none, gzip, zstd];
+
+  static S3CompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3CompressionType._(value));
+
+  @override
+  bool operator ==(other) => other is S3CompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon S3 storage class applied to delivered objects.
+///
+/// @nodoc
+class S3StorageClass {
+  static const standard = S3StorageClass._('STANDARD');
+  static const intelligentTiering = S3StorageClass._('INTELLIGENT_TIERING');
+  static const glacierIr = S3StorageClass._('GLACIER_IR');
+
+  final String value;
+
+  const S3StorageClass._(this.value);
+
+  static const values = [standard, intelligentTiering, glacierIr];
+
+  static S3StorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3StorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is S3StorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration of the AWS Glue Data Catalog and S3 Tables warehouse used by
+/// the Apache Iceberg destination.
+///
+/// @nodoc
+class Catalog {
+  /// The Amazon Resource Name (ARN) of the federated AWS Glue Data Catalog that
+  /// projects the S3 Tables bucket. If omitted, MSK derives the catalog ARN from
+  /// warehouseLocation.
+  final String? catalogArn;
+
+  /// The Amazon Resource Name (ARN) of the S3 Tables bucket that backs the Apache
+  /// Iceberg warehouse.
+  final String? warehouseLocation;
+
+  Catalog({
+    this.catalogArn,
+    this.warehouseLocation,
+  });
+
+  factory Catalog.fromJson(Map<String, dynamic> json) {
+    return Catalog(
+      catalogArn: json['catalogArn'] as String?,
+      warehouseLocation: json['warehouseLocation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogArn = this.catalogArn;
+    final warehouseLocation = this.warehouseLocation;
+    return {
+      if (catalogArn != null) 'catalogArn': catalogArn,
+      if (warehouseLocation != null) 'warehouseLocation': warehouseLocation,
+    };
+  }
+}
+
+/// Configuration controlling whether the Apache Iceberg destination table's
+/// schema is evolved as incoming records change.
+///
+/// @nodoc
+class SchemaEvolution {
+  /// Whether to allow MSK to evolve the destination table's schema. Must be false
+  /// for the current release.
+  final bool? enableSchemaEvolution;
+
+  SchemaEvolution({
+    this.enableSchemaEvolution,
+  });
+
+  factory SchemaEvolution.fromJson(Map<String, dynamic> json) {
+    return SchemaEvolution(
+      enableSchemaEvolution: json['enableSchemaEvolution'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableSchemaEvolution = this.enableSchemaEvolution;
+    return {
+      if (enableSchemaEvolution != null)
+        'enableSchemaEvolution': enableSchemaEvolution,
+    };
+  }
+}
+
+/// Configuration controlling whether MSK creates the destination Apache Iceberg
+/// table if it does not already exist.
+///
+/// @nodoc
+class TableCreation {
+  /// Whether MSK creates the destination table on the customer's behalf. Must be
+  /// true for the current release.
+  final bool? enableTableCreation;
+
+  TableCreation({
+    this.enableTableCreation,
+  });
+
+  factory TableCreation.fromJson(Map<String, dynamic> json) {
+    return TableCreation(
+      enableTableCreation: json['enableTableCreation'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableTableCreation = this.enableTableCreation;
+    return {
+      if (enableTableCreation != null)
+        'enableTableCreation': enableTableCreation,
+    };
+  }
+}
+
+/// Compression codec for Iceberg table data files. Defaults to ZSTD.
+///
+/// @nodoc
+class IcebergCompressionType {
+  static const zstd = IcebergCompressionType._('ZSTD');
+  static const snappy = IcebergCompressionType._('SNAPPY');
+
+  final String value;
+
+  const IcebergCompressionType._(this.value);
+
+  static const values = [zstd, snappy];
+
+  static IcebergCompressionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IcebergCompressionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IcebergCompressionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration of an Apache Iceberg destination table.
+///
+/// @nodoc
+class DestinationTable {
+  /// The name of the destination namespace (database) in the AWS Glue Data
+  /// Catalog.
+  final String? destinationDatabaseName;
+
+  /// The name of the destination Apache Iceberg table.
+  final String? destinationTableName;
+
+  /// The partition specification for the destination table.
+  final PartitionSpec? partitionSpec;
+
+  DestinationTable({
+    this.destinationDatabaseName,
+    this.destinationTableName,
+    this.partitionSpec,
+  });
+
+  factory DestinationTable.fromJson(Map<String, dynamic> json) {
+    return DestinationTable(
+      destinationDatabaseName: json['destinationDatabaseName'] as String?,
+      destinationTableName: json['destinationTableName'] as String?,
+      partitionSpec: json['partitionSpec'] != null
+          ? PartitionSpec.fromJson(
+              json['partitionSpec'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationDatabaseName = this.destinationDatabaseName;
+    final destinationTableName = this.destinationTableName;
+    final partitionSpec = this.partitionSpec;
+    return {
+      if (destinationDatabaseName != null)
+        'destinationDatabaseName': destinationDatabaseName,
+      if (destinationTableName != null)
+        'destinationTableName': destinationTableName,
+      if (partitionSpec != null) 'partitionSpec': partitionSpec,
+    };
+  }
+}
+
+/// Partition specification for an Apache Iceberg destination table.
+///
+/// @nodoc
+class PartitionSpec {
+  /// The partitioning strategy applied to records written to the table.
+  final PartitionStrategy partitionStrategy;
+
+  /// The source columns used by the partitioning strategy. For TIME_HOUR, must
+  /// contain exactly one source column whose value is a timestamp.
+  final List<PartitionSource>? sourceList;
+
+  PartitionSpec({
+    required this.partitionStrategy,
+    this.sourceList,
+  });
+
+  factory PartitionSpec.fromJson(Map<String, dynamic> json) {
+    return PartitionSpec(
+      partitionStrategy: PartitionStrategy.fromString(
+          (json['partitionStrategy'] as String?) ?? ''),
+      sourceList: (json['sourceList'] as List?)
+          ?.nonNulls
+          .map((e) => PartitionSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final partitionStrategy = this.partitionStrategy;
+    final sourceList = this.sourceList;
+    return {
+      'partitionStrategy': partitionStrategy.value,
+      if (sourceList != null) 'sourceList': sourceList,
+    };
+  }
+}
+
+/// The partitioning strategy used to partition records in the destination
+/// Apache Iceberg table.
+///
+/// @nodoc
+class PartitionStrategy {
+  static const timeHour = PartitionStrategy._('TIME_HOUR');
+
+  final String value;
+
+  const PartitionStrategy._(this.value);
+
+  static const values = [timeHour];
+
+  static PartitionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartitionStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is PartitionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A source column used by an Apache Iceberg destination table's partition
+/// specification.
+///
+/// @nodoc
+class PartitionSource {
+  /// Source name.
+  final String? sourceName;
+
+  PartitionSource({
+    this.sourceName,
+  });
+
+  factory PartitionSource.fromJson(Map<String, dynamic> json) {
+    return PartitionSource(
+      sourceName: json['sourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceName = this.sourceName;
+    return {
+      if (sourceName != null) 'sourceName': sourceName,
     };
   }
 }

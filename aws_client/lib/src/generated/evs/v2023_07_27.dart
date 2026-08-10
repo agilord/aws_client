@@ -197,20 +197,23 @@ class Evs {
 
   /// Creates an Amazon EVS environment that runs VCF software, such as SDDC
   /// Manager, NSX Manager, and vCenter Server.
-  ///
-  /// During environment creation, Amazon EVS performs validations on DNS
-  /// settings, provisions VLAN subnets and hosts, and deploys the supplied
-  /// version of VCF.
-  ///
-  /// It can take several hours to create an environment. After the deployment
-  /// completes, you can configure VCF in the vSphere user interface according
-  /// to your needs.
+  /// <note>
+  /// When you specify <code>SELF_DEPLOYED</code> for <code>vcfVersion</code>,
+  /// Amazon EVS provisions only the VLAN subnets; no hosts are added and no VCF
+  /// installation is performed. After the environment is created, you can add
+  /// hosts with <code>CreateEnvironmentHost</code> and install VCF yourself.
+  /// The <code>licenseInfo</code>, <code>hosts</code>,
+  /// <code>vcfHostnames</code>, <code>siteId</code>, and
+  /// <code>connectivityInfo</code> parameters are not supported in this mode.
+  /// </note>
+  /// When you specify any other VCF version, Amazon EVS installs and configures
+  /// VCF for you. For more information, see <a
+  /// href="https://docs.aws.amazon.com/evs/latest/userguide/getting-started-self-deployed.html">Self-deployed
+  /// mode</a> in the <i>Amazon EVS User Guide</i>.
   /// <important>
-  /// When creating a new environment, the default ESX version for the selected
-  /// VCF version will be used, you cannot choose a specific ESX version in
-  /// <code>CreateEnvironment</code> action. When a host has been added with a
-  /// specific ESX version, it can only be upgraded using vCenter Lifecycle
-  /// Manager.
+  /// When Amazon EVS installs VCF, the default ESX version for the selected VCF
+  /// version will be used. After a host is added with a specific ESX version,
+  /// it can only be upgraded using vCenter Lifecycle Manager.
   /// </important> <note>
   /// You cannot use the <code>dedicatedHostId</code> and
   /// <code>placementGroupId</code> parameters together in the same
@@ -220,20 +223,6 @@ class Evs {
   ///
   /// May throw [ValidationException].
   ///
-  /// Parameter [connectivityInfo] :
-  /// The connectivity configuration for the environment. Amazon EVS requires
-  /// that you specify two route server peer IDs. During environment creation,
-  /// the route server endpoints peer with the NSX edges over the NSX uplink
-  /// subnet, providing BGP-based dynamic routing for overlay networks.
-  ///
-  /// Parameter [hosts] :
-  /// The ESX hosts to add to the environment. Amazon EVS requires that you
-  /// provide details for a minimum of 4 hosts during environment creation.
-  ///
-  /// For each host, you must provide the desired hostname, EC2 SSH keypair
-  /// name, and EC2 instance type. Optionally, you can also provide a partition
-  /// or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
-  ///
   /// Parameter [initialVlans] :
   /// The initial VLAN subnets for the Amazon EVS environment.
   /// <note>
@@ -242,50 +231,35 @@ class Evs {
   /// maximum size of /24.
   /// </note>
   ///
-  /// Parameter [licenseInfo] :
-  /// The license information that Amazon EVS requires to create an environment.
-  /// Amazon EVS requires two license keys: a VCF solution key and a vSAN
-  /// license key. The VCF solution key must meet minimum core requirements, and
-  /// the vSAN license key must meet minimum capacity requirements for your
-  /// selected instance type.
-  ///
-  /// For information about minimum license requirements, see <a
-  /// href="https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html">the
-  /// VCF subscriptions section</a> in the <i>Amazon EVS User Guide</i>.
-  ///
-  /// VCF licenses can be used for only one Amazon EVS environment. Amazon EVS
-  /// does not support reuse of VCF licenses for multiple environments.
-  ///
-  /// VCF license information can be retrieved from the Broadcom portal.
-  ///
   /// Parameter [serviceAccessSubnetId] :
   /// The subnet that is used to establish connectivity between the Amazon EVS
-  /// control plane and VPC. Amazon EVS uses this subnet to validate mandatory
-  /// DNS records for your VCF appliances and hosts and create the environment.
-  ///
-  /// Parameter [siteId] :
-  /// The Broadcom Site ID that is allocated to you as part of your electronic
-  /// software delivery. This ID allows customer access to the Broadcom portal,
-  /// and is provided to you by Broadcom at the close of your software contract
-  /// or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide
-  /// to meet Broadcom VCF license usage reporting requirements for Amazon EVS.
+  /// control plane and VPC. The Amazon EVS control plane uses this subnet to
+  /// interface with your environment. This includes validating DNS records and
+  /// enabling Amazon EVS Connectors.
   ///
   /// Parameter [termsAccepted] :
-  /// Customer confirmation that the customer has purchased and will continue to
-  /// maintain the required number of VCF software licenses to cover all
-  /// physical processor cores in the Amazon EVS environment. Information about
-  /// your VCF software in Amazon EVS will be shared with Broadcom to verify
-  /// license compliance. Amazon EVS does not validate license keys. To validate
-  /// license keys, visit the Broadcom support portal.
-  ///
-  /// Parameter [vcfHostnames] :
-  /// The DNS hostnames for the virtual machines that host the VCF management
-  /// appliances. Amazon EVS requires that you provide DNS hostnames for the
-  /// following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud
-  /// Builder.
+  /// Confirmation that the customer has purchased and will continue to maintain
+  /// the required number of VCF software licenses to cover all physical
+  /// processor cores in the Amazon EVS environment. Information about your VCF
+  /// software in Amazon EVS will be shared with Broadcom to verify license
+  /// compliance. Amazon EVS does not validate license keys. To validate license
+  /// keys, visit the Broadcom support portal.
   ///
   /// Parameter [vcfVersion] :
   /// The VCF version to use for the environment.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SELF_DEPLOYED</code>: You install VCF yourself. The
+  /// <code>licenseInfo</code>, <code>hosts</code>, <code>vcfHostnames</code>,
+  /// <code>siteId</code>, and <code>connectivityInfo</code> parameters are not
+  /// supported.
+  /// </li>
+  /// <li>
+  /// Any other valid value: Amazon EVS installs and configures VCF for you in
+  /// the version you specify.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [vpcId] :
   /// A unique ID for the VPC that the environment is deployed inside.
@@ -318,6 +292,15 @@ class Evs {
   /// client token, a randomly generated token is used for the request to ensure
   /// idempotency.
   ///
+  /// Parameter [connectivityInfo] :
+  /// The connectivity configuration for the environment. Amazon EVS requires
+  /// that you specify two route server peer IDs. During environment creation,
+  /// the route server endpoints peer with the NSX edges over the NSX uplink
+  /// subnet, providing BGP-based dynamic routing for overlay networks.
+  /// <note>
+  /// Not supported when <code>vcfVersion</code> is <code>SELF_DEPLOYED</code>.
+  /// </note>
+  ///
   /// Parameter [environmentName] :
   /// The name to give to your environment. The name can contain only
   /// alphanumeric characters (case-sensitive), hyphens, and underscores. It
@@ -325,11 +308,41 @@ class Evs {
   /// characters. The name must be unique within the Amazon Web Services Region
   /// and Amazon Web Services account that you're creating the environment in.
   ///
+  /// Parameter [hosts] :
+  /// The ESX hosts to add to the environment. For each host, provide the
+  /// desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally,
+  /// provide a partition or cluster placement group, or use Amazon EC2
+  /// Dedicated Hosts.
+  /// <note>
+  /// Not supported when <code>vcfVersion</code> is <code>SELF_DEPLOYED</code>.
+  /// In that case, you can add hosts using <code>CreateEnvironmentHost</code>
+  /// after the environment is created.
+  /// </note>
+  ///
   /// Parameter [kmsKeyId] :
   /// A unique ID for the customer-managed KMS key that is used to encrypt the
   /// VCF credential pairs for SDDC Manager, NSX Manager, and vCenter
   /// appliances. These credentials are stored in Amazon Web Services Secrets
   /// Manager.
+  ///
+  /// Parameter [licenseInfo] :
+  /// The license information that Amazon EVS requires to create an environment.
+  /// Amazon EVS requires two license keys: a VCF solution key and a vSAN
+  /// license key. The VCF solution key must meet minimum core requirements, and
+  /// the vSAN license key must meet minimum capacity requirements for your
+  /// selected instance type.
+  ///
+  /// For information about minimum license requirements, see <a
+  /// href="https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html">the
+  /// VCF subscriptions section</a> in the <i>Amazon EVS User Guide</i>.
+  ///
+  /// VCF licenses can be used for only one Amazon EVS environment. Amazon EVS
+  /// does not support reuse of VCF licenses for multiple environments.
+  ///
+  /// VCF license information can be retrieved from the Broadcom portal.
+  /// <note>
+  /// Not supported when <code>vcfVersion</code> is <code>SELF_DEPLOYED</code>.
+  /// </note>
   ///
   /// Parameter [serviceAccessSecurityGroups] :
   /// The security group that controls communication between the Amazon EVS
@@ -354,26 +367,44 @@ class Evs {
   /// plane and VPC. This can cause future environment actions like adding or
   /// removing hosts to fail.
   ///
+  /// Parameter [siteId] :
+  /// The Broadcom Site ID that is allocated to you as part of your electronic
+  /// software delivery. This ID allows customer access to the Broadcom portal,
+  /// and is provided to you by Broadcom at the close of your software contract
+  /// or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide
+  /// to meet Broadcom VCF license usage reporting requirements for Amazon EVS.
+  /// <note>
+  /// Not supported when <code>vcfVersion</code> is <code>SELF_DEPLOYED</code>.
+  /// </note>
+  ///
   /// Parameter [tags] :
   /// Metadata that assists with categorization and organization. Each tag
   /// consists of a key and an optional value. You define both. Tags don't
   /// propagate to any other cluster or Amazon Web Services resources.
+  ///
+  /// Parameter [vcfHostnames] :
+  /// The DNS hostnames for the virtual machines that host the VCF management
+  /// appliances. Provide hostnames for vCenter, NSX Manager, SDDC Manager, and
+  /// Cloud Builder.
+  /// <note>
+  /// Not supported when <code>vcfVersion</code> is <code>SELF_DEPLOYED</code>.
+  /// </note>
   Future<CreateEnvironmentResponse> createEnvironment({
-    required ConnectivityInfo connectivityInfo,
-    required List<HostInfoForCreate> hosts,
     required InitialVlans initialVlans,
-    required List<LicenseInfo> licenseInfo,
     required String serviceAccessSubnetId,
-    required String siteId,
     required bool termsAccepted,
-    required VcfHostnames vcfHostnames,
     required VcfVersion vcfVersion,
     required String vpcId,
     String? clientToken,
+    ConnectivityInfo? connectivityInfo,
     String? environmentName,
+    List<HostInfoForCreate>? hosts,
     String? kmsKeyId,
+    List<LicenseInfo>? licenseInfo,
     ServiceAccessSecurityGroups? serviceAccessSecurityGroups,
+    String? siteId,
     Map<String, String>? tags,
+    VcfHostnames? vcfHostnames,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -386,22 +417,22 @@ class Evs {
       // TODO queryParams
       headers: headers,
       payload: {
-        'connectivityInfo': connectivityInfo,
-        'hosts': hosts,
         'initialVlans': initialVlans,
-        'licenseInfo': licenseInfo,
         'serviceAccessSubnetId': serviceAccessSubnetId,
-        'siteId': siteId,
         'termsAccepted': termsAccepted,
-        'vcfHostnames': vcfHostnames,
         'vcfVersion': vcfVersion.value,
         'vpcId': vpcId,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (connectivityInfo != null) 'connectivityInfo': connectivityInfo,
         if (environmentName != null) 'environmentName': environmentName,
+        if (hosts != null) 'hosts': hosts,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+        if (licenseInfo != null) 'licenseInfo': licenseInfo,
         if (serviceAccessSecurityGroups != null)
           'serviceAccessSecurityGroups': serviceAccessSecurityGroups,
+        if (siteId != null) 'siteId': siteId,
         if (tags != null) 'tags': tags,
+        if (vcfHostnames != null) 'vcfHostnames': vcfHostnames,
       },
     );
 
@@ -650,10 +681,17 @@ class Evs {
     return CreateEntitlementResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a connector for an Amazon EVS environment. A connector establishes
-  /// a connection to a VCF appliance, such as vCenter, using a fully qualified
-  /// domain name and an Amazon Web Services Secrets Manager secret that stores
-  /// the appliance credentials.
+  /// Creates a connector for an Amazon EVS environment. A connector allows the
+  /// Amazon EVS control plane to interface with VCF appliances using a fully
+  /// qualified domain name.
+  ///
+  /// You can create only one connector of each type per environment. For
+  /// environments where Amazon EVS installs VCF, the <code>SDDC_MANAGER</code>
+  /// connector is created automatically.
+  /// <note>
+  /// Amazon EVS requires an active connector to SDDC Manager or VCF Operations
+  /// Manager to monitor environment health and license compliance.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -668,14 +706,33 @@ class Evs {
   ///
   /// Parameter [secretIdentifier] :
   /// The ARN or name of the Amazon Web Services Secrets Manager secret that
-  /// stores the credentials for the VCF appliance.
+  /// stores the credentials for the VCF appliance. <code>SDDC_MANAGER</code>
+  /// requires an <code>apiKey</code> field; <code>OPERATIONS_MANAGER</code> and
+  /// <code>VCENTER</code> require <code>username</code> and
+  /// <code>password</code> fields.
   /// <important>
   /// Do not use credentials with Administrator privileges. We recommend using a
-  /// service account with the minimum required permissions.
+  /// service account with read-only permissions.
   /// </important>
   ///
   /// Parameter [type] :
   /// The type of connector to create.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>OPERATIONS_MANAGER</code>: Connector to an Operations Manager
+  /// appliance. Required for VCF 9x environments.
+  /// </li>
+  /// <li>
+  /// <code>SDDC_MANAGER</code>: Connector to an SDDC Manager appliance.
+  /// Required for VCF 5.x environments.
+  /// </li>
+  /// <li>
+  /// <code>VCENTER</code>: Connector to a vCenter Server appliance. Required
+  /// for features that depend on vCenter, such as Windows Server
+  /// license-included.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [clientToken] :
   /// <note>
@@ -715,8 +772,7 @@ class Evs {
     return CreateEnvironmentConnectorResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an ESX host and adds it to an Amazon EVS environment. Amazon EVS
-  /// supports 4-32 hosts per environment.
+  /// Creates an ESX host and adds it to an Amazon EVS environment.
   ///
   /// This action can only be used after the Amazon EVS environment is deployed.
   ///
@@ -728,10 +784,10 @@ class Evs {
   /// <note>
   /// If you don't specify an ESX version when adding hosts using
   /// <code>CreateEnvironmentHost</code> action, Amazon EVS automatically uses
-  /// the default ESX version associated with your environment's VCF version. To
-  /// find the default ESX version for a particular VCF version, use the
+  /// the default ESX version for your environment's VCF version. To find the
+  /// available ESX versions for a particular VCF version, use the
   /// <code>GetVersions</code> action.
-  /// </note> <note>
+  ///
   /// You cannot use the <code>dedicatedHostId</code> and
   /// <code>placementGroupId</code> parameters together in the same
   /// <code>CreateEnvironmentHost</code> action. This results in a
@@ -1945,8 +2001,8 @@ class UpdateEnvironmentConnectorResponse {
 }
 
 /// An object that represents a connector for an Amazon EVS environment. A
-/// connector establishes a vCenter connection using the credentials stored in
-/// Amazon Web Services Secrets Manager.
+/// connector establishes a connection to the given appliance type using the
+/// credentials stored in Amazon Web Services Secrets Manager.
 ///
 /// @nodoc
 class Connector {
@@ -2048,13 +2104,15 @@ class Connector {
 
 /// @nodoc
 class ConnectorType {
+  static const operationsManager = ConnectorType._('OPERATIONS_MANAGER');
+  static const sddcManager = ConnectorType._('SDDC_MANAGER');
   static const vcenter = ConnectorType._('VCENTER');
 
   final String value;
 
   const ConnectorType._(this.value);
 
-  static const values = [vcenter];
+  static const values = [operationsManager, sddcManager, vcenter];
 
   static ConnectorType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -2190,6 +2248,15 @@ class CheckType {
   static const vcenterReachability = CheckType._('VCENTER_REACHABILITY');
   static const vcenterVmSync = CheckType._('VCENTER_VM_SYNC');
   static const vcenterVmEvent = CheckType._('VCENTER_VM_EVENT');
+  static const operationsManagerReachability =
+      CheckType._('OPERATIONS_MANAGER_REACHABILITY');
+  static const sddcManagerReachability =
+      CheckType._('SDDC_MANAGER_REACHABILITY');
+  static const sddcManagerHostCount = CheckType._('SDDC_MANAGER_HOST_COUNT');
+  static const sddcManagerKeyCoverage =
+      CheckType._('SDDC_MANAGER_KEY_COVERAGE');
+  static const sddcManagerKeyReuse = CheckType._('SDDC_MANAGER_KEY_REUSE');
+  static const connectorHealth = CheckType._('CONNECTOR_HEALTH');
 
   final String value;
 
@@ -2202,7 +2269,13 @@ class CheckType {
     hostCount,
     vcenterReachability,
     vcenterVmSync,
-    vcenterVmEvent
+    vcenterVmEvent,
+    operationsManagerReachability,
+    sddcManagerReachability,
+    sddcManagerHostCount,
+    sddcManagerKeyCoverage,
+    sddcManagerKeyReuse,
+    connectorHealth
   ];
 
   static CheckType fromString(String value) => values
@@ -2577,10 +2650,7 @@ class EipAssociation {
   }
 }
 
-/// An ESX host that runs on an Amazon EC2 bare metal instance. Four hosts are
-/// created in an Amazon EVS environment during environment creation. You can
-/// add hosts to an environment using the <code>CreateEnvironmentHost</code>
-/// operation. Amazon EVS supports 4-32 hosts per environment.
+/// An ESX host that runs on an Amazon EC2 bare metal instance.
 ///
 /// @nodoc
 class Host {
@@ -2862,12 +2932,13 @@ class EnvironmentSummary {
 class VcfVersion {
   static const vcf_5_2_1 = VcfVersion._('VCF-5.2.1');
   static const vcf_5_2_2 = VcfVersion._('VCF-5.2.2');
+  static const selfDeployed = VcfVersion._('SELF_DEPLOYED');
 
   final String value;
 
   const VcfVersion._(this.value);
 
-  static const values = [vcf_5_2_1, vcf_5_2_2];
+  static const values = [vcf_5_2_1, vcf_5_2_2, selfDeployed];
 
   static VcfVersion fromString(String value) => values
       .firstWhere((e) => e.value == value, orElse: () => VcfVersion._(value));
@@ -2964,8 +3035,7 @@ class HostInfoForCreate {
 ///
 /// @nodoc
 class Environment {
-  /// A check on the environment to identify instance health and VMware VCF
-  /// licensing issues.
+  /// A check on the environment to identify connector health.
   final List<Check>? checks;
 
   /// The connectivity configuration for the environment. Amazon EVS requires that
@@ -3187,6 +3257,9 @@ class Environment {
 /// you specify two route server peer IDs. During environment creation, the
 /// route server endpoints peer with the NSX uplink VLAN for connectivity to the
 /// NSX overlay network.
+/// <note>
+/// Not supported when <code>vcfVersion</code> is <code>SELF_DEPLOYED</code>.
+/// </note>
 ///
 /// @nodoc
 class ConnectivityInfo {
@@ -3222,13 +3295,16 @@ class ConnectivityInfo {
 ///
 /// VMware VCF requires the deployment of two NSX Edge nodes, and three NSX
 /// Manager virtual machines.
+/// <note>
+/// Not supported when <code>vcfVersion</code> is <code>SELF_DEPLOYED</code>.
+/// </note>
 ///
 /// @nodoc
 class VcfHostnames {
   /// The hostname for VMware Cloud Builder.
   final String cloudBuilder;
 
-  /// The VMware NSX hostname.
+  /// The VMware NSX Virtual IP (VIP) hostname.
   final String nsx;
 
   /// The hostname for the first NSX Edge node.
@@ -3370,43 +3446,75 @@ class Secret {
 ///
 /// @nodoc
 class Check {
+  /// A unique ID for the check.
+  final String? id;
+
   /// The time when environment health began to be impaired.
   final DateTime? impairedSince;
 
   /// The check result.
   final CheckResult? result;
 
-  /// The check type. Amazon EVS performs the following checks.
+  /// The check type. Amazon EVS performs the following checks:
   ///
   /// <ul>
   /// <li>
-  /// <code>KEY_REUSE</code>: checks that the VCF license key is not used by
-  /// another Amazon EVS environment. This check fails if a used license is added
-  /// to the environment.
+  /// <code>KEY_REUSE</code>: Verifies that the VCF license key is not used by
+  /// another Amazon EVS environment.
   /// </li>
   /// <li>
-  /// <code>KEY_COVERAGE</code>: checks that your VCF license key allocates
-  /// sufficient vCPU cores for all deployed hosts. The check fails when any
-  /// assigned hosts in the EVS environment are not covered by license keys, or
-  /// when any unassigned hosts cannot be covered by available vCPU cores in keys.
+  /// <code>KEY_COVERAGE</code>: Verifies that the VCF license key allocates
+  /// sufficient vCPU cores for all deployed hosts.
   /// </li>
   /// <li>
-  /// <code>REACHABILITY</code>: checks that the Amazon EVS control plane has a
-  /// persistent connection to SDDC Manager. If Amazon EVS cannot reach the
-  /// environment, this check fails.
+  /// <code>REACHABILITY</code>: Verifies that the Amazon EVS control plane has a
+  /// persistent connection to SDDC Manager.
   /// </li>
   /// <li>
-  /// <code>HOST_COUNT</code>: Checks that your environment has a minimum of 4
-  /// hosts.
-  ///
-  /// If this check fails, you will need to add hosts so that your environment
-  /// meets this minimum requirement. Amazon EVS only supports environments with
-  /// 4-32 hosts.
+  /// <code>HOST_COUNT</code>: Verifies that the environment meets the minimum
+  /// host count.
+  /// </li>
+  /// <li>
+  /// <code>VCENTER_REACHABILITY</code>: Verifies vCenter Server reachability
+  /// through the vCenter connector.
+  /// </li>
+  /// <li>
+  /// <code>VCENTER_VM_SYNC</code>: Verifies that the vCenter connector can
+  /// synchronize VM inventory from vCenter Server.
+  /// </li>
+  /// <li>
+  /// <code>VCENTER_VM_EVENT</code>: Verifies that the vCenter connector can
+  /// receive VM lifecycle events from vCenter Server.
+  /// </li>
+  /// <li>
+  /// <code>OPERATIONS_MANAGER_REACHABILITY</code>: Verifies Operations Manager
+  /// reachability through the Operations Manager connector.
+  /// </li>
+  /// <li>
+  /// <code>SDDC_MANAGER_REACHABILITY</code>: Verifies SDDC Manager reachability
+  /// through the SDDC Manager connector.
+  /// </li>
+  /// <li>
+  /// <code>SDDC_MANAGER_HOST_COUNT</code>: Verifies that the host count reported
+  /// by SDDC Manager meets Amazon EVS minimum requirements.
+  /// </li>
+  /// <li>
+  /// <code>SDDC_MANAGER_KEY_COVERAGE</code>: Verifies that the VCF license key
+  /// configured in SDDC Manager covers all deployed hosts.
+  /// </li>
+  /// <li>
+  /// <code>SDDC_MANAGER_KEY_REUSE</code>: Verifies that the VCF license key
+  /// configured in SDDC Manager is not used by another Amazon EVS environment.
+  /// </li>
+  /// <li>
+  /// <code>CONNECTOR_HEALTH</code>: Aggregate health across all connectors in the
+  /// environment.
   /// </li>
   /// </ul>
   final CheckType? type;
 
   Check({
+    this.id,
     this.impairedSince,
     this.result,
     this.type,
@@ -3414,6 +3522,7 @@ class Check {
 
   factory Check.fromJson(Map<String, dynamic> json) {
     return Check(
+      id: json['id'] as String?,
       impairedSince: timeStampFromJson(json['impairedSince']),
       result: (json['result'] as String?)?.let(CheckResult.fromString),
       type: (json['type'] as String?)?.let(CheckType.fromString),
@@ -3421,10 +3530,12 @@ class Check {
   }
 
   Map<String, dynamic> toJson() {
+    final id = this.id;
     final impairedSince = this.impairedSince;
     final result = this.result;
     final type = this.type;
     return {
+      if (id != null) 'id': id,
       if (impairedSince != null)
         'impairedSince': unixTimestampToJson(impairedSince),
       if (result != null) 'result': result.value,

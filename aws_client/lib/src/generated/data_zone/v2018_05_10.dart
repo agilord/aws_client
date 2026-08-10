@@ -709,6 +709,10 @@ class DataZone {
   ///
   /// Parameter [environmentBlueprintIdentifier] :
   /// The ID of the blueprint with which the environment is being created.
+  /// <note>
+  /// This parameter is only valid for V1 domains. If provided for a V2 domain,
+  /// the service returns a ValidationException.
+  /// </note>
   ///
   /// Parameter [environmentConfigurationId] :
   /// The configuration ID of the environment.
@@ -1708,6 +1712,33 @@ class DataZone {
           '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environment-profiles/${Uri.encodeComponent(identifier)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deletes the specified lineage event.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the lineage event.
+  Future<DeleteLineageEventOutput> deleteLineageEvent({
+    required String domainIdentifier,
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/lineage/events/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteLineageEventOutput.fromJson(response);
   }
 
   /// Deletes a project in Amazon DataZone.
@@ -5609,6 +5640,74 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return StartNotebookImportOutput.fromJson(response);
+  }
+
+  /// Starts a notebook sync in Amazon SageMaker Unified Studio. This operation
+  /// syncs a notebook from a Git repository into a project.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The identifier of the Amazon SageMaker Unified Studio domain in which to
+  /// sync the notebook.
+  ///
+  /// Parameter [owningProjectIdentifier] :
+  /// The identifier of the project that will own the synced notebook.
+  ///
+  /// Parameter [sourceLocation] :
+  /// The source location of the notebook to sync. This specifies the Amazon
+  /// Simple Storage Service URI of the notebook file.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  /// This field is automatically populated if not provided.
+  ///
+  /// Parameter [description] :
+  /// The description of the notebook.
+  ///
+  /// Parameter [gitMetadata] :
+  /// The Git metadata for the notebook sync, including repository, branch, and
+  /// commit information.
+  ///
+  /// Parameter [name] :
+  /// The name of the notebook. The name must be between 1 and 256 characters.
+  ///
+  /// Parameter [notebookId] :
+  /// The identifier of an existing notebook to sync. If not specified, a new
+  /// notebook is created.
+  Future<StartNotebookSyncOutput> startNotebookSync({
+    required String domainIdentifier,
+    required String owningProjectIdentifier,
+    required SourceLocation sourceLocation,
+    String? clientToken,
+    String? description,
+    GitMetadata? gitMetadata,
+    String? name,
+    String? notebookId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'owningProjectIdentifier': owningProjectIdentifier,
+      'sourceLocation': sourceLocation,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (gitMetadata != null) 'gitMetadata': gitMetadata,
+      if (name != null) 'name': name,
+      if (notebookId != null) 'notebookId': notebookId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/notebook-syncs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartNotebookSyncOutput.fromJson(response);
   }
 
   /// Tags a resource in Amazon DataZone.
@@ -12389,6 +12488,44 @@ class DeleteDataExportConfigurationOutput {
 }
 
 /// @nodoc
+class DeleteLineageEventOutput {
+  /// The ID of the domain.
+  final String? domainId;
+
+  /// The ID of the lineage event.
+  final String? id;
+
+  /// The progressing status of the lineage event.
+  final LineageEventProcessingStatus? processingStatus;
+
+  DeleteLineageEventOutput({
+    this.domainId,
+    this.id,
+    this.processingStatus,
+  });
+
+  factory DeleteLineageEventOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteLineageEventOutput(
+      domainId: json['domainId'] as String?,
+      id: json['id'] as String?,
+      processingStatus: (json['processingStatus'] as String?)
+          ?.let(LineageEventProcessingStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final processingStatus = this.processingStatus;
+    return {
+      if (domainId != null) 'domainId': domainId,
+      if (id != null) 'id': id,
+      if (processingStatus != null) 'processingStatus': processingStatus.value,
+    };
+  }
+}
+
+/// @nodoc
 class DeleteProjectOutput {
   DeleteProjectOutput();
 
@@ -16411,6 +16548,97 @@ class StartNotebookImportOutput {
       if (createdBy != null) 'createdBy': createdBy,
       if (description != null) 'description': description,
       if (domainId != null) 'domainId': domainId,
+      if (name != null) 'name': name,
+      if (notebookId != null) 'notebookId': notebookId,
+      if (owningProjectId != null) 'owningProjectId': owningProjectId,
+      if (sourceLocation != null) 'sourceLocation': sourceLocation,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// @nodoc
+class StartNotebookSyncOutput {
+  /// The timestamp of when the notebook sync was started.
+  final DateTime? createdAt;
+
+  /// The identifier of the user who started the notebook sync.
+  final String? createdBy;
+
+  /// The description of the synced notebook.
+  final String? description;
+
+  /// The identifier of the Amazon SageMaker Unified Studio domain.
+  final String? domainId;
+
+  /// The Git metadata associated with the synced notebook.
+  final GitMetadata? gitMetadata;
+
+  /// The name of the synced notebook.
+  final String? name;
+
+  /// The identifier of the synced notebook.
+  final String? notebookId;
+
+  /// The identifier of the project that owns the synced notebook.
+  final String? owningProjectId;
+
+  /// The source location from which the notebook was synced.
+  final SourceLocation? sourceLocation;
+
+  /// The status of the notebook sync.
+  final NotebookStatus? status;
+
+  StartNotebookSyncOutput({
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.domainId,
+    this.gitMetadata,
+    this.name,
+    this.notebookId,
+    this.owningProjectId,
+    this.sourceLocation,
+    this.status,
+  });
+
+  factory StartNotebookSyncOutput.fromJson(Map<String, dynamic> json) {
+    return StartNotebookSyncOutput(
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      domainId: json['domainId'] as String?,
+      gitMetadata: json['gitMetadata'] != null
+          ? GitMetadata.fromJson(json['gitMetadata'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      notebookId: json['notebookId'] as String?,
+      owningProjectId: json['owningProjectId'] as String?,
+      sourceLocation: json['sourceLocation'] != null
+          ? SourceLocation.fromJson(
+              json['sourceLocation'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(NotebookStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final domainId = this.domainId;
+    final gitMetadata = this.gitMetadata;
+    final name = this.name;
+    final notebookId = this.notebookId;
+    final owningProjectId = this.owningProjectId;
+    final sourceLocation = this.sourceLocation;
+    final status = this.status;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (domainId != null) 'domainId': domainId,
+      if (gitMetadata != null) 'gitMetadata': gitMetadata,
       if (name != null) 'name': name,
       if (notebookId != null) 'notebookId': notebookId,
       if (owningProjectId != null) 'owningProjectId': owningProjectId,
@@ -22488,6 +22716,9 @@ class CreateNotebookOutput {
   /// The error details if the notebook creation failed.
   final NotebookError? error;
 
+  /// The Git metadata associated with the notebook.
+  final GitMetadata? gitMetadata;
+
   /// The timestamp of when the notebook lock expires.
   final DateTime? lockExpiresAt;
 
@@ -22522,6 +22753,7 @@ class CreateNotebookOutput {
     this.description,
     this.environmentConfiguration,
     this.error,
+    this.gitMetadata,
     this.lockExpiresAt,
     this.lockedAt,
     this.lockedBy,
@@ -22553,6 +22785,9 @@ class CreateNotebookOutput {
       error: json['error'] != null
           ? NotebookError.fromJson(json['error'] as Map<String, dynamic>)
           : null,
+      gitMetadata: json['gitMetadata'] != null
+          ? GitMetadata.fromJson(json['gitMetadata'] as Map<String, dynamic>)
+          : null,
       lockExpiresAt: timeStampFromJson(json['lockExpiresAt']),
       lockedAt: timeStampFromJson(json['lockedAt']),
       lockedBy: json['lockedBy'] as String?,
@@ -22578,6 +22813,7 @@ class CreateNotebookOutput {
     final description = this.description;
     final environmentConfiguration = this.environmentConfiguration;
     final error = this.error;
+    final gitMetadata = this.gitMetadata;
     final lockExpiresAt = this.lockExpiresAt;
     final lockedAt = this.lockedAt;
     final lockedBy = this.lockedBy;
@@ -22599,6 +22835,7 @@ class CreateNotebookOutput {
       if (environmentConfiguration != null)
         'environmentConfiguration': environmentConfiguration,
       if (error != null) 'error': error,
+      if (gitMetadata != null) 'gitMetadata': gitMetadata,
       if (lockExpiresAt != null)
         'lockExpiresAt': unixTimestampToJson(lockExpiresAt),
       if (lockedAt != null) 'lockedAt': unixTimestampToJson(lockedAt),
@@ -22649,6 +22886,9 @@ class GetNotebookOutput {
   /// The error details if the notebook is in a failed state.
   final NotebookError? error;
 
+  /// The Git metadata associated with the notebook.
+  final GitMetadata? gitMetadata;
+
   /// The timestamp of when the notebook lock expires.
   final DateTime? lockExpiresAt;
 
@@ -22683,6 +22923,7 @@ class GetNotebookOutput {
     this.description,
     this.environmentConfiguration,
     this.error,
+    this.gitMetadata,
     this.lockExpiresAt,
     this.lockedAt,
     this.lockedBy,
@@ -22714,6 +22955,9 @@ class GetNotebookOutput {
       error: json['error'] != null
           ? NotebookError.fromJson(json['error'] as Map<String, dynamic>)
           : null,
+      gitMetadata: json['gitMetadata'] != null
+          ? GitMetadata.fromJson(json['gitMetadata'] as Map<String, dynamic>)
+          : null,
       lockExpiresAt: timeStampFromJson(json['lockExpiresAt']),
       lockedAt: timeStampFromJson(json['lockedAt']),
       lockedBy: json['lockedBy'] as String?,
@@ -22739,6 +22983,7 @@ class GetNotebookOutput {
     final description = this.description;
     final environmentConfiguration = this.environmentConfiguration;
     final error = this.error;
+    final gitMetadata = this.gitMetadata;
     final lockExpiresAt = this.lockExpiresAt;
     final lockedAt = this.lockedAt;
     final lockedBy = this.lockedBy;
@@ -22760,6 +23005,7 @@ class GetNotebookOutput {
       if (environmentConfiguration != null)
         'environmentConfiguration': environmentConfiguration,
       if (error != null) 'error': error,
+      if (gitMetadata != null) 'gitMetadata': gitMetadata,
       if (lockExpiresAt != null)
         'lockExpiresAt': unixTimestampToJson(lockExpiresAt),
       if (lockedAt != null) 'lockedAt': unixTimestampToJson(lockedAt),
@@ -22810,6 +23056,9 @@ class UpdateNotebookOutput {
   /// The error details if the notebook is in a failed state.
   final NotebookError? error;
 
+  /// The Git metadata associated with the notebook.
+  final GitMetadata? gitMetadata;
+
   /// The timestamp of when the notebook lock expires.
   final DateTime? lockExpiresAt;
 
@@ -22844,6 +23093,7 @@ class UpdateNotebookOutput {
     this.description,
     this.environmentConfiguration,
     this.error,
+    this.gitMetadata,
     this.lockExpiresAt,
     this.lockedAt,
     this.lockedBy,
@@ -22875,6 +23125,9 @@ class UpdateNotebookOutput {
       error: json['error'] != null
           ? NotebookError.fromJson(json['error'] as Map<String, dynamic>)
           : null,
+      gitMetadata: json['gitMetadata'] != null
+          ? GitMetadata.fromJson(json['gitMetadata'] as Map<String, dynamic>)
+          : null,
       lockExpiresAt: timeStampFromJson(json['lockExpiresAt']),
       lockedAt: timeStampFromJson(json['lockedAt']),
       lockedBy: json['lockedBy'] as String?,
@@ -22900,6 +23153,7 @@ class UpdateNotebookOutput {
     final description = this.description;
     final environmentConfiguration = this.environmentConfiguration;
     final error = this.error;
+    final gitMetadata = this.gitMetadata;
     final lockExpiresAt = this.lockExpiresAt;
     final lockedAt = this.lockedAt;
     final lockedBy = this.lockedBy;
@@ -22921,6 +23175,7 @@ class UpdateNotebookOutput {
       if (environmentConfiguration != null)
         'environmentConfiguration': environmentConfiguration,
       if (error != null) 'error': error,
+      if (gitMetadata != null) 'gitMetadata': gitMetadata,
       if (lockExpiresAt != null)
         'lockExpiresAt': unixTimestampToJson(lockExpiresAt),
       if (lockedAt != null) 'lockedAt': unixTimestampToJson(lockedAt),
@@ -25313,12 +25568,14 @@ class NotebookSummary {
 class NotebookStatus {
   static const active = NotebookStatus._('ACTIVE');
   static const archived = NotebookStatus._('ARCHIVED');
+  static const syncInProgress = NotebookStatus._('SYNC_IN_PROGRESS');
+  static const syncFailed = NotebookStatus._('SYNC_FAILED');
 
   final String value;
 
   const NotebookStatus._(this.value);
 
-  static const values = [active, archived];
+  static const values = [active, archived, syncInProgress, syncFailed];
 
   static NotebookStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -25379,6 +25636,75 @@ class NotebookError {
     final message = this.message;
     return {
       'message': message,
+    };
+  }
+}
+
+/// The Git metadata for a notebook sync operation in Amazon SageMaker Unified
+/// Studio. Contains information about the Git repository, branch, and commit
+/// associated with the notebook.
+///
+/// @nodoc
+class GitMetadata {
+  /// The name of the Git branch.
+  final String branch;
+
+  /// The commit hash in the Git repository.
+  final String commitHash;
+
+  /// The identifier of the Git connection.
+  final String connectionId;
+
+  /// The name of the Git repository.
+  final String repository;
+
+  /// The commit message associated with the Git commit.
+  final String? commitMessage;
+
+  /// The timestamp of when the commit was made.
+  final DateTime? committedAt;
+
+  /// The name of the file in the Git repository.
+  final String? fileName;
+
+  GitMetadata({
+    required this.branch,
+    required this.commitHash,
+    required this.connectionId,
+    required this.repository,
+    this.commitMessage,
+    this.committedAt,
+    this.fileName,
+  });
+
+  factory GitMetadata.fromJson(Map<String, dynamic> json) {
+    return GitMetadata(
+      branch: (json['branch'] as String?) ?? '',
+      commitHash: (json['commitHash'] as String?) ?? '',
+      connectionId: (json['connectionId'] as String?) ?? '',
+      repository: (json['repository'] as String?) ?? '',
+      commitMessage: json['commitMessage'] as String?,
+      committedAt: timeStampFromJson(json['committedAt']),
+      fileName: json['fileName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    final commitHash = this.commitHash;
+    final connectionId = this.connectionId;
+    final repository = this.repository;
+    final commitMessage = this.commitMessage;
+    final committedAt = this.committedAt;
+    final fileName = this.fileName;
+    return {
+      'branch': branch,
+      'commitHash': commitHash,
+      'connectionId': connectionId,
+      'repository': repository,
+      if (commitMessage != null) 'commitMessage': commitMessage,
+      if (committedAt != null) 'committedAt': unixTimestampToJson(committedAt),
+      if (fileName != null) 'fileName': fileName,
     };
   }
 }
@@ -31139,6 +31465,9 @@ class ConnectionPropertiesOutput {
   /// The Amazon Athena properties of a connection.
   final AthenaPropertiesOutput? athenaProperties;
 
+  /// The Git properties of a connection.
+  final GitPropertiesOutput? gitProperties;
+
   /// The Amazon Web Services Glue properties of a connection.
   final GluePropertiesOutput? glueProperties;
 
@@ -31160,6 +31489,9 @@ class ConnectionPropertiesOutput {
   /// The Amazon S3 properties of a connection.
   final S3PropertiesOutput? s3Properties;
 
+  /// The Snowflake-specific connection properties for an existing connection.
+  final SnowflakePropertiesOutput? snowflakeProperties;
+
   /// The Spark EMR properties of a connection.
   final SparkEmrPropertiesOutput? sparkEmrProperties;
 
@@ -31178,6 +31510,7 @@ class ConnectionPropertiesOutput {
   ConnectionPropertiesOutput({
     this.amazonQProperties,
     this.athenaProperties,
+    this.gitProperties,
     this.glueProperties,
     this.hyperPodProperties,
     this.iamProperties,
@@ -31185,6 +31518,7 @@ class ConnectionPropertiesOutput {
     this.mlflowProperties,
     this.redshiftProperties,
     this.s3Properties,
+    this.snowflakeProperties,
     this.sparkEmrProperties,
     this.sparkGlueProperties,
     this.vpcProperties,
@@ -31201,6 +31535,10 @@ class ConnectionPropertiesOutput {
       athenaProperties: json['athenaProperties'] != null
           ? AthenaPropertiesOutput.fromJson(
               json['athenaProperties'] as Map<String, dynamic>)
+          : null,
+      gitProperties: json['gitProperties'] != null
+          ? GitPropertiesOutput.fromJson(
+              json['gitProperties'] as Map<String, dynamic>)
           : null,
       glueProperties: json['glueProperties'] != null
           ? GluePropertiesOutput.fromJson(
@@ -31230,6 +31568,10 @@ class ConnectionPropertiesOutput {
           ? S3PropertiesOutput.fromJson(
               json['s3Properties'] as Map<String, dynamic>)
           : null,
+      snowflakeProperties: json['snowflakeProperties'] != null
+          ? SnowflakePropertiesOutput.fromJson(
+              json['snowflakeProperties'] as Map<String, dynamic>)
+          : null,
       sparkEmrProperties: json['sparkEmrProperties'] != null
           ? SparkEmrPropertiesOutput.fromJson(
               json['sparkEmrProperties'] as Map<String, dynamic>)
@@ -31257,6 +31599,7 @@ class ConnectionPropertiesOutput {
   Map<String, dynamic> toJson() {
     final amazonQProperties = this.amazonQProperties;
     final athenaProperties = this.athenaProperties;
+    final gitProperties = this.gitProperties;
     final glueProperties = this.glueProperties;
     final hyperPodProperties = this.hyperPodProperties;
     final iamProperties = this.iamProperties;
@@ -31264,6 +31607,7 @@ class ConnectionPropertiesOutput {
     final mlflowProperties = this.mlflowProperties;
     final redshiftProperties = this.redshiftProperties;
     final s3Properties = this.s3Properties;
+    final snowflakeProperties = this.snowflakeProperties;
     final sparkEmrProperties = this.sparkEmrProperties;
     final sparkGlueProperties = this.sparkGlueProperties;
     final vpcProperties = this.vpcProperties;
@@ -31272,6 +31616,7 @@ class ConnectionPropertiesOutput {
     return {
       if (amazonQProperties != null) 'amazonQProperties': amazonQProperties,
       if (athenaProperties != null) 'athenaProperties': athenaProperties,
+      if (gitProperties != null) 'gitProperties': gitProperties,
       if (glueProperties != null) 'glueProperties': glueProperties,
       if (hyperPodProperties != null) 'hyperPodProperties': hyperPodProperties,
       if (iamProperties != null) 'iamProperties': iamProperties,
@@ -31280,6 +31625,8 @@ class ConnectionPropertiesOutput {
       if (mlflowProperties != null) 'mlflowProperties': mlflowProperties,
       if (redshiftProperties != null) 'redshiftProperties': redshiftProperties,
       if (s3Properties != null) 's3Properties': s3Properties,
+      if (snowflakeProperties != null)
+        'snowflakeProperties': snowflakeProperties,
       if (sparkEmrProperties != null) 'sparkEmrProperties': sparkEmrProperties,
       if (sparkGlueProperties != null)
         'sparkGlueProperties': sparkGlueProperties,
@@ -31317,6 +31664,7 @@ class ConnectionType {
   static const amazonQ = ConnectionType._('AMAZON_Q');
   static const mlflow = ConnectionType._('MLFLOW');
   static const vpc = ConnectionType._('VPC');
+  static const git = ConnectionType._('GIT');
 
   final String value;
 
@@ -31345,7 +31693,8 @@ class ConnectionType {
     workflowsMwaa,
     amazonQ,
     mlflow,
-    vpc
+    vpc,
+    git
   ];
 
   static ConnectionType fromString(String value) =>
@@ -31883,6 +32232,66 @@ class S3PropertiesOutput {
   }
 }
 
+/// Contains the Snowflake-specific settings returned for an existing
+/// connection, including the current role, identity mapping, lineage sync
+/// state, and connection status.
+///
+/// @nodoc
+class SnowflakePropertiesOutput {
+  /// The identity mapping configuration for the Snowflake connection.
+  final IdentityMapping identityMapping;
+
+  /// The lineage sync configuration for the Snowflake connection.
+  final LineageSyncOutput lineageSync;
+
+  /// The Snowflake role used to access Snowflake resources.
+  final String snowflakeRole;
+
+  /// The status of the Snowflake connection.
+  final ConnectionStatus status;
+
+  /// An error message returned if the Snowflake connection failed to establish or
+  /// validate.
+  final String? errorMessage;
+
+  SnowflakePropertiesOutput({
+    required this.identityMapping,
+    required this.lineageSync,
+    required this.snowflakeRole,
+    required this.status,
+    this.errorMessage,
+  });
+
+  factory SnowflakePropertiesOutput.fromJson(Map<String, dynamic> json) {
+    return SnowflakePropertiesOutput(
+      identityMapping: IdentityMapping.fromJson(
+          (json['identityMapping'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lineageSync: LineageSyncOutput.fromJson(
+          (json['lineageSync'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      snowflakeRole: (json['snowflakeRole'] as String?) ?? '',
+      status: ConnectionStatus.fromString((json['status'] as String?) ?? ''),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityMapping = this.identityMapping;
+    final lineageSync = this.lineageSync;
+    final snowflakeRole = this.snowflakeRole;
+    final status = this.status;
+    final errorMessage = this.errorMessage;
+    return {
+      'identityMapping': identityMapping,
+      'lineageSync': lineageSync,
+      'snowflakeRole': snowflakeRole,
+      'status': status.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
 /// The Amazon Q properties of the connection.
 ///
 /// @nodoc
@@ -32076,6 +32485,63 @@ class VpcPropertiesOutput {
   }
 }
 
+/// The properties of a Git connection returned by get and list operations,
+/// including connection status and any error details.
+///
+/// @nodoc
+class GitPropertiesOutput {
+  /// The ARN of the CodeConnections connection used to connect to the Git
+  /// repository.
+  final String codeConnectionArn;
+
+  /// The default branch of the Git repository.
+  final String defaultBranch;
+
+  /// The ID of the Git repository. This is the owner and repository name, for
+  /// example, owner/repo-name.
+  final String repositoryId;
+
+  /// The error message that describes why the Git connection failed. This member
+  /// is populated when the connection status is CREATE_FAILED or UPDATE_FAILED.
+  final String? errorMessage;
+
+  /// The status of the Git connection.
+  final ConnectionStatus? status;
+
+  GitPropertiesOutput({
+    required this.codeConnectionArn,
+    required this.defaultBranch,
+    required this.repositoryId,
+    this.errorMessage,
+    this.status,
+  });
+
+  factory GitPropertiesOutput.fromJson(Map<String, dynamic> json) {
+    return GitPropertiesOutput(
+      codeConnectionArn: (json['codeConnectionArn'] as String?) ?? '',
+      defaultBranch: (json['defaultBranch'] as String?) ?? '',
+      repositoryId: (json['repositoryId'] as String?) ?? '',
+      errorMessage: json['errorMessage'] as String?,
+      status: (json['status'] as String?)?.let(ConnectionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeConnectionArn = this.codeConnectionArn;
+    final defaultBranch = this.defaultBranch;
+    final repositoryId = this.repositoryId;
+    final errorMessage = this.errorMessage;
+    final status = this.status;
+    return {
+      'codeConnectionArn': codeConnectionArn,
+      'defaultBranch': defaultBranch,
+      'repositoryId': repositoryId,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
 /// @nodoc
 class ConnectionStatus {
   static const creating = ConnectionStatus._('CREATING');
@@ -32114,6 +32580,88 @@ class ConnectionStatus {
 
   @override
   String toString() => value;
+}
+
+/// Contains the configuration for mapping user identities to Snowflake users,
+/// including the username attribute and optional prefix applied during the
+/// mapping.
+///
+/// @nodoc
+class IdentityMapping {
+  /// The username attribute used for the identity mapping.
+  final String usernameAttribute;
+
+  /// The prefix used for the identity mapping.
+  final String? prefix;
+
+  IdentityMapping({
+    required this.usernameAttribute,
+    this.prefix,
+  });
+
+  factory IdentityMapping.fromJson(Map<String, dynamic> json) {
+    return IdentityMapping(
+      usernameAttribute: (json['usernameAttribute'] as String?) ?? '',
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final usernameAttribute = this.usernameAttribute;
+    final prefix = this.prefix;
+    return {
+      'usernameAttribute': usernameAttribute,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Contains the current state of lineage sync for a Snowflake connection,
+/// including the schedule, timezone, enabled state, and the ID of the
+/// associated lineage job.
+///
+/// @nodoc
+class LineageSyncOutput {
+  /// Specifies whether lineage sync is enabled.
+  final bool? enabled;
+
+  /// The ID of the lineage sync job.
+  final String? lineageJobId;
+
+  /// The schedule of the lineage sync.
+  final String? schedule;
+
+  /// The timezone of the lineage sync schedule.
+  final Timezone? timezone;
+
+  LineageSyncOutput({
+    this.enabled,
+    this.lineageJobId,
+    this.schedule,
+    this.timezone,
+  });
+
+  factory LineageSyncOutput.fromJson(Map<String, dynamic> json) {
+    return LineageSyncOutput(
+      enabled: json['enabled'] as bool?,
+      lineageJobId: json['lineageJobId'] as String?,
+      schedule: json['schedule'] as String?,
+      timezone: (json['timezone'] as String?)?.let(Timezone.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final lineageJobId = this.lineageJobId;
+    final schedule = this.schedule;
+    final timezone = this.timezone;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (lineageJobId != null) 'lineageJobId': lineageJobId,
+      if (schedule != null) 'schedule': schedule,
+      if (timezone != null) 'timezone': timezone.value,
+    };
+  }
 }
 
 /// The Spark Amazon Web Services Glue args.
@@ -33167,6 +33715,9 @@ class ConnectionPropertiesPatch {
   /// The Amazon Athena properties of a connection properties patch.
   final AthenaPropertiesPatch? athenaProperties;
 
+  /// The Git properties of a connection properties patch.
+  final GitPropertiesPatch? gitProperties;
+
   /// The Amazon Web Services Glue properties of a connection properties patch.
   final GluePropertiesPatch? glueProperties;
 
@@ -33185,6 +33736,9 @@ class ConnectionPropertiesPatch {
   /// The Amazon S3 properties of a connection properties patch.
   final S3PropertiesPatch? s3Properties;
 
+  /// The Snowflake-specific connection properties to update.
+  final SnowflakePropertiesPatch? snowflakeProperties;
+
   /// The Spark EMR properties of a connection properties patch.
   final SparkEmrPropertiesPatch? sparkEmrProperties;
 
@@ -33194,12 +33748,14 @@ class ConnectionPropertiesPatch {
   ConnectionPropertiesPatch({
     this.amazonQProperties,
     this.athenaProperties,
+    this.gitProperties,
     this.glueProperties,
     this.iamProperties,
     this.lakehouseProperties,
     this.mlflowProperties,
     this.redshiftProperties,
     this.s3Properties,
+    this.snowflakeProperties,
     this.sparkEmrProperties,
     this.vpcProperties,
   });
@@ -33207,17 +33763,20 @@ class ConnectionPropertiesPatch {
   Map<String, dynamic> toJson() {
     final amazonQProperties = this.amazonQProperties;
     final athenaProperties = this.athenaProperties;
+    final gitProperties = this.gitProperties;
     final glueProperties = this.glueProperties;
     final iamProperties = this.iamProperties;
     final lakehouseProperties = this.lakehouseProperties;
     final mlflowProperties = this.mlflowProperties;
     final redshiftProperties = this.redshiftProperties;
     final s3Properties = this.s3Properties;
+    final snowflakeProperties = this.snowflakeProperties;
     final sparkEmrProperties = this.sparkEmrProperties;
     final vpcProperties = this.vpcProperties;
     return {
       if (amazonQProperties != null) 'amazonQProperties': amazonQProperties,
       if (athenaProperties != null) 'athenaProperties': athenaProperties,
+      if (gitProperties != null) 'gitProperties': gitProperties,
       if (glueProperties != null) 'glueProperties': glueProperties,
       if (iamProperties != null) 'iamProperties': iamProperties,
       if (lakehouseProperties != null)
@@ -33225,6 +33784,8 @@ class ConnectionPropertiesPatch {
       if (mlflowProperties != null) 'mlflowProperties': mlflowProperties,
       if (redshiftProperties != null) 'redshiftProperties': redshiftProperties,
       if (s3Properties != null) 's3Properties': s3Properties,
+      if (snowflakeProperties != null)
+        'snowflakeProperties': snowflakeProperties,
       if (sparkEmrProperties != null) 'sparkEmrProperties': sparkEmrProperties,
       if (vpcProperties != null) 'vpcProperties': vpcProperties,
     };
@@ -33437,6 +33998,39 @@ class S3PropertiesPatch {
   }
 }
 
+/// Contains the Snowflake-specific settings to update on an existing
+/// connection. Include only the fields you want to change.
+///
+/// @nodoc
+class SnowflakePropertiesPatch {
+  /// The connectivity properties patch of the Snowflake connection.
+  final ConnectivityPropertiesPatch? connectivityPropertiesPatch;
+
+  /// The lineage sync configuration for the Snowflake connection.
+  final LineageSyncInput? lineageSync;
+
+  /// The Snowflake role used to access Snowflake resources.
+  final String? snowflakeRole;
+
+  SnowflakePropertiesPatch({
+    this.connectivityPropertiesPatch,
+    this.lineageSync,
+    this.snowflakeRole,
+  });
+
+  Map<String, dynamic> toJson() {
+    final connectivityPropertiesPatch = this.connectivityPropertiesPatch;
+    final lineageSync = this.lineageSync;
+    final snowflakeRole = this.snowflakeRole;
+    return {
+      if (connectivityPropertiesPatch != null)
+        'connectivityPropertiesPatch': connectivityPropertiesPatch,
+      if (lineageSync != null) 'lineageSync': lineageSync,
+      if (snowflakeRole != null) 'snowflakeRole': snowflakeRole,
+    };
+  }
+}
+
 /// The Amazon Q properties of the connection.
 ///
 /// @nodoc
@@ -33539,6 +34133,150 @@ class VpcPropertiesPatch {
   }
 }
 
+/// The properties used to update an existing Git connection, such as the
+/// CodeConnections ARN or the default branch.
+///
+/// @nodoc
+class GitPropertiesPatch {
+  /// The ARN of the CodeConnections connection used to connect to the Git
+  /// repository.
+  final String? codeConnectionArn;
+
+  /// The default branch of the Git repository.
+  final String? defaultBranch;
+
+  GitPropertiesPatch({
+    this.codeConnectionArn,
+    this.defaultBranch,
+  });
+
+  Map<String, dynamic> toJson() {
+    final codeConnectionArn = this.codeConnectionArn;
+    final defaultBranch = this.defaultBranch;
+    return {
+      if (codeConnectionArn != null) 'codeConnectionArn': codeConnectionArn,
+      if (defaultBranch != null) 'defaultBranch': defaultBranch,
+    };
+  }
+}
+
+/// Contains the connectivity settings to update on an existing connection.
+/// Include only the fields you want to change.
+///
+/// @nodoc
+class ConnectivityPropertiesPatch {
+  /// The authentication settings to update.
+  final AuthenticationConfigurationPatch? authenticationConfiguration;
+
+  /// The connection properties to update.
+  final Map<String, String>? connectionProperties;
+
+  /// A description of the connectivity properties update.
+  final String? description;
+
+  ConnectivityPropertiesPatch({
+    this.authenticationConfiguration,
+    this.connectionProperties,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final authenticationConfiguration = this.authenticationConfiguration;
+    final connectionProperties = this.connectionProperties;
+    final description = this.description;
+    return {
+      if (authenticationConfiguration != null)
+        'authenticationConfiguration': authenticationConfiguration,
+      if (connectionProperties != null)
+        'connectionProperties': connectionProperties,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains the settings for configuring lineage sync on a Snowflake
+/// connection, including the schedule, timezone, and enabled state.
+///
+/// @nodoc
+class LineageSyncInput {
+  /// Specifies whether lineage sync is enabled.
+  final bool enabled;
+
+  /// The schedule of the lineage sync.
+  final String? schedule;
+
+  /// The timezone of the lineage sync schedule.
+  final Timezone? timezone;
+
+  LineageSyncInput({
+    required this.enabled,
+    this.schedule,
+    this.timezone,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final schedule = this.schedule;
+    final timezone = this.timezone;
+    return {
+      'enabled': enabled,
+      if (schedule != null) 'schedule': schedule,
+      if (timezone != null) 'timezone': timezone.value,
+    };
+  }
+}
+
+/// The authentication configuration patch of a connection.
+///
+/// @nodoc
+class AuthenticationConfigurationPatch {
+  /// The basic authentication credentials of a connection.
+  final BasicAuthenticationCredentials? basicAuthenticationCredentials;
+
+  /// The secret ARN of a connection.
+  final String? secretArn;
+
+  AuthenticationConfigurationPatch({
+    this.basicAuthenticationCredentials,
+    this.secretArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final basicAuthenticationCredentials = this.basicAuthenticationCredentials;
+    final secretArn = this.secretArn;
+    return {
+      if (basicAuthenticationCredentials != null)
+        'basicAuthenticationCredentials': basicAuthenticationCredentials,
+      if (secretArn != null) 'secretArn': secretArn,
+    };
+  }
+}
+
+/// The basic authentication credentials of a connection.
+///
+/// @nodoc
+class BasicAuthenticationCredentials {
+  /// The password for a connection.
+  final String? password;
+
+  /// The user name for the connecion.
+  final String? userName;
+
+  BasicAuthenticationCredentials({
+    this.password,
+    this.userName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final userName = this.userName;
+    return {
+      if (password != null) 'password': password,
+      if (userName != null) 'userName': userName,
+    };
+  }
+}
+
 /// The Amaon Redshift lineage sync configuration.
 ///
 /// @nodoc
@@ -33594,57 +34332,6 @@ class GlueConnectionPatch {
       if (connectionProperties != null)
         'connectionProperties': connectionProperties,
       if (description != null) 'description': description,
-    };
-  }
-}
-
-/// The authentication configuration patch of a connection.
-///
-/// @nodoc
-class AuthenticationConfigurationPatch {
-  /// The basic authentication credentials of a connection.
-  final BasicAuthenticationCredentials? basicAuthenticationCredentials;
-
-  /// The secret ARN of a connection.
-  final String? secretArn;
-
-  AuthenticationConfigurationPatch({
-    this.basicAuthenticationCredentials,
-    this.secretArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final basicAuthenticationCredentials = this.basicAuthenticationCredentials;
-    final secretArn = this.secretArn;
-    return {
-      if (basicAuthenticationCredentials != null)
-        'basicAuthenticationCredentials': basicAuthenticationCredentials,
-      if (secretArn != null) 'secretArn': secretArn,
-    };
-  }
-}
-
-/// The basic authentication credentials of a connection.
-///
-/// @nodoc
-class BasicAuthenticationCredentials {
-  /// The password for a connection.
-  final String? password;
-
-  /// The user name for the connecion.
-  final String? userName;
-
-  BasicAuthenticationCredentials({
-    this.password,
-    this.userName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final userName = this.userName;
-    return {
-      if (password != null) 'password': password,
-      if (userName != null) 'userName': userName,
     };
   }
 }
@@ -41754,6 +42441,9 @@ class ConnectionPropertiesInput {
   /// The Amazon Athena properties of a connection.
   final AthenaPropertiesInput? athenaProperties;
 
+  /// The Git properties of a connection.
+  final GitPropertiesInput? gitProperties;
+
   /// The Amazon Web Services Glue properties of a connection.
   final GluePropertiesInput? glueProperties;
 
@@ -41775,6 +42465,10 @@ class ConnectionPropertiesInput {
   /// The Amazon S3 properties of a connection.
   final S3PropertiesInput? s3Properties;
 
+  /// The Snowflake-specific connection properties to use when creating the
+  /// connection.
+  final SnowflakePropertiesInput? snowflakeProperties;
+
   /// The Spark EMR properties of a connection.
   final SparkEmrPropertiesInput? sparkEmrProperties;
 
@@ -41793,6 +42487,7 @@ class ConnectionPropertiesInput {
   ConnectionPropertiesInput({
     this.amazonQProperties,
     this.athenaProperties,
+    this.gitProperties,
     this.glueProperties,
     this.hyperPodProperties,
     this.iamProperties,
@@ -41800,6 +42495,7 @@ class ConnectionPropertiesInput {
     this.mlflowProperties,
     this.redshiftProperties,
     this.s3Properties,
+    this.snowflakeProperties,
     this.sparkEmrProperties,
     this.sparkGlueProperties,
     this.vpcProperties,
@@ -41810,6 +42506,7 @@ class ConnectionPropertiesInput {
   Map<String, dynamic> toJson() {
     final amazonQProperties = this.amazonQProperties;
     final athenaProperties = this.athenaProperties;
+    final gitProperties = this.gitProperties;
     final glueProperties = this.glueProperties;
     final hyperPodProperties = this.hyperPodProperties;
     final iamProperties = this.iamProperties;
@@ -41817,6 +42514,7 @@ class ConnectionPropertiesInput {
     final mlflowProperties = this.mlflowProperties;
     final redshiftProperties = this.redshiftProperties;
     final s3Properties = this.s3Properties;
+    final snowflakeProperties = this.snowflakeProperties;
     final sparkEmrProperties = this.sparkEmrProperties;
     final sparkGlueProperties = this.sparkGlueProperties;
     final vpcProperties = this.vpcProperties;
@@ -41825,6 +42523,7 @@ class ConnectionPropertiesInput {
     return {
       if (amazonQProperties != null) 'amazonQProperties': amazonQProperties,
       if (athenaProperties != null) 'athenaProperties': athenaProperties,
+      if (gitProperties != null) 'gitProperties': gitProperties,
       if (glueProperties != null) 'glueProperties': glueProperties,
       if (hyperPodProperties != null) 'hyperPodProperties': hyperPodProperties,
       if (iamProperties != null) 'iamProperties': iamProperties,
@@ -41833,6 +42532,8 @@ class ConnectionPropertiesInput {
       if (mlflowProperties != null) 'mlflowProperties': mlflowProperties,
       if (redshiftProperties != null) 'redshiftProperties': redshiftProperties,
       if (s3Properties != null) 's3Properties': s3Properties,
+      if (snowflakeProperties != null)
+        'snowflakeProperties': snowflakeProperties,
       if (sparkEmrProperties != null) 'sparkEmrProperties': sparkEmrProperties,
       if (sparkGlueProperties != null)
         'sparkGlueProperties': sparkGlueProperties,
@@ -42142,6 +42843,46 @@ class S3PropertiesInput {
   }
 }
 
+/// Contains the Snowflake-specific settings required when creating or updating
+/// a connection, including the Snowflake role, identity mapping, and lineage
+/// sync configuration.
+///
+/// @nodoc
+class SnowflakePropertiesInput {
+  /// The identity mapping configuration for the Snowflake connection.
+  final IdentityMapping identityMapping;
+
+  /// The Snowflake role used to access Snowflake resources.
+  final String snowflakeRole;
+
+  /// The connectivity properties of the Snowflake connection.
+  final ConnectivityProperties? connectivityProperties;
+
+  /// The lineage sync configuration for the Snowflake connection.
+  final LineageSyncInput? lineageSync;
+
+  SnowflakePropertiesInput({
+    required this.identityMapping,
+    required this.snowflakeRole,
+    this.connectivityProperties,
+    this.lineageSync,
+  });
+
+  Map<String, dynamic> toJson() {
+    final identityMapping = this.identityMapping;
+    final snowflakeRole = this.snowflakeRole;
+    final connectivityProperties = this.connectivityProperties;
+    final lineageSync = this.lineageSync;
+    return {
+      'identityMapping': identityMapping,
+      'snowflakeRole': snowflakeRole,
+      if (connectivityProperties != null)
+        'connectivityProperties': connectivityProperties,
+      if (lineageSync != null) 'lineageSync': lineageSync,
+    };
+  }
+}
+
 /// The Amazon Q properties of the connection.
 ///
 /// @nodoc
@@ -42274,6 +43015,177 @@ class VpcPropertiesInput {
       'subnetIds': subnetIds,
       'vpcId': vpcId,
       if (securityGroupId != null) 'securityGroupId': securityGroupId,
+    };
+  }
+}
+
+/// Contains the Git connection properties that you specify when creating a Git
+/// connection.
+///
+/// @nodoc
+class GitPropertiesInput {
+  /// The ARN of the CodeConnections connection used to connect to the Git
+  /// repository.
+  final String codeConnectionArn;
+
+  /// The default branch of the Git repository.
+  final String defaultBranch;
+
+  /// The ID of the Git repository. This is the owner and repository name, for
+  /// example, owner/repo-name.
+  final String repositoryId;
+
+  GitPropertiesInput({
+    required this.codeConnectionArn,
+    required this.defaultBranch,
+    required this.repositoryId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final codeConnectionArn = this.codeConnectionArn;
+    final defaultBranch = this.defaultBranch;
+    final repositoryId = this.repositoryId;
+    return {
+      'codeConnectionArn': codeConnectionArn,
+      'defaultBranch': defaultBranch,
+      'repositoryId': repositoryId,
+    };
+  }
+}
+
+/// Contains the network and authentication settings for a connection, including
+/// connection credentials, physical network requirements, and
+/// compute-environment validation options.
+///
+/// @nodoc
+class ConnectivityProperties {
+  /// The Athena properties for this configuration.
+  final Map<String, String>? athenaProperties;
+
+  /// The authentication settings for this configuration.
+  final AuthenticationConfigurationInput? authenticationConfiguration;
+
+  /// The connection properties for this configuration.
+  final Map<String, String>? connectionProperties;
+
+  /// The description of the connectivity configuration.
+  final String? description;
+
+  /// The name of the connectivity configuration.
+  final String? name;
+
+  /// The physical network requirements for the connection, such as the subnet,
+  /// security group, and VPC settings needed to reach the data source.
+  final PhysicalConnectionRequirements? physicalConnectionRequirements;
+
+  /// The Python properties for this configuration.
+  final Map<String, String>? pythonProperties;
+
+  /// The Spark properties for this configuration.
+  final Map<String, String>? sparkProperties;
+
+  /// Specifies whether to validate credentials for the connectivity
+  /// configuration. Defaults to true if not specified.
+  final bool? validateCredentials;
+
+  /// The compute environments to use when validating connectivity. The service
+  /// validates that the connection is reachable from each specified environment.
+  final List<ComputeEnvironments>? validateForComputeEnvironments;
+
+  ConnectivityProperties({
+    this.athenaProperties,
+    this.authenticationConfiguration,
+    this.connectionProperties,
+    this.description,
+    this.name,
+    this.physicalConnectionRequirements,
+    this.pythonProperties,
+    this.sparkProperties,
+    this.validateCredentials,
+    this.validateForComputeEnvironments,
+  });
+
+  Map<String, dynamic> toJson() {
+    final athenaProperties = this.athenaProperties;
+    final authenticationConfiguration = this.authenticationConfiguration;
+    final connectionProperties = this.connectionProperties;
+    final description = this.description;
+    final name = this.name;
+    final physicalConnectionRequirements = this.physicalConnectionRequirements;
+    final pythonProperties = this.pythonProperties;
+    final sparkProperties = this.sparkProperties;
+    final validateCredentials = this.validateCredentials;
+    final validateForComputeEnvironments = this.validateForComputeEnvironments;
+    return {
+      if (athenaProperties != null) 'athenaProperties': athenaProperties,
+      if (authenticationConfiguration != null)
+        'authenticationConfiguration': authenticationConfiguration,
+      if (connectionProperties != null)
+        'connectionProperties': connectionProperties,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (physicalConnectionRequirements != null)
+        'physicalConnectionRequirements': physicalConnectionRequirements,
+      if (pythonProperties != null) 'pythonProperties': pythonProperties,
+      if (sparkProperties != null) 'sparkProperties': sparkProperties,
+      if (validateCredentials != null)
+        'validateCredentials': validateCredentials,
+      if (validateForComputeEnvironments != null)
+        'validateForComputeEnvironments':
+            validateForComputeEnvironments.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// The authentication configuration of a connection.
+///
+/// @nodoc
+class AuthenticationConfigurationInput {
+  /// The authentication type of a connection.
+  final AuthenticationType? authenticationType;
+
+  /// The basic authentication credentials of a connection.
+  final BasicAuthenticationCredentials? basicAuthenticationCredentials;
+
+  /// The custom authentication credentials of a connection.
+  final Map<String, String>? customAuthenticationCredentials;
+
+  /// The KMS key ARN of a connection.
+  final String? kmsKeyArn;
+
+  /// The oAuth2 properties of a connection.
+  final OAuth2Properties? oAuth2Properties;
+
+  /// The secret ARN of a connection.
+  final String? secretArn;
+
+  AuthenticationConfigurationInput({
+    this.authenticationType,
+    this.basicAuthenticationCredentials,
+    this.customAuthenticationCredentials,
+    this.kmsKeyArn,
+    this.oAuth2Properties,
+    this.secretArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final basicAuthenticationCredentials = this.basicAuthenticationCredentials;
+    final customAuthenticationCredentials =
+        this.customAuthenticationCredentials;
+    final kmsKeyArn = this.kmsKeyArn;
+    final oAuth2Properties = this.oAuth2Properties;
+    final secretArn = this.secretArn;
+    return {
+      if (authenticationType != null)
+        'authenticationType': authenticationType.value,
+      if (basicAuthenticationCredentials != null)
+        'basicAuthenticationCredentials': basicAuthenticationCredentials,
+      if (customAuthenticationCredentials != null)
+        'customAuthenticationCredentials': customAuthenticationCredentials,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (oAuth2Properties != null) 'oAuth2Properties': oAuth2Properties,
+      if (secretArn != null) 'secretArn': secretArn,
     };
   }
 }
@@ -42421,59 +43333,6 @@ class GlueConnectionType {
 
   @override
   String toString() => value;
-}
-
-/// The authentication configuration of a connection.
-///
-/// @nodoc
-class AuthenticationConfigurationInput {
-  /// The authentication type of a connection.
-  final AuthenticationType? authenticationType;
-
-  /// The basic authentication credentials of a connection.
-  final BasicAuthenticationCredentials? basicAuthenticationCredentials;
-
-  /// The custom authentication credentials of a connection.
-  final Map<String, String>? customAuthenticationCredentials;
-
-  /// The KMS key ARN of a connection.
-  final String? kmsKeyArn;
-
-  /// The oAuth2 properties of a connection.
-  final OAuth2Properties? oAuth2Properties;
-
-  /// The secret ARN of a connection.
-  final String? secretArn;
-
-  AuthenticationConfigurationInput({
-    this.authenticationType,
-    this.basicAuthenticationCredentials,
-    this.customAuthenticationCredentials,
-    this.kmsKeyArn,
-    this.oAuth2Properties,
-    this.secretArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final authenticationType = this.authenticationType;
-    final basicAuthenticationCredentials = this.basicAuthenticationCredentials;
-    final customAuthenticationCredentials =
-        this.customAuthenticationCredentials;
-    final kmsKeyArn = this.kmsKeyArn;
-    final oAuth2Properties = this.oAuth2Properties;
-    final secretArn = this.secretArn;
-    return {
-      if (authenticationType != null)
-        'authenticationType': authenticationType.value,
-      if (basicAuthenticationCredentials != null)
-        'basicAuthenticationCredentials': basicAuthenticationCredentials,
-      if (customAuthenticationCredentials != null)
-        'customAuthenticationCredentials': customAuthenticationCredentials,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (oAuth2Properties != null) 'oAuth2Properties': oAuth2Properties,
-      if (secretArn != null) 'secretArn': secretArn,
-    };
-  }
 }
 
 /// The results of the BatchPutAttribute action.

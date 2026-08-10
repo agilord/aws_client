@@ -161,6 +161,16 @@ class SageMakerRuntime {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html">Capture
   /// Data</a>.
   ///
+  /// Parameter [prefixAwareId] :
+  /// An optional, stable identifier that serves as a routing hint for
+  /// prefix-aware routing. The service routes requests with the same prefix and
+  /// the same identifier to the same instance. If requests from different
+  /// applications might have the same prompt prefix, set a different identifier
+  /// for each application to differentiate their routing decisions.
+  ///
+  /// Applies only to endpoints configured with a <code>RoutingStrategy</code>
+  /// of <code>PREFIX_AWARE</code>.
+  ///
   /// Parameter [sessionId] :
   /// Creates a stateful session or identifies an existing one. You can do one
   /// of the following:
@@ -210,6 +220,7 @@ class SageMakerRuntime {
     String? enableExplanations,
     String? inferenceComponentName,
     String? inferenceId,
+    String? prefixAwareId,
     String? sessionId,
     String? targetContainerHostname,
     String? targetModel,
@@ -227,6 +238,8 @@ class SageMakerRuntime {
             inferenceComponentName.toString(),
       if (inferenceId != null)
         'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
+      if (prefixAwareId != null)
+        'X-Amzn-SageMaker-Prefix-Aware-Id': prefixAwareId.toString(),
       if (sessionId != null)
         'X-Amzn-SageMaker-Session-Id': sessionId.toString(),
       if (targetContainerHostname != null)
@@ -289,11 +302,22 @@ class SageMakerRuntime {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html">CreateEndpoint</a>
   /// API.
   ///
-  /// Parameter [inputLocation] :
-  /// The Amazon S3 URI where the inference request payload is stored.
-  ///
   /// Parameter [accept] :
   /// The desired MIME type of the inference response from the model container.
+  ///
+  /// Parameter [body] :
+  /// Provides inline input data for the inference request, in the format
+  /// specified in the <code>ContentType</code> request header. Use this
+  /// parameter to send the request payload directly in the API call instead of
+  /// uploading it to Amazon S3 and referencing it with
+  /// <code>InputLocation</code>. The inline payload can be up to 128,000 bytes.
+  ///
+  /// <code>Body</code> and <code>InputLocation</code> are mutually exclusive.
+  /// Provide exactly one of them.
+  ///
+  /// For information about the format of the request body, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html">Common
+  /// Data Formats-Inference</a>.
   ///
   /// Parameter [contentType] :
   /// The MIME type of the input data in the request body.
@@ -328,6 +352,9 @@ class SageMakerRuntime {
   /// The identifier for the inference request. Amazon SageMaker AI will
   /// generate an identifier for you if none is specified.
   ///
+  /// Parameter [inputLocation] :
+  /// The Amazon S3 URI where the inference request payload is stored.
+  ///
   /// Parameter [invocationTimeoutSeconds] :
   /// Maximum amount of time in seconds a request can be processed before it is
   /// marked as expired. The default is 15 minutes, or 900 seconds.
@@ -341,12 +368,13 @@ class SageMakerRuntime {
   /// inference response payload is stored.
   Future<InvokeEndpointAsyncOutput> invokeEndpointAsync({
     required String endpointName,
-    required String inputLocation,
     String? accept,
+    Uint8List? body,
     String? contentType,
     String? customAttributes,
     String? filename,
     String? inferenceId,
+    String? inputLocation,
     int? invocationTimeoutSeconds,
     int? requestTTLSeconds,
     String? s3OutputPathExtension,
@@ -364,7 +392,6 @@ class SageMakerRuntime {
       21600,
     );
     final headers = <String, String>{
-      'X-Amzn-SageMaker-InputLocation': inputLocation.toString(),
       if (accept != null) 'X-Amzn-SageMaker-Accept': accept.toString(),
       if (contentType != null)
         'X-Amzn-SageMaker-Content-Type': contentType.toString(),
@@ -373,6 +400,8 @@ class SageMakerRuntime {
       if (filename != null) 'X-Amzn-SageMaker-Filename': filename.toString(),
       if (inferenceId != null)
         'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
+      if (inputLocation != null)
+        'X-Amzn-SageMaker-InputLocation': inputLocation.toString(),
       if (invocationTimeoutSeconds != null)
         'X-Amzn-SageMaker-InvocationTimeoutSeconds':
             invocationTimeoutSeconds.toString(),
@@ -383,7 +412,7 @@ class SageMakerRuntime {
             s3OutputPathExtension.toString(),
     };
     final response = await _protocol.sendRaw(
-      payload: null,
+      payload: body,
       method: 'POST',
       requestUri:
           '/endpoints/${Uri.encodeComponent(endpointName)}/async-invocations',
@@ -496,6 +525,16 @@ class SageMakerRuntime {
   /// Parameter [inferenceId] :
   /// An identifier that you assign to your request.
   ///
+  /// Parameter [prefixAwareId] :
+  /// An optional, stable identifier that serves as a routing hint for
+  /// prefix-aware routing. The service routes requests with the same prefix and
+  /// the same identifier to the same instance. If requests from different
+  /// applications might have the same prompt prefix, set a different identifier
+  /// for each application to differentiate their routing decisions.
+  ///
+  /// Applies only to endpoints configured with a <code>RoutingStrategy</code>
+  /// of <code>PREFIX_AWARE</code>.
+  ///
   /// Parameter [sessionId] :
   /// The ID of a stateful session to handle your request.
   ///
@@ -531,6 +570,7 @@ class SageMakerRuntime {
     String? customAttributes,
     String? inferenceComponentName,
     String? inferenceId,
+    String? prefixAwareId,
     String? sessionId,
     String? targetContainerHostname,
     String? targetVariant,
@@ -545,6 +585,8 @@ class SageMakerRuntime {
             inferenceComponentName.toString(),
       if (inferenceId != null)
         'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
+      if (prefixAwareId != null)
+        'X-Amzn-SageMaker-Prefix-Aware-Id': prefixAwareId.toString(),
       if (sessionId != null)
         'X-Amzn-SageMaker-Session-Id': sessionId.toString(),
       if (targetContainerHostname != null)

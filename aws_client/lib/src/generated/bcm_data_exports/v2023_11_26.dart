@@ -1043,6 +1043,7 @@ class ExecutionStatusReason {
       ExecutionStatusReason._('INSUFFICIENT_PERMISSION');
   static const billOwnerChanged = ExecutionStatusReason._('BILL_OWNER_CHANGED');
   static const internalFailure = ExecutionStatusReason._('INTERNAL_FAILURE');
+  static const deprecated = ExecutionStatusReason._('DEPRECATED');
 
   final String value;
 
@@ -1051,7 +1052,8 @@ class ExecutionStatusReason {
   static const values = [
     insufficientPermission,
     billOwnerChanged,
-    internalFailure
+    internalFailure,
+    deprecated
   ];
 
   static ExecutionStatusReason fromString(String value) =>
@@ -1271,8 +1273,8 @@ class S3Destination {
   /// The S3 bucket Region.
   final String s3Region;
 
-  /// The AWS Account ID that owns the S3 bucket used as the destination for the
-  /// data export.
+  /// The Amazon Web Services account ID that owns the S3 bucket used as the
+  /// destination for the data export.
   final String? s3BucketOwner;
 
   S3Destination({
@@ -1418,12 +1420,13 @@ class FormatOption {
 class CompressionOption {
   static const gzip = CompressionOption._('GZIP');
   static const parquet = CompressionOption._('PARQUET');
+  static const zip = CompressionOption._('ZIP');
 
   final String value;
 
   const CompressionOption._(this.value);
 
-  static const values = [gzip, parquet];
+  static const values = [gzip, parquet, zip];
 
   static CompressionOption fromString(String value) =>
       values.firstWhere((e) => e.value == value,
