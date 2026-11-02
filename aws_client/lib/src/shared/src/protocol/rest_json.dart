@@ -127,17 +127,18 @@ class RestJsonProtocol {
       return rq;
     }
 
-    final rs = await sendWithRetry(
-      client: _client,
+    return sendWithRetry(
       options: _retryOptions,
-      buildRequest: buildRequest,
+      attempt: () async {
+        final rs = await _client.send(await buildRequest());
+
+        if (rs.statusCode < 200 || rs.statusCode >= 300) {
+          throwException(rs, await rs.stream.bytesToString(), exceptionFnMap);
+        }
+
+        return rs;
+      },
     );
-
-    if (rs.statusCode < 200 || rs.statusCode >= 300) {
-      throwException(rs, await rs.stream.bytesToString(), exceptionFnMap);
-    }
-
-    return rs;
   }
 
   Future<Map<String, dynamic>> send({

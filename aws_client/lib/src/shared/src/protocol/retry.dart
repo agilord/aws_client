@@ -2,12 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:http/http.dart';
-import 'package:xml/xml.dart';
+
+import 'shared.dart';
 
 /// Called to wait between retry attempts; overridable so tests do not sleep.
 typedef RetrySleeper = Future<void> Function(Duration duration);
@@ -51,11 +50,16 @@ class RetryOptions {
   /// Retrying turned off: a single attempt, no backoff.
   RetryOptions.disabled() : this(maxAttempts: 1);
 
-  /// Whether a buffered response should be retried (given attempts remain).
-  bool _shouldRetryResponse(_BufferedResponse response) {
-    if (retryableStatusCodes.contains(response.statusCode)) return true;
-    final code = response.errorCode;
-    return code != null && _isRetryableErrorCode(code);
+  /// Whether [exception] should be retried (given attempts remain).
+  bool _isRetryable(GenericAwsException exception) {
+    final statusCode = exception.statusCode;
+    if (statusCode != null && retryableStatusCodes.contains(statusCode)) {
+      return true;
+    }
+    // Error codes land in `code` (typed and XML errors) or `type` (JSON
+    // errors), so check both.
+    return _isRetryableErrorCode(exception.code) ||
+        _isRetryableErrorCode(exception.type);
   }
 
   /// The delay before the next attempt (0-based [attempt] index). Honors a
@@ -71,6 +75,39 @@ class RetryOptions {
   }
 
   Future<void> sleep(Duration duration) => _sleep(duration);
+}
+
+/// Runs [attempt] and retries it according to [options].
+///
+/// [attempt] performs one full request — build, sign, send and parse — and
+/// either returns the result or throws. It is invoked once per try, so a fresh
+/// request is signed each time and a long backoff never replays an expired
+/// signature.
+///
+/// A [GenericAwsException] whose status or error code is retryable, and a
+/// transport-level [ClientException], are retried until [RetryOptions.maxAttempts]
+/// is reached. Any other error (including a non-retryable AWS error) propagates
+/// immediately.
+Future<T> sendWithRetry<T>({
+  required RetryOptions options,
+  required Future<T> Function() attempt,
+}) async {
+  var attemptIndex = 0;
+  while (true) {
+    final isLastAttempt = attemptIndex + 1 >= options.maxAttempts;
+    try {
+      return await attempt();
+    } on GenericAwsException catch (e) {
+      if (isLastAttempt || !options._isRetryable(e)) rethrow;
+      await options
+          .sleep(options.backoffFor(attemptIndex, retryAfter: e.retryAfter));
+    } on ClientException {
+      // Transport-level failure (connection reset, DNS, timeout, ...).
+      if (isLastAttempt) rethrow;
+      await options.sleep(options.backoffFor(attemptIndex));
+    }
+    attemptIndex++;
+  }
 }
 
 // Throttling and transient-error codes the official AWS SDKs retry. Mirrors
@@ -101,147 +138,9 @@ const _transientErrorCodes = <String>{
   'requesttimeoutexception',
 };
 
-bool _isRetryableErrorCode(String code) {
+bool _isRetryableErrorCode(String? code) {
+  if (code == null) return false;
   final normalized = code.toLowerCase();
   return _throttlingErrorCodes.contains(normalized) ||
       _transientErrorCodes.contains(normalized);
-}
-
-/// Sends [buildRequest]'s output through [client], retrying per [options].
-///
-/// [buildRequest] is invoked once per attempt and must return a freshly signed
-/// request: re-signing refreshes the timestamp so a long backoff never replays
-/// an expired signature. Errors thrown by [buildRequest] (e.g. missing
-/// credentials) are never retried.
-///
-/// The returned [StreamedResponse] is backed by the fully buffered body, so the
-/// caller parses it exactly as it would a live response.
-Future<StreamedResponse> sendWithRetry({
-  required Client client,
-  required RetryOptions options,
-  required Future<Request> Function() buildRequest,
-}) async {
-  var attempt = 0;
-  while (true) {
-    final request = await buildRequest();
-    final isLastAttempt = attempt + 1 >= options.maxAttempts;
-
-    _BufferedResponse buffered;
-    try {
-      buffered = await _BufferedResponse.read(await client.send(request));
-    } on ClientException {
-      // Transport-level failure (connection reset, DNS, timeout, ...).
-      if (isLastAttempt) rethrow;
-      await options.sleep(options.backoffFor(attempt));
-      attempt++;
-      continue;
-    }
-
-    if (!isLastAttempt && options._shouldRetryResponse(buffered)) {
-      await options.sleep(
-          options.backoffFor(attempt, retryAfter: buffered.retryAfter));
-      attempt++;
-      continue;
-    }
-
-    return buffered.toStreamedResponse(request);
-  }
-}
-
-/// A response whose body has been read into memory so it can be inspected for
-/// retry classification and then replayed to the caller.
-class _BufferedResponse {
-  final int statusCode;
-  final Map<String, String> headers;
-  final String? reasonPhrase;
-  final Uint8List bodyBytes;
-
-  _BufferedResponse({
-    required this.statusCode,
-    required this.headers,
-    required this.reasonPhrase,
-    required this.bodyBytes,
-  });
-
-  static Future<_BufferedResponse> read(StreamedResponse response) async {
-    final bytes = await response.stream.toBytes();
-    return _BufferedResponse(
-      statusCode: response.statusCode,
-      headers: response.headers,
-      reasonPhrase: response.reasonPhrase,
-      bodyBytes: bytes,
-    );
-  }
-
-  StreamedResponse toStreamedResponse(BaseRequest request) => StreamedResponse(
-        ByteStream.fromBytes(bodyBytes),
-        statusCode,
-        headers: headers,
-        reasonPhrase: reasonPhrase,
-        request: request,
-      );
-
-  Duration? get retryAfter {
-    final value = headers['retry-after'];
-    if (value == null) return null;
-    final seconds = int.tryParse(value.trim());
-    if (seconds != null) return Duration(seconds: seconds);
-    final date = DateTime.tryParse(value.trim());
-    if (date != null) {
-      final delta = date.toUtc().difference(DateTime.now().toUtc());
-      return delta > Duration.zero ? delta : Duration.zero;
-    }
-    return null;
-  }
-
-  /// The AWS error code from the response, checking the `x-amzn-errortype`
-  /// header first, then a JSON `__type`/`code` field, then an XML `<Code>`.
-  String? get errorCode {
-    if (statusCode >= 200 && statusCode < 300) return null;
-
-    final header = headers['x-amzn-errortype'];
-    if (header != null && header.isNotEmpty) {
-      return _stripCode(header);
-    }
-
-    if (bodyBytes.isEmpty) return null;
-    final String body;
-    try {
-      body = utf8.decode(bodyBytes);
-    } catch (_) {
-      return null;
-    }
-
-    final trimmed = body.trimLeft();
-    if (trimmed.startsWith('{')) {
-      try {
-        final decoded = jsonDecode(body);
-        if (decoded is Map) {
-          final raw = decoded['__type'] ?? decoded['code'] ?? decoded['Code'];
-          if (raw is String) return _stripCode(raw);
-        }
-      } catch (_) {
-        // not JSON after all
-      }
-    } else if (trimmed.startsWith('<')) {
-      try {
-        final codeElements = XmlDocument.parse(body)
-            .rootElement
-            .descendantElements
-            .where((e) => e.name.local == 'Code');
-        if (codeElements.isNotEmpty) {
-          final code = codeElements.first.innerText;
-          if (code.isNotEmpty) return _stripCode(code);
-        }
-      } catch (_) {
-        // not parseable XML
-      }
-    }
-    return null;
-  }
-
-  // AWS error identifiers may be namespaced ("com.amazon...#Code") and/or carry
-  // a trailing ":..." qualifier; keep just the bare code.
-  static String _stripCode(String value) =>
-      value.split('#').last.split(':').first.trim();
 }

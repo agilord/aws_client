@@ -64,6 +64,12 @@ class GenericAwsException implements AwsException {
   final String code;
   final String? message;
 
+  /// The HTTP status code of the response that produced this error, when known.
+  int? statusCode;
+
+  /// The delay requested by the response's `Retry-After` header, if present.
+  Duration? retryAfter;
+
   GenericAwsException({this.type, required this.code, this.message});
 
   @override
@@ -74,6 +80,32 @@ class GenericAwsException implements AwsException {
         'code': code,
         'message': message,
       };
+}
+
+/// Attaches HTTP response metadata to [exception] so callers and the retry
+/// layer can read the status code and any server-requested retry delay.
+AwsException attachResponseMeta(AwsException exception, StreamedResponse rs) {
+  if (exception is GenericAwsException) {
+    exception
+      ..statusCode = rs.statusCode
+      ..retryAfter = parseRetryAfter(rs.headers);
+  }
+  return exception;
+}
+
+/// Parses a `Retry-After` header value, either delay-seconds or an HTTP date.
+Duration? parseRetryAfter(Map<String, String> headers) {
+  final value = headers['retry-after'];
+  if (value == null) return null;
+  final trimmed = value.trim();
+  final seconds = int.tryParse(trimmed);
+  if (seconds != null) return Duration(seconds: seconds);
+  final date = DateTime.tryParse(trimmed);
+  if (date != null) {
+    final delta = date.toUtc().difference(DateTime.now().toUtc());
+    return delta > Duration.zero ? delta : Duration.zero;
+  }
+  return null;
 }
 
 typedef AwsExceptionFn = AwsException Function(String type, String message);
@@ -352,7 +384,7 @@ Future<XmlElement> xmlFromResponse(StreamedResponse rs,
   }
 }
 
-void throwException(StreamedResponse rs, String body,
+Never throwException(StreamedResponse rs, String body,
     Map<String, AwsExceptionFn> exceptionFnMap) {
   var type =
       rs.headers['x-amzn-errortype']?.split(':').firstOrNull ?? 'UnknownError';
@@ -388,5 +420,5 @@ void throwException(StreamedResponse rs, String body,
           code: statusCode,
           message: message,
         );
-  throw exception;
+  throw attachResponseMeta(exception, rs);
 }

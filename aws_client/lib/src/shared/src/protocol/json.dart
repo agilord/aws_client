@@ -116,28 +116,28 @@ class JsonProtocol {
       return rq;
     }
 
-    final rs = await sendWithRetry(
-      client: _client,
+    return sendWithRetry(
       options: _retryOptions,
-      buildRequest: buildRequest,
+      attempt: () async {
+        final rs = await _client.send(await buildRequest());
+        final body = await rs.stream.bytesToString();
+
+        if (rs.statusCode < 200 || rs.statusCode >= 300) {
+          throwException(rs, body, exceptionFnMap);
+        }
+
+        final parsedBody = body.isEmpty
+            ? <String, dynamic>{}
+            : (jsonDecode(body) as Map<String, dynamic>?)!;
+
+        // TODO: replace return type with Map<String, dynamic> and discard the
+        // JsonResponse class. The generated code will have to adjust as well.
+        return JsonResponse(rs.headers, {
+          ...parsedBody,
+          ...rs.headers,
+        });
+      },
     );
-
-    final body = await rs.stream.bytesToString();
-
-    if (rs.statusCode < 200 || rs.statusCode >= 300) {
-      throwException(rs, body, exceptionFnMap);
-    }
-
-    final parsedBody = body.isEmpty
-        ? <String, dynamic>{}
-        : (jsonDecode(body) as Map<String, dynamic>?)!;
-
-    // TODO: replace return type with Map<String, dynamic> and discard the
-    // JsonResponse class. The generated code will have to adjust as well.
-    return JsonResponse(rs.headers, {
-      ...parsedBody,
-      ...rs.headers,
-    });
   }
 
   void close() {

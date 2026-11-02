@@ -81,56 +81,60 @@ class RestXmlProtocol {
     Endpoint? endpoint,
     String? hostPrefix,
   }) async {
-    final rs = await sendWithRetry(
-      client: _client,
+    return sendWithRetry(
       options: _retryOptions,
-      // Rebuilt and re-signed on every attempt so retries carry a fresh
-      // timestamp and signature.
-      buildRequest: () => _buildRequest(
-        endpoint ?? _endpoint,
-        method,
-        requestUri,
-        signed,
-        queryParams,
-        payload,
-        headers,
-        hostPrefix,
-      ),
+      attempt: () async {
+        // Rebuilt and re-signed on every attempt so retries carry a fresh
+        // timestamp and signature.
+        final rs = await _client.send(await _buildRequest(
+          endpoint ?? _endpoint,
+          method,
+          requestUri,
+          signed,
+          queryParams,
+          payload,
+          headers,
+          hostPrefix,
+        ));
+
+        if (rs.statusCode < 200 || rs.statusCode >= 300) {
+          final body = await rs.stream.bytesToString();
+          XmlDocument? root;
+          if (body.isNotEmpty == true) {
+            root = XmlDocument.parse(body);
+          }
+          final elem = root?.rootElement;
+
+          if (elem?.name.local == 'ErrorResponse') {
+            final error = elem!.findElements('Error').first;
+            final type =
+                error.findElements('Type').firstOrNull?.innerText ?? '';
+            final code =
+                error.findElements('Code').firstOrNull?.innerText ?? '';
+            final message =
+                error.findElements('Message').firstOrNull?.innerText ?? '';
+            final fn = lookupExceptionFn(exceptionFnMap, code);
+            final exception = fn != null
+                ? fn(type, message)
+                : GenericAwsException(type: type, code: code, message: message);
+            throw attachResponseMeta(exception, rs);
+          } else if (elem?.name.local == 'Error') {
+            final code =
+                elem!.findElements('Code').firstOrNull?.innerText ?? '';
+            final message =
+                elem.findElements('Message').firstOrNull?.innerText ?? '';
+            final fn = lookupExceptionFn(exceptionFnMap, code);
+            final exception = fn != null
+                ? fn('', message)
+                : GenericAwsException(code: code, message: message);
+            throw attachResponseMeta(exception, rs);
+          } else {
+            throwException(rs, body, exceptionFnMap);
+          }
+        }
+        return rs;
+      },
     );
-
-    if (rs.statusCode < 200 || rs.statusCode >= 300) {
-      final body = await rs.stream.bytesToString();
-      XmlDocument? root;
-      if (body.isNotEmpty == true) {
-        root = XmlDocument.parse(body);
-      }
-      final elem = root?.rootElement;
-
-      if (elem?.name.local == 'ErrorResponse') {
-        final error = elem!.findElements('Error').first;
-        final type = error.findElements('Type').firstOrNull?.innerText ?? '';
-        final code = error.findElements('Code').firstOrNull?.innerText ?? '';
-        final message =
-            error.findElements('Message').firstOrNull?.innerText ?? '';
-        final fn = lookupExceptionFn(exceptionFnMap, code);
-        final exception = fn != null
-            ? fn(type, message)
-            : GenericAwsException(type: type, code: code, message: message);
-        throw exception;
-      } else if (elem?.name.local == 'Error') {
-        final code = elem!.findElements('Code').firstOrNull?.innerText ?? '';
-        final message =
-            elem.findElements('Message').firstOrNull?.innerText ?? '';
-        final fn = lookupExceptionFn(exceptionFnMap, code);
-        final exception = fn != null
-            ? fn('', message)
-            : GenericAwsException(code: code, message: message);
-        throw exception;
-      } else {
-        throwException(rs, body, exceptionFnMap);
-      }
-    }
-    return rs;
   }
 
   Future<RestXmlResponse> send({

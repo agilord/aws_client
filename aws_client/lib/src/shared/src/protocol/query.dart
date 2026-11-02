@@ -115,33 +115,34 @@ class QueryProtocol {
       return rq;
     }
 
-    final rs = await sendWithRetry(
-      client: _client,
+    return sendWithRetry(
       options: _retryOptions,
-      buildRequest: buildRequest,
+      attempt: () async {
+        final rs = await _client.send(await buildRequest());
+        final body = await rs.stream.bytesToString();
+        final root = XmlDocument.parse(body);
+        var elem = root.rootElement;
+
+        if (elem.name.local == 'ErrorResponse') {
+          final error = elem.findElements('Error').first;
+          final type = error.findElements('Type').firstOrNull?.innerText ?? '';
+          final code = error.findElements('Code').firstOrNull?.innerText ?? '';
+          final message =
+              error.findElements('Message').firstOrNull?.innerText ?? '';
+          final fn = lookupExceptionFn(exceptionFnMap, code);
+          final exception = fn != null
+              ? fn(type, message)
+              : GenericAwsException(type: type, code: code, message: message);
+          throw attachResponseMeta(exception, rs);
+        }
+
+        if (resultWrapper != null) {
+          elem = elem.findElements(resultWrapper).first;
+        }
+
+        return elem;
+      },
     );
-    final body = await rs.stream.bytesToString();
-    final root = XmlDocument.parse(body);
-    var elem = root.rootElement;
-
-    if (elem.name.local == 'ErrorResponse') {
-      final error = elem.findElements('Error').first;
-      final type = error.findElements('Type').firstOrNull?.innerText ?? '';
-      final code = error.findElements('Code').firstOrNull?.innerText ?? '';
-      final message =
-          error.findElements('Message').firstOrNull?.innerText ?? '';
-      final fn = lookupExceptionFn(exceptionFnMap, code);
-      final exception = fn != null
-          ? fn(type, message)
-          : GenericAwsException(type: type, code: code, message: message);
-      throw exception;
-    }
-
-    if (resultWrapper != null) {
-      elem = elem.findElements(resultWrapper).first;
-    }
-
-    return elem;
   }
 
   void close() {

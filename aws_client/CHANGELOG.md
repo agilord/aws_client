@@ -4,6 +4,9 @@
 
 - Requests are now retried automatically on throttling and transient server
   errors, using full-jitter exponential backoff.
+- `AwsException` and `GenericAwsException` are now exported, so an error from any
+  service can be caught by a shared type. `GenericAwsException` also exposes the
+  response's HTTP `statusCode`.
 
 ## 0.10.0
 
