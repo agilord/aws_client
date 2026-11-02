@@ -5,9 +5,10 @@ import 'package:http/http.dart';
 import 'package:xml/xml.dart';
 
 import '../credentials.dart';
-import '_sign.dart';
 import 'endpoint.dart';
+import 'retry.dart';
 import 'shared.dart';
+import 'sign.dart';
 
 class RestXmlProtocol {
   final Client _client;
@@ -19,6 +20,7 @@ class RestXmlProtocol {
   final RequestSigner _requestSigner;
   final bool _manageHttpClient;
   final bool _disableHostPrefix;
+  final RetryOptions _retryOptions;
   bool _closed = false;
 
   RestXmlProtocol._(
@@ -28,6 +30,7 @@ class RestXmlProtocol {
     this._requestSigner,
     this._manageHttpClient,
     this._disableHostPrefix,
+    this._retryOptions,
   );
 
   factory RestXmlProtocol({
@@ -40,6 +43,7 @@ class RestXmlProtocol {
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
     bool disableHostPrefix = false,
+    RetryOptions? retryOptions,
   }) {
     final manageHttpClient = client == null;
     client ??= Client();
@@ -61,6 +65,7 @@ class RestXmlProtocol {
       requestSigner,
       manageHttpClient,
       disableHostPrefix,
+      retryOptions ?? RetryOptions(),
     );
   }
 
@@ -76,17 +81,22 @@ class RestXmlProtocol {
     Endpoint? endpoint,
     String? hostPrefix,
   }) async {
-    final rq = await _buildRequest(
-      endpoint ?? _endpoint,
-      method,
-      requestUri,
-      signed,
-      queryParams,
-      payload,
-      headers,
-      hostPrefix,
+    final rs = await sendWithRetry(
+      client: _client,
+      options: _retryOptions,
+      // Rebuilt and re-signed on every attempt so retries carry a fresh
+      // timestamp and signature.
+      buildRequest: () => _buildRequest(
+        endpoint ?? _endpoint,
+        method,
+        requestUri,
+        signed,
+        queryParams,
+        payload,
+        headers,
+        hostPrefix,
+      ),
     );
-    final rs = await _client.send(rq);
 
     if (rs.statusCode < 200 || rs.statusCode >= 300) {
       final body = await rs.stream.bytesToString();
