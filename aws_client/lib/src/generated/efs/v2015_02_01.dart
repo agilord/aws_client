@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_02_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Elastic File System (Amazon EFS) provides simple, scalable file
 /// storage for use with Amazon EC2 Linux and Mac instances in the Amazon Web
@@ -41,6 +41,7 @@ class Efs {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -60,6 +61,7 @@ class Efs {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

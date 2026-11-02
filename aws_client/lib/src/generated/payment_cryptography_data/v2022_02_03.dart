@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_02_03.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You use the Amazon Web Services Payment Cryptography Data Plane to manage
 /// how encryption keys are used for payment-related transaction processing and
@@ -45,6 +45,7 @@ class PaymentCryptographyData {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -65,6 +66,7 @@ class PaymentCryptographyData {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

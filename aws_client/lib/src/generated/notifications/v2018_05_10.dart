@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_05_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The <i>User Notifications API Reference</i> provides descriptions, API
 /// request parameters, and the JSON response for each of the User Notifications
@@ -57,6 +57,7 @@ class Notifications {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -76,6 +77,7 @@ class Notifications {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

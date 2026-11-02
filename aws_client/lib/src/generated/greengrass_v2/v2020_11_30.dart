@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_11_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// IoT Greengrass brings local compute, messaging, data management, sync, and
 /// ML inference capabilities to edge devices. This enables devices to collect
@@ -48,6 +48,7 @@ class GreengrassV2 {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -67,6 +68,7 @@ class GreengrassV2 {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_09_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This reference provides descriptions of the AWS Application Cost Profiler
 /// API.
@@ -41,6 +41,7 @@ class ApplicationCostProfiler {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -60,6 +61,7 @@ class ApplicationCostProfiler {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

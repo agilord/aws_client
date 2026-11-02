@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_11_22.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS IoT Wireless provides bi-directional communication between
 /// internet-connected wireless devices and the AWS Cloud. To onboard both <a
@@ -59,6 +59,7 @@ class IoTWireless {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -79,6 +80,7 @@ class IoTWireless {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

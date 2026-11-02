@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_06_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS IAM Identity Center (successor to AWS Single Sign-On) Portal is a web
 /// service that makes it easy for you to assign user access to IAM Identity
@@ -55,6 +55,7 @@ class Sso {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -75,6 +76,7 @@ class Sso {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

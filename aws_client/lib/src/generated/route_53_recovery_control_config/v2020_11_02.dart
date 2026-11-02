@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_11_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Recovery Control Configuration API Reference for Amazon Route 53 Application
 /// Recovery Controller
@@ -33,6 +33,7 @@ class Route53RecoveryControlConfig {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -52,6 +53,7 @@ class Route53RecoveryControlConfig {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

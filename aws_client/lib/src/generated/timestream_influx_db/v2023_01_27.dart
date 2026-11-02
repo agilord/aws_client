@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_01_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Timestream for InfluxDB is a managed time-series database engine that
 /// makes it easy for application developers and DevOps teams to run InfluxDB
@@ -37,6 +37,7 @@ class TimestreamInfluxDB {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class TimestreamInfluxDB {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

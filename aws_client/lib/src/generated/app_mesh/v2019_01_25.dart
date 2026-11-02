@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_01_25.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// App Mesh is a service mesh based on the Envoy proxy that makes it easy to
 /// monitor and control microservices. App Mesh standardizes how your
@@ -51,6 +51,7 @@ class AppMesh {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -70,6 +71,7 @@ class AppMesh {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

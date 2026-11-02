@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_08_11.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The CloudTrail Data Service lets you ingest events into CloudTrail from any
 /// source in your hybrid environments, such as in-house or SaaS applications
@@ -39,6 +39,7 @@ class CloudTrailData {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class CloudTrailData {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

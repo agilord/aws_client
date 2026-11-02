@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_10_11.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The <i>AWS Chatbot API Reference</i> provides descriptions, API request
 /// parameters, and the XML response for each of the AWS Chatbot API actions.
@@ -57,6 +57,7 @@ class Chatbot {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -76,6 +77,7 @@ class Chatbot {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

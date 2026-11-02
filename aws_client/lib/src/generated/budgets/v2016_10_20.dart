@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_10_20.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Use the Amazon Web Services Budgets API to plan your service usage, service
 /// costs, and instance reservations. This API reference provides descriptions,
@@ -90,6 +90,7 @@ class Budgets {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -109,6 +110,7 @@ class Budgets {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2013_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You use the AmazonCloudSearch2013 API to upload documents to a search domain
 /// and search those documents.
@@ -44,6 +44,7 @@ class CloudSearchDomain {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -64,6 +65,7 @@ class CloudSearchDomain {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

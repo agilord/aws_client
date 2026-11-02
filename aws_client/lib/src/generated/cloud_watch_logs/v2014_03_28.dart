@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2014_03_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use Amazon CloudWatch Logs to monitor, store, and access your log
 /// files from EC2 instances, CloudTrail, and other sources. You can then
@@ -76,6 +76,7 @@ class CloudWatchLogs {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     bool disableHostPrefix = false,
@@ -96,6 +97,7 @@ class CloudWatchLogs {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
     );

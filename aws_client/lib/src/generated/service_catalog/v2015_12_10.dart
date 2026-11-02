@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_12_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// <a href="http://aws.amazon.com/servicecatalog">Service Catalog</a> enables
 /// organizations to create and manage catalogs of IT services that are approved
@@ -37,6 +37,7 @@ class ServiceCatalog {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class ServiceCatalog {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

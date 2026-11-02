@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_09_18.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services IoT Core Device Advisor is a cloud-based, fully managed
 /// test capability for validating IoT devices during device software
@@ -43,6 +43,7 @@ class IotDeviceAdvisor {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -63,6 +64,7 @@ class IotDeviceAdvisor {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

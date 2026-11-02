@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_11_11.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AppConfig Data provides the data plane APIs your application uses to
 /// retrieve configuration data. Here's how it works:
@@ -96,6 +96,7 @@ class AppConfigData {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -116,6 +117,7 @@ class AppConfigData {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

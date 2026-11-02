@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_08_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the Amazon AppFlow API reference. This guide is for developers
 /// who need detailed information about the Amazon AppFlow API operations, data
@@ -76,6 +76,7 @@ class Appflow {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -95,6 +96,7 @@ class Appflow {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

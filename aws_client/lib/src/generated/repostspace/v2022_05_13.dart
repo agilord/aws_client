@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_05_13.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS re:Post Private is a private version of AWS re:Post for enterprises with
 /// Enterprise Support or Enterprise On-Ramp Support plans. It provides access
@@ -41,6 +41,7 @@ class Repostspace {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -60,6 +61,7 @@ class Repostspace {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

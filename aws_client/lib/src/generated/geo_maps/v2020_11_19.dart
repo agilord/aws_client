@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_11_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Integrate high-quality base map data into your applications using <a
 /// href="https://maplibre.org">MapLibre</a>. Capabilities include:
@@ -62,6 +62,7 @@ class GeoMaps {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -81,6 +82,7 @@ class GeoMaps {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

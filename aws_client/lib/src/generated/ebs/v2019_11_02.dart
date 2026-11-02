@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_11_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use the Amazon Elastic Block Store (Amazon EBS) direct APIs to
 /// create Amazon EBS snapshots, write data directly to your snapshots, read
@@ -60,6 +60,7 @@ class Ebs {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -79,6 +80,7 @@ class Ebs {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

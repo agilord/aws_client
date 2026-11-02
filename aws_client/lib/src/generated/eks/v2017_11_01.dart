@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that
 /// makes it easy for you to run Kubernetes on Amazon Web Services without
@@ -44,6 +44,7 @@ class Eks {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -63,6 +64,7 @@ class Eks {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

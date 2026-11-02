@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_01_12.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// With Amazon Data Lifecycle Manager, you can manage the lifecycle of your
 /// Amazon Web Services resources. You create lifecycle policies, which are used
@@ -34,6 +34,7 @@ class Dlm {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -53,6 +54,7 @@ class Dlm {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

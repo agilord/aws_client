@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_05_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Systems Manager GUI Connect, a component of Fleet Manager, lets you connect
 /// to your Window Server-type Amazon Elastic Compute Cloud (Amazon EC2)
@@ -40,6 +40,7 @@ class SsmGuiConnect {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -59,6 +60,7 @@ class SsmGuiConnect {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

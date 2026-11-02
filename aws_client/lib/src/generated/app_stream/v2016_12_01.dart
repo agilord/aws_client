@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>Amazon WorkSpaces Applications API Reference</i>. This
 /// documentation provides descriptions and syntax for each of the actions and
@@ -48,6 +48,7 @@ class AppStream {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -68,6 +69,7 @@ class AppStream {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

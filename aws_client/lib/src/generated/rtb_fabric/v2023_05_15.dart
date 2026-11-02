@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_05_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services RTB Fabric provides secure, low-latency infrastructure
 /// for connecting real-time bidding (RTB) applications. Rather than hosting
@@ -44,6 +44,7 @@ class RtbFabric {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -63,6 +64,7 @@ class RtbFabric {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

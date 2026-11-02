@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_07_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Amazon Chime SDK media pipeline APIs in this section allow software
 /// developers to create Amazon Chime SDK media pipelines that capture,
@@ -37,6 +37,7 @@ class ChimeSdkMediaPipelines {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class ChimeSdkMediaPipelines {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

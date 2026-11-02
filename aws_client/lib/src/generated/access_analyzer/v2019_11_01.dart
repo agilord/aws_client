@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Identity and Access Management Access Analyzer helps you to set, verify, and
 /// refine your IAM policies by providing a suite of capabilities. Its features
@@ -69,6 +69,7 @@ class AccessAnalyzer {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -88,6 +89,7 @@ class AccessAnalyzer {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

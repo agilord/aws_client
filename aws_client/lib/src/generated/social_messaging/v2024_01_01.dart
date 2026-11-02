@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2024_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// <i>Amazon Web Services End User Messaging Social</i>, also referred to as
 /// Social messaging, is a messaging service that enables application developers
@@ -79,6 +79,7 @@ class SocialMessaging {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -98,6 +99,7 @@ class SocialMessaging {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

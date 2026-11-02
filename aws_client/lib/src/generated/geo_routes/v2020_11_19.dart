@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_11_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// With the Routes API you can calculate routes and estimate travel time based
 /// on up-to-date road network and live traffic information. Key features
@@ -59,6 +59,7 @@ class GeoRoutes {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -78,6 +79,7 @@ class GeoRoutes {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

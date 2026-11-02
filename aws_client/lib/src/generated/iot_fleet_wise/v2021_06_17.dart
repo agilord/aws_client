@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_06_17.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services IoT FleetWise is a fully managed service that you can
 /// use to collect, model, and transfer vehicle data to the Amazon Web Services
@@ -49,6 +49,7 @@ class IoTFleetWise {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -68,6 +69,7 @@ class IoTFleetWise {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_04_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Network Flow Monitor is a feature of Amazon CloudWatch Network Monitoring
 /// that provides visibility into the performance of network flows for your
@@ -51,6 +51,7 @@ class NetworkFlowMonitor {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -70,6 +71,7 @@ class NetworkFlowMonitor {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

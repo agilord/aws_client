@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Compute Optimizer is a service that analyzes the configuration and
 /// utilization metrics of your Amazon Web Services compute resources, such as
@@ -46,6 +46,7 @@ class ComputeOptimizer {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -65,6 +66,7 @@ class ComputeOptimizer {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

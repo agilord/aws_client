@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_11_12.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the API Reference for Network Firewall. This guide is for developers
 /// who need detailed information about the Network Firewall API actions, data
@@ -137,6 +137,7 @@ class NetworkFirewall {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -156,6 +157,7 @@ class NetworkFirewall {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

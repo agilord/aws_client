@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_06_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Use Amazon CloudWatch Observability Access Manager to create and manage
 /// links between source accounts and monitoring accounts by using <i>CloudWatch
@@ -56,6 +56,7 @@ class Oam {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -75,6 +76,7 @@ class Oam {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2014_05_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information,
 /// see <a href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM
@@ -38,6 +38,7 @@ class CloudHsm {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class CloudHsm {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

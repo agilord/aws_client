@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_11_07.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Augmented AI (Amazon A2I) adds the benefit of human judgment to any
 /// machine learning application. When an AI application can't evaluate data
@@ -72,6 +72,7 @@ class SageMakerA2iRuntime {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -92,6 +93,7 @@ class SageMakerA2iRuntime {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

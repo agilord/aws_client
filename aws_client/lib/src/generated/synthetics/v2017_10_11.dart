@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_10_11.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use Amazon CloudWatch Synthetics to continually monitor your
 /// services. You can create and manage <i>canaries</i>, which are modular,
@@ -43,6 +43,7 @@ class Synthetics {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -62,6 +63,7 @@ class Synthetics {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Transcribe streaming offers four main types of real-time
 /// transcription: <b>Standard</b>, <b>Medical</b>, <b>Call Analytics</b>, and
@@ -57,6 +57,7 @@ class TranscribeStreaming {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -77,6 +78,7 @@ class TranscribeStreaming {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

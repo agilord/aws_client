@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Database Migration Service (DMS) can migrate your data to and from the most
 /// widely used commercial and open-source databases such as Oracle, PostgreSQL,
@@ -38,6 +38,7 @@ class DatabaseMigration {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class DatabaseMigration {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

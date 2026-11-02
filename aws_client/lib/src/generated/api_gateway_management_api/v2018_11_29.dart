@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_11_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Amazon API Gateway Management API allows you to directly manage runtime
 /// aspects of your deployed APIs. To use it, you must explicitly set the SDK's
@@ -37,6 +37,7 @@ class ApiGatewayManagementApi {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class ApiGatewayManagementApi {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

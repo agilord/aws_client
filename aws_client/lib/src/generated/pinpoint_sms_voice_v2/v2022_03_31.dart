@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_03_31.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the <i>End User Messaging SMS, version 2 API Reference</i>. This
 /// guide provides information about End User Messaging SMS, version 2 API
@@ -75,6 +75,7 @@ class PinpointSmsVoiceV2 {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -94,6 +95,7 @@ class PinpointSmsVoiceV2 {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_11_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// IoT TwinMaker is a service with which you can build operational digital
 /// twins of physical systems. IoT TwinMaker overlays measurements and analysis
@@ -37,6 +37,7 @@ class IoTTwinMaker {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     bool disableHostPrefix = false,
@@ -57,6 +58,7 @@ class IoTTwinMaker {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
     );

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_07_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Contains all data plane API operations and data types for the Amazon
 /// SageMaker Feature Store. Use this API to put, delete, and retrieve (get)
@@ -56,6 +56,7 @@ class SageMakerFeatureStoreRuntime {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -76,6 +77,7 @@ class SageMakerFeatureStoreRuntime {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

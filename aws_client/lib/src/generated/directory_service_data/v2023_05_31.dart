@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_05_31.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services Directory Service Data is an extension of Directory
 /// Service. This API reference provides detailed information about Directory
@@ -95,6 +95,7 @@ class DirectoryServiceData {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -114,6 +115,7 @@ class DirectoryServiceData {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

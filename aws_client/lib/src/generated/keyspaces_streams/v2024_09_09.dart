@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2024_09_09.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Keyspaces (for Apache Cassandra) change data capture (CDC) records
 /// change events for Amazon Keyspaces tables. The change events captured in a
@@ -57,6 +57,7 @@ class KeyspacesStreams {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -77,6 +78,7 @@ class KeyspacesStreams {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

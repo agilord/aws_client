@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_01_25.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The AWS Marketplace Deployment Service supports the Quick Launch experience,
 /// which is a deployment option for software as a service (SaaS) products.
@@ -38,6 +38,7 @@ class MarketplaceDeployment {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class MarketplaceDeployment {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

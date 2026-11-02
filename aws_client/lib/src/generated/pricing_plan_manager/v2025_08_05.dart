@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2025_08_05.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Manages flat-rate pricing subscriptions for supported AWS services. Use this
 /// API to create, approve, update, and cancel subscriptions; associate and
@@ -36,6 +36,7 @@ class PricingPlanManager {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class PricingPlanManager {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

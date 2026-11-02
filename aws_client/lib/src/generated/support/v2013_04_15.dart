@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2013_04_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The <i>Amazon Web Services Support API Reference</i> is intended for
 /// programmers who need detailed information about the Amazon Web Services
@@ -56,6 +56,7 @@ class Support {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -75,6 +76,7 @@ class Support {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

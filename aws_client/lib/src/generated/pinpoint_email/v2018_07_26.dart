@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the <i>Amazon Pinpoint Email API Reference</i>. This guide
 /// provides information about the Amazon Pinpoint Email API (version 1.0),
@@ -34,6 +34,7 @@ class PinpointEmail {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -54,6 +55,7 @@ class PinpointEmail {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

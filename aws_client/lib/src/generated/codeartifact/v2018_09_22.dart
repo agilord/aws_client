@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_09_22.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// CodeArtifact is a fully managed artifact repository compatible with
 /// language-native package managers and build tools such as npm, Apache Maven,
@@ -349,6 +349,7 @@ class Codeartifact {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -368,6 +369,7 @@ class Codeartifact {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

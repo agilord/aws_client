@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_11_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Organizations is a web service that enables you to consolidate your multiple
 /// Amazon Web Services accounts into an <i>organization</i> and centrally
@@ -173,6 +173,7 @@ class Organizations {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -192,6 +193,7 @@ class Organizations {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

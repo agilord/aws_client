@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_11_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Lightsail is the easiest way to get started with Amazon Web Services
 /// (Amazon Web Services) for developers who need to build websites or web
@@ -53,6 +53,7 @@ class Lightsail {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -72,6 +73,7 @@ class Lightsail {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }
