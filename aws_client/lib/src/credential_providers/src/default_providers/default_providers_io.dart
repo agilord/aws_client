@@ -12,7 +12,7 @@ const List<AwsClientCredentialsProvider> _defaultChain = [
   fromInstanceMetaDataService,
 ];
 
-Future<AwsClientCredentials?> defaultProvider({Client? client}) async {
+Future<AwsClientCredentials?> _resolveChain({Client? client}) async {
   for (final provider in _defaultChain) {
     final credentials = await provider(client: client);
     if (credentials != null) {
@@ -22,3 +22,11 @@ Future<AwsClientCredentials?> defaultProvider({Client? client}) async {
 
   return null;
 }
+
+final _cached = CachedCredentialProvider(_resolveChain);
+
+/// Resolves credentials from the default provider chain and caches the result,
+/// refreshing before temporary credentials expire. Caching the result keeps
+/// each request from re-hitting IMDS, the container endpoint or STS.
+Future<AwsClientCredentials?> defaultProvider({Client? client}) =>
+    _cached.cacheAndRefreshWhenNeeded(client: client);
