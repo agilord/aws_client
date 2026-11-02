@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2015_04_08.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft
 /// Windows or Amazon Linux desktops for your users, known as <i>WorkSpaces</i>.

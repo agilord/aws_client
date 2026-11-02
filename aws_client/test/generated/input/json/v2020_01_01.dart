@@ -19,7 +19,8 @@ import 'package:aws_client/src/shared/shared.dart'
         nonNullableTimeStampFromJson,
         timeStampFromJson;
 
-export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
+export 'package:aws_client/src/shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// Endpoint host trait static prefix
 class EndpointHostTraitStaticPrefix {
