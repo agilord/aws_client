@@ -59,7 +59,7 @@ import '$sharedLibraryPath/shared.dart'
     buf.writeln("import '${api.fileBasename}.endpoints.dart' as _endpoints;");
   }
   buf.writeln("export '$sharedLibraryPath/shared.dart' "
-      "show AwsClientCredentials, AwsException, GenericAwsException;\n");
+      'show AwsClientCredentials, AwsException, GenericAwsException;\n');
 
   final body = StringBuffer()
     ..putMainClass(api, builder)
