@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0
+
+- Requests are now retried automatically on throttling and transient server
+  errors, using full-jitter exponential backoff.
+
 ## 0.10.0
 
 - **Breaking:** refreshed the service catalogue (IoT Events, IoT Events Data, Panorama and SimSpaceWeaver were dropped upstream, six new services added).

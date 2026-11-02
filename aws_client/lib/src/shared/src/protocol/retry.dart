@@ -73,44 +73,51 @@ class RetryOptions {
   Future<void> sleep(Duration duration) => _sleep(duration);
 }
 
-// Error codes that are safe to retry: throttling and clock-skew signals that
-// a fresh, re-signed attempt is likely to clear.
-const _retryableErrorCodes = <String>{
-  'throttling',
-  'throttlingexception',
-  'throttledexception',
-  'requestthrottled',
-  'requestthrottledexception',
-  'toomanyrequestsexception',
-  'provisionedthroughputexceededexception',
-  'transactioninprogressexception',
-  'requestlimitexceeded',
+// Error codes that mark a response as retryable. These are the throttling and
+// transient-error codes the official AWS SDKs ship as their built-in
+// classification; the list is kept in sync with aws-sdk-js-v3's
+// `@aws-sdk/service-error-classification` constants:
+// https://github.com/aws/aws-sdk-js-v3/blob/main/packages/service-error-classification/src/constants.ts
+//
+// Codes are matched case-insensitively (canonical spelling is PascalCase). The
+// more precise source is the per-exception `retryable`/`throttling` flags in
+// the service model itself; wiring those through the generator is a follow-up.
+const _throttlingErrorCodes = <String>{
   'bandwidthlimitexceeded',
   'ec2throttledexception',
+  'limitexceededexception',
   'priorrequestnotcomplete',
+  'provisionedthroughputexceededexception',
+  'requestlimitexceeded',
+  'requestthrottled',
+  'requestthrottledexception',
   'slowdown',
+  'throttledexception',
+  'throttling',
+  'throttlingexception',
+  'toomanyrequestsexception',
+  'transactioninprogressexception',
+};
+
+// Transient service errors. The client-side timeout names the JS SDK also lists
+// here surface in Dart as a ClientException, which is handled separately.
+const _transientErrorCodes = <String>{
   'requesttimeout',
   'requesttimeoutexception',
-  // Clock-skew / expiry: re-signing with a current timestamp should fix these.
-  'requestexpired',
-  'requesttimetooskewed',
-  'expiredtoken',
-  'expiredtokenexception',
 };
 
 bool _isRetryableErrorCode(String code) {
   final normalized = code.toLowerCase();
-  if (_retryableErrorCodes.contains(normalized)) return true;
-  // Catch-all for the many service-specific throttling variants.
-  return normalized.contains('throttl');
+  return _throttlingErrorCodes.contains(normalized) ||
+      _transientErrorCodes.contains(normalized);
 }
 
 /// Sends [buildRequest]'s output through [client], retrying per [options].
 ///
 /// [buildRequest] is invoked once per attempt and must return a freshly signed
-/// request: re-signing refreshes the timestamp and signature, which is what
-/// makes retries of throttling and clock-skew failures effective. Errors thrown
-/// by [buildRequest] (e.g. missing credentials) are never retried.
+/// request: re-signing refreshes the timestamp so a long backoff never replays
+/// an expired signature. Errors thrown by [buildRequest] (e.g. missing
+/// credentials) are never retried.
 ///
 /// The returned [StreamedResponse] is backed by the fully buffered body, so the
 /// caller parses it exactly as it would a live response.
