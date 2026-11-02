@@ -73,15 +73,10 @@ class RetryOptions {
   Future<void> sleep(Duration duration) => _sleep(duration);
 }
 
-// Error codes that mark a response as retryable. These are the throttling and
-// transient-error codes the official AWS SDKs ship as their built-in
-// classification; the list is kept in sync with aws-sdk-js-v3's
-// `@aws-sdk/service-error-classification` constants:
+// Throttling and transient-error codes the official AWS SDKs retry. Mirrors
+// aws-sdk-js-v3's `@aws-sdk/service-error-classification` constants:
 // https://github.com/aws/aws-sdk-js-v3/blob/main/packages/service-error-classification/src/constants.ts
-//
-// Codes are matched case-insensitively (canonical spelling is PascalCase). The
-// more precise source is the per-exception `retryable`/`throttling` flags in
-// the service model itself; wiring those through the generator is a follow-up.
+// Matched case-insensitively (canonical spelling is PascalCase).
 const _throttlingErrorCodes = <String>{
   'bandwidthlimitexceeded',
   'ec2throttledexception',
