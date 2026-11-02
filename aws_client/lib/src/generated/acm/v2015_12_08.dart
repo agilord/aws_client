@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_12_08.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use Certificate Manager (ACM) to manage SSL/TLS certificates for
 /// your Amazon Web Services-based websites and applications. For more
@@ -42,6 +42,7 @@ class Acm {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     String? serviceType,
@@ -63,6 +64,7 @@ class Acm {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
       service: service,
       region: region,

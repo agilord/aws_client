@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_07_24.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Provides APIs for creating and managing SageMaker resources.
 ///
@@ -47,6 +47,7 @@ class SageMaker {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -67,6 +68,7 @@ class SageMaker {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

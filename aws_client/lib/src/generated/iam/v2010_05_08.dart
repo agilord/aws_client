@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2010_05_08.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Identity and Access Management (IAM) is a web service for securely
 /// controlling access to Amazon Web Services services. With IAM, you can
@@ -39,6 +39,7 @@ class Iam {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class Iam {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

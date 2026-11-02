@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_10_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon GameLift Servers provides solutions for hosting session-based
 /// multiplayer game servers in the cloud, including tools for deploying,
@@ -96,6 +96,7 @@ class GameLift {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -115,6 +116,7 @@ class GameLift {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

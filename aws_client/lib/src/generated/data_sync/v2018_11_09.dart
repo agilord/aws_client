@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_11_09.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// In addition to the Amazon Web Services Management Console and Amazon Web
 /// Services Command Line Interface, you can use the DataSync API to configure
@@ -35,6 +35,7 @@ class DataSync {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -54,6 +55,7 @@ class DataSync {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

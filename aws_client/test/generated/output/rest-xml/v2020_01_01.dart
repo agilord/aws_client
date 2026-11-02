@@ -20,7 +20,7 @@ import 'package:aws_client/src/shared/shared.dart'
         timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// XML Attributes
 class XmlAttributes {
@@ -31,6 +31,7 @@ class XmlAttributes {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
   }) {
     final service = _s.ServiceMetadata(
       endpointPrefix: 'XMLAttributes',
@@ -42,6 +43,7 @@ class XmlAttributes {
             service: service, region: region, endpointUrl: endpointUrl),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_11_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Amazon EKS Auth API and the <code>AssumeRoleForPodIdentity</code> action
 /// are only used by the EKS Pod Identity Agent.
@@ -33,6 +33,7 @@ class EksAuth {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -52,6 +53,7 @@ class EksAuth {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

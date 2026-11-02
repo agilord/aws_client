@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_09_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the Amazon CodeCatalyst API reference. This reference provides
 /// descriptions of operations and data types for Amazon CodeCatalyst. You can
@@ -205,6 +205,7 @@ class CodeCatalyst {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -224,6 +225,7 @@ class CodeCatalyst {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_04_16.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Directory Service is a web service that makes it easy for you to setup and
 /// run directories in the Amazon Web Services cloud, or connect your Amazon Web
@@ -49,6 +49,7 @@ class Directory {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -68,6 +69,7 @@ class Directory {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

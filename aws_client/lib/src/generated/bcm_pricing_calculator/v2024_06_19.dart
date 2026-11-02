@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2024_06_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use the Pricing Calculator API to programmatically create estimates
 /// for your planned cloud use. You can model usage and commitments such as
@@ -43,6 +43,7 @@ class BcmPricingCalculator {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -62,6 +63,7 @@ class BcmPricingCalculator {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

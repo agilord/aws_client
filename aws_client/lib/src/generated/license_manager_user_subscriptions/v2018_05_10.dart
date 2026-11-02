@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_05_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// With License Manager, you can create user-based subscriptions to utilize
 /// licensed software with a per user subscription fee on Amazon EC2 instances.
@@ -33,6 +33,7 @@ class LicenseManagerUserSubscriptions {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -52,6 +53,7 @@ class LicenseManagerUserSubscriptions {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2026_06_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS SupportAuthZ enables you to control and authorize the actions that AWS
 /// support operators can perform on your resources. You create
@@ -37,6 +37,7 @@ class SupportAuthz {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class SupportAuthz {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2024_07_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the Amazon Web Services User Experience Customization (UXC) API
 /// Reference. Amazon Web Services User Experience Customization (UXC) is a
@@ -48,6 +48,7 @@ class Uxc {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -67,6 +68,7 @@ class Uxc {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

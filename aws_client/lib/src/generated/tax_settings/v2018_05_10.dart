@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_05_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use the tax setting API to programmatically set, modify, and delete
 /// the tax registration number (TRN), associated business legal name, and
@@ -46,6 +46,7 @@ class TaxSettings {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -65,6 +66,7 @@ class TaxSettings {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_08_04.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services Snow Device Management documentation.
 class SnowDeviceManagement {
@@ -32,6 +32,7 @@ class SnowDeviceManagement {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -51,6 +52,7 @@ class SnowDeviceManagement {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

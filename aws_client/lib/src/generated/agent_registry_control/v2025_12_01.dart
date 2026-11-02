@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2025_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS Agent Registry is a managed catalog for publishing and discovering
 /// resources such as MCP servers, agents, and agent skills. Agent Registry
@@ -38,6 +38,7 @@ class AgentRegistryControl {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class AgentRegistryControl {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

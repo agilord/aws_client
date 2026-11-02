@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_01_04.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>Resource Access Manager API Reference</i>. This documentation
 /// provides descriptions and syntax for each of the actions and data types in
@@ -51,6 +51,7 @@ class Ram {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -70,6 +71,7 @@ class Ram {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

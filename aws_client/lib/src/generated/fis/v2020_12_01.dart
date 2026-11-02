@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services Fault Injection Service is a managed service that
 /// enables you to perform fault injection experiments on your Amazon Web
@@ -36,6 +36,7 @@ class Fis {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class Fis {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

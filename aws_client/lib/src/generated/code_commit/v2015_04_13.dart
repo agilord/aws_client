@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_04_13.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>CodeCommit API Reference</i>. This reference provides
 /// descriptions of the operations and data types for CodeCommit API along with
@@ -34,6 +34,7 @@ class CodeCommit {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -53,6 +54,7 @@ class CodeCommit {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_08_18.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Managed Grafana is a fully managed and secure data visualization
 /// service that you can use to instantly query, correlate, and visualize
@@ -42,6 +42,7 @@ class Grafana {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -61,6 +62,7 @@ class Grafana {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

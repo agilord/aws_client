@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_06_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Savings Plans are a pricing model that offer significant savings on Amazon
 /// Web Services usage (for example, on Amazon EC2 instances). You commit to a
@@ -38,6 +38,7 @@ class Savingsplans {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class Savingsplans {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

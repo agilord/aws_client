@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2010_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage
 /// scalable, fault-tolerant applications running on the Amazon Web Services
@@ -34,6 +34,7 @@ class ElasticBeanstalk {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -53,6 +54,7 @@ class ElasticBeanstalk {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

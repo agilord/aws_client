@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2014_10_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// CodeDeploy is a deployment service that automates application deployments to
 /// Amazon EC2 instances, on-premises instances running in your own facility,
@@ -122,6 +122,7 @@ class CodeDeploy {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -141,6 +142,7 @@ class CodeDeploy {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

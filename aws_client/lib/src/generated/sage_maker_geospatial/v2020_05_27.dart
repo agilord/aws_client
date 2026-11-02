@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_05_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Provides APIs for creating and managing SageMaker geospatial resources.
 class SageMakerGeospatial {
@@ -32,6 +32,7 @@ class SageMakerGeospatial {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -51,6 +52,7 @@ class SageMakerGeospatial {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

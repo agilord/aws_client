@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2012_10_25.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Direct Connect links your internal network to an Direct Connect location
 /// over a standard Ethernet fiber-optic cable. One end of the cable is
@@ -41,6 +41,7 @@ class DirectConnect {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -60,6 +61,7 @@ class DirectConnect {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

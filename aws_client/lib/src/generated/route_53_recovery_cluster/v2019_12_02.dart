@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_12_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the Routing Control (Recovery Cluster) API Reference Guide for
 /// Amazon Route 53 Application Recovery Controller.
@@ -93,6 +93,7 @@ class Route53RecoveryCluster {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -112,6 +113,7 @@ class Route53RecoveryCluster {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_07_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the latest version of the <b>WAF</b> API, released in November,
 /// 2019. The names of the entities that you use to access this API, like
@@ -37,6 +37,7 @@ class WafV2 {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class WafV2 {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

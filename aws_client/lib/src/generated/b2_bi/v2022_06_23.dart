@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_06_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>Amazon Web Services B2B Data Interchange API Reference</i>.
 /// It provides descriptions, API request parameters, and the XML response for
@@ -48,6 +48,7 @@ class B2Bi {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -67,6 +68,7 @@ class B2Bi {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

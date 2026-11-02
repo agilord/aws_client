@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_10_05.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// IoT Secure Tunneling creates remote connections to devices deployed in the
 /// field.
@@ -33,6 +33,7 @@ class IoTSecureTunneling {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -53,6 +54,7 @@ class IoTSecureTunneling {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

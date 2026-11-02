@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_07_14.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Amazon Interactive Video Service (IVS) real-time API is REST compatible,
 /// using a standard HTTP API and an AWS EventBridge event stream for responses.
@@ -113,6 +113,7 @@ class IvsRealTime {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -133,6 +134,7 @@ class IvsRealTime {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

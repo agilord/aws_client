@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_08_07.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This section contains documentation for the Amazon Lex V2 Runtime V2 API
 /// operations.
@@ -33,6 +33,7 @@ class LexRuntimeV2 {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -53,6 +54,7 @@ class LexRuntimeV2 {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

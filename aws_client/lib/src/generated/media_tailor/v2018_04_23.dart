@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_04_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Use the AWS Elemental MediaTailor SDKs and CLI to configure scalable ad
 /// insertion and linear channels. With MediaTailor, you can assemble existing
@@ -44,6 +44,7 @@ class MediaTailor {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -64,6 +65,7 @@ class MediaTailor {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

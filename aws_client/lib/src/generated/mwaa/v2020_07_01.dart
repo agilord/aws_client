@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_07_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This section contains the Amazon Managed Workflows for Apache Airflow (MWAA)
 /// API reference documentation. For more information, see <a
@@ -35,6 +35,7 @@ class Mwaa {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     bool disableHostPrefix = false,
@@ -55,6 +56,7 @@ class Mwaa {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
     );

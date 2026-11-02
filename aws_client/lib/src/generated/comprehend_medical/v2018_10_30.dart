@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_10_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Comprehend Medical extracts structured information from unstructured
 /// clinical text. Use these actions to gain insight in your documents. Amazon
@@ -38,6 +38,7 @@ class ComprehendMedical {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class ComprehendMedical {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

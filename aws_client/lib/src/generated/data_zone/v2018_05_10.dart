@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_05_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon DataZone is a data management service that enables you to catalog,
 /// discover, govern, share, and analyze your data. With Amazon DataZone, you
@@ -37,6 +37,7 @@ class DataZone {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class DataZone {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

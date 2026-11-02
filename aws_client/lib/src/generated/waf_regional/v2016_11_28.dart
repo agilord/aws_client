@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_11_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// <note>
 /// This is <b>AWS WAF Classic Regional</b> documentation. For more information,
@@ -56,6 +56,7 @@ class WafRegional {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -75,6 +76,7 @@ class WafRegional {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

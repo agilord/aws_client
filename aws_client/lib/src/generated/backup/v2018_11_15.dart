@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_11_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Backup is a unified backup service designed to protect Amazon Web Services
 /// services and their associated data. Backup simplifies the creation,
@@ -35,6 +35,7 @@ class Backup {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -54,6 +55,7 @@ class Backup {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

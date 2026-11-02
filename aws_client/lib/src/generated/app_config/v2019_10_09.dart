@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_10_09.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AppConfig helps you safely change application behavior in production without
 /// redeploying code. Using feature flags and dynamic free-form configurations,
@@ -148,6 +148,7 @@ class AppConfig {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -167,6 +168,7 @@ class AppConfig {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_10_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// WorkMail is a secure, managed business email and calendaring service with
 /// support for existing desktop and mobile email clients. You can access your
@@ -70,6 +70,7 @@ class WorkMail {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -89,6 +90,7 @@ class WorkMail {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

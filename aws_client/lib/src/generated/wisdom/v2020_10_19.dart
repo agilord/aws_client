@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_10_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Connect Wisdom delivers agents the information they need to solve
 /// customer issues as they're actively speaking with customers. Agents can
@@ -36,6 +36,7 @@ class Wisdom {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class Wisdom {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

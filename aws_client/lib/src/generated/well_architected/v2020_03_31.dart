@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_03_31.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>Well-Architected Tool API Reference</i>. The WA Tool API
 /// provides programmatic access to the <a
@@ -39,6 +39,7 @@ class WellArchitected {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class WellArchitected {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

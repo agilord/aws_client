@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_04_19.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Lex is an AWS service for building conversational voice and text
 /// interfaces. Use these actions to create, update, and delete conversational
@@ -34,6 +34,7 @@ class LexModelBuilding {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -54,6 +55,7 @@ class LexModelBuilding {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

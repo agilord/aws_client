@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_09_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// <a href="http://aws.amazon.com/ses">Amazon SES</a> is an Amazon Web Services
 /// service that you can use to send email messages to your customers.
@@ -38,6 +38,7 @@ class SesV2 {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class SesV2 {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
       service: service,
       region: region,

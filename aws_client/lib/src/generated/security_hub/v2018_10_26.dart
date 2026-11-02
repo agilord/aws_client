@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Security Hub CSPM provides you with a comprehensive view of your security
 /// state in Amazon Web Services and helps you assess your Amazon Web Services
@@ -128,6 +128,7 @@ class SecurityHub {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -147,6 +148,7 @@ class SecurityHub {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

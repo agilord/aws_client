@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_08_03.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Amazon Chime SDK telephony APIs in this section enable developers to
 /// create PSTN calling solutions that use Amazon Chime SDK Voice Connectors,
@@ -36,6 +36,7 @@ class ChimeSdkVoice {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class ChimeSdkVoice {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

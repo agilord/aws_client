@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_09_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Route 53 Global Resolver is a global, internet-accessible DNS
 /// resolver that enables customers to resolve and forward traffic for both
@@ -44,6 +44,7 @@ class Route53GlobalResolver {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -63,6 +64,7 @@ class Route53GlobalResolver {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_08_25.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS Signer is a fully managed code-signing service to help you ensure the
 /// trust and integrity of your code.
@@ -67,6 +67,7 @@ class Signer {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     bool disableHostPrefix = false,
@@ -87,6 +88,7 @@ class Signer {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
     );

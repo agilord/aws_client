@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_06_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The AWS Migration Hub home region APIs are available specifically for
 /// working with your Migration Hub home region. You can use these APIs to
@@ -57,6 +57,7 @@ class MigrationHubConfig {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -77,6 +78,7 @@ class MigrationHubConfig {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

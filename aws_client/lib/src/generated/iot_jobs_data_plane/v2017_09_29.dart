@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_09_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// IoT Jobs is a service that allows you to define a set of jobs — remote
 /// operations that are sent to and executed on one or more devices connected to
@@ -58,6 +58,7 @@ class IoTJobsDataPlane {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -78,6 +79,7 @@ class IoTJobsDataPlane {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

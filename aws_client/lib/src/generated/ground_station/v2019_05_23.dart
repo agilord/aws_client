@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_05_23.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the AWS Ground Station API Reference. AWS Ground Station is a
 /// fully managed service that enables you to control satellite communications,
@@ -36,6 +36,7 @@ class GroundStation {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class GroundStation {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

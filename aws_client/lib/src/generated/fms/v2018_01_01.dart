@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>Firewall Manager API Reference</i>. This guide is for
 /// developers who need detailed information about the Firewall Manager API
@@ -42,6 +42,7 @@ class Fms {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -61,6 +62,7 @@ class Fms {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

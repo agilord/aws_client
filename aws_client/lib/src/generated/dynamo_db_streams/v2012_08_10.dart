@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2012_08_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon DynamoDB Streams provides API actions for accessing streams and
 /// processing stream records. To learn more about application development with
@@ -37,6 +37,7 @@ class DynamoDBStreams {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class DynamoDBStreams {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

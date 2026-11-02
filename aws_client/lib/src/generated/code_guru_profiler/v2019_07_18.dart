@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_07_18.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This section provides documentation for the Amazon CodeGuru Profiler API
 /// operations.
@@ -54,6 +54,7 @@ class CodeGuruProfiler {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -73,6 +74,7 @@ class CodeGuruProfiler {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

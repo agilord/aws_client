@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_02_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon RDS Performance Insights enables you to monitor and explore different
 /// dimensions of database load based on data captured from a running DB
@@ -35,6 +35,7 @@ class PI {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -54,6 +55,7 @@ class PI {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

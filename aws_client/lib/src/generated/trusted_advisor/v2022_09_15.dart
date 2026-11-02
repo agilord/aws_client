@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_09_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// TrustedAdvisor Public API
 class TrustedAdvisor {
@@ -32,6 +32,7 @@ class TrustedAdvisor {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -51,6 +52,7 @@ class TrustedAdvisor {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

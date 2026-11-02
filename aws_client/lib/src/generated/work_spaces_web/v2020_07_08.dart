@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_07_08.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon WorkSpaces Secure Browser is a low cost, fully managed WorkSpace
 /// built specifically to facilitate secure, web-based workloads. WorkSpaces
@@ -39,6 +39,7 @@ class WorkSpacesWeb {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class WorkSpacesWeb {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

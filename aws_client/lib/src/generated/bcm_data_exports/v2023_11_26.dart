@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_11_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use the Data Exports API to create customized exports from multiple
 /// Amazon Web Services cost management and billing datasets, such as cost and
@@ -42,6 +42,7 @@ class BcmDataExports {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -61,6 +62,7 @@ class BcmDataExports {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2012_10_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS Data Pipeline configures and manages a data-driven workflow called a
 /// pipeline. AWS Data Pipeline handles the details of scheduling and ensuring
@@ -53,6 +53,7 @@ class DataPipeline {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -72,6 +73,7 @@ class DataPipeline {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

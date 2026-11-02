@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_11_29.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Neptune Analytics is a new analytics database engine for Amazon Neptune that
 /// helps customers get to insights faster by quickly processing large amounts
@@ -40,6 +40,7 @@ class NeptuneGraph {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     bool disableHostPrefix = false,
@@ -60,6 +61,7 @@ class NeptuneGraph {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
       service: service,

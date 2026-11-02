@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_09_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Contains all data plane API operations and data types for Amazon SageMaker
 /// Metrics. Use these APIs to put and retrieve (get) features related to your
@@ -41,6 +41,7 @@ class SageMakerMetrics {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -61,6 +62,7 @@ class SageMakerMetrics {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_06_05.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control
 /// plane actions configure, create, modify, and monitor Amazon Web Services
@@ -34,6 +34,7 @@ class BedrockAgentCoreControl {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -54,6 +55,7 @@ class BedrockAgentCoreControl {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This Amazon Web Services (AWS) Partner Central API reference is designed to
 /// help <a href="http://aws.amazon.com/partners/programs/">AWS Partners</a>
@@ -36,6 +36,7 @@ class PartnerCentralSelling {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class PartnerCentralSelling {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

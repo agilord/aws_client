@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2013_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the CloudTrail API Reference. It provides descriptions of actions,
 /// data types, common parameters, and common errors for CloudTrail.
@@ -33,6 +33,7 @@ class CloudTrail {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -52,6 +53,7 @@ class CloudTrail {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_08_14.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// <note>
 /// This documentation is for version 1 of the Amazon Kinesis Data Analytics
@@ -40,6 +40,7 @@ class KinesisAnalytics {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -59,6 +60,7 @@ class KinesisAnalytics {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

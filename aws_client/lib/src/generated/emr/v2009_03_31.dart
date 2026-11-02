@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2009_03_31.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon EMR is a web service that makes it easier to process large amounts of
 /// data efficiently. Amazon EMR uses Hadoop processing combined with several
@@ -36,6 +36,7 @@ class Emr {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class Emr {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

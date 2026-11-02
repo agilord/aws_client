@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_08_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Using Batch, you can run batch computing workloads on the Amazon Web
 /// Services Cloud. Batch computing is a common means for developers,
@@ -40,6 +40,7 @@ class Batch {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -59,6 +60,7 @@ class Batch {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

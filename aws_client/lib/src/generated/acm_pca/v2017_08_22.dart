@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_08_22.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>Amazon Web Services Private Certificate Authority API
 /// Reference</i>. It provides descriptions, syntax, and usage examples for each
@@ -57,6 +57,7 @@ class AcmPca {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -76,6 +77,7 @@ class AcmPca {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

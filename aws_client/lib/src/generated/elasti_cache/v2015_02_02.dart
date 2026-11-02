@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_02_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon ElastiCache is a web service that makes it easier to set up, operate,
 /// and scale a distributed cache in the cloud.
@@ -33,6 +33,7 @@ class ElastiCache {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -52,6 +53,7 @@ class ElastiCache {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

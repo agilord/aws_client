@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_11_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the <i>Amazon Q Business</i> API Reference. Amazon Q Business is a
 /// fully managed, generative-AI powered enterprise chat assistant that you can
@@ -71,6 +71,7 @@ class QBusiness {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -90,6 +91,7 @@ class QBusiness {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2025_04_04.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS Partner Central Account service provides APIs for managing partner
 /// accounts, connections, and profiles within the AWS Partner Network. This
@@ -36,6 +36,7 @@ class PartnerCentralAccount {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class PartnerCentralAccount {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

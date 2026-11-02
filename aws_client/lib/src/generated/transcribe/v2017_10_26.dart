@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Transcribe offers three main types of batch transcription:
 /// <b>Standard</b>, <b>Medical</b>, and <b>Call Analytics</b>.
@@ -51,6 +51,7 @@ class Transcribe {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -70,6 +71,7 @@ class Transcribe {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_06_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// IAM Identity Center OpenID Connect (OIDC) is a web service that enables a
 /// client (such as CLI or a native application) to register with IAM Identity
@@ -82,6 +82,7 @@ class SsoOidc {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -102,6 +103,7 @@ class SsoOidc {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

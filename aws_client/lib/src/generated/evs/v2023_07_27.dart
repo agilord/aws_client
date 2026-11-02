@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_07_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Elastic VMware Service (Amazon EVS) is a service that you can use to
 /// deploy a VMware Cloud Foundation (VCF) software environment directly on EC2
@@ -38,6 +38,7 @@ class Evs {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class Evs {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

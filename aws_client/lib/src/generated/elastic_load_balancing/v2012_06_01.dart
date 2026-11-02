@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2012_06_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// A load balancer can distribute incoming traffic across your EC2 instances.
 /// This enables you to increase the availability of your application. The load
@@ -39,6 +39,7 @@ class ElasticLoadBalancing {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class ElasticLoadBalancing {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_09_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the <i>Amazon Web Services Clean Rooms ML API Reference</i>.
 ///
@@ -51,6 +51,7 @@ class CleanRoomsML {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -70,6 +71,7 @@ class CleanRoomsML {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

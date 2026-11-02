@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon CloudFront KeyValueStore Service to View and Update Data in a KVS
 /// Resource
@@ -38,6 +38,7 @@ class CloudFrontKeyValueStore {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class CloudFrontKeyValueStore {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
       service: service,
       region: region,

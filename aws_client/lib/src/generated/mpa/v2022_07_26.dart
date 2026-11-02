@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_07_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Multi-party approval is a capability of <a
 /// href="http://aws.amazon.com/organizations">Organizations</a> that allows you
@@ -62,6 +62,7 @@ class Mpa {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -81,6 +82,7 @@ class Mpa {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

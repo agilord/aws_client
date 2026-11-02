@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_08_28.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This API reference provides descriptions, syntax, and other details about
 /// each of the actions and data types for AWS Migration Hub Orchestrator. The
@@ -36,6 +36,7 @@ class MigrationHubOrchestrator {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -55,6 +56,7 @@ class MigrationHubOrchestrator {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_11_27.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Resource Groups lets you organize Amazon Web Services resources such as
 /// Amazon Elastic Compute Cloud instances, Amazon Relational Database Service
@@ -75,6 +75,7 @@ class ResourceGroups {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -94,6 +95,7 @@ class ResourceGroups {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

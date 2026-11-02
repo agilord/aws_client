@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_12_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon DevOps Guru is a fully managed service that helps you identify
 /// anomalous behavior in business critical operational applications. You
@@ -52,6 +52,7 @@ class DevOpsGuru {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -71,6 +72,7 @@ class DevOpsGuru {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

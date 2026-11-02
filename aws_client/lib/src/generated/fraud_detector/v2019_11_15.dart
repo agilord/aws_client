@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_11_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is the Amazon Fraud Detector API Reference. This guide is for
 /// developers who need detailed information about Amazon Fraud Detector API
@@ -53,6 +53,7 @@ class FraudDetector {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -72,6 +73,7 @@ class FraudDetector {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

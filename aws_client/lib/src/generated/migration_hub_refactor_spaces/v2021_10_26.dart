@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_10_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This API reference provides descriptions, syntax, and other details about
 /// each of the actions and data types for Amazon Web Services Migration Hub
@@ -39,6 +39,7 @@ class MigrationHubRefactorSpaces {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class MigrationHubRefactorSpaces {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

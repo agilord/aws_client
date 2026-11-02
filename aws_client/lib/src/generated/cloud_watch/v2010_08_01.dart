@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2010_08_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon CloudWatch enables you to publish, monitor, and manage various
 /// metrics, as well as configure alarm actions based on data from metrics. This
@@ -82,6 +82,7 @@ class CloudWatch {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -101,6 +102,7 @@ class CloudWatch {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

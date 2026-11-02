@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2016_10_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// CodeBuild is a fully managed build service in the cloud. CodeBuild compiles
 /// your source code, runs unit tests, and produces artifacts that are ready to
@@ -42,6 +42,7 @@ class CodeBuild {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -61,6 +62,7 @@ class CodeBuild {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

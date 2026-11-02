@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2015_11_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services Application Discovery Service (Application Discovery
 /// Service) helps you plan application migration projects. It automatically
@@ -37,6 +37,7 @@ class ApplicationDiscovery {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -56,6 +57,7 @@ class ApplicationDiscovery {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

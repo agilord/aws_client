@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_03_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// AWS Marketplace is a curated digital catalog that customers can use to find,
 /// buy, deploy, and manage third-party software, data, and services to build
@@ -37,6 +37,7 @@ class MarketplaceAgreement {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class MarketplaceAgreement {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2026_02_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Agentic RFT Runtime Service - manages trajectory and transition data for
 /// reinforcement fine-tuning jobs.
@@ -33,6 +33,7 @@ class SagemakerJobRuntime {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -53,6 +54,7 @@ class SagemakerJobRuntime {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

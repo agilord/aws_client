@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_05_04.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Managed Blockchain (AMB) Query provides you with convenient access to
 /// multi-blockchain network data, which makes it easier for you to extract
@@ -40,6 +40,7 @@ class ManagedBlockchainQuery {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -59,6 +60,7 @@ class ManagedBlockchainQuery {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

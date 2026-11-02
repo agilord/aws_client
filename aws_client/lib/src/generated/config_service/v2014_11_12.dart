@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2014_11_12.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Config provides a way to keep track of the configurations of all the Amazon
 /// Web Services resources associated with your Amazon Web Services account. You
@@ -41,6 +41,7 @@ class ConfigService {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -60,6 +61,7 @@ class ConfigService {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

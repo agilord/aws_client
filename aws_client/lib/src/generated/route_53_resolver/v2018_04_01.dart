@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_04_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// When you create a VPC using Amazon VPC, you automatically get DNS resolution
 /// within the VPC from Route 53 Resolver. By default, Resolver answers DNS
@@ -70,6 +70,7 @@ class Route53Resolver {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -89,6 +90,7 @@ class Route53Resolver {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

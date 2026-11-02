@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_06_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Identity Store service used by IAM Identity Center provides a single
 /// place to retrieve all of your identities (users and groups). For more
@@ -48,6 +48,7 @@ class Identitystore {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -67,6 +68,7 @@ class Identitystore {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

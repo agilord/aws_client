@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_07_20.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// IAM Identity Center is the Amazon Web Services solution for connecting your
 /// workforce users to Amazon Web Services managed applications and other Amazon
@@ -69,6 +69,7 @@ class SsoAdmin {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -88,6 +89,7 @@ class SsoAdmin {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

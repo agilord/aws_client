@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_11_05.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Transfer Family is a fully managed service that enables the transfer of
 /// files over the File Transfer Protocol (FTP), File Transfer Protocol over SSL
@@ -43,6 +43,7 @@ class Transfer {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -62,6 +63,7 @@ class Transfer {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

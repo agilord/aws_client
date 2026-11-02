@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_10_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon EMR on EKS provides a deployment option for Amazon EMR that allows
 /// you to run open-source big data frameworks on Amazon Elastic Kubernetes
@@ -63,6 +63,7 @@ class EmrContainers {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -82,6 +83,7 @@ class EmrContainers {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

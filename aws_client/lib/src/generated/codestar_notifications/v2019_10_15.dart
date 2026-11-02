@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_10_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This CodeStar Notifications API Reference provides descriptions and usage
 /// examples of the operations and data types for the CodeStar Notifications
@@ -104,6 +104,7 @@ class CodestarNotifications {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -123,6 +124,7 @@ class CodestarNotifications {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

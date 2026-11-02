@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_05_18.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Athena is an interactive query service that lets you use standard SQL
 /// to analyze data directly in Amazon S3. You can point Athena at your data in
@@ -46,6 +46,7 @@ class Athena {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -65,6 +66,7 @@ class Athena {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

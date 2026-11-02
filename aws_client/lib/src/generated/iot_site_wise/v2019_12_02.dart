@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_12_02.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Welcome to the IoT SiteWise API Reference. IoT SiteWise is an Amazon Web
 /// Services service that connects <a
@@ -40,6 +40,7 @@ class IoTSiteWise {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     bool disableHostPrefix = false,
@@ -60,6 +61,7 @@ class IoTSiteWise {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
     );

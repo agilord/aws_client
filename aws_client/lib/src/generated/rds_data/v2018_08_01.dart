@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2018_08_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon
 /// Aurora DB cluster. To run these statements, you use the RDS Data API (Data
@@ -34,6 +34,7 @@ class RdsData {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -53,6 +54,7 @@ class RdsData {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

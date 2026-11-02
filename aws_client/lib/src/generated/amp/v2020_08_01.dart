@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2020_08_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Managed Service for Prometheus is a serverless, Prometheus-compatible
 /// monitoring service for container metrics that makes it easier to securely
@@ -57,6 +57,7 @@ class Amp {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -76,6 +77,7 @@ class Amp {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

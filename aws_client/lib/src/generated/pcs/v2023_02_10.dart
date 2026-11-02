@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_02_10.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Parallel Computing Service (PCS) is a managed service that makes it easier
 /// for you to run and scale your high performance computing (HPC) workloads,
@@ -58,6 +58,7 @@ class Pcs {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -77,6 +78,7 @@ class Pcs {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

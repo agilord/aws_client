@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2024_04_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Use CloudWatch Application Signals for comprehensive observability of your
 /// cloud-based applications. It enables real-time service health dashboards and
@@ -59,6 +59,7 @@ class ApplicationSignals {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -78,6 +79,7 @@ class ApplicationSignals {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

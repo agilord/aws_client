@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_01_01.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// MemoryDB is a fully managed, Redis OSS-compatible, in-memory database that
 /// delivers ultra-fast performance and Multi-AZ durability for modern
@@ -38,6 +38,7 @@ class MemoryDB {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -58,6 +59,7 @@ class MemoryDB {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

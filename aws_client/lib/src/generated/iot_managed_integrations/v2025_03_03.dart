@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2025_03_03.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Managed integrations is a feature of AWS IoT Device Management that enables
 /// developers to quickly build innovative IoT solutions. Customers can use
@@ -37,6 +37,7 @@ class IoTManagedIntegrations {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -57,6 +58,7 @@ class IoTManagedIntegrations {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

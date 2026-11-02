@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2014_11_06.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services Systems Manager is the operations hub for your Amazon
 /// Web Services applications and resources and a secure end-to-end management
@@ -73,6 +73,7 @@ class Ssm {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -92,6 +93,7 @@ class Ssm {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

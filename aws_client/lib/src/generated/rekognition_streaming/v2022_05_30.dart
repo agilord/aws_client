@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2022_05_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// A real-time video processing service based on Rekognition. This section
 /// documents the API operations for Rekognition Face Liveness.
@@ -50,6 +50,7 @@ class RekognitionStreaming {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -70,6 +71,7 @@ class RekognitionStreaming {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

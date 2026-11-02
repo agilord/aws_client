@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_10_15.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Amazon Web Services Price List API is a centralized and convenient way
 /// to programmatically query Amazon Web Services for services, products, and
@@ -67,6 +67,7 @@ class Pricing {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -87,6 +88,7 @@ class Pricing {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

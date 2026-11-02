@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2024_08_20.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Oracle Database@Amazon Web Services is an offering that enables you to
 /// access Oracle Exadata infrastructure managed by Oracle Cloud Infrastructure
@@ -73,6 +73,7 @@ class Odb {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -92,6 +93,7 @@ class Odb {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

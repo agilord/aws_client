@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2014_06_30.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Cognito Sync provides an AWS service and client library that enable
 /// cross-device syncing of application-related user data. High-level client
@@ -40,6 +40,7 @@ class CognitoSync {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -59,6 +60,7 @@ class CognitoSync {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

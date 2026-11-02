@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2025_09_26.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon SimpleDB is a web service providing the core database functions of
 /// data indexing and querying in the cloud. By offloading the time and effort
@@ -44,6 +44,7 @@ class SimpleDBV2 {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -63,6 +64,7 @@ class SimpleDBV2 {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

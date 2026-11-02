@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2025_09_09.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Provides APIs to create, manage, and operate AWS Lambda MicroVMs and their
 /// associated MicroVM Image environments.
@@ -33,6 +33,7 @@ class LambdaMicrovms {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -52,6 +53,7 @@ class LambdaMicrovms {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

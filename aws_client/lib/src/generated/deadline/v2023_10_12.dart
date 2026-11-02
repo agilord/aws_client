@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2023_10_12.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The Amazon Web Services Deadline Cloud API provides infrastructure and
 /// centralized management for your projects. Use the Deadline Cloud API to
@@ -41,6 +41,7 @@ class Deadline {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
     bool disableHostPrefix = false,
@@ -61,6 +62,7 @@ class Deadline {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
     );

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2017_09_08.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// The AWS Serverless Application Repository makes it easy for developers and
 /// enterprises to quickly find and deploy serverless applications in the AWS
@@ -67,6 +67,7 @@ class ServerlessApplicationRepository {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -86,6 +87,7 @@ class ServerlessApplicationRepository {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_09_14.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Amazon Web Services Payment Cryptography Control Plane APIs manage
 /// encryption keys for use during payment-related cryptographic operations. You
@@ -60,6 +60,7 @@ class PaymentCryptography {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -80,6 +81,7 @@ class PaymentCryptography {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2021_04_21.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// This is an interface reference for Amazon Redshift Serverless. It contains
 /// documentation for one of the programming or command line interfaces you can
@@ -45,6 +45,7 @@ class RedshiftServerless {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -64,6 +65,7 @@ class RedshiftServerless {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

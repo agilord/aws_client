@@ -21,7 +21,7 @@ import '../../shared/shared.dart'
 
 import 'v2019_12_20.endpoints.dart' as _endpoints;
 export '../../shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// You can use the Amazon Redshift Data API to run queries on Amazon Redshift
 /// tables. You can run SQL statements, which are committed if the statement
@@ -40,6 +40,7 @@ class RedshiftData {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool useFipsEndpoint = false,
     bool useDualStackEndpoint = false,
   }) {
@@ -59,6 +60,7 @@ class RedshiftData {
             region: region),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
       ),
     );
   }

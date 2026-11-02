@@ -20,7 +20,7 @@ import 'package:aws_client/src/shared/shared.dart'
         timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart'
-    show AwsClientCredentials, AwsException, GenericAwsException;
+    show AwsClientCredentials, AwsException, GenericAwsException, RetryOptions;
 
 /// Endpoint host trait
 class EndpointHostTrait {
@@ -31,6 +31,7 @@ class EndpointHostTrait {
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
+    _s.RetryOptions? retryOptions,
     bool disableHostPrefix = false,
   }) {
     final service = _s.ServiceMetadata(
@@ -43,6 +44,7 @@ class EndpointHostTrait {
             service: service, region: region, endpointUrl: endpointUrl),
         credentials: credentials,
         credentialsProvider: credentialsProvider,
+        retryOptions: retryOptions,
         disableHostPrefix: disableHostPrefix,
       ),
     );
