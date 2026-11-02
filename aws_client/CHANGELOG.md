@@ -3,7 +3,8 @@
 ## 0.11.0
 
 - Requests are now retried automatically on throttling and transient server
-  errors, using full-jitter exponential backoff.
+  errors, using full-jitter exponential backoff. Configure or turn this off per
+  client with the `retryOptions` parameter (`RetryOptions.disabled()` opts out).
 - `AwsException` and `GenericAwsException` are now exported, so an error from any
   service can be caught by a shared type. `GenericAwsException` also exposes the
   response's HTTP `statusCode`.

@@ -270,6 +270,7 @@ abstract class ServiceBuilder {
       '_s.AwsClientCredentialsProvider? credentialsProvider',
       '_s.Client? client',
       'String? endpointUrl',
+      '_s.RetryOptions? retryOptions',
       if (hasResolver) ...[
         'bool useFipsEndpoint = false',
         'bool useDualStackEndpoint = false',
@@ -298,6 +299,7 @@ abstract class ServiceBuilder {
       'endpointBuilder: () => $defaultEndpoint',
       'credentials: credentials',
       'credentialsProvider: credentialsProvider',
+      'retryOptions: retryOptions',
       if (_hasHostPrefix(api)) 'disableHostPrefix: disableHostPrefix',
     ].join(', ');
 
