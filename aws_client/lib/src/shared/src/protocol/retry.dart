@@ -11,8 +11,7 @@ import 'shared.dart';
 /// Called to wait between retry attempts; overridable so tests do not sleep.
 typedef RetrySleeper = Future<void> Function(Duration duration);
 
-Future<void> _defaultSleep(Duration duration) =>
-    Future<void>.delayed(duration);
+Future<void> _defaultSleep(Duration duration) => Future<void>.delayed(duration);
 
 /// Configures how failed requests are retried.
 ///
