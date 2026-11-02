@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2025_08_05.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// Manages flat-rate pricing subscriptions for supported AWS services. Use this
 /// API to create, approve, update, and cancel subscriptions; associate and

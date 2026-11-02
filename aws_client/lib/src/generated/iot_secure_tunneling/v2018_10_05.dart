@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2018_10_05.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// IoT Secure Tunneling creates remote connections to devices deployed in the
 /// field.

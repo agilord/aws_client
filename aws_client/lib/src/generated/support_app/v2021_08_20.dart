@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2021_08_20.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// You can use the Amazon Web Services Support App in Slack API to manage your
 /// support cases in Slack for your Amazon Web Services account. After you

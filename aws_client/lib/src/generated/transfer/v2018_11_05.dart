@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2018_11_05.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// Transfer Family is a fully managed service that enables the transfer of
 /// files over the File Transfer Protocol (FTP), File Transfer Protocol over SSL

@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2018_05_23.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// <note>
 /// Amazon Managed Service for Apache Flink was previously known as Amazon

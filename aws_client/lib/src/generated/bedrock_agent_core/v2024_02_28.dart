@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2024_02_28.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// Welcome to the Amazon Bedrock AgentCore Data Plane API reference. Data Plane
 /// actions process and handle data or workloads within Amazon Web Services

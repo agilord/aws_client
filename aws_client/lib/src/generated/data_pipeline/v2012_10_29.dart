@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2012_10_29.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// AWS Data Pipeline configures and manages a data-driven workflow called a
 /// pipeline. AWS Data Pipeline handles the details of scheduling and ensuring

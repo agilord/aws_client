@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2024_08_20.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// Oracle Database@Amazon Web Services is an offering that enables you to
 /// access Oracle Exadata infrastructure managed by Oracle Cloud Infrastructure

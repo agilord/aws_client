@@ -5,9 +5,10 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 import '../credentials.dart';
-import '_sign.dart';
 import 'endpoint.dart';
+import 'retry.dart';
 import 'shared.dart';
+import 'sign.dart';
 
 class JsonProtocol {
   final Client _client;
@@ -19,6 +20,7 @@ class JsonProtocol {
   final RequestSigner _requestSigner;
   final bool _manageHttpClient;
   final bool _disableHostPrefix;
+  final RetryOptions _retryOptions;
   bool _closed = false;
 
   JsonProtocol._(
@@ -28,6 +30,7 @@ class JsonProtocol {
     this._requestSigner,
     this._manageHttpClient,
     this._disableHostPrefix,
+    this._retryOptions,
   );
 
   factory JsonProtocol({
@@ -40,6 +43,7 @@ class JsonProtocol {
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
     bool disableHostPrefix = false,
+    RetryOptions? retryOptions,
   }) {
     final manageHttpClient = client == null;
     client ??= Client();
@@ -61,6 +65,7 @@ class JsonProtocol {
       requestSigner,
       manageHttpClient,
       disableHostPrefix,
+      retryOptions ?? RetryOptions(),
     );
   }
 
@@ -82,47 +87,57 @@ class JsonProtocol {
       ...uri.queryParameters,
       ...?queryParams,
     });
-    final rq = Request(
-      method,
-      uri,
-    );
-    rq.headers.addAll(headers ?? {});
-    // The awsJson protocol always sends a JSON body, even for empty input (`{}`).
-    rq.body = json.encode(payload ?? const <String, dynamic>{});
 
-    if (signed) {
-      final credentials = await _credentialsProvider?.call(client: _client);
-
-      if (credentials == null) {
-        throw Exception('credentials for signing request is null');
-      }
-
-      _requestSigner(
-        rq: rq,
-        service: ep.service,
-        region: ep.signingRegion,
-        credentials: credentials,
+    // Rebuilt and re-signed on every attempt so retries carry a fresh
+    // timestamp and signature.
+    Future<Request> buildRequest() async {
+      final rq = Request(
+        method,
+        uri,
       );
+      rq.headers.addAll(headers ?? {});
+      // The awsJson protocol always sends a JSON body, even for empty input (`{}`).
+      rq.body = json.encode(payload ?? const <String, dynamic>{});
+
+      if (signed) {
+        final credentials = await _credentialsProvider?.call(client: _client);
+
+        if (credentials == null) {
+          throw Exception('credentials for signing request is null');
+        }
+
+        _requestSigner(
+          rq: rq,
+          service: ep.service,
+          region: ep.signingRegion,
+          credentials: credentials,
+        );
+      }
+      return rq;
     }
 
-    final rs = await _client.send(rq);
+    return sendWithRetry(
+      options: _retryOptions,
+      attempt: () async {
+        final rs = await _client.send(await buildRequest());
+        final body = await rs.stream.bytesToString();
 
-    final body = await rs.stream.bytesToString();
+        if (rs.statusCode < 200 || rs.statusCode >= 300) {
+          throwException(rs, body, exceptionFnMap);
+        }
 
-    if (rs.statusCode < 200 || rs.statusCode >= 300) {
-      throwException(rs, body, exceptionFnMap);
-    }
+        final parsedBody = body.isEmpty
+            ? <String, dynamic>{}
+            : (jsonDecode(body) as Map<String, dynamic>?)!;
 
-    final parsedBody = body.isEmpty
-        ? <String, dynamic>{}
-        : (jsonDecode(body) as Map<String, dynamic>?)!;
-
-    // TODO: replace return type with Map<String, dynamic> and discard the
-    // JsonResponse class. The generated code will have to adjust as well.
-    return JsonResponse(rs.headers, {
-      ...parsedBody,
-      ...rs.headers,
-    });
+        // TODO: replace return type with Map<String, dynamic> and discard the
+        // JsonResponse class. The generated code will have to adjust as well.
+        return JsonResponse(rs.headers, {
+          ...parsedBody,
+          ...rs.headers,
+        });
+      },
+    );
   }
 
   void close() {

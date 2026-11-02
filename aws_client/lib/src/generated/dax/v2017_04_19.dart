@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2017_04_19.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// DAX is a managed caching service engineered for Amazon DynamoDB. DAX
 /// dramatically speeds up database reads by caching frequently-accessed data

@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2019_11_02.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// You can use the Amazon Elastic Block Store (Amazon EBS) direct APIs to
 /// create Amazon EBS snapshots, write data directly to your snapshots, read

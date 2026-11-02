@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2014_05_30.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information,
 /// see <a href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM

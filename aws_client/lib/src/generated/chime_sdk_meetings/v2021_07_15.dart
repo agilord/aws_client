@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2021_07_15.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// The Amazon Chime SDK meetings APIs in this section allow software developers
 /// to create Amazon Chime SDK meetings, set the Amazon Web Services Regions for

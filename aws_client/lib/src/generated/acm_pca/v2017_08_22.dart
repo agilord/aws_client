@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2017_08_22.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// This is the <i>Amazon Web Services Private Certificate Authority API
 /// Reference</i>. It provides descriptions, syntax, and usage examples for each

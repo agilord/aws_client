@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2014_03_28.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// You can use Amazon CloudWatch Logs to monitor, store, and access your log
 /// files from EC2 instances, CloudTrail, and other sources. You can then

@@ -17,6 +17,7 @@ export 'src/protocol/json.dart';
 export 'src/protocol/query.dart';
 export 'src/protocol/rest_json.dart';
 export 'src/protocol/rest_xml.dart';
+export 'src/protocol/retry.dart' show RetryOptions, RetrySleeper;
 export 'src/protocol/shared.dart';
 export 'src/scoping_extensions.dart';
 export 'src/utils/json_converters.dart';

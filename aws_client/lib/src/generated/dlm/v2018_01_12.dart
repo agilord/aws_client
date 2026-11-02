@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2018_01_12.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// With Amazon Data Lifecycle Manager, you can manage the lifecycle of your
 /// Amazon Web Services resources. You create lifecycle policies, which are used

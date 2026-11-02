@@ -9,9 +9,10 @@ import 'package:xml/xml.dart';
 import '../credentials.dart';
 import '../model/shape.dart';
 import '../utils/query_string.dart';
-import '_sign.dart';
 import 'endpoint.dart';
+import 'retry.dart';
 import 'shared.dart';
+import 'sign.dart';
 
 class QueryProtocol {
   final Client _client;
@@ -23,6 +24,7 @@ class QueryProtocol {
   final RequestSigner _requestSigner;
   final bool _manageHttpClient;
   final bool _disableHostPrefix;
+  final RetryOptions _retryOptions;
   bool _closed = false;
 
   QueryProtocol._(
@@ -32,6 +34,7 @@ class QueryProtocol {
     this._requestSigner,
     this._manageHttpClient,
     this._disableHostPrefix,
+    this._retryOptions,
   );
 
   factory QueryProtocol({
@@ -44,6 +47,7 @@ class QueryProtocol {
     AwsClientCredentialsProvider? credentialsProvider,
     RequestSigner requestSigner = signAws4HmacSha256,
     bool disableHostPrefix = false,
+    RetryOptions? retryOptions,
   }) {
     final manageHttpClient = client == null;
     client ??= Client();
@@ -65,6 +69,7 @@ class QueryProtocol {
       requestSigner,
       manageHttpClient,
       disableHostPrefix,
+      retryOptions ?? RetryOptions(),
     );
   }
 
@@ -84,49 +89,60 @@ class QueryProtocol {
     var requestUrl = Uri.parse('${ep.url}$requestUri');
     requestUrl =
         applyHostPrefix(requestUrl, hostPrefix, disabled: _disableHostPrefix);
-    final rq = Request(method, requestUrl);
-    rq.body = canonicalQueryParameters(
-        {'Action': action, 'Version': version, ...data});
-    rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
-    if (signed) {
-      final credentials = await _credentialsProvider?.call(client: _client);
+    // Rebuilt and re-signed on every attempt so retries carry a fresh
+    // timestamp and signature.
+    Future<Request> buildRequest() async {
+      final rq = Request(method, requestUrl);
+      rq.body = canonicalQueryParameters(
+          {'Action': action, 'Version': version, ...data});
+      rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
-      if (credentials == null) {
-        throw Exception('credentials for signing request is null');
+      if (signed) {
+        final credentials = await _credentialsProvider?.call(client: _client);
+
+        if (credentials == null) {
+          throw Exception('credentials for signing request is null');
+        }
+
+        _requestSigner(
+          rq: rq,
+          service: ep.service,
+          region: ep.signingRegion,
+          credentials: credentials,
+        );
       }
-
-      _requestSigner(
-        rq: rq,
-        service: ep.service,
-        region: ep.signingRegion,
-        credentials: credentials,
-      );
+      return rq;
     }
 
-    final rs = await _client.send(rq);
-    final body = await rs.stream.bytesToString();
-    final root = XmlDocument.parse(body);
-    var elem = root.rootElement;
+    return sendWithRetry(
+      options: _retryOptions,
+      attempt: () async {
+        final rs = await _client.send(await buildRequest());
+        final body = await rs.stream.bytesToString();
+        final root = XmlDocument.parse(body);
+        var elem = root.rootElement;
 
-    if (elem.name.local == 'ErrorResponse') {
-      final error = elem.findElements('Error').first;
-      final type = error.findElements('Type').firstOrNull?.innerText ?? '';
-      final code = error.findElements('Code').firstOrNull?.innerText ?? '';
-      final message =
-          error.findElements('Message').firstOrNull?.innerText ?? '';
-      final fn = lookupExceptionFn(exceptionFnMap, code);
-      final exception = fn != null
-          ? fn(type, message)
-          : GenericAwsException(type: type, code: code, message: message);
-      throw exception;
-    }
+        if (elem.name.local == 'ErrorResponse') {
+          final error = elem.findElements('Error').first;
+          final type = error.findElements('Type').firstOrNull?.innerText ?? '';
+          final code = error.findElements('Code').firstOrNull?.innerText ?? '';
+          final message =
+              error.findElements('Message').firstOrNull?.innerText ?? '';
+          final fn = lookupExceptionFn(exceptionFnMap, code);
+          final exception = fn != null
+              ? fn(type, message)
+              : GenericAwsException(type: type, code: code, message: message);
+          throw attachResponseMeta(exception, rs);
+        }
 
-    if (resultWrapper != null) {
-      elem = elem.findElements(resultWrapper).first;
-    }
+        if (resultWrapper != null) {
+          elem = elem.findElements(resultWrapper).first;
+        }
 
-    return elem;
+        return elem;
+      },
+    );
   }
 
   void close() {

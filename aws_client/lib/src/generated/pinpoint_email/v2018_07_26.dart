@@ -20,7 +20,8 @@ import '../../shared/shared.dart'
         timeStampFromJson;
 
 import 'v2018_07_26.endpoints.dart' as _endpoints;
-export '../../shared/shared.dart' show AwsClientCredentials;
+export '../../shared/shared.dart'
+    show AwsClientCredentials, AwsException, GenericAwsException;
 
 /// Welcome to the <i>Amazon Pinpoint Email API Reference</i>. This guide
 /// provides information about the Amazon Pinpoint Email API (version 1.0),

@@ -58,8 +58,8 @@ import '$sharedLibraryPath/shared.dart'
   if (api.metadata.endpointRuleSet != null) {
     buf.writeln("import '${api.fileBasename}.endpoints.dart' as _endpoints;");
   }
-  buf.writeln(
-      "export '$sharedLibraryPath/shared.dart' show AwsClientCredentials;\n");
+  buf.writeln("export '$sharedLibraryPath/shared.dart' "
+      'show AwsClientCredentials, AwsException, GenericAwsException;\n');
 
   final body = StringBuffer()
     ..putMainClass(api, builder)
