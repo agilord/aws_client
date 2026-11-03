@@ -31,8 +31,10 @@ do, trying each source in turn and using the first that yields credentials:
    exchanged through STS `AssumeRoleWithWebIdentity`, as used by EKS IAM Roles
    for Service Accounts or GitHub Actions OIDC;
 3. the shared `~/.aws/credentials` and `~/.aws/config` files (`AWS_PROFILE`
-   selects the profile; a profile with `role_arn` and `source_profile` is
-   assumed through STS);
+   selects the profile): an IAM Identity Center profile (`sso_session` or
+   `sso_start_url`, using the token cached by `aws sso login`), static keys, a
+   profile with `role_arn` and `source_profile` assumed through STS, or a
+   `credential_process` command;
 4. the ECS / EKS container credentials endpoint
    (`AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` or
    `AWS_CONTAINER_CREDENTIALS_FULL_URI`);

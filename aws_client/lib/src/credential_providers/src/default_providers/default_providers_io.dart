@@ -2,12 +2,15 @@ import '../../../shared/shared.dart';
 import '../../aws_credential_providers.dart';
 
 // Ordered to match the official AWS SDKs: static env, then web identity
-// (EKS IRSA / OIDC), then shared config profiles, then the ECS/EKS container
-// endpoint, and finally the EC2 instance metadata service.
+// (EKS IRSA / OIDC), then the shared config profile (SSO, static or assumed
+// role, then its credential_process), then the ECS/EKS container endpoint,
+// and finally the EC2 instance metadata service.
 const List<AwsClientCredentialsProvider> _defaultChain = [
   fromEnvironment,
   fromWebIdentity,
+  fromSso,
   fromIni,
+  fromProcess,
   fromContainer,
   fromInstanceMetaDataService,
 ];

@@ -18,6 +18,9 @@
   refreshed before expiry, instead of only the environment variables and
   `~/.aws/credentials`. Instance metadata and container requests time out after
   one second so a host without credentials fails fast instead of hanging.
+- Added `fromSso` (IAM Identity Center profiles, including token refresh) and
+  `fromProcess` (`credential_process`) providers, both part of the default
+  chain.
 
 ## 0.10.0
 
