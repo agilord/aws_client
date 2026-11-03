@@ -74,4 +74,68 @@ void main() {
 
     expect(calls, 1, reason: 'concurrent callers share a single fetch');
   });
+
+  test('de-duplicates concurrent refreshes of expiring credentials', () async {
+    var calls = 0;
+    final cached = CachedCredentialProvider(({Client? client}) async {
+      calls++;
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      return _creds('a$calls',
+          expiration: DateTime.now().add(const Duration(minutes: 2)));
+    });
+
+    await cached.cacheAndRefreshWhenNeeded();
+    final refreshed = await Future.wait([
+      cached.cacheAndRefreshWhenNeeded(),
+      cached.cacheAndRefreshWhenNeeded(),
+    ]);
+
+    expect(calls, 2);
+    expect(refreshed.map((c) => c!.accessKey), everyElement('a2'));
+  });
+
+  test('does not cache a failed fetch', () async {
+    var calls = 0;
+    final cached = CachedCredentialProvider(({Client? client}) async {
+      calls++;
+      if (calls == 1) throw StateError('imds down');
+      return _creds('a');
+    });
+
+    await expectLater(cached.cacheAndRefreshWhenNeeded(), throwsStateError);
+    final creds = await cached.cacheAndRefreshWhenNeeded();
+
+    expect(calls, 2);
+    expect(creds!.accessKey, 'a');
+  });
+
+  test('keeps serving valid credentials when an early refresh fails', () async {
+    var calls = 0;
+    final cached = CachedCredentialProvider(({Client? client}) async {
+      calls++;
+      if (calls > 1) throw StateError('sts down');
+      return _creds('a',
+          expiration: DateTime.now().add(const Duration(minutes: 2)));
+    });
+
+    final first = await cached.cacheAndRefreshWhenNeeded();
+    final second = await cached.cacheAndRefreshWhenNeeded();
+
+    expect(calls, 2);
+    expect(second, same(first));
+  });
+
+  test('rethrows when a refresh fails and the credentials have expired',
+      () async {
+    var calls = 0;
+    final cached = CachedCredentialProvider(({Client? client}) async {
+      calls++;
+      if (calls > 1) throw StateError('sts down');
+      return _creds('a',
+          expiration: DateTime.now().subtract(const Duration(seconds: 1)));
+    });
+
+    await cached.cacheAndRefreshWhenNeeded();
+    await expectLater(cached.cacheAndRefreshWhenNeeded(), throwsStateError);
+  });
 }
