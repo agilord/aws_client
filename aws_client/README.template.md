@@ -22,9 +22,29 @@ Dart VM, Flutter and the web.
 
 ## Credentials
 
-By default the client resolves credentials from the standard AWS sources
-(environment variables, the shared `~/.aws/credentials` profile, EC2/ECS
-instance metadata, and so on). They can also be passed explicitly:
+A client built without credentials resolves them the way the official AWS SDKs
+do, trying each source in turn and using the first that yields credentials:
+
+1. the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` (and optional
+   `AWS_SESSION_TOKEN`) environment variables;
+2. a web identity token (`AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN`),
+   exchanged through STS `AssumeRoleWithWebIdentity`, as used by EKS IAM Roles
+   for Service Accounts or GitHub Actions OIDC;
+3. the shared `~/.aws/credentials` and `~/.aws/config` files (`AWS_PROFILE`
+   selects the profile; a profile with `role_arn` and `source_profile` is
+   assumed through STS);
+4. the ECS / EKS container credentials endpoint
+   (`AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` or
+   `AWS_CONTAINER_CREDENTIALS_FULL_URI`);
+5. the EC2 instance metadata service (IMDSv2, falling back to IMDSv1).
+
+The result is cached for the whole process and refreshed five minutes before
+temporary credentials expire. Requests to the container endpoint and the
+instance metadata service time out after one second, so a machine with no
+credentials fails fast with an exception rather than hanging. In a browser none
+of these sources exist, so credentials must be passed explicitly there.
+
+Credentials can be passed explicitly:
 
 ```dart
 final s3 = S3(
@@ -43,6 +63,21 @@ Credentials can also be loaded from a named profile in the shared
 final s3 = S3(
   region: 'us-west-1',
   credentials: AwsClientCredentials.fromProfileFile(profile: 'my-profile'),
+);
+```
+
+Any single source of the chain, or a chain of your own, can be used instead via
+`credentialsProvider`:
+
+```dart
+import 'package:aws_client/credential_providers.dart';
+
+final s3 = S3(
+  region: 'us-west-1',
+  credentialsProvider: ChainedCredentialProvider([
+    fromContainer,
+    fromInstanceMetaDataService,
+  ]).chainedFallback,
 );
 ```
 
