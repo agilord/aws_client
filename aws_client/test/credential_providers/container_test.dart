@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -93,5 +94,17 @@ void main() {
       }),
       throwsA(isA<ArgumentError>()),
     );
+  });
+
+  test('returns null when the endpoint never answers', () async {
+    final client = MockClient((_) => Completer<Response>().future);
+
+    final stopwatch = Stopwatch()..start();
+    final creds = await fromContainer(client: client, environment: {
+      'AWS_CONTAINER_CREDENTIALS_RELATIVE_URI': '/v2/creds',
+    });
+
+    expect(creds, isNull);
+    expect(stopwatch.elapsed, lessThan(const Duration(seconds: 3)));
   });
 }

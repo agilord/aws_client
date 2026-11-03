@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 
-import '../../../../sts_2011_06_15.dart';
 import '../../../shared/shared.dart';
+import '../sts/sts_query.dart';
 
 // STS requires a region; the global endpoint lives in us-east-1.
 const _defaultRegion = 'us-east-1';
@@ -31,18 +31,14 @@ Future<AwsClientCredentials?> fromWebIdentity({
   final sessionName = env['AWS_ROLE_SESSION_NAME'] ??
       'aws-client-dart-${DateTime.now().millisecondsSinceEpoch}';
 
-  final sts = Sts(region: region, client: client);
-  final response = await sts.assumeRoleWithWebIdentity(
-    roleArn: roleArn,
-    roleSessionName: sessionName,
-    webIdentityToken: token,
-  );
-
-  final credentials = response.credentials!;
-  return AwsClientCredentials(
-    accessKey: credentials.accessKeyId,
-    secretKey: credentials.secretAccessKey,
-    sessionToken: credentials.sessionToken,
-    expiration: credentials.expiration,
-  );
+  final sts = StsQuery(region: region, client: client);
+  try {
+    return await sts.assumeRoleWithWebIdentity(
+      roleArn: roleArn,
+      roleSessionName: sessionName,
+      webIdentityToken: token,
+    );
+  } finally {
+    sts.close();
+  }
 }

@@ -12,6 +12,12 @@
   credentials (`fromContainer`) and web identity / IRSA
   (`fromWebIdentity`, via STS `AssumeRoleWithWebIdentity`), and the EC2 instance
   metadata provider now uses IMDSv2.
+- Clients built without `credentials` or `credentialsProvider` now resolve
+  credentials through that full default chain (environment, web identity,
+  shared config files, container endpoint, instance metadata), cached and
+  refreshed before expiry, instead of only the environment variables and
+  `~/.aws/credentials`. Instance metadata and container requests time out after
+  one second so a host without credentials fails fast instead of hanging.
 
 ## 0.10.0
 

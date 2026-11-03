@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' show Response;
 import 'package:meta/meta.dart';
 
 import '../../../shared/shared.dart';
@@ -8,6 +10,9 @@ import '../../../shared/shared.dart';
 // The fixed link-local address ECS task roles are served from when only a
 // relative URI is provided.
 const _ecsCredentialsHost = 'http://169.254.170.2';
+// Bounded like the official SDKs, so a stalled endpoint does not hang every
+// request; a timeout yields null and the chain moves on.
+const _requestTimeout = Duration(seconds: 1);
 
 /// Source credentials from the ECS / EKS container credentials endpoint.
 ///
@@ -50,7 +55,14 @@ Future<AwsClientCredentials?> fromContainer({
     headers['Authorization'] = token;
   }
 
-  final result = await client.get(uri, headers: headers);
+  final Response result;
+  try {
+    result = await client.get(uri, headers: headers).timeout(_requestTimeout);
+  } on TimeoutException {
+    print('Timed out fetching credentials from the container credentials'
+        ' endpoint at $uri');
+    return null;
+  }
   if (result.statusCode > 299) {
     print('Could not get credentials from the container credentials endpoint'
         ' - status code: ${result.statusCode}');

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import '../../../../sts_2011_06_15.dart';
 import '../../../shared/shared.dart';
+import '../sts/sts_query.dart';
 import 'ini_file_loader.dart';
 
 const _assumeRoleDefaultRegion = 'us-east-1';
@@ -90,7 +90,9 @@ Map<String, Map<String, String>>? _getProfilesFromSharedConfig() {
     return null;
   }
 
-  final profilesFromConfigString = configFile.readAsStringSync();
+  // Only the credentials file is required; many setups have no config file.
+  final profilesFromConfigString =
+      configFile.existsSync() ? configFile.readAsStringSync() : '';
   Map<String, Map<String, String>> profilesFromConfig;
 
   try {
@@ -163,21 +165,15 @@ Future<AwsClientCredentials> _loadRoleProfile(
   final sourceCredentials = await fromIni(
       preferStaticCredentials: true, preferredProfile: sourceProfileName);
 
-  final sts = Sts(
+  final sts = StsQuery(
       region: profileRegion, credentials: sourceCredentials!, client: client);
-
-  final response = await sts.assumeRole(
-    roleArn: roleArn,
-    roleSessionName: roleSessionName,
-    externalId: externalId,
-  );
-
-  final credentials = response.credentials!;
-
-  return AwsClientCredentials(
-    accessKey: credentials.accessKeyId,
-    secretKey: credentials.secretAccessKey,
-    expiration: credentials.expiration,
-    sessionToken: credentials.sessionToken,
-  );
+  try {
+    return await sts.assumeRole(
+      roleArn: roleArn,
+      roleSessionName: roleSessionName,
+      externalId: externalId,
+    );
+  } finally {
+    sts.close();
+  }
 }

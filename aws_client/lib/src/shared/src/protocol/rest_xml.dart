@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:xml/xml.dart';
 
 import '../credentials.dart';
+import 'default_credentials.dart';
 import 'endpoint.dart';
 import 'retry.dart';
 import 'shared.dart';
@@ -54,8 +55,7 @@ class RestXmlProtocol {
     if (credentials != null) {
       credentialsProvider = ({Client? client}) => Future.value(credentials);
     } else {
-      credentialsProvider ??=
-          ({Client? client}) => Future.value(AwsClientCredentials.resolve());
+      credentialsProvider ??= defaultCredentialsProvider;
     }
 
     return RestXmlProtocol._(

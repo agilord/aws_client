@@ -72,4 +72,23 @@ void main() {
 
     expect(await fromInstanceMetaDataService(client: client), isNull);
   });
+
+  test('returns null when the metadata service never answers', () async {
+    final client = MockClient((rq) async => rq.method == 'PUT'
+        ? Response('the-token', 200)
+        : Completer<Response>().future);
+
+    final stopwatch = Stopwatch()..start();
+    expect(await fromInstanceMetaDataService(client: client), isNull);
+    expect(stopwatch.elapsed, lessThan(const Duration(seconds: 3)),
+        reason: 'a host without IMDS must fail fast, not hang');
+  });
+
+  test('returns null when the metadata service is unreachable', () async {
+    final client = MockClient((rq) async => rq.method == 'PUT'
+        ? Response('the-token', 200)
+        : throw ClientException('Connection refused', rq.url));
+
+    expect(await fromInstanceMetaDataService(client: client), isNull);
+  });
 }
