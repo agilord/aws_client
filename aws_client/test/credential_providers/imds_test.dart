@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:aws_client/src/credential_providers/src/imds/imds.dart';
@@ -49,5 +50,26 @@ void main() {
 
     final creds = await fromInstanceMetaDataService(client: client);
     expect(creds!.accessKey, 'AKIA');
+  });
+
+  test('falls back to IMDSv1 when the token request never completes', () async {
+    final client = MockClient((rq) async {
+      if (rq.method == 'PUT') return Completer<Response>().future;
+      expect(rq.headers.containsKey('x-aws-ec2-metadata-token'), isFalse);
+      return rq.url.path.endsWith('security-credentials/')
+          ? Response('my-role', 200)
+          : Response(jsonEncode(_credsBody), 200);
+    });
+
+    final creds = await fromInstanceMetaDataService(client: client);
+    expect(creds!.accessKey, 'AKIA');
+  });
+
+  test('returns null when no role is attached', () async {
+    final client = MockClient((rq) async => rq.method == 'PUT'
+        ? Response('the-token', 200)
+        : Response('not found', 404));
+
+    expect(await fromInstanceMetaDataService(client: client), isNull);
   });
 }

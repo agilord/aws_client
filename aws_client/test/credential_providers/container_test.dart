@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:aws_client/src/credential_providers/src/container/container_io.dart';
 import 'package:http/http.dart';
@@ -36,6 +37,43 @@ void main() {
     expect(creds.secretKey, 'secret');
     expect(creds.sessionToken, 'token');
     expect(creds.expiration, DateTime.utc(2030));
+  });
+
+  test('reads the auth token from a file', () async {
+    final tokenFile = File(
+        '${Directory.systemTemp.path}/container_${DateTime.now().microsecondsSinceEpoch}');
+    await tokenFile.writeAsString('Bearer from-file\n');
+    addTearDown(tokenFile.deleteSync);
+
+    late Request seen;
+    final client = MockClient((rq) async {
+      seen = rq;
+      return Response(jsonEncode(_credsBody), 200);
+    });
+
+    await fromContainer(client: client, environment: {
+      'AWS_CONTAINER_CREDENTIALS_RELATIVE_URI': '/v2/creds',
+      'AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE': tokenFile.path,
+    });
+
+    expect(seen.headers['Authorization'], 'Bearer from-file');
+  });
+
+  test('returns null when the endpoint answers with an error', () async {
+    final client = MockClient((_) async => Response('nope', 500));
+    final creds = await fromContainer(client: client, environment: {
+      'AWS_CONTAINER_CREDENTIALS_RELATIVE_URI': '/v2/creds',
+    });
+    expect(creds, isNull);
+  });
+
+  test('allows any https full URI', () async {
+    final client =
+        MockClient((_) async => Response(jsonEncode(_credsBody), 200));
+    final creds = await fromContainer(client: client, environment: {
+      'AWS_CONTAINER_CREDENTIALS_FULL_URI': 'https://creds.example.com/v1',
+    });
+    expect(creds!.accessKey, 'AKIA');
   });
 
   test('allows a loopback full URI', () async {

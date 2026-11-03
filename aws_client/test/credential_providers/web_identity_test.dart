@@ -38,11 +38,15 @@ void main() {
     final creds = await fromWebIdentity(client: client, environment: {
       'AWS_WEB_IDENTITY_TOKEN_FILE': tokenFile.path,
       'AWS_ROLE_ARN': 'arn:aws:iam::123456789012:role/demo',
+      'AWS_ROLE_SESSION_NAME': 'my-session',
       'AWS_REGION': 'us-east-1',
     });
 
     expect(seen.body, contains('Action=AssumeRoleWithWebIdentity'));
     expect(seen.body, contains('WebIdentityToken=the-oidc-token'));
+    expect(seen.body, contains('RoleSessionName=my-session'));
+    // Unsigned: resolving credentials must not itself need credentials.
+    expect(seen.headers.containsKey('Authorization'), isFalse);
     expect(creds!.accessKey, 'AKIA');
     expect(creds.secretKey, 'secret');
     expect(creds.sessionToken, 'token');

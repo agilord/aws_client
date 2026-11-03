@@ -7,6 +7,9 @@ const _securityCredentialsPath = '/latest/meta-data/iam/security-credentials/';
 const _tokenPath = '/latest/api/token';
 const _tokenHeader = 'x-aws-ec2-metadata-token';
 const _tokenTtlHeader = 'x-aws-ec2-metadata-token-ttl-seconds';
+// Containers with a hop limit of 1 silently drop the PUT instead of
+// rejecting it, so a bounded wait is what makes the v1 fallback reachable.
+const _tokenTimeout = Duration(seconds: 1);
 
 /// A credential provider that will source credentials from the EC2
 /// Instance Metadata Service.
@@ -33,7 +36,7 @@ Future<AwsClientCredentials?> fromInstanceMetaDataService(
     final tokenResult = await client.put(
       Uri.parse('$_imdsBaseUrl$_tokenPath'),
       headers: {_tokenTtlHeader: '21600'},
-    );
+    ).timeout(_tokenTimeout);
     if (tokenResult.statusCode <= 299 && tokenResult.body.isNotEmpty) {
       headers[_tokenHeader] = tokenResult.body;
     }
