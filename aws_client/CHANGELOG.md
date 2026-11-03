@@ -8,6 +8,10 @@
 - `AwsException` and `GenericAwsException` are now exported, so an error from any
   service can be caught by a shared type. `GenericAwsException` also exposes the
   response's HTTP `statusCode`.
+- The default credential provider chain now also resolves ECS/EKS container
+  credentials (`fromContainer`) and web identity / IRSA
+  (`fromWebIdentity`, via STS `AssumeRoleWithWebIdentity`), and the EC2 instance
+  metadata provider now uses IMDSv2.
 
 ## 0.10.0
 
