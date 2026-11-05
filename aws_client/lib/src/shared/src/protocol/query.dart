@@ -9,6 +9,7 @@ import 'package:xml/xml.dart';
 import '../credentials.dart';
 import '../model/shape.dart';
 import '../utils/query_string.dart';
+import 'default_credentials.dart';
 import 'endpoint.dart';
 import 'retry.dart';
 import 'shared.dart';
@@ -58,8 +59,7 @@ class QueryProtocol {
     if (credentials != null) {
       credentialsProvider = ({Client? client}) => Future.value(credentials);
     } else {
-      credentialsProvider ??=
-          ({Client? client}) => Future.value(AwsClientCredentials.resolve());
+      credentialsProvider ??= defaultCredentialsProvider;
     }
 
     return QueryProtocol._(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aws_client/src/credential_providers/src/web_identity/web_identity_io.dart';
+import 'package:aws_client/src/shared/shared.dart' show GenericAwsException;
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:test/test.dart';
@@ -51,5 +52,51 @@ void main() {
     expect(creds.secretKey, 'secret');
     expect(creds.sessionToken, 'token');
     expect(creds.expiration, DateTime.utc(2030));
+  });
+
+  test('surfaces an STS error', () async {
+    final tokenFile = File(
+        '${Directory.systemTemp.path}/web_identity_${DateTime.now().microsecondsSinceEpoch}');
+    await tokenFile.writeAsString('expired');
+    addTearDown(tokenFile.deleteSync);
+
+    final client = MockClient((_) async => Response('''
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>ExpiredTokenException</Code>
+    <Message>Token expired</Message>
+  </Error>
+</ErrorResponse>''', 400));
+
+    await expectLater(
+      fromWebIdentity(client: client, environment: {
+        'AWS_WEB_IDENTITY_TOKEN_FILE': tokenFile.path,
+        'AWS_ROLE_ARN': 'arn:aws:iam::123456789012:role/demo',
+      }),
+      throwsA(isA<GenericAwsException>()
+          .having((e) => e.code, 'code', 'ExpiredTokenException')),
+    );
+  });
+
+  test('uses the regional STS endpoint', () async {
+    final tokenFile = File(
+        '${Directory.systemTemp.path}/web_identity_${DateTime.now().microsecondsSinceEpoch}');
+    await tokenFile.writeAsString('token');
+    addTearDown(tokenFile.deleteSync);
+
+    late Request seen;
+    final client = MockClient((rq) async {
+      seen = rq;
+      return Response(_stsResponse, 200);
+    });
+
+    await fromWebIdentity(client: client, environment: {
+      'AWS_WEB_IDENTITY_TOKEN_FILE': tokenFile.path,
+      'AWS_ROLE_ARN': 'arn:aws:iam::123456789012:role/demo',
+      'AWS_REGION': 'cn-north-1',
+    });
+
+    expect(seen.url.toString(), 'https://sts.cn-north-1.amazonaws.com.cn/');
   });
 }
